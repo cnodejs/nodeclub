@@ -1,8 +1,7 @@
 {
-    "name": "NodeClub"
-  , "version": "0.0.1"
+    "name": "club"
+  , "version": "0.0.2"
   , "main": "./app.js"
-  , "private": true
   , "dependencies": {
       "express": "2.5.1",
       "ejs": "0.5.0",
