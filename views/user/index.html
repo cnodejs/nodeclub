@@ -1,0 +1,142 @@
+<div id='sidebar'>
+</div>
+
+<div id='content'>
+	<div class='panel'>
+		<div class='header'>
+			<ul class='breadcrumb'>
+				<li><a href='/'>主页</a><span class='divider'>/</span></li>
+				<li class='active'><%= user.name %></li>
+			</ul>
+		</div>
+		<div class='inner'>
+			<% if(user.avatar){ %>
+			<div class='user_big_avatar'>
+				<img src='<%= user.avatar %>' title='<%= user.name %>' />
+			</div>
+			<% }else{ %>
+			<div class='user_big_avatar'>
+				<img src='/images/user_icon&48.png' title='<%= user.name %>' />
+			</div>
+			<% } %>
+			<% if(locals.current_user && current_user._id != user._id){ %>
+			<% if(!locals.relation){ %>
+			<button class='btn btn-success fr' id='follow_btn' action='follow'>加入关注</button>
+			<% }else{ %>
+			<button class='btn fr' id='follow_btn' action='un_follow'>取消关注</button>
+			<% } %>
+			<% } %>
+			<h2><%= user.name %></h2>
+			<div class='col_fade'>
+				<span><img src='/images/cert_icon&16.png' /> <%= user.follower_count %> 粉丝</span>
+				<% if(user.signature){ %>
+				<span class='sp10'></span>
+				<span><%= user.signature %></span>
+				<% } %>
+			</div>
+			<div class='user_profile'>
+				<ul class='unstyled'>
+					<% if(user.url){ %>
+					<li>
+						<img class='user_icon' src='/images/paper_airplane_icon&16.png' />
+						<a class='dark' href='<%= user.url %>' target='_blank'><%= user.url %></a>
+					</li>
+					<% } %>
+					<% if(user.location){ %>
+					<li>
+						<img class='user_icon' src='/images/compass_icon&16.png' />
+						<span class='col_fade'><%= user.location %></span>
+					</li>
+					<% } %>
+					<% if(user.weibo){ %>
+					<li>
+						<img class='user_icon' src='/images/twitter_2_icon&16.png' />
+						<a class='dark' href='<%= user.weibo %>' target='_blank'><%= user.weibo %></a>
+					</li>
+					<% } %>
+				</ul>
+				<% if(user.profile){ %>
+					<p><%= user.profile %></p>
+				<% } %>
+			</div>
+			<p class='col_fade'>于 <%= user.friendly_create_at %> 加入 <%= config.name %></p>
+			<% if(locals.current_user && current_user.is_admin){ %>
+			<% if(!user.is_star){ %>
+			<button class='btn' id='set_star_btn' action='set_star'>设为达人</button>
+			<% }else{ %>
+			<button class='btn' id='set_star_btn' action='cancel_star'>取消达人</button>
+			<% } %>
+			<% } %>
+		</div>
+	</div>	
+	<div class='sep10'></div>
+	<div class='panel'>
+		<div class='header'>
+			<span class='col_fade'>最近发布话题</span>
+		</div>
+		<% if(locals.recent_topics && recent_topics.length > 0 ){ %>
+		<%- partial('topic/abstract',{collection:recent_topics, as:'topic'}) %>
+		<div class='cell'>
+			<a class='dark' href='/user/<%= user.name %>/topics'>查看更多»</a>
+		</div>
+		<% }else{ %>
+		<div class='inner'>
+			<p>无话题</p>
+		</div>
+		<% } %>
+	</div>
+	<div class='sep10'></div>
+	<div class='panel'>
+		<div class='header'>
+			<span class='col_fade'>最近参与话题</span>
+		</div>
+		<% if(locals.recent_replies && recent_replies.length > 0 ){ %>
+		<%- partial('topic/abstract',{collection:recent_replies, as:'topic'}) %>
+		<div class='cell'>
+			<a class='dark' href='/user/<%= user.name %>/replies'>查看更多»</a>
+		</div>
+		<% }else{ %>
+		<div class='inner'>
+			<p>无话题</p>
+		</div>
+		<% } %>
+	</div>
+</div>
+
+<% if(locals.current_user){ %>
+<script type='text/javascript'>
+	$(document).ready(function(){
+		$('#follow_btn').click(function(){
+			var $me = $(this);
+			var action = $me.attr('action');
+			$.post('/user/'+action,{follow_id: '<%= user._id %>'},function(data){
+				if(data.status == 'success'){
+					if(action == 'follow'){
+						$me.html('取消关注');
+						$me.attr('action','un_follow');
+					}else{
+						$me.html('加入关注');
+						$me.attr('action','follow');
+					}
+					$me.toggleClass('btn-success');	
+				}	
+			},'json');	
+		});
+		$('#set_star_btn').click(function(){
+			var $me = $(this);
+			var action = $me.attr('action');
+			$.post('/user/'+action,{user_id: '<%= user._id %>'},function(data){
+				if(data.status == 'success'){
+					if(action == 'set_star'){
+						$me.html('取消达人');
+						$me.attr('action','cancel_star');
+					}else{
+						$me.html('设为达人');
+						$me.attr('action','set_star');
+					}
+				}	
+			},'json');	
+		});
+	});
+</script>
+<% } %>

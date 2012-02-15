@@ -1,0 +1,21 @@
+<div id='sidebar'>
+	
+</div>
+
+<div id='content'>
+	<div class='panel'>
+		<div class='header'>
+			<ul class='breadcrumb'>
+				<li><a href='/'>主页</a><span class='divider'>/</span></li>
+				<li class='active'>我收藏的标签</li>
+			</ul>
+		</div>
+		<div class='inner'>
+			<% if(tags.length > 0){ %>
+			<%- partial('tag/tag',{collection:tags,as:'tag'}) %>			
+			<% }else{ %>
+			<p>你还没有收藏标签</p>	
+			<% } %>
+		</div>
+	</div>	
+</div>

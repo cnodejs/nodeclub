@@ -1,0 +1,9 @@
+<% if(!tag.highlight){ %>
+<span class='tag_in_topic' tag_id='<%= tag._id %>'>
+	<a href='/tag/<%= tag.name %>'><%= tag.name %></a>
+</span>
+<% }else{ %>
+<span class='tag_in_topic tag_highlight' tag_id='<%= tag._id %>'>
+	<%= tag.name %>
+</span>
+<% } %>

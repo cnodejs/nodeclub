@@ -1,0 +1,28 @@
+<div class='cell reply2_item' reply_id='<%= reply._id %>'>
+	<% if(reply.author.avatar){ %>
+	<div class='user_avatar'><a href='/user/<%= reply.author.name %>'><img src='<%= reply.author.avatar %>' title='<%= reply.author.name %>' /></a></div>
+	<% }else{ %>
+	<div class='user_avatar'><a href='/user/<%= reply.author.name %>'><img src='/images/user_icon&48.png' title='<%= reply.author.name %>' /></a></div>
+	<% } %>
+	<span class='reply_author'><a class='dark' href='/user/<%= reply.author.name %>'><%= reply.author.name %></a></span>
+	<div class='sep5'></div>
+	<div class='reply_content'>
+	<%- reply.content %>
+	</div>
+	<div class='cl'>
+		<div class='sep5'></div>
+		<span class='col_fade'>
+			<a class='dark' href='/user/<%= reply.author.name %>'><%= reply.author.name %></a> 在 <%= reply.friendly_create_at %>回复
+			<% if(locals.current_user && current_user._id.toString() == reply.author._id.toString()){ %>
+			<span class='sp10'></span>
+			<a href='javascript:void(0)' class='delete_reply2_btn'><img class='user_icon' src='/images/trash_icon&16.png' title='删除' /></a>
+			<% } %>
+		</span>
+		<span class='fr'>
+			<% if(locals.current_user){ %>
+			<a href='javascript:void(0);' class='dark reply2_at_btn'>@</a>	
+			<% } %>
+		</span>
+
+	</div>
+</div>

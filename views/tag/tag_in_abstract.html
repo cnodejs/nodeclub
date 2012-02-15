@@ -1,0 +1,7 @@
+<span class='tag_in_abstract' tag_id='<%= tag._id %>'>
+	<% if(tag.highlight == true){ %>
+	<span class='tag_highlight'><%= tag.name %></span>
+	<% }else{ %>
+	<a href='/tag/<%= tag.name %>'><%= tag.name %></a>
+	<% } %>
+</span>

@@ -1,0 +1,24 @@
+<div class='user'>
+	<div>
+		<% if(user.avatar){ %>
+		<a href='/user/<%= user.name %>'><img class='user_avatar' src='<%= user.avatar %>' title='<%= user.name %>' /></a>
+		<% }else{ %>
+		<a href='/user/<%= user.name %>'><img class='user_avatar' src='/images/user_icon&48.png' title='<%= user.name %>' /></a>
+		<% } %>
+		<span class='user_name'><a class='dark' href='/user/<%= user.name %>'><%= user.name %></a></span>
+		<div class='sep5'></div>
+		<span class='col_fade'><%= user.follower_count %> 粉丝</span>
+		<span class='sp5'></span>
+		<span class='col_fade'><%= user.following_count %> 关注</span>
+	</div>
+	<div class='sep10'></div>
+	<div>
+		<span><a href='mailto:<%= user.email %>'><img class='user_icon' src='/images/mail_icon&16.png' title='电子邮箱' /></a></span>
+		<% if(user.url){ %>
+		<span><a href='<%= user.url %>' target='_blank'><img class='user_icon' src='/images/paper_airplane_icon&16.png' title='个人网站' /></a></span>
+		<% } %>
+		<% if(user.weibo){ %>
+		<span><a href='<%= user.weibo %>' target='_blank'><img class='user_icon' src='/images/twitter_2_icon&16.png' title='微博' /></a></span>
+		<% } %>
+	</div>	
+</div>

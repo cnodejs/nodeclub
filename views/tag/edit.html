@@ -1,0 +1,56 @@
+<div id='sidebar'>
+</div>
+
+<div id='content'>
+	<div class='panel'>
+		<div class='header'>
+			<span class='col_fade'>编辑标签</span>
+		</div>
+		<div class='inner'>
+			<% if(locals.edit_error){ %>
+			<div class="alert alert-error">	
+				<a class="close" data-dismiss="alert" href="#">&times;</a>
+				<strong><%= edit_error %></strong>
+			</div>
+			<% } %>
+			<form id='edit_tag_form' class='form-horizontal' action='/tag/<%= tag.name %>/edit' method='post'>
+				<legend></legend>
+				<div class='control-group'>
+					<label class='control-label' for='name'>名字</label>
+					<div class='controls'>
+						<input class='input-xlarge' id='name' name='name' size='30' type='text' value='<%= tag.name %>'/>
+						<p class='help-block'>须为汉字和字母和数字组合</p>
+					</div>
+				</div>
+				<div class='control-group'>
+					<label class='control-label' for='order'>序号</label>
+					<div class='controls'>
+					<select class='span2' name='order'>
+					<% if(locals.tags && tags.length > 0 ){ %>
+					<% for(var i=0; i<tags.length; i++){ %>
+					<% if(tag.order == (i+1)){ %>
+						<option value='<%= i+1 %>' selected='selected'><%= i+1 %></option>
+					<% }else{ %>
+						<option value='<%= i+1 %>'><%= i+1 %></option>
+					<% } %>
+					<% } %>
+					<% } %>
+					</select>
+					<p class='help-block'>首页标签按此序号由小到大排序</p>
+					</div>
+				</div>
+
+				<div class='control-group'>
+					<label class='control-label' for='description'>描述</label>
+					<div class='controls'>
+						<textarea class='input-xlarge' id='description' name='description' rows='4'><%= tag.description %></textarea>
+					</div>
+				</div>
+				<input type='hidden' name='_csrf' value='<%= csrf %>' />
+				<div class='form-actions'>
+					<input type='submit' class='btn' value='保存' />
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

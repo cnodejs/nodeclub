@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+	<head>
+		<!-- meta -->
+		<meta name='author' content='慕远@TaoBao'>
+		<meta name='description' content='<%= config.description %>'>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!-- style -->
+		<link rel="stylesheet" type="text/css" href="/libs/bootstrap/css/bootstrap.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css" media="screen" />
+		<!-- script -->
+		<script type='text/javascript' src='/libs/jquery/jquery.js'></script>
+		<script type='text/javascript' src='/libs/bootstrap/js/bootstrap.js'></script>
+		<script type='text/javascript' src='/javascripts/main.js'></script>
+		<% if(locals.topic) { %>
+		<title><%= config.name %>|<%= topic.title %></title>
+		<% }else{ %>
+		<title><%= config.description %></title>
+		<% } %>
+	</head>
+	<body>
+		<!-- navbar -->
+		<div class='navbar'>
+			<div class='navbar-inner'>
+				<div class='container'>
+					<a class='brand' href='/'><%= config.name %></a>
+					<form id='search_form' class='navbar-search'>
+						<input type='text' id='q' name='q' class='search-query span3'/>
+					</form>
+					<ul class='nav pull-right'>
+						<li><a href='/'>首页</a></li>	
+						<li><a href='/about'>关于</a></li>
+						<li class='divider-vertical'></li>	
+						<% if(locals.current_user){ %>
+						<li><a href='/setting'>设置</a></li>	
+						<li><a href='/signout'>退出</a></li>	
+						<% }else{ %>
+						<li><a href='/signup'>注册</a></li>	
+						<li><a href='/signin'>登录</a></li>	
+						<% } %>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- wrapper -->	
+		<div id='wrapper'>
+			<div id='main'>
+				<%- body %>
+			</div>
+			<div class='cl cr'></div>
+		</div>
+		<div id='backtotop'>回到顶部</div>
+		<!-- footer -->
+		<div id='footer'>
+			<div id='footer_main'>
+				<div class='fr'>
+				</div>
+				<div>
+					<strong><a class='dark' href='/about'>关于</a></strong>
+					&nbsp;&nbsp;|&nbsp;&nbsp; 
+					<strong><a class='dark' href='/faq'>FAQ</a></strong>
+					&nbsp;&nbsp;|&nbsp;&nbsp; 
+				</div>
+				<div class='sep10'></div>
+				<div class='col_fade'>
+					©2012<br>版本: <%= config.version %><br>由<a href='http://cnodejs.net' target='_blank'> NAE </a>为 <%= config.name %> 提供动力
+				</div>
+			</div>
+		</div>
+	</body>
+</html>	

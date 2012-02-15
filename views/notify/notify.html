@@ -1,0 +1,25 @@
+<div id='sidebar'>
+</div>
+
+<div id='content'>
+	<div class='panel'>
+		<div class='header'>
+			<ul class='breadcrumb'>
+				<li><a href='/'>主页</a><span class='divider'>/</span></li>
+				<li class='active'>通知</li>
+			</ul>
+		</div>
+		<div class='inner'>
+			<% if(locals.error){ %>
+			<div class="alert alert-error" >	
+				<strong><%= error %></strong>
+			</div>
+			<% } %>
+			<% if(locals.success){ %>
+			<div class="alert alert-success">	
+				<strong><%= success %></strong>
+			</div>
+			<% } %>
+		</div>
+	</div>
+</div>

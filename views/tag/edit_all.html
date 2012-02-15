@@ -1,0 +1,92 @@
+<div id='sidebar'>
+</div>
+
+<div id='content'>
+	<div class='panel'>
+		<div class='header'>
+			<span class='col_fade'>所有标签</span>
+		</div>
+		<div class='inner'>
+			<% if(locals.tags && tags.length > 0 ){ %>
+			<table class='table'>
+				<thead>
+					<th>序号</th>
+					<th>名字</th>
+					<th>编辑</th>
+					<th>删除</th>
+				</thead>
+				<tbody>
+				<%- partial('tag/tag_can_edit',{collection:tags,as:'tag'}) %>
+				</tbody>
+			</table>
+			<% }else{ %>
+			<p>无标签</p>
+			<% } %>
+		</div>
+	</div>
+	<div class='sep10'></div>
+	<div class='panel'>
+		<div class='header'>
+			<span class='col_fade'>添加标签</span>
+		</div>
+		<div class='inner'>
+			<% if(locals.edit_error){ %>
+			<div class="alert alert-error">	
+				<a class="close" data-dismiss="alert" href="#">&times;</a>
+				<strong><%= edit_error %></strong>
+			</div>
+			<% } %>
+			<form id='add_tag_form' class='form-horizontal' action='/tag/add' method='post'>
+				<legend></legend>
+				<div class='control-group'>
+					<label class='control-label' for='name'>名字</label>
+					<div class='controls'>
+						<input class='input-xlarge' id='name' name='name' size='30' type='text' />
+						<p class='help-block'>须为汉字和字母和数字组合</p>
+					</div>
+				</div>
+				<div class='control-group'>
+					<label class='control-label' for='order'>序号</label>
+					<div class='controls'>
+					<select class='span2' name='order'>
+					<% if(locals.tags && tags.length >= 0 ){ %>
+					<% for(var i=0; i<=tags.length; i++){ %>
+					<% if(i != tags.length){ %>
+					<option value='<%= i+1 %>'><%= i+1 %></option>
+					<% }else{ %>
+					<option value='<%= i+1 %>' selected='selected'><%= i+1 %></option>
+					<% } %>
+					<% } %>
+					<% } %>
+					</select>
+					<p class='help-block'>首页标签按此序号由小到大排序</p>
+					</div>
+				</div>
+				<div class='control-group'>
+					<label class='control-label' for='description'>描述</label>
+					<div class='controls'>
+						<textarea class='input-xlarge' id='description' name='description' rows='4'></textarea>
+					</div>
+				</div>
+				<input type='hidden' name='_csrf' value='<%= csrf %>' />
+				<div class='form-actions'>
+					<input type='submit' class='btn' value='添加' />
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<% if(locals.current_user){ %>
+<script type='text/javascript'>
+	$(document).ready(function(){
+		$('.delete_tag_btn').click(function(){
+			if(confirm('确定要删除此标签吗？')){
+				window.location.href = $(this).attr('href');
+			}
+			return false;
+		});
+	});
+</script>
+<% } %>

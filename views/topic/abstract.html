@@ -1,0 +1,25 @@
+<div class='cell'>
+	<% if(topic.author.avatar){ %>
+	<div class='user_avatar'><a href='/user/<%= topic.author.name %>'><img src='<%= topic.author.avatar %>' title='<%= topic.author.name %>' /></a></div>
+	<% }else{ %>
+	<div class='user_avatar'><a href='/user/<%= topic.author.name %>'><img src='/images/user_icon&48.png' title='<%= topic.author.name %>' /></a></div>
+	<% } %>
+
+	<a class='topic_title' href='/topic/<%= topic._id %>'><%= topic.title %></a>
+	<% if(topic.reply_count >0){ %>
+	<a class='count fr' href='/topic/<%= topic._id %>#reply<%= topic.reply_count %>'><%= topic.reply_count %></a>
+	<% } %>
+	<div class='sep10'></div>
+	<div class='sep5'></div>
+	<%- partial('tag/tag_in_abstract',{collection:topic.tags, as:'tag'}) %>
+	<span class='col_fade'>
+		<% if(topic.tags.length > 0){ %> • <% } %>
+		<a class='dark' href='/user/<%= topic.author.name %>'><%= topic.author.name %></a> 
+		• <%= topic.visit_count %> 次点击
+		<% if(topic.reply){  %>
+		• <%= topic.reply.friendly_create_at %>由<a class='dark' href='/user/<%= topic.reply.author.name %>'> <%= topic.reply.author.name %> </a>回复
+		<% }else{ %>
+		• <%= topic.friendly_create_at %>
+		<% } %>
+	</span>
+</div>
