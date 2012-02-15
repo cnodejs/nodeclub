@@ -14,8 +14,13 @@ exports.upload_image = function(req,res,next){
 	}
 
 	var file = req.files.userfile;
-	// sould use async method
+	// sould use async
 	if(file){
+		var name = file.name;
+		var ext = name.substr(name.lastIndexOf('.'),4);
+		var uid = req.session.user._id.toString();
+		var time = new Date().getTime();
+		var new_name = uid + time + ext;
 		var proxy = new EventProxy();
 		function ensureDir(){
 			path.exists(upload_path + uid, function(exists){
