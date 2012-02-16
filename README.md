@@ -7,7 +7,7 @@ Node Club 是用 **Node.js** 和 **MongoDb** 开发的新型社区软件，界�
     // install node npm mongodb  
     // run mongod
     cd Node-Club
-    nmp install ./
+    npm install ./
     cp config.default.js config.js
     // modify the config file as yours
     node app.js
