@@ -79,7 +79,7 @@ exports.signup = function(req,res,next){
 			user.active = false;
 			user.save(function(err){
 				if(err) return next(err);
-				mail_ctrl.send_active_mail(email,md5(email+'nodeclub'),name,email,function(err,success){
+				mail_ctrl.send_active_mail(email,md5(email+config.session_secret),name,email,function(err,success){
 					if(success){
 						res.render('sign/signup', {success:'欢迎加入 ' + config.name + '！我们已给您的注册邮箱发送了一封邮件，请点击里面的链接来激活您的帐号。'});
 						return;
@@ -144,7 +144,7 @@ exports.active_account = function(req,res,next){
 	var email = req.query.email;
 
 	User.findOne({name:name},function(err,user){
-		if(!user || md5(email+'nodeclub') != key){
+		if(!user || md5(email+config.session_secret) != key){
 			res.render('notify/notify',{error: '信息有误，帐号无法被激活。'});
 			return;
 		}
@@ -180,7 +180,7 @@ exports.search_pass = function(req,res,next){
 				res.render('sign/search_pass', {error:'没有这个电子邮箱。',email:email});
 				return;
 			}
-			mail_ctrl.send_reset_pass_mail(email,md5(email+'nodeclub'),user.name,function(err,success){
+			mail_ctrl.send_reset_pass_mail(email,md5(email+config.session_secret),user.name,function(err,success){
 				res.render('notify/notify',{success: '我们已给您填写的电子邮箱发送了一封邮件，请点击里面的链接来重置密码。'});
 			});
 		});
@@ -192,7 +192,7 @@ exports.reset_pass = function(req,res,next){
 	var name = req.query.name;
 
 	User.findOne({name:name},function(err,user){
-		if(!user || md5(user.email+'nodeclub') != key){
+		if(!user || md5(user.email+config.session_secret) != key){
 			res.render('notify/notify',{error: '信息有误，密码无法重置。'});
 			return;
 		}
