@@ -2,6 +2,7 @@ var models = require('../models'),
 	Message = models.Message;
 
 var user_ctrl = require('./user');
+var mail_ctrl = require('./mail');
 var topic_ctrl = require('./topic'); 
 
 var EventProxy = require('eventproxy').EventProxy;
@@ -112,7 +113,17 @@ function send_reply_message(master_id,author_id,topic_id){
 	message.master_id = master_id;
 	message.author_id = author_id;
 	message.topic_id = topic_id;
-	message.save();
+	message.save(function(err){
+		user_ctrl.get_user_by_id(master_id,function(err,master){
+			if(master && master.receive_reply_mail){
+				message.has_read = true;
+				message.save();
+				get_message_by_id(message._id,function(err,msg){
+					mail_ctrl.send_reply_mail(master.email,msg);
+				});
+			}
+		});
+	});
 }
 
 function send_reply2_message(master_id,author_id,topic_id){
@@ -121,7 +132,17 @@ function send_reply2_message(master_id,author_id,topic_id){
 	message.master_id = master_id;
 	message.author_id = author_id;
 	message.topic_id = topic_id;
-	message.save();
+	message.save(function(err){
+		user_ctrl.get_user_by_id(master_id,function(err,master){
+			if(master && master.receive_reply_mail){
+				message.has_read = true;
+				message.save();
+				get_message_by_id(message._id,function(err,msg){
+					mail_ctrl.send_reply_mail(master.email,msg);
+				});
+			}
+		});
+	});
 }
 
 function send_at_message(master_id,author_id,topic_id){
@@ -130,7 +151,17 @@ function send_at_message(master_id,author_id,topic_id){
 	message.master_id = master_id;
 	message.author_id = author_id;
 	message.topic_id = topic_id;
-	message.save();
+	message.save(function(err){
+		user_ctrl.get_user_by_id(master_id,function(err,master){
+			if(master && master.receive_at_mail){
+				message.has_read = true;
+				message.save();
+				get_message_by_id(message._id,function(err,msg){
+					mail_ctrl.send_at_mail(master.email,msg);
+				});
+			}
+		});
+	});
 }
 
 function send_follow_message(follow_id,author_id){

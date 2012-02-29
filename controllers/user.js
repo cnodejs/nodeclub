@@ -86,7 +86,9 @@ exports.setting = function(req,res,next){
 		get_user_by_id(req.session.user._id,function(err,user){
 			if(err) return next(err);
 			res.render('user/setting', {name:user.name,email:user.email,url:user.url,location:user.location,
-							signature:user.signature,profile:user.profile,weibo:user.weibo});
+							signature:user.signature,profile:user.profile,weibo:user.weibo,
+							receive_at_mail: user.receive_at_mail,
+							receive_reply_mail: user.receive_reply_mail});
 			return;
 		});
 	}
@@ -107,6 +109,8 @@ exports.setting = function(req,res,next){
 			profile = sanitize(profile).xss();
 			var weibo = sanitize(req.body.weibo).trim();			
 			weibo = sanitize(weibo).xss();
+			var receive_at_mail = req.body.receive_at_mail=='on'? true: false;
+			var receive_reply_mail = req.body.receive_reply_mail=='on'? true: false;
 
 			if(url != ''){
 				try{
@@ -114,7 +118,9 @@ exports.setting = function(req,res,next){
 					check(url, '不正确的个人网站。').isUrl();
 				}catch(e){
 					res.render('user/setting', {error:e.message,name:name,email:email,url:url,location:location,
-									signature:signature,profile:profile,weibo:weibo});
+									signature:signature,profile:profile,weibo:weibo,
+									receive_at_mail: receive_at_mail,
+									receive_reply_mail: receive_reply_mail});
 					return;
 				}
 			}
@@ -124,7 +130,9 @@ exports.setting = function(req,res,next){
 					check(weibo, '不正确的微博地址。').isUrl();
 				}catch(e){
 					res.render('user/setting', {error:e.message,name:name,email:email,url:url,location:location,
-									signature:signature,profile:profile,weibo:weibo});
+									signature:signature,profile:profile,weibo:weibo,
+									receive_at_mail: receive_at_mail,
+									receive_reply_mail: receive_reply_mail});
 					return;
 				}
 			}
@@ -136,10 +144,14 @@ exports.setting = function(req,res,next){
 				user.signature = signature;
 				user.profile = profile;
 				user.weibo = weibo;
+				user.receive_at_mail = receive_at_mail;
+				user.receive_reply_mail = receive_reply_mail;
 				user.save(function(err){
 					if(err) return next(err);
 					res.render('user/setting', {success:'保存成功。',name:user.name,email:user.email,url:user.url,location:user.location,
-									signature:user.signature,profile:user.profile,weibo:user.weibo});
+									signature:user.signature,profile:user.profile,weibo:user.weibo,
+									receive_at_mail: user.receive_at_mail,
+									receive_reply_mail: user.receive_reply_mail});
 					return;
 				});
 			});
@@ -158,7 +170,9 @@ exports.setting = function(req,res,next){
 
 				if(old_pass != user.pass){
 					res.render('user/setting', {error:'当前密码不正确。',name:user.name,email:user.email,url:user.url,location:user.location,
-									signature:user.signature,profile:user.profile,weibo:user.weibo});
+									signature:user.signature,profile:user.profile,weibo:user.weibo,
+									receive_at_mail: user.receive_at_mail,
+									receive_reply_mail: user.receive_reply_mail});
 					return;
 				}
 
@@ -170,7 +184,9 @@ exports.setting = function(req,res,next){
 				user.save(function(err){
 					if(err) return next(err);
 					res.render('user/setting', {success:'密码已被修改。',name:user.name,email:user.email,url:user.url,location:user.location,
-									signature:user.signature,profile:user.profile,weibo:user.weibo});
+									signature:user.signature,profile:user.profile,weibo:user.weibo,
+									receive_at_mail: user.receive_at_mail,
+									receive_reply_mail: user.receive_reply_mail});
 					return;
 
 				});

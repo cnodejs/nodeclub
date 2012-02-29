@@ -15,9 +15,17 @@ Node Club 是用 **Node.js** 和 **MongoDb** 开发的新型社区软件，界�
 ###### 其它
 小量修改了两个依赖模块：node-markdown，express
  
-   1.node-markdown/lib/markdown.js allowedTags 添加 `embed` 标签以支持 flash 视频，allowedAttributes 添加：
+   1.node-markdown/lib/markdown.js  
+   allowedTags 添加：
+   
+    embed  //支持 flash 视频
+    table|thead|tbody|tr|td|th|caption  //支持表格
+   
+   
+   allowedAttributes 添加：
    
     embed:'src|quality|width|height|align|allowScriptAccess|allowFullScreen|mode|type'
+    table: 'class'
        
    2.express/node_modules/connect/lib/middleware/csrf.js 添加：
    

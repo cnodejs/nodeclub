@@ -5,14 +5,14 @@
 exports.config = {
 	name: 'Node Club',
 	description: 'Node Club 是用Node.js开发的社区软件',
-	host: 'http://127.0.0.1/',
+	host: 'http://127.0.0.1', //host 结尾不要添加'/'
 	db: 'mongodb://127.0.0.1/node_club',
 	session_secret: 'node_club',
 	auth_cookie_name: 'node_club',
 	port: 80,
 	version: '0.0.1',
 
-	// topics list count
+	// 话题列表显示的话题数量
 	list_topic_count: 20,
 
 	// mail SMTP
@@ -27,6 +27,7 @@ exports.config = {
 	weibo_key: 10000000,
 
 	// admins
-	admins: {admin:true}
+	// admin 可删除话题，编辑标签，设某人为达人
+	admins: {admin:true, obama:true}
 };
 
