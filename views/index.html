@@ -115,12 +115,11 @@
 			<span class='fr'><a href='/tags/edit'><img src='/images/wrench_icon&16.png' title='编辑标签' /></a></span>
 			<% } %>
 		</div>
-		<div>
-			<span class='sp10'></span>
+		<div class='moon_tags'>
 			<% if(locals.tags && tags.length > 0 ){ %>
 				<%- partial('tag/tag',tags) %>
 			<% }else{ %>
-				<p><span class='sp10'></span>无标签</p>
+				<p></span>无标签</p>
 			<% } %>
 		</div>
 		<div class='header'>

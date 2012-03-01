@@ -59,7 +59,9 @@
 				if(data.status == 'success'){
 					$me.parent().toggleClass('message');
 					$me.parent().find('.marked_icon').show();
-					$me.remove();	
+					$me.remove();
+					var count = parseInt($('.messages_count').html()) - 1;
+					$('.messages_count').html(count);
 				}else{
 				}
 			},'json');
@@ -72,7 +74,8 @@
 						$me = $(this);
 						$me.toggleClass('message');
 						$me.find('.marked_icon').show();
-						$me.find('.mark_read_btn').remove();	
+						$me.find('.mark_read_btn').remove();
+						$('.messages_count').html(0);	
 					});
 				}else{
 				}

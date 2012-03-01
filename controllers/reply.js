@@ -106,6 +106,8 @@ exports.add_reply2 = function(req,res,next){
 		if(err) return next(err);
 		Topic.findOne({_id:topic_id},function(err,topic){
 			if(err) return next(err);
+			topic.last_reply = reply._id;
+			topic.last_reply_at = new Date();
 			topic.reply_count += 1;
 			topic.save()
 			proxy.trigger('reply_saved');
