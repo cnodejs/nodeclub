@@ -55,7 +55,11 @@ $(document).ready(function() {
 	$('.mark_read_btn').click(function() {
 		var $me = $(this);
 		var message_id = $me.parent().attr('message_id');
-		$.post('/messages/mark_read',{ message_id: message_id }, function(data) {
+		var data = {
+			message_id: message_id,
+			_csrf: '<%- csrf %>'
+		};
+		$.post('/messages/mark_read', data, function(data) {
 			if (data.status === 'success') {
 				$me.parent().toggleClass('message');
 				$me.parent().find('.marked_icon').show();
@@ -67,7 +71,7 @@ $(document).ready(function() {
 	});
 	$('#mark_all_messages_btn').click(function() {
 		var $parent = $(this).parent().parent();
-		$.post('/messages/mark_all_read', {}, function(data) {
+		$.post('/messages/mark_all_read', { _csrf: '<%- csrf %>' }, function(data) {
 			if (data.status === 'success') {
 				$parent.find('.message').each(function() {
 					$me = $(this);
