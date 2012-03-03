@@ -1,79 +1,108 @@
-var models = require('../models'),
-	Tag = models.Tag,
-	Topic = models.Topic,
-	TopicTag = models.TopicTag,
-	TopicCollect = models.TopicCollect;
+/*!
+ * nodeclub - controllers/topic.js
+ */
 
-var check = require('validator').check,
-	sanitize = require('validator').sanitize;
+/**
+ * Module dependencies.
+ */
 
+var models = require('../models');
+var Tag = models.Tag;
+var Topic = models.Topic;
+var TopicTag = models.TopicTag;
+var TopicCollect = models.TopicCollect;
+var check = require('validator').check;
+var sanitize = require('validator').sanitize;
 var at_ctrl = require('./at');
 var tag_ctrl = require('./tag');
 var user_ctrl = require('./user');
 var reply_ctrl = require('./reply');
 var EventProxy = require('eventproxy').EventProxy;
-
 var Markdown = require('node-markdown').Markdown;
 var Util = require('../libs/util');
 
-exports.index = function(req,res,next){
+/**
+ * Topic page
+ * 
+ * @param  {HttpRequest} req
+ * @param  {HttpResponse} res
+ * @param  {Function} next
+ */
+exports.index = function(req, res, next) {
 	var topic_id = req.params.tid;
-	if(topic_id.length != 24){
-		res.render('notify/notify',{error: '此话题不存在或已被删除。'});
-		return;	
+	if (topic_id.length !== 24) {
+		return res.render('notify/notify', { error: '此话题不存在或已被删除。' });
 	}
-
-	var proxy = new EventProxy();
-	var render = function(topic,author_other_topics,no_reply_topics){
-		at_ctrl.link_at_who(topic.content,function(err,str){
-			if(err) return next(err);
-			topic.content = str;
-			res.render('topic/index',{topic:topic,author_other_topics:author_other_topics,no_reply_topics:no_reply_topics});
+	var events = [ 'topic', 'other_topics', 'no_reply_topics', '@user' ];
+	var ep = EventProxy.create(events, function(topic, other_topics, no_reply_topics) {
+		res.render('topic/index', {
+			topic: topic,
+			author_other_topics: other_topics,
+			no_reply_topics: no_reply_topics
 		});
-	};
-	proxy.assign('topic','author_other_topics','no_reply_topics',render);
+	});
+	ep.on('error', function(err) {
+		ep.unbind();
+		next(err);
+	});
+	ep.once('topic', function(topic) {
+		at_ctrl.link_at_who(topic.content, function(err, content) {
+			if (err) return ep.emit('error', err);
+			topic.content = content;
+		});
+	});
 
-	get_full_topic(topic_id,function(err,message,topic,tags,author,replies){
-		if(err) return next(err);
-		if(message){
-			res.render('notify/notify',{error: message});
-			return;	
-		}
+	get_full_topic(topic_id, function(err, message, topic, tags, author, replies) {
+		if (err) return ep.emit('error', err);
+		// if (message) {
+		// 	return res.render('notify/notify', { error: message });
+		// }
 
-		topic.visit_count +=1;
-		topic.save(function(err){
-			if(!topic.content_is_html){
+		at_ctrl.link_at_who(topic.content, function(err, content) {
+			if (err) return ep.emit('error', err);
+			topic.content = content;
+			ep.emit('@user');
+		});
+
+		topic.visit_count += 1;
+		topic.save(function(err) {
+			if (!topic.content_is_html) {
 				// trans Markdown to HTML
-				topic.content = Markdown(topic.content,true);
+				topic.content = Markdown(topic.content, true);
 			}
 			// format date
-			topic.friendly_create_at = Util.format_date(topic.create_at,true);
-			topic.friendly_update_at = Util.format_date(topic.update_at,true);
+			topic.friendly_create_at = Util.format_date(topic.create_at, true);
+			topic.friendly_update_at = Util.format_date(topic.update_at, true);
 
 			topic.tags = tags;
 			topic.author = author;
 			topic.replies = replies;
 
-			if(!req.session.user){
-				proxy.trigger('topic',topic);
-			}else{
-				TopicCollect.findOne({user_id:req.session.user._id, topic_id:topic._id},function(err,doc){
-					if(err) return next(err);
+			if (!req.session.user) {
+				ep.emit('topic', topic);
+			} else {
+				var q = { user_id: req.session.user._id, topic_id: topic._id };
+				TopicCollect.findOne(q, function(err, doc) {
+					if (err) return ep.emit('error', err);
 					topic.in_collection = doc;
-					proxy.trigger('topic',topic);
+					ep.emit('topic', topic);
 				});
-			}
-		
-			var opt = {limit:5, sort:[['last_reply_at','desc']]};
-			get_topics_by_query({author_id:topic.author_id,_id:{'$nin':[topic._id]}},opt,function(err,topics){
-				if(err) return next(err);
-				proxy.trigger('author_other_topics',topics);
-			});
-			opt = {limit:5, sort:[['create_at','desc']]};
-			get_topics_by_query({reply_count:0},opt,function(err,topics){
-				if(err) return next(err);
-				proxy.trigger('no_reply_topics',topics);
-			});
+			}		
+		});
+
+		// get author other topics
+		var options = { limit: 5, sort: [ [ 'last_reply_at', 'desc' ] ]};
+		var query = { author_id: topic.author_id, _id: { '$nin': [ topic._id ] } };
+		get_topics_by_query(query, options, function(err,topics){
+			if (err) return ep.emit('error', err);
+			ep.emit('other_topics', topics);
+		});
+
+		// get no reply topics
+		var options2 = { limit:5, sort: [ ['create_at', 'desc'] ] };
+		get_topics_by_query({ reply_count: 0 }, options2, function(err, topics) {
+			if (err) return ep.emit('error', err);
+			ep.emit('no_reply_topics', topics);
 		});
 	});
 };
