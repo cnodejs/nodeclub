@@ -76,122 +76,118 @@ exports.show_stars = function(req,res,next){
 	});		
 };
 
-exports.setting = function(req,res,next){
-	if(!req.session.user){
+exports.setting = function(req, res, next) {
+	if (!req.session.user) {
 		res.redirect('home');
 		return;
 	}
 	var method = req.method.toLowerCase();
-	if(method == 'get'){
+	if (method !== 'post') {
+		get_user_by_id(req.session.user._id, function(err, user) {
+			if (err) return next(err);
+			if (req.query.save === 'success') {
+				user.success = '保存成功。';
+			}
+			user.error = null;
+			return res.render('user/setting', user);
+		});
+		return;
+	}
+	// post
+	var action = req.body.action;
+	if (action === 'change_setting') {
+		var name = sanitize(req.body.name).trim();			
+		name = sanitize(name).xss();
+		var email = sanitize(req.body.email).trim();			
+		email = sanitize(email).xss();
+		var url = sanitize(req.body.url).trim();			
+		url = sanitize(url).xss();
+		var location = sanitize(req.body.location).trim();			
+		location = sanitize(location).xss();
+		var signature = sanitize(req.body.signature).trim();			
+		signature = sanitize(signature).xss();
+		var profile = sanitize(req.body.profile).trim();			
+		profile = sanitize(profile).xss();
+		var weibo = sanitize(req.body.weibo).trim();			
+		weibo = sanitize(weibo).xss();
+		var receive_at_mail = req.body.receive_at_mail=='on'? true: false;
+		var receive_reply_mail = req.body.receive_reply_mail=='on'? true: false;
+
+		if (url !== '') {
+			try{
+				if(url.indexOf('http://') < 0) url = 'http://' + url;
+				check(url, '不正确的个人网站。').isUrl();
+			}catch(e){
+				res.render('user/setting', {error:e.message,name:name,email:email,url:url,location:location,
+								signature:signature,profile:profile,weibo:weibo,
+								receive_at_mail: receive_at_mail,
+								receive_reply_mail: receive_reply_mail});
+				return;
+			}
+		}
+		if(weibo != ''){
+			try{
+				if(weibo.indexOf('http://') < 0) weibo = 'http://' + weibo;
+				check(weibo, '不正确的微博地址。').isUrl();
+			}catch(e){
+				res.render('user/setting', {error:e.message,name:name,email:email,url:url,location:location,
+								signature:signature,profile:profile,weibo:weibo,
+								receive_at_mail: receive_at_mail,
+								receive_reply_mail: receive_reply_mail});
+				return;
+			}
+		}
+
 		get_user_by_id(req.session.user._id,function(err,user){
 			if(err) return next(err);
-			res.render('user/setting', {name:user.name,email:user.email,url:user.url,location:user.location,
-							signature:user.signature,profile:user.profile,weibo:user.weibo,
-							receive_at_mail: user.receive_at_mail,
-							receive_reply_mail: user.receive_reply_mail});
-			return;
+			user.url = url;
+			user.location = location;
+			user.signature = signature;
+			user.profile = profile;
+			user.weibo = weibo;
+			user.receive_at_mail = receive_at_mail;
+			user.receive_reply_mail = receive_reply_mail;
+			user.save(function(err){
+				if (err) return next(err);
+				return res.redirect('/setting?save=success');
+			});
 		});
+
 	}
-	if(method == 'post'){
-		var action = req.body.action;
-		if(action == 'change_setting'){
-			var name = sanitize(req.body.name).trim();			
-			name = sanitize(name).xss();
-			var email = sanitize(req.body.email).trim();			
-			email = sanitize(email).xss();
-			var url = sanitize(req.body.url).trim();			
-			url = sanitize(url).xss();
-			var location = sanitize(req.body.location).trim();			
-			location = sanitize(location).xss();
-			var signature = sanitize(req.body.signature).trim();			
-			signature = sanitize(signature).xss();
-			var profile = sanitize(req.body.profile).trim();			
-			profile = sanitize(profile).xss();
-			var weibo = sanitize(req.body.weibo).trim();			
-			weibo = sanitize(weibo).xss();
-			var receive_at_mail = req.body.receive_at_mail=='on'? true: false;
-			var receive_reply_mail = req.body.receive_reply_mail=='on'? true: false;
+	if(action == 'change_password'){
+		var old_pass = sanitize(req.body.old_pass).trim();
+		var new_pass = sanitize(req.body.new_pass).trim();
 
-			if(url != ''){
-				try{
-					if(url.indexOf('http://') < 0) url = 'http://' + url;
-					check(url, '不正确的个人网站。').isUrl();
-				}catch(e){
-					res.render('user/setting', {error:e.message,name:name,email:email,url:url,location:location,
-									signature:signature,profile:profile,weibo:weibo,
-									receive_at_mail: receive_at_mail,
-									receive_reply_mail: receive_reply_mail});
-					return;
-				}
-			}
-			if(weibo != ''){
-				try{
-					if(weibo.indexOf('http://') < 0) weibo = 'http://' + weibo;
-					check(weibo, '不正确的微博地址。').isUrl();
-				}catch(e){
-					res.render('user/setting', {error:e.message,name:name,email:email,url:url,location:location,
-									signature:signature,profile:profile,weibo:weibo,
-									receive_at_mail: receive_at_mail,
-									receive_reply_mail: receive_reply_mail});
-					return;
-				}
+		get_user_by_id(req.session.user._id,function(err,user){
+			if(err) return next(err);
+
+			var md5sum = crypto.createHash('md5');
+			md5sum.update(old_pass);
+			old_pass = md5sum.digest('hex');
+
+			if(old_pass != user.pass){
+				res.render('user/setting', {error:'当前密码不正确。',name:user.name,email:user.email,url:user.url,location:user.location,
+								signature:user.signature,profile:user.profile,weibo:user.weibo,
+								receive_at_mail: user.receive_at_mail,
+								receive_reply_mail: user.receive_reply_mail});
+				return;
 			}
 
-			get_user_by_id(req.session.user._id,function(err,user){
+			md5sum = crypto.createHash('md5');
+			md5sum.update(new_pass);
+			new_pass = md5sum.digest('hex');
+
+			user.pass = new_pass;
+			user.save(function(err){
 				if(err) return next(err);
-				user.url = url;
-				user.location = location;
-				user.signature = signature;
-				user.profile = profile;
-				user.weibo = weibo;
-				user.receive_at_mail = receive_at_mail;
-				user.receive_reply_mail = receive_reply_mail;
-				user.save(function(err){
-					if(err) return next(err);
-					res.render('user/setting', {success:'保存成功。',name:user.name,email:user.email,url:user.url,location:user.location,
-									signature:user.signature,profile:user.profile,weibo:user.weibo,
-									receive_at_mail: user.receive_at_mail,
-									receive_reply_mail: user.receive_reply_mail});
-					return;
-				});
+				res.render('user/setting', {success:'密码已被修改。',name:user.name,email:user.email,url:user.url,location:user.location,
+								signature:user.signature,profile:user.profile,weibo:user.weibo,
+								receive_at_mail: user.receive_at_mail,
+								receive_reply_mail: user.receive_reply_mail});
+				return;
+
 			});
-
-		}
-		if(action == 'change_password'){
-			var old_pass = sanitize(req.body.old_pass).trim();
-			var new_pass = sanitize(req.body.new_pass).trim();
-
-			get_user_by_id(req.session.user._id,function(err,user){
-				if(err) return next(err);
-
-				var md5sum = crypto.createHash('md5');
-				md5sum.update(old_pass);
-				old_pass = md5sum.digest('hex');
-
-				if(old_pass != user.pass){
-					res.render('user/setting', {error:'当前密码不正确。',name:user.name,email:user.email,url:user.url,location:user.location,
-									signature:user.signature,profile:user.profile,weibo:user.weibo,
-									receive_at_mail: user.receive_at_mail,
-									receive_reply_mail: user.receive_reply_mail});
-					return;
-				}
-
-				md5sum = crypto.createHash('md5');
-				md5sum.update(new_pass);
-				new_pass = md5sum.digest('hex');
-
-				user.pass = new_pass;
-				user.save(function(err){
-					if(err) return next(err);
-					res.render('user/setting', {success:'密码已被修改。',name:user.name,email:user.email,url:user.url,location:user.location,
-									signature:user.signature,profile:user.profile,weibo:user.weibo,
-									receive_at_mail: user.receive_at_mail,
-									receive_reply_mail: user.receive_reply_mail});
-					return;
-
-				});
-			});
-		}
+		});
 	}
 };
 

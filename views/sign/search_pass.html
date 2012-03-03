@@ -1,20 +1,4 @@
-<div id='sidebar'>
-	<div class='panel'>
-		<div class='header'>
-			<span class='col_fade'>关于</span>
-		</div>
-		<div class='inner'>
-			<p><%= config.description %></p>	
-			<p>在这里你可以：</p>
-			<ul>
-				<li>向别人提出你遇到的问题</li>
-				<li>帮助遇到问题的人</li>
-				<li>分享自己的知识</li>
-				<li>和其它人一起进步</li>
-			</ul>
-		</div>
-	</div>
-</div>
+<%- partial('sign/sidebar') %>
 
 <div id='content'>
 	<div class='panel'>
@@ -27,7 +11,7 @@
 		<div class='inner'>
 			<div class='sep10'></div>
 			<div class='sep10'></div>
-			<% if(locals.error){ %>
+			<% if (locals.error) { %>
 			<div class="alert alert-error">	
 				<a class="close" data-dismiss="alert" href="#">&times;</a>
 				<strong><%= error %></strong>
@@ -37,9 +21,9 @@
 				<div class='control-group'>
 					<label class='control-label' for='email'>电子邮箱</label>
 					<div class='controls'>
-						<% if(locals.email){ %>
+						<% if (locals.email) { %>
 						<input class='input-xlarge' id='email' name='email' size='30' type='text' value='<%= email %>' />
-						<% }else{ %>
+						<% } else { %>
 						<input class='input-xlarge' id='email' name='email' size='30' type='text' />
 						<% } %>
 						<p class='help-block'>请输入您注册帐户时使用的电子邮箱</p>

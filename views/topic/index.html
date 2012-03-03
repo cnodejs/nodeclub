@@ -6,7 +6,7 @@
 		</div>
 		<% }else{ %>
 		<div class='inner'>
-			<p><%= config.description %></p>
+			<p>CNode 是专业的 Node.js 中文技术社区</p>
 			<div class='sep10'></div>
 			<div class='cen'>
 				<a href='/signup'><button class='btn'>现在注册</button></a>
@@ -193,7 +193,12 @@
 			var $btn = $(this);
 			var reply_id = $btn.attr('id');		
 			var content = $btn.parent().find('textarea').val();
-			$.post('/<%= topic._id %>/reply2',{reply_id:reply_id,r2_content:content},function(data){
+			var data = {
+				reply_id: reply_id,
+				r2_content: content,
+				_csrf: '<%- csrf %>'
+			};
+			$.post('/<%= topic._id %>/reply2', data, function(data) {
 				if(data != ''){
 					$btn.parent().before(data);	
 					$btn.parent().find('textarea').val('');
@@ -220,31 +225,40 @@
 		$('#collect_btn').click(function(){
 			var $me = $(this);
 			var action = $me.attr('action');
-			$.post('/topic/'+action,{topic_id: '<%= topic._id %>'},function(data){
-				if(data.status == 'success'){
-					if(action == 'collect'){
+			var data = {
+				topic_id: '<%= topic._id %>',
+				_csrf: '<%= csrf %>'
+			};
+			$.post('/topic/' + action, data, function(data) {
+				if (data.status === 'success') {
+					if (action == 'collect') {
 						$me.html('取消收藏');
 						$me.attr('action','de_collect');
-					}else{
+					} else {
 						$me.html('加入收藏');
 						$me.attr('action','collect');
 					}
 					$me.toggleClass('btn-success');	
 				}	
-			},'json');	
+			}, 'json');	
 		});
 
-		$('.delete_reply_btn,.delete_reply2_btn').live('click',function(){
-			$me = $(this);
-			if(confirm('确定要删除此回复吗？')){
-				if($me.hasClass('delete_reply_btn')){
-					var reply_id = $me.parents('.reply_item').attr('reply_id');
+		$('.delete_reply_btn, .delete_reply2_btn').live('click', function() {
+			var $me = $(this);
+			if (confirm('确定要删除此回复吗？')) {
+				var reply_id = null;
+				if ($me.hasClass('delete_reply_btn')) {
+					reply_id = $me.parents('.reply_item').attr('reply_id');
 				}
-				if($me.hasClass('delete_reply2_btn')){
-					var reply_id = $me.parents('.reply2_item').attr('reply_id');
+				if ($me.hasClass('delete_reply2_btn')) {
+					reply_id = $me.parents('.reply2_item').attr('reply_id');
 				}
-				$.post('/reply/' + reply_id + '/delete', {reply_id: reply_id},function(data){
-					if(data.status == 'success'){
+				var data = {
+					reply_id: reply_id,
+					_csrf: "<%- csrf %>"
+				};
+				$.post('/reply/' + reply_id + '/delete', data, function(data) {
+					if (data.status === 'success') {
 						if($me.hasClass('delete_reply_btn')){
 							$me.parents('.reply_item').remove();	
 						}
@@ -252,13 +266,13 @@
 							$me.parents('.reply2_item').remove();	
 						}
 					}
-				},'json');	
+				}, 'json');	
 			}	
 			return false;
 		});	
 
-		$('.delete_topic_btn').click(function(){
-			if(confirm('确定要删除此话题吗？')){
+		$('.delete_topic_btn').click(function() {
+			if(confirm('确定要删除此话题吗？')) {
 				window.location.href = $(this).attr('href');
 			}
 			return false;

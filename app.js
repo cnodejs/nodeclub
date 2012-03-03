@@ -1,46 +1,62 @@
-var express = require('express'),
-	routes = require('./routes'),
-	config = require('./config').config;
+/*!
+ * nodeclub - app.js
+ */
+
+/**
+ * Module dependencies.
+ */
+
+var path = require('path');
+var express = require('express');
+var routes = require('./routes');
+var config = require('./config').config;
 
 var app = express.createServer();
 
-var static_dir = __dirname+'/public';
-
 // configuration in all env
-app.configure(function(){
+app.configure(function() {
+	var viewsRoot = path.join(__dirname, 'views');
 	app.set('view engine', 'html');
-	app.set('views', __dirname + '/views');
-	app.register('.html',require('ejs'));
+	app.set('views', viewsRoot);
+	app.register('.html', require('ejs'));
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
 	app.use(express.session({
-		secret:config.session_secret,
+		secret: config.session_secret,
 	}));
 	// custom middleware
 	app.use(routes.auth_user);
 	app.use(express.csrf());
+
+	// plugins
+	var plugins = config.plugins || [];
+	for (var i = 0, l = plugins.length; i < l; i++) {
+		var p = plugins[i];
+		app.use(require('./plugins/' + p[0])(p[1]));
+	}
 });
 
-//set static,dynamic helpers
+// set static, dynamic helpers
 app.helpers({
-	config:config
+	config: config
 });
 app.dynamicHelpers({
-	csrf: function(req,res){
+	csrf: function(req,res) {
 		return req.session ? req.session._csrf : '';
 	},
 });
 
+var static_dir = path.join(__dirname, 'public');
 app.configure('development', function(){
 	app.use(express.static(static_dir));
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
 
 app.configure('production', function(){
-	var one_year=1000*60*60*24*365;
-	app.use(express.static(static_dir,{maxAge:one_year}));
+	var maxAge = 3600000 * 24 * 30;
+	app.use(express.static(static_dir, { maxAge: maxAge }));
 	app.use(express.errorHandler()); 
-	app.set('view cache',true);
+	app.set('view cache', true);
 });
 
 // routes

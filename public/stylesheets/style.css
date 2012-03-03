@@ -5,7 +5,7 @@ body,p {
 	font-family: "Helvetica Neue","Georgia" Helvetica, Arial, sans-serif;
 }
 #wrapper {
-	background: #eee;
+	background: #d0d6db;
 }
 #main {
 	width: 960px;
@@ -485,9 +485,12 @@ a.count:hover {
 	padding-left: 0px;
 	padding-right: 0px;
 	border-radius: 0px;
+	background-image: none;
+	background-color: #323f4b;
 }
 .navbar .brand {
-	padding: 10px 10px 0px 20px;
+	padding: 7px 0px 0px 20px;
+	width: 150px;
 }
 .navbar .navbar-search {
 	margin-top: 7px;
@@ -496,7 +499,7 @@ a.count:hover {
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: none;
-	background: #eee url('../images/search.png') no-repeat 4px 4px;
+	background: #d0d6db url('../images/search.png') no-repeat 4px 4px;
 	padding: 4px 5px 4px 22px;
 	color: #666;
 	border: 0px;
@@ -512,6 +515,10 @@ a.count:hover {
 }
 .navbar .nav>li>a{		
 	font-weight: bold;
+}
+.navbar .nav .divider-vertical {
+	background-color:#2b3741;
+	border-right: 1px solid #2f3b46; 
 }
 .form-actions {
 	border-top: none;
