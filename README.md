@@ -45,3 +45,19 @@ table: 'class'
 if (req.body && req.body.user_action === 'upload_image') return next();
 ```
 
+## Authors
+Below is the output from git-summary.
+
+```
+project: nodeclub
+commits: 24
+files  : 238
+authors: 
+   9  muyuan                  37.5%
+   8  fengmk2                 33.3%
+   3  dead-horse              12.5%
+   1  LeToNode                4.2%
+   1  roymax                  4.2%
+   1  thebrecht               4.2%
+   1  张洋                     4.2%
+```
