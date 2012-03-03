@@ -3,7 +3,6 @@
   "version": "0.2.0", 
   "main": "./app.js", 
   "private": true, 
-  "customHost": [ "club.cnodejs.org", "cnodejs.org" ],
   "dependencies": {
     "express": "2.5.1",
     "ejs": "0.5.0",
