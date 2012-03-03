@@ -46,5 +46,5 @@ exports.config = {
 
 var host = exports.config.host;
 if (host[host.length - 1] === '/') {
-	exports.config.host = host.substring(0, host.length - 1)
+	exports.config.host = host.substring(0, host.length - 1);
 }

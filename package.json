@@ -1,6 +1,6 @@
 {
   "name": "nodeclub", 
-  "version": "0.2.0", 
+  "version": "0.2.1", 
   "main": "./app.js", 
   "private": true, 
   "dependencies": {
@@ -10,6 +10,7 @@
     "mongoose": "2.4.1",
     "node-markdown": "0.1.0",
     "validator": "0.3.7",
+    "ndir": "0.1.2",
     "nodemailer": "0.3.5"
   }
 }
