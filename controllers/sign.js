@@ -90,55 +90,59 @@ exports.signup = function(req,res,next){
 	}
 };
 
-//sign in
-exports.signin = function(req,res,next){
-	var method = req.method.toLowerCase();
-	if(method == 'get'){
-		res.render('sign/signin');
-		return;
+/**
+ * Show user login page.
+ * 
+ * @param  {HttpRequest} req
+ * @param  {HttpResponse} res
+ */
+exports.showLogin = function(req, res) {
+	req.session._loginReferer = req.headers.referer;
+	res.render('sign/signin');
+};
+
+/**
+ * Handle user login.
+ * 
+ * @param  {HttpRequest} req
+ * @param  {HttpResponse} res
+ * @param  {Function} next
+ */
+exports.login = function(req, res, next) {
+	var loginname = sanitize(req.body.name).trim().toLowerCase();
+	var pass = sanitize(req.body.pass).trim();
+	
+	if (!loginname || !pass) {
+		return res.render('sign/signin', { error: '信息不完整。' });
 	}
-	if(method == 'post'){
-		var name = sanitize(req.body.name).trim();
-		var loginname = name.toLowerCase();
-		var pass = sanitize(req.body.pass).trim();
-		
-		if(name == '' || pass ==''){
-			res.render('sign/signin', {error:'信息不完整。'});
+
+	User.findOne({ 'loginname': loginname }, function(err, user) {
+		if (err) return next(err);
+		if (!user) {
+			return res.render('sign/signin', { error:'这个用户不存在。' });
+		}
+		pass = md5(pass);
+		if (pass !== user.pass) {
+			return res.render('sign/signin', { error:'密码错误。' });
+		}
+		if (!user.active) {
+			res.render('sign/signin', { error:'此帐号还没有被激活。' });
 			return;
 		}
-
-		User.findOne({'loginname':loginname}, function(err,user){
-			if(err) return next(err);
-			if(!user){
-				res.render('sign/signin', {error:'这个用户不存在。'});
-				return;
-			}
-
-			pass = md5(pass);
-			if(pass != user.pass){
-				res.render('sign/signin', {error:'密码错误。'});
-				return;
-			}
-			if(!user.active){
-				res.render('sign/signin', {error:'此帐号还没有被激活。'});
-				return;
-			}
-
-			// store session cookie
-			gen_session(user,res);
-			res.redirect('home');
-		});
-	}
+		// store session cookie
+		gen_session(user, res);
+		res.redirect(req.session._loginReferer || 'home');
+	});
 };
 
 // sign out
-exports.signout = function(req,res,next){
+exports.signout = function(req, res, next) {
 	req.session.destroy();
-	res.clearCookie(config.auth_cookie_name, {path: '/'});
-	res.redirect('home');
+	res.clearCookie(config.auth_cookie_name, { path: '/' });
+	res.redirect(req.headers.referer || 'home');
 };
 
-exports.active_account = function(req,res,next){
+exports.active_account = function(req,res,next) {
 	var key = req.query.key;
 	var name = req.query.name;
 	var email = req.query.email;
