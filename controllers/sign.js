@@ -190,15 +190,17 @@ exports.search_pass = function(req,res,next){
 exports.reset_pass = function(req,res,next){
 	var key = req.query.key;
 	var name = req.query.name;
+	var new_pass = '';
 
 	User.findOne({name:name},function(err,user){
 		if(!user || md5(user.email+config.session_secret) != key){
 			res.render('notify/notify',{error: '信息有误，密码无法重置。'});
 			return;
 		}
-		user.pass = md5('nodeclub');
+		new_pass = random_password();
+		user.pass = md5(new_pass);
 		user.save(function(err){
-			res.render('notify/notify',{success: '你的密码已被重置为：nodeclub，请立即用此密码登录后在设置页面更改密码。'});
+			res.render('notify/notify',{success: '你的密码已被重置为：' + new_pass + '，请立即用此密码登录后在设置页面更改密码。'});
 		});	
 	});
 
@@ -265,4 +267,15 @@ function md5(str){
 	md5sum.update(str);
 	str = md5sum.digest('hex');
 	return str;
+}
+function random_password(passwd_size){
+	var size = passwd_size || 6;
+	var code_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';	
+	var max_num = code_string.length + 1;
+	var new_pass = '';
+	while(size>0){
+	  new_pass += code_string.charAt(Math.floor(Math.random()* max_num));
+	  size--;	
+	}
+	return new_pass;
 }
