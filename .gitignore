@@ -1,2 +1,4 @@
 config.js
 node_modules
+.naeindex
+public/user_data
