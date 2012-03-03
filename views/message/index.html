@@ -1,12 +1,4 @@
-<div id='sidebar'>
-	<div class='panel'>
-		<% if (locals.current_user) { %>
-		<div class='inner'>
-			<%- partial('user/card', { object: current_user, as: 'user' }) %>
-		</div>
-		<% } %>
-	</div>
-</div>
+<%- partial('sidebar') %>
 
 <div id='content'>
 	<div class='panel'>

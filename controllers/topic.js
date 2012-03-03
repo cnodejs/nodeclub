@@ -54,9 +54,10 @@ exports.index = function(req, res, next) {
 
 	get_full_topic(topic_id, function(err, message, topic, tags, author, replies) {
 		if (err) return ep.emit('error', err);
-		// if (message) {
-		// 	return res.render('notify/notify', { error: message });
-		// }
+		if (message) {
+			ep.unbind();
+			return res.render('notify/notify', { error: message });
+		}
 
 		at_ctrl.link_at_who(topic.content, function(err, content) {
 			if (err) return ep.emit('error', err);
