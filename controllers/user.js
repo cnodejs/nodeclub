@@ -346,22 +346,33 @@ exports.get_followings = function(req,res,next){
 		return;
 	}	
 	var user_id = req.session.user._id;
-	if(req.params.user_id != 'undefined'){
+	if(req.params.user_id){
 		user_id = req.params.user_id;
 	}
-	debugger;
 	Relation.find({user_id:user_id},function(err,docs){
 		if(err) return next(err);
 		var ids = [];
 		for(var i=0; i<docs.length; i++){
 			ids.push(docs[i].follow_id);
 		}
+		var render = function(users, user_name){
+			res.render('user/followings',{users:users, user_name:user_name});
+		}
+		var proxy = new EventProxy();
+		proxy.assign('users','user_name',render);
 		get_users_by_ids(ids,function(err,users){
 			if(err) return next(err);
-			get_user_by_id(user_id, function(err, user){
-				if(err) return next(err);	
-				res.render('user/followings',{users:users, user:user});
-			})
+			proxy.trigger("users", users);
+		});
+		get_user_by_id(user_id, function(err, user){
+			if(err) return next(err);
+			var user_name = "";
+			if (user.name == req.session.user.name){
+				user_name = "我";
+			} else {
+				user_name = user.name;
+			}
+			proxy.trigger("user_name", user_name);
 		});
 	});	
 };
@@ -373,7 +384,7 @@ exports.get_followers = function(req,res,next){
 	}
 	debugger;
 	var user_id = req.session.user._id;
-	if(req.params.user_id != 'undefined'){
+	if(req.params.user_id){
 		user_id = req.params.user_id;
 	}
 	Relation.find({follow_id:user_id},function(err,docs){
@@ -382,12 +393,24 @@ exports.get_followers = function(req,res,next){
 		for(var i=0; i<docs.length; i++){
 			ids.push(docs[i].user_id);
 		}
+		var render = function(users, user_name){
+			res.render('user/followers',{users:users, user_name:user_name});
+		}
+		var proxy = new EventProxy();
+		proxy.assign('users','user_name',render);
 		get_users_by_ids(ids,function(err,users){
 			if(err) return next(err);
-			get_user_by_id(user_id, function(err, user){
-				if(err) return next(err);
-				res.render('user/followers',{users:users, user:user});
-			})
+			proxy.trigger("users", users);
+		});
+		get_user_by_id(user_id, function(err, user){
+			if(err) return next(err);
+			var user_name = "";
+			if (user.name == req.session.user.name){
+				user_name = "我";
+			} else {
+				user_name = user.name;
+			}
+			proxy.trigger("user_name", user_name);
 		});
 	});	
 };
@@ -526,6 +549,7 @@ function get_users_by_query(query,opt,cb){
 		return cb(err,users);
 	});
 }
+
 exports.get_user_by_id = get_user_by_id;
 exports.get_user_by_name = get_user_by_name;
 exports.get_user_by_loginname = get_user_by_loginname;
