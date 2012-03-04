@@ -45,19 +45,23 @@ table: 'class'
 if (req.body && req.body.user_action === 'upload_image') return next();
 ```
 
+## 关于pull request
+
+从现在开始，所有提交都要严格遵循[代码规范](https://github.com/windyrobin/iFrame/blob/master/style.md)。
+
 ## Authors
 Below is the output from git-summary.
 
 ```
 project: nodeclub
-commits: 24
-files  : 238
-authors: 
-   9  muyuan                  37.5%
-   8  fengmk2                 33.3%
-   3  dead-horse              12.5%
-   1  LeToNode                4.2%
-   1  roymax                  4.2%
-   1  thebrecht               4.2%
-   1  张洋                     4.2%
+ commits: 29
+ files  : 240
+ authors: 
+    13  fengmk2                 44.8%
+     9  muyuan                  31.0%
+     3  dead-horse              10.3%
+     1  LeToNode                3.4%
+     1  roymax                  3.4%
+     1  thebrecht               3.4%
+     1  张洋                  3.4%
 ```
