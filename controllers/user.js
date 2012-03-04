@@ -382,7 +382,6 @@ exports.get_followers = function(req,res,next){
 		res.redirect('home');
 		return;
 	}
-	debugger;
 	var user_id = req.session.user._id;
 	if(req.params.user_id){
 		user_id = req.params.user_id;
