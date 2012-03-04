@@ -345,7 +345,12 @@ exports.get_followings = function(req,res,next){
 		res.redirect('home');
 		return;
 	}	
-	Relation.find({user_id:req.session.user._id},function(err,docs){
+	var user_id = req.session.user._id;
+	if(req.params.user_id != 'undefined'){
+		user_id = req.params.user_id;
+	}
+	debugger;
+	Relation.find({user_id:user_id},function(err,docs){
 		if(err) return next(err);
 		var ids = [];
 		for(var i=0; i<docs.length; i++){
@@ -353,7 +358,10 @@ exports.get_followings = function(req,res,next){
 		}
 		get_users_by_ids(ids,function(err,users){
 			if(err) return next(err);
-			res.render('user/followings',{users:users});
+			get_user_by_id(user_id, function(err, user){
+				if(err) return next(err);	
+				res.render('user/followings',{users:users, user:user});
+			})
 		});
 	});	
 };
@@ -362,8 +370,13 @@ exports.get_followers = function(req,res,next){
 	if(!req.session.user){
 		res.redirect('home');
 		return;
-	}	
-	Relation.find({follow_id:req.session.user._id},function(err,docs){
+	}
+	debugger;
+	var user_id = req.session.user._id;
+	if(req.params.user_id != 'undefined'){
+		user_id = req.params.user_id;
+	}
+	Relation.find({follow_id:user_id},function(err,docs){
 		if(err) return next(err);
 		var ids = [];
 		for(var i=0; i<docs.length; i++){
@@ -371,7 +384,10 @@ exports.get_followers = function(req,res,next){
 		}
 		get_users_by_ids(ids,function(err,users){
 			if(err) return next(err);
-			res.render('user/followers',{users:users});
+			get_user_by_id(user_id, function(err, user){
+				if(err) return next(err);
+				res.render('user/followers',{users:users, user:user});
+			})
 		});
 	});	
 };

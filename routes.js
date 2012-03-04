@@ -46,7 +46,9 @@ exports = module.exports = function(app) {
   app.get('/my/topics', user.get_collect_topics);
   app.get('/my/messages', message.index);
   app.get('/my/follower', user.get_followers);
+  app.get('/:user_id/follower', user.get_followers);
   app.get('/my/following', user.get_followings);
+  app.get('/:user_id/following', user.get_followings);
   app.get('/user/:name/topics', user.list_topics);
   app.get('/user/:name/replies', user.list_replies);
   app.post('/user/follow', user.follow);
