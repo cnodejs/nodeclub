@@ -155,7 +155,7 @@ exports.create = function(req,res,next){
 						}
 					}	
 				}
-				res.render('topic/edit',{tags:tags, edit_error:'标题字数太多或太少', content:content});
+				res.render('topic/edit',{tags:tags, edit_error:'标题字数太多或太少', title:title, content:content});
 				return;
 			});
 		}else{

@@ -63,5 +63,5 @@ app.configure('production', function(){
 routes(app);
 
 app.listen(config.port);
-console.log("NodeClub listening on port %d in %s mode", app.address().port, app.settings.env);
+//console.log("NodeClub listening on port %d in %s mode", app.address().port, app.settings.env);
 console.log("God bless love....");
