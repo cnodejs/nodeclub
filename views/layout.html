@@ -18,7 +18,7 @@
 		<script type='text/javascript' src='/libs/bootstrap/js/bootstrap.js'></script>
 		<script type='text/javascript' src='/javascripts/main.js'></script>
 		<% if (locals.topic) { %>
-		<title><%= config.name %>|<%= topic.title %></title>
+		<title><%= topic.title %> - <%= config.name %></title>
 		<% } else { %>
 		<title><%= config.description %></title>
 		<% } %>
