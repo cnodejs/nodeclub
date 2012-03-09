@@ -11,6 +11,7 @@
     "node-markdown": "0.1.0",
     "validator": "0.3.7",
     "ndir": "0.1.2",
+    // "upyun": "0.0.3", // enable when use plugins/upyun
     "nodemailer": "0.3.5"
   }
 }

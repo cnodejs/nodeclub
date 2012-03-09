@@ -3,7 +3,7 @@
 		<% if(user.avatar){ %>
 		<a href='/user/<%= user.name %>'><img class='user_avatar' src='<%= user.avatar %>' title='<%= user.name %>' /></a>
 		<% }else{ %>
-		<a href='/user/<%= user.name %>'><img class='user_avatar' src='/images/user_icon&48.png' title='<%= user.name %>' /></a>
+		<a href='/user/<%= user.name %>'><img class='user_avatar' src='<%- config.site_static_host %>/images/user_icon&48.png' title='<%= user.name %>' /></a>
 		<% } %>
 		<span class='sp10'></span>
 		<span class='user_name'><a class='dark' href='/user/<%= user.name %>'><%= user.name %></a></span>

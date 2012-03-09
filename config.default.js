@@ -17,6 +17,7 @@ exports.config = {
 		// [ path, title, [target=''] ]
 		[ '/about', '关于' ],
 	],
+	site_static_host: '', // 静态文件存储域名
 
 	db: 'mongodb://127.0.0.1/node_club',
 	session_secret: 'node_club',
