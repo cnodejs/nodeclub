@@ -35,6 +35,7 @@ exports.index = function(req, res, next) {
 	}
 	var events = [ 'topic', 'other_topics', 'no_reply_topics', '@user' ];
 	var ep = EventProxy.create(events, function(topic, other_topics, no_reply_topics) {
+		debugger;
 		res.render('topic/index', {
 			topic: topic,
 			author_other_topics: other_topics,
