@@ -210,7 +210,7 @@ exports.search_pass = function(req,res,next){
             return next(err);
           }
           mail_ctrl.send_reset_pass_mail(email, retrieveKey, user.name, function(err,success) {
-          res.render('notify/notify',{success: '我们已给您填写的电子邮箱发送了一封邮件，请点击里面的链接来重置密码。'});
+          res.render('notify/notify',{success: '我们已给您填写的电子邮箱发送了一封邮件，请在24小时内点击里面的链接来重置密码。'});
         });
 			});
 		});
@@ -235,8 +235,6 @@ exports.reset_pass = function(req,res,next) {
       }
       var now = new Date().getTime();
       var oneDay = 1000 * 60 * 60 * 24;
-      console.log(user);
-      console.log(user.retrieve_time, now);
       if(!user.retrieve_time || now - user.retrieve_time > oneDay) {
         return res.render('notify/notify', {error : '该链接已过期，请重新申请。'});
       }
@@ -264,7 +262,6 @@ exports.reset_pass = function(req,res,next) {
         if(err) {
           return next(err);
         }
-        console.log(user);
         return res.render('notify/notify', {success: '你的密码已重置。'});
       })
     })
