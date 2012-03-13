@@ -239,9 +239,6 @@ exports.reset_pass = function(req,res,next) {
         return res.render('notify/notify', {error : '该链接已过期，请重新申请。'});
       }
       return res.render('sign/reset', {name : name, key : key});
-      user.save(function(err) {
-        res.render('notify/notify',{success: '你的密码已被重置为：' + new_pass + '，请立即用此密码登录后在设置页面更改密码。'});
-      });
     });    
   } else {
     var psw = req.body.psw || '';
