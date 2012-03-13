@@ -35,6 +35,7 @@ exports = module.exports = function(app) {
   app.get('/search_pass', sign.search_pass);
   app.post('/search_pass', sign.search_pass);
   app.get('/reset_pass', sign.reset_pass);
+  app.post('/reset_pass', sign.reset_pass);
 
   // user
   app.get('/user/:name', user.index);
