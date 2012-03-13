@@ -16,7 +16,7 @@ var EventProxy = require('eventproxy').EventProxy;
 
 var check = require('validator').check,
 	sanitize = require('validator').sanitize;
-
+	
 var crypto = require('crypto');
 
 exports.index = function(req,res,next){
@@ -63,6 +63,7 @@ exports.index = function(req,res,next){
 		}else{
 			Relation.findOne({user_id:req.session.user._id,follow_id:user._id},function(err,doc){
 				if(err) return next(err);
+				
 				proxy.trigger('relation',doc);
 			});
 		}

@@ -11,6 +11,7 @@ var Tag = models.Tag;
 var Topic = models.Topic;
 var TopicTag = models.TopicTag;
 var TopicCollect = models.TopicCollect;
+var Relation = models.Relation;
 var check = require('validator').check;
 var sanitize = require('validator').sanitize;
 var at_ctrl = require('./at');
@@ -33,12 +34,13 @@ exports.index = function(req, res, next) {
 	if (topic_id.length !== 24) {
 		return res.render('notify/notify', { error: '此话题不存在或已被删除。' });
 	}
-	var events = [ 'topic', 'other_topics', 'no_reply_topics', '@user' ];
-	var ep = EventProxy.create(events, function(topic, other_topics, no_reply_topics) {
+	var events = [ 'topic', 'other_topics', 'no_reply_topics', 'get_relation', '@user' ];
+	var ep = EventProxy.create(events, function(topic, other_topics, no_reply_topics, relation) {
 		res.render('topic/index', {
 			topic: topic,
 			author_other_topics: other_topics,
-			no_reply_topics: no_reply_topics
+			no_reply_topics: no_reply_topics,
+			relation : relation
 		});
 	});
 	ep.on('error', function(err) {
@@ -58,6 +60,7 @@ exports.index = function(req, res, next) {
 			ep.unbind();
 			return res.render('notify/notify', { error: message });
 		}
+
 
 		at_ctrl.link_at_who(topic.content, function(err, content) {
 			if (err) return ep.emit('error', err);
@@ -91,12 +94,23 @@ exports.index = function(req, res, next) {
 			}		
 		});
 
+		//get author's relationship
+		if(!req.session.user._id){
+			ep.emit('get_relation',null);
+		}else{
+
+			Relation.findOne({user_id:req.session.user._id, follow_id: topic.author_id},function(err,relation){
+				if (err) return ep.emit('error', err);		
+				ep.emit('get_relation',relation);
+			});
+		}	
+
 		// get author other topics
 		var options = { limit: 5, sort: [ [ 'last_reply_at', 'desc' ] ]};
 		var query = { author_id: topic.author_id, _id: { '$nin': [ topic._id ] } };
 		get_topics_by_query(query, options, function(err,topics){
 			if (err) return ep.emit('error', err);
-			ep.emit('other_topics', topics);
+			ep.emit('other_topics', topics);			
 		});
 
 		// get no reply topics
@@ -545,12 +559,13 @@ function get_full_topic(id,cb){
 				return cb(null, '话题的作者丢了。');	
 			}
 			proxy.trigger('author',author);
-		});
+		});	
 		
 		reply_ctrl.get_replies_by_topic_id(topic._id,function(err,replies){
 			if(err) return cb(err);
 			proxy.trigger('replies',replies);
 		});
+
 	});
 
 }

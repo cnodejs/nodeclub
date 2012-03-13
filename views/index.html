@@ -2,9 +2,9 @@
 
 <div id='content'>
 	<div class='panel'>
-		<div class='moon'>
-			<img src='/images/tag_icon&16.png' title='标签'/>
+		<div class='moon'>			
 			<% if (locals.current_user && current_user.is_admin) { %>
+			<img src='/images/tag_icon&16.png' title='标签'/>
 			<span class='fr'><a href='/tags/edit'><img src='/images/wrench_icon&16.png' title='编辑标签' /></a></span>
 			<% } %>
 		</div>
@@ -18,7 +18,7 @@
 		<div class='header'>
 			<img src='/images/spechbubble_2_icon&16.png' title='话题'/>
 			<% if (locals.current_user) { %>
-			<a href='/topic/create' class='fr'><button class='btn' id='create_topic_btn'>发布话题</button></a>
+			<a href='/topic/create' class='fr'><button class='btn btn-success fr' id='create_topic_btn'>发布话题</button></a>
 			<% } %>
 		</div>
 		<% if (locals.topics && topics.length > 0) { %>
