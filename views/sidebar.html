@@ -16,6 +16,26 @@
     </div>
     <% } %>
   </div>
+
+  <% if (locals.tops) { %>
+  <div class='sep10'></div>
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>积分榜</span>
+    </div>
+    <div class='inner'>
+      <% if (tops.length > 0) { %>
+      <ol>
+      <%- partial('user/top', { collection: tops, as: 'user' }) %>
+      </ol>
+      <a class='dark' href='/users/top100'>TOP 100 &gt;&gt;</a>
+      <% } else { %>
+      <p>无</p>
+      <% } %>
+    </div>
+  </div>
+  <% } %>
+   
   <% if (locals.hot_tags) { %>
   <div class='sep10'></div>
   <div class='panel'>
@@ -68,24 +88,6 @@
   </div>
   <% } %>
 
-  <% if (locals.tops) { %>
-  <div class='sep10'></div>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>积分榜</span>
-    </div>
-    <div class='inner'>
-      <% if (tops.length > 0) { %>
-      <ol>
-      <%- partial('user/top', { collection: tops, as: 'user' }) %>
-      </ol>
-      <a class='dark' href='/users/top100'>Top100»</a>
-      <% } else { %>
-      <p>无</p>
-      <% } %>
-    </div>
-  </div>
-  <% } %>
 
   <% if (locals.stars) { %>
   <div class='sep10'></div>

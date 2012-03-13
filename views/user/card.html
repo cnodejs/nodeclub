@@ -7,16 +7,57 @@
 		<% } %>
 		<span class='sp10'></span>
 		<span class='user_name'><a class='dark' href='/user/<%= user.name %>'><%= user.name %></a></span>
+
+		<% if (locals.current_user && current_user._id != user._id) { %>
+			<% if (!locals.relation) { %>
+				<button class='btn btn-success fr' id='follow_btn' action='follow'>加入关注</button>
+			<% } else { %>
+				<button class='btn fr' id='follow_btn' action='un_follow'>取消关注</button>
+			<% } %>
+		<% } %>
+
 		<div class='board cl'>
 			<div class='floor'><a href='/my/tags/'><span class='big'><%= user.collect_tag_count %></span> 标签收藏</a></div>
 			<div class='floor'><a href='/my/topics'><span class='big'><%= user.collect_topic_count %></span> 话题收藏</a></div>
 			<div class='floor'>
 				<a href='/my/following'><span class='big'><%= user.following_count %></span> 关注</a>
 				<a href='/my/follower'><span class='big'><%= user.follower_count %></span> 粉丝</a>
+			
+
+
 			</div>
+
 			<% if(user.messages_count > 0){ %>
 			<div class='floor'><a href='/my/messages'><span class='big messages_count'><%= user.messages_count %></span> 消息</a></div>
 			<% } %>
 		</div>
 	</div>
 </div>
+
+<% if (locals.current_user) { %>
+<script type='text/javascript'>
+	$(document).ready(function(){
+
+		$('#follow_btn').click(function(){
+			var $me = $(this);
+			var action = $me.attr('action');
+			var params = {
+				follow_id: '<%= user._id %>',
+				_csrf: '<%- csrf %>'
+			};
+			$.post('/user/' + action, params, function(data) {
+				if (data.status === 'success') {
+					if (action === 'follow') {
+						$me.html('取消关注');
+						$me.attr('action','un_follow');
+					} else {
+						$me.html('加入关注');
+						$me.attr('action','follow');
+					}
+					$me.toggleClass('btn-success');	
+				}	
+			}, 'json');	
+		});
+	});
+</script>
+<% } %>
