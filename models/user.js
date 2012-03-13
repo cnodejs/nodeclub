@@ -28,7 +28,10 @@ var UserSchema = new Schema({
 	
 	receive_reply_mail: {type: Boolean, default: false },
 	receive_at_mail: { type: Boolean, default: false },
-	from_wp: { type: Boolean }
+	from_wp: { type: Boolean },
+
+	retrieve_time : {type: Number},
+	retrieve_key : {type: String}
 });
 
 mongoose.model('User', UserSchema);
