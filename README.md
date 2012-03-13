@@ -53,15 +53,16 @@ if (req.body && req.body.user_action === 'upload_image') return next();
 Below is the output from git-summary.
 
 ```
-project: nodeclub
- commits: 29
- files  : 240
+ project: nodeclub
+ commits: 43
+ files  : 242
  authors: 
-    13  fengmk2                 44.8%
-     9  muyuan                  31.0%
-     3  dead-horse              10.3%
-     1  LeToNode                3.4%
-     1  roymax                  3.4%
-     1  thebrecht               3.4%
-     1  张洋                  3.4%
+    20  fengmk2                 46.5%
+     9  muyuan                  20.9%
+     7  dead-horse              16.3%
+     3  Kenny Zhao              7.0%
+     1  LeToNode                2.3%
+     1  roymax                  2.3%
+     1  thebrecht               2.3%
+     1  张洋                  2.3%
 ```
