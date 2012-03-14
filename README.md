@@ -54,15 +54,15 @@ Below is the output from git-summary.
 
 ```
  project: nodeclub
- commits: 43
+ commits: 45
  files  : 242
  authors: 
-    20  fengmk2                 46.5%
-     9  muyuan                  20.9%
-     7  dead-horse              16.3%
-     3  Kenny Zhao              7.0%
-     1  LeToNode                2.3%
-     1  roymax                  2.3%
-     1  thebrecht               2.3%
-     1  张洋                  2.3%
+    22  fengmk2                 48.9%
+     9  muyuan                  20.0%
+     7  dead-horse              15.6%
+     3  Kenny Zhao              6.7%
+     1  LeToNode                2.2%
+     1  roymax                  2.2%
+     1  thebrecht               2.2%
+     1  张洋                  2.2%
 ```
