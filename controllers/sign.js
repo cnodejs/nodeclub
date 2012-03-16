@@ -106,7 +106,9 @@ exports.showLogin = function(req, res) {
  */
 var notJump = [
   '/active_account', //active page
-  '/reset_pass'      //reset password page, avoid to reset twice
+  '/reset_pass',     //reset password page, avoid to reset twice
+  '/signup',         //regist page
+  '/search_pass'    //serch pass page
 ];
 /**
  * Handle user login.
