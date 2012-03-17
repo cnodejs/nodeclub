@@ -4,6 +4,9 @@ var config = require('../config').config;
 var data2xml = require('data2xml');
 
 exports.index = function (req,res,next) {
+	if (!config.rss) {
+		return res.send('Please set `rss` in config.js');
+	}
 	var opt = { limit: config.rss.max_rss_items, sort: [['create_at','desc']] };
 
 	topic_ctrl.get_topics_by_query({}, opt, function (err, topics) {

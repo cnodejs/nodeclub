@@ -5,7 +5,7 @@
 exports.config = {
 	name: 'Node Club',
 	description: 'Node Club 是用Node.js开发的社区软件',
-	version: '0.2.0',
+	version: '0.2.2',
 
 	// site settings
 	site_headers: [
