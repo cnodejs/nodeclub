@@ -23,9 +23,10 @@ exports.index = function (req,res,next) {
 		topics.forEach(function (topic) {
 			rss_obj.item.push({
 				title: topic.title,
-				content: topic.content,
-				//author: topic.author,
-				link: config.rss.link + '/topic/' + topic._id
+				link: config.rss.link + '/topic/' + topic._id,
+				guid: config.rss.link + '/topic/' + topic._id,
+				description: topic.content,
+				author: topic.author.name
 			});
 		});
 
