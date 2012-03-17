@@ -15,6 +15,7 @@ var message = require('./controllers/message');
 var tag = require('./controllers/tag');
 var topic = require('./controllers/topic');
 var reply = require('./controllers/reply');
+var rss = require('./controllers/rss');
 var upload = require('./controllers/upload');
 var static = require('./controllers/static');
 var tools =require('./controllers/tools');
@@ -93,4 +94,7 @@ exports = module.exports = function(app) {
   // static
   app.get('/about', static.about);
   app.get('/faq', static.faq);
+
+  //rss
+  app.get('/rss', rss.index);
 };

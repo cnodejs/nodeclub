@@ -27,6 +27,17 @@ exports.config = {
 	// 话题列表显示的话题数量
 	list_topic_count: 20,
 
+	// RSS
+	rss: {
+		title: 'CNode：Node.js专业中文社区',
+		link: 'http://cnodejs.org',
+		language: 'zh-cn',
+		description: 'CNode：Node.js专业中文社区',
+
+		//最多获取的RSS Item数量
+		max_rss_items: 50
+	},
+
 	// mail SMTP
 	mail_port: 25,
 	mail_user: 'club',
