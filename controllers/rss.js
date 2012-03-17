@@ -2,6 +2,7 @@ var topic_ctrl = require('./topic');
 
 var config = require('../config').config;
 var data2xml = require('data2xml');
+var Markdown = require('node-markdown').Markdown;
 
 exports.index = function (req,res,next) {
 	if (!config.rss) {
@@ -28,7 +29,7 @@ exports.index = function (req,res,next) {
 				title: topic.title,
 				link: config.rss.link + '/topic/' + topic._id,
 				guid: config.rss.link + '/topic/' + topic._id,
-				description: topic.content,
+				description: Markdown(topic.content, true),
 				author: topic.author.name,
 				pubDate: topic.create_at.toUTCString()
 			});
