@@ -15,18 +15,19 @@ exports.index = function (req,res,next) {
 				title: config.rss.title,
 				link: config.rss.link,
 				language: config.rss.language,
-				description: config.rss.description
+				description: config.rss.description,
+				item: []
 			},
-			item: []
 		};
 
 		topics.forEach(function (topic) {
-			rss_obj.item.push({
+			rss_obj.channel.item.push({
 				title: topic.title,
 				link: config.rss.link + '/topic/' + topic._id,
 				guid: config.rss.link + '/topic/' + topic._id,
 				description: topic.content,
-				author: topic.author.name
+				author: topic.author.name,
+				pubDate: topic.create_at.toUTCString()
 			});
 		});
 
