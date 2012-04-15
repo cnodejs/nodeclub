@@ -1,137 +1,34 @@
-<div id='sidebar'>
-	<div class='panel'>
-		<% if(locals.current_user){ %>
-		<div class='inner'>
-			<%- partial('user/card',{object:current_user,as:'user'}) %>
-		</div>
-		<% }else{ %>
-		<div class='inner'>
-			<p><%= config.description %></p>
-			<div class='sep10'></div>
-			<div class='cen'>
-				<a href='/signup'><button class='btn'>现在注册</button></a>
-				<div class='sep10'></div>
-				<span>已注册用户请<a class='light' href='/signin'> 登录</a></span>
-			</div>
-		</div>
-		<% } %>
-	</div>
-	<div class='sep10'></div>
-	<div class='panel'>
-		<div class='header'>	
-			<span class='col_fade'>热门标签</span>
-		</div>
-		<div class='inner'>
-			<% if(locals.hot_tags && hot_tags.length>0){ %>
-			<%- partial('tag/tag_with_count',{collection:hot_tags,as:'tag'}) %>
-			<% }else{  %>
-			<p>无</p>
-			<% } %>
-		</div>
-	</div>
-	<div class='sep10'></div>
-	<div class='panel'>
-		<div class='header'>
-			<span class='col_fade'>热门话题</span>
-		</div>
-		<div class='inner'>
-			<% if(locals.hot_topics && hot_topics.length>0){ %>
-			<ul class='unstyled'>
-			<%- partial('topic/small',{collection:hot_topics,as:'topic'}) %>
-			</ul>
-			<% }else{  %>
-			<p>无</p>
-			<% } %>
-		</div>
-	</div>
-	<div class='sep10'></div>
-	<div class='panel'>
-		<div class='header'>
-			<span class='col_fade'>无人回复的话题</span>
-		</div>
-		<div class='inner'>
-			<% if(locals.no_reply_topics && no_reply_topics.length>0){ %>
-			<ul class='unstyled'>
-			<%- partial('topic/small',{collection:no_reply_topics,as:'topic'}) %>
-			</ul>
-			<% }else{  %>
-			<p>无</p>
-			<% } %>
-		</div>
-	</div>
-
-	<div class='sep10'></div>
-	<div class='panel'>
-		<div class='header'>
-			<span class='col_fade'>积分榜</span>
-		</div>
-		<div class='inner'>
-			<% if(locals.tops && tops.length>0){ %>
-			<ol>
-			<%- partial('user/top',{collection:tops,as:'user'}) %>
-			</ol>
-			<a class='dark' href='/users/top100'>Top100»</a>
-			<% }else{  %>
-			<p>无</p>
-			<% } %>
-		</div>
-	</div>
-	<div class='sep10'></div>
-	<div class='panel'>
-		<div class='header'>
-			<span class='col_fade'>社区达人</span>
-		</div>
-		<div class='inner'>
-			<% if(locals.stars && stars.length>0){ %>
-			<ul class='unstyled'>
-			<%- partial('user/star',{collection:stars,as:'user'}) %>
-			</ul>
-			<a class='dark' href='/stars'>更多»</a>
-			<% }else{  %>
-			<p>无</p>
-			<% } %>
-		</div>
-	</div>
-
-	<div class='sep10'></div>
-	<div class='panel'>
-		<div class='header'>	
-			<span class='col_fade'>相关站点</span>
-		</div>
-		<div class='inner'>
-			<ul class='unstyled'>
-				<li><a href='http://cnodejs.org/' target='_blank'>CNode中文社区</a></li>
-				<li><a href='http://nodejs.org/' target='_blank'>Nodejs.Org</a></li>
-			</ul>
-		</div>
-	</div>
-</div>
+<%- partial('sidebar') %>
 
 <div id='content'>
 	<div class='panel'>
 		<div class='moon'>
-			<img src='/images/tag_icon&16.png' title='标签'/>
-			<% if(locals.current_user && current_user.is_admin){ %>
-			<span class='fr'><a href='/tags/edit'><img src='/images/wrench_icon&16.png' title='编辑标签' /></a></span>
+			<% if (locals.current_user && current_user.is_admin) { %>
+			<img src='<%- config.site_static_host %>/images/tag_icon&16.png' title='标签'/>
+			<span class='fr'><a href='/tags/edit'><img src='<%- config.site_static_host %>/images/wrench_icon&16.png' title='编辑标签' /></a></span>
 			<% } %>
 		</div>
-		<div>
-			<span class='sp10'></span>
-			<% if(locals.tags && tags.length > 0 ){ %>
-				<%- partial('tag/tag',tags) %>
-			<% }else{ %>
-				<p><span class='sp10'></span>无标签</p>
+		<div class='moon_tags'>
+			<% if (locals.tags && tags.length > 0) { %>
+				<%- partial('tag/tag', tags) %>
+			<% } else { %>
+				<p>无标签</p>
 			<% } %>
 		</div>
 		<div class='header'>
-			<img src='/images/spechbubble_2_icon&16.png' title='话题'/>
-			<% if(locals.current_user){ %>
-			<a href='/topic/create' class='fr'><button class='btn' id='create_topic_btn'>发布话题</button></a>
+			<img src='<%- config.site_static_host %>/images/spechbubble_2_icon&16.png' title='话题'/>
+			<% if (locals.current_user) { %>
+			<a href='/topic/create' class='fr'><button class='btn btn-success fr' id='create_topic_btn'>发布话题</button></a>
 			<% } %>
 		</div>
-		<% if(locals.topics && topics.length > 0 ){ %>
-		<%- partial('topic/list', {topics:topics,pages:pages,current_pages:current_page,base:'/'}) %>
-		<% }else{ %>
+		<% if (locals.topics && topics.length > 0) { %>
+		<%- partial('topic/list', { 
+			topics: topics,
+			pages: pages,
+			current_pages: current_page,
+			base:'/' 
+		}) %>
+		<% } else { %>
 		<div class='inner'>
 			<p>无话题</p>
 		</div>

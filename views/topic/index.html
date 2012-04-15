@@ -1,20 +1,11 @@
 <div id='sidebar'>
 	<div class='panel'>
-		<% if(locals.current_user){ %>
-		<div class='inner'>
-			<%- partial('user/card',{object:current_user,as:'user'}) %>
+		<div class='header'>
+			<span class='col_fade'>作者</span>
 		</div>
-		<% }else{ %>
 		<div class='inner'>
-			<p><%= config.description %></p>
-			<div class='sep10'></div>
-			<div class='cen'>
-				<a href='/signup'><button class='btn'>现在注册</button></a>
-				<div class='sep10'></div>
-				<span>已注册用户请<a class='light' href='/signin'> 登录</a></span>
-			</div>
+			<%- partial('user/card', { object: topic.author, as: 'user' }) %>
 		</div>
-		<% } %>
 	</div>
 	<div class='sep10'></div>
 	<div class='panel'>
@@ -22,11 +13,11 @@
 			<span class='col_fade'>作者其它话题</span>
 		</div>
 		<div class='inner'>
-			<% if(locals.author_other_topics && author_other_topics.length>0){ %>
+			<% if (locals.author_other_topics && author_other_topics.length > 0) { %>
 			<ul class='unstyled'>
-			<%- partial('topic/small',{collection:author_other_topics,as:'topic'}) %>
+			<%- partial('topic/small',{ collection: author_other_topics, as: 'topic' }) %>
 			</ul>
-			<% }else{  %>
+			<% } else {  %>
 			<p>无</p>
 			<% } %>
 		</div>
@@ -37,11 +28,11 @@
 			<span class='col_fade'>无人回复的话题</span>
 		</div>
 		<div class='inner'>
-			<% if(locals.no_reply_topics && no_reply_topics.length>0){ %>
+			<% if (locals.no_reply_topics && no_reply_topics.length > 0) { %>
 			<ul class='unstyled'>
-			<%- partial('topic/small',{collection:no_reply_topics,as:'topic'}) %>
+			<%- partial('topic/small',{ collection: no_reply_topics, as: 'topic' }) %>
 			</ul>
-			<% }else{  %>
+			<% } else {  %>
 			<p>无</p>
 			<% } %>
 		</div>
@@ -57,28 +48,30 @@
 			</ul>
 		</div>
 		<div class='inner'>
-			<% if(topic.author.avatar){ %>
+		<!--
+			<% if (topic.author.avatar) { %>
 			<div class='user_avatar fr'><a href='/user/<%= topic.author.name %>'><img src='<%= topic.author.avatar %>' /></a></div>
-			<% }else{ %>
-			<div class='user_avatar fr'><a href='/user/<%= topic.author.name %>'><img src='/images/user_icon&48.png' /></a></div>
+			<% } else { %>
+			<div class='user_avatar fr'><a href='/user/<%= topic.author.name %>'><img src='<%- config.site_static_host %>/images/user_icon&48.png' /></a></div>
 			<% } %>
+			-->
 			<h3><%= topic.title %></h3>	
 			<div class='sep10'></div>	
 			<div class='topic_content'>
 				<%- topic.content %>
 			</div>
 			<div class='sep10'></div>	
-			<% if(topic.tags.length > 0){ %>
+			<% if (topic.tags.length > 0) { %>
 			<span class='col_fade'>标签：</span>	
-			<%- partial('tag/tag_in_topic',{collection:topic.tags, as:'tag'}) %>
-			<% }else{ %>
+			<%- partial('tag/tag_in_topic',{ collection: topic.tags, as: 'tag' }) %>
+			<% } else { %>
 			<span class='col_fade'>标签：无</span>	
 			<% } %>
 			<div class='sep5'></div>	
 			<span class='col_fade'>
 				<a class='dark' href='/user/<%= topic.author.name %>'><%= topic.author.name %></a> 在 <%= topic.friendly_create_at %>发布
 			</span>
-			<% if(topic.friendly_create_at != topic.friendly_update_at){ %>
+			<% if (topic.friendly_create_at != topic.friendly_update_at) { %>
 			<div class='sep5'></div>
 			<span class='col_fade'>
 				<a class='dark' href='/user/<%= topic.author.name %>'><%= topic.author.name %></a> 在 <%= topic.friendly_update_at %>重新编辑
@@ -86,37 +79,37 @@
 			<% } %>
 			<span class='sp10'></span>
 			<a class='dark' id='share_weibo_btn' href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=<%= config.weibo_key %>',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','','分享来自<%= config.name %>的话题：<%= topic.title %>','',''));">分享到 weibo</a>
-			<% if(locals.current_user){ %>
-			<% if(!topic.in_collection){ %>
-			<button class='btn btn-success fr' id='collect_btn' action='collect'>加入收藏</button>
-			<% }else{ %>
-			<button class='btn fr' id='collect_btn' action='de_collect'>取消收藏</button>
+			<% if (locals.current_user) { %>
+				<% if (!topic.in_collection) { %>
+				<button class='btn btn-success fr' id='collect_btn' action='collect'>加入收藏</button>
+				<% } else { %>
+				<button class='btn fr' id='collect_btn' action='de_collect'>取消收藏</button>
+				<% } %>
 			<% } %>
-			<% } %>
-			<% if(locals.current_user){ %>
-			<% if(current_user.is_admin){ %>
-			<span class='sp10'></span>
-			<a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='/images/doc_edit_icon&16.png' title='编辑' /></a>
-			<a href='/topic/<%= topic._id %>/delete' class='delete_topic_btn'><img class='user_icon' src='/images/trash_icon&16.png' title='删除' /></a>
-			<% }else{ %>
-			<% if(current_user._id == topic.author_id){ %>
-			<span class='sp10'></span>
-			<a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='/images/doc_edit_icon&16.png' title='编辑' /></a>
-			<% } %>
-			<% } %>
+			<% if (locals.current_user) { %>
+				<% if (current_user.is_admin) { %>
+				<span class='sp10'></span>
+				<a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='编辑' /></a>
+				<a href='/topic/<%= topic._id %>/delete' class='delete_topic_btn'><img class='user_icon' src='<%- config.site_static_host %>/images/trash_icon&16.png' title='删除' /></a>
+				<% } else { %>
+					<% if (current_user._id == topic.author_id) { %>
+					<span class='sp10'></span>
+					<a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='编辑' /></a>
+					<% } %>
+				<% } %>
 			<% } %>
 		</div>
 	</div>	
-	<% if(topic.replies && topic.replies.length>0){ %>
+	<% if (topic.replies && topic.replies.length > 0) { %>
 	<div class='sep10'></div>
 	<div class='panel'>
 		<div class='header'>
 			<span class='col_fade'><%= topic.replies.length %> 回复</span>
 		</div>
-		<%- partial('reply/reply',topic.replies) %>
+		<%- partial('reply/reply', topic.replies) %>
 	</div>
 	<% } %>
-	<% if(locals.current_user && locals.topic){ %>
+	<% if (locals.current_user && locals.topic) { %>
 	<div class='sep10'></div>
 	<div class='panel'>
 		<div class='header'>
@@ -150,7 +143,7 @@
 	<% } %>
 </div>
 
-<% if(locals.current_user && locals.topic){ %>
+<% if (locals.current_user && locals.topic) { %>
 <!-- ajaxupload -->
 <script type='text/javascript' src='/libs/ajax-upload/ajaxupload.js'></script>
 <!-- markdown editor -->
@@ -159,7 +152,7 @@
 <script type='text/javascript' src='/libs/pagedown/Markdown.Editor.js'></script>
 
 <script type='text/javascript'>
-	$(document).ready(function(){
+	$(document).ready(function() {
 		function run_md_editor(){
 			var converter = Markdown.getSanitizingConverter();
 			var editor = new Markdown.Editor(converter);
@@ -193,7 +186,12 @@
 			var $btn = $(this);
 			var reply_id = $btn.attr('id');		
 			var content = $btn.parent().find('textarea').val();
-			$.post('/<%= topic._id %>/reply2',{reply_id:reply_id,r2_content:content},function(data){
+			var data = {
+				reply_id: reply_id,
+				r2_content: content,
+				_csrf: '<%- csrf %>'
+			};
+			$.post('/<%= topic._id %>/reply2', data, function(data) {
 				if(data != ''){
 					$btn.parent().before(data);	
 					$btn.parent().find('textarea').val('');
@@ -220,31 +218,40 @@
 		$('#collect_btn').click(function(){
 			var $me = $(this);
 			var action = $me.attr('action');
-			$.post('/topic/'+action,{topic_id: '<%= topic._id %>'},function(data){
-				if(data.status == 'success'){
-					if(action == 'collect'){
+			var data = {
+				topic_id: '<%= topic._id %>',
+				_csrf: '<%= csrf %>'
+			};
+			$.post('/topic/' + action, data, function(data) {
+				if (data.status === 'success') {
+					if (action == 'collect') {
 						$me.html('取消收藏');
 						$me.attr('action','de_collect');
-					}else{
+					} else {
 						$me.html('加入收藏');
 						$me.attr('action','collect');
 					}
 					$me.toggleClass('btn-success');	
 				}	
-			},'json');	
+			}, 'json');	
 		});
 
-		$('.delete_reply_btn,.delete_reply2_btn').live('click',function(){
-			$me = $(this);
-			if(confirm('确定要删除此回复吗？')){
-				if($me.hasClass('delete_reply_btn')){
-					var reply_id = $me.parents('.reply_item').attr('reply_id');
+		$('.delete_reply_btn, .delete_reply2_btn').live('click', function() {
+			var $me = $(this);
+			if (confirm('确定要删除此回复吗？')) {
+				var reply_id = null;
+				if ($me.hasClass('delete_reply_btn')) {
+					reply_id = $me.parents('.reply_item').attr('reply_id');
 				}
-				if($me.hasClass('delete_reply2_btn')){
-					var reply_id = $me.parents('.reply2_item').attr('reply_id');
+				if ($me.hasClass('delete_reply2_btn')) {
+					reply_id = $me.parents('.reply2_item').attr('reply_id');
 				}
-				$.post('/reply/' + reply_id + '/delete', {reply_id: reply_id},function(data){
-					if(data.status == 'success'){
+				var data = {
+					reply_id: reply_id,
+					_csrf: "<%- csrf %>"
+				};
+				$.post('/reply/' + reply_id + '/delete', data, function(data) {
+					if (data.status === 'success') {
 						if($me.hasClass('delete_reply_btn')){
 							$me.parents('.reply_item').remove();	
 						}
@@ -252,13 +259,13 @@
 							$me.parents('.reply2_item').remove();	
 						}
 					}
-				},'json');	
+				}, 'json');	
 			}	
 			return false;
 		});	
 
-		$('.delete_topic_btn').click(function(){
-			if(confirm('确定要删除此话题吗？')){
+		$('.delete_topic_btn').click(function() {
+			if(confirm('确定要删除此话题吗？')) {
 				window.location.href = $(this).attr('href');
 			}
 			return false;

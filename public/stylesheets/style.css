@@ -107,6 +107,9 @@ a.light:hover {
 .panel .moon {
 	padding: 10px;
 }
+.panel .moon_tags {
+	padding-left: 10px;
+}
 .panel .inner {
 	padding: 10px;
 	line-height: 16px;
@@ -486,7 +489,8 @@ a.count:hover {
 	background-color: #323f4b;
 }
 .navbar .brand {
-	padding: 10px 10px 0px 20px;
+	padding: 7px 0px 0px 20px;
+	width: 150px;
 }
 .navbar .navbar-search {
 	margin-top: 7px;

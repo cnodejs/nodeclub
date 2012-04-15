@@ -2,9 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml"> 
 	<head>
 		<!-- meta -->
-		<meta name='author' content='慕远@TaoBao'>
-		<meta name='description' content='<%= config.description %>'>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name='description' content='<%= config.description %>'>
+		<%
+		var headers = config.site_headers || [];
+		for (var i = 0, l = headers.length; i < l; i++) { 
+		%>
+		<%- headers[i] %>
+		<% } %>
+		<link title="RSS" type="application/rss+xml" rel="alternate" href="/rss" />
 		<!-- style -->
 		<link rel="stylesheet" type="text/css" href="/libs/bootstrap/css/bootstrap.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css" media="screen" />
@@ -12,9 +18,9 @@
 		<script type='text/javascript' src='/libs/jquery/jquery.js'></script>
 		<script type='text/javascript' src='/libs/bootstrap/js/bootstrap.js'></script>
 		<script type='text/javascript' src='/javascripts/main.js'></script>
-		<% if(locals.topic) { %>
-		<title><%= config.name %>|<%= topic.title %></title>
-		<% }else{ %>
+		<% if (locals.topic) { %>
+		<title><%= topic.title %> - <%= config.name %></title>
+		<% } else { %>
 		<title><%= config.description %></title>
 		<% } %>
 	</head>
@@ -23,18 +29,24 @@
 		<div class='navbar'>
 			<div class='navbar-inner'>
 				<div class='container'>
-					<a class='brand' href='/'><%= config.name %></a>
+					<a class='brand' href='/'><%- config.site_logo || config.name %></a>
 					<form id='search_form' class='navbar-search'>
 						<input type='text' id='q' name='q' class='search-query span3'/>
 					</form>
 					<ul class='nav pull-right'>
 						<li><a href='/'>首页</a></li>	
-						<li><a href='/about'>关于</a></li>
+						<%
+						var site_navs = config.site_navs || [];
+						for (var i = 0, l = site_navs.length; i < l; i++) {
+							var nav = site_navs[i];
+						%>
+						<li><a href="<%- nav[0] %>" target="<%- nav[2] %>"><%- nav[1] %></a></li>	
+						<% } %>
 						<li class='divider-vertical'></li>	
-						<% if(locals.current_user){ %>
+						<% if (locals.current_user) { %>
 						<li><a href='/setting'>设置</a></li>	
 						<li><a href='/signout'>退出</a></li>	
-						<% }else{ %>
+						<% } else { %>
 						<li><a href='/signup'>注册</a></li>	
 						<li><a href='/signin'>登录</a></li>	
 						<% } %>
@@ -50,6 +62,7 @@
 			<div class='cl cr'></div>
 		</div>
 		<div id='backtotop'>回到顶部</div>
+		<a href="https://github.com/muyuan/nodeclub"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub"></a>
 		<!-- footer -->
 		<div id='footer'>
 			<div id='footer_main'>
@@ -59,11 +72,15 @@
 					<strong><a class='dark' href='/about'>关于</a></strong>
 					&nbsp;&nbsp;|&nbsp;&nbsp; 
 					<strong><a class='dark' href='/faq'>FAQ</a></strong>
-					&nbsp;&nbsp;|&nbsp;&nbsp; 
+					&nbsp;&nbsp;|&nbsp;&nbsp;
+					<strong><a class='dark' href='https://github.com/muyuan/nodeclub/' target="_blank">Github</a></strong>
+					&nbsp;&nbsp;|&nbsp;&nbsp;
+					<strong><a class='dark' href='/rss' target="_blank">RSS</a></strong>
 				</div>
 				<div class='sep10'></div>
 				<div class='col_fade'>
-					©2012<br>版本: <%= config.version %><br>由<a href='http://cnodejs.net' target='_blank'> NAE </a>为 <%= config.name %> 提供动力
+					&copy; 2012 <br>本社区为开源系统，版本: <%= config.version %> ，欢迎贡献代码<br>
+					由<a href='http://cnodejs.net' target='_blank'> NAE </a>为 <%= config.name %> 提供动力
 				</div>
 			</div>
 		</div>

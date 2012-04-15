@@ -1,12 +1,4 @@
-<div id='sidebar'>
-	<div class='panel'>
-		<% if(locals.current_user){ %>
-		<div class='inner'>
-			<%- partial('user/card',{object:current_user,as:'user'}) %>
-		</div>
-		<% } %>
-	</div>
-</div>
+<%- partial('sidebar') %>
 
 <div id='content'>
 	<div class='panel'>
@@ -16,14 +8,14 @@
 				<li class='active'>新消息</li>
 			</ul>
 		</div>
-		<% if(locals.hasnot_read_messages && hasnot_read_messages.length > 0 ){ %>
-		<%- partial('message/message',{collection:hasnot_read_messages, as:'message'}) %>
+		<% if (locals.hasnot_read_messages && hasnot_read_messages.length > 0) { %>
+		<%- partial('message/message', { collection: hasnot_read_messages, as: 'message' }) %>
 		<div class='cell'>
 			<button id='mark_all_messages_btn' class='btn fr'>标记所有消息为已读</button>
 			<div class='sep10'></div>
 			<div class='sep10'></div>
 		</div>
-		<% }else{ %>
+		<% } else { %>
 		<div class='inner'>
 			<p>无消息</p>
 		</div>
@@ -34,9 +26,9 @@
 		<div class='header'>
 			<span class='col_fade'>过往信息</span>
 		</div>
-		<% if(locals.has_read_messages && has_read_messages.length > 0 ){ %>
-		<%- partial('message/message',{collection:has_read_messages, as:'message'}) %>
-		<% }else{ %>
+		<% if (locals.has_read_messages && has_read_messages.length > 0) { %>
+		<%- partial('message/message', { collection: has_read_messages, as: 'message' }) %>
+		<% } else { %>
 		<div class='inner'>
 			<p>无消息</p>
 		</div>
@@ -45,39 +37,43 @@
 </div>
 
 <script type='text/javascript'>
-	$(document).ready(function(){
-		$('.message').mouseover(function(){
-			$(this).find('.mark_read_btn').show();
-		});
-		$('.message').mouseout(function(){
-			$(this).find('.mark_read_btn').hide();
-		});
-		$('.mark_read_btn').click(function(){
-			var $me = $(this);
-			var message_id = $me.parent().attr('message_id');
-			$.post('/messages/mark_read',{message_id:message_id},function(data){
-				if(data.status == 'success'){
-					$me.parent().toggleClass('message');
-					$me.parent().find('.marked_icon').show();
-					$me.remove();	
-				}else{
-				}
-			},'json');
-		});
-		$('#mark_all_messages_btn').click(function(){
-			var $parent = $(this).parent().parent();
-			$.post('/messages/mark_all_read',{},function(data){
-				if(data.status == 'success'){
-					$parent.find('.message').each(function(){
-						$me = $(this);
-						$me.toggleClass('message');
-						$me.find('.marked_icon').show();
-						$me.find('.mark_read_btn').remove();	
-					});
-				}else{
-				}
-			},'json');
-
-		});
+$(document).ready(function() {
+	$('.message').mouseover(function() {
+		$(this).find('.mark_read_btn').show();
 	});
+	$('.message').mouseout(function() {
+		$(this).find('.mark_read_btn').hide();
+	});
+	$('.mark_read_btn').click(function() {
+		var $me = $(this);
+		var message_id = $me.parent().attr('message_id');
+		var data = {
+			message_id: message_id,
+			_csrf: '<%- csrf %>'
+		};
+		$.post('/messages/mark_read', data, function(data) {
+			if (data.status === 'success') {
+				$me.parent().toggleClass('message');
+				$me.parent().find('.marked_icon').show();
+				$me.remove();	
+				var count = parseInt($('.messages_count').html()) - 1;
+				$('.messages_count').html(count);
+			}
+		}, 'json');
+	});
+	$('#mark_all_messages_btn').click(function() {
+		var $parent = $(this).parent().parent();
+		$.post('/messages/mark_all_read', { _csrf: '<%- csrf %>' }, function(data) {
+			if (data.status === 'success') {
+				$parent.find('.message').each(function() {
+					$me = $(this);
+					$me.toggleClass('message');
+					$me.find('.marked_icon').show();
+					$me.find('.mark_read_btn').remove();	
+					$('.messages_count').html(0);
+				});
+			}
+		}, 'json');
+	});
+});
 </script>

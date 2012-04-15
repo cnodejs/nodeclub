@@ -1,49 +1,93 @@
-var express = require('express'),
-	routes = require('./routes'),
-	config = require('./config').config;
+/*!
+ * nodeclub - app.js
+ */
 
-var app = express.createServer();
+/**
+ * Module dependencies.
+ */
 
+var path = require('path');
+var express = require('express');
+var routes = require('./routes');
+var config = require('./config').config;
+
+<<<<<<< HEAD
 var static_dir = __dirname + '/public';
 
 // configuration in all env
 app.configure(function () {
 	app.set('view engine', 'html');
 	app.set('views', __dirname + '/views');
+=======
+var app = express.createServer();
+
+// configuration in all env
+app.configure(function() {
+	var viewsRoot = path.join(__dirname, 'views');
+	app.set('view engine', 'html');
+	app.set('views', viewsRoot);
+>>>>>>> ebb79ba80cf1356a268d3ada3663c4fd0563b1a0
 	app.register('.html', require('ejs'));
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
 	app.use(express.session({
+<<<<<<< HEAD
 		secret: config.session_secret
+=======
+		secret: config.session_secret,
+>>>>>>> ebb79ba80cf1356a268d3ada3663c4fd0563b1a0
 	}));
 	// custom middleware
-	app.use(routes.auth_user);
+	app.use(require('./controllers/sign').auth_user);
 	app.use(express.csrf());
+
+	// plugins
+	var plugins = config.plugins || [];
+	for (var i = 0, l = plugins.length; i < l; i++) {
+		var p = plugins[i];
+		app.use(require('./plugins/' + p[0])(p[1]));
+	}
 });
 
-//set static,dynamic helpers
+// set static, dynamic helpers
 app.helpers({
 	config: config
 });
 app.dynamicHelpers({
+<<<<<<< HEAD
 	csrf: function (req, res) {
+=======
+	csrf: function(req,res) {
+>>>>>>> ebb79ba80cf1356a268d3ada3663c4fd0563b1a0
 		return req.session ? req.session._csrf : '';
 	}
 });
 
+<<<<<<< HEAD
 app.configure('development', function () {
+=======
+var static_dir = path.join(__dirname, 'public');
+app.configure('development', function(){
+>>>>>>> ebb79ba80cf1356a268d3ada3663c4fd0563b1a0
 	app.use(express.static(static_dir));
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
 
+<<<<<<< HEAD
 app.configure('production', function () {
 	var oneYear = 1000 * 60 * 60 * 24 * 365;
 	app.use(express.static(static_dir, {maxAge: oneYear}));
+=======
+app.configure('production', function(){
+	var maxAge = 3600000 * 24 * 30;
+	app.use(express.static(static_dir, { maxAge: maxAge }));
+>>>>>>> ebb79ba80cf1356a268d3ada3663c4fd0563b1a0
 	app.use(express.errorHandler()); 
 	app.set('view cache', true);
 });
 
 // routes
+<<<<<<< HEAD
 app.get('/signup', routes.signup);
 app.get('/signin', routes.signin);
 app.get('/signout', routes.signout);
@@ -101,7 +145,11 @@ app.get('/reset_pass', routes.reset_pass);
 app.get('/site_tools', routes.site_tools);
 app.get('/about', routes.about);
 app.get('/faq', routes.faq);
+=======
+routes(app);
+>>>>>>> ebb79ba80cf1356a268d3ada3663c4fd0563b1a0
 
 app.listen(config.port);
 console.log("NodeClub listening on port %d in %s mode", app.address().port, app.settings.env);
 console.log("God bless love....");
+console.log("You can debug your app with http://localhost:"+app.address().port);

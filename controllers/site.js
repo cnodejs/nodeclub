@@ -28,7 +28,8 @@ exports.index = function(req,res,next){
 				});
 		var recent_tags = tags.slice(0,5);
 
-		res.render('index',{tags:all_tags,topics:topics,current_page:page,list_topic_count:limit,hot_tags:hot_tags,recent_tags:recent_tags,
+		//res.render('index',{tags:all_tags,topics:topics,current_page:page,list_topic_count:limit,hot_tags:hot_tags,recent_tags:recent_tags,
+			res.render('index',{tags:all_tags,topics:topics,current_page:page,list_topic_count:limit,recent_tags:recent_tags,
 						hot_topics:hot_topics,stars:stars,tops:tops,no_reply_topics:no_reply_topics,pages:pages});
 	};	
 	

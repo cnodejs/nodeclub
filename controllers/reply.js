@@ -104,7 +104,16 @@ exports.add_reply2 = function(req,res,next){
 	reply.author_id = req.session.user._id;
 	reply.save(function(err){
 		if(err) return next(err);
-		proxy.trigger('reply_saved');
+		Topic.findOne({_id:topic_id},function(err,topic){
+			if(err) return next(err);
+			topic.last_reply = reply._id;
+			topic.last_reply_at = new Date();
+			topic.reply_count += 1;
+			topic.save()
+			proxy.trigger('reply_saved');
+			//发送at消息
+			at_ctrl.send_at_message(content,topic_id,req.session.user._id);
+		});
 	});
 
 	Reply.findOne({_id:reply_id},function(err,reply){
@@ -116,9 +125,6 @@ exports.add_reply2 = function(req,res,next){
 			proxy.trigger('message_saved');
 		}
 	});
-
-	//发送at消息
-	at_ctrl.send_at_message(content,topic_id,req.session.user._id);
 };
 
 exports.delete = function(req,res,next){
