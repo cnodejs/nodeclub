@@ -18,9 +18,9 @@ var reply = require('./controllers/reply');
 var rss = require('./controllers/rss');
 var upload = require('./controllers/upload');
 var static = require('./controllers/static');
-var tools =require('./controllers/tools');
+var tools = require('./controllers/tools');
 
-exports = module.exports = function(app) {
+module.exports = function (app) {
   // home page
   app.get('/', site.index);
 

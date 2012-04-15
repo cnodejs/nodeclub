@@ -14,7 +14,7 @@ var config = require('./config').config;
 var app = express.createServer();
 
 // configuration in all env
-app.configure(function() {
+app.configure(function () {
 	var viewsRoot = path.join(__dirname, 'views');
 	app.set('view engine', 'html');
 	app.set('views', viewsRoot);
