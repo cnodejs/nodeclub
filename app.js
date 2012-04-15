@@ -4,17 +4,17 @@ var express = require('express'),
 
 var app = express.createServer();
 
-var static_dir = __dirname+'/public';
+var static_dir = __dirname + '/public';
 
 // configuration in all env
-app.configure(function(){
+app.configure(function () {
 	app.set('view engine', 'html');
 	app.set('views', __dirname + '/views');
-	app.register('.html',require('ejs'));
+	app.register('.html', require('ejs'));
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
 	app.use(express.session({
-		secret:config.session_secret,
+		secret: config.session_secret
 	}));
 	// custom middleware
 	app.use(routes.auth_user);
@@ -23,24 +23,24 @@ app.configure(function(){
 
 //set static,dynamic helpers
 app.helpers({
-	config:config
+	config: config
 });
 app.dynamicHelpers({
-	csrf: function(req,res){
+	csrf: function (req, res) {
 		return req.session ? req.session._csrf : '';
-	},
+	}
 });
 
-app.configure('development', function(){
+app.configure('development', function () {
 	app.use(express.static(static_dir));
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
 
-app.configure('production', function(){
-	var one_year=1000*60*60*24*365;
-	app.use(express.static(static_dir,{maxAge:one_year}));
+app.configure('production', function () {
+	var oneYear = 1000 * 60 * 60 * 24 * 365;
+	app.use(express.static(static_dir, {maxAge: oneYear}));
 	app.use(express.errorHandler()); 
-	app.set('view cache',true);
+	app.set('view cache', true);
 });
 
 // routes
@@ -87,8 +87,8 @@ app.post('/topic/:tid/edit', routes.edit_topic);
 app.post('/topic/collect', routes.collect_topic);
 app.post('/topic/de_collect', routes.de_collect_topic);
 
-app.post('/:topic_id/reply',routes.reply_topic);
-app.post('/:topic_id/reply2',routes.reply2_topic);
+app.post('/:topic_id/reply', routes.reply_topic);
+app.post('/:topic_id/reply2', routes.reply2_topic);
 app.post('/reply/:reply_id/delete', routes.delete_reply);
 
 app.get('/', routes.index);
@@ -97,7 +97,7 @@ app.post('/upload/image', routes.upload_image);
 app.post('/search_pass', routes.search_pass);
 app.get('/active_account', routes.active_account);
 app.get('/search_pass', routes.search_pass);
-app.get('/reset_pass',routes.reset_pass);
+app.get('/reset_pass', routes.reset_pass);
 app.get('/site_tools', routes.site_tools);
 app.get('/about', routes.about);
 app.get('/faq', routes.faq);
