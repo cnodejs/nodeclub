@@ -1,19 +1,6 @@
 {
-<<<<<<< HEAD
-    "name": "club"
-  , "version": "0.0.2"
-  , "main": "./app.js"
-  , "dependencies": {
-      "express": "2.5.1",
-      "ejs": "0.5.0",
-      "eventproxy": "0.1.0",
-      "mongoose": "2.4.1",
-      "node-markdown": "0.1.0",
-      "validator": "0.3.7",
-      "nodemailer": "0.3.1"
-=======
   "name": "nodeclub", 
-  "version": "0.2.2", 
+  "version": "0.2.1", 
   "main": "./app.js", 
   "private": true, 
   "dependencies": {
@@ -26,6 +13,5 @@
     "ndir": "0.1.2",
     "nodemailer": "0.3.5",
     "data2xml": "0.4.0"
->>>>>>> ebb79ba80cf1356a268d3ada3663c4fd0563b1a0
   }
 }
