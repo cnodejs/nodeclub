@@ -66,5 +66,5 @@ Below is the output from `git-summary`.
      1  LeToNode                1.9%
      1  roymax                  1.9%
      1  thebrecht               1.9%
-     1  张洋                  1.9%
+     1  张洋                     1.9%
 ```

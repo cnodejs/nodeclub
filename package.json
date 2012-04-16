@@ -1,6 +1,6 @@
 {
   "name": "nodeclub", 
-  "version": "0.2.2", 
+  "version": "0.2.3", 
   "main": "./app.js", 
   "private": true, 
   "dependencies": {

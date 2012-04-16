@@ -1,0 +1,3 @@
+[submodule "build/jslint_tool"]
+	path = build/jslint_tool
+	url = git://github.com/TBEDP/jslint_tool.git

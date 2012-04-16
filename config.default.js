@@ -9,13 +9,13 @@ exports.config = {
 
 	// site settings
 	site_headers: [
-		'<meta name="author" content="EDP@TAOBAO" />',
+		'<meta name="author" content="EDP@TAOBAO" />'
 	],
 	host: 'http://127.0.0.1', // host 结尾不要添加'/'
 	site_logo: '', // default is `name`
 	site_navs: [
 		// [ path, title, [target=''] ]
-		[ '/about', '关于' ],
+		[ '/about', '关于' ]
 	],
 	site_static_host: '', // 静态文件存储域名
 

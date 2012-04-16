@@ -14,7 +14,7 @@ var config = require('./config').config;
 var app = express.createServer();
 
 // configuration in all env
-app.configure(function() {
+app.configure(function () {
 	var viewsRoot = path.join(__dirname, 'views');
 	app.set('view engine', 'html');
 	app.set('views', viewsRoot);
@@ -22,7 +22,7 @@ app.configure(function() {
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
 	app.use(express.session({
-		secret: config.session_secret,
+		secret: config.session_secret
 	}));
 	// custom middleware
 	app.use(require('./controllers/sign').auth_user);
@@ -41,13 +41,13 @@ app.helpers({
 	config: config
 });
 app.dynamicHelpers({
-	csrf: function(req,res) {
+	csrf: function (req, res) {
 		return req.session ? req.session._csrf : '';
-	},
+	}
 });
 
 var static_dir = path.join(__dirname, 'public');
-app.configure('development', function(){
+app.configure('development', function () {
 	app.use(express.static(static_dir));
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
@@ -65,4 +65,4 @@ routes(app);
 app.listen(config.port);
 console.log("NodeClub listening on port %d in %s mode", app.address().port, app.settings.env);
 console.log("God bless love....");
-console.log("You can debug your app with http://localhost:"+app.address().port);
+console.log("You can debug your app with http://localhost:" + app.address().port);
