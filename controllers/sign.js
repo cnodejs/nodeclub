@@ -170,12 +170,14 @@ exports.active_account = function(req,res,next) {
 			return;
 		}
 		if(user.active){
-			res.render('notify/notify',{error: '帐号已经是激活状态。'});
-			return;
+      res.render('notify/notify',{error: '帐号已经是激活状态。'});
+      return;
 		}
 		user.active = true;
 		user.save(function(err){
-			res.render('notify/notify',{success: '帐号已被激活，请登录'});
+  		// store session cookie
+  		gen_session(user, res);
+      res.redirect('home');
 		});	
 	});
 }

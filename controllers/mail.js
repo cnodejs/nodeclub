@@ -82,9 +82,10 @@ function send_active_mail(who, token, name, email, cb) {
 	var sender =  config.mail_sender;
 	var to = who; 
 	var subject = config.name + '社区帐号激活';
+  var jump_url = config.host + ':' + config.port + '/active_account?key=' + token + '&name=' + name + '&email=' + email;
 	var html = '<p>您好：<p/>' +
 			   '<p>我们收到您在' + config.name + '社区的注册信息，请点击下面的链接来激活帐户：</p>' +
-			   '<a href="' + config.host + '/active_account?key=' + token + '&name=' + name + '&email=' + email + '">激活链接</a>' +
+			   '<a href="' + jump_url + '">激活链接</a>' +
 			   '<p>若您没有在' + config.name + '社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p>' +
 			   '<p>' +config.name +'社区 谨上。</p>'
 
@@ -97,6 +98,7 @@ function send_active_mail(who, token, name, email, cb) {
   cb (null, true);
   send_mail(data);
 }
+
 function send_reset_pass_mail(who, token, name, cb) {
 	var sender = config.mail_sender;
 	var to = who; 
