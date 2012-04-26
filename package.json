@@ -7,7 +7,7 @@
     "express": "2.5.1",
     "ejs": "0.5.0",
     "eventproxy": ">=0.1.0",
-    "mongoose": "2.4.1",
+    "mongoose": "2.5.13",
     "node-markdown": "0.1.0",
     "validator": "0.3.7",
     "ndir": "0.1.2",
