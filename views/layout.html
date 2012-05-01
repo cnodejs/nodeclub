@@ -27,31 +27,29 @@
 	<body>
 		<!-- navbar -->
 		<div class='navbar'>
-			<div class='navbar-inner'>
-				<div class='container'>
-					<a class='brand' href='/'><%- config.site_logo || config.name %></a>
-					<form id='search_form' class='navbar-search'>
-						<input type='text' id='q' name='q' class='search-query span3'/>
-					</form>
-					<ul class='nav pull-right'>
-						<li><a href='/'>首页</a></li>	
-						<%
-						var site_navs = config.site_navs || [];
-						for (var i = 0, l = site_navs.length; i < l; i++) {
-							var nav = site_navs[i];
-						%>
-						<li><a href="<%- nav[0] %>" target="<%- nav[2] %>"><%- nav[1] %></a></li>	
-						<% } %>
-						<li class='divider-vertical'></li>	
-						<% if (locals.current_user) { %>
-						<li><a href='/setting'>设置</a></li>	
-						<li><a href='/signout'>退出</a></li>	
-						<% } else { %>
-						<li><a href='/signup'>注册</a></li>	
-						<li><a href='/signin'>登录</a></li>	
-						<% } %>
-					</ul>
-				</div>
+			<div class='container'>
+				<a class='brand' href='/'><%- config.site_logo || config.name %></a>
+				<form id='search_form' class='navbar-search'>
+					<input type='text' id='q' name='q' class='search-query span3'/>
+				</form>
+				<ul class='nav pull-right'>
+					<li><a href='/'>首页</a></li>	
+					<%
+					var site_navs = config.site_navs || [];
+					for (var i = 0, l = site_navs.length; i < l; i++) {
+						var nav = site_navs[i];
+					%>
+					<li><a href="<%- nav[0] %>" target="<%- nav[2] %>"><%- nav[1] %></a></li>	
+					<% } %>
+					<li class='divider-vertical'></li>	
+					<% if (locals.current_user) { %>
+					<li><a href='/setting'>设置</a></li>	
+					<li><a href='/signout'>退出</a></li>	
+					<% } else { %>
+					<li><a href='/signup'>注册</a></li>	
+					<li><a href='/signin'>登录</a></li>	
+					<% } %>
+				</ul>
 			</div>
 		</div>
 		<!-- wrapper -->	
