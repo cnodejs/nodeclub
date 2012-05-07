@@ -5,8 +5,13 @@ var topic_ctrl = require('./topic');
 var config = require('../config').config;
 var EventProxy = require('eventproxy').EventProxy;
 
+var sanitize = require('validator').sanitize;
+
 exports.index = function(req,res,next){
 	var page = Number(req.query.page) || 1;
+	var keyword = req.query.q; // in-site search
+	if(keyword==null) keyword = "";
+	keyword = sanitize(keyword).trim();
 	var limit = config.list_topic_count;
 
 	var render = function(tags,topics,hot_topics,stars,tops,no_reply_topics,pages){
@@ -30,7 +35,7 @@ exports.index = function(req,res,next){
 
 		//res.render('index',{tags:all_tags,topics:topics,current_page:page,list_topic_count:limit,hot_tags:hot_tags,recent_tags:recent_tags,
 			res.render('index',{tags:all_tags,topics:topics,current_page:page,list_topic_count:limit,recent_tags:recent_tags,
-						hot_topics:hot_topics,stars:stars,tops:tops,no_reply_topics:no_reply_topics,pages:pages});
+						hot_topics:hot_topics,stars:stars,tops:tops,no_reply_topics:no_reply_topics,pages:pages,keyword:keyword});
 	};	
 	
 	var proxy = new EventProxy();
@@ -42,7 +47,11 @@ exports.index = function(req,res,next){
 	});
 
 	var opt = {skip:(page-1)*limit, limit:limit, sort:[['last_reply_at','desc']]};
-	topic_ctrl.get_topics_by_query({},opt,function(err,topics){
+	var query = {};
+
+	if(keyword!="")
+		query = {title:eval("/"+keyword+"/i")};
+	topic_ctrl.get_topics_by_query(query,opt,function(err,topics){
 		if(err) return next(err);
 		proxy.trigger('topics',topics);
 	});

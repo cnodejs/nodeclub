@@ -143,6 +143,7 @@ a.light:hover {
 
 	padding: 1px 5px;
 	background-color: #46a546;
+	color: white;
 }
 .tag a {
 	color: #fff;
@@ -571,4 +572,16 @@ form {
 .topic_content p, .reply_content p {
 	font-size: 14px;
 	line-height: 22px;
+}
+
+.index_notify {
+	font-size: 12px;
+	color: #000;
+}
+.top_score {
+	background: orange;
+	border: #EEEEEE solid 1px;
+	color: white;
+	padding: 2px;
+	
 }
