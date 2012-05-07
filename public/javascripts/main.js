@@ -1,16 +1,18 @@
 $(document).ready(function() {
 	$('#search_form').submit(function(e) {
-		e.preventDefault();
+		//e.preventDefault();
 		search();	
 	});
 	
 	function search() {
 		var q = document.getElementById('q');
 		if (q.value != '') {
-			var hostname = window.location.hostname;
+			/*
+			var hostname = window.location.hostname;			
 			var url = 'http://www.google.com/search?q=site:' + hostname + '%20';
 			window.open(url + q.value, '_blank');
-			return false;
+			*/
+			return true;
 		} else {
 			return false;
 		}		
