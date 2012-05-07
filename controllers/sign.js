@@ -309,7 +309,7 @@ exports.auth_user = function(req,res,next){
 // private
 function gen_session(user,res) {
 	var auth_token = encrypt(user._id + '\t'+user.name + '\t' + user.pass +'\t' + user.email, config.session_secret);
-	res.cookie(config.auth_cookie_name, auth_token, {path: '/',maxAge: 1000*60*60*24*7}); //cookie 有效期1周			
+	res.cookie(config.auth_cookie_name, auth_token, {path: '/',maxAge: 1000*60*60*24*30}); //cookie 有效期30天			
 }
 function encrypt(str,secret) {
    var cipher = crypto.createCipher('aes192', secret);
