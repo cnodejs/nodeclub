@@ -26,7 +26,14 @@ app.configure(function() {
 	}));
 	// custom middleware
 	app.use(require('./controllers/sign').auth_user);
-	app.use(express.csrf());
+	
+	var csrf = express.csrf();
+	app.use(function(req, res, next){
+		// ignore upload image
+		if (req.body && req.body.user_action === 'upload_image')
+			return next();
+		csrf(req, res, next);
+	});
 
 	// plugins
 	var plugins = config.plugins || [];
