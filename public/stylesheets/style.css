@@ -475,19 +475,11 @@ a.count:hover {
 /* custom bootstrap */
 .navbar {
 	margin-bottom: 0px;
+	background-color: #323f4b;
 }
 .navbar .container {
 	width: 960px;
 	margin: 0px auto;
-}
-.navbar .navbar-inner{
-	-webkit-border-radius: 0px;
-	-moz-border-radius: 0px;
-	padding-left: 0px;
-	padding-right: 0px;
-	border-radius: 0px;
-	background-image: none;
-	background-color: #323f4b;
 }
 .navbar .brand {
 	padding: 7px 0px 0px 20px;
