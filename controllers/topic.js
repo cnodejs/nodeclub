@@ -407,6 +407,36 @@ exports.delete = function(req,res,next){
 	});
 };
 
+exports.top = function(req,res,next){
+	if(!req.session.user.is_admin){
+		res.redirect('home');
+		return;
+	}
+	var topic_id = req.params.tid;
+	var is_top = req.params.is_top;
+	if(topic_id.length != 24){
+		res.render('notify/notify',{error: '此话题不存在或已被删除。'});
+		return;	
+	}
+	get_topic_by_id(topic_id,function(err,topic,tags,author){
+		if(!topic){
+			res.render('notify/notify',{error: '此话题不存在或已被删除。'});
+			return;	
+		}
+		topic.top = is_top;
+		var proxy = new EventProxy();
+		var render = function(){
+			var msg = topic.top ? '此话题已经被置顶。' : '此话题已经被取消置顶。';
+			res.render('notify/notify',{success: msg});
+			return;
+		}
+		proxy.assign('topic_top',render);
+		topic.save(function(err){
+			proxy.trigger('topic_top');
+		});
+	});
+};
+
 exports.collect = function(req,res,next){
 	if(!req.session || !req.session.user){
 		res.send('forbidden!');

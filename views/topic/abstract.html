@@ -5,7 +5,7 @@
 	<div class='user_avatar'><a href='/user/<%= topic.author.name %>'><img src='<%- config.site_static_host %>/images/user_icon&48.png' title='<%= topic.author.name %>' /></a></div>
 	<% } %>
 
-	<a class='topic_title' href='/topic/<%= topic._id %>'><%= topic.title %></a>
+	<a class='topic_title' href='/topic/<%= topic._id %>'><% if(topic.top){%>[置顶]<% } %><%= topic.title %></a>
 	<% if(topic.reply_count >0){ %>
 	<a class='count fr' href='/topic/<%= topic._id %>#reply<%= topic.reply_count %>'><%= topic.reply_count %></a>
 	<% } %>

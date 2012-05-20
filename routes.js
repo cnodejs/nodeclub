@@ -73,6 +73,7 @@ exports = module.exports = function(app) {
   // topic
   app.get('/topic/create', topic.create);
   app.get('/topic/:tid', topic.index);
+  app.get('/topic/:tid/top/:is_top?', topic.top);
   app.get('/topic/:tid/edit', topic.edit);
   app.get('/topic/:tid/delete', topic.delete);
   app.post('/topic/create', topic.create);

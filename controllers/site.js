@@ -54,7 +54,7 @@ exports.index = function(req,res,next){
     proxy.trigger('tags',tags);
   });
 
-  var opt = {skip:(page-1)*limit, limit:limit, sort:[['last_reply_at','desc']]};
+  var opt = {skip:(page-1)*limit, limit:limit, sort:[['top','desc'],['last_reply_at','desc']]};
   var query = {};
   if (keyword) {
     keyword = keyword.replace(/[\*\^\&\(\)\[\]\+\?\\]/g, '');
