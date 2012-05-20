@@ -214,7 +214,8 @@ exports.create = function(req,res,next){
 					if(err) return next(err);
 					user.score += 5;
 					user.topic_count += 1;
-					user.save()
+					user.save();
+					req.session.user.score += 5;	
 					proxy.trigger('score_saved');
 				});
 
