@@ -55,7 +55,7 @@
 			<div class='user_avatar fr'><a href='/user/<%= topic.author.name %>'><img src='<%- config.site_static_host %>/images/user_icon&48.png' /></a></div>
 			<% } %>
 			-->
-			<h3><%= topic.title %></h3>	
+			<h3><% if(topic.top){%>[置顶]<% } %><%= topic.title %></h3>	
 			<div class='sep10'></div>	
 			<div class='topic_content'>
 				<%- topic.content %>
@@ -89,6 +89,11 @@
 			<% if (locals.current_user) { %>
 				<% if (current_user.is_admin) { %>
 				<span class='sp10'></span>
+				<% if (topic.top) { %>
+					<a href='/topic/<%= topic._id %>/top/0'><img class='user_icon' src='<%- config.site_static_host %>/images/star_fav_empty_icon&16.png' title='取消置顶' /></a>
+				<% } else { %>
+					<a href='/topic/<%= topic._id %>/top/1'><img class='user_icon' src='<%- config.site_static_host %>/images/star_fav_icon&16.png' title='置顶' /></a>
+				<% } %>
 				<a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='编辑' /></a>
 				<a href='/topic/<%= topic._id %>/delete' class='delete_topic_btn'><img class='user_icon' src='<%- config.site_static_host %>/images/trash_icon&16.png' title='删除' /></a>
 				<% } else { %>
