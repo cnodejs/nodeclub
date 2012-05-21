@@ -36,7 +36,7 @@
 	</div>
 </div>
 
-<% if (locals.current_user) { %>
+<% if (locals.current_user && current_user._id !== user._id) { %>
 <script type='text/javascript'>
 	$(document).ready(function(){
 
