@@ -84,7 +84,7 @@ exports.index = function(req,res,next){
     if(err) return next(err);
     proxy.trigger('no_reply_topics',no_reply_topics);
   });
-  topic_ctrl.get_count_by_query({},function(err,all_topics_count){
+  topic_ctrl.get_count_by_query(query, function(err, all_topics_count) {
     if(err) return next(err);
     var pages = Math.ceil(all_topics_count/limit);
     proxy.trigger('pages',pages);
