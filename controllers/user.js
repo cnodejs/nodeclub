@@ -30,62 +30,73 @@ exports.index = function(req,res,next){
 		var render = function(recent_topics,recent_replies,relation){
 			user.friendly_create_at = Util.format_date(user.create_at,true);
 			res.render('user/index', {user:user,recent_topics:recent_topics,recent_replies:recent_replies,relation:relation});
-		}
+		};
 
 		var proxy = new EventProxy();
 		proxy.assign('recent_topics','recent_replies','relation',render);
 
 		var query = {'author_id':user._id};
 		var opt = {limit:5, sort:[['create_at','desc']]};
-		topic_ctrl.get_topics_by_query(query,opt,function(err,recent_topics){
-			if(err) return next(err);
+		topic_ctrl.get_topics_by_query(query,opt,function (err,recent_topics){
+			if (err) {
+				return next(err);
+			}
 			proxy.trigger('recent_topics',recent_topics);
 		});
 
-		Reply.find({author_id:user._id},function(err,replies){
-			if(err) return next(err);
+		Reply.find({author_id:user._id},function (err,replies){
+			if (err) {
+				return next(err);
+			}
 			var topic_ids = [];
-			for(var i=0; i<replies.length; i++){
-				if(topic_ids.indexOf(replies[i].topic_id.toString()) == -1){
+			for (var i=0; i<replies.length; i++){
+				if (topic_ids.indexOf(replies[i].topic_id.toString()) < 0) {
 					topic_ids.push(replies[i].topic_id.toString());
 				}
 			}
 			var query = {'_id':{'$in':topic_ids}};
 			var opt = {limit:5, sort:[['create_at','desc']]};
-			topic_ctrl.get_topics_by_query(query,opt,function(err,topics){
-				if(err) return next(err);
+			topic_ctrl.get_topics_by_query(query,opt,function (err,topics) {
+				if (err) {
+					return next(err);
+				}
 				proxy.trigger('recent_replies',topics);
 			});
 		});
 
-		if(!req.session.user){
+		if (!req.session.user) {
 			proxy.trigger('relation',null);
-		}else{
-			Relation.findOne({user_id:req.session.user._id,follow_id:user._id},function(err,doc){
-				if(err) return next(err);
-				
+		} else {
+			Relation.findOne({user_id:req.session.user._id,follow_id:user._id}, function (err,doc) {
+				if (err) {
+					return next(err);
+				}
 				proxy.trigger('relation',doc);
 			});
 		}
 	});
 };
 
-exports.show_stars = function(req,res,next){
-	get_users_by_query({is_star:true},{},function(err,stars){
-		if(err) return next(err);
+exports.show_stars = function (req,res,next) {
+	get_users_by_query({is_star:true},{}, function (err,stars) {
+		if (err) {
+			return next(err);
+		}
 		res.render('user/stars',{stars:stars});
 	});		
 };
 
-exports.setting = function(req, res, next) {
+exports.setting = function (req, res, next) {
 	if (!req.session.user) {
 		res.redirect('home');
 		return;
 	}
 	var method = req.method.toLowerCase();
 	if (method !== 'post') {
-		get_user_by_id(req.session.user._id, function(err, user) {
-			if (err) return next(err);
+		get_user_by_id(req.session.user._id, function (err, user) {
+			if (err) {
+				return next(err);
+			}
 			if (req.query.save === 'success') {
 				user.success = '保存成功。';
 			}
@@ -111,36 +122,46 @@ exports.setting = function(req, res, next) {
 		profile = sanitize(profile).xss();
 		var weibo = sanitize(req.body.weibo).trim();			
 		weibo = sanitize(weibo).xss();
-		var receive_at_mail = req.body.receive_at_mail=='on'? true: false;
-		var receive_reply_mail = req.body.receive_reply_mail=='on'? true: false;
+		var receive_at_mail = req.body.receive_at_mail === 'on' ? true: false;
+		var receive_reply_mail = req.body.receive_reply_mail === 'on' ? true: false;
 
 		if (url !== '') {
-			try{
-				if(url.indexOf('http://') < 0) url = 'http://' + url;
+			try {
+				if (url.indexOf('http://') < 0) {
+					url = 'http://' + url;
+				}
 				check(url, '不正确的个人网站。').isUrl();
-			}catch(e){
-				res.render('user/setting', {error:e.message,name:name,email:email,url:url,location:location,
-								signature:signature,profile:profile,weibo:weibo,
-								receive_at_mail: receive_at_mail,
-								receive_reply_mail: receive_reply_mail});
+			} catch (e) {
+				res.render('user/setting', {
+					error:e.message,name:name,email:email,url:url,location:location,
+					signature:signature,profile:profile,weibo:weibo,
+					receive_at_mail: receive_at_mail,
+					receive_reply_mail: receive_reply_mail
+				});
 				return;
 			}
 		}
-		if(weibo != ''){
-			try{
-				if(weibo.indexOf('http://') < 0) weibo = 'http://' + weibo;
+		if (weibo) {
+			try {
+				if (weibo.indexOf('http://') < 0) {
+					weibo = 'http://' + weibo;
+				}
 				check(weibo, '不正确的微博地址。').isUrl();
-			}catch(e){
-				res.render('user/setting', {error:e.message,name:name,email:email,url:url,location:location,
-								signature:signature,profile:profile,weibo:weibo,
-								receive_at_mail: receive_at_mail,
-								receive_reply_mail: receive_reply_mail});
+			} catch (e) {
+				res.render('user/setting', {
+					error:e.message,name:name,email:email,url:url,location:location,
+					signature:signature,profile:profile,weibo:weibo,
+					receive_at_mail: receive_at_mail,
+					receive_reply_mail: receive_reply_mail
+				});
 				return;
 			}
 		}
 
 		get_user_by_id(req.session.user._id,function(err,user){
-			if(err) return next(err);
+			if (err) {
+				return next(err);
+			}
 			user.url = url;
 			user.location = location;
 			user.signature = signature;
@@ -149,28 +170,33 @@ exports.setting = function(req, res, next) {
 			user.receive_at_mail = receive_at_mail;
 			user.receive_reply_mail = receive_reply_mail;
 			user.save(function(err){
-				if (err) return next(err);
+				if (err) {
+					return next(err);
+				}
 				return res.redirect('/setting?save=success');
 			});
 		});
 
 	}
-	if(action == 'change_password'){
+	if (action === 'change_password') {
 		var old_pass = sanitize(req.body.old_pass).trim();
 		var new_pass = sanitize(req.body.new_pass).trim();
 
 		get_user_by_id(req.session.user._id,function(err,user){
-			if(err) return next(err);
-
+			if (err) {
+				return next(err);
+			}
 			var md5sum = crypto.createHash('md5');
 			md5sum.update(old_pass);
 			old_pass = md5sum.digest('hex');
 
-			if(old_pass != user.pass){
-				res.render('user/setting', {error:'当前密码不正确。',name:user.name,email:user.email,url:user.url,location:user.location,
-								signature:user.signature,profile:user.profile,weibo:user.weibo,
-								receive_at_mail: user.receive_at_mail,
-								receive_reply_mail: user.receive_reply_mail});
+			if (old_pass !== user.pass) {
+				res.render('user/setting', {
+					error:'当前密码不正确。',name:user.name,email:user.email,url:user.url,location:user.location,
+					signature:user.signature,profile:user.profile,weibo:user.weibo,
+					receive_at_mail: user.receive_at_mail,
+					receive_reply_mail: user.receive_reply_mail
+				});
 				return;
 			}
 
@@ -179,12 +205,21 @@ exports.setting = function(req, res, next) {
 			new_pass = md5sum.digest('hex');
 
 			user.pass = new_pass;
-			user.save(function(err){
-				if(err) return next(err);
-				res.render('user/setting', {success:'密码已被修改。',name:user.name,email:user.email,url:user.url,location:user.location,
-								signature:user.signature,profile:user.profile,weibo:user.weibo,
-								receive_at_mail: user.receive_at_mail,
-								receive_reply_mail: user.receive_reply_mail});
+			user.save(function (err) {
+				if (err) {
+					return next(err);
+				}
+				res.render('user/setting', {
+					success: '密码已被修改。',
+					name: user.name,
+					email: user.email,
+					url: user.url,
+					location: user.location,
+					signature: user.signature,
+					profile: user.profile,weibo:user.weibo,
+					receive_at_mail: user.receive_at_mail,
+					receive_reply_mail: user.receive_reply_mail
+				});
 				return;
 
 			});
@@ -192,27 +227,31 @@ exports.setting = function(req, res, next) {
 	}
 };
 
-exports.follow = function(req,res,next){
-	if(!req.session || !req.session.user){
+exports.follow = function (req,res,next) {
+	if (!req.session || !req.session.user) {
 		res.send('forbidden!');
 		return;
 	}
 	var follow_id = req.body.follow_id;
-	get_user_by_id(follow_id,function(err,user){
-		if(err) return next(err);
+	get_user_by_id(follow_id,function (err,user) {
+		if (err) {
+			return next(err);
+		}
 		if(!user){
 			res.json({status:'failed'});
 		}
 		
-		var proxy = new EventProxy()	
-		var done = function(){
-			res.json({status:'success'});
-		}
+		var proxy = new EventProxy();
+		var done = function() {
+			res.json({ status: 'success' });
+		};
 		proxy.assign('relation_saved','message_saved',done);
-		Relation.findOne({user_id:req.session.user._id,follow_id:user._id},function(err,doc){
-			if(err) return next(err);
-			if(doc){
-				res.json({status:'success'});
+		Relation.findOne({ user_id: req.session.user._id, follow_id: user._id}, function (err, doc) {
+			if (err) {
+				return next(err);
+			}
+			if (doc) {
+				res.json({ status: 'success' });
 				return;
 			}
 				
@@ -222,8 +261,10 @@ exports.follow = function(req,res,next){
 			relation.save();
 			proxy.trigger('relation_saved');
 				
-			get_user_by_id(req.session.user._id,function(err,me){
-				if(err) return next(err);
+			get_user_by_id(req.session.user._id, function (err, me) {
+				if (err) {
+					return next(err);
+				}
 				me.following_count += 1;
 				me.save();
 			});
@@ -239,25 +280,31 @@ exports.follow = function(req,res,next){
 	});
 };
 
-exports.un_follow = function(req,res,next){
-	if(!req.session || !req.session.user){
+exports.un_follow = function (req,res,next) {
+	if (!req.session || !req.session.user) {
 		res.send('forbidden!');
 		return;
 	}
 	var follow_id = req.body.follow_id;
-	get_user_by_id(follow_id,function(err,user){
-		if(err) return next(err);
+	get_user_by_id(follow_id, function (err,user) {
+		if (err) {
+			return next(err);
+		}
 		if(!user){
 			res.json({status:'failed'});
 			return;
 		}
 		Relation.remove({user_id:req.session.user._id,follow_id:user._id},function(err){
-			if(err) return next(err);
+			if (err) {
+				return next(err);
+			}
 			res.json({status:'success'});
 		});
 
-		get_user_by_id(req.session.user._id,function(err,me){
-			if(err) return next(err);
+		get_user_by_id(req.session.user._id, function (err,me) {
+			if (err) {
+				return next(err);
+			}
 			me.following_count -= 1;
 			me.save();
 		});
@@ -270,41 +317,49 @@ exports.un_follow = function(req,res,next){
 };
 
 exports.toggle_star = function(req,res,next){
-	if(!req.session.user || !req.session.user.is_admin){
+	if (!req.session.user || !req.session.user.is_admin) {
 		res.send('forbidden!</strong>');
 		return;
 	}
 	var user_id = req.body.user_id;
-	get_user_by_id(user_id,function(err,user){
-		if(err) return next(err);
-		user.is_star = user.is_star == true? false: true;
-		user.save(function(err){
-			if(err) return next(err);
-			res.json({status:'success'});
+	get_user_by_id(user_id, function (err,user) {
+		if (err) {
+			return next(err);
+		}
+		user.is_star = !!user.is_star;
+		user.save(function (err) {
+			if (err) {
+				return next(err);
+			}
+			res.json({ status: 'success' });
 		});
 	});
 };
 
-exports.get_collect_tags = function(req,res,next){
-	if(!req.session.user){
+exports.get_collect_tags = function (req, res, next) {
+	if (!req.session.user) {
 		res.redirect('home');
 		return;
 	}
-	TagCollect.find({user_id:req.session.user._id},function(err,docs){
-		if(err) return next(err);
+	TagCollect.find({ user_id: req.session.user._id }, function (err, docs) {
+		if (err) {
+			return next(err);
+		}
 		var ids = [];
-		for(var i=0; i<docs.length; i++){
+		for (var i = 0; i < docs.length; i++) {
 			ids.push(docs[i].tag_id);
 		}	
-		tag_ctrl.get_tags_by_ids(ids,function(err,tags){
-			if(err) return next(err);
-			res.render('user/collect_tags',{tags:tags});
+		tag_ctrl.get_tags_by_ids(ids, function (err, tags) {
+			if (err) {
+				return next(err);
+			}
+			res.render('user/collect_tags', { tags: tags });
 		});
 	});
 };
 
-exports.get_collect_topics = function(req,res,next){
-	if(!req.session.user){
+exports.get_collect_topics = function (req, res, next) {
+	if (!req.session.user) {
 		res.redirect('home');
 		return;
 	}	
@@ -312,37 +367,48 @@ exports.get_collect_topics = function(req,res,next){
 	var page = Number(req.query.page) || 1;
 	var limit = config.list_topic_count;
 
-	var render = function(topics,pages){
-		res.render('user/collect_topics',{topics:topics,current_page:page,pages:pages});
-	}
+	var render = function (topics, pages) {
+		res.render('user/collect_topics', {
+			topics: topics,
+			current_page:page, pages:pages
+		});
+	};
 
 	var proxy = new EventProxy();
 	proxy.assign('topics','pages',render);
 
-	TopicCollect.find({user_id:req.session.user._id},function(err,docs){
-		if(err) return next(err);
-
+	TopicCollect.find({ user_id: req.session.user._id },function (err, docs) {
+		if (err) {
+			return next(err);
+		}
 		var ids = [];
-		for(var i=0; i<docs.length; i++){
+		for (var i = 0; i < docs.length; i++) {
 			ids.push(docs[i].topic_id);
 		}
-		var query = {'_id':{'$in':ids}};
-		var opt = {skip:(page-1)*limit, limit:limit, sort:[['create_at','desc']]};
-		topic_ctrl.get_topics_by_query(query,opt,function(err,topics){
-			if(err) return next(err);
-			proxy.trigger('topics',topics);
+		var query = { _id: { '$in': ids } };
+		var opt = {
+			skip: (page - 1) * limit, 
+			limit: limit, 
+			sort: [ [ 'create_at', 'desc' ] ] 
+		};
+		topic_ctrl.get_topics_by_query(query,opt, function (err, topics) {
+			if (err) {
+				return next(err);
+			}
+			proxy.trigger('topics', topics);
 		});
-
-		topic_ctrl.get_count_by_query(query,function(err,all_topics_count){
-			if(err) return next(err);
-			var pages = Math.ceil(all_topics_count/limit);
-			proxy.trigger('pages',pages);
+		topic_ctrl.get_count_by_query(query, function (err, all_topics_count) {
+			if (err) {
+				return next(err);
+			}
+			var pages = Math.ceil(all_topics_count / limit);
+			proxy.trigger('pages', pages);
 		});
 	});
 };
 
-exports.get_followings = function(req,res,next){
-	if(!req.session.user){
+exports.get_followings = function (req, res, next) {
+	if (!req.session.user) {
 		res.redirect('home');
 		return;
 	}	
@@ -399,7 +465,7 @@ exports.list_topics = function(req,res,next){
 		var render = function(topics,relation,pages){
 			user.friendly_create_at = Util.format_date(user.create_at,true);
 			res.render('user/topics', {user:user,topics:topics,relation:relation,current_page:page,pages:pages});
-		}
+		};
 
 		var proxy = new EventProxy();
 		proxy.assign('topics','relation','pages',render);
@@ -442,7 +508,7 @@ exports.list_replies = function(req,res,next){
 		var render = function(topics,relation,pages){
 			user.friendly_create_at = Util.format_date(user.create_at,true);
 			res.render('user/replies', {user:user,topics:topics,relation:relation,current_page:page,pages:pages});
-		}
+		};
 
 		var proxy = new EventProxy();
 		proxy.assign('topics','relation','pages',render);

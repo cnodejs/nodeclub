@@ -66,8 +66,7 @@
 				<button class='btn' id='set_star_btn' action='cancel_star'>取消达人</button>
 				<% } %>
 				<br/><br/>
-				Email (Seen by Administrator): <%= user.email %> 
-				
+				Email (Seen by Administrator): <a href="email:<%= user.email %>"><%= user.email %></a>
 			<% } %>
 		</div>
 	</div>	

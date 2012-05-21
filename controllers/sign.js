@@ -13,11 +13,11 @@ var mail_ctrl = require('./mail');
 //sign up
 exports.signup = function(req,res,next){
 	var method = req.method.toLowerCase();
-	if(method == 'get'){
+	if (method === 'get'){
 		res.render('sign/signup');
 		return;
 	}
-	if(method == 'post'){
+	if(method === 'post'){
 		var name = sanitize(req.body.name).trim();
 		name = sanitize(name).xss();
 		var loginname = name.toLowerCase();
