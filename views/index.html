@@ -35,7 +35,7 @@
 			topics: topics,
 			pages: pages,
 			current_pages: current_page,
-			base:'/' 
+			base: keyword ? ('/?q=' + keyword) : '/' 
 		}) %>
 		<% } else { %>
 		<div class='inner'>
