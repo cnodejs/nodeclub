@@ -1,7 +1,7 @@
 <%- partial('topic/abstract', {collection:topics, as:'topic'}) %>
 <div class='pagination' current_page='<%= current_page %>'>
 	<ul>
-		<% var base_url = base + (base === '/' ? '?' : '&') + 'page='; %>
+		<% var base_url = base + (base.indexOf('?') ? '?' : '&') + 'page='; %>
 		<% if (current_page == 1) { %>
 		<li class='disabled'><a>«</a></li>
 		<% } else { %>
