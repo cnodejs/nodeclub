@@ -38,14 +38,16 @@ app.configure(function () {
 		}
 		csrf(req, res, next);
 	});
+});
 
+if (process.env.NODE_ENV !== 'test') {
 	// plugins
 	var plugins = config.plugins || [];
 	for (var i = 0, l = plugins.length; i < l; i++) {
 		var p = plugins[i];
 		app.use(require('./plugins/' + p.name)(p.options));
 	}
-});
+}
 
 // set static, dynamic helpers
 app.helpers({
@@ -73,8 +75,12 @@ app.configure('production', function () {
 // routes
 routes(app);
 
-app.listen(config.port);
+if (process.env.NODE_ENV !== 'test') {
+	app.listen(config.port);
 
-console.log("NodeClub listening on port %d in %s mode", config.port, app.settings.env);
-console.log("God bless love....");
-console.log("You can debug your app with http://" + config.hostname + ':' + config.port);
+	console.log("NodeClub listening on port %d in %s mode", config.port, app.settings.env);
+	console.log("God bless love....");
+	console.log("You can debug your app with http://" + config.hostname + ':' + config.port);
+}
+
+module.exports = app;

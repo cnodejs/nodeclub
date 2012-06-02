@@ -13,5 +13,9 @@
     "ndir": "0.1.2",
     "nodemailer": "0.3.5",
     "data2xml": "0.4.0"
+  },
+  "devDependencies": {
+    "should": ">=0.6.0",
+    "mocha": ">=0.14.1"
   }
 }

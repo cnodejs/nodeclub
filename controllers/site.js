@@ -7,28 +7,24 @@ var EventProxy = require('eventproxy').EventProxy;
 
 var sanitize = require('validator').sanitize;
 
-exports.index = function(req,res,next){
-  var page = Number(req.query.page) || 1;
+exports.index = function (req,res,next) {
+  var page = parseInt(req.query.page, 10) || 1;
   var keyword = req.query.q || ''; // in-site search
   keyword = keyword.trim();
   var limit = config.list_topic_count;
 
-  var render = function(tags,topics,hot_topics,stars,tops,no_reply_topics,pages){
+  var render = function (tags, topics, hot_topics, stars, tops, no_reply_topics, pages) {
     var all_tags = tags.slice(0);
 
     // 计算最热标签
-    tags.sort(function(tag_a,tag_b){
-      if(tag_a.topic_count == tag_b.topic_count) return 0;
-      if(tag_a.topic_count > tag_b.topic_count) return -1;
-      if(tag_a.topic_count < tag_b.topic_count) return 1;
+    tags.sort(function (tag_a,tag_b) {
+      return tag_b.topic_count - tag_a.topic_count;
     });
     var hot_tags = tags.slice(0,5); 
 
     // 计算最新标签
-    tags.sort(function(tag_a,tag_b){
-      if(tag_a.create_at == tag_b.create_at) return 0;
-      if(tag_a.create_at > tag_b.create_at) return -1;
-      if(tag_a.create_at < tag_b.create_at) return 1;
+    tags.sort(function (tag_a, tag_b) {
+      return tag_b.create_at - tag_a.create_at;
     });
     var recent_tags = tags.slice(0,5);
     res.render('index', {
@@ -46,11 +42,12 @@ exports.index = function(req,res,next){
     });
   };  
   
-  var proxy = new EventProxy();
-  proxy.assign('tags','topics','hot_topics','stars','tops','no_reply_topics','pages',render);
+  var proxy = EventProxy.create('tags', 'topics', 'hot_topics', 'stars', 'tops', 'no_reply_topics', 'pages', render);
   
-  tag_ctrl.get_all_tags(function(err,tags){
-    if(err) return next(err);
+  tag_ctrl.get_all_tags(function (err, tags) {
+    if (err) {
+      return next(err);
+    }
     proxy.trigger('tags',tags);
   });
 
@@ -60,8 +57,10 @@ exports.index = function(req,res,next){
     keyword = keyword.replace(/[\*\^\&\(\)\[\]\+\?\\]/g, '');
     query.title = new RegExp(keyword, 'i');
   }
-  topic_ctrl.get_topics_by_query(query, opt,function(err,topics){
-    if(err) return next(err);
+  topic_ctrl.get_topics_by_query(query, opt, function (err,topics) {
+    if (err) {
+      return next(err);
+    }
     proxy.trigger('topics',topics);
   });
   opt = {limit:5, sort:[['visit_count','desc']]};
