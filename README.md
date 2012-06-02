@@ -1,5 +1,7 @@
 # nodeclub
 
+[![Build Status](https://secure.travis-ci.org/fengmk2/nodeclub.png?branch=master)](http://travis-ci.org/fengmk2/nodeclub)
+
 基于nodejs的社区系统
 
 ## 介绍
