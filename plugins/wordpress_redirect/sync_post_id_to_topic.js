@@ -22,8 +22,10 @@ function sync(post, callback) {
   if (!title || post.post_type !== 'post') {
     return callback();
   }
-  Topic.findOne({ title: title }, function(err, topic) {
-    if (err) return callback(err);
+  Topic.findOne({ title: title }, function (err, topic) {
+    if (err) {
+      return callback(err);
+    }
     if (!topic) {
       // console.log('%s %s not found', post.id, title);
       return callback();
@@ -42,8 +44,10 @@ function next(i) {
   if (!post) {
     process.exit(0);
   }
-  sync(post, function(err) {
-    if (err) throw err;
+  sync(post, function (err) {
+    if (err) {
+      throw err;
+    }
     next(--i);
   });
 }

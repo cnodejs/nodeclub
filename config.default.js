@@ -11,7 +11,7 @@ exports.config = {
 	site_headers: [
 		'<meta name="author" content="EDP@TAOBAO" />',
 	],
-	host: 'http://127.0.0.1', // host 结尾不要添加'/'
+	host: 'localhost.cnodejs.org',
 	site_logo: '', // default is `name`
 	site_navs: [
 		// [ path, title, [target=''] ]
@@ -55,8 +55,3 @@ exports.config = {
 	// [ [ plugin_name, options ], ... ]
 	plugins: []
 };
-
-var host = exports.config.host;
-if (host[host.length - 1] === '/') {
-	exports.config.host = host.substring(0, host.length - 1);
-}

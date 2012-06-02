@@ -11,23 +11,28 @@
  */
 
 var PostToTopic = require('./model').PostToTopic;
-var config = require('../../config').config;
 
-module.exports = function wordpressRedirect() {
-  var URL_RE = /^\/blog\/?\?p=(\d+)/i;
-  var host = config.host;
-  if (host[host.length - 1] === '/') {
-    host = host.substring(0, host.length - 1);
+module.exports = function wordpressRedirect(options) {
+  options = options || {};
+  var root = options.root || '/topic/';
+  if (root[root.length - 1] !== '/') {
+    root += '/';
   }
-  var urlpath = host + '/topic/';
-  return function(req, res, next) {
-    if (!URL_RE.test(req.url)) return next();
+  var URL_RE = options.match || /^\/blog\/?\?p=(\d+)/i;
+  return function (req, res, next) {
+    if (!URL_RE.test(req.url)) {
+      return next();
+    }
     var m = URL_RE.exec(req.url);
-    var postID = parseInt(m[1]);
-    PostToTopic.findOne({ _id: postID }, function(err, o) {
-      if (err) return next(err);
-      if (!o) return next();
-      res.redirect(urlpath + o.topic_id, 301);
+    var postId = parseInt(m[1], 10);
+    PostToTopic.findOne({ _id: postId }, function (err, o) {
+      if (err) {
+        return next(err);
+      }
+      if (!o) {
+        return next();
+      }
+      res.redirect(root + o.topic_id, 301);
     });
-  }
+  };
 };

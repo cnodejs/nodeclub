@@ -10,11 +10,7 @@ mailer.SMTP = {
 	pass: config.mail_pass
 };
 
-var _host = config.host;
-if (_host[_host.length - 1] === '/') {
-  _host = _host.substring(0, _host.length - 1);
-}
-var SITE_ROOT_URL = _host + (config.port !== 80 ? ':' + config.port : '');
+var SITE_ROOT_URL = 'http://' + config.hostname + (config.port !== 80 ? ':' + config.port : '');
 
 /**
  * keep all the mails to send
@@ -75,11 +71,12 @@ mailEvent.on("getMail", function () {
 function trigger() {
   mailEvent.trigger("getMail");
 }
+
 /**
  * send an email
  * @param  {mail} data [info of an email]
  */
-function send_mail (data) {
+function send_mail(data) {
   if (!data) {
     return;
   }
