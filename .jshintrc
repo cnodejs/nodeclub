@@ -31,7 +31,7 @@
   "trailing": false,
   "globalstrict": true,
   "nonstandard": true,
-  "white": false,
+  "white": true,
   "indent": 2,
   "expr": true,
   "multistr": true,

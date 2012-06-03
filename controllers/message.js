@@ -145,22 +145,23 @@ function send_reply2_message(master_id,author_id,topic_id){
 	});
 }
 
-function send_at_message(master_id,author_id,topic_id){
+function send_at_message(master_id, author_id, topic_id, callback) {
 	var message = new Message();
 	message.type = 'at';
 	message.master_id = master_id;
 	message.author_id = author_id;
 	message.topic_id = topic_id;
-	message.save(function(err){
-		user_ctrl.get_user_by_id(master_id,function(err,master){
-			if(master && master.receive_at_mail){
+	message.save(function (err) {
+		user_ctrl.get_user_by_id(master_id, function (err, master) {
+			if (master && master.receive_at_mail) {
 				message.has_read = true;
 				message.save();
-				get_message_by_id(message._id,function(err,msg){
+				get_message_by_id(message._id, function (err, msg) {
 					mail_ctrl.send_at_mail(master.email,msg);
 				});
 			}
 		});
+		callback(err);
 	});
 }
 

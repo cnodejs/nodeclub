@@ -1,5 +1,5 @@
 /*!
- * nodeclub - rss contoller test
+ * nodeclub - rss controller test
  * Copyright(c) 2012 fengmk2 <fengmk2@gmail.com>
  * MIT Licensed
  */
@@ -12,7 +12,7 @@ var should = require('should');
 var app = require('../../app');
 var config = require('../../config').config;
 
-describe('contollers/rss.js', function () {
+describe('controllers/rss.js', function () {
   before(function (done) {
     app.listen(0, done);
   });
