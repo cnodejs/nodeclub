@@ -2,3 +2,4 @@
 --require test/support/http.js
 --require test/support/create_test_users.js
 --growl
+--ignore-leaks
