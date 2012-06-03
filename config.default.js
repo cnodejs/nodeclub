@@ -19,7 +19,7 @@ exports.config = {
 	],
 	site_static_host: '', // 静态文件存储域名
 
-	db: 'mongodb://127.0.0.1/node_club',
+	db: 'mongodb://127.0.0.1/node_club_dev',
 	session_secret: 'node_club',
 	auth_cookie_name: 'node_club',
 	port: 80,

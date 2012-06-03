@@ -12,8 +12,13 @@ var should = require('should');
 var mentionUser = require('../../controllers/at');
 var Message = require('../../controllers/message');
 var config = require('../../config').config;
+var createUsers = require('../support/create_test_users').createUsers;
 
 describe('controllers/at.js', function () {
+
+  before(function (done) {
+    createUsers(done);
+  });
 
   var text = '@testuser1 哈哈, hellowprd testuser1 testuser2 \
     testuser3 @testuser2你好 \
