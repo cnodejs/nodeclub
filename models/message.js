@@ -1,7 +1,7 @@
-var mongoose = require('mongoose'),
-	Schema = mongoose.Schema,
-	ObjectId = Schema.ObjectId;
-	
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var ObjectId = Schema.ObjectId;
+  
 /*
  * type:
  * reply: xx 回复了你的话题
@@ -11,12 +11,12 @@ var mongoose = require('mongoose'),
  */
  
 var MessageSchema = new Schema({
-	type: {type: String},
-	master_id: {type: ObjectId, index:true},
-	author_id: {type: ObjectId},
-	topic_id: {type: ObjectId},
-	has_read: {type: Boolean, default: false},
-	create_at: {type: Date, default: Date.now}
+  type: { type: String },
+  master_id: { type: ObjectId, index: true },
+  author_id: { type: ObjectId },
+  topic_id: { type: ObjectId },
+  has_read: { type: Boolean, default: false },
+  create_at: { type: Date, default: Date.now }
 });
 
 mongoose.model('Message', MessageSchema);

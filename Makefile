@@ -1,4 +1,4 @@
-SRC := libs controllers plugins
+SRC := libs controllers plugins models
 TESTS = $(shell find test -type f -name "*.js")
 TESTTIMEOUT = 5000
 REPORTER = spec
