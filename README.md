@@ -1,6 +1,6 @@
 # nodeclub
 
-[![Build Status](https://secure.travis-ci.org/fengmk2/nodeclub.png?branch=master)](http://travis-ci.org/fengmk2/nodeclub)
+[![Build Status](https://secure.travis-ci.org/cnodejs/nodeclub.png?branch=master)](http://travis-ci.org/cnodejs/nodeclub)
 
 基于nodejs的社区系统
 
@@ -12,13 +12,18 @@ Node Club 是用 **Node.js** 和 **MongoDb** 开发的新型社区软件，界�
 ## 安装部署
 
 ```bash
-// install node npm mongodb  
+// install node npm mongodb
 // run mongod
-cd nodeclub
-npm install ./
-cp config.default.js config.js
+$ npm install
+$ cp config.default.js config.js
 // modify the config file as yours
-node app.js
+$ node app.js
+```
+
+## TEST
+
+```bash
+$ make test
 ```
     
 ## 其它
