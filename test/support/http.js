@@ -17,11 +17,10 @@ try {
 var http = require('http');
 var querystring = require('querystring');
 
-module.exports = request;
 
 // need to change > 0.3.x
-express.HTTPServer.prototype.request = function () {
-  return request(this);
+express.HTTPServer.prototype.request = function (address) {
+  return new Request(this, address);
 };
 
 if (connect) {
@@ -33,17 +32,12 @@ if (connect) {
 //   return request(this);
 // };
 
-
-function request(app) {
-  return new Request(app);
-}
-
-function Request(app) {
+function Request(app, address) {
   this.data = [];
   this.header = {};
   this.app = app;
   this.server = app;
-  this.addr = this.server.address();
+  this.addr = address || this.server.address();
 }
 
 /**
@@ -52,29 +46,29 @@ function Request(app) {
 
 Request.prototype.__proto__ = EventEmitter.prototype;
 
-methods.forEach(function(method) {
-  Request.prototype[method] = function(path) {
+methods.forEach(function (method) {
+  Request.prototype[method] = function (path) {
     return this.request(method, path);
   };
 });
 
-Request.prototype.set = function(field, val) {
+Request.prototype.set = function (field, val) {
   this.header[field] = val;
   return this;
 };
 
-Request.prototype.setBody = function(body) {
+Request.prototype.setBody = function (body) {
   this.set('Content-Type', 'application/x-www-form-urlencoded');
   this.write(querystring.stringify(body));
   return this;
 };
 
-Request.prototype.write = function(data) {
+Request.prototype.write = function (data) {
   this.data.push(data);
   return this;
 };
 
-Request.prototype.request = function(method, path) {
+Request.prototype.request = function (method, path) {
   this.method = method;
   this.path = path;
   return this;
@@ -120,17 +114,21 @@ Request.prototype.end = function (fn) {
     res.on('end', function () {
       var buf = null;
       switch (chunks.length) {
-        case 0: buf = new Buffer(0); break;
-        case 1: buf = chunks[0]; break;
-        default:
-          buf = new Buffer(size);
-          var pos = 0;
-          for (var i = 0, l = chunks.length; i < l; i++) {
-            var chunk = chunks[i];
-            chunk.copy(buf, pos);
-            pos += chunk.length;
-          }
-          break;
+      case 0: 
+        buf = new Buffer(0); 
+        break;
+      case 1: 
+        buf = chunks[0]; 
+        break;
+      default:
+        buf = new Buffer(size);
+        var pos = 0;
+        for (var i = 0, l = chunks.length; i < l; i++) {
+          var chunk = chunks[i];
+          chunk.copy(buf, pos);
+          pos += chunk.length;
+        }
+        break;
       }
       res.body = buf;
       res.bodyJSON = function () {

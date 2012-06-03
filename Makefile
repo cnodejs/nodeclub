@@ -4,6 +4,9 @@ TESTTIMEOUT = 5000
 REPORTER = spec
 
 test:
+	@if ! test -f config.js; then \
+		cp config.default.js config.js; \
+	fi
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER) --timeout $(TESTTIMEOUT) $(TESTS)
 

@@ -52,6 +52,9 @@ exports.config = {
 	// admin 可删除话题，编辑标签，设某人为达人
 	admins: { admin: true },
 
-	// [ [ plugin_name, options ], ... ]
-	plugins: []
+	// [ { name: 'plugin_name', options: { ... }, ... ]
+	plugins: [
+		// { name: 'onehost', options: { host: 'localhost.cnodejs.org' } },
+		// { name: 'wordpress_redirect', options: {} }
+	]
 };
