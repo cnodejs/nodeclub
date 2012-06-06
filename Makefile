@@ -34,4 +34,4 @@ test-for:
 		echo $$dir; \
 	done
 
-.PHONY: test test-cov test-dot jscoverage-start jscoverage-end
+.PHONY: test test-cov test-dot cov cov-clean
