@@ -18,7 +18,7 @@ $(document).ready(function() {
 		}		
 	}	
   
-  // ����Ԥ��
+  // 搜索预览
   (function () {
     var id = -1;
     var start = function () {
@@ -53,6 +53,8 @@ $(document).ready(function() {
         html += '<div class="__quick_search_list_item"><a href="' + line.url + '">' + line.title + '</a>'
               + '<span style="font-size:12px;">' + line.content + '</span></div>';
       });
+      if (html === '')
+        html = '暂时没有相关结果。';
       var o1 = $in.offset();
       var o2 = {top: o1.top + $in.height() + 10, left: o1.left};
       $list.offset(o2).html(html).show();
