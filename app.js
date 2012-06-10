@@ -25,7 +25,7 @@ app.configure(function () {
   app.use(express.bodyParser());
   app.use(express.cookieParser());
   app.use(express.session({
-    secret: config.session_secret,
+    secret: config.session_secret
   }));
   // custom middleware
   app.use(require('./controllers/sign').auth_user);
@@ -56,7 +56,7 @@ app.helpers({
 app.dynamicHelpers({
   csrf: function (req, res) {
     return req.session ? req.session._csrf : '';
-  },
+  }
 });
 
 var static_dir = path.join(__dirname, 'public');
