@@ -19,6 +19,7 @@ var rss = require('./controllers/rss');
 var upload = require('./controllers/upload');
 var static = require('./controllers/static');
 var tools = require('./controllers/tools');
+var status = require('./controllers/status');
 
 module.exports = function (app) {
   // home page
@@ -98,4 +99,7 @@ module.exports = function (app) {
 
   //rss
   app.get('/rss', rss.index);
+
+  // site status
+  app.get('/status', status.status);
 };
