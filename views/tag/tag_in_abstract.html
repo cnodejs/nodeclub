@@ -2,6 +2,6 @@
 	<% if(tag.highlight == true){ %>
 	<span class='tag_highlight'><%= tag.name %></span>
 	<% }else{ %>
-	<a href='/tag/<%= tag.name %>'><%= tag.name %></a>
+	<a href='/tag/<%= tag.name %>'><span class='tag_highlight'><%= tag.name %></span></a>
 	<% } %>
 </span>

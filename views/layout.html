@@ -30,8 +30,8 @@
 			<div class='navbar-inner'>
 				<div class='container'>
 					<a class='brand' href='/'><%- config.site_logo || config.name %></a>
-					<form id='search_form' class='navbar-search'>
-						<input type='text' id='q' name='q' class='search-query span3'/>
+					<form id='search_form' class='navbar-search' action="/">
+						<input type='text' id='q' name='q' class='search-query span3' value='<%= locals.keyword || '' %>'/>
 					</form>
 					<ul class='nav pull-right'>
 						<li><a href='/'>首页</a></li>	
@@ -62,7 +62,7 @@
 			<div class='cl cr'></div>
 		</div>
 		<div id='backtotop'>回到顶部</div>
-		<a href="https://github.com/muyuan/nodeclub"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub"></a>
+		<!-- <a href="https://github.com/muyuan/nodeclub"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub"></a> -->
 		<!-- footer -->
 		<div id='footer'>
 			<div id='footer_main'>
@@ -73,7 +73,7 @@
 					&nbsp;&nbsp;|&nbsp;&nbsp; 
 					<strong><a class='dark' href='/faq'>FAQ</a></strong>
 					&nbsp;&nbsp;|&nbsp;&nbsp;
-					<strong><a class='dark' href='https://github.com/muyuan/nodeclub/' target="_blank">Github</a></strong>
+					<strong><a class='dark' href='https://github.com/cnodejs/nodeclub/' target="_blank">Github</a></strong>
 					&nbsp;&nbsp;|&nbsp;&nbsp;
 					<strong><a class='dark' href='/rss' target="_blank">RSS</a></strong>
 				</div>

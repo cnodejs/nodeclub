@@ -1,0 +1,4 @@
+--require should
+--require test/support/http.js
+--growl
+--ignore-leaks

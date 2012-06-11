@@ -1,5 +1,7 @@
 # nodeclub
 
+[![Build Status](https://secure.travis-ci.org/cnodejs/nodeclub.png?branch=master)](http://travis-ci.org/cnodejs/nodeclub)
+
 基于nodejs的社区系统
 
 ## 介绍
@@ -10,13 +12,18 @@ Node Club 是用 **Node.js** 和 **MongoDb** 开发的新型社区软件，界�
 ## 安装部署
 
 ```bash
-// install node npm mongodb  
+// install node npm mongodb
 // run mongod
-cd nodeclub
-npm install ./
-cp config.default.js config.js
+$ npm install
+$ cp config.default.js config.js
 // modify the config file as yours
-node app.js
+$ node app.js
+```
+
+## TEST
+
+```bash
+$ make test
 ```
     
 ## 其它
@@ -55,16 +62,44 @@ Below is the output from `git-summary`.
 
 ```
  project: nodeclub
- commits: 53
- files  : 244
+ commits: 89
+ active : 36 days
+ files  : 253
  authors: 
-    25  fengmk2                 47.2%
-     9  muyuan                  17.0%
-     8  dead-horse              15.1%
-     4  ericzhang               7.5%
-     3  Kenny Zhao              5.7%
-     1  LeToNode                1.9%
-     1  roymax                  1.9%
-     1  thebrecht               1.9%
-     1  张洋                     1.9%
-```
+    41    fengmk2                 46.1%
+    10    Kenny Zhao              11.2%
+     9    muyuan                  10.1%
+     8    dead-horse              9.0%
+     7    young40                 7.9%
+     5    ericzhang               5.6%
+     3    Json Shen               3.4%
+     2    chang                   2.2%
+     1    roymax                  1.1%
+     1    thebrecht               1.1%
+     1    LeToNode                1.1%
+     1    张洋                  1.1%
+
+## License
+
+( The MIT License )
+
+Copyright (c) 2012 muyuan, fengmk2 and other nodeclub contributors
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

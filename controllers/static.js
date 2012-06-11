@@ -1,8 +1,8 @@
 // static page
 exports.about = function(req,res,next){
-	res.render('static/about');
+  res.render('static/about');
 };
 
 exports.faq = function(req,res,next){
-	res.render('static/faq');
+  res.render('static/faq');
 };

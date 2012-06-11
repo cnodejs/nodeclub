@@ -143,6 +143,7 @@ a.light:hover {
 
 	padding: 1px 5px;
 	background-color: #46a546;
+	color: white;
 }
 .tag a {
 	color: #fff;
@@ -160,7 +161,7 @@ a.tag_big {
 
 	color: #333;
 	padding: 5px 7px;
-	margin: 0px 10px 5px 0px;
+	margin: 0px 8px 5px 0px;
 	background: #d0d6db;
 	display: inline-block;
 	text-decoration: none;
@@ -474,19 +475,11 @@ a.count:hover {
 /* custom bootstrap */
 .navbar {
 	margin-bottom: 0px;
+	background-color: #323f4b;
 }
 .navbar .container {
 	width: 960px;
 	margin: 0px auto;
-}
-.navbar .navbar-inner{
-	-webkit-border-radius: 0px;
-	-moz-border-radius: 0px;
-	padding-left: 0px;
-	padding-right: 0px;
-	border-radius: 0px;
-	background-image: none;
-	background-color: #323f4b;
 }
 .navbar .brand {
 	padding: 7px 0px 0px 20px;
@@ -571,4 +564,16 @@ form {
 .topic_content p, .reply_content p {
 	font-size: 14px;
 	line-height: 22px;
+}
+
+.index_notify {
+	font-size: 12px;
+	color: #000;
+}
+.top_score {
+	background: orange;
+	border: #EEEEEE solid 1px;
+	color: white;
+	padding: 2px;
+	
 }
