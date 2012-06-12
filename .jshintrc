@@ -10,9 +10,11 @@
     "describe",
     "before",
     "after",
-    "should"
+    "should",
+    "$"
   ],
 
+  "browser": true,
   "node" : true,
   "es5": true,
   "bitwise": true,

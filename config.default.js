@@ -18,6 +18,7 @@ exports.config = {
     [ '/about', '关于' ],
   ],
   site_static_host: '', // 静态文件存储域名
+  site_enable_search_preview: false, // 开启google search preview
 
   db: 'mongodb://127.0.0.1/node_club_dev',
   session_secret: 'node_club',

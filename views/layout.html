@@ -15,9 +15,12 @@
 		<link rel="stylesheet" type="text/css" href="/libs/bootstrap/css/bootstrap.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css" media="screen" />
 		<!-- script -->
-		<script type='text/javascript' src='/libs/jquery/jquery.js'></script>
-		<script type='text/javascript' src='/libs/bootstrap/js/bootstrap.js'></script>
-		<script type='text/javascript' src='/javascripts/main.js'></script>
+		<script src='/libs/jquery/jquery.js'></script>
+		<script src='/libs/bootstrap/js/bootstrap.js'></script>
+		<script src='/javascripts/main.js'></script>
+		<% if (config.site_enable_search_preview) { %>
+		<script src='/javascripts/google_search_preview.js'></script>
+		<% } %>
 		<% if (locals.topic) { %>
 		<title><%= topic.title %> - <%= config.name %></title>
 		<% } else { %>
