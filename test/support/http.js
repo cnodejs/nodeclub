@@ -23,7 +23,7 @@ express.HTTPServer.prototype.request = function (address) {
   return new Request(this, address);
 };
 
-if (connect) {
+if (connect && connect.HTTPServer) {
   connect.HTTPServer.prototype.request = express.HTTPServer.prototype.request;
 }
 

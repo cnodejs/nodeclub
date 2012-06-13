@@ -34,7 +34,7 @@ function searchUsers(text, callback) {
 }
 
 function sendMessageToMentionUsers(text, topicId, authorId, callback) {
-  exports.searchUsers(text, function (err, users) {
+  searchUsers(text, function (err, users) {
     if (err || !users || users.length === 0) {
       return callback && callback(err);
     }
@@ -58,7 +58,7 @@ function sendMessageToMentionUsers(text, topicId, authorId, callback) {
 }
 
 function linkUsers(text, callback) {
-  exports.searchUsers(text, function (err, users) {
+  searchUsers(text, function (err, users) {
     if (err) {
       return callback(err);
     }
@@ -70,6 +70,5 @@ function linkUsers(text, callback) {
   });
 }
 
-exports.searchUsers = searchUsers;
 exports.send_at_message = exports.sendMessageToMentionUsers = sendMessageToMentionUsers;
 exports.link_at_who = exports.linkUsers = linkUsers;

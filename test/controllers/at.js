@@ -7,9 +7,8 @@
 /**
  * Module dependencies.
  */
-
+var rewire = require("rewire");
 var should = require('should');
-var mentionUser = require('../../controllers/at');
 var Message = require('../../controllers/message');
 var config = require('../../config').config;
 var createUsers = require('../support/create_test_users').createUsers;
@@ -30,9 +29,10 @@ describe('controllers/at.js', function () {
     @<a href="/user/testuser2">testuser2</a>@<a href="/user/testuser1">testuser1</a>23 oh my god';
 
   describe('searchUsers()', function () {
-
+    var mentionUser = rewire('../../controllers/at');
+    var searchUsers = mentionUser.__get__('searchUsers');
     it('should found 3 test users', function (done) {
-      mentionUser.searchUsers(text, function (err, users) {
+      searchUsers(text, function (err, users) {
         should.not.exist(err);
         should.exist(users);
         users.should.length(3);
@@ -45,7 +45,7 @@ describe('controllers/at.js', function () {
     });
 
     it('should found 0 user in text', function (done) {
-      mentionUser.searchUsers('no users match in text @ @@@@ @ @@@ @哈哈 @ testuser1', function (err, users) {
+      searchUsers('no users match in text @ @@@@ @ @@@ @哈哈 @ testuser1', function (err, users) {
         should.not.exist(err);
         should.exist(users);
         users.should.length(0);
@@ -54,7 +54,7 @@ describe('controllers/at.js', function () {
     });
 
     it('should found 0 user in db', function (done) {
-      mentionUser.searchUsers('@testuser123 @suqian2012 @ testuser1 no users match in db @ @@@@ @ @@@', 
+      searchUsers('@testuser123 @suqian2012 @ testuser1 no users match in db @ @@@@ @ @@@', 
       function (err, users) {
         should.not.exist(err);
         should.exist(users);
@@ -65,6 +65,7 @@ describe('controllers/at.js', function () {
   });
 
   describe('linkUsers()', function () {
+    var mentionUser = rewire('../../controllers/at');
     it('should link all mention users', function (done) {
       mentionUser.linkUsers(text, function (err, text2) {
         should.not.exist(err);
@@ -74,18 +75,17 @@ describe('controllers/at.js', function () {
     });
 
     describe('mock searchUsers() error', function () {
-      var searchUsers = mentionUser.searchUsers;
       before(function () {
-        mentionUser.searchUsers = function () {
-          var callback = arguments[arguments.length - 1];
-          process.nextTick(function () {
-            callback(new Error('mock searchUsers() error'));
-          });
-        };
+        mentionUser.__set__({
+          searchUsers: function () {
+            var callback = arguments[arguments.length - 1];
+            process.nextTick(function () {
+              callback(new Error('mock searchUsers() error'));
+            });
+          }
+        });
       });
-      after(function () {
-        mentionUser.searchUsers = searchUsers;
-      });
+
       it('should return error', function (done) {
         mentionUser.linkUsers(text, function (err, text2) {
           should.exist(err);
@@ -98,6 +98,7 @@ describe('controllers/at.js', function () {
   });
 
   describe('sendMessageToMentionUsers()', function () {
+    var mentionUser = rewire('../../controllers/at');
     it('should send message to all mention users', function (done) {
       mentionUser.sendMessageToMentionUsers(text, '4fb9db9c1dc2160000000005', '4fcae41e1eb86c0000000003', 
       function (err) {

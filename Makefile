@@ -2,8 +2,10 @@ SRC := libs controllers plugins models
 TESTS = $(shell find test -type f -name "*.js")
 TESTTIMEOUT = 5000
 REPORTER = spec
+JSCOVERAGE = ./node_modules/visionmedia-jscoverage/jscoverage
 
 test:
+	@npm install
 	@if ! test -f config.js; then \
 		cp config.default.js config.js; \
 	fi
@@ -16,7 +18,7 @@ test-dot:
 cov:
 	@for dir in $(SRC); do \
 		mv $$dir $$dir.bak; \
-		jscoverage --encoding=utf-8 $$dir.bak $$dir; \
+		$(JSCOVERAGE) --encoding=utf-8 $$dir.bak $$dir; \
 	done
 
 cov-clean:
@@ -28,10 +30,5 @@ cov-clean:
 test-cov: cov
 	@-$(MAKE) test REPORTER=html-cov > coverage.html
 	@$(MAKE) cov-clean
-
-test-for:
-	@for dir in $(SRC); do \
-		echo $$dir; \
-	done
 
 .PHONY: test test-cov test-dot cov cov-clean

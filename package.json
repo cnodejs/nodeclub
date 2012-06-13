@@ -16,7 +16,9 @@
   },
   "devDependencies": {
     "should": ">=0.6.0",
-    "mocha": ">=0.14.1"
+    "mocha": ">=0.14.1",
+    "rewire": ">=0.2.0",
+    "visionmedia-jscoverage": ">=1.0.0"
   },
   "scripts": {
     "test": "make test"
