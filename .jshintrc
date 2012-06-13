@@ -9,6 +9,7 @@
     "it",
     "describe",
     "before",
+    "beforeEach",
     "after",
     "should",
     "rewire",

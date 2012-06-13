@@ -11,13 +11,32 @@ describe('controllers/upload.js', function () {
   
   describe('uploadImage()', function () {
 
-    var mockRequest = {
-      session: {
-        user: {
-          _id: 'mock_user_id'
+    var mockRequest;
+    var mockLoginedRequest;
+
+    beforeEach(function () {
+      rewire.reset();
+      mockRequest = {
+        session: {
+          user: {
+            _id: 'mock_user_id'
+          }
         }
-      }
-    };
+      };
+      mockLoginedRequest = {
+        session: {
+          user: {
+            _id: 'mock_user_id'
+          }
+        },
+        files: {
+          userfile: {
+            name: path.basename(tmpFile),
+            path: tmpFile
+          }
+        }
+      };
+    });
 
     var oldUploadDir = config.upload_dir;
     var tmpdirpath = path.join(path.dirname(oldUploadDir), '__testdir__');
@@ -29,6 +48,7 @@ describe('controllers/upload.js', function () {
         done(err);
       });      
     });
+    
     after(function (done) {
       config.upload_dir = oldUploadDir;
       exec('rm -rf ' + tmpdirpath, function (error, stdout, stderr) {
@@ -63,13 +83,7 @@ describe('controllers/upload.js', function () {
     });
 
     it('should upload file success', function (done) {
-      mockRequest.files = {
-        userfile: {
-          name: path.basename(tmpFile),
-          path: tmpFile
-        }
-      };
-      upload.uploadImage(mockRequest, {
+      upload.uploadImage(mockLoginedRequest, {
         send: function (data) {
           data.should.have.property('status', 'success');
           data.should.have.property('url');
@@ -95,7 +109,7 @@ describe('controllers/upload.js', function () {
         }
       });
       
-      upload2.uploadImage(mockRequest, {
+      upload2.uploadImage(mockLoginedRequest, {
         send: function (data) {
           throw new Error('should not call this method');
         }
@@ -118,7 +132,7 @@ describe('controllers/upload.js', function () {
         }
       });
       
-      upload3.uploadImage(mockRequest, {
+      upload3.uploadImage(mockLoginedRequest, {
         send: function (data) {
           throw new Error('should not call this method');
         }
