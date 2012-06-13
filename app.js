@@ -8,11 +8,20 @@
 
 var path = require('path');
 var express = require('express');
+var ndir = require('ndir');
 var config = require('./config').config;
-// 兼容旧版本的 host: http://127.0.0.1
+// host: http://127.0.0.1
 var urlinfo = require('url').parse(config.host);
 config.hostname = urlinfo.hostname || config.host;
 var routes = require('./routes');
+
+config.upload_dir = config.upload_dir || path.join(__dirname, 'public', 'user_data', 'images');
+// ensure upload dir exists
+ndir.mkdir(config.upload_dir, function (err) {
+  if (err) {
+    throw err;
+  }
+});
 
 var app = express.createServer();
 
@@ -22,7 +31,9 @@ app.configure(function () {
   app.set('view engine', 'html');
   app.set('views', viewsRoot);
   app.register('.html', require('ejs'));
-  app.use(express.bodyParser());
+  app.use(express.bodyParser({
+    uploadDir: config.upload_dir
+  }));
   app.use(express.cookieParser());
   app.use(express.session({
     secret: config.session_secret
@@ -59,15 +70,19 @@ app.dynamicHelpers({
   }
 });
 
-var static_dir = path.join(__dirname, 'public');
+var maxAge = 3600000 * 24 * 30;
+app.use('/upload/', express.static(config.upload_dir, { maxAge: maxAge }));
+// old image url: http://host/user_data/images/xxxx
+app.use('/user_data/', express.static(path.join(__dirname, 'public', 'user_data'), { maxAge: maxAge }));
+
+var staticDir = path.join(__dirname, 'public');
 app.configure('development', function () {
-  app.use(express.static(static_dir));
+  app.use(express.static(staticDir));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
 
 app.configure('production', function () {
-  var maxAge = 3600000 * 24 * 30;
-  app.use(express.static(static_dir, { maxAge: maxAge }));
+  app.use(express.static(staticDir, { maxAge: maxAge }));
   app.use(express.errorHandler()); 
   app.set('view cache', true);
 });

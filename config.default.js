@@ -2,7 +2,10 @@
  * config
  */
 
+var path = require('path');
+
 exports.config = {
+  debug: true,
   name: 'Node Club',
   description: 'Node Club 是用Node.js开发的社区软件',
   version: '0.2.2',
@@ -19,6 +22,8 @@ exports.config = {
   ],
   site_static_host: '', // 静态文件存储域名
   site_enable_search_preview: false, // 开启google search preview
+
+  upload_dir: path.join(__dirname, 'public', 'user_data', 'images'),
 
   db: 'mongodb://127.0.0.1/node_club_dev',
   session_secret: 'node_club',

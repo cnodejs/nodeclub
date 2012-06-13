@@ -1,4 +1,10 @@
-// codes from https://github.com/senchalabs/connect/blob/master/test/support/http.js
+/**
+ * `connect` or `express` http request test helper.
+ *
+ * Source codes come from https://github.com/senchalabs/connect/blob/master/test/support/http.js.
+ * 
+ * Modified by @fengmk2
+ */ 
 
 /**
  * Module dependencies.
@@ -6,7 +12,6 @@
 
 var EventEmitter = require('events').EventEmitter;
 var methods = ['get', 'post', 'put', 'delete', 'head'];
-// var connect = require('../../node_modules/connect');
 var express = require('express');
 var connect = null;
 try {

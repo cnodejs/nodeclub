@@ -78,8 +78,10 @@ exports.signup = function(req,res,next){
       user.avatar = avatar_url;
       user.active = false;
       user.save(function(err){
-        if(err) return next(err);
-        mail_ctrl.send_active_mail(email,md5(email+config.session_secret),name,email,function(err,success){
+        if (err) {
+          return next(err);
+        }
+        mail_ctrl.send_active_mail(email,md5(email + config.session_secret), name,email,function(err,success){
           if(success){
             res.render('sign/signup', {success:'欢迎加入 ' + config.name + '！我们已给您的注册邮箱发送了一封邮件，请点击里面的链接来激活您的帐号。'});
             return;
@@ -257,6 +259,7 @@ exports.reset_pass = function(req,res,next) {
       user.pass = md5(psw);
       user.retrieve_key = null;
       user.retrieve_time = null;
+      user.active = true; // 用户激活
       user.save(function(err) {
         if(err) {
           return next(err);

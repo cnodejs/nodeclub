@@ -88,7 +88,7 @@ module.exports = function (app) {
   app.post('/reply/:reply_id/delete', reply.delete);
 
   // upload
-  app.post('/upload/image', upload.upload_image);
+  app.post('/upload/image', upload.uploadImage);
   
   // tools
   app.get('/site_tools', tools.run_site_tools);

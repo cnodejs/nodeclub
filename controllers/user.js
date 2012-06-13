@@ -1,88 +1,89 @@
-var models = require('../models'),
-  User = models.User,
-  Reply = models.Reply,
-  Relation = models.Relation,
-  Message = models.Message,
-  TagCollect = models.TagCollect,
-  TopicCollect = models.TopicCollect;
-
+var models = require('../models');
+var User = models.User;
+var Reply = models.Reply;
+var Relation = models.Relation;
+var Message = models.Message;
+var TagCollect = models.TagCollect;
+var TopicCollect = models.TopicCollect;
 var tag_ctrl = require('./tag');
 var topic_ctrl = require('./topic');
 var message_ctrl = require('./message');
-
 var Util = require('../libs/util');
 var config = require('../config').config;
 var EventProxy = require('eventproxy').EventProxy;
-
-var check = require('validator').check,
-  sanitize = require('validator').sanitize;
-  
+var check = require('validator').check;
+var sanitize = require('validator').sanitize;
 var crypto = require('crypto');
 
-exports.index = function(req,res,next){
+exports.index = function (req, res, next) {
   var user_name = req.params.name;
-  get_user_by_name(user_name,function(err,user){
-    if(!user){
-      res.render('notify/notify', {error:'这个用户不存在。'});
+  get_user_by_name(user_name, function (err, user) {
+    if (!user) {
+      res.render('notify/notify', {error: '这个用户不存在。'});
       return;
     }
     
-    var render = function(recent_topics,recent_replies,relation){
-      user.friendly_create_at = Util.format_date(user.create_at,true);
-      res.render('user/index', {user:user,recent_topics:recent_topics,recent_replies:recent_replies,relation:relation});
+    var render = function (recent_topics, recent_replies, relation) {
+      user.friendly_create_at = Util.format_date(user.create_at, true);
+      res.render('user/index', {
+        user: user,
+        recent_topics: recent_topics,
+        recent_replies: recent_replies,
+        relation: relation
+      });
     };
 
     var proxy = new EventProxy();
-    proxy.assign('recent_topics','recent_replies','relation',render);
+    proxy.assign('recent_topics', 'recent_replies', 'relation', render);
 
-    var query = {'author_id':user._id};
-    var opt = {limit:5, sort:[['create_at','desc']]};
-    topic_ctrl.get_topics_by_query(query,opt,function (err,recent_topics){
+    var query = {author_id: user._id};
+    var opt = {limit: 5, sort: [['create_at', 'desc']]};
+    topic_ctrl.get_topics_by_query(query, opt, function (err, recent_topics) {
       if (err) {
         return next(err);
       }
-      proxy.trigger('recent_topics',recent_topics);
+      proxy.trigger('recent_topics', recent_topics);
     });
 
-    Reply.find({author_id:user._id},function (err,replies){
+    Reply.find({author_id: user._id}, function (err, replies) {
       if (err) {
         return next(err);
       }
       var topic_ids = [];
-      for (var i=0; i<replies.length; i++){
+      for (var i = 0; i < replies.length; i++) {
         if (topic_ids.indexOf(replies[i].topic_id.toString()) < 0) {
           topic_ids.push(replies[i].topic_id.toString());
         }
       }
-      var query = {'_id':{'$in':topic_ids}};
-      var opt = {limit:5, sort:[['create_at','desc']]};
-      topic_ctrl.get_topics_by_query(query,opt,function (err,topics) {
+      var query = {_id: {'$in': topic_ids}};
+      var opt = {limit: 5, sort: [['create_at', 'desc']]};
+      topic_ctrl.get_topics_by_query(query, opt, function (err, topics) {
         if (err) {
           return next(err);
         }
-        proxy.trigger('recent_replies',topics);
+        proxy.trigger('recent_replies', topics);
       });
     });
 
     if (!req.session.user) {
-      proxy.trigger('relation',null);
+      proxy.trigger('relation', null);
     } else {
-      Relation.findOne({user_id:req.session.user._id,follow_id:user._id}, function (err,doc) {
+      Relation.findOne({user_id: req.session.user._id, follow_id: user._id}, function (err, doc) {
         if (err) {
           return next(err);
         }
-        proxy.trigger('relation',doc);
+        proxy.trigger('relation', doc);
       });
     }
   });
 };
 
-exports.show_stars = function (req,res,next) {
-  get_users_by_query({is_star:true},{}, function (err,stars) {
+exports.show_stars = function (req, res, next) {
+  get_users_by_query({is_star: true}, {}, function (err, stars) {
     if (err) {
       return next(err);
     }
-    res.render('user/stars',{stars:stars});
+    res.render('user/stars', {stars: stars});
   });   
 };
 
@@ -133,8 +134,14 @@ exports.setting = function (req, res, next) {
         check(url, '不正确的个人网站。').isUrl();
       } catch (e) {
         res.render('user/setting', {
-          error:e.message,name:name,email:email,url:url,location:location,
-          signature:signature,profile:profile,weibo:weibo,
+          error: e.message, 
+          name: name, 
+          email: email, 
+          url: url, 
+          location: location,
+          signature: signature, 
+          profile: profile,
+          weibo: weibo,
           receive_at_mail: receive_at_mail,
           receive_reply_mail: receive_reply_mail
         });
@@ -149,8 +156,14 @@ exports.setting = function (req, res, next) {
         check(weibo, '不正确的微博地址。').isUrl();
       } catch (e) {
         res.render('user/setting', {
-          error:e.message,name:name,email:email,url:url,location:location,
-          signature:signature,profile:profile,weibo:weibo,
+          error: e.message,
+          name: name,
+          email: email,
+          url: url,
+          location: location,
+          signature: signature,
+          profile: profile,
+          weibo: weibo,
           receive_at_mail: receive_at_mail,
           receive_reply_mail: receive_reply_mail
         });
@@ -158,7 +171,7 @@ exports.setting = function (req, res, next) {
       }
     }
 
-    get_user_by_id(req.session.user._id,function(err,user){
+    get_user_by_id(req.session.user._id, function (err, user) {
       if (err) {
         return next(err);
       }
@@ -169,7 +182,7 @@ exports.setting = function (req, res, next) {
       user.weibo = weibo;
       user.receive_at_mail = receive_at_mail;
       user.receive_reply_mail = receive_reply_mail;
-      user.save(function(err){
+      user.save(function (err) {
         if (err) {
           return next(err);
         }
@@ -182,7 +195,7 @@ exports.setting = function (req, res, next) {
     var old_pass = sanitize(req.body.old_pass).trim();
     var new_pass = sanitize(req.body.new_pass).trim();
 
-    get_user_by_id(req.session.user._id,function(err,user){
+    get_user_by_id(req.session.user._id, function (err, user) {
       if (err) {
         return next(err);
       }
@@ -192,8 +205,14 @@ exports.setting = function (req, res, next) {
 
       if (old_pass !== user.pass) {
         res.render('user/setting', {
-          error:'当前密码不正确。',name:user.name,email:user.email,url:user.url,location:user.location,
-          signature:user.signature,profile:user.profile,weibo:user.weibo,
+          error: '当前密码不正确。',
+          name: user.name,
+          email: user.email,
+          url: user.url,
+          location: user.location,
+          signature: user.signature,
+          profile: user.profile,
+          weibo: user.weibo,
           receive_at_mail: user.receive_at_mail,
           receive_reply_mail: user.receive_reply_mail
         });
@@ -216,7 +235,8 @@ exports.setting = function (req, res, next) {
           url: user.url,
           location: user.location,
           signature: user.signature,
-          profile: user.profile,weibo:user.weibo,
+          profile: user.profile,
+          weibo: user.weibo,
           receive_at_mail: user.receive_at_mail,
           receive_reply_mail: user.receive_reply_mail
         });
@@ -227,26 +247,26 @@ exports.setting = function (req, res, next) {
   }
 };
 
-exports.follow = function (req,res,next) {
+exports.follow = function (req, res, next) {
   if (!req.session || !req.session.user) {
     res.send('forbidden!');
     return;
   }
   var follow_id = req.body.follow_id;
-  get_user_by_id(follow_id,function (err,user) {
+  get_user_by_id(follow_id, function (err, user) {
     if (err) {
       return next(err);
     }
-    if(!user){
-      res.json({status:'failed'});
+    if (!user) {
+      res.json({status: 'failed'});
     }
     
     var proxy = new EventProxy();
-    var done = function() {
+    var done = function () {
       res.json({ status: 'success' });
     };
-    proxy.assign('relation_saved','message_saved',done);
-    Relation.findOne({ user_id: req.session.user._id, follow_id: user._id}, function (err, doc) {
+    proxy.assign('relation_saved', 'message_saved', done);
+    Relation.findOne({user_id: req.session.user._id, follow_id: user._id}, function (err, doc) {
       if (err) {
         return next(err);
       }
@@ -275,33 +295,33 @@ exports.follow = function (req,res,next) {
       req.session.user.following_count += 1;
     });
 
-    message_ctrl.send_follow_message(follow_id,req.session.user._id);
+    message_ctrl.send_follow_message(follow_id, req.session.user._id);
     proxy.trigger('message_saved');
   });
 };
 
-exports.un_follow = function (req,res,next) {
+exports.un_follow = function (req, res, next) {
   if (!req.session || !req.session.user) {
     res.send('forbidden!');
     return;
   }
   var follow_id = req.body.follow_id;
-  get_user_by_id(follow_id, function (err,user) {
+  get_user_by_id(follow_id, function (err, user) {
     if (err) {
       return next(err);
     }
-    if(!user){
-      res.json({status:'failed'});
+    if (!user) {
+      res.json({status: 'failed'});
       return;
     }
-    Relation.remove({user_id:req.session.user._id,follow_id:user._id},function(err){
+    Relation.remove({user_id: req.session.user._id, follow_id: user._id}, function (err) {
       if (err) {
         return next(err);
       }
-      res.json({status:'success'});
+      res.json({status: 'success'});
     });
 
-    get_user_by_id(req.session.user._id, function (err,me) {
+    get_user_by_id(req.session.user._id, function (err, me) {
       if (err) {
         return next(err);
       }
@@ -316,13 +336,13 @@ exports.un_follow = function (req,res,next) {
   });
 };
 
-exports.toggle_star = function(req,res,next){
+exports.toggle_star = function (req, res, next) {
   if (!req.session.user || !req.session.user.is_admin) {
     res.send('forbidden!</strong>');
     return;
   }
   var user_id = req.body.user_id;
-  get_user_by_id(user_id, function (err,user) {
+  get_user_by_id(user_id, function (err, user) {
     if (err) {
       return next(err);
     }
@@ -370,14 +390,15 @@ exports.get_collect_topics = function (req, res, next) {
   var render = function (topics, pages) {
     res.render('user/collect_topics', {
       topics: topics,
-      current_page:page, pages:pages
+      current_page: page, 
+      pages: pages
     });
   };
 
   var proxy = new EventProxy();
-  proxy.assign('topics','pages',render);
+  proxy.assign('topics', 'pages', render);
 
-  TopicCollect.find({ user_id: req.session.user._id },function (err, docs) {
+  TopicCollect.find({ user_id: req.session.user._id }, function (err, docs) {
     if (err) {
       return next(err);
     }
@@ -391,7 +412,7 @@ exports.get_collect_topics = function (req, res, next) {
       limit: limit, 
       sort: [ [ 'create_at', 'desc' ] ] 
     };
-    topic_ctrl.get_topics_by_query(query,opt, function (err, topics) {
+    topic_ctrl.get_topics_by_query(query, opt, function (err, topics) {
       if (err) {
         return next(err);
       }
@@ -412,170 +433,191 @@ exports.get_followings = function (req, res, next) {
     res.redirect('home');
     return;
   } 
-  Relation.find({user_id:req.session.user._id},function(err,docs){
-    if(err) return next(err);
+  Relation.find({user_id: req.session.user._id}, function (err, docs) {
+    if (err) {
+      return next(err);
+    }
     var ids = [];
-    for(var i=0; i<docs.length; i++){
+    for (var i = 0; i < docs.length; i++) {
       ids.push(docs[i].follow_id);
     }
-    get_users_by_ids(ids,function(err,users){
-      if(err) return next(err);
-      res.render('user/followings',{users:users});
+    get_users_by_ids(ids, function (err, users) {
+      if (err) {
+        return next(err);
+      }
+      res.render('user/followings', {users: users});
     });
   }); 
 };
 
-exports.get_followers = function(req,res,next){
-  if(!req.session.user){
+exports.get_followers = function (req, res, next) {
+  if (!req.session.user) {
     res.redirect('home');
     return;
   } 
-  Relation.find({follow_id:req.session.user._id},function(err,docs){
-    if(err) return next(err);
+  Relation.find({follow_id: req.session.user._id}, function (err, docs) {
+    if (err) {
+      return next(err);
+    }
     var ids = [];
-    for(var i=0; i<docs.length; i++){
+    for (var i = 0; i < docs.length; i++) {
       ids.push(docs[i].user_id);
     }
-    get_users_by_ids(ids,function(err,users){
-      if(err) return next(err);
-      res.render('user/followers',{users:users});
+    get_users_by_ids(ids, function (err, users) {
+      if (err) {
+        return next(err);
+      }
+      res.render('user/followers', {users: users});
     });
   }); 
 };
 
-exports.top100 = function(req,res,next){
-  var opt = {limit:100, sort:[['score','desc']]};
-  get_users_by_query({},opt,function(err,tops){
-    if(err) return next(err);
-    res.render('user/top100',{users:tops});
+exports.top100 = function (req, res, next) {
+  var opt = {limit: 100, sort: [['score', 'desc']]};
+  get_users_by_query({}, opt, function (err, tops) {
+    if (err) {
+      return next(err);
+    }
+    res.render('user/top100', {users: tops});
   });
 };
 
-exports.list_topics = function(req,res,next){
+exports.list_topics = function (req, res, next) {
   var user_name = req.params.name;
   var page = Number(req.query.page) || 1;
   var limit = config.list_topic_count;
 
-  get_user_by_name(user_name,function(err,user){
-    if(!user){
-      res.render('notify/notify', {error:'这个用户不存在。'});
+  get_user_by_name(user_name, function (err, user) {
+    if (!user) {
+      res.render('notify/notify', {error: '这个用户不存在。'});
       return;
     }
     
-    var render = function(topics,relation,pages){
-      user.friendly_create_at = Util.format_date(user.create_at,true);
-      res.render('user/topics', {user:user,topics:topics,relation:relation,current_page:page,pages:pages});
+    var render = function (topics, relation, pages) {
+      user.friendly_create_at = Util.format_date(user.create_at, true);
+      res.render('user/topics', {
+        user: user,
+        topics: topics,
+        relation: relation,
+        current_page: page,
+        pages: pages
+      });
     };
 
     var proxy = new EventProxy();
-    proxy.assign('topics','relation','pages',render);
+    proxy.assign('topics', 'relation', 'pages', render);
 
-    var query = {'author_id':user._id};
-    var opt = {skip:(page-1)*limit, limit:limit, sort:[['create_at','desc']]};
-    topic_ctrl.get_topics_by_query(query,opt,function(err,topics){
-      if(err) return next(err);
-      proxy.trigger('topics',topics);
+    var query = {'author_id': user._id};
+    var opt = {skip: (page - 1) * limit, limit: limit, sort: [['create_at', 'desc']]};
+    topic_ctrl.get_topics_by_query(query, opt, function (err, topics) {
+      if (err) {
+        return next(err);
+      }
+      proxy.trigger('topics', topics);
     });
 
-    if(!req.session.user){
-      proxy.trigger('relation',null);
-    }else{
-      Relation.findOne({user_id:req.session.user._id,follow_id:user._id},function(err,doc){
-        if(err) return next(err);
-        proxy.trigger('relation',doc);
+    if (!req.session.user) {
+      proxy.trigger('relation', null);
+    } else {
+      Relation.findOne({user_id: req.session.user._id, follow_id: user._id}, function (err, doc) {
+        if (err) {
+          return next(err);
+        }
+        proxy.trigger('relation', doc);
       });
     }
 
-    topic_ctrl.get_count_by_query(query,function(err,all_topics_count){
-      if(err) return next(err);
-      var pages = Math.ceil(all_topics_count/limit);
-      proxy.trigger('pages',pages);
+    topic_ctrl.get_count_by_query(query, function (err, all_topics_count) {
+      if (err) {
+        return next(err);
+      }
+      var pages = Math.ceil(all_topics_count / limit);
+      proxy.trigger('pages', pages);
     });
   });
 };
 
-exports.list_replies = function(req,res,next){
+exports.list_replies = function (req, res, next) {
   var user_name = req.params.name;
   var page = Number(req.query.page) || 1;
   var limit = config.list_topic_count;
 
-  get_user_by_name(user_name,function(err,user){
-    if(!user){
-      res.render('notify/notify', {error:'这个用户不存在。'});
+  get_user_by_name(user_name, function (err, user) {
+    if (!user) {
+      res.render('notify/notify', {error: '这个用户不存在。'});
       return;
     }
     
-    var render = function(topics,relation,pages){
-      user.friendly_create_at = Util.format_date(user.create_at,true);
-      res.render('user/replies', {user:user,topics:topics,relation:relation,current_page:page,pages:pages});
+    var render = function (topics, relation, pages) {
+      user.friendly_create_at = Util.format_date(user.create_at, true);
+      res.render('user/replies', {
+        user: user,
+        topics: topics,
+        relation: relation,
+        current_page: page,
+        pages: pages
+      });
     };
 
     var proxy = new EventProxy();
-    proxy.assign('topics','relation','pages',render);
+    proxy.assign('topics', 'relation', 'pages', render);
 
-    Reply.find({author_id:user._id},function(err,replies){
-      if(err) return next(err);
+    Reply.find({author_id: user._id}, function (err, replies) {
+      if (err) {
+        return next(err);
+      }
       var topic_ids = [];
-      for(var i=0; i<replies.length; i++){
-        if(topic_ids.indexOf(replies[i].topic_id.toString()) == -1){
+      for (var i = 0; i < replies.length; i++) {
+        if (topic_ids.indexOf(replies[i].topic_id.toString()) < 0) {
           topic_ids.push(replies[i].topic_id);
         }
       }
-      var query = {'_id':{'$in':topic_ids}};
-      var opt = {skip:(page-1)*limit, limit:limit, sort:[['create_at','desc']]};
-      topic_ctrl.get_topics_by_query(query,opt,function(err,topics){
-        if(err) return next(err);
-        proxy.trigger('topics',topics);
+      var query = {'_id': {'$in': topic_ids}};
+      var opt = {skip: (page - 1) * limit, limit: limit, sort: [['create_at', 'desc']]};
+      topic_ctrl.get_topics_by_query(query, opt, function (err, topics) {
+        if (err) {
+          return next(err);
+        }
+        proxy.trigger('topics', topics);
       });
 
-      topic_ctrl.get_count_by_query(query,function(err,all_topics_count){
-        if(err) return next(err);
-        var pages = Math.ceil(all_topics_count/limit);
-        proxy.trigger('pages',pages);
+      topic_ctrl.get_count_by_query(query, function (err, all_topics_count) {
+        if (err) {
+          return next(err);
+        }
+        var pages = Math.ceil(all_topics_count / limit);
+        proxy.trigger('pages', pages);
       });
     });
 
-    if(!req.session.user){
-      proxy.trigger('relation',null);
-    }else{
-      Relation.findOne({user_id:req.session.user._id,follow_id:user._id},function(err,doc){
-        if(err) return next(err);
-        proxy.trigger('relation',doc);
+    if (!req.session.user) {
+      proxy.trigger('relation', null);
+    } else {
+      Relation.findOne({user_id: req.session.user._id, follow_id: user._id}, function (err, doc) {
+        if (err) {
+          return next(err);
+        }
+        proxy.trigger('relation', doc);
       });
     }
   });
 };
 
-function get_user_by_id(id,cb){
-  User.findOne({_id:id},function(err,user){
-    if(err) return cb(err,null);
-    return cb(err,user);
-  });
+function get_user_by_id(id, cb) {
+  User.findOne({_id: id}, cb);
 }
-function get_user_by_name(name,cb){
-  User.findOne({name:name},function(err,user){
-    if(err) return cb(err,null);
-    return cb(err,user);
-  });
+function get_user_by_name(name, cb) {
+  User.findOne({name: name}, cb);
 }
-function get_user_by_loginname(name,cb){
-  User.findOne({loginname:name},function(err,user){
-    if(err) return cb(err,null);
-    return cb(err,user);
-  });
+function get_user_by_loginname(name, cb) {
+  User.findOne({loginname: name}, cb);
 }
 
-function get_users_by_ids(ids,cb){
-  User.find({'_id':{'$in':ids}},function(err,users){
-    if(err) return cb(err,null);
-    return cb(err,users);
-  });
+function get_users_by_ids(ids, cb) {
+  User.find({'_id': {'$in': ids}}, cb);
 }
-function get_users_by_query(query,opt,cb){
-  User.find(query,[],opt,function(err,users){
-    if(err) return cb(err,null);
-    return cb(err,users);
-  });
+function get_users_by_query(query, opt, cb) {
+  User.find(query, [], opt, cb);
 }
 exports.get_user_by_id = get_user_by_id;
 exports.get_user_by_name = get_user_by_name;

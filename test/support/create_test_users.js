@@ -14,7 +14,7 @@ exports.createUsers = function (callback) {
   var names = [ 'testuser1', 'testuser2', 'testuser3' ];
   var count = 0;
   names.forEach(function (name) {
-    User.findOne({ loginname: name}, function (err, user) {
+    User.findOne({ loginname: name }, function (err, user) {
       if (!user) {
         user = new User({
           loginname: name,
