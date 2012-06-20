@@ -19,6 +19,9 @@
 		<script src='/libs/bootstrap/js/bootstrap.js'></script>
 		<script src='/javascripts/main.js'></script>
 		<% if (config.site_enable_search_preview) { %>
+    <script>
+      var __google_search_domain = '<%= config.site_google_search_domain %>';
+    </script>
 		<script src='/javascripts/google_search_preview.js'></script>
 		<% } %>
 		<% if (locals.topic) { %>
