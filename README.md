@@ -62,22 +62,26 @@ Below is the output from `git-summary`.
 
 ```
  project: nodeclub
- commits: 89
- active : 36 days
- files  : 253
+ commits: 136
+ active : 54 days
+ files  : 265
  authors: 
-    41    fengmk2                 46.1%
-    10    Kenny Zhao              11.2%
-     9    muyuan                  10.1%
-     8    dead-horse              9.0%
-     7    young40                 7.9%
-     5    ericzhang               5.6%
-     3    Json Shen               3.4%
-     2    chang                   2.2%
-     1    roymax                  1.1%
-     1    thebrecht               1.1%
-     1    LeToNode                1.1%
-     1    张洋                  1.1%
+    64  fengmk2                 47.1%
+    20  Jackson Tian            14.7%
+    10  Kenny Zhao              7.4%
+     9  muyuan                  6.6%
+     8  dead-horse              5.9%
+     7  young40                 5.1%
+     5  ericzhang               3.7%
+     3  Json Shen               2.2%
+     2  chang                   1.5%
+     2  Lei Zongmin             1.5%
+     1  张洋                  0.7%
+     1  LeToNode                0.7%
+     1  leizongmin              0.7%
+     1  roymax                  0.7%
+     1  sunwenchao              0.7%
+     1  thebrecht               0.7%
 ```
 
 ## License
