@@ -25,6 +25,15 @@ $ node app.js
 ```bash
 $ make test
 ```
+
+jscoverage
+
+```bash
+$ make test-cov
+```
+
+* test results: [test_results.md](https://github.com/cnodejs/nodeclub/blob/master/test_results.md)
+* jscoverage: [**31%**](http://fengmk2.github.com/coverage/nodeclub.html)
     
 ## 其它
 
