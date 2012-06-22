@@ -1,17 +1,17 @@
-var models = require('../models'),
-  Reply = models.Reply,
-  Topic = models.Topic,
-  Message = models.Message;
+var models = require('../models');
+var Reply = models.Reply;
+var Topic = models.Topic;
+var Message = models.Message;
 
-var check = require('validator').check,
-  sanitize = require('validator').sanitize;
+var check = require('validator').check;
+var sanitize = require('validator').sanitize;
 
 var at_ctrl = require('./at');
 var user_ctrl = require('./user');
 var message_ctrl = require('./message');
 
 var Util = require('../libs/util');
-var Markdown = require('node-markdown').Markdown;
+var Showdown = require('../public/libs/showdown');
 var EventProxy = require('eventproxy').EventProxy;
 
 exports.add = function (req, res, next) {
@@ -40,9 +40,13 @@ exports.add = function (req, res, next) {
   reply.topic_id = topic_id; 
   reply.author_id = req.session.user._id;
   reply.save(function (err) {
-    if (err) return next(err);
+    if (err) {
+      return next(err);
+    }
     Topic.findOne({_id: topic_id}, function (err, topic) {
-      if (err) return next(err);
+      if (err) {
+        return next(err);
+      }
       topic.last_reply = reply._id;
       topic.last_reply_at = new Date();
       topic.reply_count += 1;
@@ -54,7 +58,9 @@ exports.add = function (req, res, next) {
   });
 
   Topic.findOne({_id: topic_id}, function (err, topic) {
-    if (err) return next(err);
+    if (err) {
+      return next(err);
+    }
     if (topic.author_id.toString() === req.session.user._id.toString()) {
       proxy.trigger('message_saved');
     } else {
@@ -64,7 +70,9 @@ exports.add = function (req, res, next) {
   });
 
   user_ctrl.get_user_by_id(req.session.user._id, function (err, user) {
-    if (err) return next(err);
+    if (err) {
+      return next(err);
+    }
     user.score += 5;
     user.reply_count += 1;
     user.save();
@@ -104,9 +112,13 @@ exports.add_reply2 = function (req, res, next) {
   reply.reply_id = reply_id;
   reply.author_id = req.session.user._id;
   reply.save(function (err) {
-    if (err) return next(err);
+    if (err) {
+      return next(err);
+    }
     Topic.findOne({_id: topic_id}, function (err, topic) {
-      if (err) return next(err);
+      if (err) {
+        return next(err);
+      }
       topic.last_reply = reply._id;
       topic.last_reply_at = new Date();
       topic.reply_count += 1;
@@ -118,7 +130,9 @@ exports.add_reply2 = function (req, res, next) {
   });
 
   Reply.findOne({_id: reply_id}, function (err, reply) {
-    if (err) return next(err);
+    if (err) {
+      return next(err);
+    }
     if (reply.author_id.toString() === req.session.user._id.toString()) {
       proxy.trigger('message_saved');
     } else {
@@ -158,78 +172,92 @@ exports.delete = function (req, res, next) {
   });
 };
 
-function get_reply_by_id(id,cb){
-  Reply.findOne({_id:id},function(err,reply){
-    if(err) return cb(err);
-    if(!reply){
-      return cb(err,null);
+function get_reply_by_id(id, cb) {
+  Reply.findOne({_id: id}, function (err, reply) {
+    if (err) {
+      return cb(err);
+    }
+    if (!reply) {
+      return cb(err, null);
     }
 
     var author_id = reply.author_id;
-    user_ctrl.get_user_by_id(author_id, function(err,author){
-      if(err) return cb(err);
-      if(!reply.content_is_html){
-        reply.content = Markdown(reply.content,true);
+    user_ctrl.get_user_by_id(author_id, function (err, author) {
+      if (err) {
+        return cb(err);
+      }
+      if (!reply.content_is_html) {
+        reply.content = Showdown.parse(reply.content);
       }
       reply.author = author;
-      reply.friendly_create_at = Util.format_date(reply.create_at,true);
+      reply.friendly_create_at = Util.format_date(reply.create_at, true);
 
-      at_ctrl.link_at_who(reply.content,function(err,str){
-        if(err) return cb(err);
+      at_ctrl.link_at_who(reply.content, function (err, str) {
+        if (err) {
+          return cb(err);
+        }
         reply.content = str;
-        return cb(err,reply);
+        return cb(err, reply);
       });
     });
   });
-};
+}
 
-function get_replies_by_topic_id(id,cb){
-  Reply.find({topic_id:id},[],{sort:[['create_at','asc']]},function(err,replies){
-    if(err) return next(err);
-    if(replies.length == 0) return cb(err,[]);
+function get_replies_by_topic_id(id, cb) {
+  Reply.find({topic_id: id}, [], {sort: [['create_at', 'asc']]}, function (err, replies) {
+    if (err) {
+      return cb(err);
+    }
+    if (replies.length === 0) {
+      return cb(err, []);
+    }
 
     var proxy = new EventProxy();
-    var done = function(){
+    var done = function () {
       var replies2 = [];
-      for(var i = replies.length-1; i>=0; i--){
-        if(replies[i].reply_id){
+      for (var i = replies.length - 1; i >= 0; i--) {
+        if (replies[i].reply_id) {
           replies2.push(replies[i]);  
-          replies.splice(i,1);
+          replies.splice(i, 1);
         }
       }
-      for(var j=0; j<replies.length; j++){
+      for (var j = 0; j < replies.length; j++) {
         replies[j].replies = [];
-        for(var k=0; k<replies2.length; k++){
+        for (var k = 0; k < replies2.length; k++) {
           var id1 = replies[j]._id;
           var id2 = replies2[k].reply_id;
-          if(id1.toString() == id2.toString()){
+          if (id1.toString() === id2.toString()) {
             replies[j].replies.push(replies2[k]); 
           } 
         }
         replies[j].replies.reverse();
       }
       return cb(err, replies);
-    }
+    };
     proxy.after('reply_find', replies.length, done);
-    for(var i=0; i<replies.length; i++){
-      (function(i){
+    for (var i = 0; i < replies.length; i++) {
+      (function (i) {
         var author_id = replies[i].author_id;
-        user_ctrl.get_user_by_id(author_id, function(err,author){
-          if(err) return cb(err);
-          if(!replies[i].content_is_html){
-            replies[i].content = Markdown(replies[i].content,true);
+        user_ctrl.get_user_by_id(author_id, function (err, author) {
+          if (err) {
+            return cb(err);
+          }
+          if (!replies[i].content_is_html) {
+            replies[i].content = Showdown.parse(replies[i].content);
           }
           replies[i].author = author;
-          replies[i].friendly_create_at = Util.format_date(replies[i].create_at,true);
-          at_ctrl.link_at_who(replies[i].content,function(err,str){
-            if(err) return cb(err);
+          replies[i].friendly_create_at = Util.format_date(replies[i].create_at, true);
+          at_ctrl.link_at_who(replies[i].content, function (err, str) {
+            if (err) {
+              return cb(err);
+            }
             replies[i].content = str;
             proxy.trigger('reply_find');
           });
         });
-       })(i);
+      })(i);
     }
   }); 
-};
+}
 exports.get_reply_by_id = get_reply_by_id;
 exports.get_replies_by_topic_id = get_replies_by_topic_id;  

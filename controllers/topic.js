@@ -19,7 +19,7 @@ var tag_ctrl = require('./tag');
 var user_ctrl = require('./user');
 var reply_ctrl = require('./reply');
 var EventProxy = require('eventproxy').EventProxy;
-var Markdown = require('node-markdown').Markdown;
+var Showdown = require('../public/libs/showdown');
 var Util = require('../libs/util');
 
 /**
@@ -29,13 +29,13 @@ var Util = require('../libs/util');
  * @param  {HttpResponse} res
  * @param  {Function} next
  */
-exports.index = function(req, res, next) {
+exports.index = function (req, res, next) {
   var topic_id = req.params.tid;
   if (topic_id.length !== 24) {
     return res.render('notify/notify', { error: '此话题不存在或已被删除。' });
   }
   var events = [ 'topic', 'other_topics', 'no_reply_topics', 'get_relation', '@user' ];
-  var ep = EventProxy.create(events, function(topic, other_topics, no_reply_topics, relation) {
+  var ep = EventProxy.create(events, function (topic, other_topics, no_reply_topics, relation) {
     res.render('topic/index', {
       topic: topic,
       author_other_topics: other_topics,
@@ -43,36 +43,42 @@ exports.index = function(req, res, next) {
       relation : relation
     });
   });
-  ep.on('error', function(err) {
+  ep.on('error', function (err) {
     ep.unbind();
     next(err);
   });
-  ep.once('topic', function(topic) {
-    at_ctrl.link_at_who(topic.content, function(err, content) {
-      if (err) return ep.emit('error', err);
+  ep.once('topic', function (topic) {
+    at_ctrl.link_at_who(topic.content, function (err, content) {
+      if (err) {
+        return ep.emit('error', err);
+      }
       topic.content = content;
     });
   });
 
-  get_full_topic(topic_id, function(err, message, topic, tags, author, replies) {
-    if (err) return ep.emit('error', err);
+  get_full_topic(topic_id, function (err, message, topic, tags, author, replies) {
+    if (err) {
+      return ep.emit('error', err);
+    }
     if (message) {
       ep.unbind();
       return res.render('notify/notify', { error: message });
     }
 
 
-    at_ctrl.link_at_who(topic.content, function(err, content) {
-      if (err) return ep.emit('error', err);
+    at_ctrl.link_at_who(topic.content, function (err, content) {
+      if (err) {
+        return ep.emit('error', err);
+      }
       topic.content = content;
       ep.emit('@user');
     });
 
     topic.visit_count += 1;
-    topic.save(function(err) {
+    topic.save(function (err) {
       if (!topic.content_is_html) {
         // trans Markdown to HTML
-        topic.content = Markdown(topic.content, true);
+        topic.content = Showdown.parse(topic.content);
       }
       // format date
       topic.friendly_create_at = Util.format_date(topic.create_at, true);
@@ -86,8 +92,10 @@ exports.index = function(req, res, next) {
         ep.emit('topic', topic);
       } else {
         var q = { user_id: req.session.user._id, topic_id: topic._id };
-        TopicCollect.findOne(q, function(err, doc) {
-          if (err) return ep.emit('error', err);
+        TopicCollect.findOne(q, function (err, doc) {
+          if (err) {
+            return ep.emit('error', err);
+          }
           topic.in_collection = doc;
           ep.emit('topic', topic);
         });

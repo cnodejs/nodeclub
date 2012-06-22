@@ -1,1 +1,78 @@
-.pln{color:#000}@media screen{.str{color:#080}.kwd{color:#008}.com{color:#800}.typ{color:#606}.lit{color:#066}.pun,.opn,.clo{color:#660}.tag{color:#008}.atn{color:#606}.atv{color:#080}.dec,.var{color:#606}.fun{color:red}}@media print,projection{.str{color:#060}.kwd{color:#006;font-weight:bold}.com{color:#600;font-style:italic}.typ{color:#404;font-weight:bold}.lit{color:#044}.pun,.opn,.clo{color:#440}.tag{color:#006;font-weight:bold}.atn{color:#404}.atv{color:#060}}pre.prettyprint{padding:2px;border:1px solid #888}ol.linenums{margin-top:0;margin-bottom:0}li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8{list-style-type:none}li.L1,li.L3,li.L5,li.L7,li.L9{background:#eee}
+/* Pretty printing styles. Used with prettify.js. */
+
+/* SPAN elements with the classes below are added by prettyprint. */
+.pln { color: #000 }  /* plain text */
+
+@media screen {
+  .str { color: #080 }  /* string content */
+  .kwd { color: #008 }  /* a keyword */
+  .com { color: #800 }  /* a comment */
+  .typ { color: #606 }  /* a type name */
+  .lit { color: #066 }  /* a literal value */
+  /* punctuation, lisp open bracket, lisp close bracket */
+  .pun, .opn, .clo { color: #660 }
+  .tag { color: #008 }  /* a markup tag name */
+  .atn { color: #606 }  /* a markup attribute name */
+  .atv { color: #080 }  /* a markup attribute value */
+  .dec, .var { color: #606 }  /* a declaration; a variable name */
+  .fun { color: red }  /* a function name */
+}
+
+/* Use higher contrast and text-weight for printable form. */
+@media print, projection {
+  .str { color: #060 }
+  .kwd { color: #006; font-weight: bold }
+  .com { color: #600; font-style: italic }
+  .typ { color: #404; font-weight: bold }
+  .lit { color: #044 }
+  .pun, .opn, .clo { color: #440 }
+  .tag { color: #006; font-weight: bold }
+  .atn { color: #404 }
+  .atv { color: #060 }
+}
+
+pre, code {
+  font-family: Monaco, Consolas, Menlo, "Courier New", monospace;
+  font-size: 12px;
+}
+
+/* Put a border around prettyprinted code snippets. */
+pre.prettyprint {
+  display: block;
+  background-color: #fff;
+  border-radius: 10px;
+  margin: 0 0 10px 0;
+  width: auto;
+}
+
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums { margin-top: 0; margin-bottom: 0 } /* IE indents via margin-left */
+li.L0,
+li.L1,
+li.L2,
+li.L3,
+li.L5,
+li.L6,
+li.L7,
+li.L8 { list-style-type: none }
+/* Alternate shading for lines */
+li.L1,
+li.L3,
+li.L5,
+li.L7,
+li.L9 { background: #eee }
+
+/* desert scheme ported from vim to google prettify */
+pre.prettyprint { border: none; display: block; background-color: #333; padding: 5px 10px; }
+pre.prettyprint .nocode { background-color: none; color: #000 }
+pre.prettyprint .str { color: #ffa0a0 } /* string  - pink */
+pre.prettyprint .kwd { color: #f0e68c; font-weight: bold }
+pre.prettyprint .com { color: #87ceeb } /* comment - skyblue */
+pre.prettyprint .typ { color: #98fb98 } /* type    - lightgreen */
+pre.prettyprint .lit { color: #cd5c5c } /* literal - darkred */
+pre.prettyprint .pun { color: #fff }    /* punctuation */
+pre.prettyprint .pln { color: #fff }    /* plaintext */
+pre.prettyprint .tag { color: #f0e68c; font-weight: bold } /* html/xml tag    - lightyellow */
+pre.prettyprint .atn { color: #bdb76b; font-weight: bold } /* attribute name  - khaki */
+pre.prettyprint .atv { color: #ffa0a0 } /* attribute value - pink */
+pre.prettyprint .dec { color: #98fb98 } /* decimal         - lightgreen */

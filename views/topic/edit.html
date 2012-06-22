@@ -132,15 +132,19 @@
 <script src='/libs/ajax-upload/ajaxupload.js'></script>
 <!-- markdown editor -->
 <script src='/libs/pagedown/Markdown.Converter.js'></script>
-<script src='/libs/pagedown/Markdown.Sanitizer.js'></script>
+<script src='/libs/showdown.js'></script>
 <script src='/libs/pagedown/Markdown.Editor.js'></script>
 
 <script>
 $(document).ready(function(){
   function run_md_editor(){
-    var converter = Markdown.getSanitizingConverter();
+    // var converter = Markdown.getSanitizingConverter();
+    var converter = new Showdown.converter();
     var editor = new Markdown.Editor(converter);
-    editor.run(); 
+    editor.run();
+    editor.hooks.chain('onPreviewRefresh', function () {
+      prettyPrint();
+    });
   }
   run_md_editor();
 
