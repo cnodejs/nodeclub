@@ -180,17 +180,23 @@
 
     $('.reply2_btn').click(function () {
       var $btn = $(this);
-      var editor = $btn.parent().next('.reply2_area').find('.reply2_editor');
+      // var editor = $btn.parent().next('.reply2_area').find('.reply2_editor');
+      var editor = $btn.parent().parent().find('.reply2_editor');
       editor.slideToggle('fast'); 
     });
 
     $('.reply2_at_btn').click(function () {
       var $btn = $(this);
       var editor = $btn.parents('.reply2_area').find('.reply2_editor');
-      editor.show('fast');  
+      editor.show('fast');
       var user = $btn.parents('.reply2_item').find('.reply_author').find('a').html();
       var textarea = editor.find('textarea');
-      textarea.val(textarea.val() + ' @' + user + ' ');
+      if (textarea.val().indexOf(user) === -1) {
+        textarea.val(textarea.val() + ' @' + user + ' ');
+      } else {
+        editor.hide('fast');
+        textarea.val('')
+      }
     });
 
     $('.reply2_submit_btn').click(function () {
@@ -226,7 +232,10 @@
     $('.reply2_item').live('mouseout',function(){
       $(this).find('.reply2_at_btn').hide();
     });
-
+/*
+    $(this).find('.reply2_btn').show();
+    $(this).find('.reply2_at_btn').show();
+*/
     $('#collect_btn').click(function(){
       var $me = $(this);
       var action = $me.attr('action');
