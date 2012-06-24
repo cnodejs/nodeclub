@@ -1,11 +1,11 @@
 <div class='user_card'>
-	<div>
-		<% if(user.avatar){ %>
-		<a href='/user/<%= user.name %>'><img class='user_avatar' src='<%= user.avatar %>' title='<%= user.name %>' /></a>
-		<% }else{ %>
-		<a href='/user/<%= user.name %>'><img class='user_avatar' src='<%- config.site_static_host %>/images/user_icon&48.png' title='<%= user.name %>' /></a>
-		<% } %>
-		<span class='sp10'></span>
+	<% if(user.avatar){ %>
+	<a href='/user/<%= user.name %>'><img class='user_avatar' src='<%= user.avatar %>' title='<%= user.name %>' /></a>
+	<% }else{ %>
+	<a href='/user/<%= user.name %>'><img class='user_avatar' src='<%- config.site_static_host %>/images/user_icon&48.png' title='<%= user.name %>' /></a>
+	<% } %>
+	<span class='sp10'></span>
+	<div class='user_info'>
 		<div class='btn-group' id='user_menu'>
 			<button class='btn user_name'><a class='dark' href='/user/<%= user.name %>'><%= user.name %></a></button>
 			<button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
@@ -26,12 +26,9 @@
 				<li><a href='/my/follower'><span class='big'><%= user.follower_count %></span> 粉丝</a></li>
 			</ul>
 		</div>
-
-		<div class='board cl'>
-			<% if(user.messages_count > 0){ %>
-			<div class='floor'><a href='/my/messages'><span class='big messages_count'><%= user.messages_count %></span> 未读消息</a></div>
-			<% } %>
-		</div>
+		<% if(user.messages_count > 0){ %>
+		<div class='floor'><a href='/my/messages'><span class='messages_count'><%= user.messages_count %></span> 未读消息</a></div>
+		<% } %>
 	</div>
 </div>
 

@@ -255,11 +255,15 @@ a.tag_big:hover {
 	-o-box-shadow: 0px 1px 4px gray;
 	box-shadow: 0px 1px 4px gray;
 }
-.user_card .user_avatar {
+/*.user_card .user_avatar {
 	vertical-align: middle;
-}
+}*/
 .user_card .user_name {
 	font-size: 16px;
+}
+.user_info {
+	display: inline-block;
+	vertical-align: top;
 }
 #user_menu {
 	display: inline-block;
@@ -317,6 +321,7 @@ a.tag_big:hover {
 }
 .reply_content {
 	margin-left: 58px;
+	margin-top: 8px;
 }
 .reply2_btn {
 	display: none;
@@ -342,8 +347,15 @@ a.tag_big:hover {
 .title_wrap {
 	width: 90%;
 	overflow: hidden;
+	white-space: nowrap;
 	text-overflow: ellipsis;
 	display: inline-block;
+}
+.cell .title_wrap {
+	width: 60%;
+}
+.mark_read_btn img {
+  width: 80%;
 }
 a.topic_title {
 	font-size: 14px;
@@ -471,7 +483,7 @@ a.count:hover {
 .wmd-preview {
 	width: 560px;
 	background: #fff;
-	border: 1px dashed #ccc;
+	border: 1px solid #ccc;
 	padding: 10px;
 	overflow: auto;
 
@@ -484,16 +496,18 @@ a.count:hover {
 	-moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
 	-o-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
 	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
-} 
+}
+textarea[id^=wmd-input] {
+	height: 200px;
+}
 .topic-wmd-preview {
 	height: 400px;
 }
-.reply-wmd-preview {
-	height: 180px;
+.wmd-preview {
+	height: 213px;
 }
 .reply2-wmd-preview {
 	width: 460px;
-	height: 107px;	
 }
 .wmd-prompt-background {
 	background-color: Black;
