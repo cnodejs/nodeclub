@@ -1,10 +1,13 @@
 $(function () {
-  if (typeof __google_search_domain === 'string' && __google_search_domain !== '')
+  if (typeof __google_search_domain === 'string' && __google_search_domain !== '') {
     var siteHost = __google_search_domain;
-  else if (['127.0.0.1', 'localhost'].indexOf(location.hostname) !== -1)
+  }
+  else if (['127.0.0.1', 'localhost'].indexOf(location.hostname) !== -1) {
     var siteHost = 'cnodejs.org';
-  else
+  }
+  else {
     var siteHost = location.hostname;
+  }
   var id = -1;
   var start = function () {
     id = setInterval(check, 1000);
