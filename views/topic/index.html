@@ -178,17 +178,23 @@
     }
     run_md_editor();
 
+    $('#wmd-input').mouseover(function(){
+      $('#wmd-input').focus()
+    });
+
     $('.reply2_btn').click(function () {
       var $btn = $(this);
       // var editor = $btn.parent().next('.reply2_area').find('.reply2_editor');
       var editor = $btn.parent().parent().find('.reply2_editor');
-      editor.slideToggle('fast'); 
+      editor.slideToggle('fast');
+      editor.find('textarea').focus();
     });
 
     $('.reply2_at_btn').click(function () {
       var $btn = $(this);
       var editor = $btn.parents('.reply2_area').find('.reply2_editor');
       editor.show('fast');
+      editor.find('textarea').focus();
       var user = $btn.parents('.reply2_item').find('.reply_author').find('a').html();
       var textarea = editor.find('textarea');
       if (textarea.val().indexOf(user) === -1) {
