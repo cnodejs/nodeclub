@@ -17,24 +17,19 @@
     <% } %>
   </div>
 
-  <% if (locals.tops) { %>
   <div class='sep10'></div>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>积分榜</span>
+  <div class=panel>
+    <div class='header'>  
+      <!-- <img src='<%- config.site_static_host %>/images/tag_icon&16.png' title='标签'/> -->
+      <!-- CNode社区宣传通告 -->
+      <span class="index_notify">社区消息：
     </div>
     <div class='inner'>
-      <% if (tops.length > 0) { %>
-      <ol>
-      <%- partial('user/top', { collection: tops, as: 'user' }) %>
-      </ol>
-      <a class='dark' href='/users/top100'>TOP 100 &gt;&gt;</a>
-      <% } else { %>
-      <p>无</p>
-      <% } %>
+      <p><a href="/topic/4fa69d90bac222c3780576d8" target="_blank">如何获得NodeAppEngine邀请码?</a></p>
+      <p><a href="/topic/4f4d9f007f999acb7c00af57" target="_blank">如何获得Node官方T-Shirt?</a> </p>
+      <p><a href="/topic/4f17948d9f40a8335200518e" target="_blank">如何加入CNode社区?</a></p>
     </div>
   </div>
-  <% } %>
    
   <% if (locals.hot_tags) { %>
   <div class='sep10'></div>
@@ -88,26 +83,6 @@
   </div>
   <% } %>
 
-
-  <% if (locals.stars) { %>
-  <div class='sep10'></div>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>社区达人</span>
-    </div>
-    <div class='inner'>
-      <% if (stars.length > 0) { %>
-      <ul class='unstyled'>
-      <%- partial('user/star', { collection: stars, as: 'user' }) %>
-      </ul>
-      <a class='dark' href='/stars'>更多»</a>
-      <% } else { %>
-      <p>无</p>
-      <% } %>
-    </div>
-  </div>
-  <% } %>
-
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>  
@@ -122,6 +97,46 @@
       </ul>
     </div>
   </div>
+
+  <% if (locals.tops) { %>
+  <div class='sep10'></div>
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>积分榜</span>
+      &nbsp;
+      <a class='dark' href='/users/top100'>TOP 100 &gt;&gt;</a>
+    </div>
+    <div class='inner'>
+      <% if (tops.length > 0) { %>
+      <ol>
+      <%- partial('user/top', { collection: tops, as: 'user' }) %>
+      </ol>
+      <% } else { %>
+      <p>无</p>
+      <% } %>
+    </div>
+  </div>
+  <% } %>
+
+  <% if (locals.stars) { %>
+  <div class='sep10'></div>
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>社区达人</span> &nbsp;
+      <a class='dark' href='/stars'>更多»</a>
+    </div>
+    <div class='inner'>
+      <% if (stars.length > 0) { %>
+      <ul class='unstyled'>
+      <%- partial('user/star', { collection: stars, as: 'user' }) %>
+      </ul>
+      <% } else { %>
+      <p>无</p>
+      <% } %>
+    </div>
+  </div>
+  <% } %>
+
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>  
