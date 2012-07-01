@@ -22,6 +22,7 @@ exports.config = {
   ],
   site_static_host: '', // 静态文件存储域名
   site_enable_search_preview: false, // 开启google search preview
+  site_google_search_domain:  'cnodejs.org',  // google search preview中要搜索的域名
 
   upload_dir: path.join(__dirname, 'public', 'user_data', 'images'),
 

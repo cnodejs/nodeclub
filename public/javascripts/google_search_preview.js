@@ -1,4 +1,13 @@
 $(function () {
+  if (typeof __google_search_domain === 'string' && __google_search_domain !== '') {
+    var siteHost = __google_search_domain;
+  }
+  else if (['127.0.0.1', 'localhost'].indexOf(location.hostname) !== -1) {
+    var siteHost = 'cnodejs.org';
+  }
+  else {
+    var siteHost = location.hostname;
+  }
   var id = -1;
   var start = function () {
     id = setInterval(check, 1000);
@@ -10,7 +19,7 @@ $(function () {
       return;
     }
     old = q;
-    var url = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=site:cnodejs.org+' + q + '&callback=?';
+    var url = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=site:' + siteHost + '+' + q + '&callback=?';
     $.getJSON(url, function (d) {
       if (!(d.responseData && Array.isArray(d.responseData.results))) {
         return;
@@ -24,6 +33,7 @@ $(function () {
     $list.slideUp(500);
   };
   var $in = $('input#q');
+  $in.attr('autocomplete', 'off');
   $in.focusin(start).focusout(stop);
   $in.after('<div id="__quick_search_list" style="display:none; z-index:1000; position:fixed; padding:8px; background-color:white; opacity:0.95; color:black; font-size:14px; line-height:1.8em; border:1px solid #AAA; width:500px; box-shadow:2px 2px 4px #AAA;"></div>')
      .after('<style>.__quick_search_list_item { border-bottom:1px solid #EEE; padding:4px 0px; }\n.__quick_search_list_item:last-child { border-bottom:none; }\n.__quick_search_list_item:hover { background-color:#EEE; }\n.__quick_search_list_item span { font-size:10px ;margin-left:20px; color:#333; }\n.__quick_search_list_item b { color:#DD4B39; font-weight:normal; margin:2px; }</style>');
