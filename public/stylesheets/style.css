@@ -6,7 +6,6 @@ body,p {
 }
 #wrapper {
 	background: #d0d6db;
-	text-shadow: 0px 1px 16px hsl(120,80%,80%);
 }
 #main {
 	width: 960px;
@@ -360,13 +359,13 @@ a.tag_big:hover {
 a.topic_title {
 	font-size: 14px;
 	white-space: nowrap;
-	color: #657ba9;
+	color: hsl(221, 28%, 63%);
 }
 a.topic_title:hover {
-	color: #5b73a4;	
+	color: hsl(221, 28%, 40%);
 }
 a.topic_title:visited {
-	color: #798b8c;
+	color: hsl(183, 8%, 30%);
 }
 a.count {
 	-webkit-border-radius: 8px;
@@ -592,8 +591,8 @@ textarea.span8 {
 	line-height: 22px;
 } 
 .pagination {
-	height: 30px;
-	margin: 15px 0px 15px 10px;
+	height: 40px;
+	margin: 10px 0px 10px 10px;
 }
 .pagination a {
 	line-height: 30px;
