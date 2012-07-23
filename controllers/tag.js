@@ -109,6 +109,8 @@ exports.add = function(req,res,next){
   name = sanitize(name).xss();  
   var description = sanitize(req.body.description).trim();
   description = sanitize(description).xss();  
+  var background = sanitize(req.body.background).trim();
+  background = sanitize(description).xss();  
   var order = req.body.order;
   
   if(name == ''){
@@ -125,6 +127,7 @@ exports.add = function(req,res,next){
 
     var tag = new Tag();
     tag.name = name;
+    tag.background = background;
     tag.order = order;
     tag.description = description;
     tag.save(function(err){
