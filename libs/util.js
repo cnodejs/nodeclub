@@ -28,6 +28,13 @@ exports.format_date = function (date, friendly) {
   hour = ((hour < 10) ? '0' : '') + hour;
   minute = ((minute < 10) ? '0' : '') + minute;
   second = ((second < 10) ? '0': '') + second;
-  
-  return year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
+
+  now = new Date();
+  this_year = now.getFullYear();
+  if (this_year === year) {
+    year = '';
+  } else {
+    year += '-';
+  }  
+  return year + month + '-' + day + ' ' + hour + ':' + minute;
 };
