@@ -44,6 +44,45 @@ exports.config = {
     //最多获取的RSS Item数量
     max_rss_items: 50
   },
+ 
+  // site links
+  site_links: [
+    {
+      'text': 'Node 官方网站',
+      'url': 'http://nodejs.org/'
+    },
+    {
+      'text': 'Node Party',
+      'url': 'http://party.cnodejs.net/'
+    },
+    {
+      'text': 'Node 入门',
+      'url': 'http://nodebeginner.org/index-zh-cn.html'
+    },
+    {
+      'text': 'Node 中文文档',
+      'url': 'http://docs.cnodejs.net/cman/'
+    }
+  ],
+
+  // sidebar ads
+  side_ads: [
+    {
+      'url': 'http://www.upyun.com/?utm_source=nodejs&utm_medium=link&utm_campaign=upyun&md=nodejs',
+      'image': 'http://site-cnode.b0.upaiyun.com/images/upyun_logo.png',
+      'text': ''
+    },
+    {
+      'url': 'http://ruby-china.org/?utm_source=nodejs&utm_medium=link&utm_campaign=upyun&md=nodejs',
+      'image': 'http://site-cnode.b0.upaiyun.com/images/ruby_china_logo.png',
+      'text': ''
+    },
+    {
+      'url': 'http://adc.taobao.com/',
+      'image': 'http://adc.taobao.com/bundles/devcarnival/images/d2_180x250.jpg',
+      'text': ''
+    }
+  ]
 
   // mail SMTP
   mail_port: 25,
