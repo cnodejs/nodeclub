@@ -130,7 +130,6 @@ a.light:hover {
 }
 .board .floor {
 	line-height: 30px;
-	border-bottom: 1px dashed #e2e2e2;	
 }
 .board a {
 	color: #404040;
@@ -254,23 +253,11 @@ a.tag_big:hover {
 	-o-box-shadow: 0px 1px 4px gray;
 	box-shadow: 0px 1px 4px gray;
 }
-/*.user_card .user_avatar {
+.user_card .user_avatar {
 	vertical-align: middle;
-}*/
+}
 .user_card .user_name {
 	font-size: 16px;
-}
-.user_info {
-	display: inline-block;
-	vertical-align: top;
-}
-#user_menu {
-	display: inline-block;
-}
-#user_menu>button {
-}
-#follow_btn {
-	margin-left: 14px;
 }
 .cell .user_avatar {
 	float: left;
