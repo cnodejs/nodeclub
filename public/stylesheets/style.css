@@ -331,14 +331,14 @@ a.tag_big:hover {
 	width: 90%;
 }
 .title_wrap {
-	width: 90%;
+	width: 60%;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	display: inline-block;
 }
-.cell .title_wrap {
-	width: 60%;
+.topic_wrap .title_wrap {
+	width: 90%;
 }
 .mark_read_btn img {
   width: 80%;
