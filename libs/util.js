@@ -29,12 +29,7 @@ exports.format_date = function (date, friendly) {
   minute = ((minute < 10) ? '0' : '') + minute;
   second = ((second < 10) ? '0': '') + second;
 
-  now = new Date();
-  this_year = now.getFullYear();
-  if (this_year === year) {
-    year = '';
-  } else {
-    year += '-';
-  }  
+  thisYear = new Date().getFullYear();
+  year = (thisYear === year) ? '' : (year + '-');
   return year + month + '-' + day + ' ' + hour + ':' + minute;
 };

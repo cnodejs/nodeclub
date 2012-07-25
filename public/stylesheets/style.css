@@ -331,14 +331,14 @@ a.tag_big:hover {
 	width: 90%;
 }
 .title_wrap {
-	width: 90%;
+	width: 60%;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	display: inline-block;
 }
-.cell .title_wrap {
-	width: 60%;
+.topic_wrap .title_wrap {
+	width: 90%;
 }
 .mark_read_btn img {
   width: 80%;
@@ -346,13 +346,13 @@ a.tag_big:hover {
 a.topic_title {
 	font-size: 14px;
 	white-space: nowrap;
-	color: hsl(221, 28%, 63%);
+	color: hsl(221, 28%, 53%);
 }
 a.topic_title:hover {
-	color: hsl(221, 28%, 40%);
+	color: hsl(220, 29%, 50%);
 }
 a.topic_title:visited {
-	color: hsl(183, 8%, 30%);
+	color: hsl(183, 8%, 51%);
 }
 a.count {
 	-webkit-border-radius: 8px;
