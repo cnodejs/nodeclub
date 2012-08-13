@@ -6,6 +6,7 @@ var ndir = require('ndir');
 var exec = require('child_process').exec;
 var should = require('should');
 var rewire = require("rewire");
+var existsSync = fs.existsSync || path.existsSync;
 
 describe('controllers/upload.js', function () {
   
@@ -89,7 +90,7 @@ describe('controllers/upload.js', function () {
           data.should.have.property('url');
           data.url.should.match(/^\/upload\/mock_user_id\/\d+\_tmp_test_file\.png$/);
           var uploadfile = path.join(tmpdirpath, data.url.replace('/upload/', ''));
-          should.ok(path.existsSync(uploadfile));
+          should.ok(existsSync(uploadfile));
           done();
         }
       }, function () {
