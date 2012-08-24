@@ -15,6 +15,11 @@
     <link rel="stylesheet" type="text/css" href="/libs/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
     <link type='text/css' rel='stylesheet' href='/libs/code-prettify/prettify.css' />
+    <% if (locals.extra_style) { %>
+    <style type="text/css">
+      <%- locals.extra_style %>
+    </style>
+    <% } %>
     <script src='/libs/code-prettify/prettify.js'></script>
     <!-- script -->
     <script src='/libs/jquery/jquery.js'></script>

@@ -83,6 +83,7 @@
   </div>
   <% } %>
 
+  <% if (config.site_links.length>0){ %>
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>  
@@ -90,13 +91,13 @@
     </div>
     <div class='inner'>
       <ul class='unstyled'>
-        <li><a href='http://nodejs.org/' target='_blank'>Node 官方网站</a></li>
-        <li><a href='http://party.cnodejs.net/' target='_blank'>Node Party</a></li>
-        <li><a href='http://nodebeginner.org/index-zh-cn.html' target='_blank'>Node 入门</a></li>
-        <li><a href='http://docs.cnodejs.net/cman/' target='_blank'>Node 中文文档</a></li>
+        <% config.site_links.forEach(function(site){ %>
+        <li><a href='<%= site.url %>' target='_blank'><%= site.text %></a></li>
+        <% }) %>
       </ul>
     </div>
   </div>
+  <% } %>
 
   <% if (locals.tops) { %>
   <div class='sep10'></div>
@@ -138,21 +139,21 @@
   <% } %>
 
   <div class='sep10'></div>
+
+  <% if(config.side_ads.length>0){ %>
   <div class='panel'>
     <div class='header'>  
       <span class='col_fade'>友情社区 | 赞助商</span>
     </div>
+    <% config.side_ads.forEach(function(ad){ %>
     <div class='inner'>
-      <a href='http://www.upyun.com/?utm_source=nodejs&utm_medium=link&utm_campaign=upyun&md=nodejs' target='_blank'><img src='<%- config.site_static_host %>/images/upyun_logo.png' /></a>
+      <a href='<%- ad.url %>' title='<%= ad.text %>' target='_blank'>
+        <img src='<%- ad.image %>' />
+      </a>
     </div>
-    <div class='inner'>
-      <a href='http://ruby-china.org/?utm_source=nodejs&utm_medium=link&utm_campaign=upyun&md=nodejs' target='_blank'><img src='<%- config.site_static_host %>/images/ruby_china_logo.png' /></a>
-    </div>
-    <div class='inner'>
-      <a href="http://adc.taobao.com/
-" target="_blank"><img src="http://adc.taobao.com/bundles/devcarnival/images/d2_180x250.jpg" width="180" height="250" alt="ADC·阿里技术嘉年华（7月7-8日·杭州）" /></a>
-    </div>
+    <% }) %>
   </div>
+  <% } %>
   
   <div class='sep10'></div>
   <div class='panel'>
