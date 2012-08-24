@@ -31,8 +31,23 @@ exports.list_topic = function(req,res,next){
               }
             }
           }
-          res.render('tag/list_topic',{tag:tag,topics:topics,current_page:page,list_topic_count:limit,in_collection:collection,
-              hot_topics:hot_topics,no_reply_topics:no_reply_topics,pages:pages});
+
+          if (tag.background=='') {
+            var style = null;
+          } else {
+            var style = '#wrapper {background-image: url("'+tag.background+'")}';
+          }
+           
+          res.render('tag/list_topic',{
+              tag:tag,topics:topics,
+              current_page:page,
+              list_topic_count:limit,
+              in_collection:collection,
+              hot_topics:hot_topics,
+              no_reply_topics:no_reply_topics,
+              pages:pages,
+              extra_style:style
+          });
         });
       }
 
@@ -109,6 +124,8 @@ exports.add = function(req,res,next){
   name = sanitize(name).xss();  
   var description = sanitize(req.body.description).trim();
   description = sanitize(description).xss();  
+  var background = sanitize(req.body.background).trim();
+  background = sanitize(background).xss();  
   var order = req.body.order;
   
   if(name == ''){
@@ -125,6 +142,7 @@ exports.add = function(req,res,next){
 
     var tag = new Tag();
     tag.name = name;
+    tag.background = background;
     tag.order = order;
     tag.description = description;
     tag.save(function(err){
@@ -159,6 +177,8 @@ exports.edit = function(req,res,next){
         var name = sanitize(req.body.name).trim();
         name = sanitize(name).xss();  
         var order = req.body.order;
+        var background = sanitize(req.body.background).trim();
+        background = sanitize(background).xss();  
         var description = sanitize(req.body.description).trim();
         description = sanitize(description).xss();  
         if(name == ''){
@@ -167,6 +187,7 @@ exports.edit = function(req,res,next){
         }
         tag.name = name;
         tag.order = order;
+        tag.background = background;
         tag.description = description;
         tag.save(function(err){
           if(err) return next(err);
