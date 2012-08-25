@@ -82,7 +82,7 @@ exports.config = {
       'image': 'http://adc.taobao.com/bundles/devcarnival/images/d2_180x250.jpg',
       'text': ''
     }
-  ]
+  ],
 
   // mail SMTP
   mail_port: 25,
