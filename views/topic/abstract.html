@@ -1,17 +1,9 @@
 <div class='cell'>
-  <% if(topic.author.avatar){ %>
-    <div class='user_avatar'>
-      <a href='/user/<%= topic.author.name %>'>
-        <img src='<%= topic.author.avatar %>' title='<%= topic.author.name %>' />
-      </a>
-    </div>
-  <% }else{ %>
-    <div class='user_avatar'>
-      <a href='/user/<%= topic.author.name %>'>
-        <img src='<%- config.site_static_host %>/images/user_icon&48.png' title='<%= topic.author.name %>' />
-      </a>
-    </div>
-  <% } %>
+  <div class='user_avatar'>
+    <a href='/user/<%= topic.author.name %>'>
+      <img src='<%= topic.author.avatar_url %>' title='<%= topic.author.name %>' />
+    </a>
+  </div>
 
   <div class='topic_wrap'>
     <div class='title_wrap'>

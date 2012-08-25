@@ -9,9 +9,9 @@
 			</ul>
 		</div>
 		<div class='inner'>
-			<% if(users.length > 0){ %>
-			<%- partial('user/user',{collection:users,as:'user'}) %>			
-			<% }else{ %>
+			<% if (users.length > 0) { %>
+			<%- partial('user/user', {collection: users, as: 'user'}) %>			
+			<% } else { %>
 			<p>还没有任何人关注你</p>	
 			<% } %>
 		</div>

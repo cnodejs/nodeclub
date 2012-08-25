@@ -1,12 +1,8 @@
 <div class='cell reply_area reply_item' id='reply<%= indexInCollection+1 %>' reply_id='<%= reply._id %>'>
 	<div class='user_avatar'>
-		<% if(reply.author.avatar){ %>
-		<a href='/user/<%= reply.author.name %>'><img src='<%= reply.author.avatar %>' title='<%= reply.author.name %>' /></a>
-		<% }else{ %>
-		<div class='user_avatar'><a href='/user/<%= reply.author.name %>'><img src='<%- config.site_static_host %>/images/user_icon&48.png' title='<%= reply.author.name %>' /></a>
-		<% } %>
+		<a href='/user/<%= reply.author.name %>'><img src='<%= reply.author.avatar_url %>' title='<%= reply.author.name %>' /></a>
 	</div>
-	<span class='col_fade fr'>#<%= indexInCollection+1 %></span>
+	<span class='col_fade fr'>#<%= indexInCollection + 1 %></span>
 	
 		<span class='fr'>
 			<% if(locals.current_user){ %>

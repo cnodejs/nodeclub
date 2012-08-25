@@ -9,21 +9,15 @@
 			</ul>
 		</div>
 		<div class='inner'>
-			<% if(user.avatar){ %>
 			<div class='user_big_avatar'>
-				<img src='<%= user.avatar %>' title='<%= user.name %>' />
+				<img src='<%= user.avatar_url %>' title='<%= user.name %>' />
 			</div>
-			<% }else{ %>
-			<div class='user_big_avatar'>
-				<img src='<%- config.site_static_host %>/images/user_icon&48.png' title='<%= user.name %>' />
-			</div>
-			<% } %>
-			<% if(locals.current_user && current_user._id != user._id){ %>
-			<% if(!locals.relation){ %>
-			<button class='btn btn-success fr' id='follow_btn' action='follow'>加入关注</button>
-			<% }else{ %>
-			<button class='btn fr' id='follow_btn' action='un_follow'>取消关注</button>
-			<% } %>
+			<% if (locals.current_user && current_user._id != user._id) { %>
+				<% if (!locals.relation) { %>
+				<button class='btn btn-success fr' id='follow_btn' action='follow'>加入关注</button>
+				<% } else { %>
+				<button class='btn fr' id='follow_btn' action='un_follow'>取消关注</button>
+				<% } %>
 			<% } %>
 			<h2><%= user.name %></h2>
 			<div class='col_fade'>
@@ -54,7 +48,7 @@
 					</li>
 					<% } %>
 				</ul>
-				<% if(user.profile){ %>
+				<% if (user.profile) { %>
 					<p><%= user.profile %></p>
 				<% } %>
 			</div>
@@ -73,7 +67,7 @@
 		<div class='header'>
 			<span class='col_fade'><%= user.name %> 参与的话题</span>
 		</div>
-		<% if(locals.topics && topics.length > 0 ){ %>
+		<% if(locals.topics && topics.length > 0){ %>
 		<%- partial('topic/list', {topics:topics,pages:pages,current_pages:current_page,base:'/user/'+user.name+'/replies'}) %>
 		<% }else{ %>
 		<div class='inner'>

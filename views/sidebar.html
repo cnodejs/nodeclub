@@ -83,7 +83,7 @@
   </div>
   <% } %>
 
-  <% if (config.site_links.length>0){ %>
+  <% if (config.site_links && config.site_links.length > 0) { %>
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>  
@@ -91,9 +91,9 @@
     </div>
     <div class='inner'>
       <ul class='unstyled'>
-        <% config.site_links.forEach(function(site){ %>
+        <% config.site_links.forEach(function (site) { %>
         <li><a href='<%= site.url %>' target='_blank'><%= site.text %></a></li>
-        <% }) %>
+        <% }); %>
       </ul>
     </div>
   </div>
@@ -140,18 +140,18 @@
 
   <div class='sep10'></div>
 
-  <% if(config.side_ads.length>0){ %>
+  <% if (config.side_ads && config.side_ads.length > 0) { %>
   <div class='panel'>
     <div class='header'>  
       <span class='col_fade'>友情社区 | 赞助商</span>
     </div>
-    <% config.side_ads.forEach(function(ad){ %>
+    <% config.side_ads.forEach(function (ad) { %>
     <div class='inner'>
       <a href='<%- ad.url %>' title='<%= ad.text %>' target='_blank'>
         <img src='<%- ad.image %>' />
       </a>
     </div>
-    <% }) %>
+    <% }); %>
   </div>
   <% } %>
   

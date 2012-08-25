@@ -115,6 +115,7 @@ exports.setting = function (req, res, next) {
     email = sanitize(email).xss();
     var url = sanitize(req.body.url).trim();      
     url = sanitize(url).xss();
+    var profile_image_url = sanitize(req.body.profile_image_url).trim();
     var location = sanitize(req.body.location).trim();      
     location = sanitize(location).xss();
     var signature = sanitize(req.body.signature).trim();      
@@ -137,7 +138,8 @@ exports.setting = function (req, res, next) {
           error: e.message, 
           name: name, 
           email: email, 
-          url: url, 
+          url: url,
+          profile_image_url: profile_image_url,
           location: location,
           signature: signature, 
           profile: profile,
@@ -160,6 +162,7 @@ exports.setting = function (req, res, next) {
           name: name,
           email: email,
           url: url,
+          profile_image_url: profile_image_url,
           location: location,
           signature: signature,
           profile: profile,
@@ -176,6 +179,7 @@ exports.setting = function (req, res, next) {
         return next(err);
       }
       user.url = url;
+      user.profile_image_url = profile_image_url;
       user.location = location;
       user.signature = signature;
       user.profile = profile;
@@ -209,6 +213,7 @@ exports.setting = function (req, res, next) {
           name: user.name,
           email: user.email,
           url: user.url,
+          profile_image_url: user.profile_image_url,
           location: user.location,
           signature: user.signature,
           profile: user.profile,
@@ -233,6 +238,7 @@ exports.setting = function (req, res, next) {
           name: user.name,
           email: user.email,
           url: user.url,
+          profile_image_url: user.profile_image_url,
           location: user.location,
           signature: user.signature,
           profile: user.profile,

@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var config = require('../config');
   
 var UserSchema = new Schema({
   name: { type: String, index: true },
@@ -7,6 +8,7 @@ var UserSchema = new Schema({
   pass: { type: String },
   email: { type: String, unique: true },
   url: { type: String },
+  profile_image_url: {type: String},
   location: { type: String },
   signature: { type: String },
   profile: { type: String },
@@ -32,6 +34,14 @@ var UserSchema = new Schema({
 
   retrieve_time : {type: Number},
   retrieve_key : {type: String}
+});
+
+UserSchema.virtual('avatar_url').get(function () {
+  var avatar_url = this.profile_image_url || this.avatar;
+  if (!avatar_url) {
+    avatar_url = config.site_static_host + '/images/user_icon&48.png';
+  }
+  return avatar_url;
 });
 
 mongoose.model('User', UserSchema);

@@ -32,7 +32,9 @@ var Util = require('../libs/util');
 exports.index = function (req, res, next) {
   var topic_id = req.params.tid;
   if (topic_id.length !== 24) {
-    return res.render('notify/notify', { error: '此话题不存在或已被删除。' });
+    return res.render('notify/notify', {
+      error: '此话题不存在或已被删除。'
+    });
   }
   var events = [ 'topic', 'other_topics', 'no_reply_topics', 'get_relation', '@user' ];
   var ep = EventProxy.create(events, function (topic, other_topics, no_reply_topics, relation) {
@@ -106,8 +108,10 @@ exports.index = function (req, res, next) {
     if (!req.session.user || req.session.user._id) {
       ep.emit('get_relation', null);
     } else {
-      Relation.findOne({user_id:req.session.user._id, follow_id: topic.author_id},function(err, relation) {
-        if (err) return ep.emit('error', err);    
+      Relation.findOne({user_id: req.session.user._id, follow_id: topic.author_id}, function (err, relation) {
+        if (err) {
+          return ep.emit('error', err);
+        }
         ep.emit('get_relation', relation);
       });
     }
@@ -115,8 +119,10 @@ exports.index = function (req, res, next) {
     // get author other topics
     var options = { limit: 5, sort: [ [ 'last_reply_at', 'desc' ] ]};
     var query = { author_id: topic.author_id, _id: { '$nin': [ topic._id ] } };
-    get_topics_by_query(query, options, function(err,topics){
-      if (err) return ep.emit('error', err);
+    get_topics_by_query(query, options, function (err, topics) {
+      if (err) {
+        return ep.emit('error', err);
+      }
       ep.emit('other_topics', topics);      
     });
 
@@ -129,9 +135,9 @@ exports.index = function (req, res, next) {
   });
 };
 
-exports.create = function(req,res,next){
-  if(!req.session.user){
-    res.render('notify/notify',{error:'未登入用户不能发布话题。'});
+exports.create = function (req, res, next) {
+  if (!req.session.user) {
+    res.render('notify/notify', {error: '未登入用户不能发布话题。'});
     return;
   }
 
@@ -515,25 +521,27 @@ exports.de_collect = function(req,res,next){
 };
 
 // get topic without replies
-function get_topic_by_id(id,cb){
+function get_topic_by_id(id, cb) {
   var proxy = new EventProxy();
-  var done = function(topic,tags,author,last_reply){
-    return cb(null, topic,tags,author,last_reply);
+  var done = function (topic, tags, author, last_reply) {
+    return cb(null, topic, tags, author, last_reply);
   };
-  proxy.assign('topic','tags','author','last_reply',done);
+  proxy.assign('topic', 'tags', 'author', 'last_reply', done);
 
-  Topic.findOne({_id:id},function(err,topic){
-    if(err) return cb(err);
-    if(!topic){
-      proxy.trigger('topic',null);
-      proxy.trigger('tags',[]);
-      proxy.trigger('author',null);
-      proxy.trigger('last_reply',null);
+  Topic.findOne({_id: id}, function (err, topic) {
+    if (err) {
+      return cb(err);
+    }
+    if (!topic) {
+      proxy.trigger('topic', null);
+      proxy.trigger('tags', []);
+      proxy.trigger('author', null);
+      proxy.trigger('last_reply', null);
       return;
     }
-    proxy.trigger('topic',topic);
+    proxy.trigger('topic', topic);
     
-    TopicTag.find({topic_id: topic._id}, function(err,topic_tags){
+    TopicTag.find({topic_id: topic._id}, function (err, topic_tags) {
       if(err) return cb(err);
       var tags_id = [];
       for(var i=0; i<topic_tags.length; i++){
@@ -545,30 +553,34 @@ function get_topic_by_id(id,cb){
       });
     });
     
-    user_ctrl.get_user_by_id(topic.author_id,function(err,author){
-      if(err) return cb(err);
-      proxy.trigger('author',author);
+    user_ctrl.get_user_by_id(topic.author_id, function (err, author) {
+      if (err) {
+        return cb(err);
+      }
+      proxy.trigger('author', author);
     });
 
-    if(topic.last_reply){
-      reply_ctrl.get_reply_by_id(topic.last_reply,function(err,last_reply){
-        if(err) return cb(err);
-        if(!last_reply){
-          proxy.trigger('last_reply',null);
+    if (topic.last_reply) {
+      reply_ctrl.get_reply_by_id(topic.last_reply, function (err, last_reply) {
+        if (err) {
+          return cb(err);
+        }
+        if (!last_reply) {
+          proxy.trigger('last_reply', null);
           return;
         }
-        proxy.trigger('last_reply',last_reply);
+        proxy.trigger('last_reply', last_reply);
       });
-    }else{
-      proxy.trigger('last_reply',null);
+    } else {
+      proxy.trigger('last_reply', null);
     }
   });
 }
 // get topic with replies
-function get_full_topic(id,cb){
+function get_full_topic(id, cb) {
   var proxy = new EventProxy();
   var done = function(topic,tags,author,replies){
-    return cb(null,'', topic,tags,author,replies);
+    return cb(null, '', topic,tags,author,replies);
   };
   proxy.assign('topic','tags','author','replies',done);
 
@@ -607,26 +619,32 @@ function get_full_topic(id,cb){
   });
 
 }
-function get_topics_by_query(query,opt, cb){
-  Topic.find(query,['_id'],opt,function(err,docs){
-    if(err) return cb(err,null);
-    if(docs.length ==0) return cb(err,[]);
+function get_topics_by_query(query,opt, cb) {
+  Topic.find(query, ['_id'], opt, function (err, docs) {
+    if (err) {
+      return cb(err);
+    }
+    if (docs.length === 0) {
+      return cb(null, []);
+    }
 
     var topics_id = [];
-    for(var i=0; i<docs.length; i++){
+    for (var i = 0; i < docs.length; i++) {
       topics_id.push(docs[i]._id);
     }
 
     var proxy = new EventProxy();
-    var done = function(){
+    var done = function () {
       return cb(null, topics);
     }
     var topics = [];
-    proxy.after('topic_ready',topics_id.length,done);
-    for(var i=0; i<topics_id.length; i++){
+    proxy.after('topic_ready', topics_id.length, done);
+    for (var i=0; i<topics_id.length; i++) {
       (function(i){
-        get_topic_by_id(topics_id[i], function(err,topic,tags,author,last_reply){
-          if(err) return cb(err);
+        get_topic_by_id(topics_id[i], function (err, topic, tags, author, last_reply) {
+          if (err) {
+            return cb(err);
+          }
           topic.tags = tags;
           topic.author = author;
           topic.reply = last_reply;

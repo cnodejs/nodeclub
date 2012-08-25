@@ -127,7 +127,7 @@ exports.login = function(req, res, next) {
     return res.render('sign/signin', { error: '信息不完整。' });
   }
 
-  User.findOne({ 'loginname': loginname }, function(err, user) {
+  User.findOne({ 'loginname': loginname }, function (err, user) {
     if (err) return next(err);
     if (!user) {
       return res.render('sign/signin', { error:'这个用户不存在。' });
@@ -270,28 +270,46 @@ exports.reset_pass = function(req,res,next) {
   }
 }
 
+function getAvatarURL(user) {
+  if (user.avatar_url) {
+    return user.avatar_url;
+  }
+  var avatar_url = user.profile_image_url || user.avatar;
+  if (!avatar_url) {
+    avatar_url = config.site_static_host + '/images/user_icon&48.png';
+  }
+  return avatar_url;
+}
+
 // auth_user middleware
-exports.auth_user = function(req,res,next){
-  if(req.session.user){
-    if(config.admins[req.session.user.name]){
+exports.auth_user = function(req, res, next) {
+  if (req.session.user) {
+    if (config.admins[req.session.user.name]) {
       req.session.user.is_admin = true;
     }
-    message_ctrl.get_messages_count(req.session.user._id,function(err,count){
-      if(err) return next(err);
+    message_ctrl.get_messages_count(req.session.user._id, function (err, count) {
+      if (err) {
+        return next(err);
+      }
       req.session.user.messages_count = count;
-      res.local('current_user',req.session.user);
+      if (!req.session.user.avatar_url) {
+        req.session.user.avatar_url = getAvatarURL(req.session.user);
+      }
+      res.local('current_user', req.session.user);
       return next();
     });
-  }else{
+  } else {
     var cookie = req.cookies[config.auth_cookie_name];
-    if(!cookie) return next();
+    if (!cookie) return next();
 
     var auth_token = decrypt(cookie, config.session_secret);
     var auth = auth_token.split('\t');
     var user_id = auth[0];
-    User.findOne({_id:user_id},function(err,user){
-      if(err) return next(err);
-      if(user){
+    User.findOne({_id:user_id},function (err,user){
+      if (err) {
+        return next(err);
+      }
+      if (user) {
         if(config.admins[user.name]){
           user.is_admin = true;
         }
@@ -299,6 +317,7 @@ exports.auth_user = function(req,res,next){
           if(err) return next(err);
           user.messages_count = count;
           req.session.user = user;
+          req.session.user.avatar_url = user.avatar_url;
           res.local('current_user',req.session.user);
           return next();
         });
