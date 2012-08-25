@@ -17,7 +17,7 @@
   "devDependencies": {
     "should": "*",
     "mocha": "*",
-    "rewire": "*",
+    "rewire": "0.3.0",
     "visionmedia-jscoverage": "*"
   },
   "scripts": {
