@@ -420,6 +420,9 @@ a.count:hover {
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
+.mark_read_btn > img {
+	float: right;
+}
 /* markdown editor */
 .wmd-button-bar {
 	margin-left: 0px;
