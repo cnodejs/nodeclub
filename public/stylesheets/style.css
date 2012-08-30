@@ -1,4 +1,7 @@
 /* base */
+* {
+	-webkit-transition-duration: 0.2s;
+}
 body,p {
 	font-size: 12px;
 	line-height: 16px;
@@ -124,9 +127,13 @@ a.light:hover {
 	padding: 12px 10px 12px 10px;
 	border-bottom: 1px solid hsl(120,10%,90%);
 	overflow: hidden;
+	white-space: nowrap;
 }
 .cell:last-child {
 	border-bottom: none;
+}
+.cell:hover {
+	background: hsl(0,0%,96%);
 }
 .board .floor {
 	line-height: 30px;
@@ -419,6 +426,9 @@ a.count:hover {
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+}
+.mark_read_btn > img {
+	float: right;
 }
 /* markdown editor */
 .wmd-button-bar {

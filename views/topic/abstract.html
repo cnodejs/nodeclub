@@ -21,14 +21,14 @@
       <div class='click_part'>
         点击数 <%= topic.visit_count %>
       </div>
-      <a class='dark' href='/user/<%= topic.author.name %>'><%= topic.author.name %> </a>
       <% if(topic.reply){  %>
         <div class='reply_part'>
+          <a class='dark' href='/user/<%= topic.reply.author.name %>'><%= topic.reply.author.name %> </a>
           回复于
           <%= topic.reply.friendly_create_at %>
-          <a class='dark' href='/user/<%= topic.reply.author.name %>'><%= topic.reply.author.name %> </a>
         </div>
       <% }else{ %>
+        <a class='dark' href='/user/<%= topic.author.name %>'><%= topic.author.name %> </a>
         <div class='reply_part'>
           创建于 <%= topic.friendly_create_at %>
         </div>
