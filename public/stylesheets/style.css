@@ -1,4 +1,7 @@
 /* base */
+* {
+	-webkit-transition-duration: 0.2s;
+}
 body,p {
 	font-size: 12px;
 	line-height: 16px;
