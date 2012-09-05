@@ -1,7 +1,4 @@
 /* base */
-* {
-	-webkit-transition-duration: 0.2s;
-}
 body,p {
 	font-size: 12px;
 	line-height: 16px;
@@ -335,6 +332,7 @@ a.tag_big:hover {
 .topic_wrap {
 	float: left;
 	width: 90%;
+	white-space: nowrap;
 }
 .title_wrap {
 	width: 60%;
@@ -345,9 +343,6 @@ a.tag_big:hover {
 }
 .topic_wrap .title_wrap {
 	width: 90%;
-}
-.mark_read_btn img {
-  width: 80%;
 }
 a.topic_title {
 	font-size: 14px;
@@ -380,6 +375,9 @@ a.count:hover {
 }
 .star_name {
 	font-size: 14px;
+}
+img.unread {
+  opacity: 0.1;
 }
 
 /* single */
@@ -425,9 +423,6 @@ a.count:hover {
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-}
-.mark_read_btn > img {
-	float: right;
 }
 /* markdown editor */
 .wmd-button-bar {
