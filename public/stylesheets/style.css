@@ -64,7 +64,7 @@ body,p {
 	display: inline-block;
 }
 .col_fade {
-	color: #999;
+	color: #ccc;
 }
 .bold {
 	font-weight: bold;
@@ -132,7 +132,7 @@ a.light:hover {
 	background: hsl(0,0%,96%);
 }
 .board .floor {
-	line-height: 30px;
+	line-height: 24px;
 }
 .board a {
 	color: #404040;
@@ -142,7 +142,7 @@ a.light:hover {
 	text-decoration: none;
 }
 .big {
-	font-size: 18px;
+	font-size: 16px;
 }
 .messages_count {
 	-webkit-border-radius: 8px;
@@ -168,16 +168,15 @@ a.tag_big {
 	-o-border-radius: 3px;
 	border-radius: 3px;
 
-	color: #333;
-	padding: 5px 7px;
+	color: white;
+	padding: 2px 5px;
 	margin: 0px 8px 5px 0px;
-	background: #d0d6db;
+	background: hsl(221,28%,83%);
 	display: inline-block;
 	text-decoration: none;
 }
 a.tag_big:hover {
-	color: #fff;
-	background-color: #657ba9;
+	background-color: hsl(221,28%,73%);
 }
 .tag_selectable {
 	-webkit-border-radius: 3px;
@@ -224,7 +223,7 @@ a.tag_big:hover {
 }
 .tag_in_abstract a:hover {
 	color: #fff;
-	background: #657ba9;
+	background: hsl(221,28%,73%);
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	-o-border-radius: 3px;
@@ -314,6 +313,10 @@ a.tag_big:hover {
 }
 .reply2_btn {
 	display: none;
+	padding: 2px 4px;
+	border-radius: 2px;
+	background: hsl(240,90%,94%);
+	margin-right: 10px;
 }
 .reply2_area {
 	margin-left: 50px;
@@ -347,31 +350,34 @@ a.tag_big:hover {
 a.topic_title {
 	font-size: 14px;
 	white-space: nowrap;
-	color: hsl(221, 28%, 53%);
+	color: hsl(241, 28%, 53%);
 }
 a.topic_title:hover {
 	color: hsl(220, 29%, 50%);
 }
 a.topic_title:visited {
-	color: hsl(183, 8%, 51%);
+	color: hsl(183, 8%, 61%);
 }
 a.count {
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	border-radius: 8px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
 
 	font-family: Arial;
 	font-size: 12px;
 	font-weight: bold;
-	background: #d0d6db;
-	padding: 1px 4px 0px 4px;
-	color: #fff;
+	background: hsl(240,70%,80%);
+	padding: 1px 2px 0px 2px;
+	color: white;
 	min-width: 20px;
 	text-align: center;
 }
 a.count:hover {
-	color: #00483a;
+	color: white;
 	text-decoration: none;
+}
+a.count:visited {
+	background: hsl(207,13%,90%)
 }
 .star_name {
 	font-size: 14px;
