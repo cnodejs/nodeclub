@@ -3,6 +3,10 @@ body,p {
 	font-size: 12px;
 	line-height: 16px;
 	font-family: "Helvetica Neue","Georgia" Helvetica, Arial, sans-serif;
+	word-break: break-all;
+}
+body {
+	font-family: "wenquanyi micro hei";
 }
 #wrapper {
 	background: #d0d6db;
@@ -213,21 +217,21 @@ a.tag_big:hover {
 .tag_in_topic a:hover {
 	color: #0099ff;
 }
-.tag_in_abstract a {
-	color: gray;
+.tag_in_abstract{
+	color: #fff;
 	background: hsl(221,28%,83%);
 	font-size: 12px;
 	font-weight: bold;
 	padding: 1px 2px;
 	text-decoration: none;
-}
-.tag_in_abstract a:hover {
-	color: #fff;
-	background: hsl(221,28%,73%);
+	margin: 0px 2px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	-o-border-radius: 3px;
 	border-radius: 3px;
+}
+.tag_in_abstract:hover {
+	background: hsl(221,28%,73%);
 }
 .tag_with_num {
 	margin-right: 10px;
@@ -335,7 +339,7 @@ a.tag_big:hover {
 .topic_wrap {
 	float: left;
 	width: 90%;
-	white-space: nowrap;
+	/*white-space: nowrap;*/
 }
 .title_wrap {
 	width: 60%;
@@ -384,6 +388,7 @@ a.count:visited {
 }
 img.unread {
   opacity: 0.1;
+  cursor: pointer;
 }
 
 /* single */
@@ -516,6 +521,15 @@ textarea[id^=wmd-input] {
 
 	border: 1px solid #cccccc;
 	background-color: #F5F5F5;
+}
+.put_top {
+	color: white;
+	background: hsl(240,30%,80%);
+	padding: 1px 2px;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-o-border-radius: 2px;
 }
 
 /* custom bootstrap */
