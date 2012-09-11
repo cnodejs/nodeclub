@@ -187,7 +187,7 @@ function get_reply_by_id(id, cb) {
         return cb(err);
       }
       if (!reply.content_is_html) {
-        reply.content = Showdown.parse(reply.content);
+        reply.content = Showdown.parse(Util.escape(reply.content));
       }
       reply.author = author;
       reply.friendly_create_at = Util.format_date(reply.create_at, true);
@@ -243,7 +243,7 @@ function get_replies_by_topic_id(id, cb) {
             return cb(err);
           }
           if (!replies[i].content_is_html) {
-            replies[i].content = Showdown.parse(replies[i].content);
+            replies[i].content = Showdown.parse(Util.escape(replies[i].content));
           }
           replies[i].author = author;
           replies[i].friendly_create_at = Util.format_date(replies[i].create_at, true);

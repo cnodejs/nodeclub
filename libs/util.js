@@ -33,3 +33,19 @@ exports.format_date = function (date, friendly) {
   year = (thisYear === year) ? '' : (year + '-');
   return year + month + '-' + day + ' ' + hour + ':' + minute;
 };
+
+/**
+ * Escape the given string of `html`.
+ *
+ * @param {String} html
+ * @return {String}
+ * @api private
+ */
+
+exports.escape = function(html){
+  return String(html)
+    .replace(/&(?!\w+;)/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+};
