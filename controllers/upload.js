@@ -20,8 +20,8 @@ exports.uploadImage = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    var savepath = path.resove(path.join(userDir, filename));
-    if (savepath.indexof(path.resove(userDir)) !== 0) {
+    var savepath = path.resolve(path.join(userDir, filename));
+    if (savepath.indexOf(path.resolve(userDir)) !== 0) {
       return res.send({ status: 'forbidden' });
     }
     fs.rename(file.path, savepath, function (err) {
