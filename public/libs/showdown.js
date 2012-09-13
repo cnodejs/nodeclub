@@ -189,7 +189,7 @@ this.makeHtml = function (text) {
     }
     href = wholeMatch.replace(/^http:\/\/github.com\//, "https://github.com/")
     var urlreg = /(https?|ftp|mms):\/\/([A-z0-9]+[_\-]?[A-z0-9]+\.)*[A-z0-9]+\-?[A-z0-9]+\.[A-z]{2,}(\/.*)*\/?/;
-    return "<a href='" + (urlreg.test(href)?href:"http://www.cnodejs.org") + "'>" + wholeMatch + "</a>";
+    return "<a href='" + (urlreg.test(href)?href:("http://www.cnodejs.org"+href)) + "'>" + wholeMatch + "</a>";
   });
   text = text.replace(/[a-z0-9_\-+=.]+@[a-z0-9\-]+(\.[a-z0-9-]+)+/ig, function(wholeMatch){return "<a href='mailto:" + wholeMatch + "'>" + wholeMatch + "</a>";});
 
