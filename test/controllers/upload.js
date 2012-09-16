@@ -37,6 +37,20 @@ describe('controllers/upload.js', function () {
           }
         }
       };
+
+      mockLoginedRequestForbidden = {
+        session: {
+          user: {
+            _id: 'mock_user_id'
+          }
+        },
+        files: {
+          userfile: {
+            name: '/../../' + path.basename(tmpFile),
+            path: tmpFile
+          }
+        }
+      };
     });
 
     var oldUploadDir = config.upload_dir;
@@ -76,6 +90,17 @@ describe('controllers/upload.js', function () {
         send: function (data) {
           data.should.have.property('status', 'failed');
           data.should.have.property('message', 'no file');
+          done();
+        }
+      }, function () {
+        throw new Error('should not call this method');
+      });
+    });
+
+    it('should forbidden when path err', function (done) {
+      upload.uploadImage(mockLoginedRequestForbidden, {
+        send: function (data) {
+          data.should.have.property('status', 'forbidden');
           done();
         }
       }, function () {
