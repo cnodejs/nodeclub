@@ -62,7 +62,7 @@
                                                   */
 
         this.getConverter = function () { return markdownConverter; }
-
+        this.previewManager;
         var that = this,
             panels;
 
@@ -72,7 +72,8 @@
 
             panels = new PanelCollection(idPostfix);
             var commandManager = new CommandManager(hooks);
-            var previewManager = new PreviewManager(markdownConverter, panels, function () { hooks.onPreviewRefresh(); });
+            var previewManager =  this.previewManager = new PreviewManager(markdownConverter, panels, function () { hooks.onPreviewRefresh(); });
+            
             var undoManager, uiManager;
 
             if (!/\?noundo/.test(doc.location.href)) {
@@ -90,7 +91,9 @@
 
             forceRefresh();
         };
-
+        this.makePreviewHtml = function() {
+            this.previewManager.makePreviewHtml();
+        }
     }
 
     // before: contains all the text in the input box BEFORE the selection.
@@ -879,7 +882,7 @@
         this.processingTime = function () {
             return elapsedTime;
         };
-
+        this.makePreviewHtml = makePreviewHtml;
         var isFirstTimeFilled = true;
 
         // IE doesn't let you use innerHTML if the element is contained somewhere in a table
@@ -946,8 +949,8 @@
 
         var init = function () {
 
-            setupEvents(panels.input, applyTimeout);
-            makePreviewHtml();
+            //setupEvents(panels.input, applyTimeout);
+            //makePreviewHtml();
 
             if (panels.preview) {
                 panels.preview.scrollTop = 0;

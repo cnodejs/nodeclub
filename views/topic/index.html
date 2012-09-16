@@ -118,7 +118,7 @@
         <div class='tabbable'>
           <ul class='nav nav-pills'>
             <li class='active'><a href='#markdown' data-toggle='pill'>markdown</a></li>
-            <li><a href='#preview' data-toggle='pill' onclick="prettyPrint()">预览</a></li>
+            <li><a href='#preview' data-toggle='pill' class="preview-btn">预览</a></li>
           </ul>
           <div class='tab-content'>
             <div class='tab-pane active' id='markdown'>
@@ -151,10 +151,11 @@
 
 <script>
   $(document).ready(function () {
+    var editors = {};
     function run_md_editor() {
       var converter = new Showdown.converter();
-      var editor = new Markdown.Editor(converter);
-      editor.run(); 
+      editors[""] = new Markdown.Editor(converter);
+      editors[""].run(); 
       /*
       editor.hooks.chain('onPreviewRefresh', function () {
         prettyPrint();
@@ -163,8 +164,8 @@
       $('.reply2_editor').each(function() {
         var editor_id = $(this).attr('id');
         var suffix = editor_id.slice(editor_id.indexOf('-'));
-        var editor = new Markdown.Editor(converter, suffix);
-        editor.run();
+        editors[suffix] = new Markdown.Editor(converter, suffix);
+        editors[suffix].run();
         /*
         editor.hooks.chain('onPreviewRefresh', function () {
           prettyPrint();
@@ -219,6 +220,13 @@
           $btn.parent().toggle();
         }
       });
+    });
+    $('.preview-btn').click(function() {
+      var href = $(this).attr('href');
+      var index = href.lastIndexOf('-');
+      var suffix = index < 0 ? '' : href.slice(index);
+      editors[suffix].makePreviewHtml();
+      prettyPrint();
     });
 
     $('.reply_area').mouseover(function(){
