@@ -40,6 +40,9 @@ UserSchema.virtual('avatar_url').get(function () {
   var avatar_url = this.profile_image_url || this.avatar;
   if (!avatar_url) {
     avatar_url = config.site_static_host + '/images/user_icon&48.png';
+  } else {
+    // url不会出现空格，解决之前被@leizongmin 黑的bug
+    avatar_url = avatar_url.split(' ', 1)[0];
   }
   return avatar_url;
 });
