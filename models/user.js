@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var config = require('../config');
-var sanitize = require('validator').sanitize;
   
 var UserSchema = new Schema({
   name: { type: String, index: true },
@@ -42,7 +41,6 @@ UserSchema.virtual('avatar_url').get(function () {
   if (!avatar_url) {
     avatar_url = config.site_static_host + '/images/user_icon&48.png';
   }
-  avatar_url = sanitize(avatar_url).xss();
   return avatar_url;
 });
 
