@@ -10,7 +10,7 @@
 
 var showdown = require('../../public/libs/showdown');
 var should = require('should');
-var cov = 
+
 describe('showdown xss test', function() {
   it('should escape illegal url in a', function() {
     var text = '[illegal url][1]\n\n[1]: javascript:alert(123);';
