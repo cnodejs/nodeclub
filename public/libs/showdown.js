@@ -627,7 +627,9 @@ var writeAnchorTag = function(wholeMatch,m1,m2,m3,m4,m5,m6,m7) {
       }
     }
   }
-
+  url = decodeURIComponent(url).replace(/"/g,"&quot;");
+  var urlreg = /(https?|ftp|mms):\/\/([A-z0-9]+[_\-]?[A-z0-9]+\.)*[A-z0-9]+\-?[A-z0-9]+\.[A-z]{2,}(\/.*)*\/?/;
+  url = urlreg.test(url) ? url : '#';
   url = escapeCharacters(url,"*_");
   var result = "<a href=\"" + url + "\"";
 
@@ -729,6 +731,9 @@ var writeImageTag = function(wholeMatch,m1,m2,m3,m4,m5,m6,m7) {
   }
 
   alt_text = alt_text.replace(/"/g,"&quot;");
+  url = decodeURIComponent(url).replace(/"/g,"&quot;");
+  var urlreg = /(https?|ftp|mms):\/\/([A-z0-9]+[_\-]?[A-z0-9]+\.)*[A-z0-9]+\-?[A-z0-9]+\.[A-z]{2,}(\/.*)*\/?/;
+  url = urlreg.test(url) ? url : '#';
   url = escapeCharacters(url,"*_");
   var result = "<img src=\"" + url + "\" alt=\"" + alt_text + "\"";
 
