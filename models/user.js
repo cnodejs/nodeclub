@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var config = require('../config');
+var sanitize = require('validator').sanitize;
   
 var UserSchema = new Schema({
   name: { type: String, index: true },
@@ -40,10 +41,8 @@ UserSchema.virtual('avatar_url').get(function () {
   var avatar_url = this.profile_image_url || this.avatar;
   if (!avatar_url) {
     avatar_url = config.site_static_host + '/images/user_icon&48.png';
-  } else {
-    // url不会出现空格，解决之前被@leizongmin 黑的bug
-    avatar_url = avatar_url.split(' ', 1)[0];
   }
+  avatar_url = sanitize(avatar_url).xss();
   return avatar_url;
 });
 
