@@ -10,7 +10,7 @@
 		</div>
 		<div class='inner'>
 			<div class='user_big_avatar'>
-				<img src='<%= user.avatar_url %>' title='<%= user.name %>' />
+				<img src="<%= user.avatar_url %>" title="<%= user.name %>" />
 			</div>
 			<% if(locals.current_user && current_user._id != user._id){ %>
 			<% if(!locals.relation){ %>
@@ -21,8 +21,8 @@
 			<% } %>
 			<h2><%= user.name %></h2>
 			<div class='col_fade'>
-				<span><img src='<%- config.site_static_host %>/images/cert_icon&16.png' /> <%= user.follower_count %> 粉丝</span>
-				<% if(user.signature){ %>
+				<span><img src="<%- config.site_static_host %>/images/cert_icon&16.png" /> <%= user.follower_count %> 粉丝</span>
+				<% if (user.signature) { %>
 				<span class='sp10'></span>
 				<span><%= user.signature %></span>
 				<% } %>
@@ -31,20 +31,20 @@
 				<ul class='unstyled'>
 					<% if(user.url){ %>
 					<li>
-						<img class='user_icon' src='<%- config.site_static_host %>/images/paper_airplane_icon&16.png' />
-						<a class='dark' href='<%= user.url %>' target='_blank'><%= user.url %></a>
+						<img class='user_icon' src="<%- config.site_static_host %>/images/paper_airplane_icon&16.png" />
+						<a class='dark' href="<%= user.url %>" target='_blank'><%= user.url %></a>
 					</li>
 					<% } %>
-					<% if(user.location){ %>
+					<% if (user.location) { %>
 					<li>
-						<img class='user_icon' src='<%- config.site_static_host %>/images/compass_icon&16.png' />
+						<img class='user_icon' src="<%- config.site_static_host %>/images/compass_icon&16.png" />
 						<span class='col_fade'><%= user.location %></span>
 					</li>
 					<% } %>
-					<% if(user.weibo){ %>
+					<% if (user.weibo) { %>
 					<li>
-						<img class='user_icon' src='<%- config.site_static_host %>/images/twitter_2_icon&16.png' />
-						<a class='dark' href='<%= user.weibo %>' target='_blank'><%= user.weibo %></a>
+						<img class='user_icon' src="<%- config.site_static_host %>/images/twitter_2_icon&16.png" />
+						<a class='dark' href="<%= user.weibo %>" target='_blank'><%= user.weibo %></a>
 					</li>
 					<% } %>
 				</ul>
@@ -77,8 +77,8 @@
 	</div>
 </div>
 
-<% if(locals.current_user){ %>
-<script type='text/javascript'>
+<% if (locals.current_user) { %>
+<script>
 	$(document).ready(function(){
 		$('#follow_btn').click(function(){
 			var $me = $(this);

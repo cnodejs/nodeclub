@@ -1,6 +1,6 @@
-<div class='cell reply_area reply_item' id='reply<%= indexInCollection+1 %>' reply_id='<%= reply._id %>'>
+<div class='cell reply_area reply_item' id="reply<%= indexInCollection+1 %>" reply_id="<%= reply._id %>">
 	<div class='user_avatar'>
-		<a href='/user/<%= reply.author.name %>'><img src='<%= reply.author.avatar_url %>' title='<%= reply.author.name %>' /></a>
+		<a href="/user/<%= reply.author.name %>"><img src="<%= reply.author.avatar_url %>" title="<%= reply.author.name %>" /></a>
 	</div>
 	<span class='col_fade fr'>#<%= indexInCollection + 1 %></span>
 	
@@ -12,12 +12,12 @@
 			<span class='col_fade'>{<%= reply.replies.length %>}</span>
 			<% } %>
 		</span>
-	<span class='reply_author'><a class='dark' href='/user/<%= reply.author.name %>'><%= reply.author.name %></a></span>
+	<span class='reply_author'><a class='dark' href="/user/<%= reply.author.name %>"><%= reply.author.name %></a></span>
 		<span class='col_fade'>
 			在 <%= reply.friendly_create_at %>回复
-			<% if(locals.current_user && current_user._id.toString() == reply.author._id.toString()){ %>
+			<% if(locals.current_user && current_user._id.toString() == reply.author._id.toString()) { %>
 			<span class='sp10'></span>
-			<a href='javascript:void(0);' class='delete_reply_btn'><img class='user_icon' src='<%- config.site_static_host %>/images/trash_icon&16.png' title='删除' /></a>
+			<a href='javascript:void(0);' class='delete_reply_btn'><img class='user_icon' src="<%- config.site_static_host %>/images/trash_icon&16.png" title='删除' /></a>
 			<% } %>
 		</span>
 	<!-- <div class='sep5'></div> -->
@@ -27,11 +27,11 @@
 	<div class='cl'>
 		<!-- <div class='sep5'></div> -->
 		<div class='reply2_area'>
-			<% if(reply.replies.length >0 ){ %>
+			<% if (reply.replies.length >0) { %>
 			<div class='sep10'></div>
-			<%- partial('reply/reply2',{collection:reply.replies,as:'reply'}) %>
+			<%- partial('reply/reply2',{collection: reply.replies, as: 'reply'}) %>
 			<% } %>
-			<% if(locals.current_user){ %>
+			<% if (locals.current_user) { %>
 			<div class='reply2_editor tabbable' id='reply2_editor-<%= indexInCollection+1 %>'>
 				<div class='sep10'></div>
 				<ul class='nav nav-pills'>

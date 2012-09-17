@@ -1,16 +1,16 @@
 <div class='cell'>
   <div class='user_avatar'>
-    <a href='/user/<%= topic.author.name %>'>
-      <img src='<%= topic.author.avatar_url %>' title='<%= topic.author.name %>' />
+    <a href="/user/<%= topic.author.name %>">
+      <img src="<%= topic.author.avatar_url %>" title="<%= topic.author.name %>" />
     </a>
   </div>
 
   <div class='topic_wrap'>
     <div class='title_wrap'>
-      <a class='topic_title' href='/topic/<%= topic._id %>'><% if(topic.top){%>[置顶]<% } %><%= topic.title %></a>
+      <a class='topic_title' href="/topic/<%= topic._id %>"><% if (topic.top) {%>[置顶]<% } %><%= topic.title %></a>
     </div>
-    <% if(topic.reply_count >0){ %>
-      <a class='count fr' href='/topic/<%= topic._id %>#reply<%= topic.reply_count %>'><%= topic.reply_count %></a>
+    <% if (topic.reply_count > 0) { %>
+      <a class='count fr' href="/topic/<%= topic._id %>#reply<%= topic.reply_count %>"><%= topic.reply_count %></a>
     <% } %>
     <div class='sep10'></div>
     <div class='sep5'></div>
@@ -23,12 +23,12 @@
       </div>
       <% if(topic.reply){  %>
         <div class='reply_part'>
-          <a class='dark' href='/user/<%= topic.reply.author.name %>'><%= topic.reply.author.name %> </a>
+          <a class='dark' href="/user/<%= topic.reply.author.name %>"><%= topic.reply.author.name %> </a>
           回复于
           <%= topic.reply.friendly_create_at %>
         </div>
       <% }else{ %>
-        <a class='dark' href='/user/<%= topic.author.name %>'><%= topic.author.name %> </a>
+        <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %> </a>
         <div class='reply_part'>
           创建于 <%= topic.friendly_create_at %>
         </div>

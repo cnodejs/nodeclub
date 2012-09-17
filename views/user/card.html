@@ -1,9 +1,9 @@
 <div class='user_card'>
 	<div>
-		<a href='/user/<%= user.name %>'><img class='user_avatar' 
-			src='<%= user.avatar_url %>' title='<%= user.name %>' /></a>
+		<a href="/user/<%= user.name %>"><img class='user_avatar' 
+			src="<%= user.avatar_url %>" title="<%= user.name %>" /></a>
 		<span class='sp10'></span>
-		<span class='user_name'><a class='dark' href='/user/<%= user.name %>'><%= user.name %></a></span>
+		<span class='user_name'><a class='dark' href="/user/<%= user.name %>"><%= user.name %></a></span>
 
 		<% if (locals.current_user && current_user._id != user._id) { %>
 			<% if (!locals.relation) { %>
@@ -34,17 +34,17 @@
 </div>
 
 <% if (locals.current_user && current_user._id !== user._id) { %>
-<script type='text/javascript'>
-	$(document).ready(function(){
+<script>
+	$(document).ready(function () {
 
-		$('#follow_btn').click(function(){
+		$('#follow_btn').click(function () {
 			var $me = $(this);
 			var action = $me.attr('action');
 			var params = {
 				follow_id: '<%= user._id %>',
 				_csrf: '<%- csrf %>'
 			};
-			$.post('/user/' + action, params, function(data) {
+			$.post('/user/' + action, params, function (data) {
 				if (data.status === 'success') {
 					if (action === 'follow') {
 						$me.html('取消关注');

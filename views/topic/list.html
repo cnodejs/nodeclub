@@ -5,7 +5,7 @@
 		<% if (current_page == 1) { %>
 		<li class='disabled'><a>«</a></li>
 		<% } else { %>
-		<li><a href='<%= base_url %>1'>«</a></li>
+		<li><a href="<%= base_url %>1">«</a></li>
 		<% } %>
 
 		<%
@@ -36,8 +36,8 @@
 		<% } %>
 	</ul>
 </div>
-<script type='text/javascript'>
-	$(document).ready(function(){
+<script>
+	$(document).ready(function () {
 		var $nav = $('.pagination');
 		var current_page = $nav.attr('current_page');	
 		if (current_page) {
