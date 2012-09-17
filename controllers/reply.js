@@ -187,8 +187,9 @@ function get_reply_by_id(id, cb) {
         return cb(err);
       }
       if (!reply.content_is_html) {
-        reply.content = Showdown.parse(Util.escape(reply.content));
+        reply.content = Showdown.parse(reply.content);
       }
+      reply.content = sanitize(reply.content).xss();
       reply.author = author;
       reply.friendly_create_at = Util.format_date(reply.create_at, true);
 
@@ -235,7 +236,7 @@ function get_replies_by_topic_id(id, cb) {
       return cb(err, replies);
     };
     proxy.after('reply_find', replies.length, done);
-    for (var i = 0; i < replies.length; i++) {
+    for (var j = 0; j < replies.length; j++) {
       (function (i) {
         var author_id = replies[i].author_id;
         user_ctrl.get_user_by_id(author_id, function (err, author) {
@@ -243,8 +244,9 @@ function get_replies_by_topic_id(id, cb) {
             return cb(err);
           }
           if (!replies[i].content_is_html) {
-            replies[i].content = Showdown.parse(Util.escape(replies[i].content));
+            replies[i].content = Showdown.parse(replies[i].content);
           }
+          replies[i].content = sanitize(replies[i].content).xss();
           replies[i].author = author;
           replies[i].friendly_create_at = Util.format_date(replies[i].create_at, true);
           at_ctrl.link_at_who(replies[i].content, function (err, str) {
@@ -255,7 +257,7 @@ function get_replies_by_topic_id(id, cb) {
             proxy.trigger('reply_find');
           });
         });
-      })(i);
+      })(j);
     }
   }); 
 }
