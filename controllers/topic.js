@@ -80,8 +80,9 @@ exports.index = function (req, res, next) {
     topic.save(function (err) {
       if (!topic.content_is_html) {
         // trans Markdown to HTML
-        topic.content = Showdown.parse(Util.escape(topic.content));
+        topic.content = Showdown.parse(topic.content);
       }
+      topic.content = sanitize(topic.content).xss();
       // format date
       topic.friendly_create_at = Util.format_date(topic.create_at, true);
       topic.friendly_update_at = Util.format_date(topic.update_at, true);
