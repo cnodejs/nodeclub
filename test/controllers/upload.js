@@ -14,6 +14,7 @@ describe('controllers/upload.js', function () {
 
     var mockRequest;
     var mockLoginedRequest;
+    var mockLoginedRequestForbidden;
 
     beforeEach(function () {
       rewire.reset();
