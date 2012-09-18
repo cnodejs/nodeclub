@@ -64,7 +64,7 @@ function linkUsers(text, callback) {
     }
     for (var i = 0, l = users.length; i < l; i++) {
       var name = users[i].name;
-      text = text.replace(new RegExp('@' + name, 'gmi'), '@<a href="/user/' + name + '">' + name + '</a>');
+      text = text.replace(new RegExp('@' + name, 'gmi'), '@[' + name + '](/user/' + name + ')');
     }
     return callback(err, text);
   });
