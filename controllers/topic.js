@@ -36,25 +36,32 @@ exports.index = function (req, res, next) {
       error: '此话题不存在或已被删除。'
     });
   }
-  var events = [ 'topic', 'other_topics', 'no_reply_topics', 'get_relation'];
+  var events = [ 'topic', 'other_topics', 'no_reply_topics', 'get_relation', '@user'];
   var ep = EventProxy.create(events, function (topic, other_topics, no_reply_topics, relation) {
+    res.render('topic/index', {
+      topic: topic,
+      author_other_topics: other_topics,
+      no_reply_topics: no_reply_topics,
+      relation : relation
+    });
+  });
+
+  ep.on('error', function (err) {
+    ep.unbind();
+    next(err);
+  });
+
+  ep.once('topic', function(topic) {
+    if (topic.content_is_html) {
+      return ep.emit('@user');
+    }
     at_ctrl.link_at_who(topic.content, function (err, content) {
       if (err) {
         return next(err);
       }
-      topic.content = content;
-      res.render('topic/index', {
-        topic: topic,
-        author_other_topics: other_topics,
-        no_reply_topics: no_reply_topics,
-        relation : relation
-      });
+      topic.content = Showdown.parse(Util.escape(content));
+      ep.emit('@user');
     });
-  });
-  
-  ep.on('error', function (err) {
-    ep.unbind();
-    next(err);
   });
 
   get_full_topic(topic_id, function (err, message, topic, tags, author, replies) {
@@ -68,10 +75,6 @@ exports.index = function (req, res, next) {
 
     topic.visit_count += 1;
     topic.save(function (err) {
-      if (!topic.content_is_html) {
-        // trans Markdown to HTML
-        topic.content = Showdown.parse(Util.escape(topic.content));
-      }
       // format date
       topic.friendly_create_at = Util.format_date(topic.create_at, true);
       topic.friendly_update_at = Util.format_date(topic.update_at, true);
@@ -191,10 +194,10 @@ exports.create = function (req, res, next) {
         proxy.assign('tags_saved','score_saved',render)
         //话题可以没有标签
         if(topic_tags.length == 0){
-          proxy.trigger('tags_saved');
+          proxy.emit('tags_saved');
         }
         var tags_saved_done = function(){
-          proxy.trigger('tags_saved');
+          proxy.emit('tags_saved');
         };
         proxy.after('tag_saved',topic_tags.length,tags_saved_done);
         //save topic tags 
@@ -205,7 +208,7 @@ exports.create = function (req, res, next) {
             topic_tag.tag_id = topic_tags[i];
             topic_tag.save(function(err){
               if(err) return next(err);
-              proxy.trigger('tag_saved');
+              proxy.emit('tag_saved');
             });
             tag_ctrl.get_tag_by_id(topic_tags[i],function(err,tag){
               if(err) return next(err);
@@ -220,7 +223,7 @@ exports.create = function (req, res, next) {
           user.topic_count += 1;
           user.save();
           req.session.user.score += 5;  
-          proxy.trigger('score_saved');
+          proxy.emit('score_saved');
         });
 
         //发送at消息
@@ -317,11 +320,11 @@ exports.edit = function(req,res,next){
 
             // 删除topic_tag
             var tags_removed_done = function(){
-              proxy.trigger('tags_removed_done');
+              proxy.emit('tags_removed_done');
             };
             TopicTag.find({topic_id:topic._id},function(err,docs){
               if(docs.length == 0){
-                proxy.trigger('tags_removed_done');
+                proxy.emit('tags_removed_done');
               }else{
                 proxy.after('tag_removed',docs.length,tags_removed_done);
                 // delete topic tags
@@ -331,7 +334,7 @@ exports.edit = function(req,res,next){
                       if(err) return next(err);
                       tag_ctrl.get_tag_by_id(docs[i].tag_id,function(err,tag){
                         if(err) return next(err);
-                        proxy.trigger('tag_removed');
+                        proxy.emit('tag_removed');
                         tag.topic_count -= 1;
                         tag.save();
                       });
@@ -343,11 +346,11 @@ exports.edit = function(req,res,next){
           
             // 保存topic_tag
             var tags_saved_done = function(){
-              proxy.trigger('tags_saved_done');
+              proxy.emit('tags_saved_done');
             } 
             //话题可以没有标签
             if(topic_tags.length == 0){
-              proxy.trigger('tags_saved_done');
+              proxy.emit('tags_saved_done');
             }else{
               proxy.after('tag_saved',topic_tags.length,tags_saved_done);
               //save topic tags 
@@ -358,7 +361,7 @@ exports.edit = function(req,res,next){
                   topic_tag.tag_id = topic_tags[i];
                   topic_tag.save(function(err){
                     if(err) return next(err);
-                    proxy.trigger('tag_saved');
+                    proxy.emit('tag_saved');
                   });
                   tag_ctrl.get_tag_by_id(topic_tags[i],function(err,tag){
                     if(err) return next(err);
@@ -407,7 +410,7 @@ exports.delete = function(req,res,next){
     }
     proxy.assign('topic_removed',render);
     topic.remove(function(err){
-      proxy.trigger('topic_removed');
+      proxy.emit('topic_removed');
     });
   });
 };
@@ -437,7 +440,7 @@ exports.top = function (req, res, next) {
     }
     proxy.assign('topic_top', render);
     topic.save( function(err) {
-      proxy.trigger('topic_top');
+      proxy.emit('topic_top');
     });
   });
 };
@@ -523,13 +526,13 @@ function get_topic_by_id(id, cb) {
       return cb(err);
     }
     if (!topic) {
-      proxy.trigger('topic', null);
-      proxy.trigger('tags', []);
-      proxy.trigger('author', null);
-      proxy.trigger('last_reply', null);
+      proxy.emit('topic', null);
+      proxy.emit('tags', []);
+      proxy.emit('author', null);
+      proxy.emit('last_reply', null);
       return;
     }
-    proxy.trigger('topic', topic);
+    proxy.emit('topic', topic);
     
     TopicTag.find({topic_id: topic._id}, function (err, topic_tags) {
       if(err) return cb(err);
@@ -539,7 +542,7 @@ function get_topic_by_id(id, cb) {
       }
       tag_ctrl.get_tags_by_ids(tags_id,function(err,tags){
         if(err) return cb(err);
-        proxy.trigger('tags',tags);
+        proxy.emit('tags',tags);
       });
     });
     
@@ -547,7 +550,7 @@ function get_topic_by_id(id, cb) {
       if (err) {
         return cb(err);
       }
-      proxy.trigger('author', author);
+      proxy.emit('author', author);
     });
 
     if (topic.last_reply) {
@@ -556,13 +559,13 @@ function get_topic_by_id(id, cb) {
           return cb(err);
         }
         if (!last_reply) {
-          proxy.trigger('last_reply', null);
+          proxy.emit('last_reply', null);
           return;
         }
-        proxy.trigger('last_reply', last_reply);
+        proxy.emit('last_reply', last_reply);
       });
     } else {
-      proxy.trigger('last_reply', null);
+      proxy.emit('last_reply', null);
     }
   });
 }
@@ -579,7 +582,7 @@ function get_full_topic(id, cb) {
     if(!topic){
       return cb(null, '此话题不存在或已被删除。');  
     }
-    proxy.trigger('topic',topic);
+    proxy.emit('topic',topic);
     
     TopicTag.find({topic_id: topic._id}, function(err,topic_tags){
       if(err) return cb(err);
@@ -589,7 +592,7 @@ function get_full_topic(id, cb) {
       }
       tag_ctrl.get_tags_by_ids(tags_id,function(err,tags){
         if(err) return cb(err);
-        proxy.trigger('tags',tags);
+        proxy.emit('tags',tags);
       });
     });
     
@@ -598,12 +601,12 @@ function get_full_topic(id, cb) {
       if(!author){
         return cb(null, '话题的作者丢了。');  
       }
-      proxy.trigger('author',author);
+      proxy.emit('author',author);
     }); 
     
     reply_ctrl.get_replies_by_topic_id(topic._id,function(err,replies){
       if(err) return cb(err);
-      proxy.trigger('replies',replies);
+      proxy.emit('replies',replies);
     });
 
   });
@@ -640,7 +643,7 @@ function get_topics_by_query(query,opt, cb) {
           topic.reply = last_reply;
           topic.friendly_create_at = Util.format_date(topic.create_at,true);
           topics[i] = topic;
-          proxy.trigger('topic_ready');
+          proxy.emit('topic_ready');
         }); 
       })(i);
     }

@@ -51,7 +51,7 @@ exports.add = function (req, res, next) {
       topic.last_reply_at = new Date();
       topic.reply_count += 1;
       topic.save();
-      proxy.trigger('reply_saved');
+      proxy.emit('reply_saved');
       //发送at消息
       at_ctrl.send_at_message(content, topic_id, req.session.user._id);
     });
@@ -62,10 +62,10 @@ exports.add = function (req, res, next) {
       return next(err);
     }
     if (topic.author_id.toString() === req.session.user._id.toString()) {
-      proxy.trigger('message_saved');
+      proxy.emit('message_saved');
     } else {
       message_ctrl.send_reply_message(topic.author_id, req.session.user._id, topic._id);  
-      proxy.trigger('message_saved');
+      proxy.emit('message_saved');
     }
   });
 
@@ -77,7 +77,7 @@ exports.add = function (req, res, next) {
     user.reply_count += 1;
     user.save();
     req.session.user.score += 5;  
-    proxy.trigger('score_saved');
+    proxy.emit('score_saved');
   });
 };
 
@@ -123,7 +123,7 @@ exports.add_reply2 = function (req, res, next) {
       topic.last_reply_at = new Date();
       topic.reply_count += 1;
       topic.save();
-      proxy.trigger('reply_saved');
+      proxy.emit('reply_saved');
       //发送at消息
       at_ctrl.send_at_message(content, topic_id, req.session.user._id);
     });
@@ -134,10 +134,10 @@ exports.add_reply2 = function (req, res, next) {
       return next(err);
     }
     if (reply.author_id.toString() === req.session.user._id.toString()) {
-      proxy.trigger('message_saved');
+      proxy.emit('message_saved');
     } else {
       message_ctrl.send_reply2_message(reply.author_id, req.session.user._id, topic_id);
-      proxy.trigger('message_saved');
+      proxy.emit('message_saved');
     }
   });
 };
@@ -186,17 +186,16 @@ function get_reply_by_id(id, cb) {
       if (err) {
         return cb(err);
       }
-      if (!reply.content_is_html) {
-        reply.content = Showdown.parse(Util.escape(reply.content));
-      }
       reply.author = author;
       reply.friendly_create_at = Util.format_date(reply.create_at, true);
-
+      if (reply.content_is_html) {
+        return cb(null, reply);
+      }
       at_ctrl.link_at_who(reply.content, function (err, str) {
         if (err) {
           return cb(err);
         }
-        reply.content = str;
+        reply.content = Showdown.parse(Util.escape(str));;
         return cb(err, reply);
       });
     });
@@ -242,17 +241,17 @@ function get_replies_by_topic_id(id, cb) {
           if (err) {
             return cb(err);
           }
-          if (!replies[i].content_is_html) {
-            replies[i].content = Showdown.parse(Util.escape(replies[i].content));
-          }
           replies[i].author = author;
           replies[i].friendly_create_at = Util.format_date(replies[i].create_at, true);
+          if (replies[i].content_is_html) {
+            return proxy.emit('reply_find');
+          }
           at_ctrl.link_at_who(replies[i].content, function (err, str) {
             if (err) {
               return cb(err);
             }
-            replies[i].content = str;
-            proxy.trigger('reply_find');
+            replies[i].content = Showdown.parse(Util.escape(str));
+            proxy.emit('reply_find');
           });
         });
       })(j);
