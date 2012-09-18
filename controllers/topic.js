@@ -36,26 +36,25 @@ exports.index = function (req, res, next) {
       error: '此话题不存在或已被删除。'
     });
   }
-  var events = [ 'topic', 'other_topics', 'no_reply_topics', 'get_relation', '@user' ];
+  var events = [ 'topic', 'other_topics', 'no_reply_topics', 'get_relation'];
   var ep = EventProxy.create(events, function (topic, other_topics, no_reply_topics, relation) {
-    res.render('topic/index', {
-      topic: topic,
-      author_other_topics: other_topics,
-      no_reply_topics: no_reply_topics,
-      relation : relation
+    at_ctrl.link_at_who(topic.content, function (err, content) {
+      if (err) {
+        return next(err);
+      }
+      topic.content = content;
+      res.render('topic/index', {
+        topic: topic,
+        author_other_topics: other_topics,
+        no_reply_topics: no_reply_topics,
+        relation : relation
+      });
     });
   });
+  
   ep.on('error', function (err) {
     ep.unbind();
     next(err);
-  });
-  ep.once('topic', function (topic) {
-    at_ctrl.link_at_who(topic.content, function (err, content) {
-      if (err) {
-        return ep.emit('error', err);
-      }
-      topic.content = content;
-    });
   });
 
   get_full_topic(topic_id, function (err, message, topic, tags, author, replies) {
@@ -66,15 +65,6 @@ exports.index = function (req, res, next) {
       ep.unbind();
       return res.render('notify/notify', { error: message });
     }
-
-
-    at_ctrl.link_at_who(topic.content, function (err, content) {
-      if (err) {
-        return ep.emit('error', err);
-      }
-      topic.content = content;
-      ep.emit('@user');
-    });
 
     topic.visit_count += 1;
     topic.save(function (err) {
