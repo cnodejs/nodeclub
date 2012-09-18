@@ -57,7 +57,7 @@ exports.index = function (req, res, next) {
     }
     at_ctrl.link_at_who(topic.content, function (err, content) {
       if (err) {
-        return next(err);
+        return ep.emit(err);
       }
       topic.content = Showdown.parse(Util.escape(content));
       ep.emit('@user');
