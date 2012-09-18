@@ -43,9 +43,18 @@ exports.format_date = function (date, friendly) {
  */
 
 exports.escape = function(html){
-  return String(html)
-    .replace(/&(?!\w+;)/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+  var codeReg = /(^|[^\\])(`+)([^\r]*?[^`])\2(?!`)/gm;
+  var codes = [];
+  return String(html).replace(/\r\n/g, '\n')
+  .replace(codeReg, function(code) {
+    codes.push(code);
+    return '`uc`';
+  })
+  .replace(/&(?!\w+;)/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/`uc`/g, function() {
+    return codes.shift();
+  });
 };
