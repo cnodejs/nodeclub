@@ -137,16 +137,19 @@
 
 <script>
 $(document).ready(function(){
+  var editor;
   function run_md_editor(){
     // var converter = Markdown.getSanitizingConverter();
     var converter = new Showdown.converter();
-    var editor = new Markdown.Editor(converter);
+    editor = new Markdown.Editor(converter);
     editor.run();
-    editor.hooks.chain('onPreviewRefresh', function () {
-      prettyPrint();
-    });
   }
   run_md_editor();
+
+  $('.preview-btn').click(function() {
+    editor.makePreviewHtml();
+    prettyPrint();
+  });
 
   $('.tag_selectable').click(function(){
     $(this).toggleClass('tag_select');
