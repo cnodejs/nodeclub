@@ -21,7 +21,7 @@ describe('showdown xss test', function () {
   it('should escape " in a', function () {
     var text = '[illegal url][1]\n\n[1]: http://baidu.com"onmouseover=\'alert(123)\'';
     var result = showdown.parse(text);
-    result.should.equal('<p><a href="http://baidu.com&quot;onmouseover=\'alert(123)\'">illegal url</a></p>');
+    result.should.equal('<p><a href="http://localhost.cnodejs.org:3000http://baidu.com"onmouseover=\'alert(123)\'">illegal url</a></p>');
   });
 
   it('should escape illegal url in img', function () {
@@ -33,6 +33,6 @@ describe('showdown xss test', function () {
   it('should escape " in img', function () {
     var text = '![illegal url][1]\n\n[1]: http://baidu.com"onmouseover=\'alert(123)\'';
     var result = showdown.parse(text);
-    result.should.equal('<p><img src="http://baidu.com&quot;onmouseover=\'alert(123)\'" alt="illegal url" title="" /></p>');
+    result.should.equal('<p><img src="http://localhost.cnodejs.org:3000http://baidu.com"onmouseover=\'alert(123)\'" alt="illegal url" title="" /></p>');
   });
 });
