@@ -59,9 +59,9 @@ exports.escape = function(html){
 
   text += '~0';
 
-  return text.replace(codeBlock, function (code) {
+  return text.replace(codeBlock, function (whole, code, nextChar) {
     blocks.push(code);
-    return '\n\tblock';
+    return '\n\tblock' + nextChar;
   })
   .replace(/&(?!\w+;)/g, '&amp;')
   .replace(/</g, '&lt;')
