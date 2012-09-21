@@ -1,3 +1,5 @@
+var xss = require('xss');
+
 exports.format_date = function (date, friendly) {
   var year = date.getFullYear();
   var month = date.getMonth() + 1;
@@ -76,4 +78,14 @@ exports.escape = function(html){
   .replace(/~0$/,'')
   .replace(/^\n\n/, '')
   .replace(/\n\n$/, '');
+};
+
+/**
+ * 过滤XSS攻击代码
+ *
+ * @param {string} html
+ * @return {string}
+ */
+exports.xss = function (html) {
+  return xss(html);
 };

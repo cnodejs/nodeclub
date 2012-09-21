@@ -59,7 +59,7 @@ exports.index = function (req, res, next) {
       if (err) {
         return ep.emit(err);
       }
-      topic.content = Showdown.parse(Util.escape(content));
+      topic.content = Util.xss(Showdown.parse(content));
       ep.emit('@user');
     });
   });

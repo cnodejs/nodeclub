@@ -195,7 +195,7 @@ function get_reply_by_id(id, cb) {
         if (err) {
           return cb(err);
         }
-        reply.content = Showdown.parse(Util.escape(str));;
+        reply.content = Util.xss(Showdown.parse(str));
         return cb(err, reply);
       });
     });
@@ -250,7 +250,7 @@ function get_replies_by_topic_id(id, cb) {
             if (err) {
               return cb(err);
             }
-            replies[i].content = Showdown.parse(Util.escape(str));
+            replies[i].content = Util.xss(Showdown.parse(str));
             proxy.emit('reply_find');
           });
         });
