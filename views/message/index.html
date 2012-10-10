@@ -38,12 +38,6 @@
 
 <script type='text/javascript'>
 $(document).ready(function() {
-	$('.message').mouseover(function() {
-		$(this).find('.mark_read_btn').show();
-	});
-	$('.message').mouseout(function() {
-		$(this).find('.mark_read_btn').hide();
-	});
 	$('.mark_read_btn').click(function() {
 		var $me = $(this);
 		var message_id = $me.parent().attr('message_id');
@@ -54,10 +48,11 @@ $(document).ready(function() {
 		$.post('/messages/mark_read', data, function(data) {
 			if (data.status === 'success') {
 				$me.parent().toggleClass('message');
-				$me.parent().find('.marked_icon').show();
-				$me.remove();	
-				var count = parseInt($('.messages_count').html()) - 1;
-				$('.messages_count').html(count);
+				$me.parent().find('.unread').each(function(index) {
+					$($me.parent().find('.unread')[index]).removeClass('unread');
+					var count = parseInt($('.messages_count').html()) - 1;
+					$('.messages_count').html(count);
+				})
 			}
 		}, 'json');
 	});
@@ -69,7 +64,7 @@ $(document).ready(function() {
 					$me = $(this);
 					$me.toggleClass('message');
 					$me.find('.marked_icon').show();
-					$me.find('.mark_read_btn').remove();	
+					$me.find('.unread').removeClass('unread');	
 					$('.messages_count').html(0);
 				});
 			}

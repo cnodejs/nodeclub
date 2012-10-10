@@ -7,7 +7,13 @@
 
   <div class='topic_wrap'>
     <div class='title_wrap'>
-      <a class='topic_title' href="/topic/<%= topic._id %>"><% if (topic.top) {%>[置顶]<% } %><%= topic.title %></a>
+      <!--<%- partial('tag/tag_in_abstract',{collection:topic.tags, as:'tag'}) %>-->
+      <a class='topic_title' href='/topic/<%= topic._id %>'>
+        <% if(topic.top){%>
+          <span class='put_top'>置顶</span>
+          <% } %>
+        <%= topic.title %>
+      </a>
     </div>
     <% if (topic.reply_count > 0) { %>
       <a class='count fr' href="/topic/<%= topic._id %>#reply<%= topic.reply_count %>"><%= topic.reply_count %></a>
@@ -34,6 +40,5 @@
         </div>
       <% } %>
     </span>
-    <%- partial('tag/tag_in_abstract',{collection:topic.tags, as:'tag'}) %>
   </div>
 </div>
