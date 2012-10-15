@@ -2,12 +2,10 @@
 body,p {
   font-size: 12px;
   line-height: 16px;
-  font-family: "Helvetica Neue","Georgia" Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   word-break: break-all;
 }
-body {
-  font-family: "wenquanyi micro hei";
-}
+
 #wrapper {
   background: #d0d6db;
 }
@@ -174,13 +172,14 @@ a.tag_big {
 
   color: white;
   padding: 2px 5px;
-  margin: 0px 8px 5px 0px;
-  background: hsl(221,28%,83%);
+  margin: 0 8px 5px 0;
+  background: #aaa;
   display: inline-block;
   text-decoration: none;
 }
+
 a.tag_big:hover {
-  background-color: hsl(221,28%,73%);
+  background-color: #A7B3CD;
 }
 .tag_selectable {
   -webkit-border-radius: 3px;
