@@ -449,7 +449,6 @@ var _RunBlockGamut = function(text) {
 // These are all the transformations that form block-level
 // tags like paragraphs, headers, and list items.
 //
-  text = _DoHeaders(text);
 
   // Do Horizontal Rules:
   var key = hashBlock("<hr />");
@@ -460,6 +459,8 @@ var _RunBlockGamut = function(text) {
   text = _DoLists(text);
   text = _DoCodeBlocks(text);
   text = _DoBlockQuotes(text);
+
+  text = _DoHeaders(text);
 
   // We already ran _HashHTMLBlocks() before, in Markdown(), but that
   // was to escape raw HTML in the original Markdown source. This time,
