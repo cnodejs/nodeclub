@@ -241,7 +241,7 @@ function get_replies_by_topic_id(id, cb) {
           if (err) {
             return cb(err);
           }
-          replies[i].author = author;
+          replies[i].author = author || {};
           replies[i].friendly_create_at = Util.format_date(replies[i].create_at, true);
           if (replies[i].content_is_html) {
             return proxy.emit('reply_find');
