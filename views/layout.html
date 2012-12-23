@@ -47,7 +47,7 @@
             <input type='text' id='q' name='q' class='search-query span3' value='<%= locals.keyword || '' %>'/>
           </form>
           <ul class='nav pull-right'>
-            <li><a href='/'>首页</a></li> 
+            <li><a href='/'>首頁</a></li> 
             <%
             var site_navs = config.site_navs || [];
             for (var i = 0, l = site_navs.length; i < l; i++) {
@@ -57,11 +57,11 @@
             <% } %>
             <li class='divider-vertical'></li>  
             <% if (locals.current_user) { %>
-            <li><a href='/setting'>设置</a></li>  
+            <li><a href='/setting'>設置</a></li>  
             <li><a href='/signout'>退出</a></li>  
             <% } else { %>
-            <li><a href='/signup'>注册</a></li> 
-            <li><a href='/signin'>登录</a></li> 
+            <li><a href='/signup'>注冊</a></li> 
+            <li><a href='/signin'>登錄</a></li> 
             <% } %>
           </ul>
         </div>
@@ -74,7 +74,7 @@
       </div>
       <div class='cl cr'></div>
     </div>
-    <div id='backtotop'>回到顶部</div>
+    <div id='backtotop'>回到頂部</div>
     <!-- <a href="https://github.com/muyuan/nodeclub"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub"></a> -->
     <!-- footer -->
     <div id='footer'>
@@ -82,7 +82,7 @@
         <div class='fr'>
         </div>
         <div>
-          <strong><a class='dark' href='/about'>关于</a></strong>
+          <strong><a class='dark' href='/about'>關于</a></strong>
           &nbsp;&nbsp;|&nbsp;&nbsp; 
           <strong><a class='dark' href='/faq'>FAQ</a></strong>
           &nbsp;&nbsp;|&nbsp;&nbsp;
@@ -92,8 +92,8 @@
         </div>
         <div class='sep10'></div>
         <div class='col_fade'>
-          &copy; 2012 <br>本社区为开源系统，版本: <%= config.version %> ，欢迎贡献代码<br>
-          由<a href='http://cnodejs.net' target='_blank'> NAE </a>为 <%= config.name %> 提供动力
+          &copy; 2012 <br>本社區為開源系統，版本: <%= config.version %> ，歡迎貢獻代碼<br>
+          由<a href='http://cnodejs.net' target='_blank'> NAE </a>為 <%= config.name %> 提供動力
         </div>
       </div>
     </div>

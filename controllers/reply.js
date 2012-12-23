@@ -25,7 +25,7 @@ exports.add = function (req, res, next) {
 
   var str = sanitize(content).trim();
   if (str === '') {
-    res.render('notify/notify', {error: '回复内容不能为空！'});
+    res.render('notify/notify', {error: '回復內容不能為空！'});
     return;
   }
   
@@ -52,7 +52,7 @@ exports.add = function (req, res, next) {
       topic.reply_count += 1;
       topic.save();
       proxy.emit('reply_saved');
-      //发送at消息
+      //發送at消息
       at_ctrl.send_at_message(content, topic_id, req.session.user._id);
     });
   });
@@ -108,7 +108,7 @@ exports.add_reply2 = function (req, res, next) {
   var reply = new Reply();
   reply.content = content;
   reply.topic_id = topic_id; 
-  //标识是二级回复
+  //標識是二級回復
   reply.reply_id = reply_id;
   reply.author_id = req.session.user._id;
   reply.save(function (err) {
@@ -124,7 +124,7 @@ exports.add_reply2 = function (req, res, next) {
       topic.reply_count += 1;
       topic.save();
       proxy.emit('reply_saved');
-      //发送at消息
+      //發送at消息
       at_ctrl.send_at_message(content, topic_id, req.session.user._id);
     });
   });

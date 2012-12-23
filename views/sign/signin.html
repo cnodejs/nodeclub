@@ -4,8 +4,8 @@
 	<div class='panel'>
 		<div class='header'>
 			<ul class='breadcrumb'>
-				<li><a href='/'>主页</a><span class='divider'>/</span></li>
-				<li class='active'>登录</li>
+				<li><a href='/'>主頁</a><span class='divider'>/</span></li>
+				<li class='active'>登錄</li>
 			</ul>
 		</div>
 		<div class='inner'>
@@ -19,21 +19,21 @@
 			<% } %>
 			<form id='signin_form' class='form-horizontal' action='/signin' method='post'>
 				<div class='control-group'>
-					<label class='control-label' for='name'>用户名</label>
+					<label class='control-label' for='name'>用戶名</label>
 					<div class='controls'>
 						<input class='input-xlarge' id='name' name='name' size='30' type='text' />
 					</div>
 				</div>
 				<div class='control-group'>
-					<label class='control-label' for='pass'>密码</label>
+					<label class='control-label' for='pass'>密碼</label>
 					<div class='controls'>
 						<input class='input-xlarge' id='pass' name='pass' size='30' type='password' />
-						<p class='help-block'> <a href='/search_pass'>我忘记了密码</a></p>
+						<p class='help-block'> <a href='/search_pass'>我忘記了密碼</a></p>
 					</div>
 				</div>
 				<input type='hidden' name='_csrf' value='<%= csrf %>' />
 				<div class='form-actions'>
-					<input type='submit' class='btn' value='登录' />
+					<input type='submit' class='btn' value='登錄' />
 				</div>
 			</form>
 		</div>

@@ -1,46 +1,46 @@
 <div id='sidebar'>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>话题发布步骤</span>
+      <span class='col_fade'>話題發布步驟</span>
     </div>
     <div class='inner'>
       <ol>
-        <li>填写标题</li>
-        <li>填写内容</li>
-        <li>选择话题标签</li>
-        <li>确认后发布话题</li>
+        <li>填寫標題</li>
+        <li>填寫內容</li>
+        <li>選擇話題標簽</li>
+        <li>確認後發布話題</li>
       </ol>
     </div>
   </div>
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>话题发布指南</span>
+      <span class='col_fade'>話題發布指南</span>
     </div>
     <div class='inner'>
       <ul>
-        <li>尽量把话题要点浓缩到标题里</li>
-        <li>内容对标题做进一步说明，但不是必须的</li>
-        <li>给话题选择合适的标签能增加被阅读的机会</li>
+        <li>盡量把話題要點濃縮到標題裡</li>
+        <li>內容對標題做進一步說明，但不是必須的</li>
+        <li>給話題選擇合適的標簽能增加被閱讀的機會</li>
       </ul>
     </div>
   </div>
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>markdown语法参考</span>
+      <span class='col_fade'>markdown語法參考</span>
     </div>
     <div class='inner'>
       <ul>
-        <li>换行：两个空格</li>
-        <li>分段：一个空行</li>
-        <li>斜体：*斜体*</li>
-        <li>粗体：**粗体**</li>
-        <li>代码：行首四个空格</li>
-        <li>链接：[文字](url)</li>
-        <li>图片：![alt 文字](url)</li>
+        <li>換行：兩個空格</li>
+        <li>分段：一個空行</li>
+        <li>斜體：*斜體*</li>
+        <li>粗體：**粗體**</li>
+        <li>代碼：行首四個空格</li>
+        <li>鏈接：[文字](url)</li>
+        <li>圖片：![alt 文字](url)</li>
       </ul>
-      <span>详见 <a href='http://www.ituring.com.cn/article/775' target='_blank'>Markdown Wiki</a></span>
+      <span>詳見 <a href='http://www.ituring.com.cn/article/775' target='_blank'>Markdown Wiki</a></span>
     </div>
   </div>
 </div>
@@ -49,11 +49,11 @@
   <div class='panel'>
     <div class='header'>
       <ul class='breadcrumb'>
-        <li><a href='/'>主页</a><span class='divider'>/</span></li>
+        <li><a href='/'>主頁</a><span class='divider'>/</span></li>
         <% if(locals.action && action == 'edit'){ %>
-        <li class='active'>编辑话题</li>
+        <li class='active'>編輯話題</li>
         <% }else{ %>
-        <li class='active'>发布话题</li>
+        <li class='active'>發布話題</li>
         <% } %>
       </ul>
     </div>
@@ -75,25 +75,25 @@
       <form id='create_topic_form' action='/topic/create' method='post'>
       <% } %>
         <div>
-          <label class='bold' for='title'>标题</label>
+          <label class='bold' for='title'>標題</label>
           <div>
             <% if(locals.title){ %>
             <textarea class='span8' id='title' name='title' rows='3'><%= title %></textarea>
             <% }else{ %>
             <textarea class='span8' id='title' name='title' rows='3'></textarea>
             <% } %>
-            <p class='help-block'>字数控制在10到100个之间</p>
+            <p class='help-block'>字數控制在10到100個之間</p>
           </div>
         </div>
         <div class='sep10'></div>
         <div class='sep10'></div>
         <div>
-          <label class='bold' for='t_content'>内容和标签</label>
+          <label class='bold' for='t_content'>內容和標簽</label>
           <div class='tabbable'>
             <ul class='nav nav-pills'>
               <li class='active'><a href='#markdown' data-toggle='pill'>markdown</a></li>
-              <li><a href='#preview' data-toggle='pill' class="preview-btn">预览</a></li>
-              <li><a href='#tags'data-toggle='pill'>标签</a></li>
+              <li><a href='#preview' data-toggle='pill' class="preview-btn">預覽</a></li>
+              <li><a href='#tags'data-toggle='pill'>標簽</a></li>
             </ul>
             <div class='tab-content'>
               <div class='active tab-pane' id='markdown'>
@@ -120,7 +120,7 @@
         <input type='hidden' id='topic_tags' name='topic_tags' value=''></input>
         <input type='hidden' name='_csrf' value='<%= csrf %>' />
         <div class='form-actions'>
-          <button id='submit_btn' class='btn'>发布</button>
+          <button id='submit_btn' class='btn'>發布</button>
         </div>
       </form>
     </div>

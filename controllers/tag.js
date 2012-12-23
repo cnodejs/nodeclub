@@ -92,7 +92,7 @@ exports.list_topic = function(req,res,next){
         proxy.trigger('no_reply_topics',no_reply_topics);
       });
     }else{
-      res.render('notify/notify',{error:'没有这个标签。'});
+      res.render('notify/notify',{error:'沒有這個標簽。'});
       return;
     }
   });
@@ -100,11 +100,11 @@ exports.list_topic = function(req,res,next){
 
 exports.edit_tags = function(req,res,next){
   if(!req.session.user){
-    res.render('notify/notify',{error:'你还没有登录。'});
+    res.render('notify/notify',{error:'你還沒有登錄。'});
     return;
   }
   if(!req.session.user.is_admin){
-    res.render('notify/notify',{error:'管理员才能编辑标签。'});
+    res.render('notify/notify',{error:'管理員才能編輯標簽。'});
     return;
   }
   get_all_tags(function(err,tags){
@@ -136,7 +136,7 @@ exports.add = function(req,res,next){
   Tag.find({'name':name},function(err,tags){
     if(err) return next(err);
     if(tags.length > 0){
-      res.render('notify/notify',{error:'这个标签已存在。'});
+      res.render('notify/notify',{error:'這個標簽已存在。'});
       return;
     }
 
@@ -154,11 +154,11 @@ exports.add = function(req,res,next){
 
 exports.edit = function(req,res,next){
   if(!req.session.user){
-    res.render('notify/notify',{error:'你还没有登录。'});
+    res.render('notify/notify',{error:'你還沒有登錄。'});
     return;
   }
   if(!req.session.user.is_admin){
-    res.render('notify/notify',{error:'管理员才能编辑标签。'});
+    res.render('notify/notify',{error:'管理員才能編輯標簽。'});
     return;
   }
   var tag_name = req.params.name;
@@ -195,7 +195,7 @@ exports.edit = function(req,res,next){
         })
       }
     }else{
-      res.render('notify/notify',{error:'没有这个标签。'});
+      res.render('notify/notify',{error:'沒有這個標簽。'});
       return;
     }
   });
@@ -203,11 +203,11 @@ exports.edit = function(req,res,next){
 
 exports.delete = function(req,res,next){
   if(!req.session.user){
-    res.render('notify/notify',{error:'你还没有登录。'});
+    res.render('notify/notify',{error:'你還沒有登錄。'});
     return;
   }
   if(!req.session.user.is_admin){
-    res.render('notify/notify',{error:'管理员才能编辑标签。'});
+    res.render('notify/notify',{error:'管理員才能編輯標簽。'});
     return;
   }
   var tag_name = req.params.name;
@@ -231,7 +231,7 @@ exports.delete = function(req,res,next){
         proxy.trigger('tag_collect_removed')
       });
     }else{
-      res.render('notify/notify',{error:'没有这个标签。'});
+      res.render('notify/notify',{error:'沒有這個標簽。'});
       return;
     }
   });
@@ -260,13 +260,13 @@ exports.collect = function(req,res,next){
       tag_collect.tag_id = tag._id;
       tag_collect.save(function(err){
         if(err) return next(err);
-        //用户更新collect_tag_count
+        //用戶更新collect_tag_count
         user_ctrl.get_user_by_id(req.session.user._id,function(err,user){
           if(err) return next(err);
           user.collect_tag_count += 1;
           user.save();
           req.session.user.collect_tag_count += 1;
-          //标签更新collect_count
+          //標簽更新collect_count
           tag.collect_count += 1;
           tag.save()
           res.json({status:'success'});
@@ -289,7 +289,7 @@ exports.de_collect = function(req,res,next){
     }
     TagCollect.remove({user_id:req.session.user._id,tag_id:tag._id},function(err){
       if(err) return next(err);
-      //用户更新collect_tag_count
+      //用戶更新collect_tag_count
       user_ctrl.get_user_by_id(req.session.user._id,function(err,user){
         if(err) return next(err);
         user.collect_tag_count -= 1;

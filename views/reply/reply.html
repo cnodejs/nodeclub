@@ -6,7 +6,7 @@
 	
 		<span class='fr'>
 			<% if(locals.current_user){ %>
-			<a href='javascript:void(0);' class='dark reply2_btn'>回复</a>	
+			<a href='javascript:void(0);' class='dark reply2_btn'>回復</a>	
 			<% } %>
 			<% if(reply.replies.length>0){ %>
 			<span class='col_fade'>{<%= reply.replies.length %>}</span>
@@ -14,10 +14,10 @@
 		</span>
 	<span class='reply_author'><a class='dark' href="/user/<%= reply.author.name %>"><%= reply.author.name %></a></span>
 		<span class='col_fade'>
-			在 <%= reply.friendly_create_at %>回复
+			在 <%= reply.friendly_create_at %>回復
 			<% if(locals.current_user && current_user._id.toString() == reply.author._id.toString()) { %>
 			<span class='sp10'></span>
-			<a href='javascript:void(0);' class='delete_reply_btn'><img class='user_icon' src="<%- config.site_static_host %>/images/trash_icon&16.png" title='删除' /></a>
+			<a href='javascript:void(0);' class='delete_reply_btn'><img class='user_icon' src="<%- config.site_static_host %>/images/trash_icon&16.png" title='刪除' /></a>
 			<% } %>
 		</span>
 	<!-- <div class='sep5'></div> -->
@@ -36,7 +36,7 @@
 				<div class='sep10'></div>
 				<ul class='nav nav-pills'>
 					<li class='active'><a href='#markdown-<%= indexInCollection+1 %>' data-toggle='pill'>markdown</a></li>
-					<li><a href='#preview-<%= indexInCollection+1 %>' data-toggle='pill' class="preview-btn">预览</a></li>
+					<li><a href='#preview-<%= indexInCollection+1 %>' data-toggle='pill' class="preview-btn">預覽</a></li>
 				</ul>
 				<div class='tab-content'>
 					<div class='active tab-pane' id='markdown-<%= indexInCollection+1 %>'>
@@ -48,9 +48,9 @@
 					</div>
 				</div>
 				<div class='sep10'></div>
-				<button class='btn reply2_submit_btn' id='<%= reply._id %>'>回复</button>
+				<button class='btn reply2_submit_btn' id='<%= reply._id %>'>回復</button>
 				<span class='sp10'></span>
-				<span class='col_fade'>Ctrl+Enter 快捷回复</span>
+				<span class='col_fade'>Ctrl+Enter 快捷回復</span>
 			</div>
 			<% } %>
 		</div>

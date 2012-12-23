@@ -10,7 +10,7 @@
       <!--<%- partial('tag/tag_in_abstract',{collection:topic.tags, as:'tag'}) %>-->
       <a class='topic_title' href='/topic/<%= topic._id %>'>
         <% if(topic.top){%>
-          <span class='put_top'>置顶</span>
+          <span class='put_top'>置頂</span>
           <% } %>
         <%= topic.title %>
       </a>
@@ -25,18 +25,18 @@
         <a class='dark' href='/user/<%= topic.author.name %>'><%= topic.author.name %></a> 
       </div> -->
       <div class='click_part'>
-        点击数 <%= topic.visit_count %>
+        點擊數 <%= topic.visit_count %>
       </div>
       <% if(topic.reply){  %>
         <div class='reply_part'>
           <a class='dark' href="/user/<%= topic.reply.author.name %>"><%= topic.reply.author.name %> </a>
-          回复于
+          回復于
           <%= topic.reply.friendly_create_at %>
         </div>
       <% }else{ %>
         <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %> </a>
         <div class='reply_part'>
-          创建于 <%= topic.friendly_create_at %>
+          創建于 <%= topic.friendly_create_at %>
         </div>
       <% } %>
     </span>

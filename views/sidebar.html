@@ -9,9 +9,9 @@
       <p><%= config.description %></p>
       <div class='sep10'></div>
       <div class='cen'>
-        <a href='/signup'><button class='btn'>现在注册</button></a>
+        <a href='/signup'><button class='btn'>現在注冊</button></a>
         <div class='sep10'></div>
-        <span>已注册用户请<a class='light' href='/signin'> 登录</a></span>
+        <span>已注冊用戶請<a class='light' href='/signin'> 登錄</a></span>
       </div>
     </div>
     <% } %>
@@ -20,14 +20,14 @@
   <div class='sep10'></div>
   <div class=panel>
     <div class='header'>  
-      <!-- <img src='<%- config.site_static_host %>/images/tag_icon&16.png' title='标签'/> -->
-      <!-- CNode社区宣传通告 -->
-      <span class="index_notify">社区消息：
+      <!-- <img src='<%- config.site_static_host %>/images/tag_icon&16.png' title='標簽'/> -->
+      <!-- CNode社區宣傳通告 -->
+      <span class="index_notify">社區消息：
     </div>
     <div class='inner'>
-      <p><a href="/topic/4fa69d90bac222c3780576d8" target="_blank">如何获得NodeAppEngine邀请码?</a></p>
-      <p><a href="/topic/4f4d9f007f999acb7c00af57" target="_blank">如何获得Node官方T-Shirt?</a> </p>
-      <p><a href="/topic/4f17948d9f40a8335200518e" target="_blank">如何加入CNode社区?</a></p>
+      <p><a href="/topic/4fa69d90bac222c3780576d8" target="_blank">如何獲得NodeAppEngine邀請碼?</a></p>
+      <p><a href="/topic/4f4d9f007f999acb7c00af57" target="_blank">如何獲得Node官方T-Shirt?</a> </p>
+      <p><a href="/topic/4f17948d9f40a8335200518e" target="_blank">如何加入CNode社區?</a></p>
     </div>
   </div>
    
@@ -35,13 +35,13 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>  
-      <span class='col_fade'>热门标签</span>
+      <span class='col_fade'>熱門標簽</span>
     </div>
     <div class='inner'>
       <% if (hot_tags.length > 0) { %>
       <%- partial('tag/tag_with_count', { collection: hot_tags, as: 'tag' }) %>
       <% } else { %>
-      <p>无</p>
+      <p>無</p>
       <% } %>
     </div>
   </div>
@@ -51,7 +51,7 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>热门话题</span>
+      <span class='col_fade'>熱門話題</span>
     </div>
     <div class='inner'>
       <% if (hot_topics.length >0) { %>
@@ -59,7 +59,7 @@
       <%- partial('topic/small', { collection: hot_topics, as: 'topic' }) %>
       </ul>
       <% } else { %>
-      <p>无</p>
+      <p>無</p>
       <% } %>
     </div>
   </div>
@@ -69,7 +69,7 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>无人回复的话题</span>
+      <span class='col_fade'>無人回復的話題</span>
     </div>
     <div class='inner'>
       <% if (no_reply_topics.length > 0) { %>
@@ -77,7 +77,7 @@
       <%- partial('topic/small', { collection: no_reply_topics, as: 'topic' }) %>
       </ul>
       <% } else {  %>
-      <p>无</p>
+      <p>無</p>
       <% } %>
     </div>
   </div>
@@ -87,7 +87,7 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>  
-      <span class='col_fade'>相关站点</span>
+      <span class='col_fade'>相關站點</span>
     </div>
     <div class='inner'>
       <ul class='unstyled'>
@@ -103,7 +103,7 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>积分榜</span>
+      <span class='col_fade'>積分榜</span>
       &nbsp;
       <a class='dark' href='/users/top100'>TOP 100 &gt;&gt;</a>
     </div>
@@ -113,7 +113,7 @@
       <%- partial('user/top', { collection: tops, as: 'user' }) %>
       </ol>
       <% } else { %>
-      <p>无</p>
+      <p>無</p>
       <% } %>
     </div>
   </div>
@@ -123,7 +123,7 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>社区达人</span> &nbsp;
+      <span class='col_fade'>社區達人</span> &nbsp;
       <a class='dark' href='/stars'>更多»</a>
     </div>
     <div class='inner'>
@@ -132,7 +132,7 @@
       <%- partial('user/star', { collection: stars, as: 'user' }) %>
       </ul>
       <% } else { %>
-      <p>无</p>
+      <p>無</p>
       <% } %>
     </div>
   </div>
@@ -143,7 +143,7 @@
   <% if (config.side_ads && config.side_ads.length > 0) { %>
   <div class='panel'>
     <div class='header'>  
-      <span class='col_fade'>友情社区 | 赞助商</span>
+      <span class='col_fade'>友情社區 | 贊助商</span>
     </div>
     <% config.side_ads.forEach(function (ad) { %>
     <div class='inner'>
@@ -158,10 +158,11 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>RSS订阅</span>
+      <span class='col_fade'>RSS訂閱</span>
     </div>
     <div class='inner'>
-    <a href="/rss"><img alt="RSS订阅" src="/images/rss_icon&40.png" /></a>
+    <a href="/rss"><img alt="RSS訂閱" src="/images/rss_icon&40.png" /></a>
     </div>
   </div>
 </div>
+

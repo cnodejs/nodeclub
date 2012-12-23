@@ -4,15 +4,15 @@
 	<div class='panel'>
 		<div class='header'>
 			<ul class='breadcrumb'>
-				<li><a href='/'>主页</a><span class='divider'>/</span></li>
-				<li class='active'>我收藏的标签</li>
+				<li><a href='/'>主頁</a><span class='divider'>/</span></li>
+				<li class='active'>我收藏的標簽</li>
 			</ul>
 		</div>
 		<div class='inner'>
 			<% if(tags.length > 0){ %>
 			<%- partial('tag/tag',{collection:tags,as:'tag'}) %>			
 			<% }else{ %>
-			<p>你还没有收藏标签</p>	
+			<p>你還沒有收藏標簽</p>	
 			<% } %>
 		</div>
 	</div>	

@@ -6,7 +6,7 @@
 	<% if(message.type == 'reply'){ %>
 		<span>
 			<a href="/user/<%= message.author.name %>" target='_blank'><%= message.author.name %></a> 
-			回复了你的话题 
+			回復了你的話題 
 			<div class='title_wrap'>
 			<a href="/topic/<%= message.topic._id %>" target='_blank'><%= message.topic.title %></a>
 			</div>
@@ -15,23 +15,23 @@
 	<% if(message.type == 'reply2'){ %>
 		<span>
 			<a href="/user/<%= message.author.name %>" target='_blank'><%= message.author.name %></a> 
-			在话题 
+			在話題 
 			<div class='title_wrap'>
 				<a href="/topic/<%= message.topic._id %>" target='_blank'><%= message.topic.title %></a>
 			</div>
-			中回复了你的回复
+			中回復了你的回復
 		</span>
 	<% } %>
 	<% if(message.type == 'follow'){ %>
 	<span>
 		<a href="/user/<%= message.author.name %>" target='_blank'><%= message.author.name %></a> 
-		关注了你 
+		關注了你 
 	</span>
 	<% } %>
 	<% if (message.type == 'at'){ %>
 		<span>
 			<a href="/user/<%= message.author.name %>" target='_blank'><%= message.author.name %></a>
-			在话题
+			在話題
 			<div class='title_wrap'>
 				<a href="/topic/<%= message.topic._id %>" target='_blank'><%= message.topic.title %></a>
 			</div>
@@ -41,12 +41,12 @@
 
 
 	<% if (message.has_read) { %>
-	<span class='fr'><img src='<%- config.site_static_host %>/images/checkmark_icon&16.png' title='消息已读'/></span>
+	<span class='fr'><img src='<%- config.site_static_host %>/images/checkmark_icon&16.png' title='消息已讀'/></span>
 	<% } else { %>
 	<span class='fr marked_icon mark_read_btn'>
 		<img class='unread'
 		  src='<%- config.site_static_host %>/images/checkmark_icon&16.png'
-		  title='消息已读'
+		  title='消息已讀'
 		/>
 	</span>
 	<% } %>

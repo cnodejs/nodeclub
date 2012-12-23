@@ -4,8 +4,8 @@
 	<div class='panel'>
 		<div class='header'>
 			<ul class='breadcrumb'>
-				<li><a href='/'>主页</a><span class='divider'>/</span></li>
-				<li class='active'>找回密码</li>
+				<li><a href='/'>主頁</a><span class='divider'>/</span></li>
+				<li class='active'>找回密碼</li>
 			</ul>
 		</div>
 		<div class='inner'>
@@ -19,14 +19,14 @@
 			<% } %>
 			<form id='search_pass_form' class='form-horizontal' action='/search_pass' method='post'>
 				<div class='control-group'>
-					<label class='control-label' for='email'>电子邮箱</label>
+					<label class='control-label' for='email'>電子郵箱</label>
 					<div class='controls'>
 						<% if (locals.email) { %>
 						<input class='input-xlarge' id='email' name='email' size='30' type='text' value='<%= email %>' />
 						<% } else { %>
 						<input class='input-xlarge' id='email' name='email' size='30' type='text' />
 						<% } %>
-						<p class='help-block'>请输入您注册帐户时使用的电子邮箱</p>
+						<p class='help-block'>請輸入您注冊帳戶時使用的電子郵箱</p>
 					</div>
 					<input type='hidden' name='_csrf' value='<%= csrf %>' />
 				</div>

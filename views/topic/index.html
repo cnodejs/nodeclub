@@ -10,7 +10,7 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>作者其它话题</span>
+      <span class='col_fade'>作者其它話題</span>
     </div>
     <div class='inner'>
       <% if (locals.author_other_topics && author_other_topics.length > 0) { %>
@@ -18,14 +18,14 @@
       <%- partial('topic/small',{ collection: author_other_topics, as: 'topic' }) %>
       </ul>
       <% } else {  %>
-      <p>无</p>
+      <p>無</p>
       <% } %>
     </div>
   </div>
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>无人回复的话题</span>
+      <span class='col_fade'>無人回復的話題</span>
     </div>
     <div class='inner'>
       <% if (locals.no_reply_topics && no_reply_topics.length > 0) { %>
@@ -33,7 +33,7 @@
       <%- partial('topic/small',{ collection: no_reply_topics, as: 'topic' }) %>
       </ul>
       <% } else {  %>
-      <p>无</p>
+      <p>無</p>
       <% } %>
     </div>
   </div>
@@ -43,35 +43,35 @@
   <div class='panel'>
     <div class='header'>
       <ul class='breadcrumb'>
-        <li><a href='/'>主页</a><span class='divider'>/</span></li>
-        <li class='active'>话题详情</li>
+        <li><a href='/'>主頁</a><span class='divider'>/</span></li>
+        <li class='active'>話題詳情</li>
       </ul>
     </div>
     <div class='inner'>
-      <h3><% if(topic.top){%>[置顶]<% } %><%= topic.title %></h3> 
+      <h3><% if(topic.top){%>[置頂]<% } %><%= topic.title %></h3> 
       <div class='sep10'></div> 
       <div class='topic_content'>
         <%- topic.content %>
       </div>
       <div class='sep10'></div> 
       <% if (topic.tags.length > 0) { %>
-      <span class='col_fade'>标签：</span> 
+      <span class='col_fade'>標簽：</span> 
       <%- partial('tag/tag_in_topic',{ collection: topic.tags, as: 'tag' }) %>
       <% } else { %>
-      <span class='col_fade'>标签：无</span>  
+      <span class='col_fade'>標簽：無</span>  
       <% } %>
       <div class='sep5'></div>  
       <span class='col_fade'>
-        <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_create_at %>发布
+        <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_create_at %>發布
       </span>
       <% if (topic.friendly_create_at != topic.friendly_update_at) { %>
       <div class='sep5'></div>
       <span class='col_fade'>
-        <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_update_at %>重新编辑
+        <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_update_at %>重新編輯
       </span>
       <% } %>
       <span class='sp10'></span>
-      <a class='dark' id='share_weibo_btn' href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=<%= config.weibo_key %>',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','','分享来自<%= config.name %>的话题：<%= topic.title %>','',''));">分享到 weibo</a>
+      <a class='dark' id='share_weibo_btn' href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=<%= config.weibo_key %>',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','','分享來自<%= config.name %>的話題：<%= topic.title %>','',''));">分享到 weibo</a>
       <% if (locals.current_user) { %>
         <% if (!topic.in_collection) { %>
         <button class='btn btn-success fr' id='collect_btn' action='collect'>加入收藏</button>
@@ -83,16 +83,16 @@
         <% if (current_user.is_admin) { %>
         <span class='sp10'></span>
         <% if (topic.top) { %>
-          <a href='/topic/<%= topic._id %>/top/0'><img class='user_icon' src='<%- config.site_static_host %>/images/star_fav_empty_icon&16.png' title='取消置顶' /></a>
+          <a href='/topic/<%= topic._id %>/top/0'><img class='user_icon' src='<%- config.site_static_host %>/images/star_fav_empty_icon&16.png' title='取消置頂' /></a>
         <% } else { %>
-          <a href='/topic/<%= topic._id %>/top/1'><img class='user_icon' src='<%- config.site_static_host %>/images/star_fav_icon&16.png' title='置顶' /></a>
+          <a href='/topic/<%= topic._id %>/top/1'><img class='user_icon' src='<%- config.site_static_host %>/images/star_fav_icon&16.png' title='置頂' /></a>
         <% } %>
-        <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='编辑' /></a>
-        <a href='/topic/<%= topic._id %>/delete' class='delete_topic_btn'><img class='user_icon' src='<%- config.site_static_host %>/images/trash_icon&16.png' title='删除' /></a>
+        <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='編輯' /></a>
+        <a href='/topic/<%= topic._id %>/delete' class='delete_topic_btn'><img class='user_icon' src='<%- config.site_static_host %>/images/trash_icon&16.png' title='刪除' /></a>
         <% } else { %>
           <% if (current_user._id == topic.author_id) { %>
           <span class='sp10'></span>
-          <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='编辑' /></a>
+          <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='編輯' /></a>
           <% } %>
         <% } %>
       <% } %>
@@ -102,7 +102,7 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'><%= topic.replies.length %> 回复</span>
+      <span class='col_fade'><%= topic.replies.length %> 回復</span>
     </div>
     <%- partial('reply/reply', topic.replies) %>
   </div>
@@ -111,14 +111,14 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>添加回复</span>
+      <span class='col_fade'>添加回復</span>
     </div>
     <div class='inner'>
       <form id='reply_form' action='/<%= topic._id %>/reply' method='post'>
         <div class='tabbable'>
           <ul class='nav nav-pills'>
             <li class='active'><a href='#markdown' data-toggle='pill'>markdown</a></li>
-            <li><a href='#preview' data-toggle='pill' class="preview-btn">预览</a></li>
+            <li><a href='#preview' data-toggle='pill' class="preview-btn">預覽</a></li>
           </ul>
           <div class='tab-content'>
             <div class='tab-pane active' id='markdown'>
@@ -132,9 +132,9 @@
           <input type='hidden' name='_csrf' value='<%= csrf %>' />
         </div>
         <div class='sep10'></div>
-        <button id='submit_btn' class='btn'>回复</button>
+        <button id='submit_btn' class='btn'>回復</button>
         <span class='sp10'></span>
-        <span class='col_fade'>Ctrl+Enter 快捷回复</span>
+        <span class='col_fade'>Ctrl+Enter 快捷回復</span>
       </form>
     </div>
   </div>
@@ -269,7 +269,7 @@
 
     $('.delete_reply_btn, .delete_reply2_btn').live('click', function() {
       var $me = $(this);
-      if (confirm('确定要删除此回复吗？')) {
+      if (confirm('確定要刪除此回復嗎？')) {
         var reply_id = null;
         if ($me.hasClass('delete_reply_btn')) {
           reply_id = $me.parents('.reply_item').attr('reply_id');
@@ -296,7 +296,7 @@
     }); 
 
     $('.delete_topic_btn').click(function() {
-      if(confirm('确定要删除此话题吗？')) {
+      if(confirm('確定要刪除此話題嗎？')) {
         window.location.href = $(this).attr('href');
       }
       return false;
@@ -307,7 +307,7 @@
       $(this).focus(function(){
         var parent = $(this).parent().parent().parent().parent();
         var btn = parent.find('button');
-        if(btn.html() == '回复'){
+        if(btn.html() == '回復'){
           submit_btn = btn;
         }
       });

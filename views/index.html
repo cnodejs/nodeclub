@@ -4,21 +4,21 @@
 	<div class='panel'>
 		<div class='moon'>
 			<% if (locals.current_user && current_user.is_admin) { %>
-			<span class='fr'><a href='/tags/edit'><img src="<%- config.site_static_host %>/images/wrench_icon&16.png" title='编辑标签' /></a></span>
+			<span class='fr'><a href='/tags/edit'><img src="<%- config.site_static_host %>/images/wrench_icon&16.png" title='編輯標簽' /></a></span>
 			<% } %>
 		</div>
 		<div class='moon_tags'>
 			<% if (locals.tags && tags.length > 0) { %>
 				<%- partial('tag/tag', tags) %>
 			<% } else { %>
-				<p>无标签</p>
+				<p>無標簽</p>
 			<% } %>
 		</div>
 		<div class='header'>
-			<img src="<%- config.site_static_host %>/images/spechbubble_2_icon&16.png" title='话题'/>
+			<img src="<%- config.site_static_host %>/images/spechbubble_2_icon&16.png" title='話題'/>
 			
 			<% if (locals.current_user) { %>
-			<a href='/topic/create' class='fr'><button class='btn btn-success fr' id='create_topic_btn'>发布话题</button></a>
+			<a href='/topic/create' class='fr'><button class='btn btn-success fr' id='create_topic_btn'>發布話題</button></a>
 			<% } %>
 		</div>
 		<% if (locals.topics && topics.length > 0) { %>
@@ -30,7 +30,7 @@
 		}) %>
 		<% } else { %>
 		<div class='inner'>
-			<p>无话题</p>
+			<p>無話題</p>
 		</div>
 		<% } %>
 	</div>

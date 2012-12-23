@@ -4,7 +4,7 @@
 	<div class='panel'>
 		<div class='header'>
 			<ul class='breadcrumb'>
-				<li><a href='/'>主页</a><span class='divider'>/</span></li>
+				<li><a href='/'>主頁</a><span class='divider'>/</span></li>
 				<li class='active'><%= user.name %></li>
 			</ul>
 		</div>
@@ -14,14 +14,14 @@
 			</div>
 			<% if(locals.current_user && current_user._id != user._id){ %>
 			<% if(!locals.relation){ %>
-			<button class='btn btn-success fr' id='follow_btn' action='follow'>加入关注</button>
+			<button class='btn btn-success fr' id='follow_btn' action='follow'>加入關注</button>
 			<% }else{ %>
-			<button class='btn fr' id='follow_btn' action='un_follow'>取消关注</button>
+			<button class='btn fr' id='follow_btn' action='un_follow'>取消關注</button>
 			<% } %>
 			<% } %>
 			<h2><%= user.name %></h2>
 			<div class='col_fade'>
-				<span><img src="<%- config.site_static_host %>/images/cert_icon&16.png" /> <%= user.follower_count %> 粉丝</span>
+				<span><img src="<%- config.site_static_host %>/images/cert_icon&16.png" /> <%= user.follower_count %> 粉絲</span>
 				<% if (user.signature) { %>
 				<span class='sp10'></span>
 				<span><%= user.signature %></span>
@@ -55,9 +55,9 @@
 			<p class='col_fade'>于 <%= user.friendly_create_at %> 加入 <%= config.name %></p>
 			<% if(locals.current_user && current_user.is_admin){ %>
 			<% if(!user.is_star){ %>
-			<button class='btn' id='set_star_btn' action='set_star'>设为达人</button>
+			<button class='btn' id='set_star_btn' action='set_star'>設為達人</button>
 			<% }else{ %>
-			<button class='btn' id='set_star_btn' action='cancel_star'>取消达人</button>
+			<button class='btn' id='set_star_btn' action='cancel_star'>取消達人</button>
 			<% } %>
 			<% } %>
 		</div>
@@ -65,13 +65,13 @@
 	<div class='sep10'></div>
 	<div class='panel'>
 		<div class='header'>
-			<span class='col_fade'><%= user.name %> 发布的话题</span>
+			<span class='col_fade'><%= user.name %> 發布的話題</span>
 		</div>
 		<% if(locals.topics && topics.length > 0 ){ %>
 		<%- partial('topic/list', {topics:topics,pages:pages,current_pages:current_page,base:'/user/'+user.name+'/topics'}) %>
 		<% }else{ %>
 		<div class='inner'>
-			<p>无话题</p>
+			<p>無話題</p>
 		</div>
 		<% } %>
 	</div>
@@ -86,10 +86,10 @@
 			$.post('/user/'+action,{follow_id: '<%= user._id %>'},function(data){
 				if(data.status == 'success'){
 					if(action == 'follow'){
-						$me.html('取消关注');
+						$me.html('取消關注');
 						$me.attr('action','un_follow');
 					}else{
-						$me.html('加入关注');
+						$me.html('加入關注');
 						$me.attr('action','follow');
 					}
 					$me.toggleClass('btn-success');	
@@ -102,10 +102,10 @@
 			$.post('/user/'+action,{user_id: '<%= user._id %>'},function(data){
 				if(data.status == 'success'){
 					if(action == 'set_star'){
-						$me.html('取消达人');
+						$me.html('取消達人');
 						$me.attr('action','cancel_star');
 					}else{
-						$me.html('设为达人');
+						$me.html('設為達人');
 						$me.attr('action','set_star');
 					}
 				}	

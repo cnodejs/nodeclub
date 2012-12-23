@@ -4,8 +4,8 @@
 	<div class='panel'>
 		<div class='header'>
 			<ul class='breadcrumb'>
-				<li><a href='/'>主页</a><span class='divider'>/</span></li>
-				<li class='active'>Top100 积分榜</li>
+				<li><a href='/'>主頁</a><span class='divider'>/</span></li>
+				<li class='active'>Top100 積分榜</li>
 			</ul>
 		</div>
 		<div class='inner'>
@@ -13,17 +13,17 @@
 			<table class='table table-condensed table-striped'>
 				<thead>
 					<th>#</th>
-					<th>用户名</th>
-					<th>粉丝数</th>
-					<th>文章数</th>
-					<th>积分</th>
+					<th>用戶名</th>
+					<th>粉絲數</th>
+					<th>文章數</th>
+					<th>積分</th>
 				</thead>
 				<tbody>
 				<%- partial('user/top100_user',{collection:users,as:'user'}) %>			
 				</tbody>
 			</table>
 			<% }else{ %>
-			<p>还没有用户</p>	
+			<p>還沒有用戶</p>	
 			<% } %>
 		</div>
 	</div>	

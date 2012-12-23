@@ -4,7 +4,7 @@
 <div id='content'>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>编辑标签</span>
+      <span class='col_fade'>編輯標簽</span>
     </div>
     <div class='inner'>
       <% if(locals.edit_error){ %>
@@ -19,11 +19,11 @@
           <label class='control-label' for='name'>名字</label>
           <div class='controls'>
             <input class='input-xlarge' id='name' name='name' size='30' type='text' value='<%= tag.name %>'/>
-            <p class='help-block'>须为汉字和字母和数字组合</p>
+            <p class='help-block'>須為漢字和字母和數字組合</p>
           </div>
         </div>
         <div class='control-group'>
-          <label class='control-label' for='order'>序号</label>
+          <label class='control-label' for='order'>序號</label>
           <div class='controls'>
             <select class='span2' name='order'>
               <% if(locals.tags && tags.length > 0 ){ %>
@@ -36,15 +36,15 @@
               <% } %>
               <% } %>
             </select>
-            <p class='help-block'>首页标签按此序号由小到大排序</p>
+            <p class='help-block'>首頁標簽按此序號由小到大排序</p>
           </div>
         </div>
         <div class='control-group'>
-          <label class='control-label' for='background'>背景图片</label>
+          <label class='control-label' for='background'>背景圖片</label>
           <div class='controls'>
             <input class='input-xlarge' id='background' name='background' size='20'
             type='text' value='<%= tag.background %>' />
-            <p class='help-block'>标签首页背景图片<p>
+            <p class='help-block'>標簽首頁背景圖片<p>
           </div>
         </div>
         <div class='control-group'>

@@ -5,14 +5,14 @@
 	<span class='reply_author'><a class='dark' href="/user/<%= reply.author.name %>"><%= reply.author.name %></a></span>
 		<span class='fr'>
 			<% if (locals.current_user) { %>
-			<a href='javascript:void(0);' class='dark reply2_at_btn'>@回复</a>	
+			<a href='javascript:void(0);' class='dark reply2_at_btn'>@回復</a>	
 			<% } %>
 		</span>
 		<span class='col_fade'>
-			在 <%= reply.friendly_create_at %>回复
+			在 <%= reply.friendly_create_at %>回復
 			<% if (locals.current_user && current_user._id.toString() == reply.author._id.toString()) { %>
 			<span class='sp10'></span>
-			<a href='javascript:void(0)' class='delete_reply2_btn'><img class='user_icon' src="<%- config.site_static_host %>/images/trash_icon&16.png" title='删除' /></a>
+			<a href='javascript:void(0)' class='delete_reply2_btn'><img class='user_icon' src="<%- config.site_static_host %>/images/trash_icon&16.png" title='刪除' /></a>
 			<% } %>
 		</span>
 	<!-- <div class='sep5'></div> -->

@@ -9,9 +9,9 @@
       <p><%= config.description %></p>
       <div class='sep10'></div>
       <div class='cen'>
-        <a href='/signup'><button class='btn'>现在注册</button></a>
+        <a href='/signup'><button class='btn'>現在注冊</button></a>
         <div class='sep10'></div>
-        <span>已注册用户请<a class='light' href='/signin'> 登录</a></span>
+        <span>已注冊用戶請<a class='light' href='/signin'> 登錄</a></span>
       </div>
     </div>
     <% } %>
@@ -19,7 +19,7 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>热门话题</span>
+      <span class='col_fade'>熱門話題</span>
     </div>
     <div class='inner'>
       <% if (locals.hot_topics && hot_topics.length > 0) { %>
@@ -27,14 +27,14 @@
       <%- partial('topic/small', { collection: hot_topics, as: 'topic' }) %>
       </ul>
       <% } else { %>
-      <p>无</p>
+      <p>無</p>
       <% } %>
     </div>
   </div>
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>无人回复的话题</span>
+      <span class='col_fade'>無人回復的話題</span>
     </div>
     <div class='inner'>
       <% if (locals.no_reply_topics && no_reply_topics.length > 0) { %>
@@ -42,7 +42,7 @@
       <%- partial('topic/small', { collection: no_reply_topics, as: 'topic' }) %>
       </ul>
       <% } else {  %>
-      <p>无</p>
+      <p>無</p>
       <% } %>
     </div>
   </div>
@@ -53,11 +53,11 @@
   <div class='panel'>
     <div class='header'>
       <ul class='breadcrumb'>
-        <li><a href='/'>主页</a><span class='divider'>/</span></li>
+        <li><a href='/'>主頁</a><span class='divider'>/</span></li>
         <% if (locals.tag) { %>
         <li class='active'><%= tag.name %></li>
         <% } else { %>
-        <li class='active'>错误</li>
+        <li class='active'>錯誤</li>
         <% } %>
       </ul>
       <% if (locals.tag) { %>
@@ -68,7 +68,7 @@
         <% if (!locals.error) { %>
         <div class='sep10'></div>
         <div class='sep10'></div>
-        <a href='/topic/create'><button class='btn' id='create_topic_btn'>发布话题</button></a>
+        <a href='/topic/create'><button class='btn' id='create_topic_btn'>發布話題</button></a>
           <% if (!locals.in_collection) { %>
           <button class='btn btn-success fr' id='collect_btn' action='collect'>加入收藏</button>
           <% } else { %>
@@ -94,7 +94,7 @@
       }) %>
       <% } else { %>
       <div class='inner'>
-        <p>无话题</p>
+        <p>無話題</p>
       </div>
       <% } %>
     <% } %>

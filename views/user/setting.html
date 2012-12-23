@@ -4,8 +4,8 @@
 	<div class='panel'>
 		<div class='header'>
 			<ul class='breadcrumb'>
-				<li><a href='/'>主页</a><span class='divider'>/</span></li>
-				<li class='active'>设置</li>
+				<li><a href='/'>主頁</a><span class='divider'>/</span></li>
+				<li class='active'>設置</li>
 			</ul>
 		</div>
 		<div class='inner'>
@@ -22,25 +22,25 @@
 			<% } %>
 			<form id='setting_form' class='form-horizontal' action='/setting' method='post'>
 				<div class='control-group'>
-					<label class='control-label' for='name'>用户名</label>
+					<label class='control-label' for='name'>用戶名</label>
 					<div class='controls'>
 						<input class='input-xlarge readonly' id='name' name='name' size='30' type='text' readonly='true' value="<%= name %>" />
 					</div>
 				</div>
 				<div class='control-group'>
-					<label class='control-label' for='email'>电子邮件</label>
+					<label class='control-label' for='email'>電子郵件</label>
 					<div class='controls'>
 						<input class='input-xlarge readonly' id='email' name='email' size='30' type='text' readonly='true' value="<%= email %>" />
 					</div>
 				</div>
 				<div class='control-group'>
-					<label class='control-label' for='profile_image_url'>头像URL</label>
+					<label class='control-label' for='profile_image_url'>頭像URL</label>
 					<div class='controls'>
 						<input class='input-xlarge' id='profile_image_url' name='profile_image_url' type='text' value="<%= locals.profile_image_url || '' %>" />
 					</div>
 				</div>
 				<div class='control-group'>
-					<label class='control-label' for='url'>个人网站</label>
+					<label class='control-label' for='url'>個人網站</label>
 					<div class='controls'>
 						<% if(locals.url){ %>
 						<input class='input-xlarge' id='url' name='url' size='30' type='text' value="<%= url %>" />
@@ -50,7 +50,7 @@
 					</div>
 				</div>
 				<div class='control-group'>
-					<label class='control-label' for='location'>所在地点</label>
+					<label class='control-label' for='location'>所在地點</label>
 					<div class='controls'>
 						<% if(locals.location){ %>
 						<input class='input-xlarge' id='location' name='location' size='30' type='text' value="<%= location %>" />
@@ -60,7 +60,7 @@
 					</div>
 				</div>
 				<div class='control-group'>
-					<label class='control-label' for='signature'>个性签名</label>
+					<label class='control-label' for='signature'>個性簽名</label>
 					<div class='controls'>
 						<% if(locals.signature){ %>
 						<input class='input-xlarge' id='signature' name='signature' size='30' type='text' value="<%= signature %>" />
@@ -70,7 +70,7 @@
 					</div>
 				</div>
 				<div class='control-group'>
-					<label class='control-label' for='profile'>个人简介</label>
+					<label class='control-label' for='profile'>個人簡介</label>
 					<div class='controls'>
 						<% if(locals.profile){ %>
 						<textarea class='input-xlarge' id='profile' name='profile' rows='4'><%= profile %></textarea>
@@ -90,7 +90,7 @@
 					</div>
 				</div>
 				<div class='control-group'>
-					<label class='control-label' for='receive_at_msg'>邮件提醒</label>
+					<label class='control-label' for='receive_at_msg'>郵件提醒</label>
 					<div class='controls'>
 						<label class='checkbox'>
 							<% if(locals.receive_at_mail){ %>
@@ -98,7 +98,7 @@
 							<% }else{ %>
 							<input type='checkbox' name='receive_at_mail' />
 							<% } %>
-							我被别人@时
+							我被別人@時
 						</label>
 						<label class='checkbox'>
 							<% if (locals.receive_reply_mail){ %>
@@ -106,14 +106,14 @@
 							<% }else{ %>
 							<input type='checkbox' name='receive_reply_mail' />
 							<% } %>
-							我的话题收到回复时
+							我的話題收到回復時
 						</label>
 					</div>
 				</div>
 				<input type='hidden' id='action' name='action' value='change_setting' />
 				<input type='hidden' name='_csrf' value='<%= csrf %>' />
 				<div class='form-actions'>
-					<input type='submit' class='btn' value='保存设置' />
+					<input type='submit' class='btn' value='保存設置' />
 				</div>
 			</form>
 		</div>
@@ -121,13 +121,13 @@
 	<div class='sep10'></div>
 	<div class='panel'>
 		<div class='header'>	
-			<span class='col_fade'>头像</span>
+			<span class='col_fade'>頭像</span>
 		</div>
 		<div class='inner'>
-			<p><%= config.name %> 使用<a href='http://en.wikipedia.org/wiki/Gravatar' target='_blank'> Globally Recognized Avata </a>，与您的 Email 关联，请在<a href='http://en.gravatar.com/' target='_blank'> Gravatar </a>注册或更改您的头像。</p>
-			<p>您当前的头像如下：</p>
+			<p><%= config.name %> 使用<a href='http://en.wikipedia.org/wiki/Gravatar' target='_blank'> Globally Recognized Avata </a>，與您的 Email 關聯，請在<a href='http://en.gravatar.com/' target='_blank'> Gravatar </a>注冊或更改您的頭像。</p>
+			<p>您當前的頭像如下：</p>
 			<% if (locals.profile_image_url) { %>
-			自定义: <img class="user_avatar" src="<%= locals.profile_image_url %>" />
+			自定義: <img class="user_avatar" src="<%= locals.profile_image_url %>" />
 			&nbsp;|&nbsp;
 			<% } %>
 			gravatar: <img class="user_avatar" src="<%= current_user.avatar %>" />
@@ -136,19 +136,19 @@
 	<div class='sep10'></div>
 	<div class='panel'>
 		<div class='header'>	
-			<span class='col_fade'>更改密码</span>
+			<span class='col_fade'>更改密碼</span>
 		</div>
 		<div class='inner'>
 			<div class='sep10'></div>
 			<form id='change_pass_form' class='form-horizontal' action='/setting' method='post'>
 				<div class='control-group'>
-					<label class='control-label' for='old_pass'>当前密码</label>
+					<label class='control-label' for='old_pass'>當前密碼</label>
 					<div class='controls'>
 						<input class='input-xlarge' type='password' id='old_pass' name='old_pass' size='30' />
 					</div>
 				</div>
 				<div class='control-group'>
-					<label class='control-label' for='new_pass'>新密码</label>
+					<label class='control-label' for='new_pass'>新密碼</label>
 					<div class='controls'>
 						<input class='input-xlarge' type='password' id='new_pass' name='new_pass' size='30' />
 					</div>
@@ -156,7 +156,7 @@
 				<input type='hidden' id='action' name='action' value='change_password' />
 				<input type='hidden' name='_csrf' value='<%= csrf %>' />
 				<div class='form-actions'>
-					<input type='submit' class='btn' value='更改密码' />
+					<input type='submit' class='btn' value='更改密碼' />
 				</div>
 			</form>
 		</div>
