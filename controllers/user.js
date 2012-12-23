@@ -14,6 +14,7 @@ var EventProxy = require('eventproxy').EventProxy;
 var check = require('validator').check;
 var sanitize = require('validator').sanitize;
 var crypto = require('crypto');
+var bcrypt = require('bcrypt');
 
 exports.index = function (req, res, next) {
   var user_name = req.params.name;
@@ -203,51 +204,56 @@ exports.setting = function (req, res, next) {
       if (err) {
         return next(err);
       }
-      var md5sum = crypto.createHash('md5');
-      md5sum.update(old_pass);
-      old_pass = md5sum.digest('hex');
+      
+      bcrypt.compare(old_pass, user.pass, function (err, equal) {
+	      if (err) {
+		      return next(err);
+	      }
+	      if (!equal) {
+		res.render('user/setting', {
+		  error: '当前密码不正确。',
+		  name: user.name,
+		  email: user.email,
+		  url: user.url,
+		  profile_image_url: user.profile_image_url,
+		  location: user.location,
+		  signature: user.signature,
+		  profile: user.profile,
+		  weibo: user.weibo,
+		  receive_at_mail: user.receive_at_mail,
+		  receive_reply_mail: user.receive_reply_mail
+		});
+		return;
+	      }
 
-      if (old_pass !== user.pass) {
-        res.render('user/setting', {
-          error: '当前密码不正确。',
-          name: user.name,
-          email: user.email,
-          url: user.url,
-          profile_image_url: user.profile_image_url,
-          location: user.location,
-          signature: user.signature,
-          profile: user.profile,
-          weibo: user.weibo,
-          receive_at_mail: user.receive_at_mail,
-          receive_reply_mail: user.receive_reply_mail
-        });
-        return;
-      }
+	      bcrypt.genSalt(config.genSalt, function(err, salt) {
+		      if (err) {
+			      return next(err);
+		      }
+		      bcrypt.hash(new_pass, salt, function(err, hash) {
+			      user.pass = hash;
+			      user.save(function (err) {
+				if (err) {
+				  return next(err);
+				}
+				res.render('user/setting', {
+				  success: '密码已被修改。',
+				  name: user.name,
+				  email: user.email,
+				  url: user.url,
+				  profile_image_url: user.profile_image_url,
+				  location: user.location,
+				  signature: user.signature,
+				  profile: user.profile,
+				  weibo: user.weibo,
+				  receive_at_mail: user.receive_at_mail,
+				  receive_reply_mail: user.receive_reply_mail
+				});
+				return;
 
-      md5sum = crypto.createHash('md5');
-      md5sum.update(new_pass);
-      new_pass = md5sum.digest('hex');
-
-      user.pass = new_pass;
-      user.save(function (err) {
-        if (err) {
-          return next(err);
-        }
-        res.render('user/setting', {
-          success: '密码已被修改。',
-          name: user.name,
-          email: user.email,
-          url: user.url,
-          profile_image_url: user.profile_image_url,
-          location: user.location,
-          signature: user.signature,
-          profile: user.profile,
-          weibo: user.weibo,
-          receive_at_mail: user.receive_at_mail,
-          receive_reply_mail: user.receive_reply_mail
-        });
-        return;
-
+			      });
+		      });
+	      });
       });
     });
   }

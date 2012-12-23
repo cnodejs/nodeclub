@@ -9,6 +9,7 @@ var config = require('../config').config;
 
 var message_ctrl = require('./message');
 var mail_ctrl = require('./mail');
+var bcrypt = require('bcrypt');
 
 //sign up
 exports.signup = function(req,res,next){
@@ -65,28 +66,37 @@ exports.signup = function(req,res,next){
         return;
       }
       
-      // md5 the pass
-      pass = md5(pass);
-      // create gavatar
-      var avatar_url = 'http://www.gravatar.com/avatar/' + md5(email) + '?size=48';
+      // bcrypt the pass
+      bcrypt.genSalt(config.genSalt, function(err, salt) {
+	      if (err) {
+		      return next(err);
+	      }
+	      bcrypt.hash(pass, salt, function(err, hash) {
+		      if (err) {
+			      return next(err);
+		      }
+		      // create gavatar
+		      var avatar_url = 'http://www.gravatar.com/avatar/' + md5(email) + '?size=48';
 
-      var user = new User();
-      user.name = name;
-      user.loginname = loginname;
-      user.pass = pass;
-      user.email = email;
-      user.avatar = avatar_url;
-      user.active = false;
-      user.save(function(err){
-        if (err) {
-          return next(err);
-        }
-        mail_ctrl.send_active_mail(email,md5(email + config.session_secret), name,email,function(err,success){
-          if(success){
-            res.render('sign/signup', {success:'欢迎加入 ' + config.name + '！我们已给您的注册邮箱发送了一封邮件，请点击里面的链接来激活您的帐号。'});
-            return;
-          }
-        });
+		      var user = new User();
+		      user.name = name;
+		      user.loginname = loginname;
+		      user.pass = hash;
+		      user.email = email;
+		      user.avatar = avatar_url;
+		      user.active = false;
+		      user.save(function(err){
+			if (err) {
+			  return next(err);
+			}
+			mail_ctrl.send_active_mail(email,md5(email + config.session_secret), name,email,function(err,success){
+			  if(success){
+			    res.render('sign/signup', {success:'歡迎加入 ' + config.name + '！請至您的信箱收取驗證信。'});
+			    return;
+			  }
+			});
+		      });
+	      });
       });
     });
   }
@@ -132,25 +142,29 @@ exports.login = function(req, res, next) {
     if (!user) {
       return res.render('sign/signin', { error:'这个用户不存在。' });
     }
-    pass = md5(pass);
-    if (pass !== user.pass) {
-      return res.render('sign/signin', { error:'密码错误。' });
-    }
-    if (!user.active) {
-      res.render('sign/signin', { error:'此帐号还没有被激活。' });
-      return;
-    }
-    // store session cookie
-    gen_session(user, res);
-    //check at some page just jump to home page 
-    var refer = req.session._loginReferer || 'home';
-    for (var i=0, len=notJump.length; i!=len; ++i) {
-      if (refer.indexOf(notJump[i]) >= 0) {
-        refer = 'home';
-        break;
-      }
-    }
-    res.redirect(refer);
+    bcrypt.compare(pass, user.pass, function (err, equal) {
+	    if (err) {
+		    return next(err);
+	    }
+	    if (!equal) {
+		    return res.render('sign/signin', { error:'密码错误。' });
+	    }
+	    if (!user.active) {
+	      res.render('sign/signin', { error:'此帐号还没有被激活。' });
+	      return;
+	    }
+	    // store session cookie
+	    gen_session(user, res);
+	    //check at some page just jump to home page 
+	    var refer = req.session._loginReferer || 'home';
+	    for (var i=0, len=notJump.length; i!=len; ++i) {
+	      if (refer.indexOf(notJump[i]) >= 0) {
+		refer = 'home';
+		break;
+	      }
+	    }
+	    res.redirect(refer);
+    });
   });
 };
 

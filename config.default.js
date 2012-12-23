@@ -6,23 +6,23 @@ var path = require('path');
 
 exports.config = {
   debug: true,
-  name: 'Node Club',
-  description: 'Node Club 是用Node.js开发的社区软件',
+  name: 'Node.js Taiwan',
+  description: 'nodeJS 台灣社群，由一群熱心開發者聚集而成，主力在於蒐集及建立nodeJS 相關中文資訊，提供最佳的學習管道，讓更多人體會javascript 的好處。 nodeJS Taiwan group. We are a group of people who love nodejs. There are collect nodejs tutorial in Chinese about...',
   version: '0.2.2',
-
+  genSalt: 10,
   // site settings
   site_headers: [
-    '<meta name="author" content="EDP@TAOBAO" />',
+    '<meta name="author" content="admin@nodejs.tw" />',
   ],
-  host: 'localhost.cnodejs.org',
+  host: 'localhost',
   site_logo: '', // default is `name`
   site_navs: [
     // [ path, title, [target=''] ]
-    [ '/about', '关于' ],
+    [ '/about', '關於' ],
   ],
   site_static_host: '', // 静态文件存储域名
   site_enable_search_preview: false, // 开启google search preview
-  site_google_search_domain:  'cnodejs.org',  // google search preview中要搜索的域名
+  site_google_search_domain:  'nodejs.tw',  // google search preview中要搜索的域名
 
   upload_dir: path.join(__dirname, 'public', 'user_data', 'images'),
 
@@ -36,10 +36,10 @@ exports.config = {
 
   // RSS
   rss: {
-    title: 'CNode：Node.js专业中文社区',
-    link: 'http://cnodejs.org',
-    language: 'zh-cn',
-    description: 'CNode：Node.js专业中文社区',
+    title: 'Node.js Taiwan',
+    link: 'http://nodejs.tw',
+    language: 'zh-tw',
+    description: 'nodeJS 台灣社群，由一群熱心開發者聚集而成，主力在於蒐集及建立nodeJS 相關中文資訊，提供最佳的學習管道，讓更多人體會javascript 的好處。 nodeJS Taiwan group. We are a group of people who love nodejs. There are collect nodejs tutorial in Chinese about...',
 
     //最多获取的RSS Item数量
     max_rss_items: 50
@@ -48,40 +48,17 @@ exports.config = {
   // site links
   site_links: [
     {
-      'text': 'Node 官方网站',
+      'text': 'Node 官方網站',
       'url': 'http://nodejs.org/'
     },
     {
-      'text': 'Node Party',
-      'url': 'http://party.cnodejs.net/'
-    },
-    {
-      'text': 'Node 入门',
-      'url': 'http://nodebeginner.org/index-zh-cn.html'
-    },
-    {
-      'text': 'Node 中文文档',
-      'url': 'http://docs.cnodejs.net/cman/'
+      'text': 'Node.js 台灣社群協作電子書',
+      'url': 'http://book.nodejs.tw/'
     }
   ],
 
   // sidebar ads
   side_ads: [
-    {
-      'url': 'http://www.upyun.com/?utm_source=nodejs&utm_medium=link&utm_campaign=upyun&md=nodejs',
-      'image': 'http://site-cnode.b0.upaiyun.com/images/upyun_logo.png',
-      'text': ''
-    },
-    {
-      'url': 'http://ruby-china.org/?utm_source=nodejs&utm_medium=link&utm_campaign=upyun&md=nodejs',
-      'image': 'http://site-cnode.b0.upaiyun.com/images/ruby_china_logo.png',
-      'text': ''
-    },
-    {
-      'url': 'http://adc.taobao.com/',
-      'image': 'http://adc.taobao.com/bundles/devcarnival/images/d2_180x250.jpg',
-      'text': ''
-    }
   ],
 
   // mail SMTP
