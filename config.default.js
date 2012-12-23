@@ -19,6 +19,7 @@ exports.config = {
   site_navs: [
     // [ path, title, [target=''] ]
     [ '/about', '關於' ],
+    [ '/announcement', '公告' ]
   ],
   site_static_host: '', // 静态文件存储域名
   site_enable_search_preview: false, // 开启google search preview
