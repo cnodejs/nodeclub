@@ -148,6 +148,7 @@ exports.create = function (req, res, next) {
     title = sanitize(title).xss();
     var content = req.body.t_content;
     var topic_tags=[];
+    var announcement = req.session.user.is_admin ? req.body.announcement === '1' : false;
     if(req.body.topic_tags != ''){
       topic_tags = req.body.topic_tags.split(',');
     } 
@@ -183,6 +184,7 @@ exports.create = function (req, res, next) {
       topic.title = title;
       topic.content = content;
       topic.author_id = req.session.user._id;
+      topic.announcement = announcement;
       topic.save(function(err){
         if(err) return next(err);
       
@@ -262,7 +264,7 @@ exports.edit = function(req,res,next){
             } 
           }
 
-          res.render('topic/edit',{action:'edit',topic_id:topic._id,title:topic.title,content:topic.content,tags:all_tags});
+          res.render('topic/edit',{action:'edit',topic_id:topic._id,title:topic.title,content:topic.content,tags:all_tags, announcement: topic.announcement});
         });
       }else{
         res.render('notify/notify',{error:'對不起，你不能編輯此話題。'});
@@ -285,6 +287,7 @@ exports.edit = function(req,res,next){
         title = sanitize(title).xss();
         var content = req.body.t_content;
         var topic_tags=[];
+	var announcement = req.session.user.is_admin ? req.body.announcement === '1' : false;
         if(req.body.topic_tags != ''){
           topic_tags = req.body.topic_tags.split(',');
         }
@@ -299,7 +302,7 @@ exports.edit = function(req,res,next){
                 }
               } 
             }
-            res.render('topic/edit',{action:'edit',edit_error:'標題不能是空的。',topic_id:topic._id, content:content,tags:all_tags});
+            res.render('topic/edit',{action:'edit',edit_error:'標題不能是空的。',topic_id:topic._id, content:content,tags:all_tags, announcement: topic.announcement});
             return;
           });
         }else{
@@ -309,6 +312,7 @@ exports.edit = function(req,res,next){
           topic.title = title;
           topic.content = content;
           topic.update_at = new Date();
+	  topic.announcement = announcement;
           topic.save(function(err){
             if(err) return next(err);
 
@@ -612,8 +616,9 @@ function get_full_topic(id, cb) {
   });
 
 }
-function get_topics_by_query(query,opt, cb) {
-  Topic.find(query, ['_id'], opt, function (err, docs) {
+
+function get_topics(query, opt, cb) {
+  Topic.find(query, {'content': 0}, opt, function (err, docs) {
     if (err) {
       return cb(err);
     }
@@ -649,14 +654,36 @@ function get_topics_by_query(query,opt, cb) {
     }
   }); 
 }
-function get_count_by_query(query,cb){
+
+function get_count(query, cb) {
   Topic.count(query,function(err,count){
     if(err) return cb(err);
     return cb(err,count);
   });
 }
 
+function get_topics_by_query(query,opt, cb) {
+  query.announcement = {$ne : true};
+  get_topics(query, opt, cb);
+}
+function get_count_by_query(query,cb){
+  query.announcement = {$ne : true};
+  get_count(query, cb);
+}
+
+function get_announcements_by_query(query, opt, cb) {
+  query.announcement = true;
+  get_topics(query, opt, cb);
+}
+
+function get_announcements_count_by_query(query,cb){
+  query.announcement = true;
+  get_count(query, cb);
+}
+
 exports.get_topic_by_id = get_topic_by_id;
 exports.get_full_topic = get_full_topic;
 exports.get_topics_by_query = get_topics_by_query;
 exports.get_count_by_query = get_count_by_query;
+exports.get_announcements_by_query = get_announcements_by_query;
+exports.get_announcements_count_by_query = get_announcements_count_by_query;

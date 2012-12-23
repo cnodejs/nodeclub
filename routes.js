@@ -20,10 +20,14 @@ var upload = require('./controllers/upload');
 var static = require('./controllers/static');
 var tools = require('./controllers/tools');
 var status = require('./controllers/status');
+var announcement = require('./controllers/announcement');
 
 module.exports = function (app) {
   // home page
   app.get('/', site.index);
+
+  // announcement
+  app.get('/announcement', announcement.index);
 
   // sign up, login, logout
   app.get('/signup', sign.signup);

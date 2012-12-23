@@ -7,6 +7,7 @@ var TopicSchema = new Schema({
   content: { type: String },
   author_id: { type: ObjectId },
   top: { type: Boolean, default: false },
+  announcement: {type: Boolean, default: false},
   reply_count: { type: Number, default: 0 },
   visit_count: { type: Number, default: 0 },
   collect_count: { type: Number, default: 0 },

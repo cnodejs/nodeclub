@@ -1,14 +1,3 @@
-/*!
- * nodeclub - site index controller.
- * Copyright(c) 2012 fengmk2 <fengmk2@gmail.com>
- * Copyright(c) 2012 muyuan
- * MIT Licensed
- */
-
-/**
- * Module dependencies.
- */
-
 var tag_ctrl = require('./tag');
 var user_ctrl = require('./user');
 var topic_ctrl = require('./topic');
@@ -25,9 +14,8 @@ exports.index = function (req, res, next) {
   keyword = keyword.trim();
   var limit = config.list_topic_count;
 
-  var render = function (tags, announcements, topics, hot_topics, stars, tops, no_reply_topics, pages) {
+  var render = function (tags, topics, hot_topics, stars, tops, no_reply_topics, pages) {
     var all_tags = tags.slice(0);
-
     // 計算最熱標簽
     tags.sort(function (tag_a, tag_b) {
       return tag_b.topic_count - tag_a.topic_count;
@@ -50,12 +38,11 @@ exports.index = function (req, res, next) {
       tops: tops,
       no_reply_topics: no_reply_topics,
       pages: pages,
-      announcement: announcements[0],
       keyword: keyword
     });
   };  
   
-  var proxy = EventProxy.create('tags', 'announcements', 'topics', 'hot_topics', 'stars', 'tops', 'no_reply_topics', 'pages', render);
+  var proxy = EventProxy.create('tags', 'topics', 'hot_topics', 'stars', 'tops', 'no_reply_topics', 'pages', render);
   proxy.once('error', function (err) {
     proxy.unbind();
     next(err);
@@ -73,13 +60,7 @@ exports.index = function (req, res, next) {
     keyword = keyword.replace(/[\*\^\&\(\)\[\]\+\?\\]/g, '');
     query.title = new RegExp(keyword, 'i');
   }
-  topic_ctrl.get_announcements_by_query({}, {limit: 1, sort: [['update_at', 'desc']]}, function (err, announcements) {
-    if (err) {
-      return proxy.emit('error', err);
-    }
-    proxy.emit('announcements', announcements);
-  });
-  topic_ctrl.get_topics_by_query(query, options, function (err, topics) {
+  topic_ctrl.get_announcements_by_query(query, options, function (err, topics) {
     if (err) {
       return proxy.emit('error', err);
     }
@@ -118,3 +99,4 @@ exports.index = function (req, res, next) {
     proxy.emit('pages', pages);
   });
 };
+

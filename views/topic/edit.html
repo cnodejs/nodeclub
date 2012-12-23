@@ -85,6 +85,12 @@
             <p class='help-block'>字數控制在10到100個之間</p>
           </div>
         </div>
+        <% if (locals.current_user.is_admin) { %>
+	<div class='sep10'></div>
+        <div>
+          <label class='checkbok' for='announcement'><input type="checkbox" name="announcement" value="1"<% if(locals.announcement){ %> checked<% } %> />這是公告？</label>
+        </div>
+	<% } %>
         <div class='sep10'></div>
         <div class='sep10'></div>
         <div>

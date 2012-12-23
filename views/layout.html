@@ -69,6 +69,12 @@
     </div>
     <!-- wrapper -->  
     <div id='wrapper'>
+      <% if (locals.announcement) { %>
+	<div class="container" id="announcement">
+		<div class="alert alert-error">最新公告：<a href="/topic/<%- locals.announcement._id %>"><%- locals.announcement.title %></a></div>
+	</div>
+      <% } %>
+
       <div id='main'>
         <%- body %>
       </div>

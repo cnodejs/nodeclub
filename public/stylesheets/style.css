@@ -1,6 +1,6 @@
 /* base */
 body {
-	background: url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/nasty_fabric.png);
+	background: url(../images/bg.png);
 }
 
 body,p {
@@ -16,6 +16,7 @@ body,p {
 	left: 0;
 	top: 0;
 	width: 100%;
+	z-index: 9999;
 }
 
 #topbar .navbar-inner {
@@ -54,6 +55,15 @@ body,p {
 	text-shadow: none;
 	color: #FFF;
 	line-height: 32px;
+}
+
+#announcement {
+	margin: 20px auto 0;
+	width: 960px;
+}
+
+#announcement .alert {
+	margin: 0;
 }
 
 #main {
