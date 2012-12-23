@@ -1,4 +1,8 @@
 /* base */
+body {
+	background: url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/nasty_fabric.png);
+}
+
 body,p {
   font-size: 12px;
   line-height: 16px;
@@ -6,9 +10,52 @@ body,p {
   word-break: break-all;
 }
 
-#wrapper {
-  background: #d0d6db;
+#topbar {
+	background: none;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
 }
+
+#topbar .navbar-inner {
+	background: rgba(0, 0, 0, 0.8);
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+}
+
+#topbar .navbar-inner .divider-vertical {
+	background: rgba(0, 0, 0, 0.5);
+	border-right: 1px rgba(255, 255, 255, 0.2) solid;
+}
+
+#wrapper {
+	padding: 40px 0 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#search_form {
+	margin: 0;
+	height: 40px;
+	border: 1px rgba(255, 255, 255, 0.1) solid;
+	border-top: none;
+	border-bottom: none;
+	box-shadow: -1px 0 1px rgba(0, 0, 0, 0.3), inset -1px 0 1px rgba(0, 0, 0, 0.3);
+}
+
+#search_form input {
+	height: 32px;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+	background: none;
+	padding: 4px 10px;
+	text-shadow: none;
+	color: #FFF;
+	line-height: 32px;
+}
+
 #main {
   width: 960px;
   margin: 0px auto;
@@ -27,6 +74,7 @@ body,p {
 #footer {
   height:200px;
   clear: both;
+  background: rgba(0, 0, 0, 0.8);
 }
 #footer_main {
   width:920px;
@@ -97,13 +145,13 @@ a.light:hover {
 }
 
 .panel {
-  -webkit-box-shadow: 0 2px 6px gray;
-  -moz-box-shadow: 0 2px 6px gray;
-  -o-box-shadow: 0 2px 6px gray;
-  box-shadow: 1px 2px 6px gray;
+  -webkit-box-shadow: 0 1px 5px gray;
+  -moz-box-shadow: 0 1px 5px gray;
+  -o-box-shadow: 0 1px 5px gray;
+  box-shadow: 0 1px 5px gray;
 
   margin: 3px 0px;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 .panel .header {
   padding: 10px;

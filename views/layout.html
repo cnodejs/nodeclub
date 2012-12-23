@@ -39,12 +39,12 @@
   </head>
   <body>
     <!-- navbar -->
-    <div class='navbar'>
+    <div class='navbar' id="topbar">
       <div class='navbar-inner'>
         <div class='container'>
           <a class='brand' href='/'><%- config.site_logo || config.name %></a>
           <form id='search_form' class='navbar-search' action="/">
-            <input type='text' id='q' name='q' class='search-query span3' value='<%= locals.keyword || '' %>'/>
+            <input type='text' id='q' name='q' class='search-query span3' placeholder='Search......' value='<%= locals.keyword || '' %>'/>
           </form>
           <ul class='nav pull-right'>
             <li><a href='/'>首頁</a></li> 
