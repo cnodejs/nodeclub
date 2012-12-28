@@ -1,3 +1,5 @@
+/*jslint node: true, regexp: true, nomen: true, indent: 2, vars: true */
+
 /*!
  * nodeclub - wordpress_redirect
  *   handle wordpress http://xxx/blog/?p=$pid redirect to http://nodeclub/topic/xxxx
@@ -9,6 +11,8 @@
 /**
  * Module dependencies.
  */
+
+'use strict';
 
 var PostToTopic = require('./model').PostToTopic;
 

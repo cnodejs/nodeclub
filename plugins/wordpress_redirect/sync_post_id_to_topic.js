@@ -1,3 +1,5 @@
+/*jslint node: true, regexp: true, nomen: true, indent: 2, vars: true */
+
 /*!
  * Sync post id to topic by title.
  * 
@@ -10,6 +12,8 @@
 /**
  * Module dependencies.
  */
+
+'use strict';
 
 var PostToTopic = require('./model').PostToTopic;
 var Topic = require('../../models').Topic;
@@ -48,7 +52,7 @@ function next(i) {
     if (err) {
       throw err;
     }
-    next(--i);
+    next(i - 1);
   });
 }
 

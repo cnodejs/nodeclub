@@ -1,3 +1,7 @@
+/*jslint node: true, regexp: true, nomen: true, indent: 2, vars: true */
+
+'use strict';
+
 var xss = require('xss');
 
 exports.format_date = function (date, friendly) {
@@ -7,11 +11,15 @@ exports.format_date = function (date, friendly) {
   var hour = date.getHours();
   var minute = date.getMinutes();
   var second = date.getSeconds();
-  
+  var thisYear;
+  var now;
+  var mseconds;
+  var time_std;
+
   if (friendly) {
-    var now = new Date();
-    var mseconds = -(date.getTime() - now.getTime());
-    var time_std = [ 1000, 60 * 1000, 60 * 60 * 1000, 24 * 60 * 60 * 1000 ];
+    now = new Date();
+    mseconds = -(date.getTime() - now.getTime());
+    time_std = [ 1000, 60 * 1000, 60 * 60 * 1000, 24 * 60 * 60 * 1000 ];
     if (mseconds < time_std[3]) {
       if (mseconds > 0 && mseconds < time_std[1]) {
         return Math.floor(mseconds / time_std[0]).toString() + ' 秒前';
@@ -29,7 +37,7 @@ exports.format_date = function (date, friendly) {
   //day = ((day < 10) ? '0' : '') + day;
   hour = ((hour < 10) ? '0' : '') + hour;
   minute = ((minute < 10) ? '0' : '') + minute;
-  second = ((second < 10) ? '0': '') + second;
+  second = ((second < 10) ? '0' : '') + second;
 
   thisYear = new Date().getFullYear();
   year = (thisYear === year) ? '' : (year + '-');
@@ -44,17 +52,16 @@ exports.format_date = function (date, friendly) {
  * @api private
  */
 
-exports.escape = function(html){
+exports.escape = function (html) {
   var codeSpan = /(^|[^\\])(`+)([^\r]*?[^`])\2(?!`)/gm;
   var codeBlock = /(?:\n\n|^)((?:(?:[ ]{4}|\t).*\n+)+)(\n*[ ]{0,3}[^ \t\n]|(?=~0))/g;
   var spans = [];
   var blocks = [];
-  var text = String(html).replace(/\r\n/g, '\n')
-  .replace('/\r/g', '\n');
+  var text = String(html).replace(/\r\n/g, '\n').replace('/\r/g', '\n');
   
   text = '\n\n' + text + '\n\n';
 
-  text = text.replace(codeSpan, function(code) {
+  text = text.replace(codeSpan, function (code) {
     spans.push(code);
     return '`span`';
   });
@@ -64,20 +71,19 @@ exports.escape = function(html){
   return text.replace(codeBlock, function (whole, code, nextChar) {
     blocks.push(code);
     return '\n\tblock' + nextChar;
-  })
-  .replace(/&(?!\w+;)/g, '&amp;')
-  .replace(/</g, '&lt;')
-  .replace(/>/g, '&gt;')
-  .replace(/"/g, '&quot;')
-  .replace(/`span`/g, function() {
-    return spans.shift();
-  })
-  .replace(/\n\tblock/g, function() {
-    return blocks.shift();
-  })
-  .replace(/~0$/,'')
-  .replace(/^\n\n/, '')
-  .replace(/\n\n$/, '');
+  }).replace(/&(?!\w+;)/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/`span`/g, function () {
+      return spans.shift();
+    })
+    .replace(/\n\tblock/g, function () {
+      return blocks.shift();
+    })
+    .replace(/~0$/, '')
+    .replace(/^\n\n/, '')
+    .replace(/\n\n$/, '');
 };
 
 /**

@@ -1,3 +1,7 @@
+/*jslint node: true, regexp: true, nomen: true, indent: 2, vars: true */
+
+'use strict';
+
 var mysql = require('mysql');
 
 var client = mysql.createClient();

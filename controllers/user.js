@@ -1,3 +1,7 @@
+/*jslint node: true, regexp: true, nomen: true, indent: 2, vars: true */
+
+'use strict';
+
 var models = require('../models');
 var User = models.User;
 var Reply = models.Reply;
@@ -16,15 +20,38 @@ var sanitize = require('validator').sanitize;
 var crypto = require('crypto');
 var bcrypt = require('bcrypt');
 
+function get_user_by_id(id, cb) {
+  User.findOne({_id: id}, cb);
+}
+function get_user_by_name(name, cb) {
+  User.findOne({name: name}, cb);
+}
+function get_user_by_loginname(name, cb) {
+  User.findOne({loginname: name}, cb);
+}
+
+function get_users_by_ids(ids, cb) {
+  User.find({'_id': {'$in': ids}}, cb);
+}
+function get_users_by_query(query, opt, cb) {
+  User.find(query, [], opt, cb);
+}
+
 exports.index = function (req, res, next) {
   var user_name = req.params.name;
+  
   get_user_by_name(user_name, function (err, user) {
     if (!user) {
       res.render('notify/notify', {error: '這個用戶不存在。'});
       return;
     }
-    
-    var render = function (recent_topics, recent_replies, relation) {
+
+    var render;
+    var proxy;
+    var query;
+    var opt;
+
+    render = function (recent_topics, recent_replies, relation) {
       user.friendly_create_at = Util.format_date(user.create_at, true);
       res.render('user/index', {
         user: user,
@@ -34,11 +61,12 @@ exports.index = function (req, res, next) {
       });
     };
 
-    var proxy = new EventProxy();
+    proxy = new EventProxy();
     proxy.assign('recent_topics', 'recent_replies', 'relation', render);
 
-    var query = {author_id: user._id};
-    var opt = {limit: 5, sort: [['create_at', 'desc']]};
+    query = {author_id: user._id};
+    opt = {limit: 5, sort: [['create_at', 'desc']]};
+    
     topic_ctrl.get_topics_by_query(query, opt, function (err, recent_topics) {
       if (err) {
         return next(err);
@@ -50,14 +78,22 @@ exports.index = function (req, res, next) {
       if (err) {
         return next(err);
       }
+      
       var topic_ids = [];
-      for (var i = 0; i < replies.length; i++) {
+      var i;
+      var len;
+      var query;
+      var opt;
+
+      for (i = 0, len = replies.length; i < len; i += 1) {
         if (topic_ids.indexOf(replies[i].topic_id.toString()) < 0) {
           topic_ids.push(replies[i].topic_id.toString());
         }
       }
-      var query = {_id: {'$in': topic_ids}};
-      var opt = {limit: 5, sort: [['create_at', 'desc']]};
+      
+      query = {_id: {'$in': topic_ids}};
+      opt = {limit: 5, sort: [['create_at', 'desc']]};
+      
       topic_ctrl.get_topics_by_query(query, opt, function (err, topics) {
         if (err) {
           return next(err);
@@ -85,7 +121,7 @@ exports.show_stars = function (req, res, next) {
       return next(err);
     }
     res.render('user/stars', {stars: stars});
-  });   
+  });
 };
 
 exports.setting = function (req, res, next) {
@@ -93,7 +129,22 @@ exports.setting = function (req, res, next) {
     res.redirect('home');
     return;
   }
+  
   var method = req.method.toLowerCase();
+  var action;
+  var name;
+  var email;
+  var url;
+  var location;
+  var signature;
+  var profile;
+  var weibo;
+  var receive_at_mail;
+  var receive_reply_mail;
+  var profile_image_url;
+  var old_pass;
+  var new_pass;
+
   if (method !== 'post') {
     get_user_by_id(req.session.user._id, function (err, user) {
       if (err) {
@@ -107,26 +158,27 @@ exports.setting = function (req, res, next) {
     });
     return;
   }
+  
   // post
-  var action = req.body.action;
+  action = req.body.action;
   if (action === 'change_setting') {
-    var name = sanitize(req.body.name).trim();      
+    name = sanitize(req.body.name).trim();
     name = sanitize(name).xss();
-    var email = sanitize(req.body.email).trim();      
+    email = sanitize(req.body.email).trim();
     email = sanitize(email).xss();
-    var url = sanitize(req.body.url).trim();      
+    url = sanitize(req.body.url).trim();
     url = sanitize(url).xss();
-    var profile_image_url = sanitize(sanitize(req.body.profile_image_url).trim()).xss();
-    var location = sanitize(req.body.location).trim();      
+    profile_image_url = sanitize(sanitize(req.body.profile_image_url).trim()).xss();
+    location = sanitize(req.body.location).trim();
     location = sanitize(location).xss();
-    var signature = sanitize(req.body.signature).trim();      
+    signature = sanitize(req.body.signature).trim();
     signature = sanitize(signature).xss();
-    var profile = sanitize(req.body.profile).trim();      
+    profile = sanitize(req.body.profile).trim();
     profile = sanitize(profile).xss();
-    var weibo = sanitize(req.body.weibo).trim();      
+    weibo = sanitize(req.body.weibo).trim();
     weibo = sanitize(weibo).xss();
-    var receive_at_mail = req.body.receive_at_mail === 'on' ? true: false;
-    var receive_reply_mail = req.body.receive_reply_mail === 'on' ? true: false;
+    receive_at_mail = req.body.receive_at_mail === 'on' ? true : false;
+    receive_reply_mail = req.body.receive_reply_mail === 'on' ? true : false;
 
     if (url !== '') {
       try {
@@ -136,13 +188,13 @@ exports.setting = function (req, res, next) {
         check(url, '不正確的個人網站。').isUrl();
       } catch (e) {
         res.render('user/setting', {
-          error: e.message, 
-          name: name, 
-          email: email, 
+          error: e.message,
+          name: name,
+          email: email,
           url: url,
           profile_image_url: profile_image_url,
           location: location,
-          signature: signature, 
+          signature: signature,
           profile: profile,
           weibo: weibo,
           receive_at_mail: receive_at_mail,
@@ -179,6 +231,7 @@ exports.setting = function (req, res, next) {
       if (err) {
         return next(err);
       }
+
       user.url = url;
       user.profile_image_url = profile_image_url;
       user.location = location;
@@ -187,6 +240,7 @@ exports.setting = function (req, res, next) {
       user.weibo = weibo;
       user.receive_at_mail = receive_at_mail;
       user.receive_reply_mail = receive_reply_mail;
+      
       user.save(function (err) {
         if (err) {
           return next(err);
@@ -197,8 +251,8 @@ exports.setting = function (req, res, next) {
 
   }
   if (action === 'change_password') {
-    var old_pass = sanitize(req.body.old_pass).trim();
-    var new_pass = sanitize(req.body.new_pass).trim();
+    old_pass = sanitize(req.body.old_pass).trim();
+    new_pass = sanitize(req.body.new_pass).trim();
 
     get_user_by_id(req.session.user._id, function (err, user) {
       if (err) {
@@ -206,54 +260,54 @@ exports.setting = function (req, res, next) {
       }
       
       bcrypt.compare(old_pass, user.pass, function (err, equal) {
-	      if (err) {
-		      return next(err);
-	      }
-	      if (!equal) {
-		res.render('user/setting', {
-		  error: '當前密碼不正確。',
-		  name: user.name,
-		  email: user.email,
-		  url: user.url,
-		  profile_image_url: user.profile_image_url,
-		  location: user.location,
-		  signature: user.signature,
-		  profile: user.profile,
-		  weibo: user.weibo,
-		  receive_at_mail: user.receive_at_mail,
-		  receive_reply_mail: user.receive_reply_mail
-		});
-		return;
-	      }
+        if (err) {
+          return next(err);
+        }
+        if (!equal) {
+          res.render('user/setting', {
+            error: '當前密碼不正確。',
+            name: user.name,
+            email: user.email,
+            url: user.url,
+            profile_image_url: user.profile_image_url,
+            location: user.location,
+            signature: user.signature,
+            profile: user.profile,
+            weibo: user.weibo,
+            receive_at_mail: user.receive_at_mail,
+            receive_reply_mail: user.receive_reply_mail
+          });
+          return;
+        }
 
-	      bcrypt.genSalt(config.genSalt, function(err, salt) {
-		      if (err) {
-			      return next(err);
-		      }
-		      bcrypt.hash(new_pass, salt, function(err, hash) {
-			      user.pass = hash;
-			      user.save(function (err) {
-				if (err) {
-				  return next(err);
-				}
-				res.render('user/setting', {
-				  success: '密碼已被修改。',
-				  name: user.name,
-				  email: user.email,
-				  url: user.url,
-				  profile_image_url: user.profile_image_url,
-				  location: user.location,
-				  signature: user.signature,
-				  profile: user.profile,
-				  weibo: user.weibo,
-				  receive_at_mail: user.receive_at_mail,
-				  receive_reply_mail: user.receive_reply_mail
-				});
-				return;
+        bcrypt.genSalt(config.genSalt, function (err, salt) {
+          if (err) {
+            return next(err);
+          }
+          bcrypt.hash(new_pass, salt, function (err, hash) {
+            user.pass = hash;
+            user.save(function (err) {
+              if (err) {
+                return next(err);
+              }
+              res.render('user/setting', {
+                success: '密碼已被修改。',
+                name: user.name,
+                email: user.email,
+                url: user.url,
+                profile_image_url: user.profile_image_url,
+                location: user.location,
+                signature: user.signature,
+                profile: user.profile,
+                weibo: user.weibo,
+                receive_at_mail: user.receive_at_mail,
+                receive_reply_mail: user.receive_reply_mail
+              });
+              return;
 
-			      });
-		      });
-	      });
+            });
+          });
+        });
       });
     });
   }
@@ -264,7 +318,9 @@ exports.follow = function (req, res, next) {
     res.send('forbidden!');
     return;
   }
+  
   var follow_id = req.body.follow_id;
+  
   get_user_by_id(follow_id, function (err, user) {
     if (err) {
       return next(err);
@@ -274,9 +330,12 @@ exports.follow = function (req, res, next) {
     }
     
     var proxy = new EventProxy();
-    var done = function () {
+    var done;
+    
+    done = function () {
       res.json({ status: 'success' });
     };
+
     proxy.assign('relation_saved', 'message_saved', done);
     Relation.findOne({user_id: req.session.user._id, follow_id: user._id}, function (err, doc) {
       if (err) {
@@ -288,6 +347,7 @@ exports.follow = function (req, res, next) {
       }
         
       var relation = new Relation();
+      
       relation.user_id = req.session.user._id;
       relation.follow_id = user._id;
       relation.save();
@@ -317,7 +377,9 @@ exports.un_follow = function (req, res, next) {
     res.send('forbidden!');
     return;
   }
+
   var follow_id = req.body.follow_id;
+  
   get_user_by_id(follow_id, function (err, user) {
     if (err) {
       return next(err);
@@ -353,7 +415,9 @@ exports.toggle_star = function (req, res, next) {
     res.send('forbidden!</strong>');
     return;
   }
+
   var user_id = req.body.user_id;
+  
   get_user_by_id(user_id, function (err, user) {
     if (err) {
       return next(err);
@@ -377,10 +441,14 @@ exports.get_collect_tags = function (req, res, next) {
     if (err) {
       return next(err);
     }
+    
     var ids = [];
-    for (var i = 0; i < docs.length; i++) {
+    var i;
+    var len;
+
+    for (i = 0, len = docs.length; i < len; i += 1) {
       ids.push(docs[i].tag_id);
-    } 
+    }
     tag_ctrl.get_tags_by_ids(ids, function (err, tags) {
       if (err) {
         return next(err);
@@ -394,42 +462,53 @@ exports.get_collect_topics = function (req, res, next) {
   if (!req.session.user) {
     res.redirect('home');
     return;
-  } 
+  }
 
   var page = Number(req.query.page) || 1;
   var limit = config.list_topic_count;
+  var render;
+  var proxy;
 
-  var render = function (topics, pages) {
+  render = function (topics, pages) {
     res.render('user/collect_topics', {
       topics: topics,
-      current_page: page, 
+      current_page: page,
       pages: pages
     });
   };
 
-  var proxy = new EventProxy();
+  proxy = new EventProxy();
   proxy.assign('topics', 'pages', render);
 
   TopicCollect.find({ user_id: req.session.user._id }, function (err, docs) {
     if (err) {
       return next(err);
     }
+    
     var ids = [];
-    for (var i = 0; i < docs.length; i++) {
+    var i;
+    var len;
+    var query;
+    var opt;
+
+    for (i = 0, len = docs.length; i < len; i += 1) {
       ids.push(docs[i].topic_id);
     }
-    var query = { _id: { '$in': ids } };
-    var opt = {
-      skip: (page - 1) * limit, 
-      limit: limit, 
-      sort: [ [ 'create_at', 'desc' ] ] 
+    
+    query = { _id: { '$in': ids } };
+    opt = {
+      skip: (page - 1) * limit,
+      limit: limit,
+      sort: [ [ 'create_at', 'desc' ] ]
     };
+
     topic_ctrl.get_topics_by_query(query, opt, function (err, topics) {
       if (err) {
         return next(err);
       }
       proxy.trigger('topics', topics);
     });
+    
     topic_ctrl.get_count_by_query(query, function (err, all_topics_count) {
       if (err) {
         return next(err);
@@ -444,13 +523,17 @@ exports.get_followings = function (req, res, next) {
   if (!req.session.user) {
     res.redirect('home');
     return;
-  } 
+  }
   Relation.find({user_id: req.session.user._id}, function (err, docs) {
     if (err) {
       return next(err);
     }
+    
     var ids = [];
-    for (var i = 0; i < docs.length; i++) {
+    var i;
+    var len;
+
+    for (i = 0, len = docs.length; i < len; i += 1) {
       ids.push(docs[i].follow_id);
     }
     get_users_by_ids(ids, function (err, users) {
@@ -459,29 +542,34 @@ exports.get_followings = function (req, res, next) {
       }
       res.render('user/followings', {users: users});
     });
-  }); 
+  });
 };
 
 exports.get_followers = function (req, res, next) {
   if (!req.session.user) {
     res.redirect('home');
     return;
-  } 
+  }
   Relation.find({follow_id: req.session.user._id}, function (err, docs) {
     if (err) {
       return next(err);
     }
+    
     var ids = [];
-    for (var i = 0; i < docs.length; i++) {
+    var i;
+    var len;
+
+    for (i = 0, len = docs.length; i < len; i += 1) {
       ids.push(docs[i].user_id);
     }
+    
     get_users_by_ids(ids, function (err, users) {
       if (err) {
         return next(err);
       }
       res.render('user/followers', {users: users});
     });
-  }); 
+  });
 };
 
 exports.top100 = function (req, res, next) {
@@ -505,7 +593,12 @@ exports.list_topics = function (req, res, next) {
       return;
     }
     
-    var render = function (topics, relation, pages) {
+    var render;
+    var proxy;
+    var query;
+    var opt;
+
+    render = function (topics, relation, pages) {
       user.friendly_create_at = Util.format_date(user.create_at, true);
       res.render('user/topics', {
         user: user,
@@ -516,11 +609,12 @@ exports.list_topics = function (req, res, next) {
       });
     };
 
-    var proxy = new EventProxy();
+    proxy = new EventProxy();
     proxy.assign('topics', 'relation', 'pages', render);
 
-    var query = {'author_id': user._id};
-    var opt = {skip: (page - 1) * limit, limit: limit, sort: [['create_at', 'desc']]};
+    query = {'author_id': user._id};
+    opt = {skip: (page - 1) * limit, limit: limit, sort: [['create_at', 'desc']]};
+    
     topic_ctrl.get_topics_by_query(query, opt, function (err, topics) {
       if (err) {
         return next(err);
@@ -560,7 +654,10 @@ exports.list_replies = function (req, res, next) {
       return;
     }
     
-    var render = function (topics, relation, pages) {
+    var render;
+    var proxy;
+    
+    render = function (topics, relation, pages) {
       user.friendly_create_at = Util.format_date(user.create_at, true);
       res.render('user/replies', {
         user: user,
@@ -571,21 +668,29 @@ exports.list_replies = function (req, res, next) {
       });
     };
 
-    var proxy = new EventProxy();
+    proxy = new EventProxy();
     proxy.assign('topics', 'relation', 'pages', render);
 
     Reply.find({author_id: user._id}, function (err, replies) {
       if (err) {
         return next(err);
       }
+     
       var topic_ids = [];
-      for (var i = 0; i < replies.length; i++) {
+      var i;
+      var len;
+      var query;
+      var opt;
+
+      for (i = 0, len = replies.length; i < len; i += 1) {
         if (topic_ids.indexOf(replies[i].topic_id.toString()) < 0) {
           topic_ids.push(replies[i].topic_id);
         }
       }
-      var query = {'_id': {'$in': topic_ids}};
-      var opt = {skip: (page - 1) * limit, limit: limit, sort: [['create_at', 'desc']]};
+      
+      query = {'_id': {'$in': topic_ids}};
+      opt = {skip: (page - 1) * limit, limit: limit, sort: [['create_at', 'desc']]};
+      
       topic_ctrl.get_topics_by_query(query, opt, function (err, topics) {
         if (err) {
           return next(err);
@@ -615,22 +720,6 @@ exports.list_replies = function (req, res, next) {
   });
 };
 
-function get_user_by_id(id, cb) {
-  User.findOne({_id: id}, cb);
-}
-function get_user_by_name(name, cb) {
-  User.findOne({name: name}, cb);
-}
-function get_user_by_loginname(name, cb) {
-  User.findOne({loginname: name}, cb);
-}
-
-function get_users_by_ids(ids, cb) {
-  User.find({'_id': {'$in': ids}}, cb);
-}
-function get_users_by_query(query, opt, cb) {
-  User.find(query, [], opt, cb);
-}
 exports.get_user_by_id = get_user_by_id;
 exports.get_user_by_name = get_user_by_name;
 exports.get_user_by_loginname = get_user_by_loginname;

@@ -1,3 +1,5 @@
+/*jslint node: true, regexp: true, nomen: true, indent: 2, vars: true */
+
 /*!
  * nodeclub - One host only
  * 
@@ -10,6 +12,8 @@
 /**
  * Module dependencies.
  */
+
+'use strict';
 
 module.exports = function onehost(options) {
   options = options || {};
