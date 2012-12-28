@@ -1,6 +1,6 @@
-/**
- * config
- */
+/*jslint node: true, regexp: true, nomen: true, indent: 2, vars: true */
+
+'use strict';
 
 var path = require('path');
 
@@ -10,9 +10,9 @@ exports.config = {
   description: 'nodeJS 台灣社群，由一群熱心開發者聚集而成，主力在於蒐集及建立nodeJS 相關中文資訊，提供最佳的學習管道，讓更多人體會javascript 的好處。 nodeJS Taiwan group. We are a group of people who love nodejs. There are collect nodejs tutorial in Chinese about...',
   version: '0.2.2',
   genSalt: 10,
-  // site settings
+    // site settings
   site_headers: [
-    '<meta name="author" content="admin@nodejs.tw" />',
+    '<meta name="author" content="admin@nodejs.tw" />'
   ],
   host: 'localhost',
   site_logo: '', // default is `name`
@@ -45,7 +45,7 @@ exports.config = {
     //最多获取的RSS Item数量
     max_rss_items: 50
   },
- 
+
   // site links
   site_links: [
     {
@@ -69,7 +69,7 @@ exports.config = {
   mail_host: 'smtp.126.com',
   mail_sender: 'club@126.com',
   mail_use_authentication: true,
-  
+
   //weibo app key
   weibo_key: 10000000,
 
@@ -78,7 +78,7 @@ exports.config = {
 
   // [ { name: 'plugin_name', options: { ... }, ... ]
   plugins: [
-    // { name: 'onehost', options: { host: 'localhost.cnodejs.org' } },
-    // { name: 'wordpress_redirect', options: {} }
+  // { name: 'onehost', options: { host: 'localhost.cnodejs.org' } },
+  // { name: 'wordpress_redirect', options: {} }
   ]
 };
