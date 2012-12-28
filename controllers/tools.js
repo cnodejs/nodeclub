@@ -1,13 +1,16 @@
-var models = require('../models'),
-  User = models.User,
-  Topic = models.Topic,
-  Reply = models.Reply,
-  Relation = models.Relation,
-  Message = models.Message;
+/*jslint node: true, regexp: true, nomen: true, indent: 2, vars: true */
 
+'use strict';
+
+var models = require('../models');
+var User = models.User;
+var Topic = models.Topic;
+var Reply = models.Reply;
+var Relation = models.Relation;
+var Message = models.Message;
 var EventProxy = require('eventproxy').EventProxy;
 
-exports.run_site_tools = function(req,res,next){
+exports.run_site_tools = function (req, res, next) {
   res.send('<h3>The White Castle</h3>');
 };
 
