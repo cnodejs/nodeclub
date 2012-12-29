@@ -80,5 +80,12 @@ exports.config = {
   plugins: [
   // { name: 'onehost', options: { host: 'localhost.cnodejs.org' } },
   // { name: 'wordpress_redirect', options: {} }
-  ]
+  ],
+
+  // Facebook
+  facebook: {
+    api_key: 'your api key',
+    secret: 'your secret',
+    redirect: 'http://localhost:3000/facebook/redirect'
+  }
 };

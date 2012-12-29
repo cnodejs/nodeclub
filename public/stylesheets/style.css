@@ -720,3 +720,20 @@ div[class$=part] {
 .reply_part {
   width: 200px;
 }
+
+/* social login */
+#social-login {
+	padding-left: 160px;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	border-bottom: 1px #DDD solid;
+}
+
+#social-login ul {
+	margin: 0;
+}
+
+#social-login ul li {
+	display: inline-block;
+	margin-right: 10px;
+}

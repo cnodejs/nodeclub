@@ -21,6 +21,7 @@ var staticContent = require('./controllers/static');
 var tools = require('./controllers/tools');
 var status = require('./controllers/status');
 var announcement = require('./controllers/announcement');
+var facebook = require('./controllers/facebook');
 
 module.exports = function (app) {
   // home page
@@ -106,4 +107,8 @@ module.exports = function (app) {
 
   // site status
   app.get('/status', status.status);
+
+  // facebook
+  app.get('/facebook/login', facebook.login);
+  app.get('/facebook/redirect', facebook.redirect);
 };

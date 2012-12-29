@@ -174,7 +174,8 @@ var notJump = [
 ];
 /**
  * Handle user login.
- * 
+ * Facebook 登入相關程式碼在 /controllers/facebook.js，修改紀錄使用者登入狀態方式的時候 Facebook 的畢方也必須修改
+ *
  * @param  {HttpRequest} req
  * @param  {HttpResponse} res
  * @param  {Function} next
@@ -377,6 +378,8 @@ function getAvatarURL(user) {
 
 // auth_user middleware
 exports.auth_user = function (req, res, next) {
+  var url = require('url');
+  console.log(req.url);
   if (req.session.user) {
     if (config.admins[req.session.user.name]) {
       req.session.user.is_admin = true;

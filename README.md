@@ -6,10 +6,11 @@
 
 1. 繁體中文化（大致完成）
 2. 公告功能（完成）
-3. 程式碼整理，符合 jslint、[Node 程式撰寫規範](https://github.com/windyrobin/iFrame/blob/master/style.md)（完成了 controller 部份，除了 user.js）
-4. Facebook 登入
+3. 程式碼整理，符合 jslint、[Node 程式撰寫規範](https://github.com/windyrobin/iFrame/blob/master/style.md)（完成）
+4. Facebook 登入（完成）
 5. Facebook 社團資料
 6. 工作登錄
+7. 更新 modules，例：express
 
 ## License
 
