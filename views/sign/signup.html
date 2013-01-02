@@ -1,66 +1,71 @@
 <%- partial('sign/sidebar') %>
 
 <div id='content'>
-	<div class='panel'>
-		<div class='header'>
-			<ul class='breadcrumb'>
-				<li><a href='/'>主頁</a><span class='divider'>/</span></li>
-				<li class='active'>注冊</li>
-			</ul>
-		</div>
-		<div class='inner'>
-			<div class='sep10'></div>
-			<div class='sep10'></div>
-			<% if (locals.error) { %>
-			<div class="alert alert-error">	
-				<a class="close" data-dismiss="alert" href="#">&times;</a>
-				<strong><%= error %></strong>
-			</div>
-			<% } %>
-			<% if (locals.success) { %>
-			<div class="alert alert-success">
-				<strong><%= success %></strong>
-			</div>
-			<% } else { %>
-			<form id='signup_form' class='form-horizontal' action='/signup' method='post'>
-				<div class='control-group'>
-					<label class='control-label' for='name'>用戶名</label>
-					<div class='controls'>
-						<% if (locals.name) { %>
-						<input class='input-xlarge' id='name' name='name' size='30' type='text' value='<%= name %>' />
-						<% } else { %>
-						<input class='input-xlarge' id='name' name='name' size='30' type='text' value='' />
-						<% } %>
-					</div>
-				</div>
-				<div class='control-group'>
-					<label class='control-label' for='pass'>密碼</label>
-					<div class='controls'>
-						<input class='input-xlarge' id='pass' name='pass' size='30' type='password' />
-					</div>
-				</div>
-				<div class='control-group'>
-					<label class='control-label' for='re_pass'>確認密碼</label>
-					<div class='controls'>
-						<input class='input-xlarge' id='re_pass' name='re_pass' size='30' type='password' />
-					</div>
-				</div>
-				<div class='control-group'>
-					<label class='control-label' for='email'>電子郵箱</label>
-					<div class='controls'>
-						<% if (locals.email) { %>
-						<input class='input-xlarge' id='email' name='email' size='30' type='text' value='<%= email %>' />
-						<% } else { %>
-						<input class='input-xlarge' id='email' name='email' size='30' type='text' />
-						<% } %>
-					</div>
-				</div>
-				<input type='hidden' name='_csrf' value='<%= csrf %>' />
-				<div class='form-actions'>
-					<input type='submit' class='btn' value='注冊' />
-				</div>
-			</form>
-			<% } %>
-		</div>
-	</div>	
+        <div class='panel'>
+                <div class='header'>
+                        <ul class='breadcrumb'>
+                                <li><a href='/'>主頁</a><span class='divider'>/</span></li>
+                                <li class='active'>注冊</li>
+                        </ul>
+                </div>
+                <div class='inner'>
+                        <div class='sep10'></div>
+                        <div class='sep10'></div>
+                        <% if (locals.error) { %>
+                        <div class="alert alert-error">
+                                <a class="close" data-dismiss="alert" href="#">&times;</a>
+                                <strong><%= error %></strong>
+                        </div>
+                        <% } %>
+                        <% if (locals.success) { %>
+                        <div class="alert alert-success">
+                                <strong><%= success %></strong>
+                        </div>
+                        <% } else { %>
+                        <div id="social-login">
+                                <ul>
+                                        <li><a href="/facebook/login">以 Facebook 登入</a>
+                                </ul>
+                        </div>
+                        <form id='signup_form' class='form-horizontal' action='/signup' method='post'>
+                                <div class='control-group'>
+                                        <label class='control-label' for='name'>用戶名</label>
+                                        <div class='controls'>
+                                                <% if (locals.name) { %>
+                                                <input class='input-xlarge' id='name' name='name' size='30' type='text' value='<%= name %>' />
+                                                <% } else { %>
+                                                <input class='input-xlarge' id='name' name='name' size='30' type='text' value='' />
+                                                <% } %>
+                                        </div>
+                                </div>
+                                <div class='control-group'>
+                                        <label class='control-label' for='pass'>密碼</label>
+                                        <div class='controls'>
+                                                <input class='input-xlarge' id='pass' name='pass' size='30' type='password' />
+                                        </div>
+                                </div>
+                                <div class='control-group'>
+                                        <label class='control-label' for='re_pass'>確認密碼</label>
+                                        <div class='controls'>
+                                                <input class='input-xlarge' id='re_pass' name='re_pass' size='30' type='password' />
+                                        </div>
+                                </div>
+                                <div class='control-group'>
+                                        <label class='control-label' for='email'>電子郵箱</label>
+                                        <div class='controls'>
+                                                <% if (locals.email) { %>
+                                                <input class='input-xlarge' id='email' name='email' size='30' type='text' value='<%= email %>' />
+                                                <% } else { %>
+                                                <input class='input-xlarge' id='email' name='email' size='30' type='text' />
+                                                <% } %>
+                                        </div>
+                                </div>
+                                <input type='hidden' name='_csrf' value='<%= csrf %>' />
+                                <div class='form-actions'>
+                                        <input type='submit' class='btn' value='注冊' />
+                                </div>
+                        </form>
+                        <% } %>
+                </div>
+        </div>
 </div>

@@ -1,4 +1,18 @@
 <div id='sidebar'>
+
+  <% if ( ! locals.current_user) { %>
+  <div class=panel>
+    <div class='inner'>
+      <div id="social-login">
+        <ul>
+          <li><a href="/facebook/login">以 Facebook 登入</a>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class='sep10'></div>
+  <% } %>
+
   <div class='panel'>
     <% if (locals.current_user) { %>
     <div class='inner'>
@@ -19,7 +33,7 @@
 
   <div class='sep10'></div>
   <div class=panel>
-    <div class='header'>  
+    <div class='header'>
       <!-- <img src='<%- config.site_static_host %>/images/tag_icon&16.png' title='標簽'/> -->
       <!-- CNode社區宣傳通告 -->
       <span class="index_notify">社區消息：
@@ -30,11 +44,11 @@
       <p><a href="/topic/4f17948d9f40a8335200518e" target="_blank">如何加入CNode社區?</a></p>
     </div>
   </div>
-   
+
   <% if (locals.hot_tags) { %>
   <div class='sep10'></div>
   <div class='panel'>
-    <div class='header'>  
+    <div class='header'>
       <span class='col_fade'>熱門標簽</span>
     </div>
     <div class='inner'>
@@ -86,7 +100,7 @@
   <% if (config.site_links && config.site_links.length > 0) { %>
   <div class='sep10'></div>
   <div class='panel'>
-    <div class='header'>  
+    <div class='header'>
       <span class='col_fade'>相關站點</span>
     </div>
     <div class='inner'>
@@ -142,7 +156,7 @@
 
   <% if (config.side_ads && config.side_ads.length > 0) { %>
   <div class='panel'>
-    <div class='header'>  
+    <div class='header'>
       <span class='col_fade'>友情社區 | 贊助商</span>
     </div>
     <% config.side_ads.forEach(function (ad) { %>
@@ -154,7 +168,7 @@
     <% }); %>
   </div>
   <% } %>
-  
+
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
