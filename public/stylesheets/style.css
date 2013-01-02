@@ -1,6 +1,6 @@
 /* base */
 body {
-	background: url(../images/bg.png);
+        background: url(../images/bg.png);
 }
 
 body,p {
@@ -11,59 +11,59 @@ body,p {
 }
 
 #topbar {
-	background: none;
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	z-index: 9999;
+        background: none;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        z-index: 9999;
 }
 
 #topbar .navbar-inner {
-	background: rgba(0, 0, 0, 0.8);
-	-moz-border-radius: 0;
-	-webkit-border-radius: 0;
-	border-radius: 0;
+        background: rgba(0, 0, 0, 0.8);
+        -moz-border-radius: 0;
+        -webkit-border-radius: 0;
+        border-radius: 0;
 }
 
 #topbar .navbar-inner .divider-vertical {
-	background: rgba(0, 0, 0, 0.5);
-	border-right: 1px rgba(255, 255, 255, 0.2) solid;
+        background: rgba(0, 0, 0, 0.5);
+        border-right: 1px rgba(255, 255, 255, 0.2) solid;
 }
 
 #wrapper {
-	padding: 40px 0 20px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        padding: 40px 0 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 #search_form {
-	margin: 0;
-	height: 40px;
-	border: 1px rgba(255, 255, 255, 0.1) solid;
-	border-top: none;
-	border-bottom: none;
-	box-shadow: -1px 0 1px rgba(0, 0, 0, 0.3), inset -1px 0 1px rgba(0, 0, 0, 0.3);
+        margin: 0;
+        height: 40px;
+        border: 1px rgba(255, 255, 255, 0.1) solid;
+        border-top: none;
+        border-bottom: none;
+        box-shadow: -1px 0 1px rgba(0, 0, 0, 0.3), inset -1px 0 1px rgba(0, 0, 0, 0.3);
 }
 
 #search_form input {
-	height: 32px;
-	-moz-border-radius: 0;
-	-webkit-border-radius: 0;
-	border-radius: 0;
-	background: none;
-	padding: 4px 10px;
-	text-shadow: none;
-	color: #FFF;
-	line-height: 32px;
+        height: 32px;
+        -moz-border-radius: 0;
+        -webkit-border-radius: 0;
+        border-radius: 0;
+        background: none;
+        padding: 4px 10px;
+        text-shadow: none;
+        color: #FFF;
+        line-height: 32px;
 }
 
 #announcement {
-	margin: 20px auto 0;
-	width: 960px;
+        margin: 20px auto 0;
+        width: 960px;
 }
 
 #announcement .alert {
-	margin: 0;
+        margin: 0;
 }
 
 #main {
@@ -383,7 +383,7 @@ a.tag_big:hover {
   margin-left: 50px;
 }
 .reply2_area .cell {
-  border-top: 1px solid #e2e2e2;  
+  border-top: 1px solid #e2e2e2;
   border-bottom: none;
 }
 .reply2_editor {
@@ -442,7 +442,7 @@ img.unread {
 
 /* single */
 #create_topic_btn {
-  margin-top: -10px;  
+  margin-top: -10px;
 }
 .board {
   margin-top: 10px;
@@ -459,7 +459,7 @@ img.unread {
   clear: left;
 }
 #collect_btn {
-  margin-top: -10px;  
+  margin-top: -10px;
 }
 #backtotop {
   width:16px;
@@ -513,12 +513,12 @@ img.unread {
   display: inline-block;
 }
 .wmd-spacer {
-  width: 1px; 
-  height: 20px; 
+  width: 1px;
+  height: 20px;
   margin-left: 14px;
   position: absolute;
   background-color: Silver;
-  display: inline-block; 
+  display: inline-block;
   list-style: none;
 }
 .wmd-spacer1 {
@@ -615,12 +615,12 @@ textarea[id^=wmd-input] {
   padding: 4px 5px 4px 22px;
   color: #000;
 }
-.navbar .nav>li>a{    
+.navbar .nav>li>a{
   font-weight: bold;
 }
 .navbar .nav .divider-vertical {
   background-color:#2b3741;
-  border-right: 1px solid #2f3b46; 
+  border-right: 1px solid #2f3b46;
 }
 .form-actions {
   border-top: none;
@@ -649,7 +649,7 @@ textarea.span8 {
 .nav-pills>li>a {
   padding: 2px 10px;
   line-height: 22px;
-} 
+}
 .pagination {
   height: 40px;
   margin: 10px 0px 10px 10px;
@@ -700,7 +700,7 @@ div[class$=content] > blockquote > p {
 /* about score on sidebar */
 .top_score {
   color: gray;
-  padding: 2px; 
+  padding: 2px;
 }
 .inner ol {
   margin: 4px 0px;
@@ -722,18 +722,35 @@ div[class$=part] {
 }
 
 /* social login */
+/* for fixed index social login button */
+#sidebar #social-login {
+  padding-left: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
 #social-login {
-	padding-left: 160px;
-	margin-bottom: 20px;
-	padding-bottom: 20px;
-	border-bottom: 1px #DDD solid;
+  padding-left: 160px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px #DDD solid;
 }
 
 #social-login ul {
-	margin: 0;
+  margin: 0;
 }
 
 #social-login ul li {
-	display: inline-block;
-	margin-right: 10px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+#social-login ul li a {
+  background: transparent url('/images/icon_facebook.png') no-repeat;
+  text-align: middle;
+  vertical-align: middle;
+  display: table-cell;
+  height: 46px;
+  padding-left: 50px;
 }
