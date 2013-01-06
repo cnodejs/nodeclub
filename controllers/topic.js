@@ -51,7 +51,7 @@ exports.index = function (req, res, next) {
     next(err);
   });
 
-  ep.once('topic', function(topic) {
+  ep.once('topic', function (topic) {
     if (topic.content_is_html) {
       return ep.emit('@user');
     }
@@ -120,9 +120,11 @@ exports.index = function (req, res, next) {
     });
 
     // get no reply topics
-    var options2 = { limit:5, sort: [ ['create_at', 'desc'] ] };
-    get_topics_by_query({ reply_count: 0 }, options2, function(err, topics) {
-      if (err) return ep.emit('error', err);
+    var options2 = { limit: 5, sort: [ ['create_at', 'desc'] ] };
+    get_topics_by_query({ reply_count: 0 }, options2, function (err, topics) {
+      if (err) {
+        return ep.emit('error', err);
+      }
       ep.emit('no_reply_topics', topics);
     });
   });
@@ -135,8 +137,8 @@ exports.create = function (req, res, next) {
   }
 
   var method = req.method.toLowerCase();
-  if(method == 'get'){
-    tag_ctrl.get_all_tags(function(err,tags){
+  if (method === 'get') {
+    tag_ctrl.get_all_tags(function (err, tags) {
       if(err) return next(err);
       res.render('topic/edit',{tags:tags});
       return;
@@ -384,33 +386,30 @@ exports.edit = function(req,res,next){
   }
 };
 
-exports.delete = function(req,res,next){
+exports.delete = function (req,res,next) {
   //删除话题, 话题作者topic_count减1
   //删除回复，回复作者reply_count减1
   //删除topic_tag，标签topic_count减1
   //删除topic_collect，用户collect_topic_count减1
-  if(!req.session.user || !req.session.user.is_admin){
-    res.redirect('home');
-    return;
+  if (!req.session.user || !req.session.user.is_admin) {
+    return res.send({ success: false, message: '无权限' })
   }
   var topic_id = req.params.tid;
-  if(topic_id.length != 24){
-    res.render('notify/notify',{error: '此话题不存在或已被删除。'});
-    return; 
+  if (topic_id.length !== 24) {
+    return res.send({ success: false, error: '此话题不存在或已被删除。' });
   }
-  get_topic_by_id(topic_id,function(err,topic,tags,author){
-    if(!topic){
-      res.render('notify/notify',{error: '此话题不存在或已被删除。'});
-      return; 
+  get_topic_by_id(topic_id, function (err, topic, tags, author) {
+    if (err) {
+      return res.send({ success: false, message: err.message });
     }
-    var proxy = new EventProxy();
-    var render = function(){
-      res.render('notify/notify',{success: '话题已被删除。'});
-      return;
+    if (!topic) {
+      return res.send({ success: false, message: '此话题不存在或已被删除。' });
     }
-    proxy.assign('topic_removed',render);
-    topic.remove(function(err){
-      proxy.emit('topic_removed');
+    topic.remove(function (err) {
+      if (err) {
+        return res.send({ success: false, message: err.message });
+      }
+      res.send({ success: true, message: '话题已被删除。' });
     });
   });
 };

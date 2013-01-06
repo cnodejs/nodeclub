@@ -88,7 +88,7 @@
           <a href='/topic/<%= topic._id %>/top/1'><img class='user_icon' src='<%- config.site_static_host %>/images/star_fav_icon&16.png' title='置顶' /></a>
         <% } %>
         <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='编辑' /></a>
-        <a href='/topic/<%= topic._id %>/delete' class='delete_topic_btn'><img class='user_icon' src='<%- config.site_static_host %>/images/trash_icon&16.png' title='删除' /></a>
+        <a href='javascript:;' data-id="<%= topic._id %>" class='delete_topic_btn'><img class='user_icon' src='<%- config.site_static_host %>/images/trash_icon&16.png' title='删除' /></a>
         <% } else { %>
           <% if (current_user._id == topic.author_id) { %>
           <span class='sp10'></span>
@@ -129,7 +129,7 @@
               <div id='wmd-preview' class='wmd-preview reply-wmd-preview'></div>
             </div>
           </div>
-          <input type='hidden' name='_csrf' value='<%= csrf %>' />
+          <input type='hidden' name='_csrf' id="_csrf" value='<%= csrf %>' />
         </div>
         <div class='sep10'></div>
         <button id='submit_btn' class='btn'>回复</button>
@@ -281,7 +281,7 @@
           reply_id: reply_id,
           _csrf: "<%- csrf %>"
         };
-        $.post('/reply/' + reply_id + '/delete', data, function(data) {
+        $.post('/reply/' + reply_id + '/delete', data, function (data) {
           if (data.status === 'success') {
             if($me.hasClass('delete_reply_btn')){
               $me.parents('.reply_item').remove();  
@@ -295,9 +295,16 @@
       return false;
     }); 
 
-    $('.delete_topic_btn').click(function() {
-      if(confirm('确定要删除此话题吗？')) {
-        window.location.href = $(this).attr('href');
+    $('.delete_topic_btn').click(function () {
+      var topicId = $(this).data('id');
+      if (topicId && confirm('确定要删除此话题吗？')) {
+        $.post('/topic/' + topicId + '/delete', { _csrf: $('#_csrf').val() }, function (result) {
+          if (!result.success) {
+            alert(result.message);
+          } else {
+            window.location.href = '/';
+          }
+        });
       }
       return false;
     });

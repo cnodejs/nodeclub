@@ -76,7 +76,12 @@ module.exports = function (app) {
   app.get('/topic/:tid', topic.index);
   app.get('/topic/:tid/top/:is_top?', topic.top);
   app.get('/topic/:tid/edit', topic.edit);
-  app.get('/topic/:tid/delete', topic.delete);
+
+  // Po-Ying Chen <poying.me@gmail.com>: 當 "非" 作者的使用者在留言的地方貼上一個網址為 
+  // http://[domain name]/topic/[topic id]/delete 的圖片之後，只要作者一看到圖片，文章就會被刪除了，
+  // 可能需要將刪除的方法改成 post 來避免此問題
+  app.post('/topic/:tid/delete', topic.delete);
+  
   app.post('/topic/create', topic.create);
   app.post('/topic/:tid/edit', topic.edit);
   app.post('/topic/collect', topic.collect);

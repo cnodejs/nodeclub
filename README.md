@@ -1,6 +1,4 @@
-# nodeclub
-
-[![Build Status](https://secure.travis-ci.org/cnodejs/nodeclub.png?branch=master)](http://travis-ci.org/cnodejs/nodeclub)
+# nodeclub [![Build Status](https://secure.travis-ci.org/cnodejs/nodeclub.png?branch=master)](http://travis-ci.org/cnodejs/nodeclub)
 
 基于nodejs的社区系统
 
@@ -32,7 +30,6 @@ jscoverage
 $ make test-cov
 ```
 
-* test results: [test_results.md](https://github.com/cnodejs/nodeclub/blob/master/test_results.md)
 * jscoverage: [**31%**](http://fengmk2.github.com/coverage/nodeclub.html)
     
 ## 其它
@@ -101,7 +98,7 @@ Below is the output from `git-summary`.
 
 ( The MIT License )
 
-Copyright (c) 2012 muyuan, fengmk2 and other nodeclub contributors
+Copyright (c) 2012 - 2013 muyuan, fengmk2 and other nodeclub contributors
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
