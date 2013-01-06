@@ -33,6 +33,8 @@
     <% } %>
     <% if (locals.topic) { %>
     <title><%= topic.title %> - <%= config.name %></title>
+    <% } else if (locals.job) { %>
+    <title><%= job.title %> - <%= config.name %></title>
     <% } else { %>
     <title><%= config.name %></title>
     <% } %>

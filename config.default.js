@@ -19,6 +19,7 @@ exports.config = {
   site_navs: [
     // [ path, title, [target=''] ]
     [ '/about', '關於' ],
+    [ '/job', '工作' ],
     [ '/announcement', '公告' ]
   ],
   site_static_host: '', // 静态文件存储域名

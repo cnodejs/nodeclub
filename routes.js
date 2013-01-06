@@ -117,4 +117,9 @@ module.exports = function (app) {
   app.get('/job', job.index);
   app.get('/job/create', job.create);
   app.post('/job/create', job._create);
+  app.get('/job/:id', job.single);
+  app.get('/job/:id/edit', job.edit);
+  app.post('/job/:id/edit', job._edit);
+  app.get('/job/:id/delete', job.del);
+  app.post('/job/:id/delete', job._del);
 };

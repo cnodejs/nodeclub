@@ -1,0 +1,187 @@
+<div id='sidebar'>
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>發布者</span>
+    </div>
+    <div class='inner'>
+      <%- partial('user/card', { object: job.owner, as: 'user' }) %>
+    </div>
+  </div>
+  <div class='sep10'></div>
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>找工作？</span>
+    </div>
+    <div class='inner'>
+      <ol>
+        <li>至<a href="../">工作首頁</a>尋找適合自己的工作</li>
+        <li>進入頁面，看看對工作內容的詳細說明</li>
+        <li>依照聯絡資訊聯絡發布者</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div id='content'>
+  <div class='panel'>
+    <div class='header'>
+      <ul class='breadcrumb'>
+        <li><a href='/'>主頁</a><span class='divider'>/</span></li>
+        <li class='active'>工作詳情</li>
+      </ul>
+    </div>
+    <div class='inner'>
+      <h3><%= job.title %></h3> 
+      <div class='sep10'></div> 
+      <div class="job_content">
+        <b>聯絡方式：</b> <%- job.contact %>
+      </div>
+      <div class='sep10'></div> 
+      <div class='topic_content'>
+        <%- job.content %>
+      </div>
+      <div class='sep10'></div> 
+      <span class='col_fade'>
+        <a class='dark' href="/user/<%= job.owner.name %>"><%= job.owner.name %></a> 在 <%= job.createAt %>發布
+      </span>
+      <% if (job.friendly_create_at != job.friendly_update_at) { %>
+      <div class='sep5'></div>
+      <span class='col_fade'>
+        <a class='dark' href="/user/<%= job.owner.name %>"><%= job.owner.name %></a> 在 <%= job.updateAt %>重新編輯
+      </span>
+      <% } %>
+      <span class='sp10'></span>
+      <a class='dark' id='share_weibo_btn' href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=<%= config.weibo_key %>',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','','分享來自<%= config.name %>的話題：<%= job.title %>','',''));">分享到 weibo</a>
+      <% if (locals.current_user) { %>
+        <% if (current_user.is_admin) { %>
+        <span class='sp10'></span>
+        <a href='/job/<%= job._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='編輯' /></a>
+        <a href='/job/<%= job._id %>/delete' class='delete_job_btn'><img class='user_icon' src='<%- config.site_static_host %>/images/trash_icon&16.png' title='刪除' /></a>
+        <% } else { %>
+          <% if (current_user._id == topic.author_id) { %>
+          <span class='sp10'></span>
+          <a href='/job/<%= job._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='編輯' /></a>
+          <% } %>
+        <% } %>
+      <% } %>
+    </div>
+  </div>  
+</div>
+
+<% if (locals.current_user && locals.job) { %>
+<!-- ajaxupload -->
+<script src='/libs/ajax-upload/ajaxupload.js'></script>
+<!-- markdown editor -->
+<script src='/libs/pagedown/Markdown.Converter.js'></script>
+<script src='/libs/showdown.js'></script>
+<script src='/libs/pagedown/Markdown.Editor.js'></script>
+
+<script>
+  $(document).ready(function () {
+    var editors = {};
+    function run_md_editor() {
+      var converter = new Showdown.converter();
+      editors[""] = new Markdown.Editor(converter);
+      editors[""].run(); 
+      /*
+      editor.hooks.chain('onPreviewRefresh', function () {
+        prettyPrint();
+      });
+      */
+      $('.reply2_editor').each(function() {
+        var editor_id = $(this).attr('id');
+        var suffix = editor_id.slice(editor_id.indexOf('-'));
+        editors[suffix] = new Markdown.Editor(converter, suffix);
+        editors[suffix].run();
+        /*
+        editor.hooks.chain('onPreviewRefresh', function () {
+          prettyPrint();
+        });
+        */
+      });
+    }
+    run_md_editor();
+
+    $('#wmd-input').mouseover(function(){
+      $('#wmd-input').focus()
+    });
+
+    $('.reply2_btn').click(function () {
+      var $btn = $(this);
+      // var editor = $btn.parent().next('.reply2_area').find('.reply2_editor');
+      var editor = $btn.parent().parent().find('.reply2_editor');
+      editor.slideToggle('fast');
+      editor.find('textarea').focus();
+    });
+
+    $('.reply2_at_btn').click(function () {
+      var $btn = $(this);
+      var editor = $btn.parents('.reply2_area').find('.reply2_editor');
+      editor.show('fast');
+      editor.find('textarea').focus();
+      var user = $btn.parents('.reply2_item').find('.reply_author').find('a').html();
+      var textarea = editor.find('textarea');
+      if (textarea.val().indexOf(user) === -1) {
+        textarea.val(textarea.val() + ' @' + user + ' ');
+      } else {
+        editor.hide('fast');
+        textarea.val('')
+      }
+    });
+
+    $('.delete_topic_btn').click(function() {
+      if(confirm('確定要刪除此話題嗎？')) {
+        window.location.href = $(this).attr('href');
+      }
+      return false;
+    });
+
+    var submit_btn;
+    $('textarea').each(function(){
+      $(this).focus(function(){
+        var parent = $(this).parent().parent().parent().parent();
+        var btn = parent.find('button');
+        if(btn.html() == '回復'){
+          submit_btn = btn;
+        }
+      });
+    });
+    
+    document.onkeyup=function(event) {
+      if(window.ActiveXObject) {
+        var keydown = window.event.keyCode;
+        event=window.event;
+      }else{
+        var keydown = event.keyCode;
+        if(event.ctrlKey == true && keydown == 13){
+          if(submit_btn){
+            submit_btn.click();
+          }
+        }
+      }
+    };
+  });
+</script>
+<% } %>
+<link type='text/css' rel='stylesheet' href='/libs/fancybox/jquery.fancybox-1.3.4.css' />
+<script src='/libs/fancybox/jquery.fancybox-1.3.4.pack.js'></script>
+<script>
+$(document).ready(function () {
+  // pretty code
+  prettyPrint();
+
+  //fancy image
+  $('.topic_content img,.reply_content img').each(function(){
+    if($(this).width > 500){
+      $(this).width(500);
+    }
+    var elem = $('<a class="content_img"></a>');
+    elem.attr('href',$(this).attr('src'));
+    $(this).wrap(elem);   
+  });
+  $('.content_img').fancybox({
+    transitionIn: 'elastic',
+    transitionOut: 'elastic'
+  });
+});
+</script>

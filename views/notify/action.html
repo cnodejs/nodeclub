@@ -1,0 +1,19 @@
+<%- partial('sidebar') %>
+
+<div id='content'>
+	<div class='panel'>
+		<div class='header'>
+			<ul class='breadcrumb'>
+				<li><a href='/'>主頁</a><span class='divider'>/</span></li>
+				<li class='active'>動作通知</li>
+			</ul>
+		</div>
+		<div class='inner'>
+      <form action="<%- action %>" method="post">
+        <p><%- message %></p>
+        <p><input type="submit" name="submit" value="確定" /></p>
+        <input type='hidden' name='_csrf' value='<%= csrf %>' />
+      </form>
+    </div>
+	</div>
+</div>
