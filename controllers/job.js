@@ -166,7 +166,7 @@ function _create(req, res, next) {
   }
   
   if (title.length < 10 || title.length > 100) {
-    res.render('topic/edit', {edit_error: '標題字數太多或太少', title: title, content: content, contact: contact});
+    res.render('job/edit', {edit_error: '標題字數太多或太少', title: title, content: content, contact: contact});
     return;
   }
   
@@ -176,7 +176,7 @@ function _create(req, res, next) {
   }
   
   if (contact.length < 10 || contact.length > 100) {
-    res.render('topic/edit', {edit_error: '說明字數太多或太少', title: title, content: content, contact: contact});
+    res.render('job/edit', {edit_error: '說明字數太多或太少', title: title, content: content, contact: contact});
     return;
   }
 
@@ -328,17 +328,17 @@ function _edit(req, res, next) {
     }
     
     if (title.length < 10 || title.length > 100) {
-      res.render('topic/edit', {edit_error: '標題字數太多或太少', title: title, content: content, contact: contact});
+      res.render('job/edit', {edit_error: '標題字數太多或太少', title: title, content: content, contact: contact});
       return;
     }
     
     if (contact === '') {
-      res.render('job/edit', {edit_error: '說明不能是空的。', content: content, contact: contact});
+      res.render('job/edit', {edit_error: '說明不能是空的。', title: title, contact: contact});
       return;
     }
     
     if (contact.length < 10 || contact.length > 100) {
-      res.render('topic/edit', {edit_error: '說明字數太多或太少', title: title, content: content, contact: contact});
+      res.render('job/edit', {edit_error: '說明字數太多或太少', title: title, content: content, contact: contact});
       return;
     }
 
