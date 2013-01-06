@@ -1,0 +1,24 @@
+<%- partial('sidebar') %>
+
+<div id='content'>
+	<div class='panel'>
+		<div class='header'>
+			<img src="<%- config.site_static_host %>/images/spechbubble_2_icon&16.png" title='工作'/>
+			
+			<% if (locals.current_user) { %>
+			<a href='/job/create' class='fr'><button class='btn btn-success fr' id='create_job_btn'>發布工作</button></a>
+			<% } %>
+		</div>
+		<% if (locals.jobs && jobs.length > 0) { %>
+		<%- partial('job/list', { 
+			jobs: jobs,
+			pages: pages,
+			current_pages: current_page
+		}) %>
+		<% } else { %>
+		<div class='inner'>
+			<p>無工作</p>
+		</div>
+		<% } %>
+	</div>
+</div>

@@ -22,6 +22,7 @@ require('./topic_collect');
 require('./tag_collect');
 require('./relation');
 require('./message');
+require('./job');
 
 exports.Tag = mongoose.model('Tag');
 exports.User = mongoose.model('User');
@@ -32,3 +33,4 @@ exports.TopicCollect = mongoose.model('TopicCollect');
 exports.TagCollect = mongoose.model('TagCollect');
 exports.Relation = mongoose.model('Relation');
 exports.Message = mongoose.model('Message');
+exports.Job = mongoose.model('Job');

@@ -22,6 +22,7 @@ var tools = require('./controllers/tools');
 var status = require('./controllers/status');
 var announcement = require('./controllers/announcement');
 var facebook = require('./controllers/facebook');
+var job = require('./controllers/job');
 
 module.exports = function (app) {
   // home page
@@ -111,4 +112,9 @@ module.exports = function (app) {
   // facebook
   app.get('/facebook/login', facebook.login);
   app.get('/facebook/redirect', facebook.redirect);
+  
+  // job
+  app.get('/job', job.index);
+  app.get('/job/create', job.create);
+  app.post('/job/create', job._create);
 };

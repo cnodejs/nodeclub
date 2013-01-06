@@ -53,9 +53,9 @@ app.configure(function () {
 
 if (process.env.NODE_ENV !== 'test') {
   // plugins
-  var plugins = config.plugins || [],
-      i,
-      l;
+  var plugins = config.plugins || [];
+  var i;
+  var l;
   for (i = 0, l = plugins.length; i < l; i += 1) {
     var p = plugins[i];
     app.use(require('./plugins/' + p.name)(p.options));

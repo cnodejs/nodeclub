@@ -220,6 +220,7 @@ function get_topics_by_query(query, opt, cb) {
   query.announcement = {$ne : true};
   get_topics(query, opt, cb);
 }
+
 function get_count_by_query(query, cb) {
   query.announcement = {$ne : true};
   get_count(query, cb);
