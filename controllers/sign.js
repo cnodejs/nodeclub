@@ -192,7 +192,7 @@ exports.login = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    if (!user) {
+    if (!user || user.pass === undefined) {
       return res.render('sign/signin', { error: '這個用戶不存在。' });
     }
     bcrypt.compare(pass, user.pass, function (err, equal) {

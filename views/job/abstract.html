@@ -1,0 +1,32 @@
+<div class='cell'>
+  <div class='user_avatar'>
+    <a href="/user/<%= job.owner.name %>">
+      <img src="<%= job.owner.avatar_url %>" title="<%= job.owner.name %>" />
+    </a>
+  </div>
+
+  <div class='job_wrap'>
+    <div class='title_wrap'>
+      <a class='job_title' href='/job/<%= job._id %>'>
+        <% if(job.top){%>
+          <span class='put_top'>置頂</span>
+          <% } %>
+        <%= job.title %>
+      </a>
+    </div>
+    <% if (job.reply_count > 0) { %>
+      <a class='count fr' href="/job/<%= job._id %>#reply<%= job.reply_count %>"><%= job.reply_count %></a>
+    <% } %>
+    <div class='sep10'></div>
+    <div class='sep5'></div>
+    <span class='col_fade'>
+      <!-- <div class='name_part'>
+        <a class='dark' href='/user/<%= job.owner.name %>'><%= job.owner.name %></a> 
+      </div> -->
+        <a class='dark' href="/user/<%= job.owner.name %>"><%= job.owner.name %> </a>
+        <div class='reply_part'>
+          創建于 <%= job.createAt %>
+        </div>
+    </span>
+  </div>
+</div>
