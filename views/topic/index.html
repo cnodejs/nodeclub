@@ -48,19 +48,19 @@
       </ul>
     </div>
     <div class='inner'>
-      <h3><% if(topic.top){%>[置頂]<% } %><%= topic.title %></h3> 
-      <div class='sep10'></div> 
+      <h3><% if(topic.top){%>[置頂]<% } %><%= topic.title %></h3>
+      <div class='sep10'></div>
       <div class='topic_content'>
         <%- topic.content %>
       </div>
-      <div class='sep10'></div> 
+      <div class='sep10'></div>
       <% if (topic.tags.length > 0) { %>
-      <span class='col_fade'>標簽：</span> 
+      <span class='col_fade'>標簽：</span>
       <%- partial('tag/tag_in_topic',{ collection: topic.tags, as: 'tag' }) %>
       <% } else { %>
-      <span class='col_fade'>標簽：無</span>  
+      <span class='col_fade'>標簽：無</span>
       <% } %>
-      <div class='sep5'></div>  
+      <div class='sep5'></div>
       <span class='col_fade'>
         <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_create_at %>發布
       </span>
@@ -70,8 +70,17 @@
         <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_update_at %>重新編輯
       </span>
       <% } %>
+      <div class='sep5'></div>
+      <div class="socila">
+        <span class='st_facebook_hcount' displayText='Facebook'></span>
+        <span class='st_twitter_hcount' displayText='Tweet'></span>
+        <span class='st_googleplus_hcount' displayText='Google +'></span>
+        <span class='st_pinterest_hcount' displayText='Pinterest'></span>
+      </div>
+      <div class='sep5'></div>
       <span class='sp10'></span>
-      <a class='dark' id='share_weibo_btn' href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=<%= config.weibo_key %>',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','','分享來自<%= config.name %>的話題：<%= topic.title %>','',''));">分享到 weibo</a>
+      <!-- AddThis Button BEGIN -->
+      <!-- AddThis Button END -->
       <% if (locals.current_user) { %>
         <% if (!topic.in_collection) { %>
         <button class='btn btn-success fr' id='collect_btn' action='collect'>加入收藏</button>
@@ -97,7 +106,7 @@
         <% } %>
       <% } %>
     </div>
-  </div>  
+  </div>
   <% if (topic.replies && topic.replies.length > 0) { %>
   <div class='sep10'></div>
   <div class='panel'>
@@ -155,7 +164,7 @@
     function run_md_editor() {
       var converter = new Showdown.converter();
       editors[""] = new Markdown.Editor(converter);
-      editors[""].run(); 
+      editors[""].run();
       /*
       editor.hooks.chain('onPreviewRefresh', function () {
         prettyPrint();
@@ -204,7 +213,7 @@
 
     $('.reply2_submit_btn').click(function () {
       var $btn = $(this);
-      var reply_id = $btn.attr('id');   
+      var reply_id = $btn.attr('id');
       var content = $btn.parent().find('textarea').val();
       var data = {
         reply_id: reply_id,
@@ -262,9 +271,9 @@
             $me.html('加入收藏');
             $me.attr('action','collect');
           }
-          $me.toggleClass('btn-success'); 
-        } 
-      }, 'json'); 
+          $me.toggleClass('btn-success');
+        }
+      }, 'json');
     });
 
     $('.delete_reply_btn, .delete_reply2_btn').live('click', function() {
@@ -284,16 +293,16 @@
         $.post('/reply/' + reply_id + '/delete', data, function(data) {
           if (data.status === 'success') {
             if($me.hasClass('delete_reply_btn')){
-              $me.parents('.reply_item').remove();  
+              $me.parents('.reply_item').remove();
             }
             if($me.hasClass('delete_reply2_btn')){
-              $me.parents('.reply2_item').remove(); 
+              $me.parents('.reply2_item').remove();
             }
           }
-        }, 'json'); 
-      } 
+        }, 'json');
+      }
       return false;
-    }); 
+    });
 
     $('.delete_topic_btn').click(function() {
       if(confirm('確定要刪除此話題嗎？')) {
@@ -312,7 +321,7 @@
         }
       });
     });
-    
+
     document.onkeyup=function(event) {
       if(window.ActiveXObject) {
         var keydown = window.event.keyCode;
@@ -343,7 +352,7 @@ $(document).ready(function () {
     }
     var elem = $('<a class="content_img"></a>');
     elem.attr('href',$(this).attr('src'));
-    $(this).wrap(elem);   
+    $(this).wrap(elem);
   });
   $('.content_img').fancybox({
     transitionIn: 'elastic',
@@ -351,3 +360,5 @@ $(document).ready(function () {
   });
 });
 </script>
+<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript">stLight.options({publisher: "f250681a-1ed4-4254-b607-9cc018155fff"});</script>
