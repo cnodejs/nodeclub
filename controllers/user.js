@@ -352,7 +352,7 @@ exports.toggle_star = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    user.is_star = !!user.is_star;
+    user.is_star = !user.is_star;
     user.save(function (err) {
       if (err) {
         return next(err);
