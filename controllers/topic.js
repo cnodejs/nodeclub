@@ -512,7 +512,8 @@ exports.edit = function (req, res, next) {
         res.render('notify/notify', {error: '此話題不存在或已被刪除。'});
         return;
       }
-      if (topic.author_id === req.session.user._id || req.session.user.is_admin) {
+      
+      if (topic.author_id.toString() === req.session.user._id.toString() || req.session.user.is_admin) {
         tag_ctrl.get_all_tags(function (err, all_tags) {
           if (err) {
             return next(err);
