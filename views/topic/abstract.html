@@ -1,6 +1,6 @@
 <div class='cell'>
   <div class='user_avatar'>
-    <a href="/user/<%= topic.author.name %>">
+    <a href="/user/<%= topic.author.loginname %>">
       <img src="<%= topic.author.avatar_url %>" title="<%= topic.author.name %>" />
     </a>
   </div>
@@ -29,12 +29,12 @@
       </div>
       <% if(topic.reply){  %>
         <div class='reply_part'>
-          <a class='dark' href="/user/<%= topic.reply.author.name %>"><%= topic.reply.author.name %> </a>
+          <a class='dark' href="/user/<%= topic.reply.author.loginname %>"><%= topic.reply.author.name %> </a>
           回復于
           <%= topic.reply.friendly_create_at %>
         </div>
       <% }else{ %>
-        <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %> </a>
+        <a class='dark' href="/user/<%= topic.author.loginname %>"><%= topic.author.name %> </a>
         <div class='reply_part'>
           創建于 <%= topic.friendly_create_at %>
         </div>

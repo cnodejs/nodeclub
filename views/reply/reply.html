@@ -1,6 +1,6 @@
 <div class='cell reply_area reply_item' id="reply<%= indexInCollection+1 %>" reply_id="<%= reply._id %>">
 	<div class='user_avatar'>
-		<a href="/user/<%= reply.author.name %>"><img src="<%= reply.author.avatar_url %>" title="<%= reply.author.name %>" /></a>
+		<a href="/user/<%= reply.author.loginname %>"><img src="<%= reply.author.avatar_url %>" title="<%= reply.author.name %>" /></a>
 	</div>
 	<span class='col_fade fr'>#<%= indexInCollection + 1 %></span>
 	
@@ -12,7 +12,7 @@
 			<span class='col_fade'>{<%= reply.replies.length %>}</span>
 			<% } %>
 		</span>
-	<span class='reply_author'><a class='dark' href="/user/<%= reply.author.name %>"><%= reply.author.name %></a></span>
+	<span class='reply_author'><a class='dark' href="/user/<%= reply.author.loginname %>"><%= reply.author.name %></a></span>
 		<span class='col_fade'>
 			在 <%= reply.friendly_create_at %>回復
 			<% if(locals.current_user && current_user._id.toString() == reply.author._id.toString()) { %>

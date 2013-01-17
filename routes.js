@@ -46,7 +46,7 @@ module.exports = function (app) {
   app.post('/reset_pass', sign.reset_pass);
 
   // user
-  app.get('/user/:name', user.index);
+  app.get('/user/:login', user.index);
   app.get('/setting', user.setting);
   app.post('/setting', user.setting);
   app.get('/stars', user.show_stars);
@@ -56,8 +56,8 @@ module.exports = function (app) {
   app.get('/my/messages', message.index);
   app.get('/my/follower', user.get_followers);
   app.get('/my/following', user.get_followings);
-  app.get('/user/:name/topics', user.list_topics);
-  app.get('/user/:name/replies', user.list_replies);
+  app.get('/user/:login/topics', user.list_topics);
+  app.get('/user/:login/replies', user.list_replies);
   app.post('/user/follow', user.follow);
   app.post('/user/un_follow', user.un_follow);
   app.post('/user/set_star', user.toggle_star);

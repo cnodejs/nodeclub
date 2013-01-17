@@ -62,12 +62,12 @@
       <% } %>
       <div class='sep5'></div>
       <span class='col_fade'>
-        <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_create_at %>發布
+        <a class='dark' href="/user/<%= topic.author.loginname %>"><%= topic.author.name %></a> 在 <%= topic.friendly_create_at %>發布
       </span>
       <% if (topic.friendly_create_at != topic.friendly_update_at) { %>
       <div class='sep5'></div>
       <span class='col_fade'>
-        <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_update_at %>重新編輯
+        <a class='dark' href="/user/<%= topic.author.loginname %>"><%= topic.author.name %></a> 在 <%= topic.friendly_update_at %>重新編輯
       </span>
       <% } %>
       <div class='sep5'></div>

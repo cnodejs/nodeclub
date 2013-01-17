@@ -290,7 +290,6 @@ exports.index = function (req, res, next) {
       ep.unbind();
       return res.render('notify/notify', { error: message });
     }
-
     topic.visit_count += 1;
     topic.save(function (err) {
       // format date

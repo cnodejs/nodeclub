@@ -1,9 +1,9 @@
 <div class='user_card'>
 	<div>
-		<a href="/user/<%= user.name %>"><img class='user_avatar' 
+		<a href="/user/<%= user.loginname %>"><img class='user_avatar' 
 			src="<%= user.avatar_url %>" title="<%= user.name %>" /></a>
 		<span class='sp10'></span>
-		<span class='user_name'><a class='dark' href="/user/<%= user.name %>"><%= user.name %></a></span>
+		<span class='user_name'><a class='dark' href="/user/<%= user.loginname %>"><%= user.name %></a></span>
 
 		<% if (locals.current_user && current_user._id != user._id) { %>
 			<% if (!locals.relation) { %>

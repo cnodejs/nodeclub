@@ -42,12 +42,12 @@
       </div>
       <div class='sep10'></div> 
       <span class='col_fade'>
-        <a class='dark' href="/user/<%= job.owner.name %>"><%= job.owner.name %></a> 在 <%= job.createAt %>發布
+        <a class='dark' href="/user/<%= job.owner.loginname %>"><%= job.owner.name %></a> 在 <%= job.createAt %>發布
       </span>
       <% if (job.friendly_create_at != job.friendly_update_at) { %>
       <div class='sep5'></div>
       <span class='col_fade'>
-        <a class='dark' href="/user/<%= job.owner.name %>"><%= job.owner.name %></a> 在 <%= job.updateAt %>重新編輯
+        <a class='dark' href="/user/<%= job.owner.loginname %>"><%= job.owner.name %></a> 在 <%= job.updateAt %>重新編輯
       </span>
       <% } %>
       <span class='sp10'></span>

@@ -38,9 +38,9 @@ function get_users_by_query(query, opt, cb) {
 }
 
 exports.index = function (req, res, next) {
-  var user_name = req.params.name;
+  var user_login = req.params.login;
   
-  get_user_by_name(user_name, function (err, user) {
+  get_user_by_loginname(user_login, function (err, user) {
     if (!user) {
       res.render('notify/notify', {error: '這個用戶不存在。'});
       return;
@@ -583,11 +583,11 @@ exports.top100 = function (req, res, next) {
 };
 
 exports.list_topics = function (req, res, next) {
-  var user_name = req.params.name;
+  var user_login = req.params.login;
   var page = Number(req.query.page) || 1;
   var limit = config.list_topic_count;
 
-  get_user_by_name(user_name, function (err, user) {
+  get_user_by_loginname(user_login, function (err, user) {
     if (!user) {
       res.render('notify/notify', {error: '這個用戶不存在。'});
       return;
@@ -644,11 +644,11 @@ exports.list_topics = function (req, res, next) {
 };
 
 exports.list_replies = function (req, res, next) {
-  var user_name = req.params.name;
+  var user_login = req.params.login;
   var page = Number(req.query.page) || 1;
   var limit = config.list_topic_count;
 
-  get_user_by_name(user_name, function (err, user) {
+  get_user_by_loginname(user_login, function (err, user) {
     if (!user) {
       res.render('notify/notify', {error: '這個用戶不存在。'});
       return;

@@ -68,7 +68,7 @@
 			<span class='col_fade'><%= user.name %> 發布的話題</span>
 		</div>
 		<% if(locals.topics && topics.length > 0 ){ %>
-		<%- partial('topic/list', {topics:topics,pages:pages,current_pages:current_page,base:'/user/'+user.name+'/topics'}) %>
+		<%- partial('topic/list', {topics:topics,pages:pages,current_pages:current_page,base:'/user/'+user.loginname+'/topics'}) %>
 		<% }else{ %>
 		<div class='inner'>
 			<p>無話題</p>

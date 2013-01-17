@@ -1,8 +1,8 @@
 <div class='cell reply2_item' reply_id='<%= reply._id %>'>
 	<div class='user_avatar'>
-		<a href="/user/<%= reply.author.name %>"><img src="<%= reply.author.avatar_url %>" title="<%= reply.author.name %>" /></a>
+		<a href="/user/<%= reply.author.loginname %>"><img src="<%= reply.author.avatar_url %>" title="<%= reply.author.name %>" /></a>
 	</div>
-	<span class='reply_author'><a class='dark' href="/user/<%= reply.author.name %>"><%= reply.author.name %></a></span>
+	<span class='reply_author'><a class='dark' href="/user/<%= reply.author.loginname %>"><%= reply.author.name %></a></span>
 		<span class='fr'>
 			<% if (locals.current_user) { %>
 			<a href='javascript:void(0);' class='dark reply2_at_btn'>@回復</a>	
