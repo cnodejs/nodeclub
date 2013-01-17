@@ -99,7 +99,7 @@
         <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='編輯' /></a>
         <a href='/topic/<%= topic._id %>/delete' class='delete_topic_btn'><img class='user_icon' src='<%- config.site_static_host %>/images/trash_icon&16.png' title='刪除' /></a>
         <% } else { %>
-          <% if (current_user._id == topic.author_id) { %>
+          <% if (current_user._id.toString() === topic.author_id.toString()) { %>
           <span class='sp10'></span>
           <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='編輯' /></a>
           <% } %>
