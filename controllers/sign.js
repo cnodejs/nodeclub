@@ -10,7 +10,7 @@ var crypto = require('crypto');
 var config = require('../config').config;
 var message_ctrl = require('./message');
 var mail_ctrl = require('./mail');
-var bcrypt = require('bcrypt');
+var pbkdf2 = require('../libs/pbkdf2');
 
 // private
 
@@ -116,12 +116,12 @@ exports.signup = function (req, res, next) {
         return;
       }
 
-      // bcrypt the pass
-      bcrypt.genSalt(config.genSalt, function (err, salt) {
+      // PBKDF2 encryption
+      pbkdf2.genSalt(config.genSalt, function (err, salt) {
         if (err) {
           return next(err);
         }
-        bcrypt.hash(pass, salt, function (err, hash) {
+        pbkdf2.hash(pass, salt, function (err, hash) {
           if (err) {
             return next(err);
           }
@@ -132,6 +132,7 @@ exports.signup = function (req, res, next) {
           user.name = name;
           user.loginname = loginname;
           user.pass = hash;
+          user.salt = salt;
           user.email = email;
           user.avatar = avatar_url;
           user.active = false;
@@ -195,7 +196,7 @@ exports.login = function (req, res, next) {
     if (!user || user.pass === undefined) {
       return res.render('sign/signin', { error: '這個用戶不存在。' });
     }
-    bcrypt.compare(pass, user.pass, function (err, equal) {
+    pbkdf2.compare(pass, user.pass, user.salt, function (err, equal) {
       if (err) {
         return next(err);
       }
@@ -339,16 +340,17 @@ exports.reset_pass = function (req, res, next) {
         return res.render('notify/notify', {error : '錯誤的激活鏈接'});
       }
       
-      bcrypt.genSalt(config.genSalt, function (err, salt) {
+      pbkdf2.genSalt(config.genSalt, function (err, salt) {
         if (err) {
           return next(err);
         }
-        bcrypt.hash(psw, salt, function (err, hash) {
+        pbkdf2.hash(psw, salt, function (err, hash) {
           if (err) {
             return next(err);
           }
           
           user.pass = hash;
+          user.salt = salt;
           user.retrieve_key = null;
           user.retrieve_time = null;
           user.active = true; // 用戶激活

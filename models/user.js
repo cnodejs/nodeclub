@@ -10,6 +10,7 @@ var UserSchema = new Schema({
   name: { type: String, index: true },
   loginname: { type: String, unique: true },
   pass: { type: String },
+  salt: { type: String },
   email: { type: String, unique: true },
   url: { type: String },
   profile_image_url: {type: String},
