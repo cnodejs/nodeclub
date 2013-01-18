@@ -23,12 +23,12 @@ function run(user) {
       var message;
      
       if (post.message) {
-        title = post.message.length > 13 ? post.message.substr(13) + '...' : post.message;
+        title = post.message.length > 13 ? post.message.substr(0, 13) + '...' : post.message;
         message = post.message;
       }
 
       if (post.story) {
-        title = post.story.length > 13 ? post.story.substr(13) + '...' : post.story;
+        title = post.story.length > 13 ? post.story.substr(0, 13) + '...' : post.story;
         message = post.story;
       }
 
