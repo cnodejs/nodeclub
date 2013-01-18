@@ -18,7 +18,7 @@ var EventProxy = require('eventproxy').EventProxy;
 var check = require('validator').check;
 var sanitize = require('validator').sanitize;
 var crypto = require('crypto');
-var bcrypt = require('bcrypt');
+var pbkdf2 = require('../libs/pbkdf2');
 
 function get_user_by_id(id, cb) {
   User.findOne({_id: id}, cb);
@@ -259,7 +259,7 @@ exports.setting = function (req, res, next) {
         return next(err);
       }
       
-      bcrypt.compare(old_pass, user.pass, function (err, equal) {
+      pbkdf2.compare(old_pass, user.pass, user.salt, function (err, equal) {
         if (err) {
           return next(err);
         }
@@ -280,12 +280,13 @@ exports.setting = function (req, res, next) {
           return;
         }
 
-        bcrypt.genSalt(config.genSalt, function (err, salt) {
+        pbkdf2.genSalt(config.genSalt, function (err, salt) {
           if (err) {
             return next(err);
           }
-          bcrypt.hash(new_pass, salt, function (err, hash) {
+          pbkdf2.hash(new_pass, salt, function (err, hash) {
             user.pass = hash;
+            user.salt = salt;
             user.save(function (err) {
               if (err) {
                 return next(err);
