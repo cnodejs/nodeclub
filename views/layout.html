@@ -1,12 +1,12 @@
-<!DOCTYPE html> 
-<html xmlns="http://www.w3.org/1999/xhtml"> 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <!-- meta -->
     <meta charset="utf-8" />
     <meta name='description' content='<%= config.description %>'>
     <%
     var headers = config.site_headers || [];
-    for (var i = 0, l = headers.length; i < l; i++) { 
+    for (var i = 0, l = headers.length; i < l; i++) {
     %>
     <%- headers[i] %>
     <% } %>
@@ -49,32 +49,32 @@
             <input type='text' id='q' name='q' class='search-query span3' placeholder='Search......' value='<%= locals.keyword || '' %>'/>
           </form>
           <ul class='nav pull-right'>
-            <li><a href='/'>首頁</a></li> 
+            <li><a href='/'>首頁</a></li>
             <%
             var site_navs = config.site_navs || [];
             for (var i = 0, l = site_navs.length; i < l; i++) {
               var nav = site_navs[i];
             %>
-            <li><a href="<%- nav[0] %>" target="<%- nav[2] %>"><%- nav[1] %></a></li> 
+            <li><a href="<%- nav[0] %>" target="<%- nav[2] %>"><%- nav[1] %></a></li>
             <% } %>
-            <li class='divider-vertical'></li>  
+            <li class='divider-vertical'></li>
             <% if (locals.current_user) { %>
-            <li><a href='/setting'>設置</a></li>  
-            <li><a href='/signout'>退出</a></li>  
+            <li><a href='/setting'>設定</a></li>
+            <li><a href='/signout'>登出</a></li>
             <% } else { %>
-            <li><a href='/signup'>注冊</a></li> 
-            <li><a href='/signin'>登錄</a></li> 
+            <li><a href='/signup'>註冊</a></li>
+            <li><a href='/signin'>登入</a></li>
             <% } %>
           </ul>
         </div>
       </div>
     </div>
-    <!-- wrapper -->  
+    <!-- wrapper -->
     <div id='wrapper'>
       <% if (locals.announcement) { %>
-	<div class="container" id="announcement">
-		<div class="alert alert-error">最新公告：<a href="/topic/<%- locals.announcement._id %>"><%- locals.announcement.title %></a></div>
-	</div>
+        <div class="container" id="announcement">
+                <div class="alert alert-error">最新公告：<a href="/topic/<%- locals.announcement._id %>"><%- locals.announcement.title %></a></div>
+        </div>
       <% } %>
 
       <div id='main'>
@@ -90,8 +90,8 @@
         <div class='fr'>
         </div>
         <div>
-          <strong><a class='dark' href='/about'>關于</a></strong>
-          &nbsp;&nbsp;|&nbsp;&nbsp; 
+          <strong><a class='dark' href='/about'>關於</a></strong>
+          &nbsp;&nbsp;|&nbsp;&nbsp;
           <strong><a class='dark' href='/faq'>FAQ</a></strong>
           &nbsp;&nbsp;|&nbsp;&nbsp;
           <strong><a class='dark' href='https://github.com/cnodejs/nodeclub/' target="_blank">Github</a></strong>
@@ -100,10 +100,11 @@
         </div>
         <div class='sep10'></div>
         <div class='col_fade'>
-          &copy; 2012 <br>本社區為開源系統，版本: <%= config.version %> ，歡迎貢獻代碼<br>
-          由<a href='http://cnodejs.net' target='_blank'> NAE </a>為 <%= config.name %> 提供動力
+          &copy; 2012 <br>本社區為開源系統，版本: <%= config.version %> ，如有遇到問題，歡迎回應<br>
+          <a href='https://github.com/nodejs-tw/nodeclub/' target='_blank'> Node.js Taiwan Github </a> <br>
+          或者與 Node.js 台灣社群聯絡 contact [AT] nodejs.tw
         </div>
       </div>
     </div>
   </body>
-</html> 
+</html>
