@@ -1,21 +1,21 @@
 <div id='sidebar'>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>話題發布步驟</span>
+      <span class='col_fade'>話題發佈步驟</span>
     </div>
     <div class='inner'>
       <ol>
         <li>填寫標題</li>
         <li>填寫內容</li>
         <li>選擇話題標簽</li>
-        <li>確認後發布話題</li>
+        <li>確認後發佈話題</li>
       </ol>
     </div>
   </div>
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>話題發布指南</span>
+      <span class='col_fade'>話題發佈指南</span>
     </div>
     <div class='inner'>
       <ul>
@@ -53,19 +53,19 @@
         <% if(locals.action && action == 'edit'){ %>
         <li class='active'>編輯話題</li>
         <% }else{ %>
-        <li class='active'>發布話題</li>
+        <li class='active'>發佈話題</li>
         <% } %>
       </ul>
     </div>
     <div class='inner'>
       <% if(locals.edit_error){ %>
-      <div class="alert alert-error"> 
+      <div class="alert alert-error">
         <a class="close" data-dismiss="alert" href="#">&times;</a>
         <strong><%= edit_error %></strong>
       </div>
       <% } %>
       <% if(locals.error){ %>
-      <div class="alert alert-error" >  
+      <div class="alert alert-error" >
         <strong><%= error %></strong>
       </div>
       <% }else{ %>
@@ -86,11 +86,11 @@
           </div>
         </div>
         <% if (locals.current_user.is_admin) { %>
-	<div class='sep10'></div>
+        <div class='sep10'></div>
         <div>
           <label class='checkbok' for='announcement'><input type="checkbox" name="announcement" value="1"<% if(locals.announcement){ %> checked<% } %> />這是公告？</label>
         </div>
-	<% } %>
+        <% } %>
         <div class='sep10'></div>
         <div class='sep10'></div>
         <div>
@@ -126,12 +126,12 @@
         <input type='hidden' id='topic_tags' name='topic_tags' value=''></input>
         <input type='hidden' name='_csrf' value='<%= csrf %>' />
         <div class='form-actions'>
-          <button id='submit_btn' class='btn'>發布</button>
+          <button id='submit_btn' class='btn'>發佈</button>
         </div>
       </form>
     </div>
     <% } %>
-  </div>  
+  </div>
 </div>
 
 <!-- ajaxupload -->

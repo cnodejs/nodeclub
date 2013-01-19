@@ -25,7 +25,7 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>無人回復的話題</span>
+      <span class='col_fade'>無人回覆的話題</span>
     </div>
     <div class='inner'>
       <% if (locals.no_reply_topics && no_reply_topics.length > 0) { %>
@@ -111,7 +111,7 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'><%= topic.replies.length %> 回復</span>
+      <span class='col_fade'><%= topic.replies.length %> 回覆</span>
     </div>
     <%- partial('reply/reply', topic.replies) %>
   </div>
@@ -120,7 +120,7 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>添加回復</span>
+      <span class='col_fade'>添加回覆</span>
     </div>
     <div class='inner'>
       <form id='reply_form' action='/<%= topic._id %>/reply' method='post'>
@@ -141,9 +141,9 @@
           <input type='hidden' name='_csrf' value='<%= csrf %>' />
         </div>
         <div class='sep10'></div>
-        <button id='submit_btn' class='btn'>回復</button>
+        <button id='submit_btn' class='btn'>回覆</button>
         <span class='sp10'></span>
-        <span class='col_fade'>Ctrl+Enter 快捷回復</span>
+        <span class='col_fade'>Ctrl+Enter 快捷回覆</span>
       </form>
     </div>
   </div>
@@ -278,7 +278,7 @@
 
     $('.delete_reply_btn, .delete_reply2_btn').live('click', function() {
       var $me = $(this);
-      if (confirm('確定要刪除此回復嗎？')) {
+      if (confirm('確定要刪除此回覆嗎？')) {
         var reply_id = null;
         if ($me.hasClass('delete_reply_btn')) {
           reply_id = $me.parents('.reply_item').attr('reply_id');
@@ -316,7 +316,7 @@
       $(this).focus(function(){
         var parent = $(this).parent().parent().parent().parent();
         var btn = parent.find('button');
-        if(btn.html() == '回復'){
+        if(btn.html() == '回覆'){
           submit_btn = btn;
         }
       });

@@ -22,7 +22,7 @@
     <div class='sep5'></div>
     <span class='col_fade'>
       <!-- <div class='name_part'>
-        <a class='dark' href='/user/<%= topic.author.name %>'><%= topic.author.name %></a> 
+        <a class='dark' href='/user/<%= topic.author.name %>'><%= topic.author.name %></a>
       </div> -->
       <div class='click_part'>
         點擊數 <%= topic.visit_count %>
@@ -30,13 +30,13 @@
       <% if(topic.reply){  %>
         <div class='reply_part'>
           <a class='dark' href="/user/<%= topic.reply.author.loginname %>"><%= topic.reply.author.name %> </a>
-          回復于
+          回覆於
           <%= topic.reply.friendly_create_at %>
         </div>
       <% }else{ %>
         <a class='dark' href="/user/<%= topic.author.loginname %>"><%= topic.author.name %> </a>
         <div class='reply_part'>
-          創建于 <%= topic.friendly_create_at %>
+          建立於 <%= topic.friendly_create_at %>
         </div>
       <% } %>
     </span>
