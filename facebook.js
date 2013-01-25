@@ -6,13 +6,14 @@ var fbGroupSync = require('facebook-group-sync');
 var models = require('./models');
 var Topic = models.Topic;
 var User = models.User;
+var config = require('./config').config;
 
 fbGroupSync.setConfig({
-  clientId: '393020914114844',
-  clientSecret: '1c7c96dbb4416f37d53a642b6de52892',
-  groupId: 'node.js.tw',
-  accessToken: '393020914114844|dIX28XdQz3rrd_GDvafcN3fhz_w', // 可以不給，程式會自己取得
-  frequency: 1000 // 預設是 3600000 (一小時)
+  clientId: config.facebook.api_key,
+  clientSecret: config.facebook.secret,
+  groupId: '262800543746083',
+  //accessToken: '', // 可以不給，程式會自己取得
+  frequency: 10000 // 預設是 3600000 (一小時)
 });
 
 function run(user) {
@@ -23,12 +24,12 @@ function run(user) {
       var message;
      
       if (post.message) {
-        title = post.message.length > 13 ? post.message.substr(0, 13) + '...' : post.message;
+        title = post.message.length > 46 ? post.message.substr(0, 43) + '...' : post.message;
         message = post.message;
       }
 
       if (post.story) {
-        title = post.story.length > 13 ? post.story.substr(0, 13) + '...' : post.story;
+        title = post.story.length > 46 ? post.story.substr(0, 43) + '...' : post.story;
         message = post.story;
       }
 
@@ -39,8 +40,8 @@ function run(user) {
       topic.title = title;
       topic.author_id = user._id;
       topic.content = message;
-      topic.created_at = post.created_time;
-      topic.update_at = post.update_time;
+      topic.last_reply_at = topic.create_at = new Date(post.created_time);
+      topic.update_at = new Date(post.updated_time);
       topic.facebook_id = post.id;
 
       topic.save(function (err, topic) {
