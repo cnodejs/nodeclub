@@ -7,7 +7,7 @@ var path = require('path');
 exports.config = {
   debug: true,
   name: 'Node.js Taiwan',
-  description: 'nodeJS 台灣社群，由一群熱心開發者聚集而成，主力在於蒐集及建立nodeJS 相關中文資訊，提供最佳的學習管道，讓更多人體會javascript 的好處。 nodeJS Taiwan group. We are a group of people who love nodejs. There are collect nodejs tutorial in Chinese about...',
+  description: 'nodeJS 台灣社群，由一群熱心開發者聚集而成，主力在於蒐集及建立nodeJS 相關中文資訊，提供最佳的學習管道，讓更多人體會javascript 的好處。<br /><br />nodeJS Taiwan group. We are a group of people who love nodejs. There are collect nodejs tutorial in Chinese about nodeJS.',
   version: '0.2.2',
   genSalt: 10,
     // site settings
@@ -41,7 +41,7 @@ exports.config = {
     title: 'Node.js Taiwan',
     link: 'http://nodejs.tw',
     language: 'zh-tw',
-    description: 'nodeJS 台灣社群，由一群熱心開發者聚集而成，主力在於蒐集及建立nodeJS 相關中文資訊，提供最佳的學習管道，讓更多人體會javascript 的好處。 nodeJS Taiwan group. We are a group of people who love nodejs. There are collect nodejs tutorial in Chinese about...',
+    description: 'nodeJS 台灣社群，由一群熱心開發者聚集而成，主力在於蒐集及建立nodeJS 相關中文資訊，提供最佳的學習管道，讓更多人體會javascript 的好處。 nodeJS Taiwan group. We are a group of people who love nodejs. There are collect nodejs tutorial in Chinese about nodeJS.',
 
     //最多获取的RSS Item数量
     max_rss_items: 50
