@@ -23,33 +23,19 @@
       <p><%= config.description %></p>
       <div class='sep10'></div>
       <div class='cen'>
-        <a href='/signup'><button class='btn'>現在注冊</button></a>
+        <a href='/signup'><button class='btn'>現在註冊</button></a>
         <div class='sep10'></div>
-        <span>已注冊用戶請<a class='light' href='/signin'> 登錄</a></span>
+        <span>已註冊用戶請<a class='light' href='/signin'> 登入</a></span>
       </div>
     </div>
     <% } %>
-  </div>
-
-  <div class='sep10'></div>
-  <div class=panel>
-    <div class='header'>
-      <!-- <img src='<%- config.site_static_host %>/images/tag_icon&16.png' title='標簽'/> -->
-      <!-- CNode社區宣傳通告 -->
-      <span class="index_notify">社區消息：
-    </div>
-    <div class='inner'>
-      <p><a href="/topic/4fa69d90bac222c3780576d8" target="_blank">如何獲得NodeAppEngine邀請碼?</a></p>
-      <p><a href="/topic/4f4d9f007f999acb7c00af57" target="_blank">如何獲得Node官方T-Shirt?</a> </p>
-      <p><a href="/topic/4f17948d9f40a8335200518e" target="_blank">如何加入CNode社區?</a></p>
-    </div>
   </div>
 
   <% if (locals.hot_tags) { %>
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>熱門標簽</span>
+      <span class='col_fade'>熱門標籤</span>
     </div>
     <div class='inner'>
       <% if (hot_tags.length > 0) { %>
@@ -83,7 +69,7 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>無人回復的話題</span>
+      <span class='col_fade'>無人回覆的話題</span>
     </div>
     <div class='inner'>
       <% if (no_reply_topics.length > 0) { %>
@@ -101,7 +87,7 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>相關站點</span>
+      <span class='col_fade'>相關站台</span>
     </div>
     <div class='inner'>
       <ul class='unstyled'>
@@ -137,7 +123,7 @@
   <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>社區達人</span> &nbsp;
+      <span class='col_fade'>社群達人</span> &nbsp;
       <a class='dark' href='/stars'>更多»</a>
     </div>
     <div class='inner'>
@@ -157,7 +143,7 @@
   <% if (config.side_ads && config.side_ads.length > 0) { %>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>友情社區 | 贊助商</span>
+      <span class='col_fade'>友情連結 | 贊助商</span>
     </div>
     <% config.side_ads.forEach(function (ad) { %>
     <div class='inner'>
