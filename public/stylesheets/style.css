@@ -38,23 +38,18 @@ body,p {
 
 #search_form {
         margin: 0;
-        height: 40px;
+        height: 33px;
+        padding: 7px 5px 0 5px;
         border: 1px rgba(255, 255, 255, 0.1) solid;
         border-top: none;
         border-bottom: none;
         box-shadow: -1px 0 1px rgba(0, 0, 0, 0.3), inset -1px 0 1px rgba(0, 0, 0, 0.3);
 }
 
-#search_form input {
-        height: 32px;
-        -moz-border-radius: 0;
-        -webkit-border-radius: 0;
-        border-radius: 0;
-        background: none;
-        padding: 4px 10px;
-        text-shadow: none;
-        color: #FFF;
-        line-height: 32px;
+#search_form input::-webkit-input-placeholder,
+#search_form input::-moz-input-placeholder,
+#search_form input::-ms-input-placeholder {
+        color: #666;
 }
 
 #announcement {
@@ -601,8 +596,8 @@ textarea[id^=wmd-input] {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  background: #d0d6db url('../images/search.png') no-repeat 4px 4px;
-  padding: 4px 5px 4px 22px;
+  background: #999 url('../images/search.png') no-repeat 4px 4px;
+  padding: 4px 5px 4px 24px !important;
   color: #666;
   border: 0px;
 }
@@ -612,7 +607,6 @@ textarea[id^=wmd-input] {
 }
 .navbar .search-query:focus, .navbar .search-query.focused {
   background-color: #fff;
-  padding: 4px 5px 4px 22px;
   color: #000;
 }
 .navbar .nav>li>a{
