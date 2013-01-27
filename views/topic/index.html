@@ -97,7 +97,7 @@
           <a href='/topic/<%= topic._id %>/top/1'><img class='user_icon' src='<%- config.site_static_host %>/images/star_fav_icon&16.png' title='置頂' /></a>
         <% } %>
         <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='編輯' /></a>
-        <a href='/topic/<%= topic._id %>/delete' class='delete_topic_btn'><img class='user_icon' src='<%- config.site_static_host %>/images/trash_icon&16.png' title='刪除' /></a>
+        <a href='javascript:;' data-id='<%= topic._id %>' class='delete_topic_btn'><img class='user_icon' src='<%- config.site_static_host %>/images/trash_icon&16.png' title='刪除' /></a>
         <% } else { %>
           <% if (current_user._id.toString() === topic.author_id.toString()) { %>
           <span class='sp10'></span>
@@ -138,7 +138,7 @@
               <div id='wmd-preview' class='wmd-preview reply-wmd-preview'></div>
             </div>
           </div>
-          <input type='hidden' name='_csrf' value='<%= csrf %>' />
+          <input type='hidden' name='_csrf' id='_csrf' value='<%= csrf %>' />
         </div>
         <div class='sep10'></div>
         <button id='submit_btn' class='btn'>回覆</button>
@@ -305,8 +305,15 @@
     });
 
     $('.delete_topic_btn').click(function() {
+      var topicId = $(this).data('id');
       if(confirm('確定要刪除此話題嗎？')) {
-        window.location.href = $(this).attr('href');
+        $.post('/topic/' + topicId + '/delete', { _csrf: $('#_csrf').val() }, function (result) {
+          if (!result.success) {
+            alert(result.message);
+          } else {
+            window.location.href = '/';
+          }
+        });
       }
       return false;
     });

@@ -696,33 +696,33 @@ exports.delete = function (req, res, next) {
   //刪除topic_tag，標簽topic_count減1
   //刪除topic_collect，用戶collect_topic_count減1
   if (!req.session.user || !req.session.user.is_admin) {
-    res.redirect('home');
-    return;
+    return res.send({ success: false, message: '無權限' });
   }
 
   var topic_id = req.params.tid;
   
   if (topic_id.length !== 24) {
-    res.render('notify/notify', {error: '此話題不存在或已被刪除。'});
+    res.send({success: false, message: '此話題不存在或已被刪除。'});
     return;
   }
 
   get_topic_by_id(topic_id, function (err, topic, tags, author) {
+    if (err) {
+      return res.send({ success: false, message: err.message });
+    }
+
     if (!topic) {
-      res.render('notify/notify', {error: '此話題不存在或已被刪除。'});
+      res.send({success: false, message: '此話題不存在或已被刪除。'});
       return;
     }
     var proxy = new EventProxy();
     var render;
     
-    render = function () {
-      res.render('notify/notify', {success: '話題已被刪除。'});
-      return;
-    };
-
-    proxy.assign('topic_removed', render);
     topic.remove(function (err) {
-      proxy.emit('topic_removed');
+      if (err) {
+        return res.send({ success: false, message: err.message });
+      }
+      res.send({success: true, message: '話題已被刪除。'});
     });
   });
 };
