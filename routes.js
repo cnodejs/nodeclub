@@ -80,6 +80,7 @@ module.exports = function (app) {
   // topic
   app.get('/topic/create', topic.create);
   app.get('/topic/:tid', topic.index);
+  app.get('/t/:slug', topic.index);
   app.get('/topic/:tid/top/:is_top?', topic.top);
   app.get('/topic/:tid/edit', topic.edit);
   app.post('/topic/:tid/delete', topic.delete);
@@ -87,6 +88,8 @@ module.exports = function (app) {
   app.post('/topic/:tid/edit', topic.edit);
   app.post('/topic/collect', topic.collect);
   app.post('/topic/de_collect', topic.de_collect);
+  
+  app.get('/a/:slug', topic.slug);
 
   // reply
   app.post('/:topic_id/reply', reply.add);

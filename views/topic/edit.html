@@ -88,6 +88,10 @@
         <% if (locals.current_user.is_admin) { %>
         <div class='sep10'></div>
         <div>
+          <label for="slug">自訂網址</label> <input type="text" name="slug" id="slug" value="<%= locals.slug || '' %>" />
+        </div>
+        <div class='sep10'></div>
+        <div>
           <label class='checkbok' for='announcement'><input type="checkbox" name="announcement" value="1"<% if(locals.announcement){ %> checked<% } %> />這是公告？</label>
         </div>
         <% } %>

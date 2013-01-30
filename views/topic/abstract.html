@@ -8,7 +8,7 @@
   <div class='topic_wrap'>
     <div class='title_wrap'>
       <!--<%- partial('tag/tag_in_abstract',{collection:topic.tags, as:'tag'}) %>-->
-      <a class='topic_title' href='/topic/<%= topic._id %>'>
+      <a class='topic_title' href='/t/<%= topic.slug %>'>
         <% if(topic.top){%>
           <span class='put_top'>置頂</span>
           <% } %>
@@ -16,7 +16,7 @@
       </a>
     </div>
     <% if (topic.reply_count > 0) { %>
-      <a class='count fr' href="/topic/<%= topic._id %>#reply<%= topic.reply_count %>"><%= topic.reply_count %></a>
+      <a class='count fr' href="/t/<%= topic.slug %>#reply<%= topic.reply_count %>"><%= topic.reply_count %></a>
     <% } %>
     <div class='sep10'></div>
     <div class='sep5'></div>

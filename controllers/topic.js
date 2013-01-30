@@ -95,7 +95,7 @@ function get_topic_by_id(id, cb) {
 }
 
 // get topic with replies
-function get_full_topic(id, cb) {
+function get_full_topic(query, cb) {
   var proxy = new EventProxy();
   var done;
   
@@ -105,7 +105,7 @@ function get_full_topic(id, cb) {
   
   proxy.assign('topic', 'tags', 'author', 'replies', done);
 
-  Topic.findOne({_id: id}, function (err, topic) {
+  Topic.findOne(query, function (err, topic) {
     if (err) {
       return cb(err);
     }
@@ -243,16 +243,10 @@ function get_announcements_count_by_query(query, cb) {
  * @param  {HttpResponse} res
  * @param  {Function} next
  */
-exports.index = function (req, res, next) {
-  var topic_id = req.params.tid;
+var index = exports.index = function (req, res, next) {
+  var query = req.params.slug ? {slug: req.params.slug} : {_id: req.params.tid};
   var events;
   var ep;
-
-  if (topic_id.length !== 24) {
-    return res.render('notify/notify', {
-      error: '此話題不存在或已被刪除。'
-    });
-  }
   
   events = [ 'topic', 'other_topics', 'no_reply_topics', 'get_relation', '@user'];
   ep = EventProxy.create(events, function (topic, other_topics, no_reply_topics, relation) {
@@ -282,7 +276,7 @@ exports.index = function (req, res, next) {
     });
   });
 
-  get_full_topic(topic_id, function (err, message, topic, tags, author, replies) {
+  get_full_topic(query, function (err, message, topic, tags, author, replies) {
     if (err) {
       return ep.emit('error', err);
     }
@@ -356,6 +350,7 @@ exports.create = function (req, res, next) {
   }
 
   var method = req.method.toLowerCase();
+  var slug;
   var title;
   var content;
   var topic_tags;
@@ -378,6 +373,7 @@ exports.create = function (req, res, next) {
 
   if (method === 'post') {
     title = sanitize(req.body.title).trim();
+    slug = sanitize(req.body.slug).trim();
     title = sanitize(title).xss();
     content = req.body.t_content;
     topic_tags = [];
@@ -399,7 +395,7 @@ exports.create = function (req, res, next) {
             }
           }
         }
-        res.render('topic/edit', {tags: tags, edit_error: '標題不能是空的。', content: content});
+        res.render('topic/edit', {tags: tags, edit_error: '標題不能是空的。', slug: slug, content: content});
         return;
       });
     } else if (title.length < 10 || title.length > 100) {
@@ -414,7 +410,7 @@ exports.create = function (req, res, next) {
             }
           }
         }
-        res.render('topic/edit', {tags: tags, edit_error: '標題字數太多或太少', title: title, content: content});
+        res.render('topic/edit', {tags: tags, edit_error: '標題字數太多或太少', slug: slug, title: title, content: content});
         return;
       });
     } else {
@@ -423,7 +419,7 @@ exports.create = function (req, res, next) {
       topic.content = content;
       topic.author_id = req.session.user._id;
       topic.announcement = announcement;
-      topic.save(function (err) {
+      topic.save(function (err, topic) {
         if (err) {
           return next(err);
         }
@@ -434,60 +430,67 @@ exports.create = function (req, res, next) {
         var i;
         var len;
 
-        render = function () {
-          res.redirect('/topic/' + topic._id);
-        };
+        topic.slug = slug || topic._id;
 
-        proxy.assign('tags_saved', 'score_saved', render);
-        //話題可以沒有標簽
-        if (topic_tags.length === 0) {
-          proxy.emit('tags_saved');
-        }
-        
-        tags_saved_done = function () {
-          proxy.emit('tags_saved');
-        };
-
-        proxy.after('tag_saved', topic_tags.length, tags_saved_done);
-        
-        //save topic tags 
-        
-        function inLoop(i) {
-          var topic_tag = new TopicTag();
-          topic_tag.topic_id = topic._id;
-          topic_tag.tag_id = topic_tags[i];
-          topic_tag.save(function (err) {
-            if (err) {
-              return next(err);
-            }
-            proxy.emit('tag_saved');
-          });
-          tag_ctrl.get_tag_by_id(topic_tags[i], function (err, tag) {
-            if (err) {
-              return next(err);
-            }
-            tag.topic_count += 1;
-            tag.save();
-          });
-        }
-        
-        for (i = 0, len = topic_tags.length; i < len; i += 1) {
-          inLoop(i);
-        }
-
-        user_ctrl.get_user_by_id(req.session.user._id, function (err, user) {
+        topic.save(function (err) {
           if (err) {
             return next(err);
           }
-          user.score += 5;
-          user.topic_count += 1;
-          user.save();
-          req.session.user.score += 5;
-          proxy.emit('score_saved');
-        });
+          render = function () {
+            res.redirect('/t/' + topic.slug);
+          };
 
-        //發送at消息
-        at_ctrl.send_at_message(content, topic._id, req.session.user._id);
+          proxy.assign('tags_saved', 'score_saved', render);
+          //話題可以沒有標簽
+          if (topic_tags.length === 0) {
+            proxy.emit('tags_saved');
+          }
+          
+          tags_saved_done = function () {
+            proxy.emit('tags_saved');
+          };
+
+          proxy.after('tag_saved', topic_tags.length, tags_saved_done);
+          
+          //save topic tags 
+          
+          function inLoop(i) {
+            var topic_tag = new TopicTag();
+            topic_tag.topic_id = topic._id;
+            topic_tag.tag_id = topic_tags[i];
+            topic_tag.save(function (err) {
+              if (err) {
+                return next(err);
+              }
+              proxy.emit('tag_saved');
+            });
+            tag_ctrl.get_tag_by_id(topic_tags[i], function (err, tag) {
+              if (err) {
+                return next(err);
+              }
+              tag.topic_count += 1;
+              tag.save();
+            });
+          }
+          
+          for (i = 0, len = topic_tags.length; i < len; i += 1) {
+            inLoop(i);
+          }
+
+          user_ctrl.get_user_by_id(req.session.user._id, function (err, user) {
+            if (err) {
+              return next(err);
+            }
+            user.score += 5;
+            user.topic_count += 1;
+            user.save();
+            req.session.user.score += 5;
+            proxy.emit('score_saved');
+          });
+
+          //發送at消息
+          at_ctrl.send_at_message(content, topic._id, req.session.user._id);
+        });
       });
     }
   }
@@ -529,7 +532,7 @@ exports.edit = function (req, res, next) {
             }
           }
 
-          res.render('topic/edit', {action: 'edit', topic_id: topic._id, title: topic.title, content: topic.content, tags: all_tags, announcement: topic.announcement});
+          res.render('topic/edit', {action: 'edit', slug: topic.slug, topic_id: topic._id, title: topic.title, content: topic.content, tags: all_tags, announcement: topic.announcement});
         });
       } else {
         res.render('notify/notify', {error: '對不起，你不能編輯此話題。'});
@@ -550,6 +553,7 @@ exports.edit = function (req, res, next) {
       }
       if (topic.author_id.toString() === req.session.user._id.toString() || req.session.user.is_admin) {
         var title = sanitize(req.body.title).trim();
+        var slug = sanitize(req.body.slug).trim();
         var content;
         var topic_tags;
         var announcement;
@@ -579,7 +583,7 @@ exports.edit = function (req, res, next) {
                 }
               }
             }
-            res.render('topic/edit', {action: 'edit', edit_error: '標題不能是空的。', topic_id: topic._id, content: content, tags: all_tags, announcement: topic.announcement});
+            res.render('topic/edit', {action: 'edit', edit_error: '標題不能是空的。', slug: slug, topic_id: topic._id, content: content, tags: all_tags, announcement: topic.announcement});
             return;
           });
         } else {
@@ -590,6 +594,7 @@ exports.edit = function (req, res, next) {
           topic.content = content;
           topic.update_at = new Date();
           topic.announcement = announcement;
+          topic.slug = slug || topic._id;
           
           topic.save(function (err) {
             if (err) {
@@ -604,7 +609,7 @@ exports.edit = function (req, res, next) {
             var len;
 
             render = function () {
-              res.redirect('/topic/' + topic._id);
+              res.redirect('/t/' + topic.slug);
             };
 
             proxy.assign('tags_removed_done', 'tags_saved_done', render);

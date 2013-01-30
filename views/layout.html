@@ -73,7 +73,7 @@
     <div id='wrapper'>
       <% if (locals.announcement) { %>
         <div class="container" id="announcement">
-                <div class="alert alert-error">最新公告：<a href="/topic/<%- locals.announcement._id %>"><%- locals.announcement.title %></a></div>
+                <div class="alert alert-error">最新公告：<a href="/t/<%- locals.announcement.slug %>"><%- locals.announcement.title %></a></div>
         </div>
       <% } %>
 

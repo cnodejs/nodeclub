@@ -8,6 +8,7 @@ var ObjectId = Schema.ObjectId;
 
 var TopicSchema = new Schema({
   title: { type: String },
+  slug: { type: String, unique: true },
   content: { type: String },
   author_id: { type: ObjectId },
   top: { type: Boolean, default: false },
