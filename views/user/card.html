@@ -14,6 +14,7 @@
 		<% } %>
 
 		<div class='board cl'>
+      <% if (locals.current_user && current_user._id == user._id) { %>
 			<div class='floor'>
 				<a href='/my/tags/'><span class='big'><%= user.collect_tag_count %></span> 標簽收藏</a> &nbsp; &nbsp; 
 				<a href='/my/topics'><span class='big'><%= user.collect_topic_count %></span> 話題收藏</a>
@@ -23,6 +24,13 @@
 				<a href='/my/follower'><span class='big'><%= user.follower_count %></span> 粉絲</a> &nbsp; &nbsp;
 				<span class='big'><%= user.score %></span> 積分
 			</div>
+      <% } else { %>
+			<div class='floor'>
+				<span class='big'><%= user.following_count %></span> 關注 &nbsp; &nbsp;
+				<span class='big'><%= user.follower_count %></span> 粉絲 &nbsp; &nbsp;
+				<span class='big'><%= user.score %></span> 積分
+			</div>
+      <% } %>
 
 			<% if (user.messages_count > 0) { %>
 			<div class='floor'>
