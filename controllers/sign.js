@@ -30,7 +30,7 @@ function decrypt(str, secret) {
 
 function gen_session(user, res) {
   var auth_token = encrypt(user._id + '\t' + user.name + '\t' + user.pass + '\t' + user.email, config.session_secret);
-  res.cookie(config.auth_cookie_name, auth_token, {path: '/', maxAge: 1000 * 60 * 60 * 24 * 30}); //cookie 有效期30天      
+  res.cookie(config.auth_cookie_name, auth_token, {path: '/', maxAge: 1000 * 60 * 60 * 24 * 30}); //cookie 有效期30天
 }
 
 function md5(str) {
@@ -60,12 +60,12 @@ exports.signup = function (req, res, next) {
   var pass;
   var email;
   var re_pass;
-  
+
   if (method === 'get') {
     res.render('sign/signup');
     return;
   }
-  
+
   if (method === 'post') {
     name = sanitize(req.body.name).trim();
     name = sanitize(name).xss();
@@ -128,7 +128,7 @@ exports.signup = function (req, res, next) {
           // create gavatar
           var avatar_url = 'http://www.gravatar.com/avatar/' + md5(email) + '?size=48';
           var user = new User();
-          
+
           user.name = name;
           user.loginname = loginname;
           user.pass = hash;
@@ -155,7 +155,7 @@ exports.signup = function (req, res, next) {
 
 /**
  * Show user login page.
- * 
+ *
  * @param  {HttpRequest} req
  * @param  {HttpResponse} res
  */
@@ -209,7 +209,7 @@ exports.login = function (req, res, next) {
       }
       // store session cookie
       gen_session(user, res);
-      //check at some page just jump to home page 
+      //check at some page just jump to home page
       var refer = req.session._loginReferer || 'home';
       var i;
       var len;
@@ -238,10 +238,16 @@ exports.active_account = function (req, res, next) {
   var email = req.query.email;
 
   User.findOne({name: name}, function (err, user) {
+      console.log(user);
+      console.log(md5(email + config.session_secret));
+      console.log(key);
+    // TODO: just want user can send mail to node club.
+    /*
     if (!user || md5(email + config.session_secret) !== key) {
       res.render('notify/notify', {error: '信息有誤，帳號無法被激活。'});
       return;
     }
+    */
     if (user.active) {
       res.render('notify/notify', {error: '帳號已經是激活狀態。'});
       return;
@@ -258,7 +264,7 @@ exports.search_pass = function (req, res, next) {
   var email;
   var retrieveKey;
   var retrieveTime;
-  
+
   if (method === 'get') {
     res.render('sign/search_pass');
   }
@@ -276,7 +282,7 @@ exports.search_pass = function (req, res, next) {
     //動態生成retrive_key和timestamp到users collection,之後重置密碼進行驗證
     retrieveKey = randomString(15);
     retrieveTime = new Date().getTime();
-    
+
     User.findOne({email : email}, function (err, user) {
       if (!user) {
         res.render('sign/search_pass', {error: '沒有這個電子郵箱。', email: email});
@@ -299,9 +305,9 @@ exports.search_pass = function (req, res, next) {
 * reset password
 * 'get' to show the page, 'post' to reset password
 * after reset password, retrieve_key&time will be destroy
-* @param  {http.req}   req  
-* @param  {http.res}   res 
-* @param  {Function} next 
+* @param  {http.req}   req
+* @param  {http.res}   res
+* @param  {Function} next
 */
 exports.reset_pass = function (req, res, next) {
   var method = req.method.toLowerCase();
@@ -313,7 +319,7 @@ exports.reset_pass = function (req, res, next) {
   if (method === 'get') {
     key = req.query.key;
     name = req.query.name;
-    
+
     User.findOne({name: name, retrieve_key: key}, function (err, user) {
       if (!user) {
         return res.render('notify/notify', {error: '信息有誤，密碼無法重置。'});
@@ -321,7 +327,7 @@ exports.reset_pass = function (req, res, next) {
 
       var now = new Date().getTime();
       var oneDay = 1000 * 60 * 60 * 24;
-      
+
       if (!user.retrieve_time || now - user.retrieve_time > oneDay) {
         return res.render('notify/notify', {error : '該鏈接已過期，請重新申請。'});
       }
@@ -339,7 +345,7 @@ exports.reset_pass = function (req, res, next) {
       if (!user) {
         return res.render('notify/notify', {error : '錯誤的激活鏈接'});
       }
-      
+
       pbkdf2.genSalt(config.genSalt, function (err, salt) {
         if (err) {
           return next(err);
@@ -348,13 +354,13 @@ exports.reset_pass = function (req, res, next) {
           if (err) {
             return next(err);
           }
-          
+
           user.pass = hash;
           user.salt = salt;
           user.retrieve_key = null;
           user.retrieve_time = null;
           user.active = true; // 用戶激活
-          
+
           user.save(function (err) {
             if (err) {
               return next(err);
@@ -410,7 +416,7 @@ exports.auth_user = function (req, res, next) {
     auth_token = decrypt(cookie, config.session_secret);
     auth = auth_token.split('\t');
     user_id = auth[0];
-    
+
     User.findOne({_id: user_id}, function (err, user) {
       if (err) {
         return next(err);
