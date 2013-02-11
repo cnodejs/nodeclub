@@ -553,7 +553,7 @@ exports.edit = function (req, res, next) {
       }
       if (topic.author_id.toString() === req.session.user._id.toString() || req.session.user.is_admin) {
         var title = sanitize(req.body.title).trim();
-        var slug = sanitize(req.body.slug).trim();
+        var slug = req.body.slug ? sanitize(req.body.slug).trim() : '';
         var content;
         var topic_tags;
         var announcement;
@@ -594,7 +594,7 @@ exports.edit = function (req, res, next) {
           topic.content = content;
           topic.update_at = new Date();
           topic.announcement = announcement;
-          topic.slug = slug || topic._id;
+          topic.slug = (slug === '') ? topic._id : slug;
 
           topic.save(function (err) {
             if (err) {
