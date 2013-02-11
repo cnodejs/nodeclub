@@ -30,11 +30,11 @@ var Util = require('../libs/util');
 function get_topic_by_id(id, cb) {
   var proxy = new EventProxy();
   var done;
-  
+
   done = function (topic, tags, author, last_reply) {
     return cb(null, topic, tags, author, last_reply);
   };
-  
+
   proxy.assign('topic', 'tags', 'author', 'last_reply', done);
 
   Topic.findOne({_id: id}, function (err, topic) {
@@ -58,7 +58,7 @@ function get_topic_by_id(id, cb) {
       var tags_id = [];
       var i;
       var len;
-      
+
       for (i = 0, len = topic_tags.length; i < len; i += 1) {
         tags_id.push(topic_tags[i].tag_id);
       }
@@ -98,11 +98,11 @@ function get_topic_by_id(id, cb) {
 function get_full_topic(query, cb) {
   var proxy = new EventProxy();
   var done;
-  
+
   done = function (topic, tags, author, replies) {
     return cb(null, '', topic, tags, author, replies);
   };
-  
+
   proxy.assign('topic', 'tags', 'author', 'replies', done);
 
   Topic.findOne(query, function (err, topic) {
@@ -123,11 +123,11 @@ function get_full_topic(query, cb) {
       var tags_id = [];
       var i;
       var len;
-      
+
       for (i = 0, len = topic_tags.length; i < len; i += 1) {
         tags_id.push(topic_tags[i].tag_id);
       }
-      
+
       tag_ctrl.get_tags_by_ids(tags_id, function (err, tags) {
         if (err) {
           return cb(err);
@@ -178,15 +178,15 @@ function get_topics(query, opt, cb) {
     }
 
     proxy = new EventProxy();
-    
+
     done = function () {
       return cb(null, topics);
     };
-    
+
     topics = [];
-    
+
     proxy.after('topic_ready', topics_id.length, done);
-    
+
     function inLoop(i) {
       get_topic_by_id(topics_id[i], function (err, topic, tags, author, last_reply) {
         if (err) {
@@ -238,7 +238,7 @@ function get_announcements_count_by_query(query, cb) {
 
 /**
  * Topic page
- * 
+ *
  * @param  {HttpRequest} req
  * @param  {HttpResponse} res
  * @param  {Function} next
@@ -247,7 +247,7 @@ var index = exports.index = function (req, res, next) {
   var query = req.params.slug ? {slug: req.params.slug} : {_id: req.params.tid};
   var events;
   var ep;
-  
+
   events = [ 'topic', 'other_topics', 'no_reply_topics', 'get_relation', '@user'];
   ep = EventProxy.create(events, function (topic, other_topics, no_reply_topics, relation) {
     res.render('topic/index', {
@@ -324,7 +324,7 @@ var index = exports.index = function (req, res, next) {
     var options = { limit: 5, sort: [ [ 'last_reply_at', 'desc' ] ]};
     var query = { author_id: topic.author_id, _id: { '$nin': [ topic._id ] } };
     var options2;
-    
+
     get_topics_by_query(query, options, function (err, topics) {
       if (err) {
         return ep.emit('error', err);
@@ -360,7 +360,7 @@ exports.create = function (req, res, next) {
   var len;
   var j;
   var lenj;
-  
+
   if (method === 'get') {
     tag_ctrl.get_all_tags(function (err, tags) {
       if (err) {
@@ -373,12 +373,12 @@ exports.create = function (req, res, next) {
 
   if (method === 'post') {
     title = sanitize(req.body.title).trim();
-    slug = sanitize(req.body.slug).trim();
+    slug = req.body.slug ? sanitize(req.body.slug).trim() : '';
     title = sanitize(title).xss();
     content = req.body.t_content;
     topic_tags = [];
     announcement = req.session.user.is_admin ? req.body.announcement === '1' : false;
-    
+
     if (req.body.topic_tags !== '') {
       topic_tags = req.body.topic_tags.split(',');
     }
@@ -430,7 +430,7 @@ exports.create = function (req, res, next) {
         var i;
         var len;
 
-        topic.slug = slug || topic._id;
+        topic.slug = (slug === '') ? slug : topic._id;
 
         topic.save(function (err) {
           if (err) {
@@ -445,15 +445,15 @@ exports.create = function (req, res, next) {
           if (topic_tags.length === 0) {
             proxy.emit('tags_saved');
           }
-          
+
           tags_saved_done = function () {
             proxy.emit('tags_saved');
           };
 
           proxy.after('tag_saved', topic_tags.length, tags_saved_done);
-          
-          //save topic tags 
-          
+
+          //save topic tags
+
           function inLoop(i) {
             var topic_tag = new TopicTag();
             topic_tag.topic_id = topic._id;
@@ -472,7 +472,7 @@ exports.create = function (req, res, next) {
               tag.save();
             });
           }
-          
+
           for (i = 0, len = topic_tags.length; i < len; i += 1) {
             inLoop(i);
           }
@@ -504,7 +504,7 @@ exports.edit = function (req, res, next) {
 
   var topic_id = req.params.tid;
   var method = req.method.toLowerCase();
-  
+
   if (method === 'get') {
     if (topic_id.length !== 24) {
       res.render('notify/notify', {error: '此話題不存在或已被刪除。'});
@@ -515,7 +515,7 @@ exports.edit = function (req, res, next) {
         res.render('notify/notify', {error: '此話題不存在或已被刪除。'});
         return;
       }
-      
+
       if (topic.author_id.toString() === req.session.user._id.toString() || req.session.user.is_admin) {
         tag_ctrl.get_all_tags(function (err, all_tags) {
           if (err) {
@@ -523,7 +523,7 @@ exports.edit = function (req, res, next) {
           }
 
           var i, len, j, lenj;
-          
+
           for (i = 0, len = tags.length; i < len; i += 1) {
             for (j = 0, lenj = all_tags.length; j < lenj; j += 1) {
               if (tags[i].id === all_tags[j].id) {
@@ -566,7 +566,7 @@ exports.edit = function (req, res, next) {
         content = req.body.t_content;
         topic_tags = [];
         announcement = req.session.user.is_admin ? req.body.announcement === '1' : false;
-        
+
         if (req.body.topic_tags !== '') {
           topic_tags = req.body.topic_tags.split(',');
         }
@@ -589,13 +589,13 @@ exports.edit = function (req, res, next) {
         } else {
           //保存話題
           //刪除topic_tag，標簽topic_count減1
-          //保存新topic_tag  
+          //保存新topic_tag
           topic.title = title;
           topic.content = content;
           topic.update_at = new Date();
           topic.announcement = announcement;
           topic.slug = slug || topic._id;
-          
+
           topic.save(function (err) {
             if (err) {
               return next(err);
@@ -618,9 +618,9 @@ exports.edit = function (req, res, next) {
             tags_removed_done = function () {
               proxy.emit('tags_removed_done');
             };
-            
+
             TopicTag.find({topic_id: topic._id}, function (err, docs) {
-                
+
               function inLoop(i) {
                 docs[i].remove(function (err) {
                   if (err) {
@@ -677,7 +677,7 @@ exports.edit = function (req, res, next) {
               proxy.emit('tags_saved_done');
             } else {
               proxy.after('tag_saved', topic_tags.length, tags_saved_done);
-              //save topic tags 
+              //save topic tags
               for (i = 0, len = topic_tags.length; i < len; i += 1) {
                 inLoop(i);
               }
@@ -705,7 +705,7 @@ exports.delete = function (req, res, next) {
   }
 
   var topic_id = req.params.tid;
-  
+
   if (topic_id.length !== 24) {
     res.send({success: false, message: '此話題不存在或已被刪除。'});
     return;
@@ -722,7 +722,7 @@ exports.delete = function (req, res, next) {
     }
     var proxy = new EventProxy();
     var render;
-    
+
     topic.remove(function (err) {
       if (err) {
         return res.send({ success: false, message: err.message });
@@ -737,10 +737,10 @@ exports.top = function (req, res, next) {
     res.redirect('home');
     return;
   }
-  
+
   var topic_id = req.params.tid;
   var is_top = req.params.is_top;
-  
+
   if (topic_id.length !== 24) {
     res.render('notify/notify', {error: '此話題不存在或已被刪除。'});
     return;
@@ -754,7 +754,7 @@ exports.top = function (req, res, next) {
     topic.top = is_top;
     var proxy = new EventProxy();
     var render;
-    
+
     render = function () {
       var msg = topic.top ? '此話題已經被置頂。' : '此話題已經被取消置頂。';
       res.render('notify/notify', {success: msg});
