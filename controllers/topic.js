@@ -430,7 +430,7 @@ exports.create = function (req, res, next) {
         var i;
         var len;
 
-        topic.slug = (slug === '') ? slug : topic._id;
+        topic.slug = (slug === '') ? topic._id : slug;
 
         topic.save(function (err) {
           if (err) {
