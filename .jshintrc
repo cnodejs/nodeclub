@@ -39,5 +39,6 @@
   "indent": 2,
   "expr": true,
   "multistr": true,
-  "onevar": false
+  "onevar": false,
+  "unused": true
 }

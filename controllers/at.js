@@ -12,8 +12,7 @@
 var models = require('../models');
 var User = models.User;
 var Message = require('./message');
-var EventProxy = require('eventproxy').EventProxy;
-
+var EventProxy = require('eventproxy');
 
 function searchUsers(text, callback) {
   var results = text.match(/@[a-zA-Z0-9]+/ig);
@@ -34,25 +33,18 @@ function searchUsers(text, callback) {
 }
 
 function sendMessageToMentionUsers(text, topicId, authorId, callback) {
+  callback = callback || function () {};
   searchUsers(text, function (err, users) {
     if (err || !users || users.length === 0) {
-      return callback && callback(err);
+      return callback(err);
     }
     var ep = EventProxy.create();
     ep.after('sent', users.length, function () {
-      callback && callback();
+      callback();
     });
-    ep.once('error', function (err) {
-      ep.unbind();
-      callback && callback(err);
-    });
+    ep.fail(callback);
     users.forEach(function (user) {
-      Message.send_at_message(user._id, authorId, topicId, function (err) {
-        if (err) {
-          return ep.emit('error', err);
-        }
-        ep.emit('sent');
-      });
+      Message.send_at_message(user._id, authorId, topicId, ep.done('sent'));
     });
   }); 
 }
@@ -66,7 +58,7 @@ function linkUsers(text, callback) {
       var name = users[i].name;
       text = text.replace(new RegExp('@' + name, 'gmi'), '@[' + name + '](/user/' + name + ')');
     }
-    return callback(err, text);
+    return callback(null, text);
   });
 }
 
