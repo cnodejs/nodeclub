@@ -62,36 +62,38 @@ if (req.body && req.body.user_action === 'upload_image') return next();
 
 从现在开始，所有提交都要严格遵循[代码规范](https://github.com/windyrobin/iFrame/blob/master/style.md)。
 
-## Authors
+## Contributors
 
 Below is the output from `git-summary`.
 
 ```
- project: nodeclub
- commits: 201
- active : 81 days
- files  : 267
- authors: 
-    94  fengmk2                 46.8%
-    20  Jackson Tian            10.0%
-    15  dead-horse              7.5%
-    13  jiyinyiyong             6.5%
-    10  Kenny Zhao              5.0%
-     9  muyuan                  4.5%
-     7  young40                 3.5%
-     6  aisk                    3.0%
-     6  Lei Zongmin             3.0%
-     5  ericzhang               2.5%
-     4  spout                   2.0%
-     3  Json Shen               1.5%
-     2  chang                   1.0%
-     1  张洋                  0.5%
-     1  LeToNode                0.5%
-     1  leizongmin              0.5%
-     1  roymax                  0.5%
-     1  sunwenchao              0.5%
-     1  thebrecht               0.5%
-     1  Xiang Gao               0.5%
+ project  : nodeclub
+ repo age : 1 year
+ active   : 100 days
+ commits  : 244
+ files    : 268
+ authors  : 
+   114  fengmk2                 46.7%
+    30  dead-horse              12.3%
+    20  Jackson Tian            8.2%
+    16  jiyinyiyong             6.6%
+    10  Kenny Zhao              4.1%
+     9  Lei Zongmin             3.7%
+     9  muyuan                  3.7%
+     7  young40                 2.9%
+     6  aisk                    2.5%
+     5  ericzhang               2.0%
+     4  spout                   1.6%
+     3  Json Shen               1.2%
+     2  Cong Ding               0.8%
+     2  chang                   0.8%
+     1  sunwenchao              0.4%
+     1  roymax                  0.4%
+     1  Xiang Gao               0.4%
+     1  leizongmin              0.4%
+     1  thebrecht               0.4%
+     1  LeToNode                0.4%
+     1  张洋                    0.4%
 ```
 
 ## License
