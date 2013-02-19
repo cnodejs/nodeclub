@@ -18,7 +18,7 @@ var at_ctrl = require('./at');
 var tag_ctrl = require('./tag');
 var user_ctrl = require('./user');
 var reply_ctrl = require('./reply');
-var EventProxy = require('eventproxy').EventProxy;
+var EventProxy = require('eventproxy');
 var Showdown = require('../public/libs/showdown');
 var Util = require('../libs/util');
 
@@ -36,7 +36,7 @@ exports.index = function (req, res, next) {
       error: '此话题不存在或已被删除。'
     });
   }
-  var events = [ 'topic', 'other_topics', 'no_reply_topics', 'get_relation', '@user'];
+  var events = ['topic', 'other_topics', 'no_reply_topics', 'get_relation', '@user'];
   var ep = EventProxy.create(events, function (topic, other_topics, no_reply_topics, relation) {
     res.render('topic/index', {
       topic: topic,
