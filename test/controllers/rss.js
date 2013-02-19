@@ -51,25 +51,25 @@ describe('controllers/rss.js', function () {
       });
     });
 
-    describe('mock `topic.get_topics_by_query()` error', function () {
-      var topic = require('../../controllers/topic');
-      var get_topics_by_query = topic.get_topics_by_query;
+    describe('mock `topic.getTopicsByQuery()` error', function () {
+      var topic = require('../../proxy').Topic;
+      var getTopicsByQuery = topic.getTopicsByQuery;
       before(function () {
-        topic.get_topics_by_query = function () {
+        topic.getTopicsByQuery = function () {
           var callback = arguments[arguments.length - 1];
           process.nextTick(function () {
-            callback(new Error('mock get_topics_by_query() error'));
+            callback(new Error('mock getTopicsByQuery() error'));
           });
         };
       });
       after(function () {
-        topic.get_topics_by_query = get_topics_by_query;
+        topic.getTopicsByQuery = getTopicsByQuery;
       });
 
       it('should return error', function (done) {
         app.request().get('/rss').end(function (res) {
           res.should.status(500);
-          res.body.toString().should.include('mock get_topics_by_query() error');
+          res.body.toString().should.include('mock getTopicsByQuery() error');
           done();
         });
       });
