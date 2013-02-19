@@ -83,7 +83,7 @@ exports.signup = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        mail_ctrl.send_active_mail(email, md5(email + config.session_secret), name, email, function (err, success) {
+        mail_ctrl.sendActiveMail(email, md5(email + config.session_secret), name, email, function (err, success) {
           // TODO: 未发送成功的没有处理
           if (success) {
             res.render('sign/signup', {success: '欢迎加入 ' + config.name + '！我们已给您的注册邮箱发送了一封邮件，请点击里面的链接来激活您的帐号。'});
@@ -220,7 +220,7 @@ exports.search_pass = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        mail_ctrl.send_reset_pass_mail(email, retrieveKey, user.name, function (err, success) {
+        mail_ctrl.sendResetPassMail(email, retrieveKey, user.name, function (err, success) {
           res.render('notify/notify', {success: '我们已给您填写的电子邮箱发送了一封邮件，请在24小时内点击里面的链接来重置密码。'});
         });
       });
@@ -291,12 +291,12 @@ function getAvatarURL(user) {
 }
 
 // auth_user middleware
-exports.auth_user = function(req, res, next) {
+exports.auth_user = function (req, res, next) {
   if (req.session.user) {
     if (config.admins[req.session.user.name]) {
       req.session.user.is_admin = true;
     }
-    message_ctrl.get_messages_count(req.session.user._id, function (err, count) {
+    message_ctrl.getMessagesCount(req.session.user._id, function (err, count) {
       if (err) {
         return next(err);
       }
@@ -324,7 +324,7 @@ exports.auth_user = function(req, res, next) {
         if (config.admins[user.name]) {
           user.is_admin = true;
         }
-        message_ctrl.get_messages_count(user._id, function (err, count) {
+        message_ctrl.getMessagesCount(user._id, function (err, count) {
           if (err) {
             return next(err);
           }
@@ -372,8 +372,8 @@ function randomString(size) {
   var code_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   var max_num = code_string.length + 1;
   var new_pass = '';
-  while(size>0){
-    new_pass += code_string.charAt(Math.floor(Math.random()* max_num));
+  while (size > 0) {
+    new_pass += code_string.charAt(Math.floor(Math.random() * max_num));
     size--;
   }
   return new_pass;

@@ -10,7 +10,6 @@
 var rewire = require("rewire");
 var should = require('should');
 var Message = require('../../controllers/message');
-var config = require('../../config').config;
 var createUsers = require('../support/create_test_users').createUsers;
 
 describe('controllers/at.js', function () {
@@ -54,7 +53,7 @@ describe('controllers/at.js', function () {
     });
 
     it('should found 0 user in db', function (done) {
-      searchUsers('@testuser123 @suqian2012 @ testuser1 no users match in db @ @@@@ @ @@@', 
+      searchUsers('@testuser123 @suqian2012 @ testuser1 no users match in db @ @@@@ @ @@@',
       function (err, users) {
         should.not.exist(err);
         should.exist(users);
@@ -100,7 +99,7 @@ describe('controllers/at.js', function () {
   describe('sendMessageToMentionUsers()', function () {
     var mentionUser = rewire('../../controllers/at');
     it('should send message to all mention users', function (done) {
-      mentionUser.sendMessageToMentionUsers(text, '4fb9db9c1dc2160000000005', '4fcae41e1eb86c0000000003', 
+      mentionUser.sendMessageToMentionUsers(text, '4fb9db9c1dc2160000000005', '4fcae41e1eb86c0000000003',
       function (err) {
         should.not.exist(err);
         done();
@@ -108,31 +107,31 @@ describe('controllers/at.js', function () {
     });
 
     it('should not send message to no mention users', function (done) {
-      mentionUser.sendMessageToMentionUsers('abc no mentions', '4fb9db9c1dc2160000000005', '4fcae41e1eb86c0000000003', 
+      mentionUser.sendMessageToMentionUsers('abc no mentions', '4fb9db9c1dc2160000000005', '4fcae41e1eb86c0000000003',
       function (err) {
         should.not.exist(err);
         done();
       });
     });
 
-    describe('mock Message.send_at_message() error', function () {
-      var send_at_message = Message.send_at_message;
+    describe('mock Message.sendAtMessage() error', function () {
+      var sendAtMessage = Message.sendAtMessage;
       before(function () {
-        Message.send_at_message = function () {
+        Message.sendAtMessage = function () {
           var callback = arguments[arguments.length - 1];
           process.nextTick(function () {
-            callback(new Error('mock send_at_message() error'));
+            callback(new Error('mock sendAtMessage() error'));
           });
         };
       });
       after(function () {
-        Message.send_at_message = send_at_message;
+        Message.sendAtMessage = sendAtMessage;
       });
       it('should return error', function (done) {
-        mentionUser.sendMessageToMentionUsers(text, '4fb9db9c1dc2160000000005', '4fcae41e1eb86c0000000003', 
+        mentionUser.sendMessageToMentionUsers(text, '4fb9db9c1dc2160000000005', '4fcae41e1eb86c0000000003',
         function (err) {
           should.exist(err);
-          err.message.should.equal('mock send_at_message() error');
+          err.message.should.equal('mock sendAtMessage() error');
           done();
         });
       });

@@ -26,7 +26,7 @@ exports.list_topic = function (req, res, next) {
       var query = {'_id': {'$in': topic_ids}};
       var opt = {skip: (page - 1) * limit, limit: limit, sort: [['create_at', 'desc']]};
 
-      topic_ctrl.get_topics_by_query(query, opt, function (err, topics) {
+      topic_ctrl.getTopicsByQuery(query, opt, function (err, topics) {
         for (var i = 0; i < topics.length; i++) {
           for (var j = 0; j < topics[i].tags.length; j++) {
             if (topics[i].tags[j].id === tag.id) {
@@ -63,7 +63,7 @@ exports.list_topic = function (req, res, next) {
       }
       proxy.emit('topic_ids', topic_ids);
 
-      topic_ctrl.get_count_by_query({'_id': {'$in': topic_ids}}, proxy.done(function (all_topics_count) {
+      topic_ctrl.getCountByQuery({'_id': {'$in': topic_ids}}, proxy.done(function (all_topics_count) {
         var pages = Math.ceil(all_topics_count / limit);
         proxy.emit('pages', pages);
       }));
@@ -76,10 +76,10 @@ exports.list_topic = function (req, res, next) {
     }
 
     var opt = {limit: 5, sort: [['visit_count', 'desc']]};
-    topic_ctrl.get_topics_by_query({}, opt, proxy.done('hot_topics'));
+    topic_ctrl.getTopicsByQuery({}, opt, proxy.done('hot_topics'));
 
     opt = {limit: 5, sort: [['create_at', 'desc']]};
-    topic_ctrl.get_topics_by_query({reply_count: 0}, opt, proxy.done('no_reply_topics'));
+    topic_ctrl.getTopicsByQuery({reply_count: 0}, opt, proxy.done('no_reply_topics'));
   });
 };
 
@@ -92,7 +92,7 @@ exports.edit_tags = function (req, res, next) {
     res.render('notify/notify', {error: '管理员才能编辑标签。'});
     return;
   }
-  get_all_tags(function (err, tags) {
+  exports.getAllTags(function (err, tags) {
     if (err) {
       return next(err);
     }
@@ -165,7 +165,7 @@ exports.edit = function (req, res, next) {
     // TODO: 换用app.get/app.post
     var method = req.method.toLowerCase();
     if (method === 'get') {
-      get_all_tags(function (err, tags) {
+      exports.getAllTags(function (err, tags) {
         if (err) {
           return next(err);
         }
@@ -263,7 +263,7 @@ exports.collect = function (req, res, next) {
           return next(err);
         }
         //用户更新collect_tag_count
-        user_ctrl.get_user_by_id(req.session.user._id, function (err, user) {
+        user_ctrl.getUserById(req.session.user._id, function (err, user) {
           if (err) {
             return next(err);
           }
@@ -299,7 +299,7 @@ exports.de_collect = function (req, res, next) {
         return next(err);
       }
       //用户更新collect_tag_count
-      user_ctrl.get_user_by_id(req.session.user._id, function (err, user) {
+      user_ctrl.getUserById(req.session.user._id, function (err, user) {
         if (err) {
           return next(err);
         }
@@ -314,23 +314,13 @@ exports.de_collect = function (req, res, next) {
   });
 };
 
-function get_all_tags(callback) {
+exports.getAllTags = function (callback) {
   Tag.find({}, [], {sort: [['order', 'asc']]}, callback);
-}
-function get_tag_by_name(name, callback) {
-  Tag.findOne({name: name}, callback);
-}
-function get_tag_by_id(id, callback) {
+};
+
+exports.getTagById = function (id, callback) {
   Tag.findOne({_id: id}, callback);
-}
-function get_tags_by_ids(ids, callback) {
+};
+exports.getTagsByIds = function (ids, callback) {
   Tag.find({_id: {'$in': ids}}, callback);
-}
-function get_tags_by_query(query, opt, callback) {
-  Tag.find(query, [], opt, callback);
-}
-exports.get_all_tags = get_all_tags;
-exports.get_tag_by_name = get_tag_by_name;
-exports.get_tag_by_id = get_tag_by_id;
-exports.get_tags_by_ids = get_tags_by_ids;
-exports.get_tags_by_query = get_tags_by_query;
+};

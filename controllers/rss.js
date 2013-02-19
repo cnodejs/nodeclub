@@ -11,7 +11,7 @@ exports.index = function (req, res, next) {
   }
   var opt = { limit: config.rss.max_rss_items, sort: [ [ 'create_at', 'desc' ] ] };
 
-  topic_ctrl.get_topics_by_query({}, opt, function (err, topics) {
+  topic_ctrl.getTopicsByQuery({}, opt, function (err, topics) {
     if (err) {
       return next(err);
     }

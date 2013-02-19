@@ -47,7 +47,7 @@ exports.index = function (req, res, next) {
     };
     proxy.after('message_ready', message_ids.length, render);
     message_ids.forEach(function (id, i) {
-      get_message_by_id(id, function (err, message) {
+      getMessageById(id, function (err, message) {
         if (err) {
           return next(err);
         }
@@ -111,73 +111,73 @@ exports.mark_all_read = function (req, res, next) {
   });
 };
 
-function send_reply_message(master_id, author_id, topic_id) {
+exports.sendReplyMessage = function (master_id, author_id, topic_id) {
   var message = new Message();
   message.type = 'reply';
   message.master_id = master_id;
   message.author_id = author_id;
   message.topic_id = topic_id;
   message.save(function (err) {
-    user_ctrl.get_user_by_id(master_id, function (err, master) {
+    user_ctrl.getUserById(master_id, function (err, master) {
       if (master && master.receive_reply_mail) {
         message.has_read = true;
         message.save();
-        get_message_by_id(message._id, function (err, msg) {
-          mail_ctrl.send_reply_mail(master.email, msg);
+        getMessageById(message._id, function (err, msg) {
+          mail_ctrl.sendReplyMail(master.email, msg);
         });
       }
     });
   });
-}
+};
 
-function send_reply2_message(master_id, author_id, topic_id) {
+exports.sendReply2Message = function (master_id, author_id, topic_id) {
   var message = new Message();
   message.type = 'reply2';
   message.master_id = master_id;
   message.author_id = author_id;
   message.topic_id = topic_id;
   message.save(function (err) {
-    user_ctrl.get_user_by_id(master_id, function (err, master) {
+    user_ctrl.getUserById(master_id, function (err, master) {
       if (master && master.receive_reply_mail) {
         message.has_read = true;
         message.save();
-        get_message_by_id(message._id, function (err, msg) {
-          mail_ctrl.send_reply_mail(master.email, msg);
+        getMessageById(message._id, function (err, msg) {
+          mail_ctrl.sendReplyMail(master.email, msg);
         });
       }
     });
   });
-}
+};
 
-function send_at_message(master_id, author_id, topic_id, callback) {
+exports.sendAtMessage = function (master_id, author_id, topic_id, callback) {
   var message = new Message();
   message.type = 'at';
   message.master_id = master_id;
   message.author_id = author_id;
   message.topic_id = topic_id;
   message.save(function (err) {
-    user_ctrl.get_user_by_id(master_id, function (err, master) {
+    user_ctrl.getUserById(master_id, function (err, master) {
       if (master && master.receive_at_mail) {
         message.has_read = true;
         message.save();
-        get_message_by_id(message._id, function (err, msg) {
-          mail_ctrl.send_at_mail(master.email, msg);
+        getMessageById(message._id, function (err, msg) {
+          mail_ctrl.sendAtMail(master.email, msg);
         });
       }
     });
     callback(err);
   });
-}
+};
 
-function send_follow_message(follow_id, author_id) {
+exports.sendFollowMessage = function (follow_id, author_id) {
   var message = new Message();
   message.type = 'follow';
   message.master_id = follow_id;
   message.author_id = author_id;
   message.save();
-}
+};
 
-function get_message_by_id(id, cb) {
+function getMessageById(id, cb) {
   Message.findOne({_id: id}, function (err, message) {
     if (err) {
       return cb(err);
@@ -194,11 +194,11 @@ function get_message_by_id(id, cb) {
       };
       proxy.assign('author_found', 'topic_found', done);
       proxy.fail(cb);
-      user_ctrl.get_user_by_id(message.author_id, proxy.done('author_found'));
-      topic_ctrl.get_topic_by_id(message.topic_id, proxy.done('topic_found'));
+      user_ctrl.getUserById(message.author_id, proxy.done('author_found'));
+      topic_ctrl.getTopicById(message.topic_id, proxy.done('topic_found'));
     }
     if (message.type === 'follow') {
-      user_ctrl.get_user_by_id(message.author_id, function (err, author) {
+      user_ctrl.getUserById(message.author_id, function (err, author) {
         if (err) {
           return cb(err);
         }
@@ -212,11 +212,15 @@ function get_message_by_id(id, cb) {
   });
 }
 
-function get_messages_count(master_id, callback) {
-  Message.count({master_id: master_id, has_read: false}, callback);
-}
-exports.get_messages_count = get_messages_count;
-exports.send_reply_message = send_reply_message;
-exports.send_reply2_message = send_reply2_message;
-exports.send_follow_message = send_follow_message;
-exports.send_at_message = send_at_message;
+/**
+ * 根据用户ID，获取未读消息的数量
+ * Callback:
+ * 回调函数参数列表：
+ * - err, 数据库错误
+ * - count, 未读消息数量
+ * @param {String} id 用户ID
+ * @param {Function} callback 获取消息数量
+ */
+exports.getMessagesCount = function (id, callback) {
+  Message.count({master_id: id, has_read: false}, callback);
+};

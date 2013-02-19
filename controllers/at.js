@@ -32,7 +32,7 @@ function searchUsers(text, callback) {
   User.find({ name: { $in: names } }, callback);
 }
 
-function sendMessageToMentionUsers(text, topicId, authorId, callback) {
+exports.sendMessageToMentionUsers = function (text, topicId, authorId, callback) {
   callback = callback || function () {};
   searchUsers(text, function (err, users) {
     if (err || !users || users.length === 0) {
@@ -44,12 +44,12 @@ function sendMessageToMentionUsers(text, topicId, authorId, callback) {
     });
     ep.fail(callback);
     users.forEach(function (user) {
-      Message.send_at_message(user._id, authorId, topicId, ep.done('sent'));
+      Message.sendAtMessage(user._id, authorId, topicId, ep.done('sent'));
     });
-  }); 
-}
+  });
+};
 
-function linkUsers(text, callback) {
+exports.linkUsers = function (text, callback) {
   searchUsers(text, function (err, users) {
     if (err) {
       return callback(err);
@@ -60,7 +60,4 @@ function linkUsers(text, callback) {
     }
     return callback(null, text);
   });
-}
-
-exports.send_at_message = exports.sendMessageToMentionUsers = sendMessageToMentionUsers;
-exports.link_at_who = exports.linkUsers = linkUsers;
+};

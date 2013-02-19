@@ -50,13 +50,13 @@ exports.index = function (req, res, next) {
     if (topic.content_is_html) {
       return ep.emit('@user');
     }
-    at_ctrl.link_at_who(topic.content, ep.done(function (content) {
+    at_ctrl.linkUsers(topic.content, ep.done(function (content) {
       topic.content = Util.xss(Showdown.parse(content));
       ep.emit('@user');
     }));
   });
 
-  get_full_topic(topic_id, ep.done(function (message, topic, tags, author, replies) {
+  getFullTopic(topic_id, ep.done(function (message, topic, tags, author, replies) {
     if (message) {
       ep.unbind();
       return res.render('notify/notify', { error: message });
@@ -93,11 +93,11 @@ exports.index = function (req, res, next) {
     // get author other topics
     var options = { limit: 5, sort: [ [ 'last_reply_at', 'desc' ] ]};
     var query = { author_id: topic.author_id, _id: { '$nin': [ topic._id ] } };
-    get_topics_by_query(query, options, ep.done('other_topics'));
+    exports.getTopicsByQuery(query, options, ep.done('other_topics'));
 
     // get no reply topics
     var options2 = { limit: 5, sort: [ ['create_at', 'desc'] ] };
-    get_topics_by_query({ reply_count: 0 }, options2, ep.done('no_reply_topics'));
+    exports.getTopicsByQuery({reply_count: 0}, options2, ep.done('no_reply_topics'));
   }));
 };
 
@@ -109,7 +109,7 @@ exports.create = function (req, res, next) {
   // TODO: app.get/app.post
   var method = req.method.toLowerCase();
   if (method === 'get') {
-    tag_ctrl.get_all_tags(function (err, tags) {
+    tag_ctrl.getAllTags(function (err, tags) {
       if (err) {
         return next(err);
       }
@@ -127,7 +127,7 @@ exports.create = function (req, res, next) {
     }
 
     if (title === '') {
-      tag_ctrl.get_all_tags(function (err, tags) {
+      tag_ctrl.getAllTags(function (err, tags) {
         if (err) {
           return next(err);
         }
@@ -141,7 +141,7 @@ exports.create = function (req, res, next) {
         res.render('topic/edit', {tags: tags, edit_error: '标题不能是空的。', content: content});
       });
     } else if (title.length < 10 || title.length > 100) {
-      tag_ctrl.get_all_tags(function (err, tags) {
+      tag_ctrl.getAllTags(function (err, tags) {
         if (err) {
           return next(err);
         }
@@ -185,12 +185,12 @@ exports.create = function (req, res, next) {
           topic_tag.topic_id = topic._id;
           topic_tag.tag_id = tag;
           topic_tag.save(proxy.done('tag_saved'));
-          tag_ctrl.get_tag_by_id(tag, proxy.done(function (tag) {
+          tag_ctrl.getTagById(tag, proxy.done(function (tag) {
             tag.topic_count += 1;
             tag.save();
           }));
         });
-        user_ctrl.get_user_by_id(req.session.user._id, proxy.done(function (user) {
+        user_ctrl.getUserById(req.session.user._id, proxy.done(function (user) {
           user.score += 5;
           user.topic_count += 1;
           user.save();
@@ -199,7 +199,7 @@ exports.create = function (req, res, next) {
         }));
 
         //发送at消息
-        at_ctrl.send_at_message(content, topic._id, req.session.user._id);
+        at_ctrl.sendMessageToMentionUsers(content, topic._id, req.session.user._id);
       });
     }
   }
@@ -218,13 +218,13 @@ exports.edit = function (req, res, next) {
       res.render('notify/notify', {error: '此话题不存在或已被删除。'});
       return;
     }
-    get_topic_by_id(topic_id, function (err, topic, tags) {
+    exports.getTopicById(topic_id, function (err, topic, tags) {
       if (!topic) {
         res.render('notify/notify', {error: '此话题不存在或已被删除。'});
         return;
       }
       if (topic.author_id === req.session.user._id || req.session.user.is_admin) {
-        tag_ctrl.get_all_tags(function (err, all_tags) {
+        tag_ctrl.getAllTags(function (err, all_tags) {
           if (err) {
             return next(err);
           }
@@ -250,7 +250,7 @@ exports.edit = function (req, res, next) {
       res.render('notify/notify', {error: '此话题不存在或已被删除。'});
       return;
     }
-    get_topic_by_id(topic_id, function (err, topic) {
+    exports.getTopicById(topic_id, function (err, topic) {
       if (!topic) {
         res.render('notify/notify', {error: '此话题不存在或已被删除。'});
         return;
@@ -265,7 +265,7 @@ exports.edit = function (req, res, next) {
         }
 
         if (title === '') {
-          tag_ctrl.get_all_tags(function (err, all_tags) {
+          tag_ctrl.getAllTags(function (err, all_tags) {
             if (err) {
               return next(err);
             }
@@ -310,7 +310,7 @@ exports.edit = function (req, res, next) {
                 // delete topic tags
                 docs.forEach(function (doc) {
                   doc.remove(proxy.done(function () {
-                    tag_ctrl.get_tag_by_id(doc.tag_id, proxy.done(function (tag) {
+                    tag_ctrl.getTagById(doc.tag_id, proxy.done(function (tag) {
                       proxy.emit('tag_removed');
                       tag.topic_count -= 1;
                       tag.save();
@@ -335,7 +335,7 @@ exports.edit = function (req, res, next) {
                 topic_tag.topic_id = topic._id;
                 topic_tag.tag_id = tag;
                 topic_tag.save(proxy.done('tag_saved'));
-                tag_ctrl.get_tag_by_id(tag, proxy.done(function (tag) {
+                tag_ctrl.getTagById(tag, proxy.done(function (tag) {
                   tag.topic_count += 1;
                   tag.save();
                 }));
@@ -343,7 +343,7 @@ exports.edit = function (req, res, next) {
             }
 
             //发送at消息
-            at_ctrl.send_at_message(content, topic._id, req.session.user._id);
+            at_ctrl.sendMessageToMentionUsers(content, topic._id, req.session.user._id);
           });
         }
       } else {
@@ -366,7 +366,7 @@ exports.delete = function (req, res, next) {
   if (topic_id.length !== 24) {
     return res.send({ success: false, error: '此话题不存在或已被删除。' });
   }
-  get_topic_by_id(topic_id, function (err, topic) {
+  exports.getTopicById(topic_id, function (err, topic) {
     if (err) {
       return res.send({ success: false, message: err.message });
     }
@@ -393,7 +393,7 @@ exports.top = function (req, res, next) {
     res.render('notify/notify', {error: '此话题不存在或已被删除。'});
     return;
   }
-  get_topic_by_id(topic_id, function (err, topic) {
+  exports.getTopicById(topic_id, function (err, topic) {
     if (err) {
       return next(err);
     }
@@ -444,7 +444,7 @@ exports.collect = function (req, res, next) {
         }
         res.json({status: 'success'});
       });
-      user_ctrl.get_user_by_id(req.session.user._id, function (err, user) {
+      user_ctrl.getUserById(req.session.user._id, function (err, user) {
         if (err) {
           return next(err);
         }
@@ -479,7 +479,7 @@ exports.de_collect = function (req, res, next) {
       res.json({status: 'success'});
     });
 
-    user_ctrl.get_user_by_id(req.session.user._id, function (err, user) {
+    user_ctrl.getUserById(req.session.user._id, function (err, user) {
       if (err) {
         return next(err);
       }
@@ -495,7 +495,7 @@ exports.de_collect = function (req, res, next) {
 };
 
 // get topic without replies
-function get_topic_by_id(id, cb) {
+exports.getTopicById = function (id, cb) {
   var proxy = new EventProxy();
   var done = function (topic, tags, author, last_reply) {
     return cb(null, topic, tags, author, last_reply);
@@ -518,13 +518,13 @@ function get_topic_by_id(id, cb) {
       for (var i = 0; i < topic_tags.length; i++) {
         tags_id.push(topic_tags[i].tag_id);
       }
-      tag_ctrl.get_tags_by_ids(tags_id, proxy.done('tags'));
+      tag_ctrl.getTagsByIds(tags_id, proxy.done('tags'));
     }));
 
-    user_ctrl.get_user_by_id(topic.author_id, proxy.done('author'));
+    user_ctrl.getUserById(topic.author_id, proxy.done('author'));
 
     if (topic.last_reply) {
-      reply_ctrl.get_reply_by_id(topic.last_reply, proxy.done(function (last_reply) {
+      reply_ctrl.getReplyById(topic.last_reply, proxy.done(function (last_reply) {
         proxy.emit('last_reply', last_reply || null);
       }));
     } else {
@@ -533,7 +533,7 @@ function get_topic_by_id(id, cb) {
   }));
 }
 // get topic with replies
-function get_full_topic(id, cb) {
+exports.getFullTopic = function (id, cb) {
   var proxy = new EventProxy();
   var done = function (topic, tags, author, replies) {
     return cb(null, '', topic, tags, author, replies);
@@ -549,14 +549,14 @@ function get_full_topic(id, cb) {
     proxy.emit('topic', topic);
 
     TopicTag.find({topic_id: topic._id}, proxy.done(function (topic_tags) {
-      var tags_id = [];
+      var tags_ids = [];
       for (var i = 0; i < topic_tags.length; i++) {
-        tags_id.push(topic_tags[i].tag_id);
+        tags_ids.push(topic_tags[i].tag_id);
       }
-      tag_ctrl.get_tags_by_ids(tags_id, proxy.done('tags'));
+      tag_ctrl.getTagsByIds(tags_ids, proxy.done('tags'));
     }));
 
-    user_ctrl.get_user_by_id(topic.author_id, proxy.done(function (author) {
+    user_ctrl.getUserById(topic.author_id, proxy.done(function (author) {
       if (!author) {
         proxy.unbind();
         return cb(null, '话题的作者丢了。');
@@ -564,10 +564,10 @@ function get_full_topic(id, cb) {
       proxy.emit('author', author);
     }));
 
-    reply_ctrl.get_replies_by_topic_id(topic._id, proxy.done('replies'));
+    reply_ctrl.getRepliesByTopicId(topic._id, proxy.done('replies'));
   }));
 }
-function get_topics_by_query(query, opt, cb) {
+exports.getTopicsByQuery = function (query, opt, cb) {
   Topic.find(query, ['_id'], opt, function (err, docs) {
     if (err) {
       return cb(err);
@@ -589,7 +589,7 @@ function get_topics_by_query(query, opt, cb) {
     proxy.fail(cb);
 
     topics_id.forEach(function (id, i) {
-      get_topic_by_id(id, proxy.done(function (topic, tags, author, last_reply) {
+      exports.getTopicById(id, proxy.done(function (topic, tags, author, last_reply) {
         topic.tags = tags;
         topic.author = author;
         topic.reply = last_reply;
@@ -599,12 +599,8 @@ function get_topics_by_query(query, opt, cb) {
       }));
     });
   });
-}
-function get_count_by_query(query, cb) {
-  Topic.count(query, cb);
-}
+};
 
-exports.get_topic_by_id = get_topic_by_id;
-exports.get_full_topic = get_full_topic;
-exports.get_topics_by_query = get_topics_by_query;
-exports.get_count_by_query = get_count_by_query;
+exports.getCountByQuery = function (query, cb) {
+  Topic.count(query, cb);
+};
