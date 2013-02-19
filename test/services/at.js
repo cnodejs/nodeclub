@@ -12,7 +12,7 @@ var should = require('should');
 var Message = require('../../controllers/message');
 var createUsers = require('../support/create_test_users').createUsers;
 
-describe('controllers/at.js', function () {
+describe('services/at.js', function () {
 
   before(function (done) {
     createUsers(done);
@@ -28,7 +28,7 @@ describe('controllers/at.js', function () {
     @[testuser2](/user/testuser2)@[testuser1](/user/testuser1)23 oh my god';
 
   describe('searchUsers()', function () {
-    var mentionUser = rewire('../../controllers/at');
+    var mentionUser = rewire('../../services/at');
     var searchUsers = mentionUser.__get__('searchUsers');
     it('should found 3 test users', function (done) {
       searchUsers(text, function (err, users) {
@@ -64,7 +64,7 @@ describe('controllers/at.js', function () {
   });
 
   describe('linkUsers()', function () {
-    var mentionUser = rewire('../../controllers/at');
+    var mentionUser = rewire('../../services/at');
     it('should link all mention users', function (done) {
       mentionUser.linkUsers(text, function (err, text2) {
         should.not.exist(err);
@@ -97,7 +97,7 @@ describe('controllers/at.js', function () {
   });
 
   describe('sendMessageToMentionUsers()', function () {
-    var mentionUser = rewire('../../controllers/at');
+    var mentionUser = rewire('../../services/at');
     it('should send message to all mention users', function (done) {
       mentionUser.sendMessageToMentionUsers(text, '4fb9db9c1dc2160000000005', '4fcae41e1eb86c0000000003',
       function (err) {

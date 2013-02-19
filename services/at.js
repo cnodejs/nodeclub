@@ -9,12 +9,16 @@
  * Module dependencies.
  */
 
-var models = require('../models');
-var User = models.User;
+var User = require('../proxy').User;
 var Message = require('./message');
 var EventProxy = require('eventproxy');
 
-function searchUsers(text, callback) {
+/**
+ * 从文本中提取出@username 标记的用户名数组
+ * @param {String} text 文本内容
+ * @return {Array} 用户名数组
+ */
+var fetchUsers = function (text) {
   var results = text.match(/@[a-zA-Z0-9]+/ig);
   var names = [];
   if (results) {
@@ -25,20 +29,25 @@ function searchUsers(text, callback) {
       names.push(s);
     }
   }
-  if (names.length === 0) {
-    return callback(null, names);
-  }
+  return names;
+};
 
-  User.find({ name: { $in: names } }, callback);
-}
-
+/**
+ * 根据文本内容中读取用户，并发送消息给提到的用户
+ * Callback:
+ * - err, 数据库异常
+ * @param {String} text 文本内容
+ * @param {String} topicId 主题ID
+ * @param {String} authorId 作者ID
+ * @param {Function} callback 回调函数
+ */
 exports.sendMessageToMentionUsers = function (text, topicId, authorId, callback) {
   callback = callback || function () {};
-  searchUsers(text, function (err, users) {
-    if (err || !users || users.length === 0) {
+  User.getUsersByNames(fetchUsers(text), function (err, users) {
+    if (err || !users) {
       return callback(err);
     }
-    var ep = EventProxy.create();
+    var ep = new EventProxy();
     ep.after('sent', users.length, function () {
       callback();
     });
@@ -49,8 +58,16 @@ exports.sendMessageToMentionUsers = function (text, topicId, authorId, callback)
   });
 };
 
+/**
+ * 根据文本内容，替换为数据库中的数据
+ * Callback:
+ * - err, 数据库异常
+ * - text, 替换后的文本内容
+ * @param {String} text 文本内容
+ * @param {Function} callback 回调函数
+ */
 exports.linkUsers = function (text, callback) {
-  searchUsers(text, function (err, users) {
+  User.getUsersByNames(fetchUsers(text), function (err, users) {
     if (err) {
       return callback(err);
     }
