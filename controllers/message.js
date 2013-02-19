@@ -46,17 +46,15 @@ exports.index = function (req, res, next) {
       return;
     };
     proxy.after('message_ready', message_ids.length, render);
-    for (var i = 0; i < message_ids.length; i++) {
-      (function (i) {
-        get_message_by_id(message_ids[i], function (err, message) {
-          if (err) {
-            return next(err);
-          }
-          messages[i] = message;
-          proxy.trigger('message_ready');
-        });
-      }(i));
-    }
+    message_ids.forEach(function (id, i) {
+      get_message_by_id(id, function (err, message) {
+        if (err) {
+          return next(err);
+        }
+        messages[i] = message;
+        proxy.trigger('message_ready');
+      });
+    });
   });
 };
 

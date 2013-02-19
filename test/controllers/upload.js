@@ -17,7 +17,6 @@ describe('controllers/upload.js', function () {
     var mockLoginedRequestForbidden;
 
     beforeEach(function () {
-      rewire.reset();
       mockRequest = {
         session: {
           user: {
