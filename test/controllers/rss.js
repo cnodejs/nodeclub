@@ -52,7 +52,7 @@ describe('controllers/rss.js', function () {
     });
 
     describe('mock `topic.getTopicsByQuery()` error', function () {
-      var topic = require('../../controllers/topic');
+      var topic = require('../../proxy').Topic;
       var getTopicsByQuery = topic.getTopicsByQuery;
       before(function () {
         topic.getTopicsByQuery = function () {

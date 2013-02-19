@@ -1,8 +1,7 @@
-var topic_ctrl = require('./topic');
-
 var config = require('../config').config;
 var data2xml = require('data2xml');
 var markdown = require('node-markdown').Markdown;
+var Topic = require('../proxy').Topic;
 
 exports.index = function (req, res, next) {
   if (!config.rss) {
@@ -11,7 +10,7 @@ exports.index = function (req, res, next) {
   }
   var opt = { limit: config.rss.max_rss_items, sort: [ [ 'create_at', 'desc' ] ] };
 
-  topic_ctrl.getTopicsByQuery({}, opt, function (err, topics) {
+  Topic.getTopicsByQuery({}, opt, function (err, topics) {
     if (err) {
       return next(err);
     }

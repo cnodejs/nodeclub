@@ -9,9 +9,7 @@
  */
 
 var should = require('should');
-var config = require('../../config').config;
 var app = require('../../app');
-
 
 describe('controllers/user.js', function () {
   before(function (done) {
