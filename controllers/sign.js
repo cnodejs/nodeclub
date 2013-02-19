@@ -1,14 +1,11 @@
-var models = require('../models'),
-  User = models.User;
-
 var check = require('validator').check,
   sanitize = require('validator').sanitize;
 
 var crypto = require('crypto');
 var config = require('../config').config;
 
-var message_ctrl = require('./message');
-var mail_ctrl = require('./mail');
+var Message = require('../proxy').Message;
+var mail = require('../services/mail');
 
 //sign up
 exports.signup = function (req, res, next) {
@@ -83,7 +80,7 @@ exports.signup = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        mail_ctrl.sendActiveMail(email, md5(email + config.session_secret), name, email, function (err, success) {
+        mail.sendActiveMail(email, md5(email + config.session_secret), name, email, function (err, success) {
           // TODO: 未发送成功的没有处理
           if (success) {
             res.render('sign/signup', {success: '欢迎加入 ' + config.name + '！我们已给您的注册邮箱发送了一封邮件，请点击里面的链接来激活您的帐号。'});
@@ -173,17 +170,20 @@ exports.active_account = function (req, res, next) {
   var email = req.query.email;
 
   User.findOne({name: name}, function (err, user) {
+    if (err) {
+      return next(err);
+    }
     if (!user || md5(email + config.session_secret) !== key) {
-      res.render('notify/notify', {error: '信息有误，帐号无法被激活。'});
-      return;
+      return res.render('notify/notify', {error: '信息有误，帐号无法被激活。'});
     }
     if (user.active) {
-      res.render('notify/notify', {error: '帐号已经是激活状态。'});
-      return;
+      return res.render('notify/notify', {error: '帐号已经是激活状态。'});
     }
     user.active = true;
     user.save(function (err) {
-      // TODO: 数据库异常？
+      if (err) {
+        return next(err);
+      }
       res.render('notify/notify', {success: '帐号已被激活，请登录'});
     });
   });
@@ -220,7 +220,7 @@ exports.search_pass = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        mail_ctrl.sendResetPassMail(email, retrieveKey, user.name, function (err, success) {
+        mail.sendResetPassMail(email, retrieveKey, user.name, function (err, success) {
           res.render('notify/notify', {success: '我们已给您填写的电子邮箱发送了一封邮件，请在24小时内点击里面的链接来重置密码。'});
         });
       });
@@ -296,7 +296,7 @@ exports.auth_user = function (req, res, next) {
     if (config.admins[req.session.user.name]) {
       req.session.user.is_admin = true;
     }
-    message_ctrl.getMessagesCount(req.session.user._id, function (err, count) {
+    Message.getMessagesCount(req.session.user._id, function (err, count) {
       if (err) {
         return next(err);
       }
@@ -324,7 +324,7 @@ exports.auth_user = function (req, res, next) {
         if (config.admins[user.name]) {
           user.is_admin = true;
         }
-        message_ctrl.getMessagesCount(user._id, function (err, count) {
+        Message.getMessagesCount(user._id, function (err, count) {
           if (err) {
             return next(err);
           }
