@@ -50,8 +50,8 @@ exports.index = function (req, res, next) {
       pages: pages,
       keyword: keyword
     });
-  };  
-  
+  };
+
   var proxy = EventProxy.create('tags', 'topics', 'hot_topics', 'stars', 'tops', 'no_reply_topics', 'pages', render);
   proxy.fail(next);
   // 取标签
@@ -68,11 +68,11 @@ exports.index = function (req, res, next) {
   // 取热门主题
   topic_ctrl.get_topics_by_query({}, { limit: 5, sort: [ [ 'visit_count', 'desc' ] ] }, proxy.done('hot_topics'));
   // 取星标用户
-  user_ctrl.get_users_by_query({ is_star: true }, { limit: 5 }, proxy.done('stars')); 
+  user_ctrl.get_users_by_query({ is_star: true }, { limit: 5 }, proxy.done('stars'));
   // 取排行榜上的用户
   user_ctrl.get_users_by_query({}, { limit: 10, sort: [ [ 'score', 'desc' ] ] }, proxy.done('tops'));
   // 取0回复的主题
-  topic_ctrl.get_topics_by_query({ reply_count: 0 }, { limit: 5, sort: [ [ 'create_at', 'desc' ] ] }, 
+  topic_ctrl.get_topics_by_query({ reply_count: 0 }, { limit: 5, sort: [ [ 'create_at', 'desc' ] ] },
   proxy.done('no_reply_topics'));
   // 取分页数据
   topic_ctrl.get_count_by_query(query, proxy.done(function (all_topics_count) {

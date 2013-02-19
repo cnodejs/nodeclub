@@ -69,7 +69,7 @@ mailEvent.on("getMail", function () {
  * @return {[type]}
  */
 function trigger() {
-  mailEvent.trigger("getMail");
+  mailEvent.emit("getMail");
 }
 
 /**
@@ -93,7 +93,7 @@ function send_mail(data) {
 
 function send_active_mail(who, token, name, email, cb) {
   var sender =  config.mail_sender;
-  var to = who; 
+  var to = who;
   var subject = config.name + '社区帐号激活';
   var html = '<p>您好：<p/>' +
     '<p>我们收到您在' + config.name + '社区的注册信息，请点击下面的链接来激活帐户：</p>' +
@@ -111,7 +111,7 @@ function send_active_mail(who, token, name, email, cb) {
 }
 function send_reset_pass_mail(who, token, name, cb) {
   var sender = config.mail_sender;
-  var to = who; 
+  var to = who;
   var subject = config.name + '社区密码重置';
   var html = '<p>您好：<p/>' +
     '<p>我们收到您在' + config.name + '社区重置密码的请求，请在24小时内单击下面的链接来重置密码：</p>' +
@@ -132,7 +132,7 @@ function send_reset_pass_mail(who, token, name, cb) {
 
 function send_reply_mail(who, msg) {
   var sender =  config.mail_sender;
-  var to = who; 
+  var to = who;
   var subject = config.name + ' 新消息';
   var html = '<p>您好：<p/>' +
     '<p>' +
@@ -155,7 +155,7 @@ function send_reply_mail(who, msg) {
 
 function send_at_mail(who, msg) {
   var sender =  config.mail_sender;
-  var to = who; 
+  var to = who;
   var subject = config.name + ' 新消息';
   var html = '<p>您好：<p/>' +
     '<p>' +

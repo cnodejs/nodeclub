@@ -24,7 +24,7 @@ exports.list_topic = function (req, res, next) {
     }
     var done = function (topic_ids, collection, hot_topics, no_reply_topics, pages) {
       var query = {'_id': {'$in': topic_ids}};
-      var opt = {skip: (page - 1) * limit, limit: limit, sort: [['create_at', 'desc']]};    
+      var opt = {skip: (page - 1) * limit, limit: limit, sort: [['create_at', 'desc']]};
 
       topic_ctrl.get_topics_by_query(query, opt, function (err, topics) {
         for (var i = 0; i < topics.length; i++) {
@@ -53,53 +53,33 @@ exports.list_topic = function (req, res, next) {
 
     var proxy = new EventProxy();
     proxy.assign('topic_ids', 'collection', 'hot_topics', 'no_reply_topics', 'pages', done);
+    proxy.fail(next);
 
-    TopicTag.find({tag_id: tag._id}, function (err, docs) {
-      if (err) {
-        return next(err);
-      }
+    TopicTag.find({tag_id: tag._id}, proxy.done(function (docs) {
       var topic_ids = [];
 
       for (var i = 0; i < docs.length; i++) {
         topic_ids.push(docs[i].topic_id);
       }
-      proxy.trigger('topic_ids', topic_ids);
+      proxy.emit('topic_ids', topic_ids);
 
-      topic_ctrl.get_count_by_query({'_id': {'$in': topic_ids}}, function (err, all_topics_count) {
-        if (err) {
-          return next(err);
-        }
+      topic_ctrl.get_count_by_query({'_id': {'$in': topic_ids}}, proxy.done(function (all_topics_count) {
         var pages = Math.ceil(all_topics_count / limit);
-        proxy.trigger('pages', pages);
-      });
-    });
+        proxy.emit('pages', pages);
+      }));
+    }));
 
     if (!req.session.user) {
-      proxy.trigger('collection', null);
+      proxy.emit('collection', null);
     } else {
-      TagCollect.findOne({user_id: req.session.user._id, tag_id: tag._id}, function (err, doc) {
-        if (err) {
-          return next(err);
-        }
-        proxy.trigger('collection', doc);
-      });
+      TagCollect.findOne({user_id: req.session.user._id, tag_id: tag._id}, proxy.done('collection'));
     }
 
     var opt = {limit: 5, sort: [['visit_count', 'desc']]};
-    topic_ctrl.get_topics_by_query({}, opt, function (err, hot_topics) {
-      if (err) {
-        return next(err);
-      }
-      proxy.trigger('hot_topics', hot_topics);
-    });
+    topic_ctrl.get_topics_by_query({}, opt, proxy.done('hot_topics'));
 
     opt = {limit: 5, sort: [['create_at', 'desc']]};
-    topic_ctrl.get_topics_by_query({reply_count: 0}, opt, function (err, no_reply_topics) {
-      if (err) {
-        return next(err);
-      }
-      proxy.trigger('no_reply_topics', no_reply_topics);
-    });
+    topic_ctrl.get_topics_by_query({reply_count: 0}, opt, proxy.done('no_reply_topics'));
   });
 };
 
@@ -127,13 +107,13 @@ exports.add = function (req, res, next) {
   }
 
   var name = sanitize(req.body.name).trim();
-  name = sanitize(name).xss();  
+  name = sanitize(name).xss();
   var description = sanitize(req.body.description).trim();
-  description = sanitize(description).xss();  
+  description = sanitize(description).xss();
   var background = sanitize(req.body.background).trim();
-  background = sanitize(background).xss();  
+  background = sanitize(background).xss();
   var order = req.body.order;
-  
+
   if (name === '') {
     res.render('notify/notify', {error: '信息不完整。'});
     return;
@@ -195,12 +175,12 @@ exports.edit = function (req, res, next) {
     }
     if (method === 'post') {
       var name = sanitize(req.body.name).trim();
-      name = sanitize(name).xss();  
+      name = sanitize(name).xss();
       var order = req.body.order;
       var background = sanitize(req.body.background).trim();
-      background = sanitize(background).xss();  
+      background = sanitize(background).xss();
       var description = sanitize(req.body.description).trim();
-      description = sanitize(description).xss();  
+      description = sanitize(description).xss();
       if (name === '') {
         res.render('notify/notify', {error: '信息不完整。'});
         return;
@@ -266,7 +246,7 @@ exports.collect = function (req, res, next) {
     if (!tag) {
       res.json({status: 'failed'});
     }
-    
+
     TagCollect.findOne({user_id: req.session.user._id, tag_id: tag._id}, function (err, doc) {
       if (err) {
         return next(err);
@@ -335,7 +315,7 @@ exports.de_collect = function (req, res, next) {
 };
 
 function get_all_tags(callback) {
-  Tag.find({}, [], {sort: [['order', 'asc']]}, callback); 
+  Tag.find({}, [], {sort: [['order', 'asc']]}, callback);
 }
 function get_tag_by_name(name, callback) {
   Tag.findOne({name: name}, callback);
@@ -344,7 +324,7 @@ function get_tag_by_id(id, callback) {
   Tag.findOne({_id: id}, callback);
 }
 function get_tags_by_ids(ids, callback) {
-  Tag.find({_id: {'$in': ids}}, callback); 
+  Tag.find({_id: {'$in': ids}}, callback);
 }
 function get_tags_by_query(query, opt, callback) {
   Tag.find(query, [], opt, callback);

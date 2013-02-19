@@ -16,17 +16,17 @@
 		</div>
 		<div class='header'>
 			<img src="<%- config.site_static_host %>/images/spechbubble_2_icon&16.png" title='话题'/>
-			
+
 			<% if (locals.current_user) { %>
 			<a href='/topic/create' class='fr'><button class='btn btn-success fr' id='create_topic_btn'>发布话题</button></a>
 			<% } %>
 		</div>
 		<% if (locals.topics && topics.length > 0) { %>
-		<%- partial('topic/list', { 
+		<%- partial('topic/list', {
 			topics: topics,
 			pages: pages,
 			current_pages: current_page,
-			base: keyword ? ('/?q=' + keyword) : '/' 
+			base: keyword ? ('/?q=' + keyword) : '/'
 		}) %>
 		<% } else { %>
 		<div class='inner'>
