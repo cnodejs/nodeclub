@@ -24,14 +24,14 @@ exports.format_date = function (date, friendly) {
       }
     }
   }
-  
+
   //month = ((month < 10) ? '0' : '') + month;
   //day = ((day < 10) ? '0' : '') + day;
   hour = ((hour < 10) ? '0' : '') + hour;
   minute = ((minute < 10) ? '0' : '') + minute;
   second = ((second < 10) ? '0': '') + second;
 
-  thisYear = new Date().getFullYear();
+  var thisYear = new Date().getFullYear();
   year = (thisYear === year) ? '' : (year + '-');
   return year + month + '-' + day + ' ' + hour + ':' + minute;
 };

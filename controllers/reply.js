@@ -1,9 +1,6 @@
 var models = require('../models');
 var Reply = models.Reply;
 var Topic = models.Topic;
-var Message = models.Message;
-
-var check = require('validator').check;
 var sanitize = require('validator').sanitize;
 
 var at_ctrl = require('./at');
@@ -12,9 +9,10 @@ var message_ctrl = require('./message');
 
 var Util = require('../libs/util');
 var Showdown = require('../public/libs/showdown');
-var EventProxy = require('eventproxy').EventProxy;
+var EventProxy = require('eventproxy');
 
 exports.add = function (req, res, next) {
+  // TODO: 换成中间件的方式做统一校验
   if (!req.session || !req.session.user) {
     res.send('forbidden!');
     return;
@@ -28,7 +26,7 @@ exports.add = function (req, res, next) {
     res.render('notify/notify', {error: '回复内容不能为空！'});
     return;
   }
-  
+
   var render = function () {
     res.redirect('/topic/' + topic_id);
   };
@@ -61,12 +59,10 @@ exports.add = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    if (topic.author_id.toString() === req.session.user._id.toString()) {
-      proxy.emit('message_saved');
-    } else {
+    if (topic.author_id.toString() !== req.session.user._id.toString()) {
       message_ctrl.send_reply_message(topic.author_id, req.session.user._id, topic._id);  
-      proxy.emit('message_saved');
     }
+    proxy.emit('message_saved');
   });
 
   user_ctrl.get_user_by_id(req.session.user._id, function (err, user) {
@@ -133,12 +129,10 @@ exports.add_reply2 = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    if (reply.author_id.toString() === req.session.user._id.toString()) {
-      proxy.emit('message_saved');
-    } else {
+    if (reply.author_id.toString() !== req.session.user._id.toString()) {
       message_ctrl.send_reply2_message(reply.author_id, req.session.user._id, topic_id);
-      proxy.emit('message_saved');
     }
+    proxy.emit('message_saved');
   });
 };
 
@@ -256,7 +250,7 @@ function get_replies_by_topic_id(id, cb) {
         });
       })(j);
     }
-  }); 
+  });
 }
 exports.get_reply_by_id = get_reply_by_id;
 exports.get_replies_by_topic_id = get_replies_by_topic_id;  
