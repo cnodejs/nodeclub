@@ -3,7 +3,7 @@ var models = require('../models'),
 
 var user_ctrl = require('./user');
 var mail_ctrl = require('./mail');
-var topic_ctrl = require('./topic'); 
+var topic_ctrl = require('./topic');
 
 var EventProxy = require('eventproxy');
 
@@ -52,7 +52,7 @@ exports.index = function (req, res, next) {
           return next(err);
         }
         messages[i] = message;
-        proxy.trigger('message_ready');
+        proxy.emit('message_ready');
       });
     });
   });
@@ -84,7 +84,7 @@ exports.mark_read = function (req, res, next) {
       }
       res.json({status: 'success'});
     });
-  }); 
+  });
 };
 
 exports.mark_all_read = function (req, res, next) {
@@ -95,22 +95,20 @@ exports.mark_all_read = function (req, res, next) {
   // TODO: 直接做update，无需查找然后再逐个修改。
   Message.find({master_id: req.session.user._id, has_read: false}, function (err, messages) {
     if (messages.length === 0) {
-      res.json({'status': 'success'}); 
+      res.json({'status': 'success'});
       return;
     }
     var proxy = new EventProxy();
-    var done = function () {
-      res.json({'status': 'success'}); 
-    };
-    proxy.after('marked', messages.length, done);
+    proxy.after('marked', messages.length, function () {
+      res.json({'status': 'success'});
+    });
+    proxy.fail(next);
     for (var i = 0; i < messages.length; i++) {
-      var message = messages[i];  
+      var message = messages[i];
       message.has_read = true;
-      message.save(function (err) {
-        proxy.trigger('marked');
-      });
+      message.save(proxy.done('marked'));
     }
-  }); 
+  });
 };
 
 function send_reply_message(master_id, author_id, topic_id) {
@@ -192,7 +190,7 @@ function get_message_by_id(id, cb) {
         if (!author || !topic) {
           message.is_invalid = true;
         }
-        return cb(null, message); 
+        return cb(null, message);
       };
       proxy.assign('author_found', 'topic_found', done);
       proxy.fail(cb);
