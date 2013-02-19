@@ -9,7 +9,7 @@ exports.index = function (req, res, next) {
     res.statusCode = 404;
     return res.send('Please set `rss` in config.js');
   }
-  var opt = { limit: config.rss.max_rss_items, sort: [ [ 'create_at','desc' ] ] };
+  var opt = { limit: config.rss.max_rss_items, sort: [ [ 'create_at', 'desc' ] ] };
 
   topic_ctrl.get_topics_by_query({}, opt, function (err, topics) {
     if (err) {
