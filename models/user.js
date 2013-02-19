@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var config = require('../config');
-  
+
 var UserSchema = new Schema({
   name: { type: String, index: true },
   loginname: { type: String, unique: true },
@@ -14,7 +14,7 @@ var UserSchema = new Schema({
   profile: { type: String },
   weibo: { type: String },
   avatar: { type: String },
-  
+
   score: { type: Number, default: 0 },
   topic_count: { type: Number, default: 0 },
   reply_count: { type: Number, default: 0 },
@@ -27,7 +27,7 @@ var UserSchema = new Schema({
   is_star: { type: Boolean },
   level: { type: String },
   active: { type: Boolean, default: true },
-  
+
   receive_reply_mail: {type: Boolean, default: false },
   receive_at_mail: { type: Boolean, default: false },
   from_wp: { type: Boolean },

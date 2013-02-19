@@ -28,7 +28,7 @@ exports.signup = function (req, res, next) {
     email = sanitize(email).xss();
     var re_pass = sanitize(req.body.re_pass).trim();
     re_pass = sanitize(re_pass).xss();
-    
+
     if (name === '' || pass === '' || re_pass === '' || email === '') {
       res.render('sign/signup', {error: '信息不完整。', name: name, email: email});
       return;
@@ -50,7 +50,7 @@ exports.signup = function (req, res, next) {
       res.render('sign/signup', {error: '两次密码输入不一致。', name: name, email: email});
       return;
     }
-      
+
     try {
       check(email, '不正确的电子邮箱。').isEmail();
     } catch (e) {
@@ -97,7 +97,7 @@ exports.signup = function (req, res, next) {
 
 /**
  * Show user login page.
- * 
+ *
  * @param  {HttpRequest} req
  * @param  {HttpResponse} res
  */
@@ -119,7 +119,7 @@ var notJump = [
 
 /**
  * Handle user login.
- * 
+ *
  * @param {HttpRequest} req
  * @param {HttpResponse} res
  * @param {Function} next
@@ -127,7 +127,7 @@ var notJump = [
 exports.login = function (req, res, next) {
   var loginname = sanitize(req.body.name).trim().toLowerCase();
   var pass = sanitize(req.body.pass).trim();
-  
+
   if (!loginname || !pass) {
     return res.render('sign/signin', { error: '信息不完整。' });
   }
@@ -148,7 +148,7 @@ exports.login = function (req, res, next) {
     }
     // store session cookie
     gen_session(user, res);
-    //check at some page just jump to home page 
+    //check at some page just jump to home page
     var refer = req.session._loginReferer || 'home';
     for (var i = 0, len = notJump.length; i !== len; ++i) {
       if (refer.indexOf(notJump[i]) >= 0) {
@@ -225,16 +225,16 @@ exports.search_pass = function (req, res, next) {
         });
       });
     });
-  } 
+  }
 };
 
 /**
  * reset password
  * 'get' to show the page, 'post' to reset password
  * after reset password, retrieve_key&time will be destroy
- * @param  {http.req}   req  
- * @param  {http.res}   res 
- * @param  {Function} next 
+ * @param  {http.req}   req
+ * @param  {http.res}   res
+ * @param  {Function} next
  */
 exports.reset_pass = function (req, res, next) {
   var method = req.method.toLowerCase();
@@ -252,7 +252,7 @@ exports.reset_pass = function (req, res, next) {
         return res.render('notify/notify', {error : '该链接已过期，请重新申请。'});
       }
       return res.render('sign/reset', {name : name, key : key});
-    });    
+    });
   } else {
     var psw = req.body.psw || '';
     var repsw = req.body.repsw || '';
@@ -335,16 +335,16 @@ exports.auth_user = function(req, res, next) {
           return next();
         });
       } else {
-        return next();  
+        return next();
       }
-    }); 
+    });
   }
 };
 
 // private
 function gen_session(user, res) {
   var auth_token = encrypt(user._id + '\t' + user.name + '\t' + user.pass + '\t' + user.email, config.session_secret);
-  res.cookie(config.auth_cookie_name, auth_token, {path: '/', maxAge: 1000 * 60 * 60 * 24 * 30}); //cookie 有效期30天      
+  res.cookie(config.auth_cookie_name, auth_token, {path: '/', maxAge: 1000 * 60 * 60 * 24 * 30}); //cookie 有效期30天
 }
 
 function encrypt(str, secret) {
@@ -369,12 +369,12 @@ function md5(str) {
 }
 function randomString(size) {
   size = size || 6;
-  var code_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; 
+  var code_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   var max_num = code_string.length + 1;
   var new_pass = '';
   while(size>0){
     new_pass += code_string.charAt(Math.floor(Math.random()* max_num));
-    size--; 
+    size--;
   }
   return new_pass;
 }
