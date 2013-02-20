@@ -135,16 +135,7 @@ exports.add = function (req, res, next) {
   });
 };
 
-exports.edit = function (req, res, next) {
-  // TODO: 验证中间件的形式处理这块公共逻辑
-  if (!req.session.user) {
-    res.render('notify/notify', {error: '你还没有登录。'});
-    return;
-  }
-  if (!req.session.user.is_admin) {
-    res.render('notify/notify', {error: '管理员才能编辑标签。'});
-    return;
-  }
+exports.view = function (req, res, next) {
   var tag_name = req.params.name;
   Tag.getTagByName(tag_name, function (err, tag) {
     if (err) {
@@ -155,36 +146,48 @@ exports.edit = function (req, res, next) {
       return;
     }
 
-    // TODO: 换用app.get/app.post
-    var method = req.method.toLowerCase();
-    if (method === 'get') {
-      exports.getAllTags(function (err, tags) {
-        if (err) {
-          return next(err);
-        }
-        res.render('tag/edit', {tag: tag, tags: tags});
-        return;
-      });
-    }
-    if (method === 'post') {
-      var name = sanitize(req.body.name).trim();
-      name = sanitize(name).xss();
-      var order = req.body.order;
-      var background = sanitize(req.body.background).trim();
-      background = sanitize(background).xss();
-      var description = sanitize(req.body.description).trim();
-      description = sanitize(description).xss();
-      if (name === '') {
-        res.render('notify/notify', {error: '信息不完整。'});
-        return;
+    Tag.getAllTags(function (err, tags) {
+      if (err) {
+        return next(err);
       }
-      Tag.update(tag, name, background, order, description, function (err) {
-        if (err) {
-          return next(err);
-        }
-        res.redirect('/tags/edit');
-      });
+      res.render('tag/edit', {tag: tag, tags: tags});
+      return;
+    });
+  });
+};
+
+exports.update = function (req, res, next) {
+  var tag_name = req.params.name;
+  Tag.findOne({name: tag_name}, function (err, tag) {
+    if (err) {
+      return next(err);
     }
+    if (!tag) {
+      res.render('notify/notify', {error: '没有这个标签。'});
+      return;
+    }
+
+    var name = sanitize(req.body.name).trim();
+    name = sanitize(name).xss();
+    var order = req.body.order;
+    var background = sanitize(req.body.background).trim();
+    background = sanitize(background).xss();
+    var description = sanitize(req.body.description).trim();
+    description = sanitize(description).xss();
+    if (name === '') {
+      res.render('notify/notify', {error: '信息不完整。'});
+      return;
+    }
+    tag.name = name;
+    tag.order = order;
+    tag.background = background;
+    tag.description = description;
+    tag.save(function (err) {
+      if (err) {
+        return next(err);
+      }
+      res.redirect('/tags/edit');
+    });
   });
 };
 
@@ -269,10 +272,6 @@ exports.collect = function (req, res, next) {
 };
 
 exports.de_collect = function (req, res, next) {
-  if (!req.session || !req.session.user) {
-    res.send(403, 'fobidden!');
-    return;
-  }
   var tag_id = req.body.tag_id;
   Tag.getTagById(tag_id, function (err, tag) {
     if (err) {

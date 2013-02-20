@@ -72,25 +72,30 @@ exports.show_stars = function (req, res, next) {
   });
 };
 
+exports.showSetting = function (req, res, next) {
+  if (!req.session.user) {
+    res.redirect('home');
+    return;
+  }
+
+  User.getUserById(req.session.user._id, function (err, user) {
+    if (err) {
+      return next(err);
+    }
+    if (req.query.save === 'success') {
+      user.success = '保存成功。';
+    }
+    user.error = null;
+    return res.render('user/setting', user);
+  });
+};
+
 exports.setting = function (req, res, next) {
   if (!req.session.user) {
     res.redirect('home');
     return;
   }
-  var method = req.method.toLowerCase();
-  if (method !== 'post') {
-    User.getUserById(req.session.user._id, function (err, user) {
-      if (err) {
-        return next(err);
-      }
-      if (req.query.save === 'success') {
-        user.success = '保存成功。';
-      }
-      user.error = null;
-      return res.render('user/setting', user);
-    });
-    return;
-  }
+
   // post
   var action = req.body.action;
   if (action === 'change_setting') {
@@ -239,11 +244,6 @@ exports.setting = function (req, res, next) {
 };
 
 exports.follow = function (req, res, next) {
-  if (!req.session || !req.session.user) {
-    // TODO: statusCode 403
-    res.send('forbidden!');
-    return;
-  }
   var follow_id = req.body.follow_id;
   User.getUserById(follow_id, function (err, user) {
     if (err) {

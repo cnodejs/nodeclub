@@ -12,7 +12,6 @@
     "beforeEach",
     "after",
     "should",
-    "rewire",
     "$"
   ],
 
