@@ -1,8 +1,8 @@
 {
-  "name": "nodeclub", 
+  "name": "nodeclub",
   "version": "0.3.2",
   "main": "app.js",
-  "private": true, 
+  "private": true,
   "dependencies": {
     "express": "2.5.1",
     "ejs": "0.8.0",

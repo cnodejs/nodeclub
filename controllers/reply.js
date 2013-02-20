@@ -13,12 +13,6 @@ var Reply = require('../proxy').Reply;
  * 添加一级回复
  */
 exports.add = function (req, res, next) {
-  // TODO: 换成中间件的方式做统一校验
-  if (!req.session || !req.session.user) {
-    res.send('forbidden!');
-    return;
-  }
-
   var content = req.body.r_content;
   var topic_id = req.params.topic_id;
 
@@ -73,11 +67,6 @@ exports.add = function (req, res, next) {
  * 添加二级回复
  */
 exports.add_reply2 = function (req, res, next) {
-  if (!req.session || !req.session.user) {
-    res.send('forbidden!');
-    return;
-  }
-
   var topic_id = req.params.topic_id;
   var reply_id = req.body.reply_id;
   var content = req.body.r2_content;

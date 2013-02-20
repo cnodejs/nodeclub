@@ -101,245 +101,247 @@ exports.index = function (req, res, next) {
 };
 
 exports.create = function (req, res, next) {
-  if (!req.session.user) {
-    res.render('notify/notify', {error: '未登入用户不能发布话题。'});
-    return;
+  Tag.getAllTags(function (err, tags) {
+    if (err) {
+      return next(err);
+    }
+    res.render('topic/edit', {tags: tags});
+  });
+};
+
+exports.put = function (req, res, next) {
+  var title = sanitize(req.body.title).trim();
+  title = sanitize(title).xss();
+  var content = req.body.t_content;
+  var topic_tags = [];
+  if (req.body.topic_tags !== '') {
+    topic_tags = req.body.topic_tags.split(',');
   }
-  // TODO: app.get/app.post
-  var method = req.method.toLowerCase();
-  if (method === 'get') {
+
+  if (title === '') {
     Tag.getAllTags(function (err, tags) {
       if (err) {
         return next(err);
       }
-      res.render('topic/edit', {tags: tags});
+      for (var i = 0; i < topic_tags.length; i++) {
+        for (var j = 0; j < tags.length; j++) {
+          if (topic_tags[i] === tags[j]._id) {
+            tags[j].is_selected = true;
+          }
+        }
+      }
+      res.render('topic/edit', {tags: tags, edit_error: '标题不能是空的。', content: content});
     });
-  }
-
-  if (method === 'post') {
-    var title = sanitize(req.body.title).trim();
-    title = sanitize(title).xss();
-    var content = req.body.t_content;
-    var topic_tags = [];
-    if (req.body.topic_tags !== '') {
-      topic_tags = req.body.topic_tags.split(',');
-    }
-
-    if (title === '') {
-      Tag.getAllTags(function (err, tags) {
-        if (err) {
-          return next(err);
-        }
-        for (var i = 0; i < topic_tags.length; i++) {
-          for (var j = 0; j < tags.length; j++) {
-            if (topic_tags[i] === tags[j]._id) {
-              tags[j].is_selected = true;
-            }
+  } else if (title.length < 10 || title.length > 100) {
+    Tag.getAllTags(function (err, tags) {
+      if (err) {
+        return next(err);
+      }
+      for (var i = 0; i < topic_tags.length; i++) {
+        for (var j = 0; j < tags.length; j++) {
+          if (topic_tags[i] === tags[j]._id) {
+            tags[j].is_selected = true;
           }
         }
-        res.render('topic/edit', {tags: tags, edit_error: '标题不能是空的。', content: content});
-      });
-    } else if (title.length < 10 || title.length > 100) {
-      Tag.getAllTags(function (err, tags) {
-        if (err) {
-          return next(err);
-        }
-        for (var i = 0; i < topic_tags.length; i++) {
-          for (var j = 0; j < tags.length; j++) {
-            if (topic_tags[i] === tags[j]._id) {
-              tags[j].is_selected = true;
-            }
-          }
-        }
-        res.render('topic/edit', {tags: tags, edit_error: '标题字数太多或太少', title: title, content: content});
-      });
-    } else {
-      Topic.newAndSave(title, content, req.session.user._id, function (err, topic) {
-        if (err) {
-          return next(err);
-        }
+      }
+      res.render('topic/edit', {tags: tags, edit_error: '标题字数太多或太少', title: title, content: content});
+    });
+  } else {
+    var topic = new Topic();
+    topic.title = title;
+    topic.content = content;
+    topic.author_id = req.session.user._id;
+    topic.save(function (err) {
+      if (err) {
+        return next(err);
+      }
 
-        var proxy = new EventProxy();
-        var render = function () {
-          res.redirect('/topic/' + topic._id);
-        };
+      var proxy = new EventProxy();
+      var render = function () {
+        res.redirect('/topic/' + topic._id);
+      };
 
-        proxy.assign('tags_saved', 'score_saved', render);
-        proxy.fail(next);
-        // 话题可以没有标签
-        if (topic_tags.length === 0) {
-          proxy.emit('tags_saved');
-        }
-        var tags_saved_done = function () {
-          proxy.emit('tags_saved');
-        };
-        proxy.after('tag_saved', topic_tags.length, tags_saved_done);
-        //save topic tags
-        topic_tags.forEach(function (tag) {
-          TopicTag.newAndSave(topic._id, tag, proxy.done('tag_saved'));
-          Tag.getTagById(tag, proxy.done(function (tag) {
-            tag.topic_count += 1;
-            tag.save();
-          }));
-        });
-        User.getUserById(req.session.user._id, proxy.done(function (user) {
-          user.score += 5;
-          user.topic_count += 1;
-          user.save();
-          req.session.user.score += 5;
-          proxy.emit('score_saved');
+      proxy.assign('tags_saved', 'score_saved', render);
+      proxy.fail(next);
+      // 话题可以没有标签
+      if (topic_tags.length === 0) {
+        proxy.emit('tags_saved');
+      }
+      var tags_saved_done = function () {
+        proxy.emit('tags_saved');
+      };
+      proxy.after('tag_saved', topic_tags.length, tags_saved_done);
+      //save topic tags
+      topic_tags.forEach(function (tag) {
+        var topic_tag = new TopicTag();
+        topic_tag.topic_id = topic._id;
+        topic_tag.tag_id = tag;
+        topic_tag.save(proxy.done('tag_saved'));
+        tag_ctrl.get_tag_by_id(tag, proxy.done(function (tag) {
+          tag.topic_count += 1;
+          tag.save();
         }));
-
-        //发送at消息
-        at.sendMessageToMentionUsers(content, topic._id, req.session.user._id);
       });
-    }
+      User.getUserbyId(req.session.user._id, proxy.done(function (user) {
+        user.score += 5;
+        user.topic_count += 1;
+        user.save();
+        req.session.user.score += 5;
+        proxy.emit('score_saved');
+      }));
+
+      //发送at消息
+      at.sendAtMessage(content, topic._id, req.session.user._id);
+    });
   }
 };
 
-exports.edit = function (req, res, next) {
+exports.showEdit = function (req, res, next) {
   if (!req.session.user) {
     res.redirect('home');
     return;
   }
 
   var topic_id = req.params.tid;
-  var method = req.method.toLowerCase();
-  if (method === 'get') {
-    if (topic_id.length !== 24) {
+  if (topic_id.length !== 24) {
+    res.render('notify/notify', {error: '此话题不存在或已被删除。'});
+    return;
+  }
+  Topic.getTopicById(topic_id, function (err, topic, tags) {
+    if (!topic) {
       res.render('notify/notify', {error: '此话题不存在或已被删除。'});
       return;
     }
-    Topic.getTopicById(topic_id, function (err, topic, tags) {
-      if (!topic) {
-        res.render('notify/notify', {error: '此话题不存在或已被删除。'});
-        return;
+    if (topic.author_id === req.session.user._id || req.session.user.is_admin) {
+      Tag.getAllTags(function (err, all_tags) {
+        if (err) {
+          return next(err);
+        }
+        for (var i = 0; i < tags.length; i++) {
+          for (var j = 0; j < all_tags.length; j++) {
+            if (tags[i].id === all_tags[j].id) {
+              all_tags[j].is_selected = true;
+            }
+          }
+        }
+
+        res.render('topic/edit', {action: 'edit', topic_id: topic._id, title: topic.title, content: topic.content, tags: all_tags});
+      });
+    } else {
+      res.render('notify/notify', {error: '对不起，你不能编辑此话题。'});
+    }
+  });
+};
+
+exports.update = function (req, res, next) {
+  if (!req.session.user) {
+    res.redirect('home');
+    return;
+  }
+  var topic_id = req.params.tid;
+  if (topic_id.length !== 24) {
+    res.render('notify/notify', {error: '此话题不存在或已被删除。'});
+    return;
+  }
+
+  Topic.getTopicById(topic_id, function (err, topic, tags) {
+    if (!topic) {
+      res.render('notify/notify', {error: '此话题不存在或已被删除。'});
+      return;
+    }
+
+    if (topic.author_id === req.session.user._id || req.session.user.is_admin) {
+      var title = sanitize(req.body.title).trim();
+      title = sanitize(title).xss();
+      var content = req.body.t_content;
+      var topic_tags = [];
+      if (req.body.topic_tags !== '') {
+        topic_tags = req.body.topic_tags.split(',');
       }
-      if (topic.author_id === req.session.user._id || req.session.user.is_admin) {
+
+      if (title === '') {
         Tag.getAllTags(function (err, all_tags) {
           if (err) {
             return next(err);
           }
-          for (var i = 0; i < tags.length; i++) {
+          for (var i = 0; i < topic_tags.length; i++) {
             for (var j = 0; j < all_tags.length; j++) {
-              if (tags[i].id === all_tags[j].id) {
+              if (topic_tags[i] === all_tags[j]._id) {
                 all_tags[j].is_selected = true;
               }
             }
           }
-
-          res.render('topic/edit', {action: 'edit', topic_id: topic._id, title: topic.title, content: topic.content, tags: all_tags});
+          res.render('topic/edit', {action: 'edit', edit_error: '标题不能是空的。', topic_id: topic._id, content: content, tags: all_tags});
         });
       } else {
-        res.render('notify/notify', {error: '对不起，你不能编辑此话题。'});
-      }
-    });
-  }
+        //保存话题
+        //删除topic_tag，标签topic_count减1
+        //保存新topic_tag
+        topic.title = title;
+        topic.content = content;
+        topic.update_at = new Date();
+        topic.save(function (err) {
+          if (err) {
+            return next(err);
+          }
 
-  if (method === 'post') {
-    if (topic_id.length !== 24) {
-      res.render('notify/notify', {error: '此话题不存在或已被删除。'});
-      return;
-    }
-    Topic.getTopic(topic_id, function (err, topic) {
-      if (!topic) {
-        res.render('notify/notify', {error: '此话题不存在或已被删除。'});
-        return;
-      }
-      if (topic.author_id === req.session.user._id || req.session.user.is_admin) {
-        var title = sanitize(req.body.title).trim();
-        title = sanitize(title).xss();
-        var content = req.body.t_content;
-        var topic_tags = [];
-        if (req.body.topic_tags !== '') {
-          topic_tags = req.body.topic_tags.split(',');
-        }
+          var proxy = new EventProxy();
+          var render = function () {
+            res.redirect('/topic/' + topic._id);
+          };
+          proxy.assign('tags_removed_done', 'tags_saved_done', render);
+          proxy.fail(next);
 
-        if (title === '') {
-          Tag.getAllTags(function (err, all_tags) {
-            if (err) {
-              return next(err);
-            }
-            for (var i = 0; i < topic_tags.length; i++) {
-              for (var j = 0; j < all_tags.length; j++) {
-                if (topic_tags[i] === all_tags[j]._id) {
-                  all_tags[j].is_selected = true;
-                }
-              }
-            }
-            res.render('topic/edit', {action: 'edit', edit_error: '标题不能是空的。', topic_id: topic._id, content: content, tags: all_tags});
-            return;
-          });
-        } else {
-          //保存话题
-          //删除topic_tag，标签topic_count减1
-          //保存新topic_tag
-          topic.title = title;
-          topic.content = content;
-          topic.update_at = new Date();
-          topic.save(function (err) {
-            if (err) {
-              return next(err);
-            }
-
-            var proxy = new EventProxy();
-            var render = function () {
-              res.redirect('/topic/' + topic._id);
-            };
-            proxy.assign('tags_removed_done', 'tags_saved_done', render);
-            proxy.fail(next);
-
-            // 删除topic_tag
-            var tags_removed_done = function () {
+          // 删除topic_tag
+          var tags_removed_done = function () {
+            proxy.emit('tags_removed_done');
+          };
+          TopicTag.find({topic_id: topic._id}, function (err, docs) {
+            if (docs.length === 0) {
               proxy.emit('tags_removed_done');
-            };
-            TopicTag.getTopicTagByTopicId(topic._id, function (err, docs) {
-              if (docs.length === 0) {
-                proxy.emit('tags_removed_done');
-              } else {
-                proxy.after('tag_removed', docs.length, tags_removed_done);
-                // delete topic tags
-                docs.forEach(function (doc) {
-                  doc.remove(proxy.done(function () {
-                    Tag.getTagById(doc.tag_id, proxy.done(function (tag) {
-                      proxy.emit('tag_removed');
-                      tag.topic_count -= 1;
-                      tag.save();
-                    }));
-                  }));
-                });
-              }
-            });
-
-            // 保存topic_tag
-            var tags_saved_done = function () {
-              proxy.emit('tags_saved_done');
-            };
-            //话题可以没有标签
-            if (topic_tags.length === 0) {
-              proxy.emit('tags_saved_done');
             } else {
-              proxy.after('tag_saved', topic_tags.length, tags_saved_done);
-              //save topic tags
-              topic_tags.forEach(function (tag) {
-                TopicTag.newAndSave(topic._id, tag, proxy.done('tag_saved'));
-                Tag.getTagById(tag, proxy.done(function (tag) {
-                  tag.topic_count += 1;
-                  tag.save();
+              proxy.after('tag_removed', docs.length, tags_removed_done);
+              // delete topic tags
+              docs.forEach(function (doc) {
+                doc.remove(proxy.done(function () {
+                  Tag.getTagById(doc.tag_id, proxy.done(function (tag) {
+                    proxy.emit('tag_removed');
+                    tag.topic_count -= 1;
+                    tag.save();
+                  }));
                 }));
               });
             }
-
-            //发送at消息
-            at.sendMessageToMentionUsers(content, topic._id, req.session.user._id);
           });
-        }
-      } else {
-        res.render('notify/notify', {error: '对不起，你不能编辑此话题。'});
-        return;
+          // 保存topic_tag
+          var tags_saved_done = function () {
+            proxy.emit('tags_saved_done');
+          };
+          //话题可以没有标签
+          if (topic_tags.length === 0) {
+            proxy.emit('tags_saved_done');
+          } else {
+            proxy.after('tag_saved', topic_tags.length, tags_saved_done);
+            //save topic tags
+            topic_tags.forEach(function (tag) {
+              var topic_tag = new TopicTag();
+              topic_tag.topic_id = topic._id;
+              topic_tag.tag_id = tag;
+              topic_tag.save(proxy.done('tag_saved'));
+              Tag.getTagById(tag, proxy.done(function (tag) {
+                tag.topic_count += 1;
+                tag.save();
+              }));
+            });
+          }
+          //发送at消息
+          at.sendAtMessage(content, topic._id, req.session.user._id);
+        });
       }
-    });
-  }
+    } else {
+      res.render('notify/notify', {error: '对不起，你不能编辑此话题。'});
+    }
+  });
 };
 
 exports.delete = function (req, res, next) {
@@ -401,10 +403,6 @@ exports.top = function (req, res, next) {
 };
 
 exports.collect = function (req, res, next) {
-  if (!req.session || !req.session.user) {
-    res.send('forbidden!');
-    return;
-  }
   var topic_id = req.body.topic_id;
   Topic.getTopic(topic_id, function (err, topic) {
     if (err) {
@@ -445,10 +443,6 @@ exports.collect = function (req, res, next) {
 };
 
 exports.de_collect = function (req, res, next) {
-  if (!req.session || !req.session.user) {
-    res.send('fobidden!');
-    return;
-  }
   var topic_id = req.body.topic_id;
   Topic.getTopic(topic_id, function (err, topic) {
     if (err) {
