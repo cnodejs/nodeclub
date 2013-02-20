@@ -1,10 +1,4 @@
-var models = require('../models'),
-  Message = models.Message;
-
-var user_ctrl = require('./user');
-var mail_ctrl = require('./mail');
-var topic_ctrl = require('./topic');
-
+var Message = require('../proxy').Message;
 var EventProxy = require('eventproxy');
 
 exports.index = function (req, res, next) {
@@ -15,7 +9,7 @@ exports.index = function (req, res, next) {
 
   var message_ids = [];
   var user_id = req.session.user._id;
-  Message.find({master_id: user_id}, [], {sort: [['create_at', 'desc']]}, function (err, docs) {
+  Message.getMessagesByUserId(user_id, function (err, docs) {
     if (err) {
       return next(err);
     }
@@ -47,7 +41,7 @@ exports.index = function (req, res, next) {
     };
     proxy.after('message_ready', message_ids.length, render);
     message_ids.forEach(function (id, i) {
-      get_message_by_id(id, function (err, message) {
+      Message.getMessageById(id, function (err, message) {
         if (err) {
           return next(err);
         }
@@ -65,7 +59,7 @@ exports.mark_read = function (req, res, next) {
   }
 
   var message_id = req.body.message_id;
-  Message.findOne({_id: message_id}, function (err, message) {
+  Message.getMessageById(message_id, function (err, message) {
     if (err) {
       return next(err);
     }
@@ -93,7 +87,7 @@ exports.mark_all_read = function (req, res, next) {
     return;
   }
   // TODO: 直接做update，无需查找然后再逐个修改。
-  Message.find({master_id: req.session.user._id, has_read: false}, function (err, messages) {
+  Message.getUnreadMessageByUserId(req.session.user._id, function (err, messages) {
     if (messages.length === 0) {
       res.json({'status': 'success'});
       return;
@@ -110,113 +104,3 @@ exports.mark_all_read = function (req, res, next) {
     }
   });
 };
-
-function send_reply_message(master_id, author_id, topic_id) {
-  var message = new Message();
-  message.type = 'reply';
-  message.master_id = master_id;
-  message.author_id = author_id;
-  message.topic_id = topic_id;
-  message.save(function (err) {
-    user_ctrl.get_user_by_id(master_id, function (err, master) {
-      if (master && master.receive_reply_mail) {
-        message.has_read = true;
-        message.save();
-        get_message_by_id(message._id, function (err, msg) {
-          mail_ctrl.send_reply_mail(master.email, msg);
-        });
-      }
-    });
-  });
-}
-
-function send_reply2_message(master_id, author_id, topic_id) {
-  var message = new Message();
-  message.type = 'reply2';
-  message.master_id = master_id;
-  message.author_id = author_id;
-  message.topic_id = topic_id;
-  message.save(function (err) {
-    user_ctrl.get_user_by_id(master_id, function (err, master) {
-      if (master && master.receive_reply_mail) {
-        message.has_read = true;
-        message.save();
-        get_message_by_id(message._id, function (err, msg) {
-          mail_ctrl.send_reply_mail(master.email, msg);
-        });
-      }
-    });
-  });
-}
-
-function send_at_message(master_id, author_id, topic_id, callback) {
-  var message = new Message();
-  message.type = 'at';
-  message.master_id = master_id;
-  message.author_id = author_id;
-  message.topic_id = topic_id;
-  message.save(function (err) {
-    user_ctrl.get_user_by_id(master_id, function (err, master) {
-      if (master && master.receive_at_mail) {
-        message.has_read = true;
-        message.save();
-        get_message_by_id(message._id, function (err, msg) {
-          mail_ctrl.send_at_mail(master.email, msg);
-        });
-      }
-    });
-    callback(err);
-  });
-}
-
-function send_follow_message(follow_id, author_id) {
-  var message = new Message();
-  message.type = 'follow';
-  message.master_id = follow_id;
-  message.author_id = author_id;
-  message.save();
-}
-
-function get_message_by_id(id, cb) {
-  Message.findOne({_id: id}, function (err, message) {
-    if (err) {
-      return cb(err);
-    }
-    if (message.type === 'reply' || message.type === 'reply2' || message.type === 'at') {
-      var proxy = new EventProxy();
-      var done = function (author, topic) {
-        message.author = author;
-        message.topic = topic;
-        if (!author || !topic) {
-          message.is_invalid = true;
-        }
-        return cb(null, message);
-      };
-      proxy.assign('author_found', 'topic_found', done);
-      proxy.fail(cb);
-      user_ctrl.get_user_by_id(message.author_id, proxy.done('author_found'));
-      topic_ctrl.get_topic_by_id(message.topic_id, proxy.done('topic_found'));
-    }
-    if (message.type === 'follow') {
-      user_ctrl.get_user_by_id(message.author_id, function (err, author) {
-        if (err) {
-          return cb(err);
-        }
-        message.author = author;
-        if (!author) {
-          message.is_invalid = true;
-        }
-        return cb(null, message);
-      });
-    }
-  });
-}
-
-function get_messages_count(master_id, callback) {
-  Message.count({master_id: master_id, has_read: false}, callback);
-}
-exports.get_messages_count = get_messages_count;
-exports.send_reply_message = send_reply_message;
-exports.send_reply2_message = send_reply2_message;
-exports.send_follow_message = send_follow_message;
-exports.send_at_message = send_at_message;

@@ -73,10 +73,10 @@ function trigger() {
 }
 
 /**
- * send an email
- * @param  {mail} data [info of an email]
+ * Send an email
+ * @param {Object} data邮件对象
  */
-function send_mail(data) {
+function sendMail(data) {
   if (!data) {
     return;
   }
@@ -91,7 +91,15 @@ function send_mail(data) {
   trigger();
 }
 
-function send_active_mail(who, token, name, email, cb) {
+/**
+ * 发送激活通知邮件
+ * @param {String} who 接收人的邮件地址
+ * @param {String} token 重置用的token字符串
+ * @param {String} name 接收人的用户名
+ * @param {String} email 接受人的邮件地址
+ * @param {Function} callback 发送后的回调函数
+ */
+exports.sendActiveMail = function (who, token, name, email, callback) {
   var sender =  config.mail_sender;
   var to = who;
   var subject = config.name + '社区帐号激活';
@@ -106,10 +114,18 @@ function send_active_mail(who, token, name, email, cb) {
     subject: subject,
     html: html
   };
-  cb(null, true);
-  send_mail(data);
-}
-function send_reset_pass_mail(who, token, name, cb) {
+  callback(null, true);
+  sendMail(data);
+};
+
+/**
+ * 发送密码重置通知邮件
+ * @param {String} who 接收人的邮件地址
+ * @param {String} token 重置用的token字符串
+ * @param {String} name 接收人的用户名
+ * @param {Function} callback 发送后的回调函数
+ */
+exports.sendResetPassMail = function (who, token, name, callback) {
   var sender = config.mail_sender;
   var to = who;
   var subject = config.name + '社区密码重置';
@@ -126,11 +142,16 @@ function send_reset_pass_mail(who, token, name, cb) {
     html: html
   };
 
-  cb(null, true);
-  send_mail(data);
-}
+  callback(null, true);
+  sendMail(data);
+};
 
-function send_reply_mail(who, msg) {
+/**
+ * 发送回复通知邮件
+ * @param {String} who 接收人的邮件地址
+ * @param {Object} msg 发送的消息对象
+ */
+exports.sendReplyMail = function (who, msg) {
   var sender =  config.mail_sender;
   var to = who;
   var subject = config.name + ' 新消息';
@@ -149,11 +170,15 @@ function send_reply_mail(who, msg) {
     html: html
   };
 
-  send_mail(data);
+  sendMail(data);
+};
 
-}
-
-function send_at_mail(who, msg) {
+/**
+ * 发送at通知邮件
+ * @param {String} who 接收人的邮件地址
+ * @param {Object} msg 发送的消息对象
+ */
+exports.sendAtMail = function (who, msg) {
   var sender =  config.mail_sender;
   var to = who;
   var subject = config.name + ' 新消息';
@@ -172,10 +197,5 @@ function send_at_mail(who, msg) {
     html: html
   };
 
-  send_mail(data);
-}
-
-exports.send_active_mail = send_active_mail;
-exports.send_reset_pass_mail = send_reset_pass_mail;
-exports.send_reply_mail = send_reply_mail;
-exports.send_at_mail = send_at_mail;
+  sendMail(data);
+};

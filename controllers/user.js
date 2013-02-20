@@ -1,12 +1,12 @@
-var models = require('../models');
-var User = models.User;
-var Reply = models.Reply;
-var Relation = models.Relation;
-var TagCollect = models.TagCollect;
-var TopicCollect = models.TopicCollect;
-var tag_ctrl = require('./tag');
-var topic_ctrl = require('./topic');
-var message_ctrl = require('./message');
+var User = require('../proxy').User;
+var Tag = require('../proxy').Tag;
+var Topic = require('../proxy').Topic;
+var Reply = require('../proxy').Reply;
+var Relation = require('../proxy').Relation;
+var TopicCollect = require('../proxy').TopicCollect;
+var TagCollect = require('../proxy').TagCollect;
+
+var message = require('../services/message');
 var Util = require('../libs/util');
 var config = require('../config').config;
 var EventProxy = require('eventproxy');
@@ -16,7 +16,7 @@ var crypto = require('crypto');
 
 exports.index = function (req, res, next) {
   var user_name = req.params.name;
-  get_user_by_name(user_name, function (err, user) {
+  User.getUserByName(user_name, function (err, user) {
     if (err) {
       return next(err);
     }
@@ -41,9 +41,9 @@ exports.index = function (req, res, next) {
 
     var query = {author_id: user._id};
     var opt = {limit: 5, sort: [['create_at', 'desc']]};
-    topic_ctrl.get_topics_by_query(query, opt, proxy.done('recent_topics'));
+    Topic.getTopicsByQuery(query, opt, proxy.done('recent_topics'));
 
-    Reply.find({author_id: user._id}, proxy.done(function (replies) {
+    Reply.getRepliesByAuthorId(user._id, proxy.done(function (replies) {
       var topic_ids = [];
       for (var i = 0; i < replies.length; i++) {
         if (topic_ids.indexOf(replies[i].topic_id.toString()) < 0) {
@@ -52,19 +52,19 @@ exports.index = function (req, res, next) {
       }
       var query = {_id: {'$in': topic_ids}};
       var opt = {limit: 5, sort: [['create_at', 'desc']]};
-      topic_ctrl.get_topics_by_query(query, opt, proxy.done('recent_replies'));
+      Topic.getTopicsByQuery(query, opt, proxy.done('recent_replies'));
     }));
 
     if (!req.session.user) {
       proxy.emit('relation', null);
     } else {
-      Relation.findOne({user_id: req.session.user._id, follow_id: user._id}, proxy.done('relation'));
+      Relation.getRelation(req.session.user._id, user._id, proxy.done('relation'));
     }
   });
 };
 
 exports.show_stars = function (req, res, next) {
-  get_users_by_query({is_star: true}, {}, function (err, stars) {
+  User.getUsersByQuery({is_star: true}, {}, function (err, stars) {
     if (err) {
       return next(err);
     }
@@ -79,7 +79,7 @@ exports.setting = function (req, res, next) {
   }
   var method = req.method.toLowerCase();
   if (method !== 'post') {
-    get_user_by_id(req.session.user._id, function (err, user) {
+    User.getUserById(req.session.user._id, function (err, user) {
       if (err) {
         return next(err);
       }
@@ -159,7 +159,7 @@ exports.setting = function (req, res, next) {
       }
     }
 
-    get_user_by_id(req.session.user._id, function (err, user) {
+    User.getUserById(req.session.user._id, function (err, user) {
       if (err) {
         return next(err);
       }
@@ -184,7 +184,7 @@ exports.setting = function (req, res, next) {
     var old_pass = sanitize(req.body.old_pass).trim();
     var new_pass = sanitize(req.body.new_pass).trim();
 
-    get_user_by_id(req.session.user._id, function (err, user) {
+    User.getUserById(req.session.user._id, function (err, user) {
       if (err) {
         return next(err);
       }
@@ -245,7 +245,7 @@ exports.follow = function (req, res, next) {
     return;
   }
   var follow_id = req.body.follow_id;
-  get_user_by_id(follow_id, function (err, user) {
+  User.getUserById(follow_id, function (err, user) {
     if (err) {
       return next(err);
     }
@@ -258,18 +258,16 @@ exports.follow = function (req, res, next) {
       res.json({status: 'success'});
     });
     proxy.fail(next);
-    Relation.findOne({user_id: req.session.user._id, follow_id: user._id}, proxy.done(function (doc) {
+    Relation.getRelation(req.session.user._id, user._id, proxy.done(function (doc) {
       if (doc) {
         return proxy.emit('relation_saved');
       }
 
-      var relation = new Relation();
-      relation.user_id = req.session.user._id;
-      relation.follow_id = user._id;
-      relation.save();
+      // 新建关系并保存
+      Relation.newAndSave(req.session.user._id, user._id);
       proxy.emit('relation_saved');
 
-      get_user_by_id(req.session.user._id, proxy.done(function (me) {
+      User.getUserById(req.session.user._id, proxy.done(function (me) {
         me.following_count += 1;
         me.save();
       }));
@@ -280,7 +278,7 @@ exports.follow = function (req, res, next) {
       req.session.user.following_count += 1;
     }));
 
-    message_ctrl.send_follow_message(follow_id, req.session.user._id);
+    message.sendFollowMessage(follow_id, req.session.user._id);
     proxy.emit('message_saved');
   });
 };
@@ -291,7 +289,7 @@ exports.un_follow = function (req, res, next) {
     return;
   }
   var follow_id = req.body.follow_id;
-  get_user_by_id(follow_id, function (err, user) {
+  User.getUserById(follow_id, function (err, user) {
     if (err) {
       return next(err);
     }
@@ -299,14 +297,15 @@ exports.un_follow = function (req, res, next) {
       res.json({status: 'failed'});
       return;
     }
-    Relation.remove({user_id: req.session.user._id, follow_id: user._id}, function (err) {
+    // 删除关系
+    Relation.remove(req.session.user._id, user._id, function (err) {
       if (err) {
         return next(err);
       }
       res.json({status: 'success'});
     });
 
-    get_user_by_id(req.session.user._id, function (err, me) {
+    User.getUserById(req.session.user._id, function (err, me) {
       if (err) {
         return next(err);
       }
@@ -327,7 +326,7 @@ exports.toggle_star = function (req, res, next) {
     return;
   }
   var user_id = req.body.user_id;
-  get_user_by_id(user_id, function (err, user) {
+  User.getUserById(user_id, function (err, user) {
     if (err) {
       return next(err);
     }
@@ -346,7 +345,7 @@ exports.get_collect_tags = function (req, res, next) {
     res.redirect('home');
     return;
   }
-  TagCollect.find({ user_id: req.session.user._id }, function (err, docs) {
+  TagCollect.getTagCollectsByUserId(req.session.user._id, function (err, docs) {
     if (err) {
       return next(err);
     }
@@ -354,7 +353,7 @@ exports.get_collect_tags = function (req, res, next) {
     for (var i = 0; i < docs.length; i++) {
       ids.push(docs[i].tag_id);
     }
-    tag_ctrl.get_tags_by_ids(ids, function (err, tags) {
+    Tag.getTagsByIds(ids, function (err, tags) {
       if (err) {
         return next(err);
       }
@@ -384,7 +383,7 @@ exports.get_collect_topics = function (req, res, next) {
   proxy.assign('topics', 'pages', render);
   proxy.fail(next);
 
-  TopicCollect.find({ user_id: req.session.user._id }, proxy.done(function (docs) {
+  TopicCollect.getTopicCollectsByUserId(req.session.user._id, proxy.done(function (docs) {
     var ids = [];
     for (var i = 0; i < docs.length; i++) {
       ids.push(docs[i].topic_id);
@@ -395,8 +394,8 @@ exports.get_collect_topics = function (req, res, next) {
       limit: limit,
       sort: [ [ 'create_at', 'desc' ] ]
     };
-    topic_ctrl.get_topics_by_query(query, opt, proxy.done('topics'));
-    topic_ctrl.get_count_by_query(query, proxy.done(function (all_topics_count) {
+    Topic.getTopicsByQuery(query, opt, proxy.done('topics'));
+    Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
       var pages = Math.ceil(all_topics_count / limit);
       proxy.emit('pages', pages);
     }));
@@ -408,7 +407,7 @@ exports.get_followings = function (req, res, next) {
     res.redirect('home');
     return;
   }
-  Relation.find({user_id: req.session.user._id}, function (err, docs) {
+  Relation.getRelationsByUserId(req.session.user._id, function (err, docs) {
     if (err) {
       return next(err);
     }
@@ -416,7 +415,7 @@ exports.get_followings = function (req, res, next) {
     for (var i = 0; i < docs.length; i++) {
       ids.push(docs[i].follow_id);
     }
-    get_users_by_ids(ids, function (err, users) {
+    User.getUsersByIds(ids, function (err, users) {
       if (err) {
         return next(err);
       }
@@ -432,12 +431,12 @@ exports.get_followers = function (req, res, next) {
   }
   var proxy = new EventProxy();
   proxy.fail(next);
-  Relation.find({follow_id: req.session.user._id}, proxy.done(function (docs) {
+  Relation.getRelationsByUserId(req.session.user._id, proxy.done(function (docs) {
     var ids = [];
     for (var i = 0; i < docs.length; i++) {
       ids.push(docs[i].user_id);
     }
-    get_users_by_ids(ids, proxy.done(function (users) {
+    User.getUsersByIds(ids, proxy.done(function (users) {
       res.render('user/followers', {users: users});
     }));
   }));
@@ -445,7 +444,7 @@ exports.get_followers = function (req, res, next) {
 
 exports.top100 = function (req, res, next) {
   var opt = {limit: 100, sort: [['score', 'desc']]};
-  get_users_by_query({}, opt, function (err, tops) {
+  User.getUsersByQuery({}, opt, function (err, tops) {
     if (err) {
       return next(err);
     }
@@ -458,7 +457,7 @@ exports.list_topics = function (req, res, next) {
   var page = Number(req.query.page) || 1;
   var limit = config.list_topic_count;
 
-  get_user_by_name(user_name, function (err, user) {
+  User.getUserByName(user_name, function (err, user) {
     if (!user) {
       res.render('notify/notify', {error: '这个用户不存在。'});
       return;
@@ -481,15 +480,15 @@ exports.list_topics = function (req, res, next) {
 
     var query = {'author_id': user._id};
     var opt = {skip: (page - 1) * limit, limit: limit, sort: [['create_at', 'desc']]};
-    topic_ctrl.get_topics_by_query(query, opt, proxy.done('topics'));
+    Topic.getTopicsByQuery(query, opt, proxy.done('topics'));
 
     if (!req.session.user) {
       proxy.emit('relation', null);
     } else {
-      Relation.findOne({user_id: req.session.user._id, follow_id: user._id}, proxy.done('relation'));
+      Relation.getRelation(req.session.user._id, user._id, proxy.done('relation'));
     }
 
-    topic_ctrl.get_count_by_query(query, proxy.done(function (all_topics_count) {
+    Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
       var pages = Math.ceil(all_topics_count / limit);
       proxy.emit('pages', pages);
     }));
@@ -501,7 +500,7 @@ exports.list_replies = function (req, res, next) {
   var page = Number(req.query.page) || 1;
   var limit = config.list_topic_count;
 
-  get_user_by_name(user_name, function (err, user) {
+  User.getUserByName(user_name, function (err, user) {
     if (!user) {
       res.render('notify/notify', {error: '这个用户不存在。'});
       return;
@@ -522,7 +521,8 @@ exports.list_replies = function (req, res, next) {
     proxy.assign('topics', 'relation', 'pages', render);
     proxy.fail(next);
 
-    Reply.find({author_id: user._id}, proxy.done(function (replies) {
+    Reply.getRepliesByAuthorId(user._id, proxy.done(function (replies) {
+      // 获取所有有评论的主题
       var topic_ids = [];
       for (var i = 0; i < replies.length; i++) {
         if (topic_ids.indexOf(replies[i].topic_id.toString()) < 0) {
@@ -531,9 +531,9 @@ exports.list_replies = function (req, res, next) {
       }
       var query = {'_id': {'$in': topic_ids}};
       var opt = {skip: (page - 1) * limit, limit: limit, sort: [['create_at', 'desc']]};
-      topic_ctrl.get_topics_by_query(query, opt, proxy.done('topics'));
+      Topic.getTopicsByQuery(query, opt, proxy.done('topics'));
 
-      topic_ctrl.get_count_by_query(query, proxy.done(function (all_topics_count) {
+      Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
         var pages = Math.ceil(all_topics_count / limit);
         proxy.emit('pages', pages);
       }));
@@ -542,29 +542,7 @@ exports.list_replies = function (req, res, next) {
     if (!req.session.user) {
       proxy.emit('relation', null);
     } else {
-      Relation.findOne({user_id: req.session.user._id, follow_id: user._id}, proxy.done('relation'));
+      Relation.getRelation(req.session.user._id, user._id, proxy.done('relation'));
     }
   });
 };
-
-function get_user_by_id(id, cb) {
-  User.findOne({_id: id}, cb);
-}
-function get_user_by_name(name, cb) {
-  User.findOne({name: name}, cb);
-}
-function get_user_by_loginname(name, cb) {
-  User.findOne({loginname: name}, cb);
-}
-
-function get_users_by_ids(ids, cb) {
-  User.find({'_id': {'$in': ids}}, cb);
-}
-function get_users_by_query(query, opt, cb) {
-  User.find(query, [], opt, cb);
-}
-exports.get_user_by_id = get_user_by_id;
-exports.get_user_by_name = get_user_by_name;
-exports.get_user_by_loginname = get_user_by_loginname;
-exports.get_users_by_ids = get_users_by_ids;
-exports.get_users_by_query = get_users_by_query;
