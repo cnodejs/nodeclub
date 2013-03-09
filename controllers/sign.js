@@ -4,6 +4,7 @@ var check = require('validator').check,
 var crypto = require('crypto');
 var config = require('../config').config;
 
+var User = require('../proxy').User;
 var Message = require('../proxy').Message;
 var mail = require('../services/mail');
 
@@ -53,7 +54,7 @@ exports.signup = function (req, res, next) {
     return;
   }
 
-  User.find({'$or': [{'loginname': loginname}, {'email': email}]}, function (err, users) {
+  User.getUsersByQuery({'$or': [{'loginname': loginname}, {'email': email}]}, {}, function (err, users) {
     if (err) {
       return next(err);
     }
@@ -67,23 +68,14 @@ exports.signup = function (req, res, next) {
     // create gavatar
     var avatar_url = 'http://www.gravatar.com/avatar/' + md5(email.toLowerCase()) + '?size=48';
 
-    var user = new User();
-    user.name = name;
-    user.loginname = loginname;
-    user.pass = pass;
-    user.email = email;
-    user.avatar = avatar_url;
-    user.active = false;
-    user.save(function (err) {
+    User.newAndSave(name, loginname, pass, email, avatar_url, false, function (err) {
       if (err) {
         return next(err);
       }
-      mail.sendActiveMail(email, md5(email + config.session_secret), name, email, function (err, success) {
-        // TODO: 未发送成功的没有处理
-        if (success) {
-          res.render('sign/signup', {success: '欢迎加入 ' + config.name + '！我们已给您的注册邮箱发送了一封邮件，请点击里面的链接来激活您的帐号。'});
-          return;
-        }
+      // 发送激活邮件
+      mail.sendActiveMail(email, md5(email + config.session_secret), name, email);
+      res.render('sign/signup', {
+        success: '欢迎加入 ' + config.name + '！我们已给您的注册邮箱发送了一封邮件，请点击里面的链接来激活您的帐号。'
       });
     });
   });
@@ -126,7 +118,7 @@ exports.login = function (req, res, next) {
     return res.render('sign/signin', { error: '信息不完整。' });
   }
 
-  User.findOne({ 'loginname': loginname }, function (err, user) {
+  User.getUserByLoginName(loginname, function (err, user) {
     if (err) {
       return next(err);
     }
@@ -166,7 +158,7 @@ exports.active_account = function (req, res, next) {
   var name = req.query.name;
   var email = req.query.email;
 
-  User.findOne({name: name}, function (err, user) {
+  User.getUserByName(name, function (err, user) {
     if (err) {
       return next(err);
     }
@@ -204,7 +196,7 @@ exports.updateSearchPass = function (req, res, next) {
   // 动态生成retrive_key和timestamp到users collection,之后重置密码进行验证
   var retrieveKey = randomString(15);
   var retrieveTime = new Date().getTime();
-  User.findOne({email: email}, function (err, user) {
+  User.getUserByMail(email, function (err, user) {
     if (!user) {
       res.render('sign/search_pass', {error: '没有这个电子邮箱。', email: email});
       return;
@@ -215,12 +207,9 @@ exports.updateSearchPass = function (req, res, next) {
       if (err) {
         return next(err);
       }
-      mail.sendResetPassMail(email, retrieveKey, user.name, function (err, success) {
-        if (err) {
-          return next(err);
-        }
-        res.render('notify/notify', {success: '我们已给您填写的电子邮箱发送了一封邮件，请在24小时内点击里面的链接来重置密码。'});
-      });
+      // 发送重置密码邮件
+      mail.sendResetPassMail(email, retrieveKey, user.name);
+      res.render('notify/notify', {success: '我们已给您填写的电子邮箱发送了一封邮件，请在24小时内点击里面的链接来重置密码。'});
     });
   });
 };
@@ -236,7 +225,7 @@ exports.updateSearchPass = function (req, res, next) {
 exports.reset_pass = function (req, res, next) {
   var key = req.query.key;
   var name = req.query.name;
-  User.findOne({name: name, retrieve_key: key}, function (err, user) {
+  User.getUserByQuery({name: name, retrieve_key: key}, function (err, user) {
     if (!user) {
       return res.render('notify/notify', {error: '信息有误，密码无法重置。'});
     }
@@ -257,7 +246,7 @@ exports.update_pass = function (req, res, next) {
   if (psw !== repsw) {
     return res.render('sign/reset', {name : name, key : key, error : '两次密码输入不一致。'});
   }
-  User.findOne({name: name, retrieve_key: key}, function (err, user) {
+  User.getUserByQuery({name: name, retrieve_key: key}, function (err, user) {
     if (err) {
       return next(err);
     }
@@ -314,7 +303,7 @@ exports.auth_user = function (req, res, next) {
     var auth_token = decrypt(cookie, config.session_secret);
     var auth = auth_token.split('\t');
     var user_id = auth[0];
-    User.findOne({_id: user_id}, function (err, user) {
+    User.getUserById(user_id, function (err, user) {
       if (err) {
         return next(err);
       }

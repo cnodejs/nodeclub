@@ -6,7 +6,6 @@ var ndir = require('ndir');
 var exec = require('child_process').exec;
 var should = require('should');
 var rewire = require("rewire");
-var existsSync = fs.existsSync || path.existsSync;
 
 describe('controllers/upload.js', function () {
   
@@ -59,14 +58,14 @@ describe('controllers/upload.js', function () {
     before(function (done) {
       config.upload_dir = tmpdirpath;
       ndir.mkdir(tmpdirpath, function (err) {
-        fs.writeFileSync(tmpFile, fs.readFileSync(path.join(path.dirname(__dirname), 'fixtures', 'logo.png')));
+        fs.writeFileSync(tmpFile, fs.readFileSync(path.join(__dirname, '../fixtures', 'logo.png')));
         done(err);
       });      
     });
-    
+
     after(function (done) {
       config.upload_dir = oldUploadDir;
-      exec('rm -rf ' + tmpdirpath, function (error, stdout, stderr) {
+      exec('rm -rf ' + tmpdirpath, function (error) {
         if (error) {
           console.log('exec error: ' + error);
         }
@@ -115,7 +114,7 @@ describe('controllers/upload.js', function () {
           data.should.have.property('url');
           data.url.should.match(/^\/upload\/mock_user_id\/\d+\_tmp_test_file\.png$/);
           var uploadfile = path.join(tmpdirpath, data.url.replace('/upload/', ''));
-          should.ok(existsSync(uploadfile));
+          should.ok(fs.existsSync(uploadfile));
           done();
         }
       }, function () {
