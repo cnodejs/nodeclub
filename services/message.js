@@ -12,11 +12,14 @@ exports.sendReplyMessage = function (master_id, author_id, topic_id) {
   message.author_id = author_id;
   message.topic_id = topic_id;
   message.save(function (err) {
+    // TODO: 异常处理
     User.getUserById(master_id, function (err, master) {
+      // TODO: 异常处理
       if (master && master.receive_reply_mail) {
         message.has_read = true;
         message.save();
         proxy.getMessageById(message._id, function (err, msg) {
+          // TODO: 异常处理
           mail.sendReplyMail(master.email, msg);
         });
       }
@@ -31,11 +34,14 @@ exports.sendReply2Message = function (master_id, author_id, topic_id) {
   message.author_id = author_id;
   message.topic_id = topic_id;
   message.save(function (err) {
+    // TODO: 异常处理
     User.getUserById(master_id, function (err, master) {
+      // TODO: 异常处理
       if (master && master.receive_reply_mail) {
         message.has_read = true;
         message.save();
         proxy.getMessageById(message._id, function (err, msg) {
+          // TODO: 异常处理
           mail.sendReplyMail(master.email, msg);
         });
       }
@@ -50,11 +56,14 @@ exports.sendAtMessage = function (master_id, author_id, topic_id, callback) {
   message.author_id = author_id;
   message.topic_id = topic_id;
   message.save(function (err) {
+    // TODO: 异常处理
     User.getUserById(master_id, function (err, master) {
+      // TODO: 异常处理
       if (master && master.receive_at_mail) {
         message.has_read = true;
         message.save();
         proxy.getMessageById(message._id, function (err, msg) {
+          // TODO: 异常处理
           mail.sendAtMail(master.email, msg);
         });
       }
