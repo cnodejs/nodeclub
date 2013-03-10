@@ -6,6 +6,7 @@ var ndir = require('ndir');
 var exec = require('child_process').exec;
 var should = require('should');
 var rewire = require("rewire");
+fs.existsSync = fs.existsSync || path.existsSync;
 
 describe('controllers/upload.js', function () {
   
