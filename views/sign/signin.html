@@ -28,12 +28,16 @@
 					<label class='control-label' for='pass'>密码</label>
 					<div class='controls'>
 						<input class='input-xlarge' id='pass' name='pass' size='30' type='password' />
-						<p class='help-block'> <a href='/search_pass'>我忘记了密码</a></p>
 					</div>
 				</div>
 				<input type='hidden' name='_csrf' value='<%= csrf %>' />
 				<div class='form-actions'>
 					<input type='submit' class='btn' value='登录' />
+				</div>
+				<div class='control-group'>
+					<div class='controls'>
+					<a href='/search_pass'>忘记密码了?</a>
+					</div>
 				</div>
 			</form>
 		</div>

@@ -173,6 +173,7 @@ exports.updateLastReply = function (topicId, replyId, callback) {
     topic.last_reply_at = new Date();
     topic.reply_count += 1;
     topic.save();
+    callback(null, topic);
   });
 };
 

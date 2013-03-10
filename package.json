@@ -13,6 +13,7 @@
     "ndir": "0.1.3",
     "nodemailer": "0.3.43",
     "data2xml": "0.4.0",
+    "utility": "0.0.x",
     "xss": "0.0.3"
   },
   "devDependencies": {

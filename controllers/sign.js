@@ -130,7 +130,9 @@ exports.login = function (req, res, next) {
       return res.render('sign/signin', { error: '密码错误。' });
     }
     if (!user.active) {
-      return res.render('sign/signin', { error: '此帐号还没有被激活。' });
+      // 从新发送激活邮件
+      mail.sendActiveMail(user.email, md5(user.email + config.session_secret), user.name, user.email);
+      return res.render('sign/signin', { error: '此帐号还没有被激活，激活链接已发送到 ' + user.email + ' 邮箱，请查收。' });
     }
     // store session cookie
     gen_session(user, res);
@@ -156,13 +158,12 @@ exports.signout = function (req, res, next) {
 exports.active_account = function (req, res, next) {
   var key = req.query.key;
   var name = req.query.name;
-  var email = req.query.email;
 
   User.getUserByName(name, function (err, user) {
     if (err) {
       return next(err);
     }
-    if (!user || md5(email + config.session_secret) !== key) {
+    if (!user || md5(user.email + config.session_secret) !== key) {
       return res.render('notify/notify', {error: '信息有误，帐号无法被激活。'});
     }
     if (user.active) {
@@ -354,6 +355,7 @@ function md5(str) {
   str = md5sum.digest('hex');
   return str;
 }
+
 function randomString(size) {
   size = size || 6;
   var code_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

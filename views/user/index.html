@@ -60,7 +60,10 @@
 				<button class='btn' id='set_star_btn' action='cancel_star'>取消达人</button>
 				<% } %>
 				<br/><br/>
-				Email (Seen by Administrator): <a href="email:<%= user.email %>"><%= user.email %></a>
+				Email (Seen by Administrator): <a href="mailto:<%= user.email %>"><%= user.email %></a>
+				<% if (!user.active) { %>
+				<a class='btn' href="/active_account?key=<%- locals.token %>&name=<%= user.name %>" target="_blank">激活账号</a>
+				<% } %>
 			<% } %>
 		</div>
 	</div>	
