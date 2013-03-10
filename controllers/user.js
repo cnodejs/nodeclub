@@ -5,6 +5,7 @@ var Reply = require('../proxy').Reply;
 var Relation = require('../proxy').Relation;
 var TopicCollect = require('../proxy').TopicCollect;
 var TagCollect = require('../proxy').TagCollect;
+var utility = require('utility');
 
 var message = require('../services/message');
 var Util = require('../libs/util');
@@ -27,11 +28,17 @@ exports.index = function (req, res, next) {
 
     var render = function (recent_topics, recent_replies, relation) {
       user.friendly_create_at = Util.format_date(user.create_at, true);
+      // 如果用户没有激活，那么管理员可以帮忙激活
+      var token = '';
+      if (!user.active && req.session.user && req.session.user.is_admin) {
+        token = utility.md5(user.email + config.session_secret);
+      }
       res.render('user/index', {
         user: user,
         recent_topics: recent_topics,
         recent_replies: recent_replies,
-        relation: relation
+        relation: relation,
+        token: token,
       });
     };
 
