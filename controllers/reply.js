@@ -105,7 +105,11 @@ exports.add_reply2 = function (req, res, next) {
  */
 exports.delete = function (req, res, next) {
   var reply_id = req.body.reply_id;
-  exports.getReplyById(reply_id, function (err, reply) {
+  Reply.getReplyById(reply_id, function (err, reply) {
+    if (err) {
+      return next(err);
+    }
+    
     if (!reply) {
       res.json({status: 'failed'});
       return;
