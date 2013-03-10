@@ -17,6 +17,18 @@ exports.getUsersByNames = function (names, callback) {
 };
 
 /**
+ * 根据登录名查找用户
+ * Callback:
+ * - err, 数据库异常
+ * - user, 用户
+ * @param {String} loginName 登录名
+ * @param {Function} callback 回调函数
+ */
+exports.getUserByLoginName = function (loginName, callback) {
+  User.findOne({'loginname': loginName}, callback);
+};
+
+/**
  * 根据用户ID，查找用户
  * Callback:
  * - err, 数据库异常
@@ -38,6 +50,18 @@ exports.getUserById = function (id, callback) {
  */
 exports.getUserByName = function (name, callback) {
   User.findOne({name: name}, callback);
+};
+
+/**
+ * 根据邮箱，查找用户
+ * Callback:
+ * - err, 数据库异常
+ * - user, 用户
+ * @param {String} email 邮箱地址
+ * @param {Function} callback 回调函数
+ */
+exports.getUserByMail = function (email, callback) {
+  User.findOne({email: email}, callback);
 };
 
 /**
@@ -63,4 +87,27 @@ exports.getUsersByIds = function (ids, callback) {
  */
 exports.getUsersByQuery = function (query, opt, callback) {
   User.find(query, [], opt, callback);
+};
+
+/**
+ * 根据查询条件，获取一个用户
+ * Callback:
+ * - err, 数据库异常
+ * - user, 用户
+ * @param {String} query 查询条件
+ * @param {Function} callback 回调函数
+ */
+exports.getUserByQuery = function (query, callback) {
+  User.findOne(query, callback);
+};
+
+exports.newAndSave = function (name, loginname, pass, email, avatar_url, active, callback) {
+  var user = new User();
+  user.name = name;
+  user.loginname = loginname;
+  user.pass = pass;
+  user.email = email;
+  user.avatar = avatar_url;
+  user.active = false;
+  user.save(callback);
 };

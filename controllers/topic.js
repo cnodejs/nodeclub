@@ -147,11 +147,7 @@ exports.put = function (req, res, next) {
       res.render('topic/edit', {tags: tags, edit_error: '标题字数太多或太少', title: title, content: content});
     });
   } else {
-    var topic = new Topic();
-    topic.title = title;
-    topic.content = content;
-    topic.author_id = req.session.user._id;
-    topic.save(function (err) {
+    Topic.newAndSave(title, content, req.session.user._id, function (err, topic) {
       if (err) {
         return next(err);
       }
@@ -182,7 +178,7 @@ exports.put = function (req, res, next) {
           tag.save();
         }));
       });
-      User.getUserbyId(req.session.user._id, proxy.done(function (user) {
+      User.getUserById(req.session.user._id, proxy.done(function (user) {
         user.score += 5;
         user.topic_count += 1;
         user.save();
@@ -191,7 +187,7 @@ exports.put = function (req, res, next) {
       }));
 
       //发送at消息
-      at.sendAtMessage(content, topic._id, req.session.user._id);
+      at.sendMessageToMentionUsers(content, topic._id, req.session.user._id);
     });
   }
 };
