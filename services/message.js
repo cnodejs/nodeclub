@@ -1,8 +1,7 @@
-var models = require('../models'),
-  Message = models.Message;
+var models = require('../models');
+var Message = models.Message;
 var User = require('../proxy').User;
-var proxy = require('../proxy').Message;
-
+var messageProxy = require('../proxy/message');
 var mail = require('./mail');
 
 exports.sendReplyMessage = function (master_id, author_id, topic_id) {
@@ -18,7 +17,7 @@ exports.sendReplyMessage = function (master_id, author_id, topic_id) {
       if (master && master.receive_reply_mail) {
         message.has_read = true;
         message.save();
-        proxy.getMessageById(message._id, function (err, msg) {
+        messageProxy.getMessageById(message._id, function (err, msg) {
           // TODO: 异常处理
           mail.sendReplyMail(master.email, msg);
         });
@@ -40,7 +39,7 @@ exports.sendReply2Message = function (master_id, author_id, topic_id) {
       if (master && master.receive_reply_mail) {
         message.has_read = true;
         message.save();
-        proxy.getMessageById(message._id, function (err, msg) {
+        messageProxy.getMessageById(message._id, function (err, msg) {
           // TODO: 异常处理
           mail.sendReplyMail(master.email, msg);
         });
@@ -62,7 +61,7 @@ exports.sendAtMessage = function (master_id, author_id, topic_id, callback) {
       if (master && master.receive_at_mail) {
         message.has_read = true;
         message.save();
-        proxy.getMessageById(message._id, function (err, msg) {
+        messageProxy.getMessageById(message._id, function (err, msg) {
           // TODO: 异常处理
           mail.sendAtMail(master.email, msg);
         });

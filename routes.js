@@ -90,7 +90,7 @@ module.exports = function (app) {
   // TODO: 如果创建文章的过程太长，导致session过期，界面的内容会丢失
   // FIXME: 采用前端来判断，不通过跳转的形式来解决
   app.post('/topic/create', auth.signinRequired, topic.put);
-  app.post('/topic/:tid/edit', topic.edit);
+  app.post('/topic/:tid/edit', topic.update);
   app.post('/topic/collect', auth.userRequired, topic.collect);
   app.post('/topic/de_collect', auth.userRequired, topic.de_collect);
 
