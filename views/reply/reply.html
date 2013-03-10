@@ -1,4 +1,5 @@
-<div class='cell reply_area reply_item' id="reply<%= indexInCollection+1 %>" reply_id="<%= reply._id %>">
+<div class='cell reply_area reply_item' id="reply<%= indexInCollection+1 %>" reply_id="<%- reply._id %>">
+	<a id="<%- reply._id %>"></a>
 	<div class='user_avatar'>
 		<a href="/user/<%= reply.author.name %>"><img src="<%= reply.author.avatar_url %>" title="<%= reply.author.name %>" /></a>
 	</div>
@@ -14,7 +15,7 @@
 		</span>
 	<span class='reply_author'><a class='dark' href="/user/<%= reply.author.name %>"><%= reply.author.name %></a></span>
 		<span class='col_fade'>
-			在 <%= reply.friendly_create_at %>回复
+			在 <a href="#<%- reply._id %>"><%= reply.friendly_create_at %></a> 回复
 			<% if(locals.current_user && current_user._id.toString() == reply.author._id.toString()) { %>
 			<span class='sp10'></span>
 			<a href='javascript:void(0);' class='delete_reply_btn'><img class='user_icon' src="<%- config.site_static_host %>/images/trash_icon&16.png" title='删除' /></a>

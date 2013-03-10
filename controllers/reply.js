@@ -22,45 +22,33 @@ exports.add = function (req, res, next) {
     return;
   }
 
-  var proxy = new EventProxy();
-  proxy.assign('reply_saved', 'message_saved', 'score_saved', function () {
-    res.redirect('/topic/' + topic_id);
+  var ep = EventProxy.create('reply_saved', 'message_saved', 'score_saved', function (reply) {
+    res.redirect('/topic/' + topic_id + '#' + reply._id);
   });
+  ep.fail(next);
 
-  Reply.newAndSave(content, topic_id, req.session.user._id, function (err, reply) {
-    if (err) {
-      return next(err);
-    }
-    Topic.updateLastReply(topic_id, reply._id, function (err) {
-      if (err) {
-        return next(err);
-      }
-      proxy.emit('reply_saved');
+  Reply.newAndSave(content, topic_id, req.session.user._id, ep.done(function (reply) {
+    Topic.updateLastReply(topic_id, reply._id, ep.done(function () {
+      ep.emit('reply_saved', reply);
       //发送at消息
       at.sendMessageToMentionUsers(content, topic_id, req.session.user._id);
-    });
-  });
+    }));
+  }));
 
-  Topic.getTopic(topic_id, function (err, topic) {
-    if (err) {
-      return next(err);
-    }
+  Topic.getTopic(topic_id, ep.done(function (topic) {
     if (topic.author_id.toString() !== req.session.user._id.toString()) {
       message.sendReplyMessage(topic.author_id, req.session.user._id, topic._id);
     }
-    proxy.emit('message_saved');
-  });
+    ep.emit('message_saved');
+  }));
 
-  User.getUserById(req.session.user._id, function (err, user) {
-    if (err) {
-      return next(err);
-    }
+  User.getUserById(req.session.user._id, ep.done(function (user) {
     user.score += 5;
     user.reply_count += 1;
     user.save();
     req.session.user.score += 5;
-    proxy.emit('score_saved');
-  });
+    ep.emit('score_saved');
+  }));
 };
 
 /**
@@ -117,7 +105,11 @@ exports.add_reply2 = function (req, res, next) {
  */
 exports.delete = function (req, res, next) {
   var reply_id = req.body.reply_id;
-  exports.getReplyById(reply_id, function (err, reply) {
+  Reply.getReplyById(reply_id, function (err, reply) {
+    if (err) {
+      return next(err);
+    }
+    
     if (!reply) {
       res.json({status: 'failed'});
       return;

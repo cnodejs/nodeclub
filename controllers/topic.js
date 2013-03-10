@@ -173,7 +173,7 @@ exports.put = function (req, res, next) {
         topic_tag.topic_id = topic._id;
         topic_tag.tag_id = tag;
         topic_tag.save(proxy.done('tag_saved'));
-        tag_ctrl.get_tag_by_id(tag, proxy.done(function (tag) {
+        Tag.getTagById(tag, proxy.done(function (tag) {
           tag.topic_count += 1;
           tag.save();
         }));
@@ -208,7 +208,7 @@ exports.showEdit = function (req, res, next) {
       res.render('notify/notify', {error: '此话题不存在或已被删除。'});
       return;
     }
-    if (topic.author_id === req.session.user._id || req.session.user.is_admin) {
+    if (String(topic.author_id) === req.session.user._id || req.session.user.is_admin) {
       Tag.getAllTags(function (err, all_tags) {
         if (err) {
           return next(err);
@@ -246,7 +246,7 @@ exports.update = function (req, res, next) {
       return;
     }
 
-    if (topic.author_id === req.session.user._id || req.session.user.is_admin) {
+    if (String(topic.author_id) === req.session.user._id || req.session.user.is_admin) {
       var title = sanitize(req.body.title).trim();
       title = sanitize(title).xss();
       var content = req.body.t_content;
@@ -292,7 +292,7 @@ exports.update = function (req, res, next) {
           var tags_removed_done = function () {
             proxy.emit('tags_removed_done');
           };
-          TopicTag.find({topic_id: topic._id}, function (err, docs) {
+          TopicTag.getTopicTagByTopicId(topic._id, function (err, docs) {
             if (docs.length === 0) {
               proxy.emit('tags_removed_done');
             } else {
@@ -320,10 +320,7 @@ exports.update = function (req, res, next) {
             proxy.after('tag_saved', topic_tags.length, tags_saved_done);
             //save topic tags
             topic_tags.forEach(function (tag) {
-              var topic_tag = new TopicTag();
-              topic_tag.topic_id = topic._id;
-              topic_tag.tag_id = tag;
-              topic_tag.save(proxy.done('tag_saved'));
+              TopicTag.newAndSave(topic._id, tag, proxy.done('tag_saved'));
               Tag.getTagById(tag, proxy.done(function (tag) {
                 tag.topic_count += 1;
                 tag.save();
@@ -331,7 +328,7 @@ exports.update = function (req, res, next) {
             });
           }
           //发送at消息
-          at.sendAtMessage(content, topic._id, req.session.user._id);
+          at.sendMessageToMentionUsers(content, topic._id, req.session.user._id);
         });
       }
     } else {
