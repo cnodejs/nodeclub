@@ -67,33 +67,35 @@ if (req.body && req.body.user_action === 'upload_image') return next();
 Below is the output from `git-summary`.
 
 ```
+ $ git summary 
+
  project  : nodeclub
- repo age : 1 year
- active   : 100 days
- commits  : 244
- files    : 268
+ repo age : 1 year, 1 month
+ active   : 113 days
+ commits  : 270
+ files    : 280
  authors  : 
-   114  fengmk2                 46.7%
-    30  dead-horse              12.3%
-    20  Jackson Tian            8.2%
-    16  jiyinyiyong             6.6%
-    10  Kenny Zhao              4.1%
-     9  Lei Zongmin             3.7%
-     9  muyuan                  3.7%
-     7  young40                 2.9%
-     6  aisk                    2.5%
-     5  ericzhang               2.0%
-     4  spout                   1.6%
-     3  Json Shen               1.2%
-     2  Cong Ding               0.8%
-     2  chang                   0.8%
+   129  fengmk2                 47.8%
+    31  Jackson Tian            11.5%
+    30  dead-horse              11.1%
+    16  jiyinyiyong             5.9%
+    10  Kenny Zhao              3.7%
+     9  Lei Zongmin             3.3%
+     9  muyuan                  3.3%
+     7  young40                 2.6%
+     6  aisk                    2.2%
+     5  ericzhang               1.9%
+     4  spout                   1.5%
+     3  Json Shen               1.1%
+     2  Cong Ding               0.7%
+     2  chang                   0.7%
      1  sunwenchao              0.4%
      1  roymax                  0.4%
      1  Xiang Gao               0.4%
      1  leizongmin              0.4%
      1  thebrecht               0.4%
      1  LeToNode                0.4%
-     1  张洋                    0.4%
+     1  张洋                  0.4%
 ```
 
 ## License
