@@ -260,8 +260,7 @@ exports.follow = function (req, res, next) {
       res.json({status: 'failed'});
     }
 
-    var proxy = new EventProxy();
-    proxy.assign('relation_saved', 'message_saved', function () {
+    var proxy = EventProxy.create('relation_saved', 'message_saved', function () {
       res.json({status: 'success'});
     });
     proxy.fail(next);
@@ -317,13 +316,22 @@ exports.un_follow = function (req, res, next) {
         return next(err);
       }
       me.following_count -= 1;
+      if (me.following_count < 0) {
+        me.following_count = 0;
+      }
       me.save();
     });
 
     user.follower_count -= 1;
+    if (user.follower_count < 0) {
+      user.follower_count = 0;
+    }
     user.save();
 
     req.session.user.following_count -= 1;
+    if (req.session.user.following_count < 0) {
+      req.session.user.following_count = 0;
+    }
   });
 };
 
@@ -348,105 +356,113 @@ exports.toggle_star = function (req, res, next) {
 };
 
 exports.get_collect_tags = function (req, res, next) {
-  if (!req.session.user) {
-    res.redirect('home');
-    return;
-  }
-  TagCollect.getTagCollectsByUserId(req.session.user._id, function (err, docs) {
-    if (err) {
+  var name = req.params.name;
+  User.getUserByName(name, function (err, user) {
+    if (err || !user) {
       return next(err);
     }
-    var ids = [];
-    for (var i = 0; i < docs.length; i++) {
-      ids.push(docs[i].tag_id);
-    }
-    Tag.getTagsByIds(ids, function (err, tags) {
+    TagCollect.getTagCollectsByUserId(user._id, function (err, docs) {
       if (err) {
         return next(err);
       }
-      res.render('user/collect_tags', { tags: tags });
+      var ids = [];
+      for (var i = 0; i < docs.length; i++) {
+        ids.push(docs[i].tag_id);
+      }
+      Tag.getTagsByIds(ids, function (err, tags) {
+        if (err) {
+          return next(err);
+        }
+        res.render('user/collect_tags', { tags: tags, user: user });
+      });
     });
   });
 };
 
 exports.get_collect_topics = function (req, res, next) {
-  if (!req.session.user) {
-    res.redirect('home');
-    return;
-  }
-
-  var page = Number(req.query.page) || 1;
-  var limit = config.list_topic_count;
-
-  var render = function (topics, pages) {
-    res.render('user/collect_topics', {
-      topics: topics,
-      current_page: page,
-      pages: pages
-    });
-  };
-
-  var proxy = new EventProxy();
-  proxy.assign('topics', 'pages', render);
-  proxy.fail(next);
-
-  TopicCollect.getTopicCollectsByUserId(req.session.user._id, proxy.done(function (docs) {
-    var ids = [];
-    for (var i = 0; i < docs.length; i++) {
-      ids.push(docs[i].topic_id);
+  var name = req.params.name;
+  User.getUserByName(name, function (err, user) {
+    if (err || !user) {
+      return next(err);
     }
-    var query = { _id: { '$in': ids } };
-    var opt = {
-      skip: (page - 1) * limit,
-      limit: limit,
-      sort: [ [ 'create_at', 'desc' ] ]
+
+    var page = Number(req.query.page) || 1;
+    var limit = config.list_topic_count;
+
+    var render = function (topics, pages) {
+      res.render('user/collect_topics', {
+        topics: topics,
+        current_page: page,
+        pages: pages,
+        user: user
+      });
     };
-    Topic.getTopicsByQuery(query, opt, proxy.done('topics'));
-    Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
-      var pages = Math.ceil(all_topics_count / limit);
-      proxy.emit('pages', pages);
+
+    var proxy = EventProxy.create('topics', 'pages', render);
+    proxy.fail(next);
+
+    TopicCollect.getTopicCollectsByUserId(user._id, proxy.done(function (docs) {
+      var ids = [];
+      for (var i = 0; i < docs.length; i++) {
+        ids.push(docs[i].topic_id);
+      }
+      var query = { _id: { '$in': ids } };
+      var opt = {
+        skip: (page - 1) * limit,
+        limit: limit,
+        sort: [ [ 'create_at', 'desc' ] ]
+      };
+      Topic.getTopicsByQuery(query, opt, proxy.done('topics'));
+      Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
+        var pages = Math.ceil(all_topics_count / limit);
+        proxy.emit('pages', pages);
+      }));
     }));
-  }));
+  });
 };
 
 exports.get_followings = function (req, res, next) {
-  if (!req.session.user) {
-    res.redirect('home');
-    return;
-  }
-  Relation.getRelationsByUserId(req.session.user._id, function (err, docs) {
-    if (err) {
+  var name = req.params.name;
+  User.getUserByName(name, function (err, user) {
+    if (err || !user) {
       return next(err);
     }
-    var ids = [];
-    for (var i = 0; i < docs.length; i++) {
-      ids.push(docs[i].follow_id);
-    }
-    User.getUsersByIds(ids, function (err, users) {
+    Relation.getFollowings(user._id, function (err, docs) {
       if (err) {
         return next(err);
       }
-      res.render('user/followings', {users: users});
+      var ids = [];
+      for (var i = 0; i < docs.length; i++) {
+        ids.push(docs[i].follow_id);
+      }
+      User.getUsersByIds(ids, function (err, users) {
+        if (err) {
+          return next(err);
+        }
+        res.render('user/followings', { users: users, user: user });
+      });
     });
   });
 };
 
 exports.get_followers = function (req, res, next) {
-  if (!req.session.user) {
-    res.redirect('home');
-    return;
-  }
-  var proxy = new EventProxy();
-  proxy.fail(next);
-  Relation.getRelationsByUserId(req.session.user._id, proxy.done(function (docs) {
-    var ids = [];
-    for (var i = 0; i < docs.length; i++) {
-      ids.push(docs[i].user_id);
+  var name = req.params.name;
+  User.getUserByName(name, function (err, user) {
+    if (err || !user) {
+      return next(err);
     }
-    User.getUsersByIds(ids, proxy.done(function (users) {
-      res.render('user/followers', {users: users});
+    var proxy = new EventProxy();
+    proxy.fail(next);
+    Relation.getRelationsByUserId(user._id, proxy.done(function (docs) {
+      var ids = [];
+      for (var i = 0; i < docs.length; i++) {
+        ids.push(docs[i].user_id);
+      }
+      User.getUsersByIds(ids, proxy.done(function (users) {
+        res.render('user/followers', {users: users, user: user});
+      }));
     }));
-  }));
+  });
 };
 
 exports.top100 = function (req, res, next) {

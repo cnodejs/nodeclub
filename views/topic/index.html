@@ -15,7 +15,7 @@
     <div class='inner'>
       <% if (locals.author_other_topics && author_other_topics.length > 0) { %>
       <ul class='unstyled'>
-      <%- partial('topic/small',{ collection: author_other_topics, as: 'topic' }) %>
+      <%- partial('topic/small', { collection: author_other_topics, as: 'topic' }) %>
       </ul>
       <% } else {  %>
       <p>无</p>
@@ -30,7 +30,7 @@
     <div class='inner'>
       <% if (locals.no_reply_topics && no_reply_topics.length > 0) { %>
       <ul class='unstyled'>
-      <%- partial('topic/small',{ collection: no_reply_topics, as: 'topic' }) %>
+      <%- partial('topic/small', { collection: no_reply_topics, as: 'topic' }) %>
       </ul>
       <% } else {  %>
       <p>无</p>

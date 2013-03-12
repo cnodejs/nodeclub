@@ -82,11 +82,11 @@ exports.index = function (req, res, next) {
       }
     }));
 
-    //get author's relationship
-    if (!req.session.user || req.session.user._id) {
-      ep.emit('get_relation', null);
-    } else {
+    // get author's relationship
+    if (req.session.user && req.session.user._id) {
       Relation.getRelation(req.session.user._id, topic.author_id, ep.done('get_relation'));
+    } else {
+      ep.emit('get_relation', null);
     }
 
     // get author other topics
