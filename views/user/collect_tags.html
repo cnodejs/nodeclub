@@ -5,14 +5,14 @@
 		<div class='header'>
 			<ul class='breadcrumb'>
 				<li><a href='/'>主页</a><span class='divider'>/</span></li>
-				<li class='active'>我收藏的标签</li>
+				<li class='active'><%= user.name %> 收藏的标签</li>
 			</ul>
 		</div>
 		<div class='inner'>
-			<% if(tags.length > 0){ %>
-			<%- partial('tag/tag',{collection:tags,as:'tag'}) %>			
-			<% }else{ %>
-			<p>你还没有收藏标签</p>	
+			<% if (tags.length > 0) { %>
+			<%- partial('tag/tag', { collection: tags, as: 'tag' }) %>			
+			<% } else { %>
+			<p>找不到标签 (T_T) </p>	
 			<% } %>
 		</div>
 	</div>	

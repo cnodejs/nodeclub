@@ -14,9 +14,9 @@
 			</div>
 			<% if (locals.current_user && current_user._id != user._id) { %>
 				<% if (!locals.relation) { %>
-				<button class='btn btn-success fr' id='follow_btn' action='follow'>加入关注</button>
+				<button class='btn btn-success fr follow_btn' action='follow'>加入关注</button>
 				<% } else { %>
-				<button class='btn fr' id='follow_btn' action='un_follow'>取消关注</button>
+				<button class='btn fr follow_btn' action='un_follow'>取消关注</button>
 				<% } %>
 			<% } %>
 			<h2><%= user.name %></h2>
@@ -80,22 +80,6 @@
 <% if (locals.current_user) { %>
 <script>
 	$(document).ready(function () {
-		$('#follow_btn').click(function () {
-			var $me = $(this);
-			var action = $me.attr('action');
-			$.post('/user/'+action,{follow_id: "<%= user._id %>"},function (data) {
-				if(data.status == 'success'){
-					if(action == 'follow'){
-						$me.html('取消关注');
-						$me.attr('action','un_follow');
-					}else{
-						$me.html('加入关注');
-						$me.attr('action','follow');
-					}
-					$me.toggleClass('btn-success');	
-				}	
-			},'json');	
-		});
 		$('#set_star_btn').click(function () {
 			var $me = $(this);
 			var action = $me.attr('action');

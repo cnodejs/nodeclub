@@ -9,6 +9,10 @@ exports.getRelationsByUserId = function (id, callback) {
   Relation.find({follow_id: id}, callback);
 };
 
+exports.getFollowings = function (userId, callback) {
+  Relation.find({ user_id: userId }, callback);
+};
+
 exports.newAndSave = function (userId, followId, callback) {
   var relation = new Relation();
   relation.user_id = userId;
