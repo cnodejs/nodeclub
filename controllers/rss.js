@@ -1,17 +1,16 @@
-var topic_ctrl = require('./topic');
-
 var config = require('../config').config;
 var data2xml = require('data2xml');
 var markdown = require('node-markdown').Markdown;
+var Topic = require('../proxy').Topic;
 
 exports.index = function (req, res, next) {
   if (!config.rss) {
     res.statusCode = 404;
     return res.send('Please set `rss` in config.js');
   }
-  var opt = { limit: config.rss.max_rss_items, sort: [ [ 'create_at','desc' ] ] };
+  var opt = { limit: config.rss.max_rss_items, sort: [ [ 'create_at', 'desc' ] ] };
 
-  topic_ctrl.get_topics_by_query({}, opt, function (err, topics) {
+  Topic.getTopicsByQuery({}, opt, function (err, topics) {
     if (err) {
       return next(err);
     }

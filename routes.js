@@ -17,8 +17,9 @@ var topic = require('./controllers/topic');
 var reply = require('./controllers/reply');
 var rss = require('./controllers/rss');
 var upload = require('./controllers/upload');
-var static = require('./controllers/static');
+var assets = require('./controllers/static');
 var tools = require('./controllers/tools');
+var auth = require('./midderwares/auth');
 var status = require('./controllers/status');
 
 module.exports = function (app) {
@@ -26,7 +27,7 @@ module.exports = function (app) {
   app.get('/', site.index);
 
   // sign up, login, logout
-  app.get('/signup', sign.signup);
+  app.get('/signup', sign.showSignup);
   app.post('/signup', sign.signup);
   app.get('/signout', sign.signout);
   app.get('/signin', sign.showLogin);
@@ -34,25 +35,25 @@ module.exports = function (app) {
   app.get('/active_account', sign.active_account);
 
   // password
-  app.get('/search_pass', sign.search_pass);
-  app.post('/search_pass', sign.search_pass);
+  app.get('/search_pass', sign.showSearchPass);
+  app.post('/search_pass', sign.updateSearchPass);
   app.get('/reset_pass', sign.reset_pass);
-  app.post('/reset_pass', sign.reset_pass);
+  app.post('/reset_pass', sign.update_pass);
 
   // user
   app.get('/user/:name', user.index);
-  app.get('/setting', user.setting);
+  app.get('/setting', user.showSetting);
   app.post('/setting', user.setting);
   app.get('/stars', user.show_stars);
   app.get('/users/top100', user.top100);
-  app.get('/my/tags', user.get_collect_tags);
-  app.get('/my/topics', user.get_collect_topics);
+  app.get('/user/:name/tags', user.get_collect_tags);
+  app.get('/user/:name/topics', user.get_collect_topics);
   app.get('/my/messages', message.index);
-  app.get('/my/follower', user.get_followers);
-  app.get('/my/following', user.get_followings);
+  app.get('/user/:name/follower', user.get_followers);
+  app.get('/user/:name/following', user.get_followings);
   app.get('/user/:name/topics', user.list_topics);
   app.get('/user/:name/replies', user.list_replies);
-  app.post('/user/follow', user.follow);
+  app.post('/user/follow', auth.userRequired, user.follow);
   app.post('/user/un_follow', user.un_follow);
   app.post('/user/set_star', user.toggle_star);
   app.post('/user/cancel_star', user.toggle_star);
@@ -64,38 +65,50 @@ module.exports = function (app) {
   // tag
   app.get('/tags/edit', tag.edit_tags);
   app.get('/tag/:name', tag.list_topic);
-  app.get('/tag/:name/edit', tag.edit);
+  // 编辑界面
+  app.get('/tag/:name/edit', auth, tag.edit);
   app.get('/tag/:name/delete', tag.delete);
   app.post('/tag/add', tag.add);
-  app.post('/tag/:name/edit', tag.edit);
+  // 更新
+  app.post('/tag/:name/edit', auth, tag.update);
   app.post('/tag/collect', tag.collect);
-  app.post('/tag/de_collect', tag.de_collect);
+  app.post('/tag/de_collect', auth.userRequired, tag.de_collect);
 
   // topic
-  app.get('/topic/create', topic.create);
+  // 新建文章界面
+  app.get('/topic/create', auth.signinRequired, topic.create);
   app.get('/topic/:tid', topic.index);
   app.get('/topic/:tid/top/:is_top?', topic.top);
-  app.get('/topic/:tid/edit', topic.edit);
-  app.get('/topic/:tid/delete', topic.delete);
-  app.post('/topic/create', topic.create);
-  app.post('/topic/:tid/edit', topic.edit);
-  app.post('/topic/collect', topic.collect);
-  app.post('/topic/de_collect', topic.de_collect);
+  app.get('/topic/:tid/edit', topic.showEdit);
+
+  // Po-Ying Chen <poying.me@gmail.com>: 當 "非" 作者的使用者在留言的地方貼上一個網址為
+  // http://[domain name]/topic/[topic id]/delete 的圖片之後，只要作者一看到圖片，文章就會被刪除了，
+  // 可能需要將刪除的方法改成 post 來避免此問題
+  app.post('/topic/:tid/delete', topic.delete);
+
+  // 保存新建的文章
+  // TODO: 如果创建文章的过程太长，导致session过期，界面的内容会丢失
+  // FIXME: 采用前端来判断，不通过跳转的形式来解决
+  app.post('/topic/create', auth.signinRequired, topic.put);
+  app.post('/topic/:tid/edit', topic.update);
+  app.post('/topic/collect', auth.userRequired, topic.collect);
+  app.post('/topic/de_collect', auth.userRequired, topic.de_collect);
 
   // reply
-  app.post('/:topic_id/reply', reply.add);
-  app.post('/:topic_id/reply2', reply.add_reply2);
+  // 回复
+  app.post('/:topic_id/reply', auth.userRequired, reply.add);
+  app.post('/:topic_id/reply2', auth.userRequired, reply.add_reply2);
   app.post('/reply/:reply_id/delete', reply.delete);
 
   // upload
   app.post('/upload/image', upload.uploadImage);
-  
+
   // tools
   app.get('/site_tools', tools.run_site_tools);
 
   // static
-  app.get('/about', static.about);
-  app.get('/faq', static.faq);
+  app.get('/about', assets.about);
+  app.get('/faq', assets.faq);
 
   //rss
   app.get('/rss', rss.index);

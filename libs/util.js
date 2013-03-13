@@ -7,7 +7,7 @@ exports.format_date = function (date, friendly) {
   var hour = date.getHours();
   var minute = date.getMinutes();
   var second = date.getSeconds();
-  
+
   if (friendly) {
     var now = new Date();
     var mseconds = -(date.getTime() - now.getTime());
@@ -24,14 +24,14 @@ exports.format_date = function (date, friendly) {
       }
     }
   }
-  
+
   //month = ((month < 10) ? '0' : '') + month;
   //day = ((day < 10) ? '0' : '') + day;
   hour = ((hour < 10) ? '0' : '') + hour;
   minute = ((minute < 10) ? '0' : '') + minute;
   second = ((second < 10) ? '0': '') + second;
 
-  thisYear = new Date().getFullYear();
+  var thisYear = new Date().getFullYear();
   year = (thisYear === year) ? '' : (year + '-');
   return year + month + '-' + day + ' ' + hour + ':' + minute;
 };
@@ -44,17 +44,17 @@ exports.format_date = function (date, friendly) {
  * @api private
  */
 
-exports.escape = function(html){
+exports.escape = function (html) {
   var codeSpan = /(^|[^\\])(`+)([^\r]*?[^`])\2(?!`)/gm;
   var codeBlock = /(?:\n\n|^)((?:(?:[ ]{4}|\t).*\n+)+)(\n*[ ]{0,3}[^ \t\n]|(?=~0))/g;
   var spans = [];
   var blocks = [];
   var text = String(html).replace(/\r\n/g, '\n')
   .replace('/\r/g', '\n');
-  
+
   text = '\n\n' + text + '\n\n';
 
-  text = text.replace(codeSpan, function(code) {
+  text = text.replace(codeSpan, function (code) {
     spans.push(code);
     return '`span`';
   });
@@ -69,13 +69,13 @@ exports.escape = function(html){
   .replace(/</g, '&lt;')
   .replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;')
-  .replace(/`span`/g, function() {
+  .replace(/`span`/g, function () {
     return spans.shift();
   })
-  .replace(/\n\tblock/g, function() {
+  .replace(/\n\tblock/g, function () {
     return blocks.shift();
   })
-  .replace(/~0$/,'')
+  .replace(/~0$/, '')
   .replace(/^\n\n/, '')
   .replace(/\n\n$/, '');
 };

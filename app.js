@@ -40,7 +40,7 @@ app.configure(function () {
   }));
   // custom middleware
   app.use(require('./controllers/sign').auth_user);
-  
+
   var csrf = express.csrf();
   app.use(function (req, res, next) {
     // ignore upload image
@@ -78,12 +78,12 @@ app.use('/user_data/', express.static(path.join(__dirname, 'public', 'user_data'
 var staticDir = path.join(__dirname, 'public');
 app.configure('development', function () {
   app.use(express.static(staticDir));
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app.configure('production', function () {
   app.use(express.static(staticDir, { maxAge: maxAge }));
-  app.use(express.errorHandler()); 
+  app.use(express.errorHandler());
   app.set('view cache', true);
 });
 

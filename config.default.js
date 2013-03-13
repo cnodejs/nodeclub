@@ -85,13 +85,15 @@ exports.config = {
   ],
 
   // mail SMTP
-  mail_port: 25,
-  mail_user: 'club',
-  mail_pass: 'club',
-  mail_host: 'smtp.126.com',
-  mail_sender: 'club@126.com',
-  mail_use_authentication: true,
-  
+  mail_opts: {
+    host: 'smtp.126.com',
+    port: 25,
+    auth: {
+      user: 'club@126.com',
+      pass: 'club'
+    }
+  },
+
   //weibo app key
   weibo_key: 10000000,
 

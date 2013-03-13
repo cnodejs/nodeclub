@@ -1,6 +1,4 @@
-# nodeclub
-
-[![Build Status](https://secure.travis-ci.org/cnodejs/nodeclub.png?branch=master)](http://travis-ci.org/cnodejs/nodeclub)
+# nodeclub [![Build Status](https://secure.travis-ci.org/cnodejs/nodeclub.png?branch=master)](http://travis-ci.org/cnodejs/nodeclub) [![依赖模块状态](https://david-dm.org/cnodejs/nodeclub.png)](http://david-dm.org/cnodejs/nodeclub)
 
 基于nodejs的社区系统
 
@@ -32,7 +30,6 @@ jscoverage
 $ make test-cov
 ```
 
-* test results: [test_results.md](https://github.com/cnodejs/nodeclub/blob/master/test_results.md)
 * jscoverage: [**31%**](http://fengmk2.github.com/coverage/nodeclub.html)
     
 ## 其它
@@ -65,43 +62,47 @@ if (req.body && req.body.user_action === 'upload_image') return next();
 
 从现在开始，所有提交都要严格遵循[代码规范](https://github.com/windyrobin/iFrame/blob/master/style.md)。
 
-## Authors
+## Contributors
 
 Below is the output from `git-summary`.
 
 ```
- project: nodeclub
- commits: 201
- active : 81 days
- files  : 267
- authors: 
-    94  fengmk2                 46.8%
-    20  Jackson Tian            10.0%
-    15  dead-horse              7.5%
-    13  jiyinyiyong             6.5%
-    10  Kenny Zhao              5.0%
-     9  muyuan                  4.5%
-     7  young40                 3.5%
-     6  aisk                    3.0%
-     6  Lei Zongmin             3.0%
-     5  ericzhang               2.5%
-     4  spout                   2.0%
-     3  Json Shen               1.5%
-     2  chang                   1.0%
-     1  张洋                  0.5%
-     1  LeToNode                0.5%
-     1  leizongmin              0.5%
-     1  roymax                  0.5%
-     1  sunwenchao              0.5%
-     1  thebrecht               0.5%
-     1  Xiang Gao               0.5%
+ $ git summary 
+
+ project  : nodeclub
+ repo age : 1 year, 1 month
+ active   : 113 days
+ commits  : 270
+ files    : 280
+ authors  : 
+   129  fengmk2                 47.8%
+    31  Jackson Tian            11.5%
+    30  dead-horse              11.1%
+    16  jiyinyiyong             5.9%
+    10  Kenny Zhao              3.7%
+     9  Lei Zongmin             3.3%
+     9  muyuan                  3.3%
+     7  young40                 2.6%
+     6  aisk                    2.2%
+     5  ericzhang               1.9%
+     4  spout                   1.5%
+     3  Json Shen               1.1%
+     2  Cong Ding               0.7%
+     2  chang                   0.7%
+     1  sunwenchao              0.4%
+     1  roymax                  0.4%
+     1  Xiang Gao               0.4%
+     1  leizongmin              0.4%
+     1  thebrecht               0.4%
+     1  LeToNode                0.4%
+     1  张洋                  0.4%
 ```
 
 ## License
 
 ( The MIT License )
 
-Copyright (c) 2012 muyuan, fengmk2 and other nodeclub contributors
+Copyright (c) 2012 - 2013 muyuan, fengmk2 and other nodeclub contributors
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
