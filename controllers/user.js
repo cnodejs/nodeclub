@@ -126,7 +126,7 @@ exports.setting = function (req, res, next) {
 
     if (url !== '') {
       try {
-        if (url.indexOf('http://') < 0) {
+        if ((url.indexOf('http://') < 0) && (url.indexOf('https://') < 0)) {
           url = 'http://' + url;
         }
         check(url, '不正确的个人网站。').isUrl();
