@@ -94,11 +94,12 @@ exports.getUsersByQuery = function (query, opt, callback) {
  * Callback:
  * - err, 数据库异常
  * - user, 用户
- * @param {String} query 查询条件
+ * @param {String} name 用户名
+ * @param {String} key 激活码
  * @param {Function} callback 回调函数
  */
-exports.getUserByQuery = function (query, callback) {
-  User.findOne(query, callback);
+exports.getUserByQuery = function (name, key, callback) {
+  User.findOne({name: name, retrieve_key: key}, callback);
 };
 
 exports.newAndSave = function (name, loginname, pass, email, avatar_url, active, callback) {

@@ -1,28 +1,9 @@
 var mailer = require('nodemailer');
 var config = require('../config').config;
-var EventProxy = require('eventproxy');
 
 var transport = mailer.createTransport('SMTP', config.mail_opts);
 
 var SITE_ROOT_URL = 'http://' + config.hostname + (config.port !== 80 ? ':' + config.port : '');
-
-/**
- * control mailer
- * @type {EventProxy}
- */
-var mailEvent = new EventProxy();
-/**
- * when need to send an email, start to check the mails array and send all of emails.
- */
-mailEvent.on("getMail", function (mail) {
-    // 遍历邮件数组，发送每一封邮件，如果有发送失败的，就再压入数组，同时触发mailEvent事件
-  transport.sendMail(mail, function (err) {
-    if (err) {
-      // 写为日志
-      console.log(err);
-    }
-  });
-});
 
 /**
  * Send an email
@@ -36,7 +17,13 @@ var sendMail = function (data) {
     }
     return;
   }
-  mailEvent.emit("getMail", data);
+  // 遍历邮件数组，发送每一封邮件，如果有发送失败的，就再压入数组，同时触发mailEvent事件
+  transport.sendMail(data, function (err) {
+    if (err) {
+      // 写为日志
+      console.log(err);
+    }
+  });
 };
 
 /**
@@ -46,7 +33,7 @@ var sendMail = function (data) {
  * @param {String} name 接收人的用户名
  * @param {String} email 接受人的邮件地址
  */
-exports.sendActiveMail = function (who, token, name, email) {
+exports.sendActiveMail = function (who, token, name) {
   var from = config.mail_opts.auth.user;
   var to = who;
   var subject = config.name + '社区帐号激活';

@@ -172,8 +172,7 @@ exports.updateLastReply = function (topicId, replyId, callback) {
     topic.last_reply = replyId;
     topic.last_reply_at = new Date();
     topic.reply_count += 1;
-    topic.save();
-    callback(null, topic);
+    topic.save(callback);
   });
 };
 
@@ -211,7 +210,5 @@ exports.newAndSave = function (title, content, authorId, callback) {
   topic.title = title;
   topic.content = content;
   topic.author_id = authorId;
-  topic.save(function (err) {
-    callback(err, topic);
-  });
+  topic.save(callback);
 };
