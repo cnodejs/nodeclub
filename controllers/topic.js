@@ -169,10 +169,7 @@ exports.put = function (req, res, next) {
       proxy.after('tag_saved', topic_tags.length, tags_saved_done);
       //save topic tags
       topic_tags.forEach(function (tag) {
-        var topic_tag = new TopicTag();
-        topic_tag.topic_id = topic._id;
-        topic_tag.tag_id = tag;
-        topic_tag.save(proxy.done('tag_saved'));
+        TopicTag.newAndSave(topic._id, tag, proxy.done('tag_saved'));
         Tag.getTagById(tag, proxy.done(function (tag) {
           tag.topic_count += 1;
           tag.save();
