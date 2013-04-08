@@ -226,7 +226,7 @@ exports.updateSearchPass = function (req, res, next) {
 exports.reset_pass = function (req, res, next) {
   var key = req.query.key;
   var name = req.query.name;
-  User.getUserByQuery({name: name, retrieve_key: key}, function (err, user) {
+  User.getUserByQuery(name, key, function (err, user) {
     if (!user) {
       return res.render('notify/notify', {error: '信息有误，密码无法重置。'});
     }
@@ -247,7 +247,7 @@ exports.update_pass = function (req, res, next) {
   if (psw !== repsw) {
     return res.render('sign/reset', {name : name, key : key, error : '两次密码输入不一致。'});
   }
-  User.getUserByQuery({name: name, retrieve_key: key}, function (err, user) {
+  User.getUserByQuery(name, key, function (err, user) {
     if (err) {
       return next(err);
     }

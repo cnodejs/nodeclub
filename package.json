@@ -20,7 +20,8 @@
     "should": "*",
     "mocha": "*",
     "rewire": "*",
-    "jscover": "*"
+    "jscover": "*",
+    "pedding": "*"
   },
   "scripts": {
     "test": "make test"
