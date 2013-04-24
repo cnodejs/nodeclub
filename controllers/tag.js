@@ -122,7 +122,7 @@ exports.add = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    if (tags.length > 0) {
+    if (tags && tags.length > 0) {
       res.render('notify/notify', {error: '这个标签已存在。'});
       return;
     }

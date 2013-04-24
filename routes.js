@@ -47,7 +47,7 @@ module.exports = function (app) {
   app.get('/stars', user.show_stars);
   app.get('/users/top100', user.top100);
   app.get('/user/:name/tags', user.get_collect_tags);
-  app.get('/user/:name/topics', user.get_collect_topics);
+  app.get('/user/:name/collections', user.get_collect_topics);
   app.get('/my/messages', message.index);
   app.get('/user/:name/follower', user.get_followers);
   app.get('/user/:name/following', user.get_followings);
