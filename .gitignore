@@ -1,4 +1,5 @@
 config.js
+.cov
 node_modules
 .naeindex
 public/user_data

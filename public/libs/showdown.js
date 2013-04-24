@@ -195,7 +195,7 @@ this.makeHtml = function (text) {
       return wholeMatch; 
     }
     href = wholeMatch.replace(/^http:\/\/github.com\//, "https://github.com/")
-    var urlreg = /(https?|ftp|mms):\/\/([A-z0-9]+[_\-]?[A-z0-9]+\.)*[A-z0-9]+\-?[A-z0-9]+\.[A-z]{2,}(\/.*)*\/?/;
+    var urlreg = /(https?|ftp|mms):\/\/((([A-z0-9]+[_\-]?[A-z0-9]+\.)*[A-z0-9]+\-?[A-z0-9]+\.[A-z]{2,})|(([0-9]{1,3}\.){3}[0-9]{1,3}))(\/.*)*\/?/;
     return "<a href='" + (urlreg.test(href)?href:("http://www.cnodejs.org"+href)) + "'>" + wholeMatch + "</a>";
   });
   text = text.replace(/[a-z0-9_\-+=.]+@[a-z0-9\-]+(\.[a-z0-9-]+)+/ig, function(wholeMatch){return "<a href='mailto:" + wholeMatch + "'>" + wholeMatch + "</a>";});
@@ -449,7 +449,6 @@ var _RunBlockGamut = function(text) {
 // These are all the transformations that form block-level
 // tags like paragraphs, headers, and list items.
 //
-  text = _DoHeaders(text);
 
   // Do Horizontal Rules:
   var key = hashBlock("<hr />");
@@ -460,6 +459,8 @@ var _RunBlockGamut = function(text) {
   text = _DoLists(text);
   text = _DoCodeBlocks(text);
   text = _DoBlockQuotes(text);
+
+  text = _DoHeaders(text);
 
   // We already ran _HashHTMLBlocks() before, in Markdown(), but that
   // was to escape raw HTML in the original Markdown source. This time,
@@ -604,6 +605,11 @@ var _DoAnchors = function(text) {
   return text;
 }
 
+//isUrl in node-validators
+var isUrl = function(str) {
+    return str.match(/^(?:(?:ht|f)tp(?:s?)\:\/\/|~\/|\/)?(?:\w+:\w+@)?(localhost|(?:(?:[-\w\d{1-3}]+\.)+(?:com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|edu|co\.uk|ac\.uk|it|fr|tv|museum|asia|local|travel|[a-z]{2}))|((\b25[0-5]\b|\b[2][0-4][0-9]\b|\b[0-1]?[0-9]?[0-9]\b)(\.(\b25[0-5]\b|\b[2][0-4][0-9]\b|\b[0-1]?[0-9]?[0-9]\b)){3}))(?::[\d]{1,5})?(?:(?:(?:\/(?:[-\w~!$+|.,="'\(\)_\*]|%[a-f\d]{2})+)+|\/)+|\?|#)?(?:(?:\?(?:[-\w~!$+|.,*:]|%[a-f\d{2}])+=?(?:[-\w~!$+|.,*:=]|%[a-f\d]{2})*)(?:&(?:[-\w~!$+|.,*:]|%[a-f\d{2}])+=?(?:[-\w~!$+|.,*:=]|%[a-f\d]{2})*)*)*(?:#(?:[-\w~!$ |\/.,*:;=]|%[a-f\d]{2})*)?$/i) || str.length > 2083;
+}
+
 var writeAnchorTag = function(wholeMatch,m1,m2,m3,m4,m5,m6,m7) {
   if (m7 == undefined) m7 = "";
   var whole_match = m1;
@@ -634,9 +640,8 @@ var writeAnchorTag = function(wholeMatch,m1,m2,m3,m4,m5,m6,m7) {
       }
     }
   }
-  url = decodeURIComponent(url).replace(/"/g,"&quot;");
-  var urlreg = /(https?|ftp|mms):\/\/([A-z0-9]+[_\-]?[A-z0-9]+\.)*[A-z0-9]+\-?[A-z0-9]+\.[A-z]{2,}(\/.*)*\/?/;
-  url = urlreg.test(url) ? url : HOST + url;
+  url = isUrl(url) ? url : HOST + url;
+  
   url = escapeCharacters(url,"*_");
   var result = "<a href=\"" + url + "\"";
 
@@ -738,9 +743,8 @@ var writeImageTag = function(wholeMatch,m1,m2,m3,m4,m5,m6,m7) {
   }
 
   alt_text = alt_text.replace(/"/g,"&quot;");
-  url = decodeURIComponent(url).replace(/"/g,"&quot;");
-  var urlreg = /(https?|ftp|mms):\/\/([A-z0-9]+[_\-]?[A-z0-9]+\.)*[A-z0-9]+\-?[A-z0-9]+\.[A-z]{2,}(\/.*)*\/?/;
-  url = urlreg.test(url) ? url : HOST + url;
+  url = isUrl(url) ? url : HOST + url;
+
   url = escapeCharacters(url,"*_");
   var result = "<img src=\"" + url + "\" alt=\"" + alt_text + "\"";
 
