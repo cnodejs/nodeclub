@@ -6,15 +6,15 @@ var path = require('path');
 
 exports.config = {
   debug: true,
-  name: 'Node Club',
-  description: 'Node Club 是用Node.js开发的社区软件',
+  name: '实验室',
+  description: '专注于数据分析展示',
   version: '0.2.2',
 
   // site settings
   site_headers: [
-    '<meta name="author" content="EDP@TAOBAO" />',
+    '<meta name="author" content="sunxiang@JIUQI" />',
   ],
-  host: 'localhost.cnodejs.org',
+  host: 'localhost',
   site_logo: '', // default is `name`
   site_navs: [
     // [ path, title, [target=''] ]
@@ -22,7 +22,7 @@ exports.config = {
   ],
   site_static_host: '', // 静态文件存储域名
   site_enable_search_preview: false, // 开启google search preview
-  site_google_search_domain:  'cnodejs.org',  // google search preview中要搜索的域名
+  site_google_search_domain:  'microacup.tk',  // google search preview中要搜索的域名
 
   upload_dir: path.join(__dirname, 'public', 'user_data', 'images'),
 
@@ -37,9 +37,9 @@ exports.config = {
   // RSS
   rss: {
     title: 'CNode：Node.js专业中文社区',
-    link: 'http://cnodejs.org',
+    link: 'http://microacup.tk',
     language: 'zh-cn',
-    description: 'CNode：Node.js专业中文社区',
+    description: '实验室：基于Node.js的中文社区',
 
     //最多获取的RSS Item数量
     max_rss_items: 50
@@ -67,21 +67,6 @@ exports.config = {
 
   // sidebar ads
   side_ads: [
-    {
-      'url': 'http://www.upyun.com/?utm_source=nodejs&utm_medium=link&utm_campaign=upyun&md=nodejs',
-      'image': 'http://site-cnode.b0.upaiyun.com/images/upyun_logo.png',
-      'text': ''
-    },
-    {
-      'url': 'http://ruby-china.org/?utm_source=nodejs&utm_medium=link&utm_campaign=upyun&md=nodejs',
-      'image': 'http://site-cnode.b0.upaiyun.com/images/ruby_china_logo.png',
-      'text': ''
-    },
-    {
-      'url': 'http://adc.taobao.com/',
-      'image': 'http://adc.taobao.com/bundles/devcarnival/images/d2_180x250.jpg',
-      'text': ''
-    }
   ],
 
   // mail SMTP
