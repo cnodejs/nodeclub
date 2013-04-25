@@ -20,14 +20,14 @@ body, p {
   min-height:400px;
 }
 #content {
-  margin: 0px 272px 0px 0px;
+  margin: 0px 290px 0px 0px;
   padding: 10px 10px 0px 0px;
 }
 #content p {
   font-family: Monaco, Consolas, monospace;
 }
 #sidebar {
-  width: 272px;
+  width: 300px;
   padding: 10px 0px 10px 10px;
   float: right;
 }
