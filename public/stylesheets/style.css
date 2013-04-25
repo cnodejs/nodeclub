@@ -1,5 +1,5 @@
 /* base */
-div {
+div, textarea {
   box-sizing: border-box;
   -mox-box-sizing: border-box;
 }
@@ -432,9 +432,9 @@ img.unread {
   left: 300px;
 }
 .wmd-preview {
-  width: 560px;
+  width: 707px;
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 4px 8px;
   overflow: auto;
 
   -webkit-border-radius: 3px;
@@ -454,7 +454,7 @@ textarea[id^=wmd-input] {
   height: 400px;
 }
 .wmd-preview {
-  height: 213px;
+  height: 225px;
 }
 .reply2-wmd-preview {
   width: 518px;
@@ -546,7 +546,8 @@ input, textarea {
   background: hsla(0,0%,0%,0);
 }
 textarea.span8 {
-  width: 572px;
+  width: 707px;
+  padding: 4px 8px;
 }
 .nav-pills {
   margin: 0px 0px 10px 0px;
