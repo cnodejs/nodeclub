@@ -4,11 +4,10 @@ div {
   -mox-box-sizing: border-box;
 }
 body {
-  background: url("../images/furley_bg.png") repeat fixed;
+  background: url("../images/furley_bg.png") repeat;
 }
 body, p {
   font-size: 14px;
-  line-height: 16px;
   font-family: "Helvetica Neue", Helvetica, "Wenquanyi Micro Hei", Arial, sans-serif;
   word-break: break-all;
 }
@@ -33,14 +32,14 @@ body, p {
   float: right;
 }
 #footer {
-  height:200px;
+  height: 200px;
   clear: both;
 }
 #footer_main {
-  width:920px;
+  width: 1040px;
   margin: 0px auto;
-  color:#e2e2e2;
-  padding:20px 0px;
+  color: #e2e2e2;
+  padding: 20px 0px;
 }
 
 /* common */
@@ -119,7 +118,7 @@ a.light:hover {
 }
 .panel .inner {
   padding: 10px;
-  line-height: 16px;
+  line-height: 27px;
 }
 .panel .inner .unstyled li div {
   text-overflow: ellipsis;
@@ -336,17 +335,14 @@ a.tag_big:hover {
   display: none;
 }
 .topic_wrap {
-  padding: 13px 0px;
+  padding: 0px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 574px;
-}
-.topic_wrap a {
-  display: block;
 }
 a.topic_title {
   font-size: 16px;
+  line-height: 40px;
 }
 
 .star_name {
@@ -437,7 +433,6 @@ img.unread {
 }
 .wmd-preview {
   width: 560px;
-  background: #fff;
   border: 1px solid #ccc;
   padding: 10px;
   overflow: auto;
@@ -571,7 +566,7 @@ pre {
   background: #fee9cc;
   border: 1px dashed #ccc;
   width: 90%;
-  line-height: 16px;
+  line-height: 22px;
 }
 code {
   padding: 0px;
@@ -579,8 +574,8 @@ code {
   line-height: 16px;
 }
 p code {
-  background: hsl(0,0%,20%);
-  color: white;
+  background: none;
+  color: hsl(0,0%,50%);
   margin: 0px 1px;
   padding: 1px 4px;
 }
@@ -596,7 +591,7 @@ form {
 }
 .topic_content p, .reply_content p {
   font-size: 14px;
-  line-height: 22px;
+  line-height: 27px;
   margin-bottom: 0px;
 }
 
@@ -607,6 +602,9 @@ div[class$=content] > blockquote > p {
 .index_notify {
   font-size: 14px;
   color: #000;
+}
+h1, h2, h3, h4, h5,h6 {
+  margin: 23px 0px;
 }
 
 /* about score on sidebar */
