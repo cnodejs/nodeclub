@@ -20,6 +20,7 @@ var upload = require('./controllers/upload');
 var assets = require('./controllers/static');
 var tools = require('./controllers/tools');
 var auth = require('./midderwares/auth');
+var limit = require('./midderwares/limit');
 var status = require('./controllers/status');
 
 module.exports = function (app) {
@@ -89,15 +90,15 @@ module.exports = function (app) {
   // 保存新建的文章
   // TODO: 如果创建文章的过程太长，导致session过期，界面的内容会丢失
   // FIXME: 采用前端来判断，不通过跳转的形式来解决
-  app.post('/topic/create', auth.signinRequired, topic.put);
+  app.post('/topic/create', auth.signinRequired, limit.postInterval, topic.put);
   app.post('/topic/:tid/edit', topic.update);
   app.post('/topic/collect', auth.userRequired, topic.collect);
   app.post('/topic/de_collect', auth.userRequired, topic.de_collect);
 
   // reply
   // 回复
-  app.post('/:topic_id/reply', auth.userRequired, reply.add);
-  app.post('/:topic_id/reply2', auth.userRequired, reply.add_reply2);
+  app.post('/:topic_id/reply', auth.userRequired, limit.postInterval, reply.add);
+  app.post('/:topic_id/reply2', auth.userRequired, limit.postInterval, reply.add_reply2);
   app.post('/reply/:reply_id/delete', reply.delete);
 
   // upload
