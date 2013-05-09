@@ -333,6 +333,30 @@
         }
       }
     };
+    
+    function getSubmitFun(){
+          var isLoading = false;
+          var timer = null;
+          return function noRepeatedlySubmit(evt){
+              evt = evt || window.event;
+
+              if(isLoading){
+                  evt.preventDefault();
+                  return false;
+              }else{
+                  if(timer){
+                      clearTimeout(timer);
+                  }
+                  isLoading = true;
+                  timer = setTimeout(function(){
+                      isLoading  = false;
+                  },5000);
+                  return true;
+              }
+          }
+      }
+
+      $("#reply_form").bind("submit",getSubmitFun());
   });
 </script>
 <% } %>
