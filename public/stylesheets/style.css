@@ -1,38 +1,45 @@
 /* base */
-body,p {
-  font-size: 12px;
-  line-height: 16px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+div, textarea {
+  box-sizing: border-box;
+  -mox-box-sizing: border-box;
+}
+body {
+  background: url("../images/furley_bg.png") repeat;
+}
+body, p {
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica, "Wenquanyi Micro Hei", Arial, sans-serif;
   word-break: break-all;
 }
-
 #wrapper {
-  background: #d0d6db;
 }
 #main {
-  width: 960px;
+  width: 1060px;
   margin: 0px auto;
   padding: 10px 0px 30px 0px;
   min-height:400px;
 }
 #content {
-  margin: 0px 272px 0px 0px;
+  margin: 0px 290px 0px 0px;
   padding: 10px 10px 0px 0px;
 }
+#content p {
+  font-family: Monaco, Consolas, monospace;
+}
 #sidebar {
-  width: 272px;
+  width: 300px;
   padding: 10px 0px 10px 10px;
   float: right;
 }
 #footer {
-  height:200px;
+  height: 200px;
   clear: both;
 }
 #footer_main {
-  width:920px;
+  width: 1040px;
   margin: 0px auto;
-  color:#e2e2e2;
-  padding:20px 0px;
+  color: #e2e2e2;
+  padding: 20px 0px;
 }
 
 /* common */
@@ -97,13 +104,7 @@ a.light:hover {
 }
 
 .panel {
-  -webkit-box-shadow: 0 2px 6px gray;
-  -moz-box-shadow: 0 2px 6px gray;
-  -o-box-shadow: 0 2px 6px gray;
-  box-shadow: 1px 2px 6px gray;
-
   margin: 3px 0px;
-  background-color: #fff;
 }
 .panel .header {
   padding: 10px;
@@ -117,21 +118,34 @@ a.light:hover {
 }
 .panel .inner {
   padding: 10px;
-  line-height: 16px;
+  line-height: 27px;
 }
 .panel .inner .unstyled li div {
   text-overflow: ellipsis;
 }
 .cell {
-  padding: 12px 10px 12px 10px;
+  padding: 10px;
   border-bottom: 1px solid #E3E8E3;
   overflow: hidden;
 }
 .cell:last-child {
   border-bottom: none;
 }
-.cell:hover {
-  background: #efefef;
+.cell .block {
+  width: 40px;
+  height: 40px;
+  float: left;
+  text-align: center;
+  margin-right: 8px;
+  font-size: 14px;
+  color: hsl(0,0%,70%);
+  line-height: 40px;
+}
+.cell .block.count {
+  width: 60px;
+}
+.topic_content {
+  padding: 10px 4px;
 }
 .board .floor {
   line-height: 24px;
@@ -144,7 +158,7 @@ a.light:hover {
   text-decoration: none;
 }
 .big {
-  font-size: 16px;
+  font-size: 14px;
 }
 .messages_count {
   -webkit-border-radius: 8px;
@@ -170,16 +184,13 @@ a.tag_big {
   -o-border-radius: 3px;
   border-radius: 3px;
 
-  color: white;
   padding: 2px 5px;
   margin: 0 8px 5px 0;
-  background: #aaa;
   display: inline-block;
   text-decoration: none;
 }
 
 a.tag_big:hover {
-  background-color: #A7B3CD;
 }
 .tag_selectable {
   -webkit-border-radius: 3px;
@@ -202,7 +213,7 @@ a.tag_big:hover {
   -o-border-radius: 3px;
   border-radius: 3px;
 
-  font-size: 12px;
+  font-size: 14px;
   padding: 1px 3px;
   margin: 0px 10px 10px 0px;
   background: #bfbfbf;
@@ -219,7 +230,7 @@ a.tag_big:hover {
 .tag_in_abstract{
   color: #fff;
   background: hsl(221,28%,83%);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   padding: 1px 2px;
   text-decoration: none;
@@ -241,7 +252,7 @@ a.tag_big:hover {
   margin-left: -10px;
 }
 .tag_highlight {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   color: #fff;
   -webkit-border-radius: 3px;
@@ -249,14 +260,10 @@ a.tag_big:hover {
   border-radius: 3px;
   padding: 1px 2px;
 }
-.user_avatar {
-  width: 48px;
-  height: 48px;
-
-  -webkit-box-shadow: 0px 1px 4px gray;
-  -moz-box-shadow: 0px 1px 4px gray;
-  -o-box-shadow: 0px 1px 4px gray;
-  box-shadow: 0px 1px 4px gray;
+.user_avatar img {
+  -moz-box-shadow: 0px 0px 3px hsl(0,0%,50%);
+  -o-box-shadow: 0px 0px 3px hsl(0,0%,50%);
+  box-shadow: 0px 0px 3px hsl(0,0%,50%);
 }
 .user_card .user_avatar {
   vertical-align: middle;
@@ -265,8 +272,6 @@ a.tag_big:hover {
   font-size: 16px;
 }
 .cell .user_avatar {
-  float: left;
-  margin-right: 10px;
 }
 .user_big_avatar {
   float: left;
@@ -276,10 +281,10 @@ a.tag_big:hover {
   position: relative;
   top: 3px;
   margin-right: 5px;
-  opacity: 0.1;
+  opacity: 0.4;
 }
 .user_icon:hover {
-  opacity: 1;
+  opacity: 0.6;
 }
 .user {
   -webkit-border-radius: 3px;
@@ -301,8 +306,6 @@ a.tag_big:hover {
   display: inline-block;
 }
 .user .user_avatar {
-  float: left;
-  margin-right: 10px;
 }
 .user .user_name {
   font-size: 16px;
@@ -315,10 +318,6 @@ a.tag_big:hover {
   margin-top: 8px;
 }
 .reply2_btn {
-  display: none;
-  padding: 2px 4px;
-  border-radius: 2px;
-  background: hsl(240,90%,94%);
   margin-right: 10px;
 }
 .reply2_area {
@@ -336,42 +335,14 @@ a.tag_big:hover {
   display: none;
 }
 .topic_wrap {
-  float: left;
-  width: 90%;
-  /*white-space: nowrap;*/
-}
-.title_wrap {
-  width: 60%;
+  padding: 0px;
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
-  display: inline-block;
-}
-.topic_wrap .title_wrap {
-  width: 90%;
+  white-space: nowrap;
 }
 a.topic_title {
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-a.count {
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-
-  font-family: Arial;
-  font-size: 12px;
-  font-weight: bold;
-  background: #d0d6db;
-  padding: 1px 2px 0px 2px;
-  color: white;
-  min-width: 20px;
-  text-align: center;
-}
-a.count:hover {
-  color: #00483a;
-  text-decoration: none;
+  font-size: 16px;
+  line-height: 40px;
 }
 
 .star_name {
@@ -404,27 +375,15 @@ img.unread {
   margin-top: -10px;  
 }
 #backtotop {
-  width:16px;
+  width: 16px;
   color: gray;
   padding: 10px 4px;
   display:none;
   position: fixed;
   cursor: pointer;
   text-align: center;
-  background-color: #ffffff;
-  border: 1px dashed gray;
-
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
 }
 #share_weibo_btn {
-  padding: 1px 2px;
-  border: 1px dashed gray;
-
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
 }
 /* markdown editor */
 .wmd-button-bar {
@@ -473,10 +432,9 @@ img.unread {
   left: 300px;
 }
 .wmd-preview {
-  width: 560px;
-  background: #fff;
+  width: 707px;
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 4px 8px;
   overflow: auto;
 
   -webkit-border-radius: 3px;
@@ -496,7 +454,7 @@ textarea[id^=wmd-input] {
   height: 400px;
 }
 .wmd-preview {
-  height: 213px;
+  height: 225px;
 }
 .reply2-wmd-preview {
   width: 518px;
@@ -526,10 +484,14 @@ textarea[id^=wmd-input] {
 /* custom bootstrap */
 .navbar {
   margin-bottom: 0px;
-  background-color: #323f4b;
+  /*background-color: #323f4b;*/
+  background: none;
+}
+.navbar-inner {
+  background: none;
 }
 .navbar .container {
-  width: 960px;
+  width: 1060px;
   margin: 0px auto;
 }
 .navbar .brand {
@@ -543,7 +505,7 @@ textarea[id^=wmd-input] {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  background: #d0d6db url('../images/search.png') no-repeat 4px 4px;
+  background: white url('../images/search.png') no-repeat 4px 4px;
   padding: 4px 5px 4px 22px;
   color: #666;
   border: 0px;
@@ -556,9 +518,6 @@ textarea[id^=wmd-input] {
   background-color: #fff;
   padding: 4px 5px 4px 22px;
   color: #000;
-}
-.navbar .nav>li>a{    
-  font-weight: bold;
 }
 .navbar .nav .divider-vertical {
   background-color:#2b3741;
@@ -575,6 +534,7 @@ textarea[id^=wmd-input] {
   margin: 0px;
   border: none;
   background: none;
+  box-shadow: none;
 }
 form {
   margin-bottom: 0px;
@@ -582,8 +542,12 @@ form {
 textarea {
   margin-bottom: 0px;
 }
+input, textarea {
+  background: hsla(0,0%,0%,0);
+}
 textarea.span8 {
-  width: 572px;
+  width: 707px;
+  padding: 4px 8px;
 }
 .nav-pills {
   margin: 0px 0px 10px 0px;
@@ -603,7 +567,7 @@ pre {
   background: #fee9cc;
   border: 1px dashed #ccc;
   width: 90%;
-  line-height: 16px;
+  line-height: 22px;
 }
 code {
   padding: 0px;
@@ -611,32 +575,37 @@ code {
   line-height: 16px;
 }
 p code {
-  background: hsl(0,0%,20%);
-  color: white;
+  background: none;
+  color: hsl(0,0%,50%);
   margin: 0px 1px;
   padding: 1px 4px;
 }
 div pre.prettyprint {
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -o-border-radius: 4px;
-  border-radius: 4px;
+  background: none;
+  font-size: 14px;
+  border-radius: 3px;
+  border-color: hsl(0,0%,86%);
+  padding: 15px;
 }
 form {
   overflow: hidden;
 }
 .topic_content p, .reply_content p {
   font-size: 14px;
-  line-height: 22px;
+  line-height: 27px;
+  margin-bottom: 0px;
 }
 
 div[class$=content] > blockquote > p {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 18px;
 }
 .index_notify {
-  font-size: 12px;
+  font-size: 14px;
   color: #000;
+}
+h1, h2, h3, h4, h5,h6 {
+  margin: 23px 0px;
 }
 
 /* about score on sidebar */
@@ -655,10 +624,4 @@ div[class$=content] > blockquote > p {
 /* format the additional msgs of topics */
 div[class$=part] {
   display: inline-block;
-}
-.click_part {
-  width: 80px;
-}
-.reply_part {
-  width: 300px;
 }

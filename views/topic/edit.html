@@ -18,11 +18,11 @@
       <span class='col_fade'>话题发布指南</span>
     </div>
     <div class='inner'>
-      <ul>
+      <ol>
         <li>尽量把话题要点浓缩到标题里</li>
         <li>内容对标题做进一步说明，但不是必须的</li>
         <li>给话题选择合适的标签能增加被阅读的机会</li>
-      </ul>
+      </ol>
     </div>
   </div>
   <div class='sep10'></div>
@@ -31,7 +31,7 @@
       <span class='col_fade'>markdown语法参考</span>
     </div>
     <div class='inner'>
-      <ul>
+      <ol>
         <li>换行：两个空格</li>
         <li>分段：一个空行</li>
         <li>斜体：*斜体*</li>
@@ -39,7 +39,7 @@
         <li>代码：行首四个空格</li>
         <li>链接：[文字](url)</li>
         <li>图片：![alt 文字](url)</li>
-      </ul>
+      </ol>
       <span>详见 <a href='http://www.ituring.com.cn/article/775' target='_blank'>Markdown Wiki</a></span>
     </div>
   </div>
@@ -48,14 +48,14 @@
 <div id='content'>
   <div class='panel'>
     <div class='header'>
-      <ul class='breadcrumb'>
+      <ol class='breadcrumb'>
         <li><a href='/'>主页</a><span class='divider'>/</span></li>
         <% if(locals.action && action == 'edit'){ %>
         <li class='active'>编辑话题</li>
         <% }else{ %>
         <li class='active'>发布话题</li>
         <% } %>
-      </ul>
+      </ol>
     </div>
     <div class='inner'>
       <% if(locals.edit_error){ %>
@@ -91,7 +91,7 @@
           <label class='bold' for='t_content'>内容和标签</label>
           <div class='tabbable'>
             <ul class='nav nav-pills'>
-              <li class='active'><a href='#markdown' data-toggle='pill'>markdown</a></li>
+              <li class='active'><a href='#markdown' data-toggle='pill'>Markdown</a></li>
               <li><a href='#preview' data-toggle='pill' class="preview-btn">预览</a></li>
               <li><a href='#tags'data-toggle='pill'>标签</a></li>
             </ul>

@@ -1,6 +1,6 @@
 <div class='cell reply_area reply_item' id="reply<%= indexInCollection+1 %>" reply_id="<%- reply._id %>">
 	<a id="<%- reply._id %>"></a>
-	<div class='user_avatar'>
+	<div class='user_avatar block'>
 		<a href="/user/<%= reply.author.name %>"><img src="<%= reply.author.avatar_url %>" title="<%= reply.author.name %>" /></a>
 	</div>
 	<span class='col_fade fr'>#<%= indexInCollection + 1 %></span>
