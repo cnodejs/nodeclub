@@ -1,44 +1,34 @@
 <div class='cell'>
-  <div class='user_avatar'>
+  <div class='user_avatar block'>
     <a href="/user/<%= topic.author.name %>">
-      <img src="<%= topic.author.avatar_url %>" title="<%= topic.author.name %>" />
+      <img src="<%= topic.author.avatar_url %>"
+        title="<%= topic.author.name %> 创建于 <%= topic.friendly_create_at %>"
+      />
     </a>
   </div>
 
-  <div class='topic_wrap'>
-    <div class='title_wrap'>
-      <!--<%- partial('tag/tag_in_abstract',{collection:topic.tags, as:'tag'}) %>-->
-      <a class='topic_title' href='/topic/<%= topic._id %>'>
-        <% if(topic.top){%>
-          <span class='put_top'>置顶</span>
-          <% } %>
-        <%= topic.title %>
+  <div class='user_avatar block'>
+    <% if(topic.reply) {%>
+      <a href="/user/<%= topic.reply.author.name %>">
+        <img src="<%= topic.reply.author.avatar_url %>"
+          title="<%= topic.reply.author.name %> 回复于<%= topic.reply.friendly_create_at %>"
+        />
       </a>
-    </div>
-    <% if (topic.reply_count > 0) { %>
-      <a class='count fr' href="/topic/<%= topic._id %>#reply<%= topic.reply_count %>"><%= topic.reply_count %></a>
     <% } %>
-    <div class='sep10'></div>
-    <div class='sep5'></div>
-    <span class='col_fade'>
-      <!-- <div class='name_part'>
-        <a class='dark' href='/user/<%= topic.author.name %>'><%= topic.author.name %></a> 
-      </div> -->
-      <div class='click_part'>
-        点击数 <%= topic.visit_count %>
-      </div>
-      <% if(topic.reply){  %>
-        <div class='reply_part'>
-          <a class='dark' href="/user/<%= topic.reply.author.name %>"><%= topic.reply.author.name %> </a>
-          回复于
-          <%= topic.reply.friendly_create_at %>
-        </div>
-      <% }else{ %>
-        <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %> </a>
-        <div class='reply_part'>
-          创建于 <%= topic.friendly_create_at %>
-        </div>
-      <% } %>
-    </span>
+  </div>
+
+  <div class='block count'>
+    <a href="/topic/<%= topic._id %>#reply<%= topic.reply_count %>"title="回复数"><%= topic.reply_count %></a
+      >/<span title='点击数'><%= topic.visit_count %></span>
+  </div>
+
+  <div class='topic_wrap'>
+    <!--<%- partial('tag/tag_in_abstract',{collection:topic.tags, as:'tag'}) %>-->
+    <a class='topic_title' href='/topic/<%= topic._id %>'>
+      <% if(topic.top){%>
+        <span class='put_top'>置顶</span>
+        <% } %>
+      <%= topic.title %>
+    </a>
   </div>
 </div>
