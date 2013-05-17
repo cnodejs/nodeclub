@@ -662,3 +662,6 @@ div[class$=part] {
 .reply_part {
   width: 300px;
 }
+.topic_content{
+  line-height: 150%;
+}
