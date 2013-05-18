@@ -412,6 +412,9 @@ img.unread {
 }
 #share_weibo_btn {
 }
+.tabbable ul {
+  max-height: 40px;
+}
 /* markdown editor */
 .wmd-button-bar {
   margin-left: 0px;
@@ -666,4 +669,10 @@ input[type="time"], input[type="week"], input[type="number"],
 input[type="email"], input[type="url"], input[type="search"],
 input[type="tel"], input[type="color"], .uneditable-input {
   background: hsla(0,0%,0%,0)
+}
+.form-horizontal .control-group:before,
+.form-horizontal .control-group:after {
+  display: none;
+  line-height: 0;
+  content: "";
 }
