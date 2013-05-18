@@ -67,6 +67,10 @@ body, p {
 .sep10 {
   height: 5px;
 }
+.space {
+  display: inline-block;
+  margin: 0px 4px;
+}
 .sp5 {
   width: 5px;
   display: inline-block;
@@ -86,6 +90,8 @@ a.dark {
   white-space: nowrap;
   text-overflow: ellipsis;
   text-decoration: none;
+  color: #666;
+  font-size: 16px;
 }
 a.dark:link, a.dark:visited, a.dark:active {
   color: #666;
@@ -138,8 +144,7 @@ a.light:hover {
   height: 48px;
   float: left;
   text-align: center;
-  margin-left: 1px;
-  margin-right: 7px;
+  margin-right: 8px;
   font-size: 14px;
   color: hsl(0,0%,70%);
   line-height: 48px;
@@ -271,6 +276,9 @@ a.tag_big:hover {
   box-shadow: 0px 0px 6px hsla(0,70%,20%,0.5);
   width: 48px;
   height: 48px;
+}
+a.user_avatar:hover {
+  text-decoration: none;
 }
 .user_card .user_avatar {
   vertical-align: middle;

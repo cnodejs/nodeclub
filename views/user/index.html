@@ -19,12 +19,14 @@
 				<button class='btn fr follow_btn' action='un_follow'>取消关注</button>
 				<% } %>
 			<% } %>
-			<h2><%= user.name %></h2>
+			<a class='dark'><%= user.name %></a>
 			<div class='col_fade'>
 				<span>
 					<img src="<%- config.site_static_host %>/images/cert_icon&16.png" />
 					<%= user.following_count %> 关注
+					<div class='space'></div>
 					<%= user.follower_count %> 粉丝
+					<div class='space'></div>
 					<%= user.score %> 积分</span>
 				<% if (user.signature) { %>
 					<span class='sp10'></span>
