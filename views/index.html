@@ -16,7 +16,7 @@
 					<p>无标签</p>
 				<% } %>
 				<% if (locals.current_user && current_user.is_admin) { %>
-				<a href='/tags/edit'>
+				<a class='edit_tag' href='/tags/edit'>
 					<img src="<%- config.site_static_host %>/images/wrench_icon&16.png" title='编辑标签' />
 				</a>
 				<% } %>

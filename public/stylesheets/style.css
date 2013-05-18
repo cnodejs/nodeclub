@@ -8,10 +8,19 @@ body {
 }
 body, p {
   font-size: 14px;
-  font-family: "Helvetica Neue", Helvetica, "Wenquanyi Micro Hei", Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", "Wenquanyi Micro Hei", Arial, sans-serif;
   word-break: break-all;
+  -webkit-font-smoothing: antialiased;
+}
+#main p a {
+  white-space: nowrap;
+  max-width: 600px;
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
 }
 #wrapper {
+  padding-top: 20px;
 }
 #main {
   width: 1060px;
@@ -19,17 +28,24 @@ body, p {
   padding: 10px 0px 30px 0px;
   min-height:400px;
 }
+#topic_list {
+  margin: 10px 0px 30px;
+}
 #content {
   margin: 0px 290px 0px 0px;
   padding: 10px 10px 0px 0px;
 }
 #content p {
-  font-family: Monaco, Consolas, monospace;
+  font-family: Monaco, Consolas, monospace, "Wenquanyi Micro Hei Mono";
 }
 #sidebar {
   width: 300px;
   padding: 10px 0px 10px 10px;
   float: right;
+  font-size: 14px;
+}
+#sidebar .header {
+  box-shadow: 0px 1px 0px hsl(0,0%,90%);
 }
 #footer {
   height: 200px;
@@ -64,6 +80,10 @@ body, p {
 .sep10 {
   height: 5px;
 }
+.space {
+  display: inline-block;
+  margin: 0px 4px;
+}
 .sp5 {
   width: 5px;
   display: inline-block;
@@ -83,6 +103,8 @@ a.dark {
   white-space: nowrap;
   text-overflow: ellipsis;
   text-decoration: none;
+  color: #666;
+  font-size: 14px;
 }
 a.dark:link, a.dark:visited, a.dark:active {
   color: #666;
@@ -108,7 +130,6 @@ a.light:hover {
 }
 .panel .header {
   padding: 10px;
-  border-bottom: 1px solid #e2e2e2;
 }
 .panel .moon {
   padding: 10px;
@@ -124,28 +145,28 @@ a.light:hover {
   text-overflow: ellipsis;
 }
 .cell {
-  padding: 10px;
-  border-bottom: 1px solid #E3E8E3;
+  padding: 8px 10px 0px 10px;
+  box-shadow: 0px 1px 0px hsl(0,0%,86%);
   overflow: hidden;
 }
 .cell:last-child {
   border-bottom: none;
 }
 .cell .block {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   float: left;
   text-align: center;
   margin-right: 8px;
   font-size: 14px;
   color: hsl(0,0%,70%);
-  line-height: 40px;
+  line-height: 48px;
 }
 .cell .block.count {
   width: 60px;
 }
 .topic_content {
-  padding: 10px 4px;
+  padding: 0px 6px;
 }
 .board .floor {
   line-height: 24px;
@@ -169,6 +190,9 @@ a.light:hover {
   padding: 1px 5px;
   background-color: #46a546;
   color: white;
+}
+.edit_tag {
+  margin-left: 8px;
 }
 .tag a {
   color: #fff;
@@ -260,13 +284,18 @@ a.tag_big:hover {
   border-radius: 3px;
   padding: 1px 2px;
 }
-.user_avatar img {
-  -moz-box-shadow: 0px 0px 3px hsl(0,0%,50%);
-  -o-box-shadow: 0px 0px 3px hsl(0,0%,50%);
-  box-shadow: 0px 0px 3px hsl(0,0%,50%);
+.user_avatar img, .user_big_avatar img {
+  border-radius: 1px;
+  box-shadow: 0px 0px 6px hsla(0,70%,20%,0.5);
+  width: 48px;
+  height: 48px;
+}
+a.user_avatar:hover {
+  text-decoration: none;
 }
 .user_card .user_avatar {
   vertical-align: middle;
+  width: 48px;
 }
 .user_card .user_name {
   font-size: 16px;
@@ -276,6 +305,9 @@ a.tag_big:hover {
 .user_big_avatar {
   float: left;
   margin-right: 10px;
+}
+.user_big_avatar img {
+  width: 48px;
 }
 .user_icon {
   position: relative;
@@ -339,6 +371,8 @@ a.tag_big:hover {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  height: 48px;
+  line-height: 48px;
 }
 a.topic_title {
   font-size: 16px;
@@ -355,7 +389,6 @@ img.unread {
 
 /* single */
 #create_topic_btn {
-  margin-top: -10px;  
 }
 .board {
   margin-top: 10px;
@@ -384,6 +417,9 @@ img.unread {
   text-align: center;
 }
 #share_weibo_btn {
+}
+.tabbable ul {
+  max-height: 40px;
 }
 /* markdown editor */
 .wmd-button-bar {
@@ -484,15 +520,19 @@ textarea[id^=wmd-input] {
 /* custom bootstrap */
 .navbar {
   margin-bottom: 0px;
-  /*background-color: #323f4b;*/
-  background: none;
+  background: url("../images/furley_bg.png");
+  z-index: 9;
+  width: 100%;
 }
 .navbar-inner {
   background: none;
+  border-radius: 0px;
+  border: none;
+  box-shadow: none;
 }
 .navbar .container {
   width: 1060px;
-  margin: 0px auto;
+  margin: 4px auto;
 }
 .navbar .brand {
   padding: 7px 0px 0px 20px;
@@ -588,12 +628,11 @@ div pre.prettyprint {
   padding: 15px;
 }
 form {
-  overflow: hidden;
 }
 .topic_content p, .reply_content p {
   font-size: 14px;
-  line-height: 27px;
-  margin-bottom: 0px;
+  line-height: 28px;
+  margin: 28px 0px;
 }
 
 div[class$=content] > blockquote > p {
@@ -633,4 +672,17 @@ div[class$=part] {
 }
 .topic_content{
   line-height: 150%;
+}
+textarea, input[type="text"], input[type="password"], input[type="datetime"],
+input[type="datetime-local"], input[type="date"], input[type="month"],
+input[type="time"], input[type="week"], input[type="number"],
+input[type="email"], input[type="url"], input[type="search"],
+input[type="tel"], input[type="color"], .uneditable-input {
+  background: hsla(0,0%,0%,0)
+}
+.form-horizontal .control-group:before,
+.form-horizontal .control-group:after {
+  display: none;
+  line-height: 0;
+  content: "";
 }

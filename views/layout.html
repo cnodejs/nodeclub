@@ -57,8 +57,7 @@
             <% } %>
             <% if (locals.current_user) { %>
             <li>
-              <a href="/user/<%= current_user.name %>"><img style="width: 20px; height: 20px" 
-                src="<%= current_user.avatar_url %>" title="查看我的主页" /></a>
+              <a href="/user/<%= current_user.name %>" title="查看我的主页"> Me </a>
             </li>
             <li><a href='/setting'>设置</a></li>
             <li>
