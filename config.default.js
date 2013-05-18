@@ -34,6 +34,9 @@ exports.config = {
   // 话题列表显示的话题数量
   list_topic_count: 20,
 
+  // 限制发帖时间间隔，单位：毫秒
+  post_interval: 10000,
+
   // RSS
   rss: {
     title: 'CNode：Node.js专业中文社区',

@@ -31,6 +31,9 @@ body, p {
   padding: 10px 0px 10px 10px;
   float: right;
 }
+#sidebar .header {
+  box-shadow: 0px 1px 0px hsl(0,0%,90%);
+}
 #footer {
   height: 200px;
   clear: both;
@@ -108,7 +111,6 @@ a.light:hover {
 }
 .panel .header {
   padding: 10px;
-  border-bottom: 1px solid #e2e2e2;
 }
 .panel .moon {
   padding: 10px;
@@ -124,22 +126,23 @@ a.light:hover {
   text-overflow: ellipsis;
 }
 .cell {
-  padding: 10px;
-  border-bottom: 1px solid #E3E8E3;
+  padding: 4px 10px;
+  /*border-bottom: 1px solid #E3E8E3;*/
   overflow: hidden;
 }
 .cell:last-child {
   border-bottom: none;
 }
 .cell .block {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   float: left;
   text-align: center;
-  margin-right: 8px;
+  margin-left: 1px;
+  margin-right: 7px;
   font-size: 14px;
   color: hsl(0,0%,70%);
-  line-height: 40px;
+  line-height: 48px;
 }
 .cell .block.count {
   width: 60px;
@@ -169,6 +172,9 @@ a.light:hover {
   padding: 1px 5px;
   background-color: #46a546;
   color: white;
+}
+.edit_tag {
+  margin-left: 8px;
 }
 .tag a {
   color: #fff;
@@ -260,13 +266,15 @@ a.tag_big:hover {
   border-radius: 3px;
   padding: 1px 2px;
 }
-.user_avatar img {
-  -moz-box-shadow: 0px 0px 3px hsl(0,0%,50%);
-  -o-box-shadow: 0px 0px 3px hsl(0,0%,50%);
-  box-shadow: 0px 0px 3px hsl(0,0%,50%);
+.user_avatar img, .user_big_avatar img {
+  border-radius: 1px;
+  box-shadow: 0px 0px 6px hsla(0,70%,20%,0.5);
+  width: 48px;
+  height: 48px;
 }
 .user_card .user_avatar {
   vertical-align: middle;
+  width: 48px;
 }
 .user_card .user_name {
   font-size: 16px;
@@ -276,6 +284,9 @@ a.tag_big:hover {
 .user_big_avatar {
   float: left;
   margin-right: 10px;
+}
+.user_big_avatar img {
+  width: 48px;
 }
 .user_icon {
   position: relative;
@@ -339,6 +350,8 @@ a.tag_big:hover {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  height: 48px;
+  line-height: 48px;
 }
 a.topic_title {
   font-size: 16px;
@@ -355,7 +368,6 @@ img.unread {
 
 /* single */
 #create_topic_btn {
-  margin-top: -10px;  
 }
 .board {
   margin-top: 10px;
@@ -492,7 +504,7 @@ textarea[id^=wmd-input] {
 }
 .navbar .container {
   width: 1060px;
-  margin: 0px auto;
+  margin: 4px auto;
 }
 .navbar .brand {
   padding: 7px 0px 0px 20px;
@@ -588,7 +600,6 @@ div pre.prettyprint {
   padding: 15px;
 }
 form {
-  overflow: hidden;
 }
 .topic_content p, .reply_content p {
   font-size: 14px;
@@ -624,4 +635,20 @@ h1, h2, h3, h4, h5,h6 {
 /* format the additional msgs of topics */
 div[class$=part] {
   display: inline-block;
+}
+.click_part {
+  width: 80px;
+}
+.reply_part {
+  width: 300px;
+}
+.topic_content{
+  line-height: 150%;
+}
+textarea, input[type="text"], input[type="password"], input[type="datetime"],
+input[type="datetime-local"], input[type="date"], input[type="month"],
+input[type="time"], input[type="week"], input[type="number"],
+input[type="email"], input[type="url"], input[type="search"],
+input[type="tel"], input[type="color"], .uneditable-input {
+  background: hsla(0,0%,0%,0)
 }

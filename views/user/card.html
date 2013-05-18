@@ -1,7 +1,8 @@
 <div class='user_card'>
 	<div>
-		<a href="/user/<%= user.name %>"><img class='user_avatar' 
-			src="<%= user.avatar_url %>" title="<%= user.name %>" /></a>
+		<a  class='user_avatar'  href="/user/<%= user.name %>">
+			<img src="<%= user.avatar_url %>" title="<%= user.name %>" />
+		</a>
 		<span class='sp10'></span>
 		<span class='user_name'><a class='dark' href="/user/<%= user.name %>"><%= user.name %></a></span>
 
