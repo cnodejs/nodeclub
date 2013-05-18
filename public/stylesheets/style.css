@@ -11,6 +11,13 @@ body, p {
   font-family: "Helvetica Neue", Helvetica, "Wenquanyi Micro Hei", Arial, sans-serif;
   word-break: break-all;
 }
+#main p a {
+  white-space: nowrap;
+  max-width: 600px;
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+}
 #wrapper {
 }
 #main {
@@ -153,7 +160,7 @@ a.light:hover {
   width: 60px;
 }
 .topic_content {
-  padding: 10px 4px;
+  padding: 0px 6px;
 }
 .board .floor {
   line-height: 24px;
@@ -611,8 +618,8 @@ form {
 }
 .topic_content p, .reply_content p {
   font-size: 14px;
-  line-height: 27px;
-  margin-bottom: 0px;
+  line-height: 28px;
+  margin: 28px 0px;
 }
 
 div[class$=content] > blockquote > p {
