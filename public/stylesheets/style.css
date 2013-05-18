@@ -8,7 +8,7 @@ body {
 }
 body, p {
   font-size: 14px;
-  font-family: "Helvetica Neue", Helvetica, "Wenquanyi Micro Hei", Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", "Wenquanyi Micro Hei", Arial, sans-serif;
   word-break: break-all;
 }
 #main p a {
@@ -31,12 +31,13 @@ body, p {
   padding: 10px 10px 0px 0px;
 }
 #content p {
-  font-family: Monaco, Consolas, monospace;
+  font-family: Monaco, Consolas, monospace, "Wenquanyi Micro Hei Mono";
 }
 #sidebar {
   width: 300px;
   padding: 10px 0px 10px 10px;
   float: right;
+  font-size: 14px;
 }
 #sidebar .header {
   box-shadow: 0px 1px 0px hsl(0,0%,90%);
@@ -98,7 +99,7 @@ a.dark {
   text-overflow: ellipsis;
   text-decoration: none;
   color: #666;
-  font-size: 16px;
+  font-size: 14px;
 }
 a.dark:link, a.dark:visited, a.dark:active {
   color: #666;
@@ -139,8 +140,8 @@ a.light:hover {
   text-overflow: ellipsis;
 }
 .cell {
-  padding: 4px 10px;
-  /*border-bottom: 1px solid #E3E8E3;*/
+  padding: 8px 10px 0px 10px;
+  box-shadow: 0px 1px 0px hsl(0,0%,86%);
   overflow: hidden;
 }
 .cell:last-child {
