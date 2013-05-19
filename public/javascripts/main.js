@@ -20,8 +20,13 @@ $(document).ready(function () {
   
   var $wrapper = $('#wrapper');
   var $backtotop = $('#backtotop');
+  var $sidebar = $('#sidebar');
   var top = $(window).height() - $backtotop.height() - 90;
-  $backtotop.css({ top: top, right: 100 });
+  function moveBacktotop() {
+    var marginLeft = $sidebar.position().left;
+    var left = marginLeft + $sidebar.width();
+    $backtotop.css({ top: top, left: left});
+  }
   $backtotop.click(function () {
     $('html,body').animate({ scrollTop: 0 });
     return false;
@@ -34,6 +39,9 @@ $(document).ready(function () {
       $backtotop.fadeOut();
     }
   });
+
+  moveBacktotop();
+  $(window).resize(moveBacktotop);
 
   $('.topic_content a,.reply_content a').attr('target', '_blank');
 });
