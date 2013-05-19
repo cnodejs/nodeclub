@@ -144,6 +144,9 @@ a.light:hover {
 .panel .inner .unstyled li div {
   text-overflow: ellipsis;
 }
+.panel>.cell:last-child {
+  box-shadow: none;
+}
 .cell {
   padding: 8px 10px 0px 10px;
   box-shadow: 0px 1px 0px hsl(0,0%,86%);
@@ -629,12 +632,18 @@ div pre.prettyprint {
 }
 form {
 }
-.topic_content p, .reply_content p {
+.topic_content p, .reply_content p, .reply_form p {
   font-size: 14px;
   line-height: 28px;
-  margin: 28px 0px;
+  margin: 0px 0px 28px;
 }
-
+.topic_content p a.content_img {
+  box-shadow: 4px 2px 20px hsl(0,0%,40%);
+}
+.topic_content blockquote p, .reply_content blockquote p, .reply_form blockquote p, #preview blockquote p {
+  font-size: 14px;
+  color: hsl(0,0%,40%);
+}
 div[class$=content] > blockquote > p {
   font-size: 14px;
   line-height: 18px;

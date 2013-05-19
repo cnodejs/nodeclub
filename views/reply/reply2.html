@@ -1,22 +1,22 @@
 <div class='cell reply2_item' reply_id='<%= reply._id %>'>
 	<a id="<%- reply._id %>"></a>
-	<div class='user_avatar'>
+	<div class='user_avatar block'>
 		<a href="/user/<%= reply.author.name %>"><img src="<%= reply.author.avatar_url %>" title="<%= reply.author.name %>" /></a>
 	</div>
 	<span class='reply_author'><a class='dark' href="/user/<%= reply.author.name %>"><%= reply.author.name %></a></span>
-		<span class='fr'>
-			<% if (locals.current_user) { %>
-			<a href='javascript:void(0);' class='dark reply2_at_btn'>@回复</a>	
-			<% } %>
-		</span>
-		<span class='col_fade'>
-			在 <a href="#<%- reply._id %>"><%= reply.friendly_create_at %></a> 回复
-		<% if (locals.current_user && current_user._id.toString() == reply.author._id.toString()) { %>
-			<span class='sp10'></span>
-			<a href='javascript:void(0)' class='delete_reply2_btn'><img class='user_icon' 
-				src="<%- config.site_static_host %>/images/trash_icon&16.png" title='删除' /></a>
+	<span class='fr'>
+		<% if (locals.current_user) { %>
+		<a href='javascript:void(0);' class='dark reply2_at_btn'>@回复</a>	
 		<% } %>
-		</span>
+	</span>
+	<span class='col_fade'>
+		在 <a href="#<%- reply._id %>"><%= reply.friendly_create_at %></a> 回复
+	<% if (locals.current_user && current_user._id.toString() == reply.author._id.toString()) { %>
+		<span class='sp10'></span>
+		<a href='javascript:void(0)' class='delete_reply2_btn'><img class='user_icon' 
+			src="<%- config.site_static_host %>/images/trash_icon&16.png" title='删除' /></a>
+	<% } %>
+	</span>
 	<!-- <div class='sep5'></div> -->
 	<div class='reply_content'>
 	  <%- reply.content %>
