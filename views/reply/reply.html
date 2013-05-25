@@ -13,20 +13,22 @@
         <a href="#<%- reply._id %>"><%= reply.friendly_create_at %></a>
       </span>
     </div>
-    <span class='col_fade fr'>#<%= indexInCollection + 1 %></span>
-    <span class='fr'>
-      <% if(locals.current_user){ %>
-        <a href='javascript:void(0);' class='dark reply2_btn'>回复</a>  
+    <div class='user_action fr'>
+      <span class='col_fade'>#<%= indexInCollection + 1 %></span>
+      <% if(locals.current_user && current_user._id.toString() == reply.author._id.toString()) { %>
+        <a href='javascript:void(0);' class='delete_reply_btn'>
+          <img class='user_icon' src="<%- config.site_static_host %>/images/trash_icon&16.png" title='删除' />
+        </a>
       <% } %>
-      <!--<% if(reply.replies.length>0){ %>
-       <span class='col_fade'>{<%= reply.replies.length %>}</span>
-      <% } %>-->
-    </span>
-    <% if(locals.current_user && current_user._id.toString() == reply.author._id.toString()) { %>
-      <a href='javascript:void(0);' class='delete_reply_btn fr'>
-        <img class='user_icon' src="<%- config.site_static_host %>/images/trash_icon&16.png" title='删除' />
-      </a>
-    <% } %>
+      <span>
+        <% if(locals.current_user){ %>
+          <a href='javascript:void(0);' class='dark reply2_btn'>回复</a>  
+        <% } %>
+        <!--<% if(reply.replies.length>0){ %>
+         <span class='col_fade'>{<%= reply.replies.length %>}</span>
+        <% } %>-->
+      </span>
+    </div>
   </div>
   <!-- <div class='sep5'></div> -->
   <div class='reply_content'>
