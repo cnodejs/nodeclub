@@ -21,10 +21,10 @@ $(document).ready(function () {
   var $wrapper = $('#wrapper');
   var $backtotop = $('#backtotop');
   var $sidebar = $('#sidebar');
-  var top = $(window).height() - $backtotop.height() - 90;
+  var top = $(window).height() - $backtotop.height() - 200;
   function moveBacktotop() {
     var marginLeft = $sidebar.position().left;
-    var left = marginLeft + $sidebar.width();
+    var left = marginLeft + 306;
     $backtotop.css({ top: top, left: left});
   }
   $backtotop.click(function () {
