@@ -23,9 +23,7 @@ $(document).ready(function () {
   var $sidebar = $('#sidebar');
   var top = $(window).height() - $backtotop.height() - 200;
   function moveBacktotop() {
-    var marginLeft = $sidebar.position().left;
-    var left = marginLeft + 306;
-    $backtotop.css({ top: top, left: left});
+    $backtotop.css({ top: top, right: 0});
   }
   $backtotop.click(function () {
     $('html,body').animate({ scrollTop: 0 });

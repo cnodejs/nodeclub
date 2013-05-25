@@ -12,6 +12,15 @@ body, p {
   word-break: break-all;
   -webkit-font-smoothing: antialiased;
 }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(72, 7%, 26%);
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(89, 53%, 54%);}
 #main p a {
   white-space: nowrap;
   max-width: 600px;
@@ -594,6 +603,7 @@ textarea[id^=wmd-input] {
 }
 .form-actions {
   border-top: none;
+  background-color: white;
 }
 .btn {
   padding: 3px 14px;
