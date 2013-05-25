@@ -183,17 +183,17 @@
     $('.reply2_btn').click(function () {
       var $btn = $(this);
       // var editor = $btn.parent().next('.reply2_area').find('.reply2_editor');
-      var editor = $btn.parent().parent().find('.reply2_editor');
+      var editor = $btn.parents('.cell').find('.reply2_editor');
       editor.slideToggle('fast');
       editor.find('textarea').focus();
     });
 
     $('.reply2_at_btn').click(function () {
       var $btn = $(this);
-      var editor = $btn.parents('.reply2_area').find('.reply2_editor');
+      var editor = $btn.parents('.cell').find('.reply2_editor');
       editor.show('fast');
       editor.find('textarea').focus();
-      var user = $btn.parents('.reply2_item').find('.reply_author').find('a').html();
+      var user = $btn.parents('.cell').find('.reply_author').find('a').html();
       var textarea = editor.find('textarea');
       if (textarea.val().indexOf(user) === -1) {
         textarea.val(textarea.val() + ' @' + user + ' ');
@@ -230,13 +230,13 @@
       prettyPrint();
     });
 
+/*
     $('.reply2_item').live('mouseover',function(){
       $(this).find('.reply2_at_btn').show();
     });
     $('.reply2_item').live('mouseout',function(){
       $(this).find('.reply2_at_btn').hide();
     });
-/*
     $(this).find('.reply2_btn').show();
     $(this).find('.reply2_at_btn').show();
 */

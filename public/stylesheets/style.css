@@ -4,7 +4,7 @@ div, textarea {
   -mox-box-sizing: border-box;
 }
 body {
-  background: url("../images/furley_bg.png") repeat;
+  background-color: hsl(0, 0%, 89%);
 }
 body, p {
   font-size: 14px;
@@ -20,7 +20,7 @@ body, p {
   text-overflow: ellipsis;
 }
 #wrapper {
-  padding-top: 20px;
+  padding-top: 48px;
 }
 #main {
   width: 1060px;
@@ -44,12 +44,18 @@ body, p {
   float: right;
   font-size: 14px;
 }
+#content .panel {
+    background: hsla(0, 100%, 100%, 0.7);
+}
+#sidebar .panel {
+    background: hsla(0, 100%, 100%, 0.7);
+}
 #sidebar .header {
-  box-shadow: 0px 1px 0px hsl(0,0%,90%);
 }
 #footer {
   height: 200px;
   clear: both;
+  background: hsla(0, 26%, 78%, 0.44);
 }
 #footer_main {
   width: 1040px;
@@ -148,25 +154,33 @@ a.light:hover {
   box-shadow: none;
 }
 .cell {
-  padding: 8px 10px 0px 10px;
-  box-shadow: 0px 1px 0px hsl(0,0%,86%);
+  padding: 2px 3px 5px 3px;
   overflow: hidden;
+  margin: 10px 10px;
+  position: relative;
 }
 .cell:last-child {
   border-bottom: none;
 }
 .cell .block {
-  width: 48px;
-  height: 48px;
   float: left;
   text-align: center;
-  margin-right: 8px;
   font-size: 14px;
   color: hsl(0,0%,70%);
   line-height: 48px;
 }
 .cell .block.count {
   width: 60px;
+  margin: 0px 8px;
+}
+.last_time {
+  position: absolute;
+  color: hsl(0, 7%, 70%);
+  top: 0px;
+  right: 0px;
+  font-size: 13px;
+  height: 48px;
+  line-height: 48px;
 }
 .topic_content {
   padding: 0px 6px;
@@ -288,10 +302,9 @@ a.tag_big:hover {
   padding: 1px 2px;
 }
 .user_avatar img, .user_big_avatar img {
-  border-radius: 1px;
-  box-shadow: 0px 0px 6px hsla(0,70%,20%,0.5);
-  width: 48px;
-  height: 48px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 6px hsla(0, 27%, 42%, 0.5);
+  width: 40px;
 }
 a.user_avatar:hover {
   text-decoration: none;
@@ -310,12 +323,10 @@ a.user_avatar:hover {
   margin-right: 10px;
 }
 .user_big_avatar img {
-  width: 48px;
+  width: 40px;
 }
 .user_icon {
-  position: relative;
-  top: 3px;
-  margin-right: 5px;
+  margin-right: 7px;
   opacity: 0.4;
 }
 .user_icon:hover {
@@ -348,9 +359,17 @@ a.user_avatar:hover {
 .reply_author {
   font-size: 14px;
 }
+.author_content{
+  height: 48px;
+}
+.user_info {
+    float: left;
+    margin-left: 16px;
+    height: 100%;
+    line-height: 48px;
+}
 .reply_content {
   margin-left: 58px;
-  margin-top: 8px;
 }
 .reply2_btn {
   margin-right: 10px;
@@ -358,8 +377,7 @@ a.user_avatar:hover {
 .reply2_area {
   margin-left: 50px;
 }
-.reply2_area .cell {
-  border-top: 1px solid #e2e2e2;  
+.reply2_area .cell {  
   border-bottom: none;
 }
 .reply2_editor {
@@ -367,15 +385,17 @@ a.user_avatar:hover {
   overflow: hidden;
 }
 .reply2_at_btn {
-  display: none;
+}
+.submit_control {
+  height: 48px;
+  line-height: 48px;
 }
 .topic_wrap {
-  padding: 0px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  height: 48px;
   line-height: 48px;
+  width: 500px;
 }
 a.topic_title {
   font-size: 16px;
@@ -493,7 +513,7 @@ textarea[id^=wmd-input] {
   height: 400px;
 }
 .wmd-preview {
-  height: 225px;
+  min-height: 225px;
 }
 .reply2-wmd-preview {
   width: 518px;
@@ -523,7 +543,7 @@ textarea[id^=wmd-input] {
 /* custom bootstrap */
 .navbar {
   margin-bottom: 0px;
-  background: url("../images/furley_bg.png");
+  background-color: hsla(0, 20%, 53%, 0.29);
   z-index: 9;
   width: 100%;
 }
@@ -539,10 +559,10 @@ textarea[id^=wmd-input] {
 }
 .navbar .brand {
   padding: 7px 0px 0px 20px;
-  width: 150px;
+  width: 143px;
 }
 .navbar .navbar-search {
-  margin-top: 7px;
+  margin-top: 6px;
 }
 .navbar .search-query {
   -webkit-box-shadow: none;
@@ -635,14 +655,15 @@ form {
 .topic_content p, .reply_content p, .reply_form p {
   font-size: 14px;
   line-height: 28px;
-  margin: 0px 0px 28px;
 }
-.topic_content p a.content_img {
+# .topic_content p a.content_img, #main .reply_content p a.content_img {
   box-shadow: 4px 2px 20px hsl(0,0%,40%);
+  display: block;
 }
-.topic_content blockquote p, .reply_content blockquote p, .reply_form blockquote p, #preview blockquote p {
-  font-size: 14px;
+#main .topic_content p a.content_img, #main .reply_content p a.content_img {
   color: hsl(0,0%,40%);
+  box-shadow: 1px 1px 15px hsla(0, 21%, 60%, 0.6);
+  display: block;
 }
 div[class$=content] > blockquote > p {
   font-size: 14px;
