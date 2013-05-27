@@ -80,7 +80,7 @@
 		</div>
 		<% if (locals.recent_topics && recent_topics.length > 0) { %>
 		<%- partial('topic/abstract', { collection: recent_topics, as: 'topic' }) %>
-		<div class='cell'>
+		<div class='cell more'>
 			<a class='dark' href="/user/<%= user.name %>/topics">查看更多»</a>
 		</div>
 		<% } else { %>
@@ -96,7 +96,7 @@
 		</div>
 		<% if (locals.recent_replies && recent_replies.length > 0) { %>
 		<%- partial('topic/abstract', { collection: recent_replies, as: 'topic' }) %>
-		<div class='cell'>
+		<div class='cell more'>
 			<a class='dark' href="/user/<%= user.name %>/replies">查看更多»</a>
 		</div>
 		<% } else { %>
