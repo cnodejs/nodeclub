@@ -66,36 +66,40 @@ if (req.body && req.body.user_action === 'upload_image') return next();
 
 Below is the output from `git-summary`.
 
-```
- $ git summary 
+```bash
+$ git summary 
 
  project  : nodeclub
- repo age : 1 year, 1 month
- active   : 113 days
- commits  : 270
- files    : 280
+ repo age : 1 year, 3 months
+ active   : 136 days
+ commits  : 315
+ files    : 266
  authors  : 
-   129  fengmk2                 47.8%
-    31  Jackson Tian            11.5%
-    30  dead-horse              11.1%
-    16  jiyinyiyong             5.9%
-    10  Kenny Zhao              3.7%
-     9  Lei Zongmin             3.3%
-     9  muyuan                  3.3%
-     7  young40                 2.6%
-     6  aisk                    2.2%
-     5  ericzhang               1.9%
-     4  spout                   1.5%
-     3  Json Shen               1.1%
-     2  Cong Ding               0.7%
-     2  chang                   0.7%
-     1  sunwenchao              0.4%
-     1  roymax                  0.4%
-     1  Xiang Gao               0.4%
-     1  leizongmin              0.4%
-     1  thebrecht               0.4%
-     1  LeToNode                0.4%
-     1  张洋                  0.4%
+   146  fengmk2                 46.3%
+    36  jiyinyiyong             11.4%
+    34  Jackson Tian            10.8%
+    30  dead-horse              9.5%
+    10  Kenny Zhao              3.2%
+    10  Lei Zongmin             3.2%
+     9  muyuan                  2.9%
+     7  young40                 2.2%
+     6  aisk                    1.9%
+     5  ericzhang               1.6%
+     4  spout                   1.3%
+     3  Json Shen               1.0%
+     2  Cong Ding               0.6%
+     2  chang                   0.6%
+     1  张洋                  0.3%
+     1  Zongmin Lei             0.3%
+     1  kerngven                0.3%
+     1  leizongmin              0.3%
+     1  Xiang Gao               0.3%
+     1  roymax                  0.3%
+     1  Liu Xing                0.3%
+     1  sunwenchao              0.3%
+     1  thebrecht               0.3%
+     1  LeToNode                0.3%
+     1  hhuai                   0.3%
 ```
 
 ## License

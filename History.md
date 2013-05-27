@@ -1,4 +1,25 @@
 
+0.3.4 / 2013-05-27 
+==================
+
+  * user markd instead showdown, use ace (@fengmk2)
+  * 使用加粗的边缘线; 过滤粉红色的边缘线; 加深 panel header 颜色; 去掉 scrollbar 定制 (@jiyinyiyong)
+  * 指定xss模块的配置信息，禁止HTML标签的style和class属性 (@lezongmin)
+  * shanzhai'd Github T3T (@jiyinyiyong)
+  * @jiyinyiyong 修改界面布局 fixed #139
+  * 添加话题详情主要内容的行高 (@kerngven)
+  * 增加POST提交时间间隔限制 (@leizongmin)
+  * 中英文间用空格
+  * 发帖页面优化
+  * 文本框高度不要闪烁
+  * use bootstrap 2; hide tags
+  * see the demo of new UI
+  * 搜索页面，如果回复时间过长，会产生断行的情况
+  * unit test cases
+  * #132 Add https:// validate on user.js cnodejs/nodeclub#132 (@meteormatt)
+  * Add 0.10 for travis
+  * fixed #107 update user links
+
 0.3.3 / 2013-03-11 
 ==================
 
