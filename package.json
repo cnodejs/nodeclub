@@ -14,6 +14,7 @@
     "nodemailer": "0.3.43",
     "data2xml": "0.4.0",
     "utility": "0.0.x",
+    "marked-prettyprint": "0.2.8",
     "xss": "0.0.3"
   },
   "devDependencies": {

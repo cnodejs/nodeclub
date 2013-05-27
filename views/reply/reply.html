@@ -32,7 +32,7 @@
   </div>
   <!-- <div class='sep5'></div> -->
   <div class='reply_content'>
-  <%- reply.content %>
+  <%- markdown(reply.content) %>
   </div>
   <div class='cl'>
     <!-- <div class='sep5'></div> -->
@@ -43,24 +43,27 @@
       <% } %>
       <% if (locals.current_user) { %>
       <div class='reply2_editor tabbable' id='reply2_editor-<%= indexInCollection+1 %>'>
-        <!-- <div class='sep10'></div> -->
-        <ul class='nav nav-pills'>
-          <li class='active'><a href='#markdown-<%= indexInCollection+1 %>' data-toggle='pill'>markdown</a></li>
-          <li><a href='#preview-<%= indexInCollection+1 %>' data-toggle='pill' class="preview-btn">预览</a></li>
-        </ul>
-        <div class='tab-content'>
-          <div class='active tab-pane' id='markdown-<%= indexInCollection+1 %>'>
-            <div id='wmd-button-bar-<%= indexInCollection+1 %>'></div>
-            <textarea class='span7' id='wmd-input-<%= indexInCollection+1 %>' name='r2_content' rows='4'></textarea>
+        <form id='reply_form' action='/<%= topic._id %>/reply2' method='post'>
+          <input type='hidden' name='_csrf' value='<%- csrf %>' />
+          <input type='hidden' name='reply_id' value='<%- reply._id %>' />
+          <ul class='nav nav-pills'>
+            <li class='active'><a href='#markdown-<%= indexInCollection+1 %>' data-toggle='pill'>markdown</a></li>
+            <!-- <li><a href='#preview-<%= indexInCollection+1 %>' data-toggle='pill' class="preview-btn">预览</a></li> -->
+          </ul>
+          <div class='tab-content'>
+            <div class='active tab-pane' id='markdown-<%= indexInCollection+1 %>'>
+              <div id='wmd-button-bar-<%= indexInCollection+1 %>'></div>
+              <textarea class='span8 editor' id='wmd-input-<%= indexInCollection+1 %>' name='r2_content' rows='4'></textarea>
+            </div>
+            <div id='preview-<%= indexInCollection+1 %>' class='tab-pane'>
+              <div id='wmd-preview-<%= indexInCollection+1 %>' class='wmd-preview reply2-wmd-preview'></div>
+            </div>
           </div>
-          <div id='preview-<%= indexInCollection+1 %>' class='tab-pane'>
-            <div id='wmd-preview-<%= indexInCollection+1 %>' class='wmd-preview reply2-wmd-preview'></div>
-          </div>
-        </div>
-        <div class='sep10'></div>
-        <button class='btn reply2_submit_btn' id='<%= reply._id %>'>回复</button>
-        <span class='sp10'></span>
-        <span class='col_fade'>Ctrl+Enter 快捷回复</span>
+          <div class='sep10'></div>
+          <button class='btn reply2_submit_btn' type="submit" data-id='<%= reply._id %>'>回复</button>
+          <span class='sp10'></span>
+          <span class='col_fade'>Ctrl+Enter 快捷回复</span>
+        </form>
       </div>
       <% } %>
     </div>

@@ -78,9 +78,9 @@
           <label class='bold' for='title'>标题</label>
           <div>
             <% if(locals.title){ %>
-            <textarea class='span8' id='title' name='title' rows='3'><%= title %></textarea>
+            <textarea class='span8' id='title' name='title' rows='1'><%= title %></textarea>
             <% }else{ %>
-            <textarea class='span8' id='title' name='title' rows='3'></textarea>
+            <textarea class='span8' id='title' name='title' rows='1'></textarea>
             <% } %>
             <p class='help-block'>字数控制在10到100个之间</p>
           </div>
@@ -92,7 +92,7 @@
           <div class='tabbable'>
             <ul class='nav nav-pills'>
               <li class='active'><a href='#markdown' data-toggle='pill'>Markdown</a></li>
-              <li><a href='#preview' data-toggle='pill' class="preview-btn">预览</a></li>
+              <!-- <li><a href='#preview' data-toggle='pill' class="preview-btn">预览</a></li> -->
               <li><a href='#tags'data-toggle='pill'>标签</a></li>
             </ul>
             <div class='tab-content'>
@@ -100,15 +100,15 @@
                 <div id='wmd-button-bar'></div>
                 <div class='input'>
                   <% if(locals.content){ %>
-                  <textarea class='span8' id='wmd-input' name='t_content' rows='20'><%= content %></textarea>
+                  <textarea class='span8 editor' id='wmd-input' name='t_content' rows='20'><%= content %></textarea>
                   <% }else{ %>
-                  <textarea class='span8' id='wmd-input' name='t_content' rows='20'></textarea>
+                  <textarea class='span8 editor' id='wmd-input' name='t_content' rows='20'></textarea>
                   <% } %>
                 </div>
               </div>
-              <div id='preview' class='tab-pane'>
+              <!-- <div id='preview' class='tab-pane'>
                 <div id='wmd-preview' class='wmd-preview topic-wmd-preview'></div>
-              </div>
+              </div> -->
               <div id='tags' class='tab-pane'>
                 <div class='tags_select'>
                   <%- partial('tag/tag_selectable',{collection:tags, as:'tag'}) %>
@@ -131,25 +131,27 @@
 <!-- ajaxupload -->
 <script src='/libs/ajax-upload/ajaxupload.js'></script>
 <!-- markdown editor -->
-<script src='/libs/pagedown/Markdown.Converter.js'></script>
+<!-- <script src='/libs/pagedown/Markdown.Converter.js'></script>
 <script src='/libs/showdown.js'></script>
-<script src='/libs/pagedown/Markdown.Editor.js'></script>
+<script src='/libs/pagedown/Markdown.Editor.js'></script> -->
+<script src='/libs/ace/ace.js'></script>
+<script src='/javascripts/editor.js'></script>
 
 <script>
-$(document).ready(function(){
-  var editor;
-  function run_md_editor(){
-    // var converter = Markdown.getSanitizingConverter();
-    var converter = new Showdown.converter();
-    editor = new Markdown.Editor(converter);
-    editor.run();
-  }
-  run_md_editor();
+$(function () {
+  // var editor;
+  // function run_md_editor(){
+  //   // var converter = Markdown.getSanitizingConverter();
+  //   var converter = new Showdown.converter();
+  //   editor = new Markdown.Editor(converter);
+  //   editor.run();
+  // }
+  // run_md_editor();
 
-  $('.preview-btn').click(function() {
-    editor.makePreviewHtml();
-    prettyPrint();
-  });
+  // $('.preview-btn').click(function() {
+  //   editor.makePreviewHtml();
+  //   prettyPrint();
+  // });
 
   $('.tag_selectable').click(function(){
     $(this).toggleClass('tag_select');
