@@ -7,14 +7,14 @@
 		<span>
 			<a href="/user/<%= message.author.name %>" target='_blank'><%= message.author.name %></a> 
 			回复了你的话题 
-			<a href="/topic/<%= message.topic._id %>" target='_blank'><%= message.topic.title %></a>
+			<a href="/topic/<%- message.topic._id + (message.reply ? '#' + message.reply._id : '') %>" target='_blank'><%= message.topic.title %></a>
 		</span>
 	<% } %>
 	<% if(message.type == 'reply2'){ %>
 		<span>
 			<a href="/user/<%= message.author.name %>" target='_blank'><%= message.author.name %></a> 
 			在话题 
-			<a href="/topic/<%= message.topic._id %>" target='_blank'><%= message.topic.title %></a>
+			<a href="/topic/<%= message.topic._id + (message.reply ? '#' + message.reply._id : '') %>" target='_blank'><%= message.topic.title %></a>
 			中回复了你的回复
 		</span>
 	<% } %>
@@ -28,7 +28,7 @@
 		<span>
 			<a href="/user/<%= message.author.name %>" target='_blank'><%= message.author.name %></a>
 			在话题
-			<a href="/topic/<%= message.topic._id %>" target='_blank'><%= message.topic.title %></a>
+			<a href="/topic/<%= message.topic._id + (message.reply ? '#' + message.reply._id : '') %>" target='_blank'><%= message.topic.title %></a>
 			中@了你
 		</span>
 	<% } %>
