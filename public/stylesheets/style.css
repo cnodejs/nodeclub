@@ -212,6 +212,10 @@ a.light:hover {
     display: inline-block;
     height: 14px;
     line-height: 14px;
+    vertical-align: middle;
+}
+.cell.more{
+    padding: 10px;
 }
 .last_time {
   position: absolute;
