@@ -47,12 +47,16 @@
         <li class='active'>话题详情</li>
       </ul>
     </div>
-    <div class='inner'>
-      <h3><% if(topic.top){%>[置顶]<% } %><%= topic.title %></h3>
+    <div class='inner topic'>
+      <h3>
+        <% if(topic.top){%><span class='put_top'>置顶</span><% } %><%= topic.title %>
+      </h3>
+      <hr>
       <div class='topic_content'>
         <%- topic.content %>
       </div>
       <div class='sep10'></div> 
+      <hr>
       <% if (topic.tags.length > 0) { %>
       <span class='col_fade'>标签：</span> 
       <%- partial('tag/tag_in_topic',{ collection: topic.tags, as: 'tag' }) %>
@@ -61,12 +65,12 @@
       <% } %>
       <div class='sep5'></div>  
       <span class='col_fade'>
-        <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_create_at %>发布
+        <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_create_at %> 发布
       </span>
       <% if (topic.friendly_create_at != topic.friendly_update_at) { %>
       <div class='sep5'></div>
       <span class='col_fade'>
-        <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_update_at %>重新编辑
+        <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_update_at %> 重新编辑
       </span>
       <% } %>
       <span class='sp10'></span>
@@ -114,7 +118,7 @@
     <div class='header'>
       <span class='col_fade'>添加回复</span>
     </div>
-    <div class='inner'>
+    <div class='inner reply'>
       <form id='reply_form' action='/<%= topic._id %>/reply' method='post'>
         <div class='tabbable'>
           <ul class='nav nav-pills'>
@@ -183,17 +187,17 @@
     $('.reply2_btn').click(function () {
       var $btn = $(this);
       // var editor = $btn.parent().next('.reply2_area').find('.reply2_editor');
-      var editor = $btn.parent().parent().find('.reply2_editor');
+      var editor = $btn.parents('.cell').find('.reply2_editor');
       editor.slideToggle('fast');
       editor.find('textarea').focus();
     });
 
     $('.reply2_at_btn').click(function () {
       var $btn = $(this);
-      var editor = $btn.parents('.reply2_area').find('.reply2_editor');
+      var editor = $btn.parents('.cell').find('.reply2_editor');
       editor.show('fast');
       editor.find('textarea').focus();
-      var user = $btn.parents('.reply2_item').find('.reply_author').find('a').html();
+      var user = $btn.parents('.cell').find('.reply_author').find('a').html();
       var textarea = editor.find('textarea');
       if (textarea.val().indexOf(user) === -1) {
         textarea.val(textarea.val() + ' @' + user + ' ');
@@ -230,13 +234,13 @@
       prettyPrint();
     });
 
+/*
     $('.reply2_item').live('mouseover',function(){
       $(this).find('.reply2_at_btn').show();
     });
     $('.reply2_item').live('mouseout',function(){
       $(this).find('.reply2_at_btn').hide();
     });
-/*
     $(this).find('.reply2_btn').show();
     $(this).find('.reply2_at_btn').show();
 */
