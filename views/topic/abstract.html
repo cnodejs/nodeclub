@@ -18,7 +18,7 @@
   </div>
 
   <div class='block count'>
-    <a href="/topic/<%= topic._id %>#reply<%= topic.reply_count %>"title="回复数"><%= topic.reply_count %></a
+    <a href="/topic/<%= topic._id %><%- topic.reply ? '#' + topic.reply._id : '' %>"title="回复数"><%= topic.reply_count %></a
       >/<span title='点击数'><%= topic.visit_count %></span>
   </div>
 
