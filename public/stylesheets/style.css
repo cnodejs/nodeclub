@@ -11,15 +11,6 @@ body, p {
   word-break: break-all;
   -webkit-font-smoothing: antialiased;
 }
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: hsl(0, 100%, 100%);
-}
-::-webkit-scrollbar-thumb {
-  background: hsl(0, 100%, 90%);}
 #main p a {
   white-space: nowrap;
   max-width: 600px;
@@ -56,16 +47,16 @@ body, p {
 }
 #content .panel {
     background: hsla(0, 0%, 100%, 1);
-    box-shadow: 0px 0px 1px hsl(0,0%,70%);
+    box-shadow: 0px 0px 2px hsl(0,0%,50%);
 }
 #sidebar .panel {
-    background: hsla(0, 100%, 100%, 1);
-    box-shadow: 0px 0px 1px hsl(0,0%,70%);
+    background: hsla(0, 0%, 100%, 1);
+    box-shadow: 0px 0px 2px hsl(0,0%,50%);
 }
 #sidebar .header {
-    background: hsl(0, 0%, 95%);
+    background: hsl(0, 0%, 90%);
     background-image: linear-gradient(hsl(0, 0%, 98%), hsl(0, 0%, 92%));
-    background-image: -webkit-linear-gradient(hsl(0, 0%, 98%), hsl(0, 0%, 92%));
+    background-image: -webkit-linear-gradient(hsl(0, 0%, 97%), hsl(0, 0%, 90%));
     color: hsl(202, 6%, 34%);
     font-weight: bold;
 }
@@ -159,9 +150,9 @@ a.light:hover {
 }
 .panel .header {
   padding: 7px 10px;
-  background: hsl(0,0%,95%);
+  background: hsl(0,0%,88%);
   background-image: linear-gradient(hsl(0, 0%, 98%), hsl(0, 0%, 92%));
-  background-image: -webkit-linear-gradient(hsl(0, 0%, 98%), hsl(0, 0%, 92%));
+  background-image: -webkit-linear-gradient(hsl(0, 0%, 97%), hsl(0, 0%, 92%));
 }
 .panel .moon {
   padding: 10px;
@@ -175,7 +166,7 @@ a.light:hover {
 .panel .inner .unstyled li div {
   text-overflow: ellipsis;
 }
-.panel .inner.topic, .panel .inner.reply, .panel .inner.userinfo {
+.panel .inner.topic, .panel .inner.reply, .panel .inner.userinfo, .panel .inner.post {
     padding: 10px;
 }
 #sidebar .panel .inner {
@@ -589,12 +580,12 @@ textarea[id^=wmd-input] {
 /* custom bootstrap */
 .navbar {
   margin-bottom: 0px;
-  background-color: hsl(0, 0%, 95%);
-  background-image: linear-gradient(hsl(0, 0%, 98%), hsl(0, 0%, 95%));
+  background-color: hsl(0, 0%, 93%);
+  background-image: linear-gradient(hsl(0, 0%, 97%), hsl(0, 0%, 92%));
   z-index: 9;
   width: 100%;
   position: relative;
-  box-shadow: 0px 1px 0px hsl(0, 100%, 90%);
+  box-shadow: 0px 0px 2px hsl(0, 0%, 50%);
 }
 .navbar-inner {
   background: none;
