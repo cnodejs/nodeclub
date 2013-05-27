@@ -707,6 +707,7 @@ form {
 .topic_content p, .reply_content p, .reply_form p {
   font-size: 14px;
   line-height: 28px;
+  font-family: Monaco, Consolas, Ubuntu Mono, monospace;
 }
 # .topic_content p a.content_img, #main .reply_content p a.content_img {
   box-shadow: 4px 2px 20px hsl(0,0%,40%);
