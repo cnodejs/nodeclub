@@ -67,11 +67,11 @@ module.exports = function (app) {
   app.get('/tags/edit', tag.edit_tags);
   app.get('/tag/:name', tag.list_topic);
   // 编辑界面
-  app.get('/tag/:name/edit', auth, tag.edit);
-  app.get('/tag/:name/delete', tag.delete);
-  app.post('/tag/add', tag.add);
+  app.get('/tag/:name/edit', auth.adminRequired, tag.edit);
+  app.get('/tag/:name/delete', auth.adminRequired, tag.delete);
+  app.post('/tag/add', auth.adminRequired, tag.add);
   // 更新
-  app.post('/tag/:name/edit', auth, tag.update);
+  app.post('/tag/:id', auth.adminRequired, tag.update);
   app.post('/tag/collect', tag.collect);
   app.post('/tag/de_collect', auth.userRequired, tag.de_collect);
 
