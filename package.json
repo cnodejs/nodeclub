@@ -1,8 +1,9 @@
 {
-  "name": "nodeclub",
+  "name": "club",
   "version": "0.3.4",
   "main": "app.js",
   "private": true,
+  "customHost": ["cnodejs.org", "club.cnodejs.org"],
   "dependencies": {
     "express": "2.5.1",
     "ejs": "0.8.0",
