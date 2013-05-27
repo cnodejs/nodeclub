@@ -4,23 +4,7 @@
 	<div class='panel'>
 		<div class='inner'>
 			<div class='header'>
-				<% if (locals.tags && tags.length > 0) { %>
-					<div class='btn-group'>
-						<a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>标签 <span class='caret'></span>
-						</a>
-						<ul class='dropdown-menu'>
-							<%- partial('tag/tag', tags) %>
-						</ul>
-					</div>
-				<% } else { %>
-					<p>无标签</p>
-				<% } %>
-				<% if (locals.current_user && current_user.is_admin) { %>
-				<a class='edit_tag' href='/tags/edit'>
-					<img src="<%- config.site_static_host %>/images/wrench_icon&16.png" title='编辑标签' />
-				</a>
-				<% } %>
-				<!--<img src="<%- config.site_static_host %>/images/spechbubble_2_icon&16.png" title='话题'/>-->
+				当前话题
 				<% if (locals.current_user) { %>
 					<a href='/topic/create' class='fr'>
 						<button class='btn btn-success fr' id='create_topic_btn'>发布话题</button>

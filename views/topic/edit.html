@@ -12,7 +12,6 @@
       </ol>
     </div>
   </div>
-  <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>话题发布指南</span>
@@ -25,7 +24,6 @@
       </ol>
     </div>
   </div>
-  <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>markdown语法参考</span>
@@ -69,59 +67,21 @@
         <strong><%= error %></strong>
       </div>
       <% }else{ %>
-      <% if(locals.action && action == 'edit'){ %>
+      <% if (locals.action && action === 'edit') { %>
       <form id='create_topic_form' action='/topic/<%= topic_id %>/edit' method='post'>
-      <% }else{ %>
+      <% } else { %>
       <form id='create_topic_form' action='/topic/create' method='post'>
       <% } %>
-        <div>
+        <fieldset>
           <label class='bold' for='title'>标题</label>
-          <div>
-            <% if(locals.title){ %>
-            <textarea class='span8' id='title' name='title' rows='1'><%= title %></textarea>
-            <% }else{ %>
-            <textarea class='span8' id='title' name='title' rows='1'></textarea>
-            <% } %>
-            <p class='help-block'>字数控制在10到100个之间</p>
-          </div>
-        </div>
-        <div class='sep10'></div>
-        <div class='sep10'></div>
-        <div>
-          <label class='bold' for='t_content'>内容和标签</label>
-          <div class='tabbable'>
-            <ul class='nav nav-pills'>
-              <li class='active'><a href='#markdown' data-toggle='pill'>Markdown</a></li>
-              <!-- <li><a href='#preview' data-toggle='pill' class="preview-btn">预览</a></li> -->
-              <li><a href='#tags'data-toggle='pill'>标签</a></li>
-            </ul>
-            <div class='tab-content'>
-              <div class='active tab-pane' id='markdown'>
-                <div id='wmd-button-bar'></div>
-                <div class='input'>
-                  <% if(locals.content){ %>
-                  <textarea class='span8 editor' id='wmd-input' name='t_content' rows='20'><%= content %></textarea>
-                  <% }else{ %>
-                  <textarea class='span8 editor' id='wmd-input' name='t_content' rows='20'></textarea>
-                  <% } %>
-                </div>
-              </div>
-              <!-- <div id='preview' class='tab-pane'>
-                <div id='wmd-preview' class='wmd-preview topic-wmd-preview'></div>
-              </div> -->
-              <div id='tags' class='tab-pane'>
-                <div class='tags_select'>
-                  <%- partial('tag/tag_selectable',{collection:tags, as:'tag'}) %>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <input type='hidden' id='topic_tags' name='topic_tags' value=''></input>
-        <input type='hidden' name='_csrf' value='<%= csrf %>' />
-        <div class='form-actions'>
-          <button id='submit_btn' class='btn'>发布</button>
-        </div>
+          <textarea class='span9' id='title' name='title' rows='1' placeholder="请在此输入标题，字数控制在10到100个之间"><%= locals.title || '' %></textarea>
+          <label class='bold' for='t_content'>内容</label>
+          <textarea class='editor' id='wmd-input' name='t_content' rows='20'><%= locals.content || '' %></textarea>
+
+          <input type='hidden' id='topic_tags' name='topic_tags' value=''></input>
+          <input type='hidden' name='_csrf' value='<%= csrf %>' />
+          <button id='submit_btn' type="submit" class='btn'>发布</button>
+        </fieldset>
       </form>
     </div>
     <% } %>

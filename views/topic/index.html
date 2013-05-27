@@ -188,27 +188,33 @@
 
     $('.reply2_btn').click(function () {
       var $btn = $(this);
-      // var editor = $btn.parent().next('.reply2_area').find('.reply2_editor');
-      var editor = $btn.parents('.cell').find('.reply2_editor');
-      editor.slideToggle('fast');
-      editor.find('textarea').focus();
+      var parent = $btn.parents('.reply_area');
+      var editorWrap = parent.find('.reply2_form');
+      parent.find('.reply2_area').prepend(editorWrap);
+      var textarea = editorWrap.find('textarea.editor');
+      var user = $btn.parents('.cell').find('.reply_author').find('a').html();
+      editorWrap.show('fast', function () {
+        var editor = ace.edit("ace_" + textarea.attr('id'));
+        editor.setValue(textarea.val(), 1);
+        editor.focus();
+      });
     });
 
     $('.reply2_at_btn').click(function () {
       var $btn = $(this);
-      var editorWrap = $btn.parents('.cell').find('.reply2_editor');
-      editorWrap.show('fast');
+      var editorWrap = $btn.parents('.reply2_area').find('.reply2_form');
+      $btn.parents('.reply2_item').after(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
       var user = $btn.parents('.cell').find('.reply_author').find('a').html();
-      if (textarea.val().indexOf(user) === -1) {
+      if (textarea.val().indexOf('@' + user) < 0) {
         textarea.val('@' + user + ' ');
-      } else {
-        editorWrap.hide('fast');
-        textarea.val('')
       }
-      var editor = ace.edit("ace_" + textarea.attr('id'));
-      editor.setValue(textarea.val(), 1);
-      editor.focus();
+      
+      editorWrap.show('fast', function () {
+        var editor = ace.edit("ace_" + textarea.attr('id'));
+        editor.setValue(textarea.val(), 1);
+        editor.focus();
+      });
     });
 
     // $('.reply2_submit_btn').click(function () {
