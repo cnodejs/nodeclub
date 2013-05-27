@@ -1,5 +1,6 @@
 var mailer = require('nodemailer');
 var config = require('../config').config;
+var marked = require('marked-prettyprint');
 
 var transport = mailer.createTransport('SMTP', config.mail_opts);
 
@@ -84,13 +85,17 @@ exports.sendReplyMail = function (who, msg) {
   var from = config.mail_opts.auth.user;
   var to = who;
   var subject = config.name + ' 新消息';
-  var html = '<p>您好：<p/>' +
-    '<p>' +
-    '<a href="' + SITE_ROOT_URL + '/user/' + msg.author.name + '">' + msg.author.name + '</a>' +
-    ' 在话题 ' + '<a href="' + SITE_ROOT_URL + '/topic/' + msg.topic._id + '">' + msg.topic.title + '</a>' +
-    ' 中回复了你。</p>' +
-    '<p>若您没有在' + config.name + '社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p>' +
-    '<p>' + config.name + '社区 谨上。</p>';
+  var url = SITE_ROOT_URL + '/topic/' + msg.topic._id + '#' + msg.reply._id;
+  var html = '<p>您好：<p/> \
+    <p> \
+      <a href="' + SITE_ROOT_URL + '/user/' + msg.author.name + '">' + msg.author.name + '</a> \
+      在话题 ' + '<a href="' + url + '">' + msg.topic.title + '</a> \
+      中回复了你: \
+    </p> \
+    <blockquote>' + marked(msg.reply.content || '') + '</blockquote> \
+    <hr/> \
+    <p>若您没有在' + config.name + '社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p> \
+    <p>' + config.name + '社区 谨上。</p>';
 
   sendMail({
     from: from,
@@ -109,13 +114,17 @@ exports.sendAtMail = function (who, msg) {
   var from = config.mail_opts.auth.user;
   var to = who;
   var subject = config.name + ' 新消息';
-  var html = '<p>您好：<p/>' +
-    '<p>' +
-    '<a href="' + SITE_ROOT_URL + '/user/' + msg.author.name + '">' + msg.author.name + '</a>' +
-    ' 在话题 ' + '<a href="' + SITE_ROOT_URL + '/topic/' + msg.topic._id + '">' + msg.topic.title + '</a>' +
-    ' 中@了你。</p>' +
-    '<p>若您没有在' + config.name + '社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p>' +
-    '<p>' + config.name + '社区 谨上。</p>';
+  var url = SITE_ROOT_URL + '/topic/' + msg.topic._id + '#' + msg.reply._id;
+  var html = '<p>您好：<p/> \
+    <p> \
+      <a href="' + SITE_ROOT_URL + '/user/' + msg.author.name + '">' + msg.author.name + '</a> \
+      在话题 ' + '<a href="' + url + '">' + msg.topic.title + '</a> \
+      中@了你: \
+    </p> \
+    <blockquote>' + marked(msg.reply.content || '') + '</blockquote> \
+    <hr/> \
+    <p>若您没有在' + config.name + '社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p> \
+    <p>' + config.name + '社区 谨上。</p>';
 
   sendMail({
     from: from,

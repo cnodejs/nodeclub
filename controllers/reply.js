@@ -27,19 +27,21 @@ exports.add = function (req, res, next) {
   });
   ep.fail(next);
 
+  ep.on('reply_saved', function (reply) {
+    Topic.getTopic(topic_id, ep.done(function (topic) {
+      if (topic.author_id.toString() !== req.session.user._id.toString()) {
+        message.sendReplyMessage(topic.author_id, req.session.user._id, topic._id, reply._id);
+      }
+      ep.emit('message_saved');
+    }));
+  });
+
   Reply.newAndSave(content, topic_id, req.session.user._id, ep.done(function (reply) {
     Topic.updateLastReply(topic_id, reply._id, ep.done(function () {
       ep.emit('reply_saved', reply);
       //发送at消息
-      at.sendMessageToMentionUsers(content, topic_id, req.session.user._id);
+      at.sendMessageToMentionUsers(content, topic_id, req.session.user._id, reply._id);
     }));
-  }));
-
-  Topic.getTopic(topic_id, ep.done(function (topic) {
-    if (topic.author_id.toString() !== req.session.user._id.toString()) {
-      message.sendReplyMessage(topic.author_id, req.session.user._id, topic._id);
-    }
-    ep.emit('message_saved');
   }));
 
   User.getUserById(req.session.user._id, ep.done(function (user) {
@@ -85,7 +87,7 @@ exports.add_reply2 = function (req, res, next) {
       }
       proxy.emit('reply_saved', reply);
       //发送at消息
-      at.sendMessageToMentionUsers(content, topic_id, req.session.user._id);
+      at.sendMessageToMentionUsers(content, topic_id, req.session.user._id, reply._id);
     });
   });
 
@@ -95,7 +97,7 @@ exports.add_reply2 = function (req, res, next) {
       return next(err);
     }
     if (reply.author_id.toString() !== req.session.user._id.toString()) {
-      message.sendReply2Message(reply.author_id, req.session.user._id, topic_id);
+      message.sendReply2Message(reply.author_id, req.session.user._id, topic_id, reply._id);
     }
     proxy.emit('message_saved');
   });
