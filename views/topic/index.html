@@ -53,7 +53,7 @@
       </h3>
       <hr>
       <div class='topic_content'>
-        <%- topic.content %>
+        <%- markdown(topic.content) %>
       </div>
       <div class='sep10'></div> 
       <hr>
@@ -123,12 +123,12 @@
         <div class='tabbable'>
           <ul class='nav nav-pills'>
             <li class='active'><a href='#markdown' data-toggle='pill'>markdown</a></li>
-            <li><a href='#preview' data-toggle='pill' class="preview-btn">预览</a></li>
+            <!-- <li><a href='#preview' data-toggle='pill' class="preview-btn">预览</a></li> -->
           </ul>
           <div class='tab-content'>
             <div class='tab-pane active' id='markdown'>
               <div id='wmd-button-bar'></div>
-              <textarea class='span8' id='wmd-input' name='r_content' rows='8'></textarea>
+              <textarea class='span8 editor' id='wmd-input' name='r_content' rows='8'></textarea>
             </div>
             <div id='preview' class='tab-pane'>
               <div id='wmd-preview' class='wmd-preview reply-wmd-preview'></div>
@@ -150,35 +150,37 @@
 <!-- ajaxupload -->
 <script src='/libs/ajax-upload/ajaxupload.js'></script>
 <!-- markdown editor -->
-<script src='/libs/pagedown/Markdown.Converter.js'></script>
+<!-- <script src='/libs/pagedown/Markdown.Converter.js'></script>
 <script src='/libs/showdown.js'></script>
-<script src='/libs/pagedown/Markdown.Editor.js'></script>
+<script src='/libs/pagedown/Markdown.Editor.js'></script> -->
+<script src='/libs/ace/ace.js'></script>
+<script src='/javascripts/editor.js'></script>
 
 <script>
   $(document).ready(function () {
-    var editors = {};
-    function run_md_editor() {
-      var converter = new Showdown.converter();
-      editors[""] = new Markdown.Editor(converter);
-      editors[""].run(); 
-      /*
-      editor.hooks.chain('onPreviewRefresh', function () {
-        prettyPrint();
-      });
-      */
-      $('.reply2_editor').each(function() {
-        var editor_id = $(this).attr('id');
-        var suffix = editor_id.slice(editor_id.indexOf('-'));
-        editors[suffix] = new Markdown.Editor(converter, suffix);
-        editors[suffix].run();
-        /*
-        editor.hooks.chain('onPreviewRefresh', function () {
-          prettyPrint();
-        });
-        */
-      });
-    }
-    run_md_editor();
+    // var editors = {};
+    // function run_md_editor() {
+    //   var converter = new Showdown.converter();
+    //   editors[""] = new Markdown.Editor(converter);
+    //   editors[""].run(); 
+    //   /*
+    //   editor.hooks.chain('onPreviewRefresh', function () {
+    //     prettyPrint();
+    //   });
+    //   */
+    //   $('.reply2_editor').each(function() {
+    //     var editor_id = $(this).attr('id');
+    //     var suffix = editor_id.slice(editor_id.indexOf('-'));
+    //     editors[suffix] = new Markdown.Editor(converter, suffix);
+    //     editors[suffix].run();
+    //     /*
+    //     editor.hooks.chain('onPreviewRefresh', function () {
+    //       prettyPrint();
+    //     });
+    //     */
+    //   });
+    // }
+    // run_md_editor();
 
     $('#wmd-input').mouseover(function(){
       $('#wmd-input').focus()
@@ -194,45 +196,48 @@
 
     $('.reply2_at_btn').click(function () {
       var $btn = $(this);
-      var editor = $btn.parents('.cell').find('.reply2_editor');
-      editor.show('fast');
-      editor.find('textarea').focus();
+      var editorWrap = $btn.parents('.cell').find('.reply2_editor');
+      editorWrap.show('fast');
+      var textarea = editorWrap.find('textarea.editor');
       var user = $btn.parents('.cell').find('.reply_author').find('a').html();
-      var textarea = editor.find('textarea');
       if (textarea.val().indexOf(user) === -1) {
-        textarea.val(textarea.val() + ' @' + user + ' ');
+        textarea.val('@' + user + ' ');
       } else {
-        editor.hide('fast');
+        editorWrap.hide('fast');
         textarea.val('')
       }
+      var editor = ace.edit("ace_" + textarea.attr('id'));
+      editor.setValue(textarea.val(), 1);
+      editor.focus();
     });
 
-    $('.reply2_submit_btn').click(function () {
-      var $btn = $(this);
-      var reply_id = $btn.attr('id');   
-      var content = $btn.parent().find('textarea').val();
-      var data = {
-        reply_id: reply_id,
-        r2_content: content,
-        _csrf: '<%- csrf %>'
-      };
-      $.post('/<%= topic._id %>/reply2', data, function (data) {
-        if(data != ''){
-          $btn.parent().before(data);
-          $btn.parent().find('textarea').val('');
-          $btn.parent().find('.wmd-preview').html('');
-          prettyPrint();
-          $btn.parent().toggle();
-        }
-      });
-    });
-    $('.preview-btn').click(function() {
-      var href = $(this).attr('href');
-      var index = href.lastIndexOf('-');
-      var suffix = index < 0 ? '' : href.slice(index);
-      editors[suffix].makePreviewHtml();
-      prettyPrint();
-    });
+    // $('.reply2_submit_btn').click(function () {
+    //   var $btn = $(this);
+    //   var reply_id = $btn.attr('data-id');   
+    //   var content = $btn.parents('.reply2_editor').find('textarea.editor').val();
+    //   var data = {
+    //     reply_id: reply_id,
+    //     r2_content: content,
+    //     _csrf: '<%- csrf %>'
+    //   };
+    //   $.post('/<%= topic._id %>/reply2', data, function (data) {
+    //     if(data != '') {
+    //       $btn.parent().before(data);
+    //       $btn.parent().find('textarea').val('');
+    //       $btn.parent().find('.wmd-preview').html('');
+    //       prettyPrint();
+    //       $btn.parent().toggle();
+    //     }
+    //   });
+    // });
+
+    // $('.preview-btn').click(function() {
+    //   var href = $(this).attr('href');
+    //   var index = href.lastIndexOf('-');
+    //   var suffix = index < 0 ? '' : href.slice(index);
+    //   editors[suffix].makePreviewHtml();
+    //   prettyPrint();
+    // });
 
 /*
     $('.reply2_item').live('mouseover',function(){

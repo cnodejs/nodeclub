@@ -48,7 +48,7 @@ exports.getReplyById = function (id, callback) {
         if (err) {
           return callback(err);
         }
-        reply.content = Util.xss(Showdown.parse(str));
+        reply.content = Util.xss(str);
         return callback(err, reply);
       });
     });
@@ -111,7 +111,7 @@ exports.getRepliesByTopicId = function (id, cb) {
             if (err) {
               return cb(err);
             }
-            replies[i].content = Util.xss(Showdown.parse(str));
+            replies[i].content = Util.xss(str);
             proxy.emit('reply_find');
           });
         });

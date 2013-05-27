@@ -9,7 +9,10 @@
 var path = require('path');
 var express = require('express');
 var ndir = require('ndir');
+var pkg = require('./package.json');
 var config = require('./config').config;
+config.version = pkg.version;
+
 // host: http://127.0.0.1
 var urlinfo = require('url').parse(config.host);
 config.hostname = urlinfo.hostname || config.host;
@@ -64,11 +67,7 @@ if (process.env.NODE_ENV !== 'test') {
 app.helpers({
   config: config
 });
-app.dynamicHelpers({
-  csrf: function (req, res) {
-    return req.session ? req.session._csrf : '';
-  }
-});
+app.dynamicHelpers(require('./common/render_helpers'));
 
 var maxAge = 3600000 * 24 * 30;
 app.use('/upload/', express.static(config.upload_dir, { maxAge: maxAge }));

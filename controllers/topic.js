@@ -17,7 +17,6 @@ var TopicTag = require('../proxy').TopicTag;
 var TopicCollect = require('../proxy').TopicCollect;
 
 var EventProxy = require('eventproxy');
-var Showdown = require('../public/libs/showdown');
 var Util = require('../libs/util');
 
 /**
@@ -51,7 +50,7 @@ exports.index = function (req, res, next) {
       return ep.emit('@user');
     }
     at.linkUsers(topic.content, ep.done(function (content) {
-      topic.content = Util.xss(Showdown.parse(content));
+      topic.content = Util.xss(content);
       ep.emit('@user');
     }));
   });

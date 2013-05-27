@@ -178,7 +178,7 @@ a.light:hover {
 .cell {
   overflow: hidden;
   position: relative;
-  box-shadow: 0px 1px 0px hsl(0, 100%, 95%);
+  box-shadow: 0px 1px 0px hsl(0, 0%, 90%);
   padding: 3px 10px;
 }
 .cell .cell {

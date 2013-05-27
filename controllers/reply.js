@@ -68,7 +68,8 @@ exports.add_reply2 = function (req, res, next) {
   var proxy = new EventProxy();
   proxy.assign('reply_saved', 'message_saved', function (reply) {
     Reply.getReplyById(reply._id, function (err, reply) {
-      res.partial('reply/reply2', {object: reply, as: 'reply'});
+      res.redirect('/topic/' + topic_id + '#' + reply._id);
+      // res.partial('reply/reply2', {object: reply, as: 'reply'});
     });
   });
 
