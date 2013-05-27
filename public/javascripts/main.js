@@ -21,11 +21,9 @@ $(document).ready(function () {
   var $wrapper = $('#wrapper');
   var $backtotop = $('#backtotop');
   var $sidebar = $('#sidebar');
-  var top = $(window).height() - $backtotop.height() - 90;
+  var top = $(window).height() - $backtotop.height() - 200;
   function moveBacktotop() {
-    var marginLeft = $sidebar.position().left;
-    var left = marginLeft + $sidebar.width();
-    $backtotop.css({ top: top, left: left});
+    $backtotop.css({ top: top, right: 0});
   }
   $backtotop.click(function () {
     $('html,body').animate({ scrollTop: 0 });

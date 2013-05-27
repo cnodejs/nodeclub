@@ -98,11 +98,6 @@ Below is the output from `git-summary`.
      1  张洋                  0.4%
 ```
 
-## Images
-
-Background image Made by Dan Kruse:  
-http://subtlepatterns.com/light-sketch/
-
 ## License
 
 ( The MIT License )

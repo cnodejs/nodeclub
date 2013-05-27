@@ -4,7 +4,6 @@ div, textarea {
   -mox-box-sizing: border-box;
 }
 body {
-  background: url("../images/furley_bg.png") repeat;
 }
 body, p {
   font-size: 14px;
@@ -12,44 +11,71 @@ body, p {
   word-break: break-all;
   -webkit-font-smoothing: antialiased;
 }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(0, 100%, 100%);
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(0, 100%, 90%);}
 #main p a {
   white-space: nowrap;
   max-width: 600px;
   overflow: hidden;
   display: inline-block;
   text-overflow: ellipsis;
+  vertical-align: middle;
 }
 #wrapper {
-  padding-top: 20px;
+  padding-top: 34px;
 }
 #main {
   width: 1060px;
   margin: 0px auto;
-  padding: 10px 0px 30px 0px;
+  padding: 0px 0px 30px 0px;
   min-height:400px;
+  position: relative;
 }
 #topic_list {
-  margin: 10px 0px 30px;
+  margin: 0px;
 }
 #content {
   margin: 0px 290px 0px 0px;
-  padding: 10px 10px 0px 0px;
+  padding: 0px;
+  width: 758px;
 }
-#content p {
+#content .topic p, #content .reply p {
   font-family: Monaco, Consolas, monospace, "Wenquanyi Micro Hei Mono";
 }
 #sidebar {
-  width: 300px;
-  padding: 10px 0px 10px 10px;
+  width: 290px;
   float: right;
   font-size: 14px;
 }
+#content .panel {
+    background: hsla(0, 0%, 100%, 1);
+    box-shadow: 0px 0px 1px hsl(0,0%,70%);
+}
+#sidebar .panel {
+    background: hsla(0, 100%, 100%, 1);
+    box-shadow: 0px 0px 1px hsl(0,0%,70%);
+}
 #sidebar .header {
-  box-shadow: 0px 1px 0px hsl(0,0%,90%);
+    background: hsl(0, 0%, 95%);
+    background-image: linear-gradient(hsl(0, 0%, 98%), hsl(0, 0%, 92%));
+    background-image: -webkit-linear-gradient(hsl(0, 0%, 98%), hsl(0, 0%, 92%));
+    color: hsl(202, 6%, 34%);
+    font-weight: bold;
 }
 #footer {
   height: 200px;
   clear: both;
+  background: hsla(0, 100%, 100%, 1);
+  position: relative;
+  box-shadow: 0px -1px 0px hsl(0,0%,90%);
+  margin-top: 8px;
 }
 #footer_main {
   width: 1040px;
@@ -93,7 +119,10 @@ body, p {
   display: inline-block;
 }
 .col_fade {
-  color: #aaa;
+    color: hsl(0,0%,67%);
+}
+.header .col_fade{
+    color: hsl(202, 6%, 34%);
 }
 .bold {
   font-weight: bold;
@@ -126,10 +155,13 @@ a.light:hover {
 }
 
 .panel {
-  margin: 3px 0px;
+    margin-bottom: 8px;
 }
 .panel .header {
-  padding: 10px;
+  padding: 7px 10px;
+  background: hsl(0,0%,95%);
+  background-image: linear-gradient(hsl(0, 0%, 98%), hsl(0, 0%, 92%));
+  background-image: -webkit-linear-gradient(hsl(0, 0%, 98%), hsl(0, 0%, 92%));
 }
 .panel .moon {
   padding: 10px;
@@ -138,38 +170,63 @@ a.light:hover {
   padding-left: 10px;
 }
 .panel .inner {
-  padding: 10px;
   line-height: 27px;
 }
 .panel .inner .unstyled li div {
   text-overflow: ellipsis;
 }
+.panel .inner.topic, .panel .inner.reply, .panel .inner.userinfo {
+    padding: 10px;
+}
+#sidebar .panel .inner {
+    padding: 10px;
+}
 .panel>.cell:last-child {
   box-shadow: none;
 }
 .cell {
-  padding: 8px 10px 0px 10px;
-  box-shadow: 0px 1px 0px hsl(0,0%,86%);
   overflow: hidden;
+  position: relative;
+  box-shadow: 0px 1px 0px hsl(0, 100%, 95%);
+  padding: 3px 10px;
+}
+.cell .cell {
+    box-shadow: 0px -1px 0px hsl(0, 0%, 90%);
+    padding: 3px 10px 0px 10px;
 }
 .cell:last-child {
   border-bottom: none;
 }
 .cell .block {
-  width: 48px;
-  height: 48px;
   float: left;
   text-align: center;
-  margin-right: 8px;
   font-size: 14px;
   color: hsl(0,0%,70%);
   line-height: 48px;
 }
 .cell .block.count {
   width: 60px;
+  margin: 0px 8px;
 }
-.topic_content {
-  padding: 0px 6px;
+.cell.message {
+    padding: 10px;
+}
+.cell.message a {
+    max-width: 560px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    height: 14px;
+    line-height: 14px;
+}
+.last_time {
+  position: absolute;
+  color: hsl(0, 7%, 70%);
+  top: 0px;
+  right: 0px;
+  font-size: 13px;
+  line-height: 53px;
+  padding: 0px 8px;
 }
 .board .floor {
   line-height: 24px;
@@ -288,10 +345,9 @@ a.tag_big:hover {
   padding: 1px 2px;
 }
 .user_avatar img, .user_big_avatar img {
-  border-radius: 1px;
-  box-shadow: 0px 0px 6px hsla(0,70%,20%,0.5);
-  width: 48px;
-  height: 48px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 6px hsla(0, 27%, 42%, 0.5);
+  width: 40px;
 }
 a.user_avatar:hover {
   text-decoration: none;
@@ -310,12 +366,10 @@ a.user_avatar:hover {
   margin-right: 10px;
 }
 .user_big_avatar img {
-  width: 48px;
+  width: 40px;
 }
 .user_icon {
-  position: relative;
-  top: 3px;
-  margin-right: 5px;
+  margin-right: 7px;
   opacity: 0.4;
 }
 .user_icon:hover {
@@ -348,18 +402,26 @@ a.user_avatar:hover {
 .reply_author {
   font-size: 14px;
 }
+.author_content{
+  height: 48px;
+}
+.user_info {
+    float: left;
+    margin-left: 10px;
+    height: 100%;
+    line-height: 48px;
+}
+.user_action {}
 .reply_content {
-  margin-left: 58px;
-  margin-top: 8px;
+  margin-left: 50px;
 }
 .reply2_btn {
   margin-right: 10px;
 }
 .reply2_area {
-  margin-left: 50px;
+  margin-left: 25px;
 }
-.reply2_area .cell {
-  border-top: 1px solid #e2e2e2;  
+.reply2_area .cell {  
   border-bottom: none;
 }
 .reply2_editor {
@@ -367,15 +429,17 @@ a.user_avatar:hover {
   overflow: hidden;
 }
 .reply2_at_btn {
-  display: none;
+}
+.submit_control {
+  height: 48px;
+  line-height: 48px;
 }
 .topic_wrap {
-  padding: 0px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  height: 48px;
   line-height: 48px;
+  width: 500px;
 }
 a.topic_title {
   font-size: 16px;
@@ -411,13 +475,15 @@ img.unread {
   margin-top: -10px;  
 }
 #backtotop {
-  width: 16px;
+  width: 24px;
   color: gray;
   padding: 10px 4px;
   display:none;
   position: fixed;
   cursor: pointer;
   text-align: center;
+  background: white;
+  z-index: 20;
 }
 #share_weibo_btn {
 }
@@ -493,7 +559,7 @@ textarea[id^=wmd-input] {
   height: 400px;
 }
 .wmd-preview {
-  height: 225px;
+  min-height: 225px;
 }
 .reply2-wmd-preview {
   width: 518px;
@@ -511,21 +577,24 @@ textarea[id^=wmd-input] {
   background-color: #F5F5F5;
 }
 .put_top {
-  color: white;
-  background: hsl(240,30%,80%);
+  background: hsl(0, 0%, 80%);
   padding: 1px 2px;
   border-radius: 2px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   -o-border-radius: 2px;
+  color: hsl(0,0%,100%);
 }
 
 /* custom bootstrap */
 .navbar {
   margin-bottom: 0px;
-  background: url("../images/furley_bg.png");
+  background-color: hsl(0, 0%, 95%);
+  background-image: linear-gradient(hsl(0, 0%, 98%), hsl(0, 0%, 95%));
   z-index: 9;
   width: 100%;
+  position: relative;
+  box-shadow: 0px 1px 0px hsl(0, 100%, 90%);
 }
 .navbar-inner {
   background: none;
@@ -539,15 +608,15 @@ textarea[id^=wmd-input] {
 }
 .navbar .brand {
   padding: 7px 0px 0px 20px;
-  width: 150px;
+  width: 143px;
 }
 .navbar .navbar-search {
-  margin-top: 7px;
+  margin-top: 6px;
 }
 .navbar .search-query {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  box-shadow: none;
+  box-shadow: 0px 0px 4px hsl(0, 12%, 76%);
   background: white url('../images/search.png') no-repeat 4px 4px;
   padding: 4px 5px 4px 22px;
   color: #666;
@@ -566,8 +635,14 @@ textarea[id^=wmd-input] {
   background-color:#2b3741;
   border-right: 1px solid #2f3b46; 
 }
+.navbar .nav > li > a {
+  text-shadow: none;
+  font-weight: bold;
+  color: hsl(210, 27%, 30%);
+}
 .form-actions {
   border-top: none;
+  background-color: white;
 }
 .btn {
   padding: 3px 14px;
@@ -609,7 +684,6 @@ textarea.span8 {
 pre {
   background: #fee9cc;
   border: 1px dashed #ccc;
-  width: 90%;
   line-height: 22px;
 }
 code {
@@ -635,14 +709,15 @@ form {
 .topic_content p, .reply_content p, .reply_form p {
   font-size: 14px;
   line-height: 28px;
-  margin: 0px 0px 28px;
 }
-.topic_content p a.content_img {
+# .topic_content p a.content_img, #main .reply_content p a.content_img {
   box-shadow: 4px 2px 20px hsl(0,0%,40%);
+  display: block;
 }
-.topic_content blockquote p, .reply_content blockquote p, .reply_form blockquote p, #preview blockquote p {
-  font-size: 14px;
+#main .topic_content p a.content_img, #main .reply_content p a.content_img {
   color: hsl(0,0%,40%);
+  box-shadow: 1px 1px 15px hsla(0, 21%, 60%, 0.6);
+  display: block;
 }
 div[class$=content] > blockquote > p {
   font-size: 14px;
@@ -650,7 +725,6 @@ div[class$=content] > blockquote > p {
 }
 .index_notify {
   font-size: 14px;
-  color: #000;
 }
 h1, h2, h3, h4, h5,h6 {
   margin: 23px 0px;
@@ -680,7 +754,6 @@ div[class$=part] {
   width: 300px;
 }
 .topic_content{
-  line-height: 150%;
 }
 textarea, input[type="text"], input[type="password"], input[type="datetime"],
 input[type="datetime-local"], input[type="date"], input[type="month"],

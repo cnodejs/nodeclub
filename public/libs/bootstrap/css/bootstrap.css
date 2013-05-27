@@ -4615,7 +4615,7 @@ input[type="submit"].btn.btn-mini {
 
 .navbar .nav > li > a:focus,
 .navbar .nav > li > a:hover {
-  color: #333333;
+  color: hsl(210, 53%, 51%);
   text-decoration: none;
   background-color: transparent;
 }

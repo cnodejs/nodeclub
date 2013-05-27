@@ -1,17 +1,17 @@
 <div class='cell'>
-  <div class='user_avatar block'>
-    <a href="/user/<%= topic.author.name %>">
-      <img src="<%= topic.author.avatar_url %>"
-        title="<%= topic.author.name %> 创建于 <%= topic.friendly_create_at %>"
-      />
-    </a>
-  </div>
 
   <div class='user_avatar block'>
     <% if(topic.reply) {%>
       <a href="/user/<%= topic.reply.author.name %>">
         <img src="<%= topic.reply.author.avatar_url %>"
-          title="<%= topic.reply.author.name %> 回复于<%= topic.reply.friendly_create_at %>"
+          title="<%= topic.reply.author.name %>"
+        />
+      </a>
+    <% } %>
+    <% if(!topic.reply) {%>
+      <a href="/user/<%= topic.author.name %>">
+        <img src="<%= topic.author.avatar_url %>"
+          title="<%= topic.author.name %>"
         />
       </a>
     <% } %>
@@ -24,11 +24,17 @@
 
   <div class='topic_wrap'>
     <!--<%- partial('tag/tag_in_abstract',{collection:topic.tags, as:'tag'}) %>-->
-    <a class='topic_title' href='/topic/<%= topic._id %>'>
+    <a class='' href='/topic/<%= topic._id %>'>
       <% if(topic.top){%>
         <span class='put_top'>置顶</span>
         <% } %>
       <%= topic.title %>
     </a>
   </div>
+  <% if(topic.reply) {%>
+    <div class='last_time'><%= topic.reply.friendly_create_at %></div>
+  <% } %>
+  <% if(!topic.reply) {%>
+    <div class='last_time'><%= topic.friendly_create_at %></div>
+  <% } %>
 </div>
