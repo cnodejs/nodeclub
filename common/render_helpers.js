@@ -11,6 +11,7 @@
  */
 
 var marked = require('marked-prettyprint');
+var utils = require('../libs/util');
 
 // Set default options
 marked.setOptions({
@@ -26,7 +27,7 @@ marked.setOptions({
 
 exports.markdown = function () {
   return function (text) {
-    return '<div class="markdown-text">' + marked(text || '') + '</div>';
+    return '<div class="markdown-text">' + utils.xss(marked(text || '')) + '</div>';
   };
 };
 

@@ -50,7 +50,7 @@ exports.index = function (req, res, next) {
       return ep.emit('@user');
     }
     at.linkUsers(topic.content, ep.done(function (content) {
-      topic.content = Util.xss(content);
+      topic.content = content;
       ep.emit('@user');
     }));
   });
