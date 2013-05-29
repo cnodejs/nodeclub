@@ -47,16 +47,13 @@ body, p {
 }
 #content .panel {
     background: hsla(0, 0%, 100%, 1);
-    box-shadow: 0px 0px 2px hsl(0,0%,50%);
+    box-shadow: 0px 0px 1px hsl(0,0%,40%);
 }
 #sidebar .panel {
     background: hsla(0, 0%, 100%, 1);
-    box-shadow: 0px 0px 2px hsl(0,0%,50%);
 }
 #sidebar .header {
-    background: hsl(0, 0%, 90%);
-    background-image: linear-gradient(hsl(0, 0%, 98%), hsl(0, 0%, 92%));
-    background-image: -webkit-linear-gradient(hsl(0, 0%, 97%), hsl(0, 0%, 90%));
+    background: hsl(0, 0%, 93%);
     color: hsl(202, 6%, 34%);
     font-weight: bold;
 }
@@ -150,12 +147,11 @@ a.light:hover {
 
 .panel {
     margin-bottom: 8px;
+    box-shadow: 0px 0px 1px hsl(0, 0%, 40%);
 }
 .panel .header {
   padding: 7px 10px;
-  background: hsl(0,0%,88%);
-  background-image: linear-gradient(hsl(0, 0%, 98%), hsl(0, 0%, 92%));
-  background-image: -webkit-linear-gradient(hsl(0, 0%, 97%), hsl(0, 0%, 92%));
+  background: hsl(0,0%,93%);
 }
 .panel .moon {
   padding: 10px;
@@ -412,6 +408,7 @@ a.user_avatar:hover {
 .user_action {}
 .reply_content {
   margin-left: 50px;
+  white-space: pre;
 }
 .reply_editor {
   height: 80px;
@@ -477,7 +474,6 @@ img.unread {
   position: fixed;
   cursor: pointer;
   text-align: center;
-  background: white;
   z-index: 20;
 }
 #share_weibo_btn {
@@ -585,11 +581,10 @@ textarea[id^=wmd-input] {
 .navbar {
   margin-bottom: 0px;
   background-color: hsl(0, 0%, 93%);
-  background-image: linear-gradient(hsl(0, 0%, 97%), hsl(0, 0%, 92%));
   z-index: 9;
   width: 100%;
   position: relative;
-  box-shadow: 0px 0px 2px hsl(0, 0%, 50%);
+  box-shadow: 0px 0px 1px hsl(0, 0%, 40%);
 }
 .navbar-inner {
   background: none;
@@ -747,6 +742,7 @@ div[class$=part] {
   width: 300px;
 }
 .topic_content{
+    white-space: pre;
 }
 textarea, input[type="text"], input[type="password"], input[type="datetime"],
 input[type="datetime-local"], input[type="date"], input[type="month"],
