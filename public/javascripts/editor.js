@@ -8,8 +8,7 @@ $(function () {
     var $node = $(this);
     var id = $node.attr('id');
     var h = $node.height();
-    var w = $node.width();
-    $node.before('<div id="ace_' + id + '" style="height:' + h + 'px; width:' + w + 'px; border: 1px solid #DDD; border-radius: 4px;"></div>');
+    $node.before('<div id="ace_' + id + '" style="height:' + h + 'px; border: 1px solid #DDD; border-radius: 4px;"></div>');
     $node.hide();
 
     var editor = ace.edit("ace_" + id);
@@ -41,6 +40,8 @@ $(function () {
     editor.getSession().setTabSize(2);
     editor.getSession().setUseSoftTabs(true);
     editor.getSession().setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.setShowPrintMargin(false);
     editor.setValue($node.val(), 1);
     editor.focus();
     editor.setTheme("ace/theme/chrome");

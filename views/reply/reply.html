@@ -22,7 +22,7 @@
       <% } %>
       <span>
         <% if(locals.current_user){ %>
-          <a href='javascript:void(0);' class='dark reply2_btn'>回复</a>  
+          <a href='javascript:void(0)' class='dark reply2_btn'>回复</a>  
         <% } %>
         <!--<% if(reply.replies.length>0){ %>
          <span class='col_fade'>{<%= reply.replies.length %>}</span>
@@ -38,33 +38,19 @@
     <!-- <div class='sep5'></div> -->
     <div class='reply2_area'>
       <% if (reply.replies.length >0) { %>
-      <div class='sep10'></div>
-      <%- partial('reply/reply2',{collection: reply.replies, as: 'reply'}) %>
+        <%- partial('reply/reply2',{collection: reply.replies, as: 'reply2'}) %>
       <% } %>
       <% if (locals.current_user) { %>
-      <div class='reply2_editor tabbable' id='reply2_editor-<%= indexInCollection+1 %>'>
-        <form id='reply_form' action='/<%= topic._id %>/reply2' method='post'>
-          <input type='hidden' name='_csrf' value='<%- csrf %>' />
-          <input type='hidden' name='reply_id' value='<%- reply._id %>' />
-          <ul class='nav nav-pills'>
-            <li class='active'><a href='#markdown-<%= indexInCollection+1 %>' data-toggle='pill'>markdown</a></li>
-            <!-- <li><a href='#preview-<%= indexInCollection+1 %>' data-toggle='pill' class="preview-btn">预览</a></li> -->
-          </ul>
-          <div class='tab-content'>
-            <div class='active tab-pane' id='markdown-<%= indexInCollection+1 %>'>
-              <div id='wmd-button-bar-<%= indexInCollection+1 %>'></div>
-              <textarea class='span8 editor' id='wmd-input-<%= indexInCollection+1 %>' name='r2_content' rows='4'></textarea>
-            </div>
-            <div id='preview-<%= indexInCollection+1 %>' class='tab-pane'>
-              <div id='wmd-preview-<%= indexInCollection+1 %>' class='wmd-preview reply2-wmd-preview'></div>
-            </div>
-          </div>
-          <div class='sep10'></div>
+      <form class='reply2_form' action='/<%= topic._id %>/reply2' method='post'>
+        <input type='hidden' name='_csrf' value='<%- csrf %>' />
+        <input type='hidden' name='reply_id' value='<%- reply._id %>' />
+        <textarea class='span8 editor reply_editor' id="reply2_editor_<%- reply._id %>" name='r2_content' rows='4'></textarea>
+        <p style="margin-top: 10px">
           <button class='btn reply2_submit_btn' type="submit" data-id='<%= reply._id %>'>回复</button>
           <span class='sp10'></span>
           <span class='col_fade'>Ctrl+Enter 快捷回复</span>
-        </form>
-      </div>
+        </p>
+      </form>
       <% } %>
     </div>
   </div>

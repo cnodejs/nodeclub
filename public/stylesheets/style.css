@@ -413,21 +413,20 @@ a.user_avatar:hover {
 .reply_content {
   margin-left: 50px;
 }
+.reply_editor {
+  height: 80px;
+}
 .reply2_btn {
   margin-right: 10px;
 }
 .reply2_area {
   margin-left: 25px;
 }
-.reply2_area .cell {  
-  border-bottom: none;
-}
-.reply2_editor {
+
+.reply2_form {
   display: none;
-  overflow: hidden;
 }
-.reply2_at_btn {
-}
+
 .submit_control {
   height: 48px;
   line-height: 48px;
@@ -460,8 +459,6 @@ img.unread {
   width: 80%;
 }
 .tags_select {
-  width: 560px;
-  height: 400px;
   border: 1px dashed #ccc;
   padding: 10px;
 }
@@ -661,10 +658,7 @@ textarea {
 input, textarea {
   background: hsla(0,0%,0%,0);
 }
-textarea.span8 {
-  width: 707px;
-  padding: 4px 8px;
-}
+
 .nav-pills {
   margin: 0px 0px 10px 0px;
 }
@@ -766,4 +760,12 @@ input[type="tel"], input[type="color"], .uneditable-input {
   display: none;
   line-height: 0;
   content: "";
+}
+
+textarea.editor {
+  width: 100%;
+}
+
+#submit_btn {
+  margin-top: 10px;
 }
