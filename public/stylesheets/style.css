@@ -37,9 +37,6 @@ body, p {
   padding: 0px;
   width: 758px;
 }
-#content .topic p, #content .reply p {
-  font-family: Monaco, Consolas, monospace, "Wenquanyi Micro Hei Mono";
-}
 #sidebar {
   width: 290px;
   float: right;
@@ -406,9 +403,8 @@ a.user_avatar:hover {
     line-height: 48px;
 }
 .user_action {}
-.reply_content {
+.reply_content .markdown-text {
   margin-left: 50px;
-  white-space: pre;
 }
 .reply_editor {
   height: 80px;
@@ -480,6 +476,9 @@ img.unread {
 }
 .tabbable ul {
   max-height: 40px;
+}
+.markdown-text {
+  white-space: pre;
 }
 /* markdown editor */
 .wmd-button-bar {
@@ -693,12 +692,14 @@ div pre.prettyprint {
 }
 form {
 }
-.topic_content p, .reply_content p, .reply_form p {
+.topic_content p, .reply_content p, .reply_form p,
+#content .topic p, #content .reply p {
   font-size: 14px;
   line-height: 28px;
-  font-family: Monaco, Consolas, Ubuntu Mono, monospace;
+  font-family: Consolas, Source Code Pro, Monaco, Ubuntu Mono, "Liberation Mono", Courier,
+    'Wenquanyi Micro Hei Mono', monospace;
 }
-# .topic_content p a.content_img, #main .reply_content p a.content_img {
+#main .topic_content p a.content_img, #main .reply_content p a.content_img {
   box-shadow: 4px 2px 20px hsl(0,0%,40%);
   display: block;
 }
@@ -742,7 +743,6 @@ div[class$=part] {
   width: 300px;
 }
 .topic_content{
-    white-space: pre;
 }
 textarea, input[type="text"], input[type="password"], input[type="datetime"],
 input[type="datetime-local"], input[type="date"], input[type="month"],
