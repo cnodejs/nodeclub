@@ -478,7 +478,7 @@ img.unread {
   max-height: 40px;
 }
 .markdown-text {
-  white-space: pre;
+  /*white-space: pre;*/
 }
 /* markdown editor */
 .wmd-button-bar {
