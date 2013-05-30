@@ -1,4 +1,22 @@
 
+0.3.5 / 2013-05-30 
+==================
+
+  * Update logo based on the new official one (@finian)
+  * UI more flatter; use "white-space:pre" to show spaces (@jiyinyiyong)
+  * fixed #161 xss process after markdown transfer
+  * 修复reply2的逻辑；暂时屏蔽标签功能
+  * use fixed-width font in reply
+  * a text align and a padding
+  * add padding to the read messages
+  * 点击回复数直接跳到最后一个回复
+  * 支持html
+  * fixed #154 消息跳转没有直接跳转到回复
+  * fixed #146 修复tag编辑bug
+  * 增加nae config
+  * 增加邮件提示内容
+  * read file sync package.json
+
 0.3.4 / 2013-05-27 
 ==================
 
