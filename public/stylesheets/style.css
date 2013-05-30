@@ -198,8 +198,8 @@ a.light:hover {
 .cell.message, .cell[message_id] {
     padding: 10px;
 }
-.cell.message a {
-    max-width: 560px;
+.cell.message a, .cell[message_id] a {
+    max-width: 460px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: inline-block;
