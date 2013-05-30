@@ -403,8 +403,8 @@ a.user_avatar:hover {
   line-height: 48px;
 }
 .user_action {}
-.reply_content .markdown-text {
-  margin-left: 50px;
+.reply_content {
+  padding-left: 50px;
 }
 .reply_editor {
   height: 80px;
@@ -478,7 +478,11 @@ img.unread {
   max-height: 40px;
 }
 .markdown-text {
-  /*white-space: pre;*/
+    white-space: pre-wrap;       /* CSS3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
 /* markdown editor */
 .wmd-button-bar {
