@@ -43,16 +43,16 @@ body, p {
   font-size: 14px;
 }
 #content .panel {
-    background: hsla(0, 0%, 100%, 1);
-    box-shadow: 0px 0px 1px hsl(0,0%,40%);
+  background: hsla(0, 0%, 100%, 1);
+  box-shadow: 0px 0px 1px hsl(0,0%,40%);
 }
 #sidebar .panel {
-    background: hsla(0, 0%, 100%, 1);
+  background: hsla(0, 0%, 100%, 1);
 }
 #sidebar .header {
-    background: hsl(0, 0%, 93%);
-    color: hsl(202, 6%, 34%);
-    font-weight: bold;
+  background: hsl(0, 0%, 93%);
+  color: hsl(202, 6%, 34%);
+  font-weight: bold;
 }
 #footer {
   height: 200px;
@@ -69,7 +69,7 @@ body, p {
   padding: 20px 0px;
 }
 #mark_all_messages_btn {
-    margin: 5px 0px;
+  margin: 5px 0px;
 }
 
 /* common */
@@ -107,10 +107,10 @@ body, p {
   display: inline-block;
 }
 .col_fade {
-    color: hsl(0,0%,67%);
+  color: hsl(0,0%,67%);
 }
 .header .col_fade{
-    color: hsl(202, 6%, 34%);
+  color: hsl(202, 6%, 34%);
 }
 .bold {
   font-weight: bold;
@@ -143,8 +143,8 @@ a.light:hover {
 }
 
 .panel {
-    margin-bottom: 8px;
-    box-shadow: 0px 0px 1px hsl(0, 0%, 40%);
+  margin-bottom: 8px;
+  box-shadow: 0px 0px 1px hsl(0, 0%, 40%);
 }
 .panel .header {
   padding: 7px 10px;
@@ -163,10 +163,10 @@ a.light:hover {
   text-overflow: ellipsis;
 }
 .panel .inner.topic, .panel .inner.reply, .panel .inner.userinfo, .panel .inner.post {
-    padding: 10px;
+  padding: 10px;
 }
 #sidebar .panel .inner {
-    padding: 10px;
+  padding: 10px;
 }
 .panel>.cell:last-child {
   box-shadow: none;
@@ -178,8 +178,8 @@ a.light:hover {
   padding: 3px 10px;
 }
 .cell .cell {
-    box-shadow: 0px -1px 0px hsl(0, 0%, 90%);
-    padding: 3px 10px 0px 10px;
+  box-shadow: 0px -1px 0px hsl(0, 0%, 90%);
+  padding: 3px 10px 0px 10px;
 }
 .cell:last-child {
   border-bottom: none;
@@ -196,19 +196,19 @@ a.light:hover {
   margin: 0px 8px;
 }
 .cell.message, .cell[message_id] {
-    padding: 10px;
+  padding: 10px;
 }
 .cell.message a, .cell[message_id] a {
-    max-width: 460px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: inline-block;
-    height: 14px;
-    line-height: 14px;
-    vertical-align: middle;
+  max-width: 460px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  height: 14px;
+  line-height: 14px;
+  vertical-align: middle;
 }
 .cell.more{
-    padding: 10px;
+  padding: 10px;
 }
 .last_time {
   position: absolute;
@@ -397,10 +397,10 @@ a.user_avatar:hover {
   height: 48px;
 }
 .user_info {
-    float: left;
-    margin-left: 10px;
-    height: 100%;
-    line-height: 48px;
+  float: left;
+  margin-left: 10px;
+  height: 100%;
+  line-height: 48px;
 }
 .user_action {}
 .reply_content .markdown-text {
