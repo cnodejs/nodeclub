@@ -37,9 +37,6 @@ body, p {
   padding: 0px;
   width: 758px;
 }
-#content .topic p, #content .reply p {
-  font-family: Monaco, Consolas, monospace, "Wenquanyi Micro Hei Mono";
-}
 #sidebar {
   width: 290px;
   float: right;
@@ -47,16 +44,13 @@ body, p {
 }
 #content .panel {
     background: hsla(0, 0%, 100%, 1);
-    box-shadow: 0px 0px 2px hsl(0,0%,50%);
+    box-shadow: 0px 0px 1px hsl(0,0%,40%);
 }
 #sidebar .panel {
     background: hsla(0, 0%, 100%, 1);
-    box-shadow: 0px 0px 2px hsl(0,0%,50%);
 }
 #sidebar .header {
-    background: hsl(0, 0%, 90%);
-    background-image: linear-gradient(hsl(0, 0%, 98%), hsl(0, 0%, 92%));
-    background-image: -webkit-linear-gradient(hsl(0, 0%, 97%), hsl(0, 0%, 90%));
+    background: hsl(0, 0%, 93%);
     color: hsl(202, 6%, 34%);
     font-weight: bold;
 }
@@ -150,12 +144,11 @@ a.light:hover {
 
 .panel {
     margin-bottom: 8px;
+    box-shadow: 0px 0px 1px hsl(0, 0%, 40%);
 }
 .panel .header {
   padding: 7px 10px;
-  background: hsl(0,0%,88%);
-  background-image: linear-gradient(hsl(0, 0%, 98%), hsl(0, 0%, 92%));
-  background-image: -webkit-linear-gradient(hsl(0, 0%, 97%), hsl(0, 0%, 92%));
+  background: hsl(0,0%,93%);
 }
 .panel .moon {
   padding: 10px;
@@ -410,7 +403,7 @@ a.user_avatar:hover {
     line-height: 48px;
 }
 .user_action {}
-.reply_content {
+.reply_content .markdown-text {
   margin-left: 50px;
 }
 .reply_editor {
@@ -477,13 +470,15 @@ img.unread {
   position: fixed;
   cursor: pointer;
   text-align: center;
-  background: white;
   z-index: 20;
 }
 #share_weibo_btn {
 }
 .tabbable ul {
   max-height: 40px;
+}
+.markdown-text {
+  white-space: pre;
 }
 /* markdown editor */
 .wmd-button-bar {
@@ -585,11 +580,10 @@ textarea[id^=wmd-input] {
 .navbar {
   margin-bottom: 0px;
   background-color: hsl(0, 0%, 93%);
-  background-image: linear-gradient(hsl(0, 0%, 97%), hsl(0, 0%, 92%));
   z-index: 9;
   width: 100%;
   position: relative;
-  box-shadow: 0px 0px 2px hsl(0, 0%, 50%);
+  box-shadow: 0px 0px 1px hsl(0, 0%, 40%);
 }
 .navbar-inner {
   background: none;
@@ -698,11 +692,14 @@ div pre.prettyprint {
 }
 form {
 }
-.topic_content p, .reply_content p, .reply_form p {
+.topic_content p, .reply_content p, .reply_form p,
+#content .topic p, #content .reply p {
   font-size: 14px;
   line-height: 28px;
+  font-family: Consolas, Source Code Pro, Monaco, Ubuntu Mono, "Liberation Mono", Courier,
+    'Wenquanyi Micro Hei Mono', monospace;
 }
-# .topic_content p a.content_img, #main .reply_content p a.content_img {
+#main .topic_content p a.content_img, #main .reply_content p a.content_img {
   box-shadow: 4px 2px 20px hsl(0,0%,40%);
   display: block;
 }
