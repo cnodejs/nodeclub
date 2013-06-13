@@ -81,9 +81,9 @@ exports.config = {
       'text': ''
     },
     {
-      'url': 'http://adc.taobao.com/',
-      'image': 'http://adc.taobao.com/bundles/devcarnival/images/d2_180x250.jpg',
-      'text': ''
+      'url': 'http://adc.alibabatech.org/',
+      'image': 'http://img02.taobaocdn.com/tps/i2/T1We9DXz0iXXby6TUh-180-250.png',
+      'text': 'ADC·阿里技术嘉年华（7月13-14日·杭州）'
     }
   ],
 
