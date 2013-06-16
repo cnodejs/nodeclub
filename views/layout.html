@@ -4,6 +4,7 @@
     <!-- meta -->
     <meta charset="utf-8" />
     <meta name='description' content='<%= config.description %>'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%
     var headers = config.site_headers || [];
     for (var i = 0, l = headers.length; i < l; i++) {
@@ -13,6 +14,7 @@
     <link title="RSS" type="application/rss+xml" rel="alternate" href="/rss" />
     <!-- style -->
     <link rel="stylesheet" type="text/css" href="/libs/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/libs/bootstrap/css/bootstrap-responsive.css" />
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
     <link type='text/css' rel='stylesheet' href='/libs/code-prettify/prettify.css' />
     <% if (locals.extra_style) { %>
@@ -72,8 +74,8 @@
       </div>
     </div>
     <!-- wrapper -->
-    <div id='wrapper'>
-      <div id='main'>
+    <div id='wrapper' class='container-fluid'>
+      <div id='main' class='row-fluid'>
         <%- body %>
       </div>
       <div class='cl cr'></div>
@@ -83,8 +85,6 @@
     <!-- footer -->
     <div id='footer'>
       <div id='footer_main'>
-        <div class='fr'>
-        </div>
         <div>
           <a class='dark' href='/about'><strong>关于</strong></a>
           &nbsp;&nbsp;|&nbsp;&nbsp;

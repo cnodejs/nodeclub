@@ -20,27 +20,18 @@ body, p {
   vertical-align: middle;
 }
 #wrapper {
-  padding-top: 34px;
+  margin: 40px auto;
+  max-width: 1400px;
 }
 #main {
-  width: 1060px;
-  margin: 0px auto;
-  padding: 0px 0px 30px 0px;
-  min-height:400px;
-  position: relative;
 }
 #topic_list {
   margin: 0px;
 }
 #content {
-  margin: 0px 290px 0px 0px;
-  padding: 0px;
-  width: 758px;
+    margin-bottom: 60px;
 }
 #sidebar {
-  width: 290px;
-  float: right;
-  font-size: 14px;
 }
 #content .panel {
   background: hsla(0, 0%, 100%, 1);
@@ -60,13 +51,13 @@ body, p {
   background: hsla(0, 100%, 100%, 1);
   position: relative;
   box-shadow: 0px -1px 0px hsl(0,0%,90%);
-  margin-top: 8px;
 }
 #footer_main {
-  width: 1040px;
-  margin: 0px auto;
   color: #e2e2e2;
-  padding: 20px 0px;
+  margin-top: 20px;
+  max-width: 1400px;
+  margin: 30px auto;
+  padding: 30px 30px 0px;
 }
 #mark_all_messages_btn {
   margin: 5px 0px;
@@ -463,9 +454,8 @@ img.unread {
   margin-top: -10px;  
 }
 #backtotop {
-  width: 24px;
+  width: 20px;
   color: gray;
-  padding: 10px 4px;
   display:none;
   position: fixed;
   cursor: pointer;
@@ -582,29 +572,19 @@ textarea[id^=wmd-input] {
 
 /* custom bootstrap */
 .navbar {
-  margin-bottom: 0px;
-  background-color: hsl(0, 0%, 93%);
-  z-index: 9;
-  width: 100%;
-  position: relative;
-  box-shadow: 0px 0px 1px hsl(0, 0%, 40%);
 }
 .navbar-inner {
   background: none;
   border-radius: 0px;
-  border: none;
-  box-shadow: none;
 }
 .navbar .container {
-  width: 1060px;
-  margin: 4px auto;
+    max-width: 1400px;
 }
 .navbar .brand {
   padding: 7px 0px 0px 20px;
   width: 143px;
 }
 .navbar .navbar-search {
-  margin-top: 6px;
 }
 .navbar .search-query {
   -webkit-box-shadow: none;
