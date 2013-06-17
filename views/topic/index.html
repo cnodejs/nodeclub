@@ -1,45 +1,5 @@
-<div id='sidebar'>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>作者</span>
-    </div>
-    <div class='inner'>
-      <%- partial('user/card', { object: topic.author, as: 'user' }) %>
-    </div>
-  </div>
-  <div class='sep10'></div>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>作者其它话题</span>
-    </div>
-    <div class='inner'>
-      <% if (locals.author_other_topics && author_other_topics.length > 0) { %>
-      <ul class='unstyled'>
-      <%- partial('topic/small', { collection: author_other_topics, as: 'topic' }) %>
-      </ul>
-      <% } else {  %>
-      <p>无</p>
-      <% } %>
-    </div>
-  </div>
-  <div class='sep10'></div>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>无人回复的话题</span>
-    </div>
-    <div class='inner'>
-      <% if (locals.no_reply_topics && no_reply_topics.length > 0) { %>
-      <ul class='unstyled'>
-      <%- partial('topic/small', { collection: no_reply_topics, as: 'topic' }) %>
-      </ul>
-      <% } else {  %>
-      <p>无</p>
-      <% } %>
-    </div>
-  </div>
-</div>
 
-<div id='content'>
+<div id='content' class='span8'>
   <div class='panel'>
     <div class='header'>
       <ul class='breadcrumb'>
@@ -144,6 +104,47 @@
     </div>
   </div>
   <% } %>
+</div>
+
+<div id='sidebar' class='span4'>
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>作者</span>
+    </div>
+    <div class='inner'>
+      <%- partial('user/card', { object: topic.author, as: 'user' }) %>
+    </div>
+  </div>
+  <div class='sep10'></div>
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>作者其它话题</span>
+    </div>
+    <div class='inner'>
+      <% if (locals.author_other_topics && author_other_topics.length > 0) { %>
+      <ul class='unstyled'>
+      <%- partial('topic/small', { collection: author_other_topics, as: 'topic' }) %>
+      </ul>
+      <% } else {  %>
+      <p>无</p>
+      <% } %>
+    </div>
+  </div>
+  <div class='sep10'></div>
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>无人回复的话题</span>
+    </div>
+    <div class='inner'>
+      <% if (locals.no_reply_topics && no_reply_topics.length > 0) { %>
+      <ul class='unstyled'>
+      <%- partial('topic/small', { collection: no_reply_topics, as: 'topic' }) %>
+      </ul>
+      <% } else {  %>
+      <p>无</p>
+      <% } %>
+    </div>
+  </div>
 </div>
 
 <% if (locals.current_user && locals.topic) { %>

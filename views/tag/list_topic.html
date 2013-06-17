@@ -1,55 +1,5 @@
-<div id='sidebar'>
-  <div class='panel'>
-    <% if (locals.current_user) { %>
-    <div class='inner'>
-      <%- partial('user/card', { object: current_user, as: 'user' }) %>
-    </div>
-    <% } else { %>
-    <div class='inner'>
-      <p><%= config.description %></p>
-      <div class='sep10'></div>
-      <div class='cen'>
-        <a href='/signup'><button class='btn'>现在注册</button></a>
-        <div class='sep10'></div>
-        <span>已注册用户请<a class='light' href='/signin'> 登录</a></span>
-      </div>
-    </div>
-    <% } %>
-  </div>
-  <div class='sep10'></div>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>热门话题</span>
-    </div>
-    <div class='inner'>
-      <% if (locals.hot_topics && hot_topics.length > 0) { %>
-      <ul class='unstyled'>
-      <%- partial('topic/small', { collection: hot_topics, as: 'topic' }) %>
-      </ul>
-      <% } else { %>
-      <p>无</p>
-      <% } %>
-    </div>
-  </div>
-  <div class='sep10'></div>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>无人回复的话题</span>
-    </div>
-    <div class='inner'>
-      <% if (locals.no_reply_topics && no_reply_topics.length > 0) { %>
-      <ul class='unstyled'>
-      <%- partial('topic/small', { collection: no_reply_topics, as: 'topic' }) %>
-      </ul>
-      <% } else {  %>
-      <p>无</p>
-      <% } %>
-    </div>
-  </div>
 
-</div>
-
-<div id='content'>
+<div id='content' class='span8'>
   <div class='panel'>
     <div class='header'>
       <ul class='breadcrumb'>
@@ -98,6 +48,56 @@
       </div>
       <% } %>
     <% } %>
+  </div>
+</div>
+
+<div id='sidebar' class='span4'>
+  <div class='panel'>
+    <% if (locals.current_user) { %>
+    <div class='inner'>
+      <%- partial('user/card', { object: current_user, as: 'user' }) %>
+    </div>
+    <% } else { %>
+    <div class='inner'>
+      <p><%= config.description %></p>
+      <div class='sep10'></div>
+      <div class='cen'>
+        <a href='/signup'><button class='btn'>现在注册</button></a>
+        <div class='sep10'></div>
+        <span>已注册用户请<a class='light' href='/signin'> 登录</a></span>
+      </div>
+    </div>
+    <% } %>
+  </div>
+  <div class='sep10'></div>
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>热门话题</span>
+    </div>
+    <div class='inner'>
+      <% if (locals.hot_topics && hot_topics.length > 0) { %>
+      <ul class='unstyled'>
+      <%- partial('topic/small', { collection: hot_topics, as: 'topic' }) %>
+      </ul>
+      <% } else { %>
+      <p>无</p>
+      <% } %>
+    </div>
+  </div>
+  <div class='sep10'></div>
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>无人回复的话题</span>
+    </div>
+    <div class='inner'>
+      <% if (locals.no_reply_topics && no_reply_topics.length > 0) { %>
+      <ul class='unstyled'>
+      <%- partial('topic/small', { collection: no_reply_topics, as: 'topic' }) %>
+      </ul>
+      <% } else {  %>
+      <p>无</p>
+      <% } %>
+    </div>
   </div>
 </div>
 
