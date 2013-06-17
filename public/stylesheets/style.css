@@ -1,16 +1,4 @@
 /* base */
-div, textarea {
-  box-sizing: border-box;
-  -mox-box-sizing: border-box;
-}
-body {
-}
-body, p {
-  font-size: 14px;
-  font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", "Wenquanyi Micro Hei", Arial, sans-serif;
-  word-break: break-all;
-  -webkit-font-smoothing: antialiased;
-}
 #main p a {
   white-space: nowrap;
   max-width: 600px;
@@ -22,6 +10,7 @@ body, p {
 #wrapper {
   padding-top: 34px;
 }
+
 #main {
   width: 1060px;
   margin: 0px auto;
@@ -156,13 +145,13 @@ a.light:hover {
 .panel .moon_tags {
   padding-left: 10px;
 }
-.panel .inner {
-  line-height: 27px;
-}
 .panel .inner .unstyled li div {
   text-overflow: ellipsis;
 }
-.panel .inner.topic, .panel .inner.reply, .panel .inner.userinfo, .panel .inner.post {
+.panel .inner.topic,
+.panel .inner.reply,
+.panel .inner.userinfo,
+.panel .inner.post {
   padding: 10px;
 }
 #sidebar .panel .inner {
@@ -265,8 +254,6 @@ a.tag_big {
   text-decoration: none;
 }
 
-a.tag_big:hover {
-}
 .tag_selectable {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -474,8 +461,6 @@ img.unread {
   text-align: center;
   z-index: 20;
 }
-#share_weibo_btn {
-}
 .tabbable ul {
   max-height: 40px;
 }
@@ -649,15 +634,6 @@ textarea[id^=wmd-input] {
   background: none;
   box-shadow: none;
 }
-form {
-  margin-bottom: 0px;
-}
-textarea {
-  margin-bottom: 0px;
-}
-input, textarea {
-  background: hsla(0,0%,0%,0);
-}
 
 .nav-pills {
   margin: 0px 0px 10px 0px;
@@ -673,43 +649,31 @@ input, textarea {
 .pagination a {
   line-height: 30px;
 }
-pre {
-  background: #fee9cc;
-  border: 1px dashed #ccc;
-  line-height: 22px;
+
+.topic_content h1,
+.topic_content h2,
+.topic_content h3,
+.topic_content h4,
+.topic_content h5,
+.topic_content h6 {
+  margin: 0;
+  padding: 0;
 }
-code {
-  padding: 0px;
-  border: none;
-  line-height: 16px;
+.topic_content ul,
+.topic_content ol {
+  padding: 0;
+  margin: 0 0 0 35px;
 }
-p code {
-  background: none;
-  color: hsl(0,0%,50%);
-  margin: 0px 1px;
-  padding: 1px 4px;
-}
-div pre.prettyprint {
-  background: none;
+.topic_content p,
+.reply_content p,
+.reply_form p {
   font-size: 14px;
-  border-radius: 3px;
-  border-color: hsl(0,0%,86%);
-  padding: 15px;
-}
-form {
-}
-.topic_content p, .reply_content p, .reply_form p,
-#content .topic p, #content .reply p {
-  font-size: 14px;
-  line-height: 28px;
+  line-height: 20px;
   font-family: Consolas, Source Code Pro, Monaco, Ubuntu Mono, "Liberation Mono", Courier,
     'Wenquanyi Micro Hei Mono', monospace;
 }
-#main .topic_content p a.content_img, #main .reply_content p a.content_img {
-  box-shadow: 4px 2px 20px hsl(0,0%,40%);
-  display: block;
-}
-#main .topic_content p a.content_img, #main .reply_content p a.content_img {
+#main .topic_content p a.content_img,
+#main .reply_content p a.content_img {
   color: hsl(0,0%,40%);
   box-shadow: 1px 1px 15px hsla(0, 21%, 60%, 0.6);
   display: block;
@@ -720,9 +684,6 @@ div[class$=content] > blockquote > p {
 }
 .index_notify {
   font-size: 14px;
-}
-h1, h2, h3, h4, h5,h6 {
-  margin: 23px 0px;
 }
 
 /* about score on sidebar */
@@ -749,13 +710,6 @@ div[class$=part] {
   width: 300px;
 }
 .topic_content{
-}
-textarea, input[type="text"], input[type="password"], input[type="datetime"],
-input[type="datetime-local"], input[type="date"], input[type="month"],
-input[type="time"], input[type="week"], input[type="number"],
-input[type="email"], input[type="url"], input[type="search"],
-input[type="tel"], input[type="color"], .uneditable-input {
-  background: hsla(0,0%,0%,0)
 }
 .form-horizontal .control-group:before,
 .form-horizontal .control-group:after {
