@@ -1,28 +1,28 @@
 <%- partial('sidebar') %>
 
-<div id='content'>
-	<div class='panel'>
-		<div class='inner'>
-			<div class='header'>
-				当前话题
-				<% if (locals.current_user) { %>
-					<a href='/topic/create' class='fr'>
-						<button class='btn btn-success fr' id='create_topic_btn'>发布话题</button>
-				  </a>
-				<% } %>
-			</div>
-			<% if (locals.topics && topics.length > 0) { %>
-			<%- partial('topic/list', {
-				topics: topics,
-				pages: pages,
-				current_pages: current_page,
-				base: keyword ? ('/?q=' + keyword) : '/'
-			}) %>
-			<% } else { %>
-			<div class='inner'>
-				<p>无话题</p>
-			</div>
-			<% } %>
-		</div>
-	</div>
+<div id="content">
+  <div class="panel">
+    <div class="inner">
+      <div class="header clearfix">
+        当前话题
+        <% if (locals.current_user) { %>
+          <a href='/topic/create' id='create_topic_btn'>
+            <button class='btn btn-success'>发布话题</button>
+          </a>
+        <% } %>
+      </div>
+      <% if (locals.topics && topics.length > 0) { %>
+      <%- partial('topic/list', {
+        topics: topics,
+        pages: pages,
+        current_pages: current_page,
+        base: keyword ? ('/?q=' + keyword) : '/'
+      }) %>
+      <% } else { %>
+      <div class='inner'>
+        <p>无话题</p>
+      </div>
+      <% } %>
+    </div>
+  </div>
 </div>

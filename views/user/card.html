@@ -3,18 +3,17 @@
 		<a  class='user_avatar'  href="/user/<%= user.name %>">
 			<img src="<%= user.avatar_url %>" title="<%= user.name %>" />
 		</a>
-		<span class='sp10'></span>
 		<span class='user_name'><a class='dark' href="/user/<%= user.name %>"><%= user.name %></a></span>
 
 		<% if (locals.current_user && current_user._id != user._id) { %>
 			<% if (!locals.relation) { %>
-				<button class='btn btn-success fr follow_btn' action='follow'>加入关注</button>
+				<button class='btn btn-success follow_btn' action='follow'>加入关注</button>
 			<% } else { %>
-				<button class='btn fr follow_btn' action='un_follow'>取消关注</button>
+				<button class='btn follow_btn' action='un_follow'>取消关注</button>
 			<% } %>
 		<% } %>
 
-		<div class='board cl'>
+		<div class='board clearfix'>
 			<div class='floor'>
 				<a href='/user/<%= user.name %>/tags/'><span class='big'><%= user.collect_tag_count %></span> 标签收藏</a>
 				<div class='space'></div>
