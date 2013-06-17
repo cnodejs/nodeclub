@@ -339,6 +339,7 @@ a.tag_big:hover {
   border-radius: 20px;
   box-shadow: 0px 0px 6px hsla(0, 27%, 42%, 0.5);
   width: 40px;
+  height: 40px;
 }
 a.user_avatar:hover {
   text-decoration: none;
@@ -358,6 +359,7 @@ a.user_avatar:hover {
 }
 .user_big_avatar img {
   width: 40px;
+  height: 40px;
 }
 .user_icon {
   margin-right: 7px;
@@ -477,7 +479,7 @@ img.unread {
 .tabbable ul {
   max-height: 40px;
 }
-.markdown-text {
+.markdown-text p {
     white-space: pre-wrap;       /* CSS3 */
     white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
     white-space: -pre-wrap;      /* Opera 4-6 */
