@@ -35,9 +35,9 @@
 
 
 	<% if (message.has_read) { %>
-	<span class='fr'><img src='<%- config.site_static_host %>/images/checkmark_icon&16.png' title='消息已读'/></span>
+	<span><img src='<%- config.site_static_host %>/images/checkmark_icon&16.png' title='消息已读'/></span>
 	<% } else { %>
-	<span class='fr marked_icon mark_read_btn'>
+	<span class='marked_icon mark_read_btn'>
 		<img class='unread'
 		  src='<%- config.site_static_host %>/images/checkmark_icon&16.png'
 		  title='消息已读'

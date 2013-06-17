@@ -6,11 +6,10 @@
  * Module dependencies.
  */
 
-var fs = require('fs');
 var path = require('path');
 var express = require('express');
 var ndir = require('ndir');
-var pkg = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json')));
+var pkg = require('./package.json');
 var config = require('./config').config;
 config.version = pkg.version;
 
