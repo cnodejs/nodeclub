@@ -14,16 +14,15 @@
 			</div>
 			<% if (locals.current_user && current_user._id != user._id) { %>
 				<% if (!locals.relation) { %>
-				<button class='btn btn-success fr follow_btn' action='follow'>加入关注</button>
+				<button class='btn btn-success follow_btn' action='follow'>加入关注</button>
 				<% } else { %>
-				<button class='btn fr follow_btn' action='un_follow'>取消关注</button>
+				<button class='btn follow_btn' action='un_follow'>取消关注</button>
 				<% } %>
 			<% } %>
 			<h2><%= user.name %></h2>
 			<div class='col_fade'>
 				<span><img src="<%- config.site_static_host %>/images/cert_icon&16.png" /> <%= user.follower_count %> 粉丝</span>
 				<% if(user.signature){ %>
-				<span class='sp10'></span>
 				<span><%= user.signature %></span>
 				<% } %>
 			</div>
@@ -56,13 +55,12 @@
 			<% if(locals.current_user && current_user.is_admin){ %>
 			<% if(!user.is_star){ %>
 			<button class='btn' id='set_star_btn' action='set_star'>设为达人</button>
-			<% }else{ %>
+			<% } else { %>
 			<button class='btn' id='set_star_btn' action='cancel_star'>取消达人</button>
 			<% } %>
 			<% } %>
 		</div>
-	</div>	
-	<div class='sep10'></div>
+	</div>
 	<div class='panel'>
 		<div class='header'>
 			<span class='col_fade'><%= user.name %> 参与的话题</span>

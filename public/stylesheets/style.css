@@ -19,12 +19,12 @@
   position: relative;
 }
 #topic_list {
-  margin: 0px;
+  margin: 0;
 }
 #content {
-  margin: 0px 290px 0px 0px;
-  padding: 0px;
+  padding: 0;
   width: 758px;
+  float: left;
 }
 #sidebar {
   width: 290px;
@@ -62,39 +62,6 @@
 }
 
 /* common */
-.fl {
-  float: left;
-}
-.fr {
-  float: right;
-}
-.cl {
-  clear: left;
-}
-.cr {
-  clear: right;
-}
-.cen {
-  text-align: center;
-}
-.sep5{
-  height: 5px;
-}
-.sep10 {
-  height: 5px;
-}
-.space {
-  display: inline-block;
-  margin: 0px 4px;
-}
-.sp5 {
-  width: 5px;
-  display: inline-block;
-}
-.sp10 {
-  width: 10px;
-  display: inline-block;
-}
 .col_fade {
   color: hsl(0,0%,67%);
 }
@@ -133,11 +100,11 @@ a.light:hover {
 
 .panel {
   margin-bottom: 8px;
-  box-shadow: 0px 0px 1px hsl(0, 0%, 40%);
+  box-shadow: 0 0 1px hsl(0, 0%, 40%);
 }
 .panel .header {
   padding: 7px 10px;
-  background: hsl(0,0%,93%);
+  background-color: hsl(0,0%,93%);
 }
 .panel .moon {
   padding: 10px;
@@ -435,6 +402,7 @@ img.unread {
 
 /* single */
 #create_topic_btn {
+  float: right;
 }
 .board {
   margin-top: 10px;
@@ -522,15 +490,7 @@ img.unread {
   border: 1px solid #ccc;
   padding: 4px 8px;
   overflow: auto;
-
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -o-border-radius: 3px;
   border-radius: 3px;
-
-  -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
-  -o-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
 }
 textarea[id^=wmd-input] {
@@ -649,15 +609,24 @@ textarea[id^=wmd-input] {
 .pagination a {
   line-height: 30px;
 }
-
 .topic_content h1,
 .topic_content h2,
-.topic_content h3,
+.topic_content h3 {
+  line-height: 160%;
+}
+.topic_content h1 {
+  margin: 23px 0;
+}
+.topic_content h2 {
+  margin: 16px 0;
+}
+.topic_content h3 {
+  margin: 14px 0;
+}
 .topic_content h4,
 .topic_content h5,
 .topic_content h6 {
-  margin: 0;
-  padding: 0;
+  margin: 12px 0;
 }
 .topic_content ul,
 .topic_content ol {
@@ -724,4 +693,8 @@ textarea.editor {
 
 #submit_btn {
   margin-top: 10px;
+}
+
+#content .header {
+  line-height: 200%;
 }

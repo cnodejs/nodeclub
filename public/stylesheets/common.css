@@ -1,18 +1,24 @@
-div, textarea {
-  box-sizing: border-box;
-  -mox-box-sizing: border-box;
-}
 body, p {
   font-size: 14px;
   font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", "Wenquanyi Micro Hei", Arial, sans-serif;
   word-break: break-all;
   -webkit-font-smoothing: antialiased;
 }
-textarea, input[type="text"], input[type="password"], input[type="datetime"],
-input[type="datetime-local"], input[type="date"], input[type="month"],
-input[type="time"], input[type="week"], input[type="number"],
-input[type="email"], input[type="url"], input[type="search"],
-input[type="tel"], input[type="color"], .uneditable-input {
+textarea, input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
   background: hsla(0,0%,0%,0)
 }
 
@@ -22,14 +28,14 @@ pre {
   line-height: 22px;
 }
 code {
-  padding: 0px;
+  padding: 0;
   border: none;
   line-height: 16px;
 }
 p code {
   background: none;
   color: hsl(0,0%,50%);
-  margin: 0px 1px;
+  margin: 0 1px;
   padding: 1px 4px;
 }
 div pre.prettyprint {
@@ -40,10 +46,10 @@ div pre.prettyprint {
   padding: 15px;
 }
 form {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 textarea {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 input, textarea {
   background: hsla(0,0%,0%,0);

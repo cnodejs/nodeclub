@@ -7,7 +7,7 @@
       <%- partial('user/card', { object: topic.author, as: 'user' }) %>
     </div>
   </div>
-  <div class='sep10'></div>
+
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>作者其它话题</span>
@@ -22,7 +22,7 @@
       <% } %>
     </div>
   </div>
-  <div class='sep10'></div>
+
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>无人回复的话题</span>
@@ -55,7 +55,6 @@
       <div class='topic_content'>
         <%- markdown(topic.content) %>
       </div>
-      <div class='sep10'></div> 
       <hr>
       <% if (topic.tags.length > 0) { %>
       <span class='col_fade'>标签：</span> 
@@ -79,14 +78,13 @@
         >分享到 weibo</a>
       <% if (locals.current_user) { %>
         <% if (!topic.in_collection) { %>
-        <button class='btn btn-success fr' id='collect_btn' action='collect'>加入收藏</button>
+        <button class='btn btn-success' id='collect_btn' action='collect'>加入收藏</button>
         <% } else { %>
-        <button class='btn fr' id='collect_btn' action='de_collect'>取消收藏</button>
+        <button class='btn' id='collect_btn' action='de_collect'>取消收藏</button>
         <% } %>
       <% } %>
       <% if (locals.current_user) { %>
         <% if (current_user.is_admin) { %>
-        <span class='sp10'></span>
         <% if (topic.top) { %>
           <a href='/topic/<%= topic._id %>/top/0'><img class='user_icon' src='<%- config.site_static_host %>/images/star_fav_empty_icon&16.png' title='取消置顶' /></a>
         <% } else { %>
@@ -96,7 +94,6 @@
         <a href='javascript:;' data-id="<%= topic._id %>" class='delete_topic_btn'><img class='user_icon' src='<%- config.site_static_host %>/images/trash_icon&16.png' title='删除' /></a>
         <% } else { %>
           <% if (current_user._id == topic.author_id) { %>
-          <span class='sp10'></span>
           <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='编辑' /></a>
           <% } %>
         <% } %>
@@ -104,7 +101,6 @@
     </div>
   </div>  
   <% if (topic.replies && topic.replies.length > 0) { %>
-  <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'><%= topic.replies.length %> 回复</span>
@@ -113,7 +109,6 @@
   </div>
   <% } %>
   <% if (locals.current_user && locals.topic) { %>
-  <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>添加回复</span>
@@ -136,9 +131,8 @@
           </div>
           <input type='hidden' name='_csrf' id="_csrf" value='<%= csrf %>' />
         </div>
-        <div class='sep10'></div>
+
         <button id='submit_btn' class='btn'>回复</button>
-        <span class='sp10'></span>
         <span class='col_fade'>Ctrl+Enter 快捷回复</span>
       </form>
     </div>
@@ -158,30 +152,6 @@
 
 <script>
   $(document).ready(function () {
-    // var editors = {};
-    // function run_md_editor() {
-    //   var converter = new Showdown.converter();
-    //   editors[""] = new Markdown.Editor(converter);
-    //   editors[""].run(); 
-    //   /*
-    //   editor.hooks.chain('onPreviewRefresh', function () {
-    //     prettyPrint();
-    //   });
-    //   */
-    //   $('.reply2_editor').each(function() {
-    //     var editor_id = $(this).attr('id');
-    //     var suffix = editor_id.slice(editor_id.indexOf('-'));
-    //     editors[suffix] = new Markdown.Editor(converter, suffix);
-    //     editors[suffix].run();
-    //     /*
-    //     editor.hooks.chain('onPreviewRefresh', function () {
-    //       prettyPrint();
-    //     });
-    //     */
-    //   });
-    // }
-    // run_md_editor();
-
     $('#wmd-input').mouseover(function(){
       $('#wmd-input').focus()
     });
@@ -217,44 +187,6 @@
       });
     });
 
-    // $('.reply2_submit_btn').click(function () {
-    //   var $btn = $(this);
-    //   var reply_id = $btn.attr('data-id');   
-    //   var content = $btn.parents('.reply2_editor').find('textarea.editor').val();
-    //   var data = {
-    //     reply_id: reply_id,
-    //     r2_content: content,
-    //     _csrf: '<%- csrf %>'
-    //   };
-    //   $.post('/<%= topic._id %>/reply2', data, function (data) {
-    //     if(data != '') {
-    //       $btn.parent().before(data);
-    //       $btn.parent().find('textarea').val('');
-    //       $btn.parent().find('.wmd-preview').html('');
-    //       prettyPrint();
-    //       $btn.parent().toggle();
-    //     }
-    //   });
-    // });
-
-    // $('.preview-btn').click(function() {
-    //   var href = $(this).attr('href');
-    //   var index = href.lastIndexOf('-');
-    //   var suffix = index < 0 ? '' : href.slice(index);
-    //   editors[suffix].makePreviewHtml();
-    //   prettyPrint();
-    // });
-
-/*
-    $('.reply2_item').live('mouseover',function(){
-      $(this).find('.reply2_at_btn').show();
-    });
-    $('.reply2_item').live('mouseout',function(){
-      $(this).find('.reply2_at_btn').hide();
-    });
-    $(this).find('.reply2_btn').show();
-    $(this).find('.reply2_at_btn').show();
-*/
     $('#collect_btn').click(function(){
       var $me = $(this);
       var action = $me.attr('action');

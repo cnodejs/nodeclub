@@ -14,9 +14,9 @@
 			</div>
 			<% if(locals.current_user && current_user._id != user._id){ %>
 			<% if(!locals.relation){ %>
-			<button class='btn btn-success fr' id='follow_btn' action='follow'>加入关注</button>
+			<button class='btn btn-success' id='follow_btn' action='follow'>加入关注</button>
 			<% }else{ %>
-			<button class='btn fr' id='follow_btn' action='un_follow'>取消关注</button>
+			<button class='btn' id='follow_btn' action='un_follow'>取消关注</button>
 			<% } %>
 			<% } %>
 			<h2><%= user.name %></h2>
@@ -62,7 +62,6 @@
 			<% } %>
 		</div>
 	</div>	
-	<div class='sep10'></div>
 	<div class='panel'>
 		<div class='header'>
 			<span class='col_fade'><%= user.name %> 发布的话题</span>

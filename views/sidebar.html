@@ -10,17 +10,14 @@
       <% } else { %>
       <div class='inner'>
         <p><%= config.description %></p>
-        <div class='sep10'></div>
-        <div class='cen'>
+        <div>
           <a href='/signup'><button class='btn'>现在注册</button></a>
-          <div class='sep10'></div>
           <span>已注册用户请<a class='light' href='/signin'> 登录</a></span>
         </div>
       </div>
     <% } %>
   </div>
 
-  <div class='sep10'></div>
   <div class=panel>
     <div class='header'>
       <!-- <img src='<%- config.site_static_host %>/images/tag_icon&16.png' title='标签'/> -->
@@ -35,7 +32,6 @@
   </div>
 
   <% if (locals.hot_tags) { %>
-  <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>热门标签</span>
@@ -51,7 +47,6 @@
   <% } %>
 
   <% if (locals.hot_topics) { %>
-  <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>热门话题</span>
@@ -69,7 +64,6 @@
   <% } %>
 
   <% if (locals.no_reply_topics) { %>
-  <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>无人回复的话题</span>
@@ -87,7 +81,6 @@
   <% } %>
 
   <% if (config.site_links && config.site_links.length > 0) { %>
-  <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>相关站点</span>
@@ -103,7 +96,6 @@
   <% } %>
 
   <% if (locals.tops) { %>
-  <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>积分榜</span>
@@ -123,7 +115,6 @@
   <% } %>
 
   <% if (locals.stars) { %>
-  <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>社区达人</span> &nbsp;
@@ -141,8 +132,6 @@
   </div>
   <% } %>
 
-  <div class='sep10'></div>
-
   <% if (config.side_ads && config.side_ads.length > 0) { %>
   <div class='panel'>
     <div class='header'>
@@ -158,7 +147,6 @@
   </div>
   <% } %>
 
-  <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>RSS订阅</span>
