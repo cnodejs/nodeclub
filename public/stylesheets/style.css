@@ -342,6 +342,7 @@ a.user_avatar:hover {
   display: inline-block;
 }
 .user .user_avatar {
+  max-width: 50px;
 }
 .user .user_name {
   font-size: 16px;
