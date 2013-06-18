@@ -24,10 +24,10 @@
 
   <div class='topic_wrap'>
     <!--<%- partial('tag/tag_in_abstract',{collection:topic.tags, as:'tag'}) %>-->
+    <% if (topic.top) { %>
+      <span class='put_top'>置顶</span>
+    <% } %>
     <a class='' href='/topic/<%= topic._id %>'>
-      <% if(topic.top){%>
-        <span class='put_top'>置顶</span>
-        <% } %>
       <%= topic.title %>
     </a>
   </div>

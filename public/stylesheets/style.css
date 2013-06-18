@@ -359,7 +359,9 @@ a.user_avatar:hover {
   height: 100%;
   line-height: 48px;
 }
-.user_action {}
+.user_action {
+  float: right;
+}
 .reply_content {
   padding-left: 50px;
 }
@@ -698,4 +700,8 @@ textarea.editor {
 
 #content .header {
   line-height: 200%;
+}
+
+.marked_icon {
+  float: right;
 }

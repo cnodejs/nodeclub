@@ -49,7 +49,10 @@
     </div>
     <div class='inner topic'>
       <h3>
-        <% if(topic.top){%><span class='put_top'>置顶</span><% } %><%= topic.title %>
+      <% if (topic.top) { %>
+        <span class='put_top'>置顶</span>
+      <% } %>
+        <%= topic.title %>
       </h3>
       <hr>
       <div class='topic_content'>
