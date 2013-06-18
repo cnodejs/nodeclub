@@ -30,12 +30,10 @@
       </span>
     </div>
   </div>
-  <!-- <div class='sep5'></div> -->
   <div class='reply_content'>
   <%- markdown(reply.content) %>
   </div>
   <div class='clearfix'>
-    <!-- <div class='sep5'></div> -->
     <div class='reply2_area'>
       <% if (reply.replies.length >0) { %>
         <%- partial('reply/reply2',{collection: reply.replies, as: 'reply2'}) %>
@@ -47,7 +45,6 @@
         <textarea class='span8 editor reply_editor' id="reply2_editor_<%- reply._id %>" name='r2_content' rows='4'></textarea>
         <p style="margin-top: 10px">
           <button class='btn reply2_submit_btn' type="submit" data-id='<%= reply._id %>'>回复</button>
-          <span class='sp10'></span>
           <span class='col_fade'>Ctrl+Enter 快捷回复</span>
         </p>
       </form>

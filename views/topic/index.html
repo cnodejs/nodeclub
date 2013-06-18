@@ -49,55 +49,61 @@
     </div>
     <div class='inner topic'>
       <h3>
-        <% if(topic.top){%><span class='put_top'>置顶</span><% } %><%= topic.title %>
+      <% if (topic.top) { %>
+        <span class='put_top'>置顶</span>
+      <% } %>
+        <%= topic.title %>
       </h3>
       <hr>
       <div class='topic_content'>
         <%- markdown(topic.content) %>
       </div>
       <hr>
-      <% if (topic.tags.length > 0) { %>
-      <span class='col_fade'>标签：</span> 
-      <%- partial('tag/tag_in_topic',{ collection: topic.tags, as: 'tag' }) %>
-      <% } else { %>
-      <span class='col_fade'>标签：无</span>  
-      <% } %>
-      <div class='sep5'></div>  
-      <span class='col_fade'>
-        <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_create_at %> 发布
-      </span>
-      <% if (topic.friendly_create_at != topic.friendly_update_at) { %>
-      <div class='sep5'></div>
-      <span class='col_fade'>
-        <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_update_at %> 重新编辑
-      </span>
-      <% } %>
-      <span class='sp10'></span>
-      <a class='dark' id='share_weibo_btn'
-        href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=<%= config.weibo_key %>',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','','分享来自<%= config.name %>的话题：<%= topic.title %>','',''));"
-        >分享到 weibo</a>
-      <% if (locals.current_user) { %>
-        <% if (!topic.in_collection) { %>
-        <button class='btn btn-success' id='collect_btn' action='collect'>加入收藏</button>
+      <div class="tags">
+        <% if (topic.tags.length > 0) { %>
+        <span class='col_fade'>标签：</span> 
+        <%- partial('tag/tag_in_topic',{ collection: topic.tags, as: 'tag' }) %>
         <% } else { %>
-        <button class='btn' id='collect_btn' action='de_collect'>取消收藏</button>
+        <span class='col_fade'>标签：无</span>  
         <% } %>
-      <% } %>
-      <% if (locals.current_user) { %>
-        <% if (current_user.is_admin) { %>
-        <% if (topic.top) { %>
-          <a href='/topic/<%= topic._id %>/top/0'><img class='user_icon' src='<%- config.site_static_host %>/images/star_fav_empty_icon&16.png' title='取消置顶' /></a>
-        <% } else { %>
-          <a href='/topic/<%= topic._id %>/top/1'><img class='user_icon' src='<%- config.site_static_host %>/images/star_fav_icon&16.png' title='置顶' /></a>
+      </div>
+      <div class="changes">
+        <span class='col_fade'>
+          <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_create_at %> 发布
+        </span>
+        <% if (topic.friendly_create_at != topic.friendly_update_at) { %>
+        <span class='col_fade'>
+          <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_update_at %> 重新编辑
+        </span>
         <% } %>
-        <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='编辑' /></a>
-        <a href='javascript:;' data-id="<%= topic._id %>" class='delete_topic_btn'><img class='user_icon' src='<%- config.site_static_host %>/images/trash_icon&16.png' title='删除' /></a>
-        <% } else { %>
-          <% if (current_user._id == topic.author_id) { %>
-          <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='编辑' /></a>
+      </div>
+      <div class="action">
+        <a class='dark' id='share_weibo_btn'
+          href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=<%= config.weibo_key %>',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','','分享来自<%= config.name %>的话题：<%= topic.title %>','',''));"
+          >分享到 weibo</a>
+        <% if (locals.current_user) { %>
+          <% if (!topic.in_collection) { %>
+          <button class='btn btn-success' id='collect_btn' action='collect'>加入收藏</button>
+          <% } else { %>
+          <button class='btn' id='collect_btn' action='de_collect'>取消收藏</button>
           <% } %>
         <% } %>
-      <% } %>
+        <% if (locals.current_user) { %>
+          <% if (current_user.is_admin) { %>
+          <% if (topic.top) { %>
+            <a href='/topic/<%= topic._id %>/top/0'><img class='user_icon' src='<%- config.site_static_host %>/images/star_fav_empty_icon&16.png' title='取消置顶' /></a>
+          <% } else { %>
+            <a href='/topic/<%= topic._id %>/top/1'><img class='user_icon' src='<%- config.site_static_host %>/images/star_fav_icon&16.png' title='置顶' /></a>
+          <% } %>
+          <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='编辑' /></a>
+          <a href='javascript:;' data-id="<%= topic._id %>" class='delete_topic_btn'><img class='user_icon' src='<%- config.site_static_host %>/images/trash_icon&16.png' title='删除' /></a>
+          <% } else { %>
+            <% if (current_user._id == topic.author_id) { %>
+            <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='编辑' /></a>
+            <% } %>
+          <% } %>
+        <% } %>
+      </div>
     </div>
   </div>  
   <% if (topic.replies && topic.replies.length > 0) { %>
