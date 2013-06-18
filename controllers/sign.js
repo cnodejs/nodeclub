@@ -273,7 +273,7 @@ function getAvatarURL(user) {
   }
   var avatar_url = user.profile_image_url || user.avatar;
   if (!avatar_url) {
-    avatar_url = config.site_static_host + '/images/user_icon&48.png';
+    avatar_url = config.site_static_host + '/public/images/user_icon&48.png';
   }
   return avatar_url;
 }

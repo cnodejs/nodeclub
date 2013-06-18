@@ -22,4 +22,7 @@ test-cov: cov
 	@$(MAKE) -C .cov test REPORTER=progress
 	@$(MAKE) -C .cov test REPORTER=html-cov > coverage.html
 
+build:
+	@./bin/combo views .
+
 .PHONY: test test-cov cov

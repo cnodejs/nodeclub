@@ -91,15 +91,15 @@
         <% if (locals.current_user) { %>
           <% if (current_user.is_admin) { %>
           <% if (topic.top) { %>
-            <a href='/topic/<%= topic._id %>/top/0'><img class='user_icon' src='<%- config.site_static_host %>/images/star_fav_empty_icon&16.png' title='取消置顶' /></a>
+            <a href='/topic/<%= topic._id %>/top/0'><img class='user_icon' src='<%- config.site_static_host %>/public/images/star_fav_empty_icon&16.png' title='取消置顶' /></a>
           <% } else { %>
-            <a href='/topic/<%= topic._id %>/top/1'><img class='user_icon' src='<%- config.site_static_host %>/images/star_fav_icon&16.png' title='置顶' /></a>
+            <a href='/topic/<%= topic._id %>/top/1'><img class='user_icon' src='<%- config.site_static_host %>/public/images/star_fav_icon&16.png' title='置顶' /></a>
           <% } %>
-          <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='编辑' /></a>
-          <a href='javascript:;' data-id="<%= topic._id %>" class='delete_topic_btn'><img class='user_icon' src='<%- config.site_static_host %>/images/trash_icon&16.png' title='删除' /></a>
+          <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/public/images/doc_edit_icon&16.png' title='编辑' /></a>
+          <a href='javascript:;' data-id="<%= topic._id %>" class='delete_topic_btn'><img class='user_icon' src='<%- config.site_static_host %>/public/images/trash_icon&16.png' title='删除' /></a>
           <% } else { %>
             <% if (current_user._id == topic.author_id) { %>
-            <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/images/doc_edit_icon&16.png' title='编辑' /></a>
+            <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/public/images/doc_edit_icon&16.png' title='编辑' /></a>
             <% } %>
           <% } %>
         <% } %>
@@ -148,14 +148,16 @@
 
 <% if (locals.current_user && locals.topic) { %>
 <!-- ajaxupload -->
-<script src='/libs/ajax-upload/ajaxupload.js'></script>
 <!-- markdown editor -->
-<!-- <script src='/libs/pagedown/Markdown.Converter.js'></script>
-<script src='/libs/showdown.js'></script>
-<script src='/libs/pagedown/Markdown.Editor.js'></script> -->
-<script src='/libs/ace/ace.js'></script>
-<script src='/javascripts/editor.js'></script>
-
+<%- Loader('/public/topic_edit.min.js')
+  .js('/public/libs/ajax-upload/ajaxupload.js')
+  .js('/public/libs/ace/ace.js')
+  .js('/public/libs/ace/theme-textmate.js')
+  .js('/public/libs/ace/theme-chrome.js')
+  .js('/public/libs/ace/mode-markdown.js')
+  .js('/public/javascripts/editor.js')
+  .done(assets, config.site_static_host)
+%>
 <script>
   $(document).ready(function () {
     $('#wmd-input').mouseover(function(){
@@ -168,7 +170,7 @@
       var editorWrap = parent.find('.reply2_form');
       parent.find('.reply2_area').prepend(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
-      var user = $btn.parents('.cell').find('.reply_author').find('a').html();
+      var user = $btn.parents('.cell').find('.reply_author a').html();
       editorWrap.show('fast', function () {
         var editor = ace.edit("ace_" + textarea.attr('id'));
         editor.setValue(textarea.val(), 1);
@@ -181,7 +183,7 @@
       var editorWrap = $btn.parents('.reply2_area').find('.reply2_form');
       $btn.parents('.reply2_item').after(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
-      var user = $btn.parents('.cell').find('.reply_author').find('a').html();
+      var user = $btn.parents('.cell').find('.reply_author a').html();
       if (textarea.val().indexOf('@' + user) < 0) {
         textarea.val('@' + user + ' ');
       }
@@ -249,7 +251,7 @@
           if (!result.success) {
             alert(result.message);
           } else {
-            window.location.href = '/';
+            location.href = '/';
           }
         });
       }
@@ -283,25 +285,9 @@
   });
 </script>
 <% } %>
-<link type='text/css' rel='stylesheet' href='/libs/fancybox/jquery.fancybox-1.3.4.css' />
-<script src='/libs/fancybox/jquery.fancybox-1.3.4.pack.js'></script>
-<script>
-$(document).ready(function () {
-  // pretty code
-  prettyPrint();
-
-  //fancy image
-  $('.topic_content img,.reply_content img').each(function(){
-    if($(this).width > 500){
-      $(this).width(500);
-    }
-    var elem = $('<a class="content_img"></a>');
-    elem.attr('href',$(this).attr('src'));
-    $(this).wrap(elem);   
-  });
-  $('.content_img').fancybox({
-    transitionIn: 'elastic',
-    transitionOut: 'elastic'
-  });
-});
-</script>
+<%- Loader('/public/fancebox.min.js', '/public/libs/fancybox/fancebox.min.css')
+  .css('/public/libs/fancybox/jquery.fancybox-1.3.4.css')
+  .js('/public/libs/fancybox/jquery.fancybox-1.3.4.pack.js')
+  .js('/public/javascripts/topic.js')
+  .done(assets, config.site_static_host)
+%>

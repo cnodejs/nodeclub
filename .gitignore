@@ -5,3 +5,7 @@ node_modules
 public/user_data
 coverage.html
 .monitor
+
+*.min.*.js
+*.min.*.css
+assets.json

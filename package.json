@@ -6,17 +6,18 @@
   "customHost": ["cnodejs.org", "club.cnodejs.org"],
   "dependencies": {
     "express": "2.5.1",
-    "ejs": "0.8.0",
-    "eventproxy": "0.2.2",
+    "ejs": "0.8.4",
+    "eventproxy": "0.2.5",
     "mongoose": "2.4.1",
     "node-markdown": "0.1.0",
     "validator": "0.3.7",
     "ndir": "0.1.3",
     "nodemailer": "0.3.43",
-    "data2xml": "0.4.0",
+    "data2xml": "0.8.0",
     "utility": "0.0.x",
     "marked-prettyprint": "0.2.8",
-    "xss": "0.0.3"
+    "xss": "0.0.5",
+    "loader": "0.0.4"
   },
   "devDependencies": {
     "should": "*",
