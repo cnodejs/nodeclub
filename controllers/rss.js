@@ -1,5 +1,5 @@
 var config = require('../config').config;
-var data2xml = require('data2xml');
+var convert = require('data2xml')();
 var markdown = require('node-markdown').Markdown;
 var Topic = require('../proxy').Topic;
 
@@ -36,7 +36,7 @@ exports.index = function (req, res, next) {
       });
     });
 
-    var rss_content = data2xml('rss', rss_obj);
+    var rss_content = convert('rss', rss_obj);
 
     res.contentType('application/xml');
     res.send(rss_content);
