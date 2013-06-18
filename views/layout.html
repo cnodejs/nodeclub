@@ -12,25 +12,30 @@
     <% } %>
     <link title="RSS" type="application/rss+xml" rel="alternate" href="/rss" />
     <!-- style -->
-    <link rel="stylesheet" type="text/css" href="/libs/bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/common.css" />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
-    <link type='text/css' rel='stylesheet' href='/libs/code-prettify/prettify.css' />
+    <%- Loader('/public/stylesheets/index.min.css')
+      .css('/public/libs/bootstrap/css/bootstrap.css')
+      .css('/public/stylesheets/common.css')
+      .css('/public/stylesheets/style.css')
+      .css('/public/libs/code-prettify/prettify.css')
+      .done(assets, config.site_static_host)
+    %>
     <% if (locals.extra_style) { %>
     <style type="text/css">
       <%- locals.extra_style %>
     </style>
     <% } %>
-    <script src='/libs/code-prettify/prettify.js'></script>
-    <!-- script -->
-    <script src='/libs/jquery/jquery.js'></script>
-    <script src='/libs/bootstrap/js/bootstrap.js'></script>
-    <script src='/javascripts/main.js'></script>
+    <%- Loader('/public/index.min.js')
+      .js('/public/libs/code-prettify/prettify.js')
+      .js('/public/libs/jquery/jquery.js')
+      .js('/public/libs/bootstrap/js/bootstrap.js')
+      .js('/public/javascripts/main.js')
+      .done(assets, config.site_static_host)
+    %>
     <% if (config.site_enable_search_preview) { %>
     <script>
       var __google_search_domain = '<%= config.site_google_search_domain || "" %>';
     </script>
-    <script src='/javascripts/google_search_preview.js'></script>
+    <script src='/public/javascripts/google_search_preview.js'></script>
     <% } %>
     <% if (locals.topic) { %>
     <title><%= topic.title %> - <%= config.name %></title>
@@ -79,21 +84,19 @@
       </div>
     </div>
     <div id='backtotop'>回到顶部</div>
-    <!-- <a href="https://github.com/muyuan/nodeclub"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub"></a> -->
-    <!-- footer -->
     <div id='footer'>
       <div id='footer_main'>
-        <div>
+        <div class="links">
           <a class='dark' href='/about'><strong>关于</strong></a>
-          &nbsp;&nbsp;|&nbsp;&nbsp;
+          |
           <a class='dark' href='/faq'><strong>FAQ</strong></a>
-          &nbsp;&nbsp;|&nbsp;&nbsp;
+          |
           <a class='dark' href='https://github.com/cnodejs/nodeclub/' target="_blank"><strong>Github</strong></a>
-          &nbsp;&nbsp;|&nbsp;&nbsp;
+          |
           <a class='dark' href='/rss' target="_blank"><strong>RSS</strong></a>
         </div>
         <div class='col_fade'>
-          &copy; 2012 <br>本社区为开源系统，版本: <%= config.version %> ，欢迎贡献代码<br>
+          &copy; 2012 - 2013 <br>本社区为开源系统，版本: <%= config.version %> ，欢迎贡献代码<br>
           由<a href='http://cnodejs.net' target='_blank'> NAE </a>为 <%= config.name %> 提供动力
         </div>
       </div>
