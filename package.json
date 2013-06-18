@@ -22,10 +22,20 @@
     "should": "*",
     "mocha": "*",
     "rewire": "*",
-    "jscover": "*",
-    "pedding": "*"
+    "pedding": "*",
+    "blanket": "*",
+    "travis-cov": "*"
   },
   "scripts": {
-    "test": "make test"
+    "test": "make test-all",
+    "blanket": {
+      "pattern": "proxy|controllers|models|common|libs",
+      "data-cover-flags": {
+        "debug": false
+      }
+    },
+    "travis-cov": {
+      "threshold": 30
+    }
   }
 }
