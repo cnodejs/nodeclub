@@ -156,7 +156,7 @@
   .js('/public/libs/ace/theme-chrome.js')
   .js('/public/libs/ace/mode-markdown.js')
   .js('/public/javascripts/editor.js')
-  .done(assets, config.site_static_host, config.debug)
+  .done(assets, config.site_static_host, config.mini_assets)
 %>
 <script>
   $(document).ready(function () {
@@ -289,5 +289,5 @@
   .css('/public/libs/fancybox/jquery.fancybox-1.3.4.css')
   .js('/public/libs/fancybox/jquery.fancybox-1.3.4.pack.js')
   .js('/public/javascripts/topic.js')
-  .done(assets, config.site_static_host, config.debug)
+  .done(assets, config.site_static_host, config.mini_assets)
 %>
