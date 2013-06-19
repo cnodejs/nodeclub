@@ -10,6 +10,9 @@ test: install
 	@if ! test -f config.js; then \
 		cp config.default.js config.js; \
 	fi
+	@if ! test -f assets.json; then \
+		make build; \
+	fi
 	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
 		--reporter $(REPORTER) --timeout $(TESTTIMEOUT) $(TESTS)
 

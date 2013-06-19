@@ -97,7 +97,7 @@
   .js('/public/libs/ace/theme-chrome.js')
   .js('/public/libs/ace/mode-markdown.js')
   .js('/public/javascripts/editor.js')
-  .done(assets, config.site_static_host)
+  .done(assets, config.site_static_host, config.debug)
 %>
 <script>
 $(function () {

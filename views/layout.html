@@ -17,7 +17,7 @@
       .css('/public/stylesheets/common.css')
       .css('/public/stylesheets/style.css')
       .css('/public/libs/code-prettify/prettify.css')
-      .done(assets, config.site_static_host)
+      .done(assets, config.site_static_host, config.debug)
     %>
     <% if (locals.extra_style) { %>
     <style type="text/css">
@@ -29,7 +29,7 @@
       .js('/public/libs/jquery/jquery.js')
       .js('/public/libs/bootstrap/js/bootstrap.js')
       .js('/public/javascripts/main.js')
-      .done(assets, config.site_static_host)
+      .done(assets, config.site_static_host, config.debug)
     %>
     <% if (config.site_enable_search_preview) { %>
     <script>
