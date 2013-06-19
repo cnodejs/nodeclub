@@ -89,30 +89,18 @@
 </div>
 
 <!-- ajaxupload -->
-<script src='/libs/ajax-upload/ajaxupload.js'></script>
 <!-- markdown editor -->
-<!-- <script src='/libs/pagedown/Markdown.Converter.js'></script>
-<script src='/libs/showdown.js'></script>
-<script src='/libs/pagedown/Markdown.Editor.js'></script> -->
-<script src='/libs/ace/ace.js'></script>
-<script src='/javascripts/editor.js'></script>
-
+<%- Loader('/public/topic_edit.min.js')
+  .js('/public/libs/ajax-upload/ajaxupload.js')
+  .js('/public/libs/ace/ace.js')
+  .js('/public/libs/ace/theme-textmate.js')
+  .js('/public/libs/ace/theme-chrome.js')
+  .js('/public/libs/ace/mode-markdown.js')
+  .js('/public/javascripts/editor.js')
+  .done(assets, config.site_static_host)
+%>
 <script>
 $(function () {
-  // var editor;
-  // function run_md_editor(){
-  //   // var converter = Markdown.getSanitizingConverter();
-  //   var converter = new Showdown.converter();
-  //   editor = new Markdown.Editor(converter);
-  //   editor.run();
-  // }
-  // run_md_editor();
-
-  // $('.preview-btn').click(function() {
-  //   editor.makePreviewHtml();
-  //   prettyPrint();
-  // });
-
   $('.tag_selectable').click(function(){
     $(this).toggleClass('tag_select');
   });

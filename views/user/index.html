@@ -22,7 +22,7 @@
 			<a class='dark'><%= user.name %></a>
 			<div class='col_fade'>
 				<span>
-					<img src="<%- config.site_static_host %>/images/cert_icon&16.png" />
+					<img src="<%- config.site_static_host %>/public/images/cert_icon&16.png" />
 					<%= user.following_count %> 关注
 					<%= user.follower_count %> 粉丝
 					<%= user.score %> 积分</span>
@@ -34,19 +34,19 @@
 				<ul class='unstyled'>
 					<% if (user.url) { %>
 					<li>
-						<img class='user_icon' src="<%- config.site_static_host %>/images/paper_airplane_icon&16.png" />
+						<img class='user_icon' src="<%- config.site_static_host %>/public/images/paper_airplane_icon&16.png" />
 						<a class='dark' href="<%= user.url %>" target='_blank'><%= user.url %></a>
 					</li>
 					<% } %>
 					<% if (user.location) { %>
 					<li>
-						<img class='user_icon' src="<%- config.site_static_host %>/images/compass_icon&16.png" />
+						<img class='user_icon' src="<%- config.site_static_host %>/public/images/compass_icon&16.png" />
 						<span class='col_fade'><%= user.location %></span>
 					</li>
 					<% } %>
 					<% if (user.weibo) { %>
 					<li>
-						<img class='user_icon' src="<%- config.site_static_host %>/images/twitter_2_icon&16.png" />
+						<img class='user_icon' src="<%- config.site_static_host %>/public/images/twitter_2_icon&16.png" />
 						<a class='dark' href="<%= user.weibo %>" target='_blank'><%= user.weibo %></a>
 					</li>
 					<% } %>
