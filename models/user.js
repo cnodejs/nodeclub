@@ -8,7 +8,6 @@ var UserSchema = new Schema({
   pass: { type: String },
   email: { type: String, unique: true },
   url: { type: String },
-  profile_image_url: {type: String},
   location: { type: String },
   signature: { type: String },
   profile: { type: String },
@@ -37,7 +36,7 @@ var UserSchema = new Schema({
 });
 
 UserSchema.virtual('avatar_url').get(function () {
-  return this.profile_image_url || this.avatar || config.site_static_host + '/public/images/user_icon&48.png';
+  return this.avatar || config.site_static_host + '/public/images/user_icon&48.png';
 });
 
 mongoose.model('User', UserSchema);
