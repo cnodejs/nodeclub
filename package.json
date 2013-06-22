@@ -8,7 +8,7 @@
     "express": "2.5.1",
     "ejs": "0.8.4",
     "eventproxy": "0.2.5",
-    "mongoose": "2.4.1",
+    "mongoose": "2.7.3",
     "node-markdown": "0.1.0",
     "validator": "0.3.7",
     "ndir": "0.1.3",
