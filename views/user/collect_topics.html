@@ -10,7 +10,7 @@
 		</div>
 		<div class='inner'>
 			<% if (topics.length > 0) { %>
-			<%- partial('topic/list', { topics: topics, pages: pages, current_pages: current_page, base: '/my/topics' }) %>
+			<%- partial('topic/list', { topics: topics, pages: pages, current_pages: current_page, base: '/user/' + user.name + '/collections' }) %>
 			<% } else { %>
 			<p>找不到话题 (T_T)</p>	
 			<% } %>
