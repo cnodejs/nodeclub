@@ -148,7 +148,7 @@ a.light:hover {
   line-height: 48px;
 }
 .cell .block.count {
-  width: 60px;
+  width: 70px;
   margin: 0px 8px;
 }
 .cell.message, .cell[message_id] {
