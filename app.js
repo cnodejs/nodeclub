@@ -11,10 +11,20 @@ var path = require('path');
 var Loader = require('loader');
 var express = require('express');
 var ndir = require('ndir');
-var assets = JSON.parse(fs.readFileSync(path.join(__dirname, 'assets.json')));
 var pkg = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json')));
 var config = require('./config').config;
 config.version = pkg.version;
+
+// assets
+var assets = {};
+if (config.mini_assets) {
+  try {
+    assets = JSON.parse(fs.readFileSync(path.join(__dirname, 'assets.json')));
+  } catch (e) {
+    console.log('You must execute `make build` before start app when mini_assets is true.');
+    throw e;
+  }
+}
 
 // host: http://127.0.0.1
 var urlinfo = require('url').parse(config.host);
