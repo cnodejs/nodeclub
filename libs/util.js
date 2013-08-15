@@ -108,6 +108,7 @@ var xssOptions = {
     td:     ['width', 'colspan'],
     th:     ['width', 'colspan'],
     tbody:  [],
+    thead:  [],
     ul:     [],
     li:     [],
     ol:     [],
