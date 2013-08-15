@@ -705,3 +705,54 @@ textarea.editor {
 .marked_icon {
   float: right;
 }
+
+.topic_content table,
+.reply_content table {
+  padding:0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 100%;
+  font: inherit;
+}
+
+.topic_content table tr,
+.reply_content table tr {
+  border-top:1px solid #ccc;
+  background-color:#fff;
+  margin:0;
+  padding:0;
+}
+
+.topic_content table tr:nth-child(2n),
+.reply_content table tr:nth-child(2n) {
+  background-color:#f8f8f8;
+}
+
+.topic_content table tr th,
+.reply_content table tr th {
+  font-weight:bold;
+}
+
+.topic_content table tr th,
+.topic_content table tr td,
+.reply_content table tr th,
+.reply_content table tr td {
+  border:1px solid #ccc;
+  text-align:left;
+  margin:0;
+  padding:6px 13px;
+}
+
+.topic_content table tr th>:first-child,
+.topic_content table tr td>:first-child,
+.reply_content table tr th>:first-child,
+.reply_content table tr td>:first-child {
+  margin-top:0;
+}
+
+.topic_content table tr th>:last-child,
+.topic_content table tr td>:last-child,
+.reply_content table tr th>:last-child,
+.reply_content table tr td>:last-child {
+  margin-bottom:0;
+}
