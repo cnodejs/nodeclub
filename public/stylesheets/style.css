@@ -366,7 +366,7 @@ a.user_avatar:hover {
   padding-left: 50px;
 }
 .reply_editor {
-  height: 80px;
+  height: 200px;
 }
 .reply2_btn {
   margin-right: 10px;
@@ -691,7 +691,7 @@ div[class$=part] {
 }
 
 textarea.editor {
-  width: 100%;
+  width: 98%;
 }
 
 #submit_btn {

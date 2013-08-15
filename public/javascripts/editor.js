@@ -1,53 +1,79 @@
+/**
+ * 创建一个 EpicEditor
+ *
+ * @param {Element} textarea
+ * @return {EpicEditor}
+ */
+function createEpicEditor (textarea) {
+  var $node = $(textarea);
+  var id = $node.attr('id');
+  var h = $node.height();
+  $node.before('<div id="editor_' + id + '" style="height:' + h + 'px; border: 1px solid #DDD; border-radius: 4px;"></div>');
+  $node.hide();
+
+  var opts = {
+    container: 'editor_' + id,
+    textarea: id,
+    basePath: '/public/libs/epiceditor',
+    clientSideStorage: false,
+    useNativeFullscreen: true,
+    parser: marked,
+    theme: {
+      base: '/themes/base/epiceditor.css',
+      preview: '/themes/preview/github.css',
+      editor: '/themes/editor/epic-light.css'
+    },
+    button: {
+      preview: true,
+      fullscreen: true,
+      bar: true
+    },
+    focusOnLoad: true,
+    shortcut: {
+      modifier: 18,
+      fullscreen: 70,
+      preview: 80
+    },
+    string: {
+      togglePreview: '预览',
+      toggleEdit: '编辑',
+      toggleFullscreen: '全屏'
+    },
+    autogrow: {
+      minHeight: 200
+    }
+  };
+
+  var editor = new EpicEditor(opts);
+  return editor;
+}
 
 /**
- * Auto change 'textarea.editor' to ace editor. 
+ * 向EpicEditor末尾增加内容
+ *
+ * @param {EpicEditor} editor
+ * @param {String} text
+ * @return {String}
  */
+function epicEditorAppend (editor, text) {
+  return editor.getElement('editor').body.innerHTML += text;
+}
 
+/**
+ * 向EpicEditor前面增加内容
+ *
+ * @param {EpicEditor} editor
+ * @param {String} text
+ * @return {String}
+ */
+function epicEditorPrepend (editor, text) {
+  return editor.getElement('editor').body.innerHTML = text + editor.getElement('editor').body.innerHTML;
+}
+
+// 自动创建编辑框
 $(function () {
-  $('textarea.editor').each(function () {
-    var $node = $(this);
-    var id = $node.attr('id');
-    var h = $node.height();
-    $node.before('<div id="ace_' + id + '" style="height:' + h + 'px; border: 1px solid #DDD; border-radius: 4px;"></div>');
-    $node.hide();
-
-    var editor = ace.edit("ace_" + id);
-
-    var heightUpdateFunction = function () {
-
-      // http://stackoverflow.com/questions/11584061/
-      var newHeight = editor.getSession().getScreenLength() * editor.renderer.lineHeight + 
-        editor.renderer.scrollBar.getWidth();
-      if (newHeight < h) {
-        newHeight = h;
-      }
-      newHeight += 5;
-      $('#ace_' + id).height(newHeight + "px");
-      //$('#editor-section').height(newHeight.toString() + "px");
-
-      // This call is required for the editor to fix all of
-      // its inner structure for adapting to a change in size
-      editor.resize();
-    };
-
-    // Set initial size to match initial content
-    heightUpdateFunction();
-
-    // Whenever a change happens inside the ACE editor, update
-    // the size again
-    editor.getSession().on('change', heightUpdateFunction);
-
-    editor.getSession().setTabSize(2);
-    editor.getSession().setUseSoftTabs(true);
-    editor.getSession().setUseWrapMode(true);
-    editor.renderer.setShowGutter(false);
-    editor.setShowPrintMargin(false);
-    editor.setValue($node.val(), 1);
-    editor.focus();
-    editor.setTheme("ace/theme/chrome");
-    editor.getSession().setMode("ace/mode/markdown");
-    editor.getSession().on('change', function () {
-      $node.val(editor.getValue());
-    });
-  });
+  var $node = $('#wmd-input');
+  if ($node.length > 0) {
+    createEpicEditor($node).load();
+  }
 });
