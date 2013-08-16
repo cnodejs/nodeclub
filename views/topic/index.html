@@ -151,18 +151,14 @@
 <!-- markdown editor -->
 <%- Loader('/public/topic_edit.min.js')
   .js('/public/libs/ajax-upload/ajaxupload.js')
-  .js('/public/libs/ace/ace.js')
-  .js('/public/libs/ace/theme-textmate.js')
-  .js('/public/libs/ace/theme-chrome.js')
-  .js('/public/libs/ace/mode-markdown.js')
+  .js('/public/libs/epiceditor/epiceditor.js')
   .js('/public/javascripts/editor.js')
   .done(assets, config.site_static_host, config.mini_assets)
 %>
 <script>
   $(document).ready(function () {
-    $('#wmd-input').mouseover(function(){
-      $('#wmd-input').focus()
-    });
+
+    var editorList = {};
 
     $('.reply2_btn').click(function () {
       var $btn = $(this);
@@ -171,10 +167,11 @@
       parent.find('.reply2_area').prepend(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
       var user = $btn.parents('.cell').find('.reply_author a').html();
+      
       editorWrap.show('fast', function () {
-        var editor = ace.edit("ace_" + textarea.attr('id'));
-        editor.setValue(textarea.val(), 1);
-        editor.focus();
+        var editor = createEpicEditor(textarea);
+        editorList[textarea.attr('id')] = editor;
+        editor.load();
       });
     });
 
@@ -189,9 +186,9 @@
       }
       
       editorWrap.show('fast', function () {
-        var editor = ace.edit("ace_" + textarea.attr('id'));
-        editor.setValue(textarea.val(), 1);
-        editor.focus();
+        var editor = createEpicEditor(textarea);
+        editorList[textarea.attr('id')] = editor;
+        editor.load();
       });
     });
 
