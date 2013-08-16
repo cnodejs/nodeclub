@@ -28,7 +28,7 @@ function createEpicEditor (textarea) {
       fullscreen: true,
       bar: true
     },
-    focusOnLoad: true,
+    focusOnLoad: false,
     shortcut: {
       modifier: 18,
       fullscreen: 70,
