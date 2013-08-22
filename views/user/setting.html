@@ -34,12 +34,6 @@
 					</div>
 				</div>
 				<div class='control-group'>
-					<label class='control-label' for='profile_image_url'>头像URL</label>
-					<div class='controls'>
-						<input class='input-xlarge' id='profile_image_url' name='profile_image_url' type='text' value="<%= locals.profile_image_url || '' %>" />
-					</div>
-				</div>
-				<div class='control-group'>
 					<label class='control-label' for='url'>个人网站</label>
 					<div class='controls'>
 						<% if(locals.url){ %>
@@ -126,10 +120,6 @@
 		<div class='inner'>
 			<p><%= config.name %> 使用<a href='http://en.wikipedia.org/wiki/Gravatar' target='_blank'> Globally Recognized Avata </a>，与您的 Email 关联，请在<a href='http://en.gravatar.com/' target='_blank'> Gravatar </a>注册或更改您的头像。</p>
 			<p>您当前的头像如下：</p>
-			<% if (locals.profile_image_url) { %>
-			自定义: <img class="user_avatar" src="<%= locals.profile_image_url %>" />
-			&nbsp;|&nbsp;
-			<% } %>
 			gravatar: <img class="user_avatar" src="<%= current_user.avatar %>" />
 		</div>
 	</div>

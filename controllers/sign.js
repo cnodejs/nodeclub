@@ -268,14 +268,7 @@ exports.update_pass = function (req, res, next) {
 };
 
 function getAvatarURL(user) {
-  if (user.avatar_url) {
-    return user.avatar_url;
-  }
-  var avatar_url = user.profile_image_url || user.avatar;
-  if (!avatar_url) {
-    avatar_url = config.site_static_host + '/public/images/user_icon&48.png';
-  }
-  return avatar_url;
+  return user.avatar_url || user.avatar || config.site_static_host + '/public/images/user_icon&48.png';
 }
 
 // auth_user middleware
