@@ -5,6 +5,7 @@ node_modules
 public/user_data
 coverage.html
 .monitor
+.idea
 
 *.min.*.js
 *.min.*.css
