@@ -96,7 +96,7 @@ exports.add_reply2 = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    if (reply.author_id.toString() !== req.session.user._id.toString()) {
+    if (reply && reply.author_id.toString() !== req.session.user._id.toString()) {
       message.sendReply2Message(reply.author_id, req.session.user._id, topic_id, reply._id);
     }
     proxy.emit('message_saved');
