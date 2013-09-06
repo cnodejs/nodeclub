@@ -111,6 +111,10 @@ exports.sendReplyMail = function (who, msg) {
  * @param {Object} msg 发送的消息对象
  */
 exports.sendAtMail = function (who, msg) {
+  if (!msg.topic || !msg.reply) {
+    return;
+  }
+  
   var from = config.mail_opts.auth.user;
   var to = who;
   var subject = config.name + ' 新消息';
