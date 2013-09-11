@@ -159,24 +159,35 @@
   $(document).ready(function () {
 
     var editorList = {};
-
-    $('.reply2_btn').click(function () {
+    //一级评论，回复的两个toggle回调
+    secondRe = function(){
+      var $btn = $(this);
+      var parent = $btn.parents('.reply_area');
+      var editorWrap = parent.find('.reply2_form');
+      editorWrap.hide('fast');
+    }
+    firstRe = function () {
       var $btn = $(this);
       var parent = $btn.parents('.reply_area');
       var editorWrap = parent.find('.reply2_form');
       parent.find('.reply2_area').prepend(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
       var user = $btn.parents('.cell').find('.reply_author a').html();
-      
-      editorWrap.show('fast', function () {
-        var editor = createEpicEditor(textarea);
-        editorList[textarea.attr('id')] = editor;
-        editor.load();
+      var flag = true;
+      editorWrap.show('fast', function (flag) {
+        if(flag){
+          var editor = createEpicEditor(textarea);
+          editorList[textarea.attr('id')] = editor;
+          editor.load();
+          flag=false;
+        };
       });
-    });
-
-    $('.reply2_at_btn').click(function () {
+    }
+    $('.reply2_btn').toggle(firstRe,secondRe);
+    //二级回复，两个toggle回调
+    firstRe2 = function () {
       var $btn = $(this);
+      var flag = true;
       var editorWrap = $btn.parents('.reply2_area').find('.reply2_form');
       $btn.parents('.reply2_item').after(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
@@ -185,12 +196,21 @@
         textarea.val('@' + user + ' ');
       }
       
-      editorWrap.show('fast', function () {
-        var editor = createEpicEditor(textarea);
-        editorList[textarea.attr('id')] = editor;
-        editor.load();
+      editorWrap.show('fast', function (flag) {
+        if(flag){
+          var editor = createEpicEditor(textarea);
+          editorList[textarea.attr('id')] = editor;
+          editor.load();
+          flag=false;
+        };
       });
-    });
+    };
+    secondRe2 = function(){
+      var $btn = $(this);
+      var editorWrap = $btn.parents('.reply2_area').find('.reply2_form');
+      editorWrap.hide('fast');
+    };
+    $('.reply2_at_btn').toggle(firstRe2,secondRe2);
 
     $('#collect_btn').click(function(){
       var $me = $(this);

@@ -9,7 +9,7 @@
 			</ul>
 		</div>
 		<% if (locals.hasnot_read_messages && hasnot_read_messages.length > 0) { %>
-		<%- partial('message/message', { collection: hasnot_read_messages, as: 'message' }) %>
+		<%- partial('message/message', { collection: hasnot_read_messages, as: 'message',read:false }) %>
 		<div class='cell'>
 			<button id='mark_all_messages_btn' class='btn'>标记所有消息为已读</button>
 		</div>
@@ -24,7 +24,7 @@
 			<span class='col_fade'>过往信息</span>
 		</div>
 		<% if (locals.has_read_messages && has_read_messages.length > 0) { %>
-		<%- partial('message/message', { collection: has_read_messages, as: 'message' }) %>
+		<%- partial('message/message', { collection: has_read_messages, as: 'message',read:true }) %>
 		<% } else { %>
 		<div class='inner'>
 			<p>无消息</p>
@@ -35,6 +35,25 @@
 
 <script type='text/javascript'>
 $(document).ready(function() {
+	 $('.reply_topic').click(function() {
+                var $me = $(this);
+                var message_id = $me.parent().parent().attr('message_id');
+                var data = {
+                        message_id: message_id,
+                        _csrf: '<%- csrf %>'
+                };
+                $.post('/messages/mark_read', data, function(data) {
+                        if (data.status === 'success') {
+                                $me.parent().parent().toggleClass('message');
+                                $me.parent().parent().find('.unread').each(function(index) {
+                                        $($me.parent().parent().find('.unread')[index]).removeClass('unread');
+                                        var count = parseInt($('.messages_count').html()) - 1;
+                                        $('.messages_count').html(count);
+                                })
+                        }
+                }, 'json');
+        });
+
 	$('.mark_read_btn').click(function() {
 		var $me = $(this);
 		var message_id = $me.parent().attr('message_id');
