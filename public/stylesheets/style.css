@@ -46,7 +46,7 @@
 #footer {
   height: 200px;
   clear: both;
-  background: hsla(0, 100%, 100%, 1);
+  background: #33342d;
   position: relative;
   box-shadow: 0px -1px 0px hsl(0,0%,90%);
   margin-top: 8px;
@@ -54,8 +54,9 @@
 #footer_main {
   width: 1040px;
   margin: 0px auto;
-  color: #e2e2e2;
+  color: #eee;
   padding: 20px 0px;
+  line-height: 30px;
 }
 #mark_all_messages_btn {
   margin: 5px 0px;
@@ -752,4 +753,12 @@ textarea.editor {
 .reply_content table tr th>:last-child,
 .reply_content table tr td>:last-child {
   margin-bottom:0;
+}
+
+.link_on_black {
+  color: hsl(240,40%,70%);
+}
+.link_on_black:hover {
+  text-decoration: none;
+  color: hsl(240,40%,80%);
 }
