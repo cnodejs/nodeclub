@@ -59,6 +59,7 @@
         <%- markdown(topic.content) %>
       </div>
       <hr>
+      <!-- disable all tags before tags is more robust a feature
       <div class="tags">
         <% if (topic.tags.length > 0) { %>
         <span class='col_fade'>标签：</span> 
@@ -67,6 +68,7 @@
         <span class='col_fade'>标签：无</span>  
         <% } %>
       </div>
+      -->
       <div class="changes">
         <span class='col_fade'>
           <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_create_at %> 发布
