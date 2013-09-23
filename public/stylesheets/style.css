@@ -289,10 +289,21 @@ a.tag_big {
   padding: 1px 2px;
 }
 .user_avatar img, .user_big_avatar img {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
   border-radius: 20px;
-  box-shadow: 0px 0px 6px hsla(0, 27%, 42%, 0.5);
+  box-shadow: 0px 0px 4px hsl(0, 10%, 60%);
   width: 40px;
   height: 40px;
+  -webkit-transition-timing-function: ease-in;
+  -webkit-transition-duration: 0.1s;
+  border: 2px white solid;
+}
+.user_avatar img:hover, .user_big_avatar img:hover {
+  -webkit-transition-timing-function: cubic-bezier(0.5, -0.5, 0.4, 2.5);
+  -webkit-transform: scale(1.2) rotate(6deg);
+  -webkit-transition-duration: 0.4s;
+  box-shadow: -2px 1px 10px hsl(0, 10%, 70%);
 }
 a.user_avatar:hover {
   text-decoration: none;
