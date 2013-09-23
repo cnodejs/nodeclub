@@ -103,7 +103,8 @@ a.light:hover {
   box-shadow: 0 0 1px hsl(0, 0%, 40%);
 }
 .panel .header {
-  padding: 7px 10px;
+  padding: 0px 10px;
+  line-height: 28px;
   background-color: hsl(0,0%,93%);
 }
 .panel .moon {
@@ -696,10 +697,6 @@ textarea.editor {
 
 #submit_btn {
   margin-top: 10px;
-}
-
-#content .header {
-  line-height: 200%;
 }
 
 .marked_icon {
