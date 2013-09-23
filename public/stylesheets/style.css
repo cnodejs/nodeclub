@@ -346,8 +346,9 @@ a.user_avatar:hover {
 .user .user_avatar {
   max-width: 50px;
 }
-.user .user_name {
+.user_name {
   font-size: 16px;
+  margin-left: 10px;
 }
 .reply_author {
   font-size: 14px;

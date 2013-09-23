@@ -19,7 +19,7 @@
 				<button class='btn follow_btn' action='un_follow'>取消关注</button>
 				<% } %>
 			<% } %>
-			<a class='dark'><%= user.name %></a>
+			<a class='dark user_name'><%= user.name %></a>
 			<div class='col_fade'>
 				<span>
 					<img src="<%- config.site_static_host %>/public/images/cert_icon&16.png" />
@@ -78,7 +78,7 @@
 		<% if (locals.recent_topics && recent_topics.length > 0) { %>
 		<%- partial('topic/abstract', { collection: recent_topics, as: 'topic' }) %>
 		<div class='cell more'>
-			<a class='dark' href="/user/<%= user.name %>/topics">查看更多»</a>
+			<a class='dark user_name' href="/user/<%= user.name %>/topics">查看更多»</a>
 		</div>
 		<% } else { %>
 		<div class='inner'>
@@ -94,7 +94,7 @@
 		<% if (locals.recent_replies && recent_replies.length > 0) { %>
 		<%- partial('topic/abstract', { collection: recent_replies, as: 'topic' }) %>
 		<div class='cell more'>
-			<a class='dark' href="/user/<%= user.name %>/replies">查看更多»</a>
+			<a class='dark user_name' href="/user/<%= user.name %>/replies">查看更多»</a>
 		</div>
 		<% } else { %>
 		<div class='inner'>
