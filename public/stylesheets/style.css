@@ -655,7 +655,8 @@ textarea[id^=wmd-input] {
   font-size: 14px;
   line-height: 20px;
   font-family: Consolas, Source Code Pro, Monaco, Ubuntu Mono, "Liberation Mono", Courier,
-    'Wenquanyi Micro Hei Mono', monospace;
+    'Hiragino Sans GB', 'Wenquanyi Micro Hei Mono', monospace;
+    /* mono fonts should be dropped one day */
 }
 #main .topic_content p a.content_img,
 #main .reply_content p a.content_img {
