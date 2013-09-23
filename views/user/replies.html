@@ -9,9 +9,9 @@
 			</ul>
 		</div>
 		<div class='inner'>
-			<div class='user_big_avatar'>
+			<span class='user_avatar'>
 				<img src="<%= user.avatar_url %>" title="<%= user.name %>" />
-			</div>
+			</span>
 			<% if (locals.current_user && current_user._id != user._id) { %>
 				<% if (!locals.relation) { %>
 				<button class='btn btn-success follow_btn' action='follow'>加入关注</button>

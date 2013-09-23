@@ -288,7 +288,7 @@ a.tag_big {
   border-radius: 3px;
   padding: 1px 2px;
 }
-.user_avatar img, .user_big_avatar img {
+.user_avatar img {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   border-radius: 20px;
@@ -299,7 +299,7 @@ a.tag_big {
   -webkit-transition-duration: 0.1s;
   border: 2px white solid;
 }
-.user_avatar img:hover, .user_big_avatar img:hover {
+.user_avatar img:hover {
   -webkit-transition-timing-function: cubic-bezier(0.5, -0.5, 0.4, 2.5);
   -webkit-transform: scale(1.2) rotate(6deg);
   -webkit-transition-duration: 0.4s;
@@ -316,14 +316,6 @@ a.user_avatar:hover {
   font-size: 16px;
 }
 .cell .user_avatar {
-}
-.user_big_avatar {
-  float: left;
-  margin-right: 10px;
-}
-.user_big_avatar img {
-  width: 40px;
-  height: 40px;
 }
 .user_icon {
   margin-right: 7px;
