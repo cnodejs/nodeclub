@@ -115,14 +115,11 @@ a.light:hover {
 .panel .inner .unstyled li div {
   text-overflow: ellipsis;
 }
-.panel .inner.topic,
-.panel .inner.reply,
-.panel .inner.userinfo,
-.panel .inner.post {
+.panel .inner {
   padding: 10px;
 }
-#sidebar .panel .inner {
-  padding: 10px;
+.panel .inner.nopadding {
+  padding: 0px;
 }
 .panel>.cell:last-child {
   box-shadow: none;
