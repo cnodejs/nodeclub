@@ -3,7 +3,7 @@
 		<a  class='user_avatar'  href="/user/<%= user.name %>">
 			<img src="<%= user.avatar_url %>" title="<%= user.name %>" />
 		</a>
-		<span class='user_name'><a class='dark' href="/user/<%= user.name %>"><%= user.name %></a></span>
+		<span class='username'><a class='dark' href="/user/<%= user.name %>"><%= user.name %></a></span>
 
 		<% if (locals.current_user && current_user._id != user._id) { %>
 			<% if (!locals.relation) { %>
