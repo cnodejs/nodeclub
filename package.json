@@ -27,7 +27,8 @@
     "mocha": "*",
     "rewire": "*",
     "jscover": "*",
-    "pedding": "*"
+    "pedding": "*",
+    "supertest": "~0.8.0"
   },
   "scripts": {
     "test": "make test"
