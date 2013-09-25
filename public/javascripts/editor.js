@@ -45,6 +45,44 @@ function createEpicEditor (textarea) {
   };
 
   var editor = new EpicEditor(opts);
+
+  // 进入全屏模式时，给编辑器增加一些额外的样式
+  function _fullscreenenter ($e) {
+    var d = {
+      margin:  '90px 8px 8px 8px',
+      padding: '8px',
+      border:  '1px solid #aaa',
+      width:    $e.width() - 34,
+      height:   $e.height() - 114
+    };
+    setTimeout(function () {
+      $e.css(d);
+    }, 100);
+  }
+  function _fullscreenexit ($e) {
+    $e.css({
+      margin:  '0',
+      padding: '0',
+      border:  'none'
+    });
+  }
+  function fullscreenenter () {
+    _fullscreenenter($(editor.editorIframe));
+    _fullscreenenter($(editor.previewerIframe));
+    window.e = editor;
+  }
+  function fullscreenexit () {
+    _fullscreenexit($(editor.editorIframe));
+    _fullscreenexit($(editor.previewerIframe));
+  }
+  editor.on('fullscreenenter', fullscreenenter);
+  editor.on('fullscreenexit', fullscreenexit);
+  $(window).resize(function () {
+    if (editor.is('fullscreen')) {
+      fullscreenenter();
+    }
+  });
+
   return editor;
 }
 
