@@ -34,7 +34,7 @@ $ make test-cov
     
 ## 其它
 
-小量修改了两个依赖模块：node-markdown，express
+小量修改了两个依赖模块：node-markdown
  
 * node-markdown/lib/markdown.js  
 
@@ -50,12 +50,6 @@ allowedAttributes 添加：
 ```
 embed:'src|quality|width|height|align|allowScriptAccess|allowFullScreen|mode|type'
 table: 'class'
-```
-
-* express/node_modules/connect/lib/middleware/csrf.js 添加：
-
-```javascript
-if (req.body && req.body.user_action === 'upload_image') return next();
 ```
 
 ## 关于pull request
