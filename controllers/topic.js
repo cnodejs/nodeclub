@@ -15,6 +15,9 @@ var Tag = require('../proxy').Tag;
 var Relation = require('../proxy').Relation;
 var TopicTag = require('../proxy').TopicTag;
 var TopicCollect = require('../proxy').TopicCollect;
+var Config = require('../config').config;
+var Captcha = require('../services/captcha');
+
 
 var EventProxy = require('eventproxy');
 var Util = require('../libs/util');
@@ -100,11 +103,17 @@ exports.index = function (req, res, next) {
 };
 
 exports.create = function (req, res, next) {
+  if (!can_create(req.session.user)) {
+    res.redirect('/');
+    return; 
+  }
+
   Tag.getAllTags(function (err, tags) {
     if (err) {
       return next(err);
     }
-    res.render('topic/edit', {tags: tags});
+    req.session.captcha = Math.random();
+    res.render('topic/edit', {tags: tags, captcha: req.session.captcha});
   });
 };
 
@@ -115,6 +124,24 @@ exports.put = function (req, res, next) {
   var topic_tags = [];
   if (req.body.topic_tags !== '') {
     topic_tags = req.body.topic_tags.split(',');
+  }
+  
+  if (!valid_captcha(req)) {
+    req.session.captcha = Math.random();
+    res.render('topic/edit', {
+      title: title,
+      content: content,
+      captcha: req.session.captcha,
+      edit_error: "验证码错误！"
+    });
+    return ;
+  } else {
+    req.session.captcha = null;
+  }
+
+  if (!can_create(req.session.user)) {
+    res.redirect('/');
+    return; 
   }
 
   if (title === '') {
@@ -461,3 +488,19 @@ exports.de_collect = function (req, res, next) {
     req.session.user.collect_topic_count -= 1;
   });
 };
+
+
+
+
+/////////////////////////////////////////////
+
+function can_create(user) {
+  return ((new Date) - Date.parse(user.create_at)) >= Config.first_post_interval
+}
+
+
+function valid_captcha(req) {
+  return Captcha.get_text(req.session.captcha) == req.body.captcha;
+}
+
+
