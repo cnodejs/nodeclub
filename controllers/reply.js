@@ -22,35 +22,46 @@ exports.add = function (req, res, next) {
     return;
   }
 
-  var ep = EventProxy.create('reply_saved', 'message_saved', 'score_saved', function (reply) {
-    res.redirect('/topic/' + topic_id + '#' + reply._id);
-  });
+  var ep = EventProxy.create();
   ep.fail(next);
 
-  ep.on('reply_saved', function (reply) {
-    Topic.getTopic(topic_id, ep.done(function (topic) {
-      if (topic.author_id.toString() !== req.session.user._id.toString()) {
-        message.sendReplyMessage(topic.author_id, req.session.user._id, topic._id, reply._id);
-      }
-      ep.emit('message_saved');
+  Topic.getTopic(topic_id, ep.doneLater(function (topic) {
+    if (!topic) {
+      ep.unbind();
+      // just 404 page
+      return next();
+    }
+    ep.emit('topic');
+  }));
+
+  ep.on('topic', function (topic) {
+    Reply.newAndSave(content, topic_id, req.session.user._id, ep.done(function (reply) {
+      Topic.updateLastReply(topic_id, reply._id, ep.done(function () {
+        ep.emit('reply_saved', reply);
+        //发送at消息
+        at.sendMessageToMentionUsers(content, topic_id, req.session.user._id, reply._id);
+      }));
+    }));
+
+    User.getUserById(req.session.user._id, ep.done(function (user) {
+      user.score += 5;
+      user.reply_count += 1;
+      user.save();
+      req.session.user.score += 5;
+      ep.emit('score_saved');
     }));
   });
 
-  Reply.newAndSave(content, topic_id, req.session.user._id, ep.done(function (reply) {
-    Topic.updateLastReply(topic_id, reply._id, ep.done(function () {
-      ep.emit('reply_saved', reply);
-      //发送at消息
-      at.sendMessageToMentionUsers(content, topic_id, req.session.user._id, reply._id);
-    }));
-  }));
+  ep.on('reply_saved', 'topic', function (reply, topic) {
+    if (topic.author_id.toString() !== req.session.user._id.toString()) {
+      message.sendReplyMessage(topic.author_id, req.session.user._id, topic._id, reply._id);
+    }
+    ep.emit('message_saved');
+  });
 
-  User.getUserById(req.session.user._id, ep.done(function (user) {
-    user.score += 5;
-    user.reply_count += 1;
-    user.save();
-    req.session.user.score += 5;
-    ep.emit('score_saved');
-  }));
+  ep.all('reply_saved', 'message_saved', 'score_saved', function (reply) {
+    res.redirect('/topic/' + topic_id + '#' + reply._id);
+  });
 };
 
 /**
@@ -112,7 +123,7 @@ exports.delete = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    
+
     if (!reply) {
       res.json({status: 'failed'});
       return;
