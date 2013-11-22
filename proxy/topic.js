@@ -172,7 +172,7 @@ exports.getFullTopic = function (id, callback) {
  */
 exports.updateLastReply = function (topicId, replyId, callback) {
   Topic.findOne({_id: topicId}, function (err, topic) {
-    if (err) {
+    if (err || !topic) {
       return callback(err);
     }
     topic.last_reply = replyId;

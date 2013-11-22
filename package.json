@@ -20,6 +20,7 @@
     "loader": "0.0.5"
   },
   "devDependencies": {
+    "supertest": "*",
     "should": "*",
     "mocha": "*",
     "rewire": "*",
