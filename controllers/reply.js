@@ -52,7 +52,7 @@ exports.add = function (req, res, next) {
     }));
   });
 
-  ep.on('reply_saved', 'topic', function (reply, topic) {
+  ep.all('reply_saved', 'topic', function (reply, topic) {
     if (topic.author_id.toString() !== req.session.user._id.toString()) {
       message.sendReplyMessage(topic.author_id, req.session.user._id, topic._id, reply._id);
     }
