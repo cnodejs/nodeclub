@@ -31,7 +31,7 @@ exports.add = function (req, res, next) {
       // just 404 page
       return next();
     }
-    ep.emit('topic');
+    ep.emit('topic', topic);
   }));
 
   ep.on('topic', function (topic) {
