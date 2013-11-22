@@ -1,6 +1,6 @@
 {
   "name": "club",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "main": "app.js",
   "private": true,
   "customHost": ["cnodejs.org", "club.cnodejs.org"],
