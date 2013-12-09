@@ -8,11 +8,14 @@
         <%- partial('user/card',{ object: locals.user || locals.current_user, as: 'user' }) %>
       </div>
       <% } else { %>
+      <div class='header'>
+        登录信息
+      </div>
       <div class='inner'>
         <p><%= config.description %></p>
         <div>
-          <a href='/signup'><button class='btn'>现在注册</button></a>
-          <span>已注册用户请<a class='light' href='/signin'> 登录</a></span>
+          <a class='light' href='/signin'><button class="btn">登录</button></a>
+          或者 <a href='/signup'><button class='btn'>注册</button></a>
         </div>
       </div>
     <% } %>
@@ -22,7 +25,7 @@
     <div class='header'>
       <!-- <img src='<%- config.site_static_host %>/public/images/tag_icon&16.png' title='标签'/> -->
       <!-- CNode社区宣传通告 -->
-      <span class="index_notify">社区消息
+      <span class="index_notify">社区消息</span>
     </div>
     <div class='inner'>
       <div><a href="/topic/4fa69d90bac222c3780576d8" target="_blank">如何获得NodeAppEngine邀请码?</a></div>

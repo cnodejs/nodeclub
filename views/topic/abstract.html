@@ -1,6 +1,6 @@
 <div class='cell'>
 
-  <div class='user_avatar block'>
+  <span class='user_avatar block'>
     <% if(topic.reply) {%>
       <a href="/user/<%= topic.reply.author.name %>">
         <img src="<%= topic.reply.author.avatar_url %>"
@@ -15,7 +15,7 @@
         />
       </a>
     <% } %>
-  </div>
+  </span>
 
   <div class='block count'>
     <a href="/topic/<%= topic._id %><%- topic.reply ? '#' + topic.reply._id : '' %>"title="回复数"><%= topic.reply_count %></a

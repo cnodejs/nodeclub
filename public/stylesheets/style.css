@@ -33,7 +33,6 @@
 }
 #content .panel {
   background: hsla(0, 0%, 100%, 1);
-  box-shadow: 0px 0px 1px hsl(0,0%,40%);
 }
 #sidebar .panel {
   background: hsla(0, 0%, 100%, 1);
@@ -46,7 +45,7 @@
 #footer {
   height: 200px;
   clear: both;
-  background: hsla(0, 100%, 100%, 1);
+  background: #33342d;
   position: relative;
   box-shadow: 0px -1px 0px hsl(0,0%,90%);
   margin-top: 8px;
@@ -54,8 +53,9 @@
 #footer_main {
   width: 1040px;
   margin: 0px auto;
-  color: #e2e2e2;
+  color: #eee;
   padding: 20px 0px;
+  line-height: 30px;
 }
 #mark_all_messages_btn {
   margin: 5px 0px;
@@ -100,10 +100,11 @@ a.light:hover {
 
 .panel {
   margin-bottom: 8px;
-  box-shadow: 0 0 1px hsl(0, 0%, 40%);
+  box-shadow: 0px 0 1px hsl(0, 0%, 60%);
 }
 .panel .header {
-  padding: 7px 10px;
+  padding: 0px 10px;
+  line-height: 28px;
   background-color: hsl(0,0%,93%);
 }
 .panel .moon {
@@ -115,14 +116,11 @@ a.light:hover {
 .panel .inner .unstyled li div {
   text-overflow: ellipsis;
 }
-.panel .inner.topic,
-.panel .inner.reply,
-.panel .inner.userinfo,
-.panel .inner.post {
+.panel .inner {
   padding: 10px;
 }
-#sidebar .panel .inner {
-  padding: 10px;
+.panel .inner.nopadding {
+  padding: 0px;
 }
 .panel>.cell:last-child {
   box-shadow: none;
@@ -139,6 +137,7 @@ a.light:hover {
 }
 .cell:last-child {
   border-bottom: none;
+  box-shadow: none;
 }
 .cell .block {
   float: left;
@@ -289,11 +288,22 @@ a.tag_big {
   border-radius: 3px;
   padding: 1px 2px;
 }
-.user_avatar img, .user_big_avatar img {
+.user_avatar img {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
   border-radius: 20px;
-  box-shadow: 0px 0px 6px hsla(0, 27%, 42%, 0.5);
+  box-shadow: 0px 0px 4px hsl(0, 10%, 60%);
   width: 40px;
   height: 40px;
+  -webkit-transition-timing-function: ease-in;
+  -webkit-transition-duration: 0.1s;
+  border: 2px white solid;
+}
+.user_avatar img:hover {
+  -webkit-transition-timing-function: cubic-bezier(0.5, -0.5, 0.4, 2.5);
+  -webkit-transform: scale(1.2) rotate(6deg);
+  -webkit-transition-duration: 0.4s;
+  box-shadow: -2px 1px 10px hsl(0, 10%, 70%);
 }
 a.user_avatar:hover {
   text-decoration: none;
@@ -302,18 +312,10 @@ a.user_avatar:hover {
   vertical-align: middle;
   width: 48px;
 }
-.user_card .user_name {
+.user_card .username {
   font-size: 16px;
 }
 .cell .user_avatar {
-}
-.user_big_avatar {
-  float: left;
-  margin-right: 10px;
-}
-.user_big_avatar img {
-  width: 40px;
-  height: 40px;
 }
 .user_icon {
   margin-right: 7px;
@@ -344,8 +346,9 @@ a.user_avatar:hover {
 .user .user_avatar {
   max-width: 50px;
 }
-.user .user_name {
+.username {
   font-size: 16px;
+  margin-left: 10px;
 }
 .reply_author {
   font-size: 14px;
@@ -643,9 +646,10 @@ textarea[id^=wmd-input] {
 .reply_content p,
 .reply_form p {
   font-size: 14px;
-  line-height: 20px;
+  line-height: 1.5em;
   font-family: Consolas, Source Code Pro, Monaco, Ubuntu Mono, "Liberation Mono", Courier,
-    'Wenquanyi Micro Hei Mono', monospace;
+    'Hiragino Sans GB', 'Wenquanyi Micro Hei Mono', monospace;
+    /* mono fonts should be dropped one day */
 }
 #main .topic_content p a.content_img,
 #main .reply_content p a.content_img {
@@ -701,10 +705,6 @@ textarea.editor {
   margin-top: 10px;
 }
 
-#content .header {
-  line-height: 200%;
-}
-
 .marked_icon {
   float: right;
 }
@@ -758,4 +758,12 @@ textarea.editor {
 .reply_content table tr th>:last-child,
 .reply_content table tr td>:last-child {
   margin-bottom:0;
+}
+
+.bright {
+  color: hsl(240,40%,70%);
+}
+.bright:hover {
+  text-decoration: none;
+  color: hsl(240,40%,80%);
 }

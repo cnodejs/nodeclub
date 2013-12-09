@@ -3,7 +3,10 @@
   "version": "0.3.6",
   "main": "app.js",
   "private": true,
-  "customHost": ["cnodejs.org", "club.cnodejs.org"],
+  "customHost": [
+    "cnodejs.org",
+    "club.cnodejs.org"
+  ],
   "dependencies": {
     "express": "2.5.11",
     "ejs": "0.8.4",
@@ -25,9 +28,27 @@
     "mocha": "*",
     "rewire": "*",
     "jscover": "*",
-    "pedding": "*"
+    "pedding": "*",
+    "supertest": "~0.8.0"
   },
   "scripts": {
     "test": "make test"
+  },
+  "description": "基于 Node.js 的社区系统",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cnodejs/nodeclub.git"
+  },
+  "keywords": [
+    "forum",
+    "CNode"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cnodejs/nodeclub/issues"
   }
 }

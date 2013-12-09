@@ -47,7 +47,7 @@
         <li class='active'>话题详情</li>
       </ul>
     </div>
-    <div class='inner topic'>
+    <div class='inner'>
       <h3>
       <% if (topic.top) { %>
         <span class='put_top'>置顶</span>
@@ -59,6 +59,7 @@
         <%- markdown(topic.content) %>
       </div>
       <hr>
+      <!-- disable all tags before tags is more robust a feature
       <div class="tags">
         <% if (topic.tags.length > 0) { %>
         <span class='col_fade'>标签：</span> 
@@ -67,6 +68,7 @@
         <span class='col_fade'>标签：无</span>  
         <% } %>
       </div>
+      -->
       <div class="changes">
         <span class='col_fade'>
           <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %></a> 在 <%= topic.friendly_create_at %> 发布
@@ -119,7 +121,7 @@
     <div class='header'>
       <span class='col_fade'>添加回复</span>
     </div>
-    <div class='inner reply'>
+    <div class='inner'>
       <form id='reply_form' action='/<%= topic._id %>/reply' method='post'>
         <div class='tabbable'>
           <ul class='nav nav-pills'>

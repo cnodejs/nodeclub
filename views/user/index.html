@@ -8,10 +8,10 @@
 				<li class='active'><%= user.name %></li>
 			</ul>
 		</div>
-		<div class='inner userinfo'>
-			<div class='user_big_avatar'>
+		<div class='inner'>
+			<span class='user_avatar'>
 				<img src="<%= user.avatar_url %>" class="user_avatar" title="<%= user.name %>" />
-			</div>
+			</span>
 			<% if (locals.current_user && current_user._id != user._id) { %>
 				<% if (!locals.relation) { %>
 				<button class='btn btn-success follow_btn' action='follow'>加入关注</button>
@@ -19,7 +19,7 @@
 				<button class='btn follow_btn' action='un_follow'>取消关注</button>
 				<% } %>
 			<% } %>
-			<a class='dark'><%= user.name %></a>
+			<a class='dark username'><%= user.name %></a>
 			<div class='col_fade'>
 				<span>
 					<img src="<%- config.site_static_host %>/public/images/cert_icon&16.png" />
@@ -78,7 +78,7 @@
 		<% if (locals.recent_topics && recent_topics.length > 0) { %>
 		<%- partial('topic/abstract', { collection: recent_topics, as: 'topic' }) %>
 		<div class='cell more'>
-			<a class='dark' href="/user/<%= user.name %>/topics">查看更多»</a>
+			<a class='dark username' href="/user/<%= user.name %>/topics">查看更多»</a>
 		</div>
 		<% } else { %>
 		<div class='inner'>
@@ -94,7 +94,7 @@
 		<% if (locals.recent_replies && recent_replies.length > 0) { %>
 		<%- partial('topic/abstract', { collection: recent_replies, as: 'topic' }) %>
 		<div class='cell more'>
-			<a class='dark' href="/user/<%= user.name %>/replies">查看更多»</a>
+			<a class='dark username' href="/user/<%= user.name %>/replies">查看更多»</a>
 		</div>
 		<% } else { %>
 		<div class='inner'>

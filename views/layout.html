@@ -63,7 +63,7 @@
             <% } %>
             <% if (locals.current_user) { %>
             <li>
-              <a href="/user/<%= current_user.name %>" title="查看我的主页"> Me </a>
+              <a href="/user/<%= current_user.name %>" title="查看我的主页"> 我的主页 </a>
             </li>
             <li><a href='/setting'>设置</a></li>
             <li>
@@ -87,17 +87,14 @@
     <div id='footer'>
       <div id='footer_main'>
         <div class="links">
-          <a class='dark' href='/about'><strong>关于</strong></a>
-          |
-          <a class='dark' href='/faq'><strong>FAQ</strong></a>
-          |
-          <a class='dark' href='https://github.com/cnodejs/nodeclub/' target="_blank"><strong>Github</strong></a>
-          |
-          <a class='dark' href='/rss' target="_blank"><strong>RSS</strong></a>
+          <a class='bright' href='/about'><strong>关于</strong></a>
+          <a class='bright' href='/faq'><strong>FAQ</strong></a>
+          <a class='bright' href='https://github.com/cnodejs/nodeclub/' target="_blank"><strong>Github</strong></a>
+          <a class='bright' href='/rss' target="_blank"><strong>RSS</strong></a>
         </div>
-        <div class='col_fade'>
+        <div class='footer_words'>
           &copy; 2012 - 2013 <br>本社区为开源系统，版本: <%= config.version %> ，欢迎贡献代码<br>
-          由<a href='http://cnodejs.net' target='_blank'> NAE </a>为 <%= config.name %> 提供动力
+          由<a class="bright" href='http://cnodejs.net' target='_blank'> NAE </a>为 <%= config.name %> 提供动力
         </div>
       </div>
     </div>

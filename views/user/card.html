@@ -3,7 +3,7 @@
 		<a  class='user_avatar'  href="/user/<%= user.name %>">
 			<img src="<%= user.avatar_url %>" title="<%= user.name %>" />
 		</a>
-		<span class='user_name'><a class='dark' href="/user/<%= user.name %>"><%= user.name %></a></span>
+		<span class='username'><a class='dark' href="/user/<%= user.name %>"><%= user.name %></a></span>
 
 		<% if (locals.current_user && current_user._id != user._id) { %>
 			<% if (!locals.relation) { %>
@@ -15,8 +15,10 @@
 
 		<div class='board clearfix'>
 			<div class='floor'>
+			  <!-- disable tags before tags becomes a more robust feature
 				<a href='/user/<%= user.name %>/tags/'><span class='big'><%= user.collect_tag_count %></span> 标签收藏</a>
 				<div class='space'></div>
+				-->
 				<a href='/user/<%= user.name %>/collections'><span class='big'><%= user.collect_topic_count %></span> 话题收藏</a>
 			</div>
 			<div class='floor'>
