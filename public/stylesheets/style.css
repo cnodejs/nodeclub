@@ -651,7 +651,7 @@ textarea[id^=wmd-input] {
 #main .reply_content p a.content_img {
   color: hsl(0,0%,40%);
   box-shadow: 1px 1px 15px hsla(0, 21%, 60%, 0.6);
-  display: block;
+  display: inline-block;
 }
 div[class$=content] > blockquote > p {
   font-size: 14px;
