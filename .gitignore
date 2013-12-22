@@ -15,3 +15,6 @@ assets.json
 
 # Ignore Windows desktop setting file
 desktop.ini
+
+# Ignore Vim temporary files
+*.swp
