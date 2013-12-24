@@ -4,7 +4,8 @@ var Models = require('../models');
 var User = Models.User;
 
 exports.callback = function (req, res, next) {
-  User.findOne({githubAccessToken: req.user.accessToken}, function (err, user) {
+  var profile = req.user;
+  User.findOne({githubId: profile.id}, function (err, user) {
     if (err) {
       return next(err);
     }
@@ -12,7 +13,7 @@ exports.callback = function (req, res, next) {
       sign.gen_session(user, res);
       return res.redirect('/');
     } else {
-      req.session.profile = req.user;
+      req.session.profile = profile;
       return res.redirect('/auth/github/new');
     }
   });
@@ -32,7 +33,7 @@ exports.create = function (req, res, next) {
       pass: profile.accessToken,
       email: profile.emails[0].value,
       avatar: profile._json.avatar_url,
-      githubAccessToken: profile.accessToken,
+      githubId: profile.id,
     });
     user.save(function (err) {
       if (err) {
@@ -50,7 +51,7 @@ exports.create = function (req, res, next) {
         if (!user) {
           return res.render('sign/signin', { error: '账号名或密码错误。' });
         }
-        user.githubAccessToken = profile.accessToken;
+        user.githubId = profile.id;
         user.save(function (err) {
           if (err) {
             return next(err);
