@@ -335,6 +335,8 @@ function gen_session(user, res) {
   res.cookie(config.auth_cookie_name, auth_token, {path: '/', maxAge: 1000 * 60 * 60 * 24 * 30}); //cookie 有效期30天
 }
 
+exports.gen_session = gen_session;
+
 function encrypt(str, secret) {
   var cipher = crypto.createCipher('aes192', secret);
   var enc = cipher.update(str, 'utf8', 'hex');

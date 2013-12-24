@@ -11,9 +11,12 @@ var path = require('path');
 var Loader = require('loader');
 var express = require('express');
 var ndir = require('ndir');
-var pkg = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json')));
 var config = require('./config').config;
-config.version = pkg.version;
+var passport = require('passport');
+var Models = require('./models');
+var User = Models.User;
+var GitHubStrategy = require('passport-github').Strategy;
+var githubStrategyMiddleware = require('./midderwares/github_strategy');
 
 // assets
 var assets = {};
@@ -53,6 +56,7 @@ app.configure(function () {
   app.use(express.session({
     secret: config.session_secret
   }));
+  app.use(passport.initialize());
   // custom middleware
   app.use(require('./controllers/sign').auth_user);
 
@@ -99,6 +103,22 @@ app.configure('production', function () {
   app.use(express.errorHandler());
   app.set('view cache', true);
 });
+
+
+// github oauth
+passport.serializeUser(function (user, done) {
+  done(null, user._id);
+});
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
+    if (err) {
+      return done(err);
+    }
+    done(null, user);
+  });
+});
+passport.use(new GitHubStrategy(config.GITHUB_OAUTH, githubStrategyMiddleware));
+
 
 // routes
 routes(app);

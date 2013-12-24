@@ -22,14 +22,18 @@ var tools = require('./controllers/tools');
 var auth = require('./midderwares/auth');
 var limit = require('./midderwares/limit');
 var status = require('./controllers/status');
+var github = require('./controllers/github');
+var passport = require('passport');
+
 
 module.exports = function (app) {
   // home page
   app.get('/', site.index);
 
   // sign up, login, logout
-  app.get('/signup', sign.showSignup);
-  app.post('/signup', sign.signup);
+  // app.get('/signup', sign.showSignup);
+  // app.post('/signup', sign.signup);
+  app.get('/signup', passport.authenticate('github'));
   app.get('/signout', sign.signout);
   app.get('/signin', sign.showLogin);
   app.post('/signin', sign.login);
@@ -116,4 +120,10 @@ module.exports = function (app) {
 
   // site status
   app.get('/status', status.status);
+
+  // github oauth
+  app.get('/auth/github', passport.authenticate('github'));
+  app.get('/auth/github/callback',
+    passport.authenticate('github', { failureRedirect: '/signin' }),
+    github.callback);
 };

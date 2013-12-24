@@ -111,5 +111,10 @@ exports.config = {
   plugins: [
     // { name: 'onehost', options: { host: 'localhost.cnodejs.org' } },
     // { name: 'wordpress_redirect', options: {} }
-  ]
+  ],
+  GITHUB_OAUTH: {
+    clientID: 'your GITHUB_CLIENT_ID',
+    clientSecret: 'your GITHUB_CLIENT_SECRET',
+    callbackURL: 'http://cnodejs.org/auth/github/callback',
+  },
 };
