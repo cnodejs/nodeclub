@@ -281,7 +281,7 @@ function getAvatarURL(user) {
 // auth_user middleware
 exports.auth_user = function (req, res, next) {
   if (req.session.user) {
-    if (config.admins[req.session.user.name]) {
+    if (config.admins.hasOwnProperty(req.session.user.name)) {
       req.session.user.is_admin = true;
     }
     Message.getMessagesCount(req.session.user._id, function (err, count) {
@@ -309,7 +309,7 @@ exports.auth_user = function (req, res, next) {
         return next(err);
       }
       if (user) {
-        if (config.admins[user.name]) {
+        if (config.admins.hasOwnProperty(user.name)) {
           user.is_admin = true;
         }
         Message.getMessagesCount(user._id, function (err, count) {
