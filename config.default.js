@@ -3,12 +3,13 @@
  */
 
 var path = require('path');
+var pkg = require('./package.json');
 
 exports.config = {
   debug: true,
   name: 'Node Club',
   description: 'Node Club 是用Node.js开发的社区软件',
-  version: '0.2.2',
+  version: pkg.version,
 
   // site settings
   site_headers: [
@@ -50,7 +51,7 @@ exports.config = {
     //最多获取的RSS Item数量
     max_rss_items: 50
   },
- 
+
   // site links
   site_links: [
     {
@@ -110,5 +111,10 @@ exports.config = {
   plugins: [
     // { name: 'onehost', options: { host: 'localhost.cnodejs.org' } },
     // { name: 'wordpress_redirect', options: {} }
-  ]
+  ],
+  GITHUB_OAUTH: {
+    clientID: 'your GITHUB_CLIENT_ID',
+    clientSecret: 'your GITHUB_CLIENT_SECRET',
+    callbackURL: 'http://cnodejs.org/auth/github/callback',
+  },
 };

@@ -3,7 +3,10 @@
   "version": "0.3.6",
   "main": "app.js",
   "private": true,
-  "customHost": ["cnodejs.org", "club.cnodejs.org"],
+  "customHost": [
+    "cnodejs.org",
+    "club.cnodejs.org"
+  ],
   "dependencies": {
     "express": "2.5.11",
     "ejs": "0.8.4",
@@ -16,8 +19,10 @@
     "data2xml": "0.8.0",
     "utility": "0.0.x",
     "marked-prettyprint": "0.2.8",
-    "xss": ">= 0.0.9",
-    "loader": "0.0.5"
+    "xss": "0.0.x",
+    "loader": "0.0.5",
+    "passport": "~0.1.17",
+    "passport-github": "~0.1.5"
   },
   "devDependencies": {
     "supertest": "*",
