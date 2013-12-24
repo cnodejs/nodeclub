@@ -107,15 +107,10 @@ app.configure('production', function () {
 
 // github oauth
 passport.serializeUser(function (user, done) {
-  done(null, user._id);
+  done(null, user);
 });
-passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err, user) {
-    if (err) {
-      return done(err);
-    }
-    done(null, user);
-  });
+passport.deserializeUser(function (user, done) {
+  done(null, user);
 });
 passport.use(new GitHubStrategy(config.GITHUB_OAUTH, githubStrategyMiddleware));
 

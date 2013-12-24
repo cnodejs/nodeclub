@@ -126,4 +126,6 @@ module.exports = function (app) {
   app.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: '/signin' }),
     github.callback);
+  app.get('/auth/github/new', github.new);
+  app.post('/auth/github/create', github.create);
 };
