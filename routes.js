@@ -24,6 +24,7 @@ var limit = require('./midderwares/limit');
 var status = require('./controllers/status');
 var github = require('./controllers/github');
 var passport = require('passport');
+var configMiddleware = require('./midderwares/conf');
 
 
 module.exports = function (app) {
@@ -121,7 +122,7 @@ module.exports = function (app) {
   app.get('/status', status.status);
 
   // github oauth
-  app.get('/auth/github', passport.authenticate('github'));
+  app.get('/auth/github', configMiddleware.github, passport.authenticate('github'));
   app.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: '/signin' }),
     github.callback);
