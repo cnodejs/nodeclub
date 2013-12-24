@@ -14,7 +14,7 @@ var UserSchema = new Schema({
   profile: { type: String },
   weibo: { type: String },
   avatar: { type: String },
-  githubId: { type: String, unique: true },
+  githubId: { type: String, index: true },
 
   score: { type: Number, default: 0 },
   topic_count: { type: Number, default: 0 },
