@@ -31,9 +31,8 @@ module.exports = function (app) {
   app.get('/', site.index);
 
   // sign up, login, logout
-  // app.get('/signup', sign.showSignup);
-  // app.post('/signup', sign.signup);
-  app.get('/signup', passport.authenticate('github'));
+  app.get('/signup', sign.showSignup);
+  app.post('/signup', sign.signup);
   app.get('/signout', sign.signout);
   app.get('/signin', sign.showLogin);
   app.post('/signin', sign.login);
