@@ -43,6 +43,7 @@ exports.create = function (req, res, next) {
       res.redirect('/');
     });
   } else { // 关联老账号
+    req.body.name = req.body.name.toLowerCase();
     User.findOne({loginname: req.body.name, pass: md5(req.body.pass)},
       function (err, user) {
         if (err) {
