@@ -24,8 +24,10 @@ exports.signup = function (req, res, next) {
   email = sanitize(email).xss();
   var re_pass = sanitize(req.body.re_pass).trim();
   re_pass = sanitize(re_pass).xss();
+  var quiz = sanitize(req.body.quiz).trim();
+  quiz = sanitize(quiz).xss();
 
-  if (name === '' || pass === '' || re_pass === '' || email === '') {
+  if (name === '' || pass === '' || re_pass === '' || email === '' || quiz === '') {
     res.render('sign/signup', {error: '信息不完整。', name: name, email: email});
     return;
   }
@@ -51,6 +53,11 @@ exports.signup = function (req, res, next) {
     check(email, '不正确的电子邮箱。').isEmail();
   } catch (e) {
     res.render('sign/signup', {error: e.message, name: name, email: email});
+    return;
+  }
+
+  if (Math.round(quiz) !== 31) {
+    res.render('sign/signup', {error: '问题没答对哦～', name: name, email: email});
     return;
   }
 

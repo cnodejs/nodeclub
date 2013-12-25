@@ -52,12 +52,27 @@
 						<input class='input-xlarge' id='email' name='email' size='30' type='text' />
 						<% } %>
 					</div>
+				<div class='control-group'>
+					<label class='control-label' for='quiz'>下方代码的值</label>
+					<div class='controls'>
+						<input class='input-xlarge' id='quiz' name='quiz' size='30' type='text' />
+					</div>
 				</div>
 				<input type='hidden' name='_csrf' value='<%= csrf %>' />
 				<div class='form-actions'>
 					<input type='submit' class='btn' value='注册' />
 				</div>
 			</form>
+<pre>
+// 为了对付机器人，π的值需要人脑eval哦～
+// 不用担心保留π小数点后多少位的问题，都可以的
+// 但是π取整数是不可以的（太偷懒了吧～
+(function(tau) {
+  return function(r) {
+    return tau * r;
+  };
+})(π * 2)(5);
+</pre>
 			<% } %>
 		</div>
 	</div>	
