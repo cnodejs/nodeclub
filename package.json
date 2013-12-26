@@ -30,7 +30,8 @@
     "mocha": "*",
     "rewire": "*",
     "jscover": "*",
-    "pedding": "*"
+    "pedding": "*",
+    "mm": "*"
   },
   "scripts": {
     "test": "make test"

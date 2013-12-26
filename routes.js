@@ -19,12 +19,12 @@ var rss = require('./controllers/rss');
 var upload = require('./controllers/upload');
 var assets = require('./controllers/static');
 var tools = require('./controllers/tools');
-var auth = require('./midderwares/auth');
-var limit = require('./midderwares/limit');
+var auth = require('./middlewares/auth');
+var limit = require('./middlewares/limit');
 var status = require('./controllers/status');
 var github = require('./controllers/github');
 var passport = require('passport');
-var configMiddleware = require('./midderwares/conf');
+var configMiddleware = require('./middlewares/conf');
 var config = require('./config');
 
 
