@@ -78,7 +78,15 @@
           <label class='bold' for='t_content'>内容</label>
           <textarea class='editor' id='wmd-input' name='t_content' rows='20'><%= locals.content || '' %></textarea>
 
-          <input type='hidden' id='topic_tags' name='topic_tags' value=''></input>
+          <% if (locals.captcha) { %>
+            <a href='javascript: void(0)' id='refresh_captcha' class='captcha'>
+              <img src='http://image.captchas.net?client=cnode&width=160&height=70&random=<%= locals.captcha %>' />
+            </a>
+            <label class='bold' for='captcha'>验证码</label>
+            <input type='text' name='captcha' /><br />
+          <% } %>
+
+          <input type='hidden' id='topic_tags' name='topic_tags' value='' />
           <input type='hidden' name='_csrf' value='<%= csrf %>' />
           <button id='submit_btn' type="submit" class='btn'>发布</button>
         </fieldset>

@@ -40,6 +40,13 @@ var config = {
 
   // 限制发帖时间间隔，单位：毫秒
   post_interval: 10000,
+  // 限制第一次发帖时间间隔，单位：毫秒
+  first_post_interval: 300000,
+
+  // 验证码相关设置
+  captcha_length: 6, // 验证码长度
+  captcha_alphabet: 'abcdefghijklmnopqrstuvwxyz', // 验证码内容
+  captcha_secret: 'HMLydZXJOVlwm6y76irrguIG9yRTOsP11irIEss8', // 验证码服务的key
 
   // RSS
   rss: {
