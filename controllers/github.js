@@ -10,8 +10,16 @@ exports.callback = function (req, res, next) {
       return next(err);
     }
     if (user) {
-      sign.gen_session(user, res);
-      return res.redirect('/');
+      user.name = profile.displayName;
+      user.email = profile.emails && profile.emails[0].value;
+      user.avatar = profile._json && profile._json.avatar_url;
+      user.save(function (err) {
+        if (err) {
+          return next(err);
+        }
+        sign.gen_session(user, res);
+        return res.redirect('/');
+      });
     } else {
       req.session.profile = profile;
       return res.redirect('/auth/github/new');

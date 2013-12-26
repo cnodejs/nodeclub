@@ -50,7 +50,9 @@ describe('controllers/github.js', function () {
     });
 
     it('should redirect to / when the user is registed', function (done) {
-      mm.data(User, 'findOne', {});
+      mm.data(User, 'findOne', {save: function (callback) {
+        process.nextTick(callback);
+      }});
 
       request.get('/auth/github/test_callback?code=123456')
         .expect(302, function (err, res) {
