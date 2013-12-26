@@ -25,6 +25,9 @@ exports.new = function (req, res, next) {
 
 exports.create = function (req, res, next) {
   var profile = req.session.profile;
+  if (!profile) {
+    return res.redirect('/signin');
+  }
   delete req.session.profile;
   if (!req.body.name && !req.body.pass) { // 注册新账号
     var user = new User({
