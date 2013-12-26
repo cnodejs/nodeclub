@@ -29,7 +29,7 @@ exports.create = function (req, res, next) {
     return res.redirect('/signin');
   }
   delete req.session.profile;
-  if (!req.body.name && !req.body.pass) { // 注册新账号
+  if (req.body.isnew) { // 注册新账号
     var user = new User({
       name: profile.displayName,
       loginname: profile.username,

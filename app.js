@@ -16,7 +16,11 @@ var passport = require('passport');
 var Models = require('./models');
 var User = Models.User;
 var GitHubStrategy = require('passport-github').Strategy;
-var githubStrategyMiddleware = require('./midderwares/github_strategy');
+var githubStrategyMiddleware = require('./middlewares/github_strategy');
+var routes = require('./routes');
+
+var maxAge = 3600000 * 24 * 30;
+var staticDir = path.join(__dirname, 'public');
 
 // assets
 var assets = {};
@@ -32,7 +36,6 @@ if (config.mini_assets) {
 // host: http://127.0.0.1
 var urlinfo = require('url').parse(config.host);
 config.hostname = urlinfo.hostname || config.host;
-var routes = require('./routes');
 
 config.upload_dir = config.upload_dir || path.join(__dirname, 'public', 'user_data', 'images');
 // ensure upload dir exists
@@ -59,16 +62,38 @@ app.configure(function () {
   app.use(passport.initialize());
   // custom middleware
   app.use(require('./controllers/sign').auth_user);
+  app.use('/upload/', express.static(config.upload_dir, { maxAge: maxAge }));
+  // old image url: http://host/user_data/images/xxxx
+  app.use('/user_data/', express.static(path.join(__dirname, 'public', 'user_data'), { maxAge: maxAge }));
+});
 
-  var csrf = express.csrf();
+app.configure('development', function () {
+  app.use('/public', express.static(staticDir));
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+});
+
+app.configure('production', function () {
   app.use(function (req, res, next) {
+    var csrf = express.csrf();
     // ignore upload image
     if (req.body && req.body.user_action === 'upload_image') {
       return next();
     }
     csrf(req, res, next);
   });
+  app.use('/public', express.static(staticDir, { maxAge: maxAge }));
+  app.use(express.errorHandler());
+  app.set('view cache', true);
 });
+
+
+// set static, dynamic helpers
+app.helpers({
+  config: config,
+  Loader: Loader,
+  assets: assets
+});
+app.dynamicHelpers(require('./common/render_helpers'));
 
 if (process.env.NODE_ENV !== 'test') {
   // plugins
@@ -79,32 +104,6 @@ if (process.env.NODE_ENV !== 'test') {
   }
 }
 
-// set static, dynamic helpers
-app.helpers({
-  config: config,
-  Loader: Loader,
-  assets: assets
-});
-app.dynamicHelpers(require('./common/render_helpers'));
-
-var maxAge = 3600000 * 24 * 30;
-app.use('/upload/', express.static(config.upload_dir, { maxAge: maxAge }));
-// old image url: http://host/user_data/images/xxxx
-app.use('/user_data/', express.static(path.join(__dirname, 'public', 'user_data'), { maxAge: maxAge }));
-
-var staticDir = path.join(__dirname, 'public');
-app.configure('development', function () {
-  app.use('/public', express.static(staticDir));
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
-
-app.configure('production', function () {
-  app.use('/public', express.static(staticDir, { maxAge: maxAge }));
-  app.use(express.errorHandler());
-  app.set('view cache', true);
-});
-
-
 // github oauth
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -113,7 +112,6 @@ passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 passport.use(new GitHubStrategy(config.GITHUB_OAUTH, githubStrategyMiddleware));
-
 
 // routes
 routes(app);
