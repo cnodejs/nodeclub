@@ -5,7 +5,7 @@
 var path = require('path');
 var pkg = require('./package.json');
 
-exports.config = {
+var config = {
   debug: true,
   name: 'Node Club',
   description: 'Node Club 是用Node.js开发的社区软件',
@@ -117,4 +117,8 @@ exports.config = {
     clientSecret: 'your GITHUB_CLIENT_SECRET',
     callbackURL: 'http://cnodejs.org/auth/github/callback',
   },
+  allow_sign_up: true,
 };
+
+module.exports = config;
+module.exports.config = config;

@@ -25,6 +25,7 @@ var status = require('./controllers/status');
 var github = require('./controllers/github');
 var passport = require('passport');
 var configMiddleware = require('./midderwares/conf');
+var config = require('./config');
 
 
 module.exports = function (app) {
@@ -32,8 +33,12 @@ module.exports = function (app) {
   app.get('/', site.index);
 
   // sign up, login, logout
-  app.get('/signup', sign.showSignup);
-  app.post('/signup', sign.signup);
+  if (config.allow_sign_up) {
+    app.get('/signup', sign.showSignup);
+    app.post('/signup', sign.signup);
+  } else {
+    app.get('/signup', configMiddleware.github, passport.authenticate('github'));
+  }
   app.get('/signout', sign.signout);
   app.get('/signin', sign.showLogin);
   app.post('/signin', sign.login);
