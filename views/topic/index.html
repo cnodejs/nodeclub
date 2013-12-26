@@ -159,19 +159,27 @@
   $(document).ready(function () {
 
     var editorList = {};
-
+    
+    var aniLock = false;
     $('.reply2_btn').click(function () {
       var $btn = $(this);
       var parent = $btn.parents('.reply_area');
       var editorWrap = parent.find('.reply2_form');
-      parent.find('.reply2_area').prepend(editorWrap);
-      var textarea = editorWrap.find('textarea.editor');
-      var user = $btn.parents('.cell').find('.reply_author a').html();
       
+      // FixBug for reopen the area.
+      var textarea = editorWrap.find('textarea.editor');
+      if (editorList[textarea.attr('id')] || aniLock) {
+        return;
+      }
+      aniLock = true;
+      
+      parent.find('.reply2_area').prepend(editorWrap);
+      var user = $btn.parents('.cell').find('.reply_author a').html();
       editorWrap.show('fast', function () {
         var editor = createEpicEditor(textarea);
         editorList[textarea.attr('id')] = editor;
         editor.load();
+        aniLock = false;
       });
     });
 
