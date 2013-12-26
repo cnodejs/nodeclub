@@ -10,7 +10,8 @@ exports.callback = function (req, res, next) {
       return next(err);
     }
     if (user) {
-      user.name = profile.displayName;
+      user.name = profile.username;
+      user.loginname = profile.username;
       user.email = profile.emails && profile.emails[0].value;
       user.avatar = profile._json && profile._json.avatar_url;
       user.save(function (err) {
@@ -39,7 +40,7 @@ exports.create = function (req, res, next) {
   delete req.session.profile;
   if (req.body.isnew) { // 注册新账号
     var user = new User({
-      name: profile.displayName,
+      name: profile.username,
       loginname: profile.username,
       pass: profile.accessToken,
       email: profile.emails[0].value,
