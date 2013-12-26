@@ -111,6 +111,18 @@ describe('controllers/github.js', function () {
       });
     });
 
+    it('should not create a new user when loginname or email conflict', function (done) {
+      request.post('/auth/github/test_create')
+        .send({isnew: '1'})
+        .expect(500, function (err, res) {
+          if (err) {
+            return done(err);
+          }
+          res.text.should.match(/您 GitHub 账号的.*与之前在 CNodejs 注册的.*重复了/);
+          done();
+        });
+    });
+
     it('should link a old user', function (done) {
       var username = 'Alsotang';
       var pass = 'hehe';

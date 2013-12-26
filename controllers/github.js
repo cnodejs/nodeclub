@@ -40,6 +40,16 @@ exports.create = function (req, res, next) {
     });
     user.save(function (err) {
       if (err) {
+        if (err.err.indexOf('duplicate key error') !== -1) {
+          if (err.err.indexOf('users.$email') !== -1) {
+            return res.status(500)
+              .send('您 GitHub 账号的 Email 与之前在 CNodejs 注册的 Email 重复了');
+          }
+          if (err.err.indexOf('users.$loginname') !== -1) {
+            return res.status(500)
+              .send('您 GitHub 账号的用户名与之前在 CNodejs 注册的用户名重复了');
+          }
+        }
         return next(err);
       }
       sign.gen_session(user, res);
