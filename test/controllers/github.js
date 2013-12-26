@@ -6,6 +6,7 @@ var path = require('path');
 var github = require('../../controllers/github');
 var Models = require('../../models');
 var User = Models.User;
+var config = require('../../config');
 
 describe('controllers/github.js', function () {
   afterEach(function () {
@@ -13,6 +14,8 @@ describe('controllers/github.js', function () {
   });
 
   it('should 302 when get /auth/github', function (done) {
+    var _clientID = config.GITHUB_OAUTH.clientID;
+    config.GITHUB_OAUTH.clientID = 'aldskfjo2i34j2o3';
     request.get('/auth/github')
     .expect(302, function (err, res) {
       if (err) {
@@ -20,6 +23,7 @@ describe('controllers/github.js', function () {
       }
       res.headers.should.have.property('location')
         .with.startWith('https://github.com/login/oauth/authorize?');
+      config.GITHUB_OAUTH.clientID = _clientID;
       done();
     });
   });
@@ -92,6 +96,7 @@ describe('controllers/github.js', function () {
       User.count(function (err, count) {
         userCount = count;
         request.post('/auth/github/test_create')
+          .send({isnew: '1'})
           .expect(302, function (err, res) {
             if (err) {
               return done(err);

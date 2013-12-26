@@ -3,11 +3,11 @@ var config = require('../../config');
 
 describe('middlewares/conf.js', function () {
   it('should alert no github oauth', function (done) {
-    var _clientId = config.GITHUB_OAUTH.clientID;
+    var _clientID = config.GITHUB_OAUTH.clientID;
     config.GITHUB_OAUTH.clientID = 'your GITHUB_CLIENT_ID';
     conf.github({}, {send: function (str) {
       str.should.equal('call the admin to set github oauth.');
-      config.GITHUB_OAUTH.clientID = _clientId;
+      config.GITHUB_OAUTH.clientID = _clientID;
       done();
     }});
   });
