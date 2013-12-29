@@ -37,6 +37,7 @@ exports.create = function (req, res, next) {
       email: profile.emails[0].value,
       avatar: profile._json.avatar_url,
       githubId: profile.id,
+      githubLogin: profile.login
     });
     user.save(function (err) {
       if (err) {
@@ -56,6 +57,7 @@ exports.create = function (req, res, next) {
           return res.render('sign/signin', { error: '账号名或密码错误。' });
         }
         user.githubId = profile.id;
+        user.githubLogin = profile.login;
         user.save(function (err) {
           if (err) {
             return next(err);
