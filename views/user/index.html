@@ -44,6 +44,12 @@
 						<span class='col_fade'><%= user.location %></span>
 					</li>
 					<% } %>
+					<% if (user.githubLogin) { %>
+					<li>
+						<img class='user_icon' src="<%- config.site_static_host %>/public/images/github_icon&16.png" />
+						<a class='dark' href="https://github.com/<%= user.githubLogin %>" target='_blank'>github.com<%= user.githubLogin %></a>
+					</li>
+					<% } %>
 					<% if (user.weibo) { %>
 					<li>
 						<img class='user_icon' src="<%- config.site_static_host %>/public/images/twitter_2_icon&16.png" />
