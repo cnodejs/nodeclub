@@ -121,6 +121,11 @@ exports.setting = function (req, res, next) {
     profile = sanitize(profile).xss();
     var weibo = sanitize(req.body.weibo).trim();
     weibo = sanitize(weibo).xss();
+    var github = sanitize(req.body.github).trim();
+    github = sanitize(github).xss();
+    if (github.indexOf('@') === 0) {
+      github = github.slice(1);
+    }
     var receive_at_mail = req.body.receive_at_mail === 'on';
     var receive_reply_mail = req.body.receive_reply_mail === 'on';
 
@@ -141,6 +146,7 @@ exports.setting = function (req, res, next) {
           signature: signature,
           profile: profile,
           weibo: weibo,
+          github: github,
           receive_at_mail: receive_at_mail,
           receive_reply_mail: receive_reply_mail
         });
@@ -164,6 +170,7 @@ exports.setting = function (req, res, next) {
           signature: signature,
           profile: profile,
           weibo: weibo,
+          github: github,
           receive_at_mail: receive_at_mail,
           receive_reply_mail: receive_reply_mail
         });
@@ -181,6 +188,7 @@ exports.setting = function (req, res, next) {
       user.signature = signature;
       user.profile = profile;
       user.weibo = weibo;
+      user.githubUsername = github;
       user.receive_at_mail = receive_at_mail;
       user.receive_reply_mail = receive_reply_mail;
       user.save(function (err) {
@@ -215,6 +223,7 @@ exports.setting = function (req, res, next) {
           signature: user.signature,
           profile: user.profile,
           weibo: user.weibo,
+          github: user.githubUsername,
           receive_at_mail: user.receive_at_mail,
           receive_reply_mail: user.receive_reply_mail
         });
@@ -240,6 +249,7 @@ exports.setting = function (req, res, next) {
           signature: user.signature,
           profile: user.profile,
           weibo: user.weibo,
+          github: user.githubUsername,
           receive_at_mail: user.receive_at_mail,
           receive_reply_mail: user.receive_reply_mail
         });

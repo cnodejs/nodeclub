@@ -44,6 +44,14 @@
 						<span class='col_fade'><%= user.location %></span>
 					</li>
 					<% } %>
+          <% if (user.githubUsername) { %>
+          <li>
+            <img class='user_icon' src="<%- config.site_static_host %>/public/images/github_icon&16.png" />
+            <a class='dark' href="https://github.com/<%= user.githubUsername %>" target='_blank'>
+              @<%= user.githubUsername %>
+            </a>
+          </li>
+          <% } %>
 					<% if (user.weibo) { %>
 					<li>
 						<img class='user_icon' src="<%- config.site_static_host %>/public/images/twitter_2_icon&16.png" />
@@ -69,7 +77,7 @@
 				<% } %>
 			<% } %>
 		</div>
-	</div>	
+	</div>
 
 	<div class='panel'>
 		<div class='header'>
@@ -124,7 +132,7 @@
 						$me.attr('action','set_star');
 					}
 				}
-			}, 'json');	
+			}, 'json');
 		});
 	});
 </script>

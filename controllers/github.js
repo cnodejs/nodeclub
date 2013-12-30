@@ -10,8 +10,18 @@ exports.callback = function (req, res, next) {
       return next(err);
     }
     if (user) {
-      sign.gen_session(user, res);
-      return res.redirect('/');
+      user.name = profile.username;
+      user.githubUsername = profile.username;
+      user.loginname = profile.username;
+      user.email = profile.emails && profile.emails[0].value;
+      user.avatar = profile._json && profile._json.avatar_url;
+      user.save(function (err) {
+        if (err) {
+          return next(err);
+        }
+        sign.gen_session(user, res);
+        return res.redirect('/');
+      });
     } else {
       req.session.profile = profile;
       return res.redirect('/auth/github/new');
@@ -31,15 +41,26 @@ exports.create = function (req, res, next) {
   delete req.session.profile;
   if (req.body.isnew) { // 注册新账号
     var user = new User({
-      name: profile.displayName,
+      name: profile.username,
       loginname: profile.username,
       pass: profile.accessToken,
       email: profile.emails[0].value,
       avatar: profile._json.avatar_url,
       githubId: profile.id,
+      githubUsername: profile.username,
     });
     user.save(function (err) {
       if (err) {
+        if (err.err.indexOf('duplicate key error') !== -1) {
+          if (err.err.indexOf('users.$email') !== -1) {
+            return res.status(500)
+              .send('您 GitHub 账号的 Email 与之前在 CNodejs 注册的 Email 重复了');
+          }
+          if (err.err.indexOf('users.$loginname') !== -1) {
+            return res.status(500)
+              .send('您 GitHub 账号的用户名与之前在 CNodejs 注册的用户名重复了');
+          }
+        }
         return next(err);
       }
       sign.gen_session(user, res);
