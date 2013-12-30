@@ -11,6 +11,7 @@ exports.callback = function (req, res, next) {
     }
     if (user) {
       user.name = profile.username;
+      user.githubUsername = profile.username;
       user.loginname = profile.username;
       user.email = profile.emails && profile.emails[0].value;
       user.avatar = profile._json && profile._json.avatar_url;
@@ -46,6 +47,7 @@ exports.create = function (req, res, next) {
       email: profile.emails[0].value,
       avatar: profile._json.avatar_url,
       githubId: profile.id,
+      githubUsername: profile.username,
     });
     user.save(function (err) {
       if (err) {
