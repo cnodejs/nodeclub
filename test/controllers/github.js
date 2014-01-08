@@ -50,7 +50,9 @@ describe('controllers/github.js', function () {
     });
 
     it('should redirect to / when the user is registed', function (done) {
-      mm.data(User, 'findOne', {});
+      mm.data(User, 'findOne', {save: function (callback) {
+        process.nextTick(callback);
+      }});
 
       request.get('/auth/github/test_callback?code=123456')
         .expect(302, function (err, res) {
@@ -109,6 +111,18 @@ describe('controllers/github.js', function () {
             });
           });
       });
+    });
+
+    it('should not create a new user when loginname or email conflict', function (done) {
+      request.post('/auth/github/test_create')
+        .send({isnew: '1'})
+        .expect(500, function (err, res) {
+          if (err) {
+            return done(err);
+          }
+          res.text.should.match(/您 GitHub 账号的.*与之前在 CNodejs 注册的.*重复了/);
+          done();
+        });
     });
 
     it('should link a old user', function (done) {
