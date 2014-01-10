@@ -72,7 +72,7 @@
 				<% } %>
 
         <% if (!user.is_block) { %>
-          <button class='btn' id='set_block_btn' action='set_block'>屏蔽用户</button>
+          <button class='btn' id='set_block_btn' action='set_block'>屏蔽用户并删其所有帖</button>
         <% } else { %>
           <button class='btn' id='set_block_btn' action='cancel_block'>取消屏蔽用户</button>
         <% } %>
@@ -149,13 +149,16 @@
         _csrf: '<%- csrf %>',
         action: action
       };
+      if (action === 'set_block' && !confirm('确定要屏蔽该用户吗？此操作不可逆且会删除该用户的所有主题和回复！')) {
+        return;
+      }
       $.post('/user/<%- user.name %>/block', params, function (data) {
         if (data.status === 'success') {
           if (action === 'set_block') {
             $me.html('取消屏蔽用户');
             $me.attr('action', 'cancel_block');
           } else if (action === 'cancel_block') {
-            $me.html('屏蔽用户');
+            $me.html('屏蔽用户并删其所有帖');
             $me.attr('action', 'set_block');
           }
         }
