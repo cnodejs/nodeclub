@@ -1,7 +1,10 @@
 var User = require('../proxy').User;
+var UserModel = require('../models').User;
 var Tag = require('../proxy').Tag;
 var Topic = require('../proxy').Topic;
+var TopicModel = require('../models').Topic;
 var Reply = require('../proxy').Reply;
+var ReplyModel = require('../models').Reply;
 var Relation = require('../proxy').Relation;
 var TopicCollect = require('../proxy').TopicCollect;
 var TagCollect = require('../proxy').TagCollect;
@@ -577,5 +580,37 @@ exports.list_replies = function (req, res, next) {
     } else {
       Relation.getRelation(req.session.user._id, user._id, proxy.done('relation'));
     }
+  });
+};
+
+exports.block = function (req, res, next) {
+  var userName = req.params.name;
+  User.getUserByName(userName, function (err, user) {
+    if (err) {
+      return next(err);
+    }
+    if (req.body.action === 'set_block') {
+      var ep = EventProxy.create();
+      ep.fail(next);
+      ep.all('block_user', 'del_topics', 'del_replys',
+        function (user, topics, replys) {
+          res.json({status: 'success'});
+        });
+      user.is_block = true;
+      user.save(ep.done('block_user'));
+      // TopicModel.remove({author_id: user._id}, ep.done('del_topics'));
+      // ReplyModel.remove({author_id: user._id}, ep.done('del_replys'));
+      ep.emit('del_topics');
+      ep.emit('del_replys');
+    } else if (req.body.action === 'cancel_block') {
+      user.is_block = false;
+      user.save(function (err) {
+        if (err) {
+          return next(err);
+        }
+        res.json({status: 'success'});
+      });
+    }
+
   });
 };

@@ -47,7 +47,7 @@ exports.add = function (req, res, next) {
       user.score += 5;
       user.reply_count += 1;
       user.save();
-      req.session.user.score += 5;
+      req.session.user = user;
       ep.emit('score_saved');
     }));
   });

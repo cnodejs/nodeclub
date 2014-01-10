@@ -4,7 +4,7 @@ var Topic = require('../../proxy/topic');
 
 exports.createUser = function (callback) {
   var key = new Date().getTime() + '_' + Math.random();
-  User.newAndSave('JacksonTian', 'Jackson' + key, 'pass', 'jackson' + key + '@domain.com', '', false, callback);
+  User.newAndSave('jackson' + key, 'jackson' + key, 'pass', 'jackson' + key + '@domain.com', '', false, callback);
 };
 
 exports.createTopic = function (authorId, callback) {
