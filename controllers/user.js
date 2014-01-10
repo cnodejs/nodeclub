@@ -598,8 +598,10 @@ exports.block = function (req, res, next) {
         });
       user.is_block = true;
       user.save(ep.done('block_user'));
-      TopicModel.remove({author_id: user._id}, ep.done('del_topics'));
-      ReplyModel.remove({author_id: user._id}, ep.done('del_replys'));
+      // TopicModel.remove({author_id: user._id}, ep.done('del_topics'));
+      // ReplyModel.remove({author_id: user._id}, ep.done('del_replys'));
+      ep.emit('del_topics');
+      ep.emit('del_replys');
     } else if (req.body.action === 'cancel_block') {
       user.is_block = false;
       user.save(function (err) {
