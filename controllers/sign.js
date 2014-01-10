@@ -318,7 +318,6 @@ exports.auth_user = function (req, res, next) {
           }
           user.messages_count = count;
           req.session.user = user;
-          req.session.user.avatar_url = user.avatar_url;
           res.local('current_user', req.session.user);
           return next();
         });

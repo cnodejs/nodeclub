@@ -70,6 +70,13 @@
 				<% } else { %>
 				<button class='btn' id='set_star_btn' action='cancel_star'>取消达人</button>
 				<% } %>
+
+        <% if (!user.is_block) { %>
+          <button class='btn' id='set_block_btn' action='set_block'>屏蔽用户</button>
+        <% } else { %>
+          <button class='btn' id='set_block_btn' action='cancel_block'>取消屏蔽用户</button>
+        <% } %>
+
 				<br/><br/>
 				Email (Seen by Administrator): <a href="mailto:<%= user.email %>"><%= user.email %></a>
 				<% if (!user.active) { %>
@@ -134,6 +141,26 @@
 				}
 			}, 'json');
 		});
+
+    $('#set_block_btn').click(function () {
+      var $me = $(this);
+      var action = $me.attr('action');
+      var params = {
+        _csrf: '<%- csrf %>',
+        action: action
+      };
+      $.post('/user/<%- user.name %>/block', params, function (data) {
+        if (data.status === 'success') {
+          if (action === 'set_block') {
+            $me.html('取消屏蔽用户');
+            $me.attr('action', 'cancel_block');
+          } else if (action === 'cancel_block') {
+            $me.html('屏蔽用户');
+            $me.attr('action', 'set_block');
+          }
+        }
+      }, 'json');
+    })
 	});
 </script>
 <% } %>

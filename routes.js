@@ -67,6 +67,7 @@ module.exports = function (app) {
   app.post('/user/un_follow', user.un_follow);
   app.post('/user/set_star', user.toggle_star);
   app.post('/user/cancel_star', user.toggle_star);
+  app.post('/user/:name/block', auth.adminRequired, user.block);
 
   // message
   app.post('/messages/mark_read', message.mark_read);

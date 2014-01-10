@@ -18,6 +18,7 @@ var User = Models.User;
 var GitHubStrategy = require('passport-github').Strategy;
 var githubStrategyMiddleware = require('./middlewares/github_strategy');
 var routes = require('./routes');
+var auth = require('./middlewares/auth');
 
 var maxAge = 3600000 * 24 * 30;
 var staticDir = path.join(__dirname, 'public');
@@ -62,6 +63,7 @@ app.configure(function () {
   app.use(passport.initialize());
   // custom middleware
   app.use(require('./controllers/sign').auth_user);
+  app.use(auth.blockUser());
   app.use('/upload/', express.static(config.upload_dir, { maxAge: maxAge }));
   // old image url: http://host/user_data/images/xxxx
   app.use('/user_data/', express.static(path.join(__dirname, 'public', 'user_data'), { maxAge: maxAge }));

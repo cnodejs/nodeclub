@@ -178,7 +178,7 @@ exports.put = function (req, res, next) {
         user.score += 5;
         user.topic_count += 1;
         user.save();
-        req.session.user.score += 5;
+        req.session.user = user;
         proxy.emit('score_saved');
       }));
 
