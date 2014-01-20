@@ -281,7 +281,7 @@ function getAvatarURL(user) {
 // auth_user middleware
 exports.auth_user = function (req, res, next) {
   if (req.session.user) {
-    if (config.admins[req.session.user.name]) {
+    if (config.admins.hasOwnProperty(req.session.user.name)) {
       req.session.user.is_admin = true;
     }
     Message.getMessagesCount(req.session.user._id, function (err, count) {
@@ -309,7 +309,7 @@ exports.auth_user = function (req, res, next) {
         return next(err);
       }
       if (user) {
-        if (config.admins[user.name]) {
+        if (config.admins.hasOwnProperty(user.name)) {
           user.is_admin = true;
         }
         Message.getMessagesCount(user._id, function (err, count) {
@@ -318,7 +318,6 @@ exports.auth_user = function (req, res, next) {
           }
           user.messages_count = count;
           req.session.user = user;
-          req.session.user.avatar_url = user.avatar_url;
           res.local('current_user', req.session.user);
           return next();
         });
@@ -334,6 +333,8 @@ function gen_session(user, res) {
   var auth_token = encrypt(user._id + '\t' + user.name + '\t' + user.pass + '\t' + user.email, config.session_secret);
   res.cookie(config.auth_cookie_name, auth_token, {path: '/', maxAge: 1000 * 60 * 60 * 24 * 30}); //cookie 有效期30天
 }
+
+exports.gen_session = gen_session;
 
 function encrypt(str, secret) {
   var cipher = crypto.createCipher('aes192', secret);

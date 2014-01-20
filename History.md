@@ -1,4 +1,68 @@
 
+0.3.6 / 2013-11-22 
+==================
+
+  * fix #237 if topic not exists, do not modified it.
+  * Merge pull request #230 from JacksonTian/fix_null
+  * 修复给空值设置属性的错误
+  * Merge pull request #224 from JacksonTian/config_ga
+  * 将Google tracker可配置化
+  * Merge pull request #223 from jiyinyiyong/ga
+  * add Google Analytics
+  * Merge pull request #217 from leizongmin/master
+  * 编辑器进入全屏模式时，调整一下样式
+  * hotfix sendAtMail
+  * fixed "TypeError: Cannot read property author_id of null"
+  * 使用七牛 gravatar.qiniudn.com 镜像
+  * Merge pull request #212 from tjwudi/master
+  * Fix 'title' textarea layout problem.
+  * Merge pull request #211 from tjwudi/master
+  * Add OS regular files to .gitignore
+  * Merge pull request #209 from leizongmin/master
+  * 解决打开Topic时自动跳到输入框问题
+  * Merge pull request #205 from jiyinyiyong/master
+  * Merge pull request #208 from leizongmin/master
+  * 帖子内容页面，增加表格样式
+  * 发布帖子使用 EpicEditor 编辑器
+  * xss白名单 增加thead标签
+  * Merge pull request #204 from JacksonTian/assets_issue
+  * limit the length of message to 20
+  * 兼容未启用压缩功能的情况
+  * Merge pull request #193 from dead-horse/fix-block-count
+  * fix block count
+  * Merge pull request #190 from leizongmin/master
+  * 修正用户收藏的话题页面，页码链接不正确问题
+  * Merge pull request #186 from phoenixlzx/master
+  * Fixed mongoose version
+  * Merge pull request #182 from JacksonTian/assets_mini
+  * 替换debug为mini
+  * Merge pull request #181 from JacksonTian/assets
+  * 用config.debug判断是否线上状态
+  * Merge pull request #180 from JacksonTian/assets
+  * 升级data2xml
+  * 静态资源重构
+  * Merge pull request #178 from JacksonTian/typo
+  * Node.JS => Node.js
+  * Merge pull request #177 from JacksonTian/style
+  * 文章页面的样式
+  * Fix几个样式问题
+  * fixed #175 stars max size
+  * fixed require package.json nae not support bug
+  * Merge pull request #174 from JacksonTian/style
+  * 去除用标签来制造空格的行为
+  * 更新样式
+  * Merge pull request #171 from jiyinyiyong/markdown-p
+  * limit image height
+  * limit pre-wrap inside p
+  * Merge pull request #165 from VitoLau/master
+  * 更新about faq页面结构
+  * 调整about和faq页面 padding大小
+  * Merge pull request #164 from jiyinyiyong/master
+  * fix: markdown-text use pre-wrap
+  * format indentations to 2
+  * limit the with of message links to prevent line breaks
+  * 修复文字过长没有换行的问题
+
 0.3.5 / 2013-05-30 
 ==================
 

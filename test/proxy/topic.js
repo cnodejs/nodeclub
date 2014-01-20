@@ -17,6 +17,16 @@ describe('proxy/topic.js', function () {
     });
   });
 
+  describe('updateLastReply()', function () {
+    it('should update a topic reply count success when topic not exists', function (done) {
+      Topic.updateLastReply('aaaaaaaaaaaaaaaaaaaaaaaa', 'aaaaaaaaaaaaaaaaaaaaaaaa', function (err, result) {
+        should.not.exist(err);
+        should.not.exist(result);
+        done();
+      });
+    });
+  });
+
   describe('newAndSave', function () {
     it('should ok', function (done) {
       Topic.newAndSave('title', 'content', user._id, function (err, topic) {

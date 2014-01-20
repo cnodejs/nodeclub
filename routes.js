@@ -19,17 +19,26 @@ var rss = require('./controllers/rss');
 var upload = require('./controllers/upload');
 var assets = require('./controllers/static');
 var tools = require('./controllers/tools');
-var auth = require('./midderwares/auth');
-var limit = require('./midderwares/limit');
+var auth = require('./middlewares/auth');
+var limit = require('./middlewares/limit');
 var status = require('./controllers/status');
+var github = require('./controllers/github');
+var passport = require('passport');
+var configMiddleware = require('./middlewares/conf');
+var config = require('./config');
+
 
 module.exports = function (app) {
   // home page
   app.get('/', site.index);
 
   // sign up, login, logout
-  app.get('/signup', sign.showSignup);
-  app.post('/signup', sign.signup);
+  if (config.allow_sign_up) {
+    app.get('/signup', sign.showSignup);
+    app.post('/signup', sign.signup);
+  } else {
+    app.get('/signup', configMiddleware.github, passport.authenticate('github'));
+  }
   app.get('/signout', sign.signout);
   app.get('/signin', sign.showLogin);
   app.post('/signin', sign.login);
@@ -58,6 +67,7 @@ module.exports = function (app) {
   app.post('/user/un_follow', user.un_follow);
   app.post('/user/set_star', user.toggle_star);
   app.post('/user/cancel_star', user.toggle_star);
+  app.post('/user/:name/block', auth.adminRequired, user.block);
 
   // message
   app.post('/messages/mark_read', message.mark_read);
@@ -116,4 +126,12 @@ module.exports = function (app) {
 
   // site status
   app.get('/status', status.status);
+
+  // github oauth
+  app.get('/auth/github', configMiddleware.github, passport.authenticate('github'));
+  app.get('/auth/github/callback',
+    passport.authenticate('github', { failureRedirect: '/signin' }),
+    github.callback);
+  app.get('/auth/github/new', github.new);
+  app.post('/auth/github/create', github.create);
 };

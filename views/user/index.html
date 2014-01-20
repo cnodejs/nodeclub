@@ -44,6 +44,14 @@
 						<span class='col_fade'><%= user.location %></span>
 					</li>
 					<% } %>
+          <% if (user.githubUsername) { %>
+          <li>
+            <img class='user_icon' src="<%- config.site_static_host %>/public/images/github_icon&16.png" />
+            <a class='dark' href="https://github.com/<%= user.githubUsername %>" target='_blank'>
+              @<%= user.githubUsername %>
+            </a>
+          </li>
+          <% } %>
 					<% if (user.weibo) { %>
 					<li>
 						<img class='user_icon' src="<%- config.site_static_host %>/public/images/twitter_2_icon&16.png" />
@@ -62,6 +70,13 @@
 				<% } else { %>
 				<button class='btn' id='set_star_btn' action='cancel_star'>取消达人</button>
 				<% } %>
+
+        <% if (!user.is_block) { %>
+          <button class='btn' id='set_block_btn' action='set_block'>屏蔽用户并删其所有帖</button>
+        <% } else { %>
+          <button class='btn' id='set_block_btn' action='cancel_block'>取消屏蔽用户</button>
+        <% } %>
+
 				<br/><br/>
 				Email (Seen by Administrator): <a href="mailto:<%= user.email %>"><%= user.email %></a>
 				<% if (!user.active) { %>
@@ -69,7 +84,7 @@
 				<% } %>
 			<% } %>
 		</div>
-	</div>	
+	</div>
 
 	<div class='panel'>
 		<div class='header'>
@@ -124,8 +139,31 @@
 						$me.attr('action','set_star');
 					}
 				}
-			}, 'json');	
+			}, 'json');
 		});
+
+    $('#set_block_btn').click(function () {
+      var $me = $(this);
+      var action = $me.attr('action');
+      var params = {
+        _csrf: '<%- csrf %>',
+        action: action
+      };
+      if (action === 'set_block' && !confirm('确定要屏蔽该用户吗？此操作不可逆且会删除该用户的所有主题和回复！')) {
+        return;
+      }
+      $.post('/user/<%- user.name %>/block', params, function (data) {
+        if (data.status === 'success') {
+          if (action === 'set_block') {
+            $me.html('取消屏蔽用户');
+            $me.attr('action', 'cancel_block');
+          } else if (action === 'cancel_block') {
+            $me.html('屏蔽用户并删其所有帖');
+            $me.attr('action', 'set_block');
+          }
+        }
+      }, 'json');
+    })
 	});
 </script>
 <% } %>
