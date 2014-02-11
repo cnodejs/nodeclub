@@ -32,7 +32,6 @@ var sendMail = function (data) {
  * @param {String} who 接收人的邮件地址
  * @param {String} token 重置用的token字符串
  * @param {String} name 接收人的用户名
- * @param {String} email 接受人的邮件地址
  */
 exports.sendActiveMail = function (who, token, name) {
   var from = config.mail_opts.auth.user;
