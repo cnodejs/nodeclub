@@ -13,9 +13,9 @@ describe('controllers/message.js', function () {
   describe('index', function () {
     it('should 302 without session', function (done) {
       app.request().get('/my/messages').end(function (res) {
-        res.should.status(302);
-        res.should.header('content-type', 'text/html');
-        res.should.header('location');
+        res.statusCode.should.equal(302);
+        res.headers.should.have.property('content-type', 'text/html');
+        res.headers.should.have.property('location');
         done();
       });
     });
