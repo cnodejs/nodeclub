@@ -1,14 +1,14 @@
 $(document).ready(function () {
   $('#search_form').submit(function (e) {
     //e.preventDefault();
-    search(); 
+    search();
   });
-  
+
   function search() {
     var q = document.getElementById('q');
     if (q.value) {
       /*
-      var hostname = window.location.hostname;      
+      var hostname = window.location.hostname;
       var url = 'http://www.google.com/search?q=site:' + hostname + '%20';
       window.open(url + q.value, '_blank');
       */
@@ -16,8 +16,8 @@ $(document).ready(function () {
     } else {
       return false;
     }
-  } 
-  
+  }
+
   var $wrapper = $('#wrapper');
   var $backtotop = $('#backtotop');
   var $sidebar = $('#sidebar');
@@ -42,4 +42,12 @@ $(document).ready(function () {
   $(window).resize(moveBacktotop);
 
   $('.topic_content a,.reply_content a').attr('target', '_blank');
+
+  $('#signout').click(function () {
+    $.post('/signout')
+      .done(function () {
+        window.location = '/';
+      });
+    return false;
+  });
 });
