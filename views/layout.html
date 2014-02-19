@@ -43,6 +43,8 @@
     <% } else { %>
     <title><%= config.description %></title>
     <% } %>
+    <meta content="_csrf" name="csrf-param">
+    <meta content="<%= csrf %>" name="csrf-token">
   </head>
   <body>
     <!-- navbar -->
