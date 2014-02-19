@@ -104,3 +104,25 @@ exports.mark_all_read = function (req, res, next) {
     }
   });
 };
+exports.notice=function(req,res,next){
+  if (!req.session || !req.session.user) {
+    res.send("");
+    return;
+  }
+  var message_ids = [];
+  var user_id = req.session.user._id;
+  Message.getMessagesCount(user_id, function (err, count) {
+    if (err) {
+      return next(err);
+    }
+
+    if (count === 0) {
+      res.json(null);
+      return;
+    }
+    res.json({
+      newNotice:count,
+      url:'/my/messages'
+    });
+  });
+}
