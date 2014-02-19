@@ -43,11 +43,4 @@ $(document).ready(function () {
 
   $('.topic_content a,.reply_content a').attr('target', '_blank');
 
-  $('#signout').click(function () {
-    $.post('/signout')
-      .done(function () {
-        window.location = '/';
-      });
-    return false;
-  });
 });

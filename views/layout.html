@@ -27,6 +27,7 @@
     <%- Loader('/public/index.min.js')
       .js('/public/libs/code-prettify/prettify.js')
       .js('/public/libs/jquery/jquery.js')
+      .js('/public/libs/jquery-ujs.js')
       .js('/public/libs/bootstrap/js/bootstrap.js')
       .js('/public/javascripts/main.js')
       .done(assets, config.site_static_host, config.mini_assets)
@@ -67,7 +68,7 @@
             </li>
             <li><a href='/setting'>设置</a></li>
             <li>
-              <a href='/signout' id="signout">退出</a>
+              <a href='/signout' data-method="post" rel="nofollow">退出</a>
             </li>
             <% } else { %>
             <li><a href='/signup'>注册</a></li>
