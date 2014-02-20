@@ -118,8 +118,6 @@ var config = {
     callbackURL: 'http://cnodejs.org/auth/github/callback',
   },
   allow_sign_up: true,
-
-  copyright_year: '2012 - 2014',
 };
 
 module.exports = config;
