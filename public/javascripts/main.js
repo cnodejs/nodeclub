@@ -48,31 +48,37 @@ $(document).ready(function () {
       n=0;
     this.refresh=function(){
       console.log(++n);
-      this.timer=setTimeout(function(){
-        $.ajax({
-          url: "/notice",
-          dataType:"json",
-          type:'POST',
-          /*期望数据格式：
-          * {
-          *   newNotice:0,
-          *   url:""
-          * }
-          * 若是未登录或者出现错误，则返回null
-          * */
-          success: function(data){
-            if(data&&data!==null&&data.newNotice>0){
-              var html='<a target="_blank" style="color: #005580;" href="'+data.url+'">您有'+data.newNotice+'条新消息</a>',
-                _html=$("#notice_box").html();
-              if(html!=_html){
-                $("#notice_box").html(html).fadeIn();
-              }
-            }else{
-              $("#notice_box").fadeOut(function(){$(this).empty()});
+      $.ajax({
+        url: "/notice",
+        dataType:"json",
+        timeout:1000*60*30,//长连接设置超时时间为半小时
+        type:'POST',
+        /*期望数据格式：
+        * {
+        *   newNotice:0,
+        *   url:""
+        * }
+        * 若是未登录或者出现错误，则返回null
+        * */
+        success: function(data){
+          if(data&&data!==null&&data.newNotice>0){
+            var html='<a target="_blank" style="color: #005580;" href="'+data.url+'">您有'+data.newNotice+'条新消息</a>',
+              _html=$("#notice_box").html();
+            if(html!=_html){
+              $("#notice_box").html(html).fadeIn();
             }
-          }});
-        _.refresh();
-      },100);
+          }else{
+            $("#notice_box").fadeOut(function(){$(this).empty()});
+          }
+          _.refresh();
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown){
+          _.refresh();
+        },
+        complete:function (XMLHttpRequest, textStatus) {
+          XMLHttpRequest=null;
+        }
+      });
 
     }
     this.refresh();
