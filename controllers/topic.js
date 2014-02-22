@@ -117,7 +117,10 @@ exports.put = function (req, res, next) {
     topic_tags = req.body.topic_tags.split(',');
   }
 
-  var edit_error = title !== '' ? title.length>10 && title.length<100 ? '' : '标题字数太多或太少。' : '标题不能是空的。';
+  var edit_error =
+    title === '' ?
+    '标题不能是空的。' :
+    (title.length > 10 && title.length < 100 ? '' : '标题字数太多或太少。');
   if (edit_error) {
     Tag.getAllTags(function (err, tags) {
       if (err) {
@@ -130,7 +133,7 @@ exports.put = function (req, res, next) {
           }
         }
       }
-      res.render('topic/edit', {tags: tags, edit_error: edit_error, content: content});
+      res.render('topic/edit', {tags: tags, edit_error: edit_error, title: title, content: content});
     });
   } else {
     Topic.newAndSave(title, content, req.session.user._id, function (err, topic) {
