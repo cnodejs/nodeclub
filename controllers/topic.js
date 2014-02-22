@@ -120,7 +120,7 @@ exports.put = function (req, res, next) {
   var edit_error =
     title === '' ?
     '标题不能是空的。' :
-    (title.length > 10 && title.length < 100 ? '' : '标题字数太多或太少。');
+    (title.length >= 10 && title.length <= 100 ? '' : '标题字数太多或太少。');
   if (edit_error) {
     Tag.getAllTags(function (err, tags) {
       if (err) {
