@@ -1,9 +1,9 @@
 var mailer = require('nodemailer');
 var config = require('../config').config;
 var marked = require('marked-prettyprint');
+var util = require('util');
 
 var transport = mailer.createTransport('SMTP', config.mail_opts);
-
 var SITE_ROOT_URL = 'http://' + config.host + (config.port !== 80 ? ':' + config.port : '');
 
 /**
@@ -34,7 +34,7 @@ var sendMail = function (data) {
  * @param {String} name 接收人的用户名
  */
 exports.sendActiveMail = function (who, token, name) {
-  var from = config.mail_opts.auth.user;
+  var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
   var to = who;
   var subject = config.name + '社区帐号激活';
   var html = '<p>您好：<p/>' +
@@ -58,7 +58,7 @@ exports.sendActiveMail = function (who, token, name) {
  * @param {String} name 接收人的用户名
  */
 exports.sendResetPassMail = function (who, token, name) {
-  var from = config.mail_opts.auth.user;
+  var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
   var to = who;
   var subject = config.name + '社区密码重置';
   var html = '<p>您好：<p/>' +
@@ -81,7 +81,7 @@ exports.sendResetPassMail = function (who, token, name) {
  * @param {Object} msg 发送的消息对象
  */
 exports.sendReplyMail = function (who, msg) {
-  var from = config.mail_opts.auth.user;
+  var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
   var to = who;
   var subject = config.name + ' 新消息';
   var url = SITE_ROOT_URL + '/topic/' + msg.topic._id + '#' + msg.reply._id;
@@ -114,7 +114,7 @@ exports.sendAtMail = function (who, msg) {
     return;
   }
   
-  var from = config.mail_opts.auth.user;
+  var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
   var to = who;
   var subject = config.name + ' 新消息';
   var url = SITE_ROOT_URL + '/topic/' + msg.topic._id + '#' + msg.reply._id;
