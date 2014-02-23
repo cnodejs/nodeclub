@@ -28,4 +28,8 @@ test-cov: cov
 build:
 	@./bin/combo views .
 
-.PHONY: test test-cov cov
+start:
+	@./node_modules/.bin/forever `pwd`/app.js
+
+
+.PHONY: test test-cov cov start

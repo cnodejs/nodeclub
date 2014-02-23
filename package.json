@@ -22,7 +22,8 @@
     "xss": "~0.0.9",
     "loader": "0.0.5",
     "passport": "~0.1.17",
-    "passport-github": "~0.1.5"
+    "passport-github": "~0.1.5",
+    "forever": "~0.10.11"
   },
   "devDependencies": {
     "supertest": "*",
