@@ -1,20 +1,11 @@
 <div class='cell'>
 
   <div class='user_avatar block'>
-    <% if(topic.reply) {%>
-      <a href="/user/<%= topic.reply.author.name %>">
-        <img src="<%= topic.reply.author.avatar_url %>"
-          title="<%= topic.reply.author.name %>"
-        />
-      </a>
-    <% } %>
-    <% if(!topic.reply) {%>
-      <a href="/user/<%= topic.author.name %>">
-        <img src="<%= topic.author.avatar_url %>"
-          title="<%= topic.author.name %>"
-        />
-      </a>
-    <% } %>
+    <a href="/user/<%= topic.author.name %>">
+      <img src="<%= topic.author.avatar_url %>"
+        title="<%= topic.author.name %>"
+      />
+    </a>
   </div>
 
   <div class='block count'>
