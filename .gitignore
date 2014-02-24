@@ -15,3 +15,5 @@ assets.json
 
 # Ignore Windows desktop setting file
 desktop.ini
+
+*.log
