@@ -2,7 +2,7 @@
   <div class='panel'>
     <% if (locals.user || locals.current_user) { %>
       <div class='header'>
-        <span class='col_fade'>个人信息</span>
+        <span class='col_fade'>个人信息<span>
       </div>
       <div class='inner'>
         <%- partial('user/card',{ object: locals.user || locals.current_user, as: 'user' }) %>
@@ -22,7 +22,7 @@
     <div class='header'>
       <!-- <img src='<%- config.site_static_host %>/public/images/tag_icon&16.png' title='标签'/> -->
       <!-- CNode社区宣传通告 -->
-      <span class="index_notify">社区消息</span>
+      <span class="index_notify">社区消息
     </div>
     <div class='inner'>
       <div><a href="/topic/4fa69d90bac222c3780576d8" target="_blank">如何获得NodeAppEngine邀请码?</a></div>

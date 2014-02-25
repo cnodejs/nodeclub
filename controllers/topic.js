@@ -117,7 +117,11 @@ exports.put = function (req, res, next) {
     topic_tags = req.body.topic_tags.split(',');
   }
 
-  if (title === '') {
+  var edit_error =
+    title === '' ?
+    '标题不能是空的。' :
+    (title.length >= 10 && title.length <= 100 ? '' : '标题字数太多或太少。');
+  if (edit_error) {
     Tag.getAllTags(function (err, tags) {
       if (err) {
         return next(err);
@@ -129,21 +133,7 @@ exports.put = function (req, res, next) {
           }
         }
       }
-      res.render('topic/edit', {tags: tags, edit_error: '标题不能是空的。', content: content});
-    });
-  } else if (title.length < 10 || title.length > 100) {
-    Tag.getAllTags(function (err, tags) {
-      if (err) {
-        return next(err);
-      }
-      for (var i = 0; i < topic_tags.length; i++) {
-        for (var j = 0; j < tags.length; j++) {
-          if (topic_tags[i] === tags[j]._id) {
-            tags[j].is_selected = true;
-          }
-        }
-      }
-      res.render('topic/edit', {tags: tags, edit_error: '标题字数太多或太少', title: title, content: content});
+      res.render('topic/edit', {tags: tags, edit_error: edit_error, title: title, content: content});
     });
   } else {
     Topic.newAndSave(title, content, req.session.user._id, function (err, topic) {

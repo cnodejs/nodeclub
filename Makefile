@@ -28,4 +28,8 @@ test-cov: cov
 build:
 	@./bin/combo views .
 
-.PHONY: test test-cov cov
+start:
+	@nohup ./node_modules/.bin/forever `pwd`/app.js >> cnode.log 2>&1 &
+
+
+.PHONY: test test-cov cov start

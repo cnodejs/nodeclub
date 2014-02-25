@@ -23,7 +23,6 @@ var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
 var status = require('./controllers/status');
 var github = require('./controllers/github');
-
 var passport = require('passport');
 var configMiddleware = require('./middlewares/conf');
 var config = require('./config');
@@ -40,7 +39,7 @@ module.exports = function (app) {
   } else {
     app.get('/signup', configMiddleware.github, passport.authenticate('github'));
   }
-  app.get('/signout', sign.signout);
+  app.post('/signout', sign.signout);
   app.get('/signin', sign.showLogin);
   app.post('/signin', sign.login);
   app.get('/active_account', sign.active_account);
@@ -69,7 +68,6 @@ module.exports = function (app) {
   app.post('/user/set_star', user.toggle_star);
   app.post('/user/cancel_star', user.toggle_star);
   app.post('/user/:name/block', auth.adminRequired, user.block);
-  app.post('/notice',message.notice);
 
   // message
   app.post('/messages/mark_read', message.mark_read);

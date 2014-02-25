@@ -2,8 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0203739d-5d12-4b6e-baed-92832695ca12" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/libs/jquery-ujs.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\Documents\Desktop\nodeclub\.idea\.name" afterPath="" />
+      <change type="DELETED" beforePath="D:\Documents\Desktop\nodeclub\.idea\codeStyleSettings.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\Documents\Desktop\nodeclub\.idea\encodings.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\Documents\Desktop\nodeclub\.idea\misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\Documents\Desktop\nodeclub\.idea\modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\Documents\Desktop\nodeclub\.idea\nodeclub.iml" afterPath="" />
+      <change type="DELETED" beforePath="D:\Documents\Desktop\nodeclub\.idea\vcs.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Makefile" afterPath="$PROJECT_DIR$/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/topic/abstract.html" afterPath="$PROJECT_DIR$/views/topic/abstract.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.default.js" afterPath="$PROJECT_DIR$/config.default.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layout.html" afterPath="$PROJECT_DIR$/views/layout.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/services/mail.js" afterPath="$PROJECT_DIR$/services/mail.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/main.js" afterPath="$PROJECT_DIR$/public/javascripts/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/message.js" afterPath="$PROJECT_DIR$/controllers/message.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proxy/message.js" afterPath="$PROJECT_DIR$/proxy/message.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes.js" afterPath="$PROJECT_DIR$/routes.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/sidebar.html" afterPath="$PROJECT_DIR$/views/sidebar.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/topic.js" afterPath="$PROJECT_DIR$/controllers/topic.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/user.js" afterPath="$PROJECT_DIR$/controllers/user.js" />
     </list>
     <ignored path="nodeclub.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,8 +61,14 @@
       <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="42" selection-start="2053" selection-end="2053" vertical-scroll-proportion="-0.08278867" vertical-offset="1349" max-vertical-offset="2546">
-              <folding />
+            <state line="105" column="15" selection-start="2894" selection-end="2894" vertical-scroll-proportion="0.503268" vertical-offset="1726" max-vertical-offset="2470">
+              <folding>
+                <marker date="1393295387078" expanded="true" signature="1262:1720" placeholder="{...}" />
+                <marker date="1393295387078" expanded="true" signature="1329:1384" placeholder="{...}" />
+                <marker date="1393295387078" expanded="true" signature="1475:1488" placeholder="{...}" />
+                <marker date="1393295387078" expanded="true" signature="1863:2001" placeholder="{...}" />
+                <marker date="1393295387078" expanded="true" signature="2165:2488" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -56,7 +85,7 @@
       <file leaf-file-name="topic.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/topic.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="180" column="8" selection-start="5265" selection-end="5265" vertical-scroll-proportion="0.0" vertical-offset="3420" max-vertical-offset="8911">
+            <state line="170" column="8" selection-start="4924" selection-end="4924" vertical-scroll-proportion="0.0" vertical-offset="3230" max-vertical-offset="8721">
               <folding />
             </state>
           </provider>
@@ -332,13 +361,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1448" height="878" extended-state="1" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32827586" sideWeight="0.49964714" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32965517" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23570925" sideWeight="0.6703448" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23570925" sideWeight="0.6703448" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32965517" sideWeight="0.50035286" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32965517" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
@@ -401,7 +430,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="109" column="10" selection-start="3860" selection-end="3865" vertical-scroll-proportion="-4.76" vertical-offset="1876" max-vertical-offset="2679" />
+        <state line="109" column="10" selection-start="3860" selection-end="3865" vertical-scroll-proportion="-4.76" vertical-offset="1876" max-vertical-offset="2679">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/reply/reply2.html">
@@ -434,7 +465,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/topic.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="180" column="8" selection-start="5265" selection-end="5265" vertical-scroll-proportion="0.0" vertical-offset="2678" max-vertical-offset="8873">
+        <state line="170" column="8" selection-start="4924" selection-end="4924" vertical-scroll-proportion="0.0" vertical-offset="3230" max-vertical-offset="8721">
           <folding />
         </state>
       </provider>
@@ -467,8 +498,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="42" selection-start="2053" selection-end="2053" vertical-scroll-proportion="-0.08278867" vertical-offset="1349" max-vertical-offset="2546">
-          <folding />
+        <state line="105" column="15" selection-start="2894" selection-end="2894" vertical-scroll-proportion="0.503268" vertical-offset="1726" max-vertical-offset="2470">
+          <folding>
+            <marker date="1393295387078" expanded="true" signature="1262:1720" placeholder="{...}" />
+            <marker date="1393295387078" expanded="true" signature="1329:1384" placeholder="{...}" />
+            <marker date="1393295387078" expanded="true" signature="1475:1488" placeholder="{...}" />
+            <marker date="1393295387078" expanded="true" signature="1863:2001" placeholder="{...}" />
+            <marker date="1393295387078" expanded="true" signature="2165:2488" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>

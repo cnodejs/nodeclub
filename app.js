@@ -49,33 +49,29 @@ ndir.mkdir(config.upload_dir, function (err) {
 var app = express.createServer();
 
 // configuration in all env
-app.configure(function () {
-  app.set('view engine', 'html');
-  app.set('views', path.join(__dirname, 'views'));
-  app.register('.html', require('ejs'));
-  app.use(express.bodyParser({
-    uploadDir: config.upload_dir
-  }));
-  app.use(express.cookieParser());
-  app.use(express.session({
-    secret: config.session_secret
-  }));
-  app.use(passport.initialize());
-  // custom middleware
-  app.use(require('./controllers/sign').auth_user);
-  app.use(auth.blockUser());
-  app.use('/upload/', express.static(config.upload_dir, { maxAge: maxAge }));
-  // old image url: http://host/user_data/images/xxxx
-  app.use('/user_data/', express.static(path.join(__dirname, 'public', 'user_data'), { maxAge: maxAge }));
-});
+app.set('view engine', 'html');
+app.set('views', path.join(__dirname, 'views'));
+app.register('.html', require('ejs'));
+app.use(express.bodyParser({
+  uploadDir: config.upload_dir
+}));
+app.use(express.methodOverride());
+app.use(express.cookieParser());
+app.use(express.session({
+  secret: config.session_secret
+}));
+app.use(passport.initialize());
+// custom middleware
+app.use(require('./controllers/sign').auth_user);
+app.use(auth.blockUser());
+app.use('/upload/', express.static(config.upload_dir, { maxAge: maxAge }));
+// old image url: http://host/user_data/images/xxxx
+app.use('/user_data/', express.static(path.join(__dirname, 'public', 'user_data'), { maxAge: maxAge }));
 
-app.configure('development', function () {
+if (config.debug) {
   app.use('/public', express.static(staticDir));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-
-});
-
-app.configure('production', function () {
+} else {
   app.use(function (req, res, next) {
     var csrf = express.csrf();
     // ignore upload image
@@ -87,7 +83,7 @@ app.configure('production', function () {
   app.use('/public', express.static(staticDir, { maxAge: maxAge }));
   app.use(express.errorHandler());
   app.set('view cache', true);
-});
+}
 
 
 // set static, dynamic helpers
