@@ -480,7 +480,10 @@ exports.get_followers = function (req, res, next) {
 
 exports.top100 = function (req, res, next) {
   var opt = {limit: 100, sort: [['score', 'desc']]};
-  User.getUsersByQuery({}, opt, function (err, tops) {
+  User.getUsersByQuery({'$or': [
+    {is_block: {'$exists': false}},
+    {is_block: false},
+  ]}, opt, function (err, tops) {
     if (err) {
       return next(err);
     }
