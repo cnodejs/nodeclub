@@ -73,7 +73,6 @@
 }
 a.dark {
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
   text-decoration: none;
   color: #666;
