@@ -72,6 +72,7 @@ app.configure(function () {
 app.configure('development', function () {
   app.use('/public', express.static(staticDir));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+
 });
 
 app.configure('production', function () {
