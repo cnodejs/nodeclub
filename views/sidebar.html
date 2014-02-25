@@ -87,19 +87,4 @@
   </div>
   <% } %>
 
-  <% if (config.side_ads && config.side_ads.length > 0) { %>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>友情社区 | 赞助商</span>
-    </div>
-    <% config.side_ads.forEach(function (ad) { %>
-    <div class='inner'>
-      <a href="<%- ad.url %>" title="<%= ad.text %>" target='_blank'>
-        <img src="<%- ad.image %>" />
-      </a>
-    </div>
-    <% }); %>
-  </div>
-  <% } %>
-
 </div>
