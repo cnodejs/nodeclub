@@ -25,11 +25,12 @@
 				<span class='big'><%= user.score %></span> 积分
 			</div>
 
-			<% if (user.messages_count > 0) { %>
 			<div class='floor'>
-				<a href='/my/messages'><span class='big messages_count'><%= user.messages_count %></span> 未读消息</a>
+				<a href='/my/messages'>
+          <span class='big <%= user.messages_count ? 'messages_count' : '' %>'>
+            <%= user.messages_count %>
+          </span> 未读消息</a>
 			</div>
-			<% } %>
 		</div>
 	</div>
 </div>
