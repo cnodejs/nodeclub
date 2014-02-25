@@ -11,7 +11,7 @@
     "express": "2.5.11",
     "ejs": "0.8.4",
     "eventproxy": "0.2.6",
-    "mongoose": "2.7.3",
+    "mongoose": "~2.8.0",
     "node-markdown": "0.1.0",
     "validator": "0.3.7",
     "ndir": "0.1.3",
