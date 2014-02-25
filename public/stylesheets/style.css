@@ -389,6 +389,7 @@ a.user_avatar:hover {
   white-space: nowrap;
   line-height: 48px;
   width: 500px;
+  font-size: 18px;
 }
 a.topic_title {
   font-size: 16px;
@@ -471,12 +472,12 @@ img.unread {
   display: inline-block;
 }
 .wmd-spacer {
-  width: 1px; 
-  height: 20px; 
+  width: 1px;
+  height: 20px;
   margin-left: 14px;
   position: absolute;
   background-color: Silver;
-  display: inline-block; 
+  display: inline-block;
   list-style: none;
 }
 .wmd-spacer1 {
@@ -579,7 +580,7 @@ textarea[id^=wmd-input] {
 }
 .navbar .nav .divider-vertical {
   background-color:#2b3741;
-  border-right: 1px solid #2f3b46; 
+  border-right: 1px solid #2f3b46;
 }
 .navbar .nav > li > a {
   text-shadow: none;
@@ -607,7 +608,7 @@ textarea[id^=wmd-input] {
 .nav-pills>li>a {
   padding: 2px 10px;
   line-height: 22px;
-} 
+}
 .pagination {
   height: 40px;
   margin: 10px 0px 10px 10px;
@@ -664,7 +665,7 @@ div[class$=content] > blockquote > p {
 /* about score on sidebar */
 .top_score {
   color: gray;
-  padding: 2px; 
+  padding: 2px;
 }
 .inner ol {
   margin: 4px 0px;
