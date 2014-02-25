@@ -70,7 +70,11 @@ exports.index = function (req, res, next) {
   // 取星标用户
   User.getUsersByQuery({ is_star: true }, { limit: 5 }, proxy.done('stars'));
   // 取排行榜上的用户
-  User.getUsersByQuery({is_block: false}, { limit: 10, sort: [ [ 'score', 'desc' ] ] }, proxy.done('tops'));
+  User.getUsersByQuery({'$or': [
+    {is_block: {'$exists': false}},
+    {is_block: false},
+  ]},
+  { limit: 10, sort: [ [ 'score', 'desc' ] ] }, proxy.done('tops'));
   // 取0回复的主题
   Topic.getTopicsByQuery({ reply_count: 0 }, { limit: 5, sort: [ [ 'create_at', 'desc' ] ] },
   proxy.done('no_reply_topics'));
