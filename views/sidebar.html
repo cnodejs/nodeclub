@@ -35,21 +35,6 @@
   </div>
   <% } %>
 
-  <% if (config.site_links && config.site_links.length > 0) { %>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>相关站点</span>
-    </div>
-    <div class='inner'>
-      <ul class='unstyled'>
-        <% config.site_links.forEach(function (site) { %>
-        <li><a href='<%= site.url %>' target='_blank'><%= site.text %></a></li>
-        <% }); %>
-      </ul>
-    </div>
-  </div>
-  <% } %>
-
   <% if (locals.tops) { %>
   <div class='panel'>
     <div class='header'>
