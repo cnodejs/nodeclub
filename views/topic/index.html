@@ -61,10 +61,10 @@
       <hr>
       <div class="tags">
         <% if (topic.tags.length > 0) { %>
-        <span class='col_fade'>标签：</span> 
+        <span class='col_fade'>标签：</span>
         <%- partial('tag/tag_in_topic',{ collection: topic.tags, as: 'tag' }) %>
         <% } else { %>
-        <span class='col_fade'>标签：无</span>  
+        <span class='col_fade'>标签：无</span>
         <% } %>
       </div>
       <div class="changes">
@@ -91,9 +91,9 @@
         <% if (locals.current_user) { %>
           <% if (current_user.is_admin) { %>
           <% if (topic.top) { %>
-            <a href='/topic/<%= topic._id %>/top/0'><img class='user_icon' src='<%- config.site_static_host %>/public/images/star_fav_empty_icon&16.png' title='取消置顶' /></a>
+            <a href='/topic/<%= topic._id %>/top/0'><img class='user_icon' src='<%- config.site_static_host %>/public/images/star_fav_icon&16.png' title='取消置顶' /></a>
           <% } else { %>
-            <a href='/topic/<%= topic._id %>/top/1'><img class='user_icon' src='<%- config.site_static_host %>/public/images/star_fav_icon&16.png' title='置顶' /></a>
+            <a href='/topic/<%= topic._id %>/top/1'><img class='user_icon' src='<%- config.site_static_host %>/public/images/star_fav_empty_icon&16.png' title='置顶' /></a>
           <% } %>
           <a href='/topic/<%= topic._id %>/edit'><img class='user_icon' src='<%- config.site_static_host %>/public/images/doc_edit_icon&16.png' title='编辑' /></a>
           <a href='javascript:;' data-id="<%= topic._id %>" class='delete_topic_btn'><img class='user_icon' src='<%- config.site_static_host %>/public/images/trash_icon&16.png' title='删除' /></a>
@@ -105,7 +105,7 @@
         <% } %>
       </div>
     </div>
-  </div>  
+  </div>
   <% if (topic.replies && topic.replies.length > 0) { %>
   <div class='panel'>
     <div class='header'>
@@ -167,7 +167,7 @@
       parent.find('.reply2_area').prepend(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
       var user = $btn.parents('.cell').find('.reply_author a').html();
-      
+
       editorWrap.show('fast', function () {
         var editor = createEpicEditor(textarea);
         editorList[textarea.attr('id')] = editor;
@@ -184,7 +184,7 @@
       if (textarea.val().indexOf('@' + user) < 0) {
         textarea.val('@' + user + ' ');
       }
-      
+
       editorWrap.show('fast', function () {
         var editor = createEpicEditor(textarea);
         editorList[textarea.attr('id')] = editor;
@@ -208,9 +208,9 @@
             $me.html('加入收藏');
             $me.attr('action','collect');
           }
-          $me.toggleClass('btn-success'); 
-        } 
-      }, 'json'); 
+          $me.toggleClass('btn-success');
+        }
+      }, 'json');
     });
 
     $('.delete_reply_btn, .delete_reply2_btn').live('click', function() {
@@ -230,16 +230,16 @@
         $.post('/reply/' + reply_id + '/delete', data, function (data) {
           if (data.status === 'success') {
             if($me.hasClass('delete_reply_btn')){
-              $me.parents('.reply_item').remove();  
+              $me.parents('.reply_item').remove();
             }
             if($me.hasClass('delete_reply2_btn')){
-              $me.parents('.reply2_item').remove(); 
+              $me.parents('.reply2_item').remove();
             }
           }
-        }, 'json'); 
-      } 
+        }, 'json');
+      }
       return false;
-    }); 
+    });
 
     $('.delete_topic_btn').click(function () {
       var topicId = $(this).data('id');
@@ -265,7 +265,7 @@
         }
       });
     });
-    
+
     document.onkeyup=function(event) {
       if(window.ActiveXObject) {
         var keydown = window.event.keyCode;

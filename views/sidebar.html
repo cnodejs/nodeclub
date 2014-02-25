@@ -18,51 +18,6 @@
     <% } %>
   </div>
 
-  <div class=panel>
-    <div class='header'>
-      <!-- <img src='<%- config.site_static_host %>/public/images/tag_icon&16.png' title='标签'/> -->
-      <!-- CNode社区宣传通告 -->
-      <span class="index_notify">社区消息
-    </div>
-    <div class='inner'>
-      <div><a href="/topic/4fa69d90bac222c3780576d8" target="_blank">如何获得NodeAppEngine邀请码?</a></div>
-      <div><a href="/topic/4f4d9f007f999acb7c00af57" target="_blank">如何获得Node官方T-Shirt?</a> </div>
-      <div><a href="/topic/4f17948d9f40a8335200518e" target="_blank">如何加入CNode社区?</a></div>
-    </div>
-  </div>
-
-  <% if (locals.hot_tags) { %>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>热门标签</span>
-    </div>
-    <div class='inner'>
-      <% if (hot_tags.length > 0) { %>
-      <%- partial('tag/tag_with_count', { collection: hot_tags, as: 'tag' }) %>
-      <% } else { %>
-      <p>无</p>
-      <% } %>
-    </div>
-  </div>
-  <% } %>
-
-  <% if (locals.hot_topics) { %>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>热门话题</span>
-    </div>
-    <div class='inner'>
-      <% if (hot_topics.length >0) { %>
-      <ul class='unstyled'>
-      <%- partial('topic/small', { collection: hot_topics, as: 'topic' }) %>
-      </ul>
-      <% } else { %>
-      <p>无</p>
-      <% } %>
-    </div>
-  </div>
-  <% } %>
-
   <% if (locals.no_reply_topics) { %>
   <div class='panel'>
     <div class='header'>
@@ -147,12 +102,4 @@
   </div>
   <% } %>
 
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>RSS订阅</span>
-    </div>
-    <div class='inner'>
-    <a href="/rss"><img alt="RSS订阅" src="<%- config.site_static_host %>/public/images/rss_icon&40.png" /></a>
-    </div>
-  </div>
 </div>
