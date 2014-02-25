@@ -145,6 +145,10 @@ exports.newAndSave = function (content, topicId, authorId, replyId, callback) {
   });
 };
 
-exports.getRepliesByAuthorId = function (authorId, callback) {
-  Reply.find({author_id: authorId}, callback);
+exports.getRepliesByAuthorId = function (authorId, opt, callback) {
+  if (!callback) {
+    callback = opt;
+    opt = null;
+  }
+  Reply.find({author_id: authorId}, {}, opt, callback);
 };

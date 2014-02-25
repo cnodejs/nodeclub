@@ -53,17 +53,19 @@ exports.index = function (req, res, next) {
     var opt = {limit: 5, sort: [['create_at', 'desc']]};
     Topic.getTopicsByQuery(query, opt, proxy.done('recent_topics'));
 
-    Reply.getRepliesByAuthorId(user._id, proxy.done(function (replies) {
-      var topic_ids = [];
-      for (var i = 0; i < replies.length; i++) {
-        if (topic_ids.indexOf(replies[i].topic_id.toString()) < 0) {
-          topic_ids.push(replies[i].topic_id.toString());
+    Reply.getRepliesByAuthorId(user._id, {limit: 20, sort: [['create_at', 'desc']]},
+      proxy.done(function (replies) {
+        console.log(replies);
+        var topic_ids = [];
+        for (var i = 0; i < replies.length; i++) {
+          if (topic_ids.indexOf(replies[i].topic_id.toString()) < 0) {
+            topic_ids.push(replies[i].topic_id.toString());
+          }
         }
-      }
-      var query = {_id: {'$in': topic_ids}};
-      var opt = {limit: 5, sort: [['create_at', 'desc']]};
-      Topic.getTopicsByQuery(query, opt, proxy.done('recent_replies'));
-    }));
+        var query = {_id: {'$in': topic_ids}};
+        var opt = {limit: 5, sort: [['create_at', 'desc']]};
+        Topic.getTopicsByQuery(query, opt, proxy.done('recent_replies'));
+      }));
 
     if (!req.session.user) {
       proxy.emit('relation', null);
