@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="959c7a7c-5613-4166-8501-bf8a5b2a5dc7" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/main.js" afterPath="$PROJECT_DIR$/public/javascripts/main.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/message.js" afterPath="$PROJECT_DIR$/controllers/message.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="nodeclub.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,9 +48,9 @@
       <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="69" column="28" selection-start="1723" selection-end="1723" vertical-scroll-proportion="0.0" vertical-offset="950" max-vertical-offset="1824">
+            <state line="71" column="51" selection-start="1782" selection-end="1782" vertical-scroll-proportion="0.0" vertical-offset="912" max-vertical-offset="1843">
               <folding>
-                <marker date="1393413402975" expanded="true" signature="1586:1601" placeholder="..." />
+                <marker date="1393414597352" expanded="true" signature="1593:1608" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -58,7 +59,7 @@
       <file leaf-file-name="message.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/message.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="126" column="8" selection-start="3325" selection-end="3325" vertical-scroll-proportion="0.73913044" vertical-offset="1748" max-vertical-offset="2622">
+            <state line="127" column="8" selection-start="3326" selection-end="3326" vertical-scroll-proportion="1.0652174" vertical-offset="1482" max-vertical-offset="2641">
               <folding />
             </state>
           </provider>
@@ -314,7 +315,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -440,16 +441,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="28" selection-start="1723" selection-end="1723" vertical-scroll-proportion="0.0" vertical-offset="950" max-vertical-offset="1824">
+        <state line="71" column="51" selection-start="1782" selection-end="1782" vertical-scroll-proportion="0.0" vertical-offset="912" max-vertical-offset="1843">
           <folding>
-            <marker date="1393413402975" expanded="true" signature="1586:1601" placeholder="..." />
+            <marker date="1393414597352" expanded="true" signature="1593:1608" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/message.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="126" column="8" selection-start="3325" selection-end="3325" vertical-scroll-proportion="0.73913044" vertical-offset="1748" max-vertical-offset="2622">
+        <state line="127" column="8" selection-start="3326" selection-end="3326" vertical-scroll-proportion="1.0652174" vertical-offset="1482" max-vertical-offset="2641">
           <folding />
         </state>
       </provider>

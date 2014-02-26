@@ -117,6 +117,7 @@ exports.notice=function(req,res,next){
       if (err) {
         return next(err);
       }
+
 			if (count === 0) {
 				res.json(null);
 				return;
