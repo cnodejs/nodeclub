@@ -1,5 +1,6 @@
 $(document).ready(function () {
   $('#search_form').submit(function (e) {
+<<<<<<< HEAD
 	//e.preventDefault();
 	search();
   });
@@ -17,6 +18,25 @@ $(document).ready(function () {
 	  return false;
 	}
   } 
+=======
+    //e.preventDefault();
+    search();
+  });
+
+  function search() {
+    var q = document.getElementById('q');
+    if (q.value) {
+      /*
+      var hostname = window.location.hostname;
+      var url = 'http://www.google.com/search?q=site:' + hostname + '%20';
+      window.open(url + q.value, '_blank');
+      */
+      return true;
+    } else {
+      return false;
+    }
+  }
+>>>>>>> a5932b51ef36e3cba432c56bee75f40d8edf3a53
 
   var $wrapper = $('#wrapper');
   var $backtotop = $('#backtotop');
@@ -43,6 +63,7 @@ $(document).ready(function () {
 
   $('.topic_content a,.reply_content a').attr('target', '_blank');
 
+<<<<<<< HEAD
   //ajax获取新通知并在有新通知时显示消息到页面上
   function GetNotice(){
     var _=this,
@@ -85,4 +106,6 @@ $(document).ready(function () {
     this.refresh();
   }
   new GetNotice();
+=======
+>>>>>>> a5932b51ef36e3cba432c56bee75f40d8edf3a53
 });

@@ -5,7 +5,7 @@
 /**
  * Module dependencies.
  */
-
+var util=require('util');
 var fs = require('fs');
 var path = require('path');
 var Loader = require('loader');
@@ -19,6 +19,7 @@ var GitHubStrategy = require('passport-github').Strategy;
 var githubStrategyMiddleware = require('./middlewares/github_strategy');
 var routes = require('./routes');
 var auth = require('./middlewares/auth');
+var EventProxy = require('eventproxy');
 
 var maxAge = 3600000 * 24 * 30;
 var staticDir = path.join(__dirname, 'public');
@@ -33,6 +34,9 @@ if (config.mini_assets) {
     throw e;
   }
 }
+
+//全局事件对象
+var proxyAll=new EventProxy();
 
 // host: http://127.0.0.1
 var urlinfo = require('url').parse(config.host);
@@ -49,32 +53,29 @@ ndir.mkdir(config.upload_dir, function (err) {
 var app = express.createServer();
 
 // configuration in all env
-app.configure(function () {
-  app.set('view engine', 'html');
-  app.set('views', path.join(__dirname, 'views'));
-  app.register('.html', require('ejs'));
-  app.use(express.bodyParser({
-    uploadDir: config.upload_dir
-  }));
-  app.use(express.cookieParser());
-  app.use(express.session({
-    secret: config.session_secret
-  }));
-  app.use(passport.initialize());
-  // custom middleware
-  app.use(require('./controllers/sign').auth_user);
-  app.use(auth.blockUser());
-  app.use('/upload/', express.static(config.upload_dir, { maxAge: maxAge }));
-  // old image url: http://host/user_data/images/xxxx
-  app.use('/user_data/', express.static(path.join(__dirname, 'public', 'user_data'), { maxAge: maxAge }));
-});
+app.set('view engine', 'html');
+app.set('views', path.join(__dirname, 'views'));
+app.register('.html', require('ejs'));
+app.use(express.bodyParser({
+  uploadDir: config.upload_dir
+}));
+app.use(express.methodOverride());
+app.use(express.cookieParser());
+app.use(express.session({
+  secret: config.session_secret
+}));
+app.use(passport.initialize());
+// custom middleware
+app.use(require('./controllers/sign').auth_user);
+app.use(auth.blockUser());
+app.use('/upload/', express.static(config.upload_dir, { maxAge: maxAge }));
+// old image url: http://host/user_data/images/xxxx
+app.use('/user_data/', express.static(path.join(__dirname, 'public', 'user_data'), { maxAge: maxAge }));
 
-app.configure('development', function () {
+if (config.debug) {
   app.use('/public', express.static(staticDir));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
-
-app.configure('production', function () {
+} else {
   app.use(function (req, res, next) {
     var csrf = express.csrf();
     // ignore upload image
@@ -86,15 +87,19 @@ app.configure('production', function () {
   app.use('/public', express.static(staticDir, { maxAge: maxAge }));
   app.use(express.errorHandler());
   app.set('view cache', true);
-});
+}
 
 
 // set static, dynamic helpers
 app.helpers({
   config: config,
   Loader: Loader,
-  assets: assets
+  assets: assets,
+  inspect: function(obj) {
+    return util.inspect(obj, true);
+  }
 });
+
 app.dynamicHelpers(require('./common/render_helpers'));
 
 if (process.env.NODE_ENV !== 'test') {

@@ -27,6 +27,7 @@
     <%- Loader('/public/index.min.js')
       .js('/public/libs/code-prettify/prettify.js')
       .js('/public/libs/jquery/jquery.js')
+      .js('/public/libs/jquery-ujs.js')
       .js('/public/libs/bootstrap/js/bootstrap.js')
       .js('/public/javascripts/main.js')
       .done(assets, config.site_static_host, config.mini_assets)
@@ -42,6 +43,8 @@
     <% } else { %>
     <title><%= config.description %></title>
     <% } %>
+    <meta content="_csrf" name="csrf-param">
+    <meta content="<%= csrf %>" name="csrf-token">
   </head>
   <body>
     <!-- navbar -->
@@ -67,7 +70,7 @@
             </li>
             <li><a href='/setting'>设置</a></li>
             <li>
-              <a href='/signout'>退出</a>
+              <a href='/signout' data-method="post" rel="nofollow">退出</a>
             </li>
             <% } else { %>
             <li><a href='/signup'>注册</a></li>
@@ -96,7 +99,7 @@
           <a class='dark' href='/rss' target="_blank"><strong>RSS</strong></a>
         </div>
         <div class='col_fade'>
-          &copy; 2012 - 2013 <br>本社区为开源系统，版本: <%= config.version %> ，欢迎贡献代码<br>
+          &copy; <%= "2012 - " + (new Date()).getFullYear() %> <br>本社区为开源系统，版本: <%= config.version %> ，欢迎贡献代码<br>
           由<a href='http://cnodejs.net' target='_blank'> NAE </a>为 <%= config.name %> 提供动力
         </div>
       </div>
@@ -111,6 +114,9 @@
       ga('create', '<%=config.google_tracker_id%>', '<%= config.host %>');
       ga('send', 'pageview');
 
+    </script>
+    <script type="text/javascript">
+        console.log(eval(<%= inspect(session.user) %>))
     </script>
   </body>
 </html>

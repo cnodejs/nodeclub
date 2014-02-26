@@ -40,7 +40,7 @@ module.exports = function (app) {
   } else {
     app.get('/signup', configMiddleware.github, passport.authenticate('github'));
   }
-  app.get('/signout', sign.signout);
+  app.post('/signout', sign.signout);
   app.get('/signin', sign.showLogin);
   app.post('/signin', sign.login);
   app.get('/active_account', sign.active_account);

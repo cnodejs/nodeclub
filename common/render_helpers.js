@@ -34,3 +34,7 @@ exports.markdown = function () {
 exports.csrf = function (req, res) {
   return req.session ? req.session._csrf : '';
 };
+
+exports.session=function(req,res){
+  return req.session ? req.session : '';
+}
