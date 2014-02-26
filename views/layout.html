@@ -114,5 +114,8 @@
       ga('send', 'pageview');
 
     </script>
+    <script type="text/javascript">
+        console.log(eval(<%= inspect(session.user) %>))
+    </script>
   </body>
 </html>

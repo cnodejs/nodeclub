@@ -104,3 +104,23 @@ exports.mark_all_read = function (req, res, next) {
     }
   });
 };
+
+//浏览器ajax长连接post '/notice' 路径获取最新的消息通知
+exports.notice=function(req,res,next){
+  if (!req.session || !req.session.user) {
+    res.send('forbidden!');
+    return;
+  }
+  var pushNotice=function(){
+    Message.getMessagesCount(req.session.user._id,function(err,count){
+      if (err) {
+        return next(err);
+      }
+      res.json({
+        'count':count
+      })
+    })
+  }
+  //以用户的_id为钩子注册事件
+  proxyAll.once(req.session.user._id,pushNotice);
+};
