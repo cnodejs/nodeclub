@@ -1,26 +1,7 @@
 $(document).ready(function () {
   $('#search_form').submit(function (e) {
-<<<<<<< HEAD
 	//e.preventDefault();
 	search();
-  });
-
-  function search() {
-	var q = document.getElementById('q');
-	if (q.value) {
-	  /*
-	  var hostname = window.location.hostname;
-	  var url = 'http://www.google.com/search?q=site:' + hostname + '%20';
-	  window.open(url + q.value, '_blank');
-	  */
-	  return true;
-	} else {
-	  return false;
-	}
-  } 
-=======
-    //e.preventDefault();
-    search();
   });
 
   function search() {
@@ -36,7 +17,7 @@ $(document).ready(function () {
       return false;
     }
   }
->>>>>>> a5932b51ef36e3cba432c56bee75f40d8edf3a53
+
 
   var $wrapper = $('#wrapper');
   var $backtotop = $('#backtotop');
@@ -63,7 +44,7 @@ $(document).ready(function () {
 
   $('.topic_content a,.reply_content a').attr('target', '_blank');
 
-<<<<<<< HEAD
+
   //ajax获取新通知并在有新通知时显示消息到页面上
   function GetNotice(){
     var _=this,
@@ -77,14 +58,14 @@ $(document).ready(function () {
         type:'POST',
         /*期望数据格式：
         * {
-        *   newNotice:0,
+        *   count:0,
         *   url:""
         * }
         * 若是未登录或者出现错误，则返回null
         * */
         success: function(data){
-          if(data&&data!==null&&data.newNotice>0){
-            var html='<a target="_blank" style="color: #005580;" href="'+data.url+'">您有'+data.newNotice+'条新消息</a>',
+          if(data&&data!==null&&data.count>0){
+            var html='<a target="_blank" style="color: #005580;" href="'+data.url+'">您有'+data.count+'条新消息</a>',
               _html=$("#notice_box").html();
             if(html!=_html){
               $("#notice_box").html(html).fadeIn();
@@ -106,6 +87,4 @@ $(document).ready(function () {
     this.refresh();
   }
   new GetNotice();
-=======
->>>>>>> a5932b51ef36e3cba432c56bee75f40d8edf3a53
 });

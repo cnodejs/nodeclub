@@ -105,6 +105,7 @@ exports.mark_all_read = function (req, res, next) {
   });
 };
 <<<<<<< HEAD
+<<<<<<< HEAD
 exports.notice=function(req,res,next){
   if (!req.session || !req.session.user) {
     res.send("");
@@ -128,6 +129,8 @@ exports.notice=function(req,res,next){
   });
 }
 =======
+=======
+>>>>>>> a5932b51ef36e3cba432c56bee75f40d8edf3a53
 
 //浏览器ajax长连接post '/notice' 路径获取最新的消息通知
 exports.notice=function(req,res,next){
@@ -148,4 +151,7 @@ exports.notice=function(req,res,next){
   //以用户的_id为钩子注册事件
   proxyAll.once(req.session.user._id,pushNotice);
 };
+<<<<<<< HEAD
+>>>>>>> a5932b51ef36e3cba432c56bee75f40d8edf3a53
+=======
 >>>>>>> a5932b51ef36e3cba432c56bee75f40d8edf3a53
