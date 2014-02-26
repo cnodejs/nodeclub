@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
       <profile-state>
@@ -35,5 +36,8 @@
     <configuration useDefault="false">C:\Users\Administrator\AppData\Roaming\Subversion</configuration>
     <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
   </component>
+=======
+  <component name="ProjectRootManager" version="2" />
+>>>>>>> 54afa3d535dcceac15f8afe4e1999693861542cb
 </project>
 

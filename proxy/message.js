@@ -6,6 +6,7 @@ var User = require('./user');
 var Topic = require('./topic');
 var Reply = require('./reply');
 
+
 /**
  * 根据用户ID，获取未读消息的数量
  * Callback:
