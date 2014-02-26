@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="959c7a7c-5613-4166-8501-bf8a5b2a5dc7" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/message.js" afterPath="$PROJECT_DIR$/controllers/message.js" />
     </list>
     <ignored path="nodeclub.iws" />
@@ -57,7 +58,7 @@
       <file leaf-file-name="message.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/message.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="124" column="22" selection-start="3293" selection-end="3293" vertical-scroll-proportion="1.0217391" vertical-offset="1463" max-vertical-offset="2622">
+            <state line="126" column="8" selection-start="3325" selection-end="3325" vertical-scroll-proportion="0.73913044" vertical-offset="1748" max-vertical-offset="2622">
               <folding />
             </state>
           </provider>
@@ -313,7 +314,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -448,7 +449,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/message.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="124" column="22" selection-start="3293" selection-end="3293" vertical-scroll-proportion="1.0217391" vertical-offset="1463" max-vertical-offset="2622">
+        <state line="126" column="8" selection-start="3325" selection-end="3325" vertical-scroll-proportion="0.73913044" vertical-offset="1748" max-vertical-offset="2622">
           <folding />
         </state>
       </provider>
