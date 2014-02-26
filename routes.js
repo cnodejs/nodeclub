@@ -20,6 +20,7 @@ var upload = require('./controllers/upload');
 var assets = require('./controllers/static');
 var tools = require('./controllers/tools');
 var auth = require('./middlewares/auth');
+var notice = require('./middlewares/notice')
 var limit = require('./middlewares/limit');
 var status = require('./controllers/status');
 var github = require('./controllers/github');
@@ -69,7 +70,7 @@ module.exports = function (app) {
   app.post('/user/set_star', user.toggle_star);
   app.post('/user/cancel_star', user.toggle_star);
   app.post('/user/:name/block', auth.adminRequired, user.block);
-  app.post('/notice',message.notice);
+  app.post('/notice',auth.userRequired, message.notice);
 
   // message
   app.post('/messages/mark_read', message.mark_read);

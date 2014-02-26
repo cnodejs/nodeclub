@@ -36,7 +36,7 @@ if (config.mini_assets) {
 }
 
 //全局事件对象
-var proxyAll=new EventProxy();
+process.proxyAll=new EventProxy();
 
 // host: http://127.0.0.1
 var urlinfo = require('url').parse(config.host);

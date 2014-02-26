@@ -125,9 +125,10 @@ exports.notice=function(req,res,next){
       res.json({
         'count':count,
 				url:'/my/messages'
+
       })
     })
   }
   //以用户的_id为钩子注册事件
-  proxyAll.once(req.session.user._id,pushNotice);
+	process.proxyAll.once(req.session.user._id,pushNotice);
 };

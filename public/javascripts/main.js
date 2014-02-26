@@ -55,7 +55,7 @@ $(document).ready(function () {
       $.ajax({
         url: "/notice",
         dataType:"json",
-        timeout:1000*60*30,//长连接设置超时时间为半小时
+        timeout:1000*90,//长连接设置超时时间为90s
         type:'POST',
         /*期望数据格式：
         * {

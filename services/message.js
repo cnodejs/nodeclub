@@ -18,6 +18,7 @@ exports.sendReplyMessage = function (master_id, author_id, topic_id, reply_id) {
       if (master && master.receive_reply_mail) {
         message.has_read = true;
         message.save();
+
         messageProxy.getMessageById(message._id, function (err, msg) {
           msg.reply_id = reply_id;
           // TODO: 异常处理
@@ -26,6 +27,7 @@ exports.sendReplyMessage = function (master_id, author_id, topic_id, reply_id) {
       }
     });
   });
+	process.proxyAll.emit(message.master_id);
 };
 
 exports.sendReply2Message = function (master_id, author_id, topic_id, reply_id) {
@@ -50,6 +52,7 @@ exports.sendReply2Message = function (master_id, author_id, topic_id, reply_id) 
       }
     });
   });
+	process.proxyAll.emit(message.master_id);
 };
 
 exports.sendAtMessage = function (master_id, author_id, topic_id, reply_id, callback) {
@@ -74,6 +77,7 @@ exports.sendAtMessage = function (master_id, author_id, topic_id, reply_id, call
     });
     callback(err);
   });
+	process.proxyAll.emit(message.master_id);
 };
 
 exports.sendFollowMessage = function (follow_id, author_id) {
@@ -82,4 +86,5 @@ exports.sendFollowMessage = function (follow_id, author_id) {
   message.master_id = follow_id;
   message.author_id = author_id;
   message.save();
+	process.proxyAll.emit(message.master_id);
 };
