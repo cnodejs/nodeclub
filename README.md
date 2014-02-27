@@ -31,12 +31,12 @@ $ make test-cov
 ```
 
 * jscoverage: [**31%**](http://fengmk2.github.com/coverage/nodeclub.html)
-    
+
 ## 其它
 
 小量修改了两个依赖模块：node-markdown
- 
-* node-markdown/lib/markdown.js  
+
+* node-markdown/lib/markdown.js
 
 allowedTags 添加：
 
@@ -44,7 +44,7 @@ allowedTags 添加：
 embed  //支持 flash 视频
 table|thead|tbody|tr|td|th|caption  //支持表格
 ```
-   
+
 allowedAttributes 添加：
 
 ```
@@ -61,40 +61,52 @@ table: 'class'
 Below is the output from `git-summary`.
 
 ```bash
-$ git summary 
+$ git summary
 
- project  : nodeclub
- repo age : 1 year, 3 months
- active   : 140 days
- commits  : 335
- files    : 267
- authors  : 
-   159  fengmk2                 47.5%
-    42  jiyinyiyong             12.5%
-    34  Jackson Tian            10.1%
-    30  dead-horse              9.0%
-    10  Lei Zongmin             3.0%
-    10  Kenny Zhao              3.0%
-     9  muyuan                  2.7%
-     7  young40                 2.1%
-     6  aisk                    1.8%
-     5  ericzhang               1.5%
-     4  spout                   1.2%
-     3  Json Shen               0.9%
-     2  Cong Ding               0.6%
-     2  chang                   0.6%
-     1  张洋                  0.3%
-     1  hhuai                   0.3%
-     1  Xiang Gao               0.3%
-     1  kerngven                0.3%
-     1  leizongmin              0.3%
-     1  Liu Xing                0.3%
-     1  roymax                  0.3%
-     1  LeToNode                0.3%
-     1  sunwenchao              0.3%
-     1  thebrecht               0.3%
-     1  Finian                  0.3%
-     1  Zongmin Lei             0.3%
+project  : nodeclub
+repo age : 2 years
+active   : 205 days
+commits  : 471
+files    : 260
+authors  :
+ 203  fengmk2                 43.1%
+  49  jiyinyiyong             10.4%
+  48  Jackson Tian            10.2%
+  44  Alsotang                9.3%
+  30  dead-horse              6.4%
+  10  Kenny Zhao              2.1%
+  10  Lei Zongmin             2.1%
+   9  muyuan                  1.9%
+   8  Zongmin Lei             1.7%
+   7  young40                 1.5%
+   6  AlsoTang                1.3%
+   6  aisk                    1.3%
+   5  ericzhang               1.1%
+   4  spout                   0.8%
+   3  Json Shen               0.6%
+   3  Yazhong Liu             0.6%
+   2  chang                   0.4%
+   2  Cong Ding               0.4%
+   2  John Wu                 0.4%
+   2  VitoLau                 0.4%
+   1  张洋                  0.2%
+   1  Xiang Gao               0.2%
+   1  Phoenix Nemo            0.2%
+   1  fundon                  0.2%
+   1  hhuai                   0.2%
+   1  Liu Xing                0.2%
+   1  kerngven                0.2%
+   1  leizongmin              0.2%
+   1  LeToNode                0.2%
+   1  roymax                  0.2%
+   1  Finian                  0.2%
+   1  sunwenchao              0.2%
+   1  superRaytin             0.2%
+   1  thebrecht               0.2%
+   1  xyz2k8                  0.2%
+   1  Eric                    0.2%
+   1  不四                  0.2%
+   1  beforeload              0.2%
 ```
 
 ## License
