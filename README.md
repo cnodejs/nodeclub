@@ -58,7 +58,7 @@ table: 'class'
 
 ## Contributors
 
-Below is the output from `git-summary`.
+Below is the output from `git-summary`. Only first ten.
 
 ```bash
 $ git summary
@@ -79,34 +79,6 @@ authors  :
    9  muyuan                  1.9%
    8  Zongmin Lei             1.7%
    7  young40                 1.5%
-   6  AlsoTang                1.3%
-   6  aisk                    1.3%
-   5  ericzhang               1.1%
-   4  spout                   0.8%
-   3  Json Shen               0.6%
-   3  Yazhong Liu             0.6%
-   2  chang                   0.4%
-   2  Cong Ding               0.4%
-   2  John Wu                 0.4%
-   2  VitoLau                 0.4%
-   1  张洋                  0.2%
-   1  Xiang Gao               0.2%
-   1  Phoenix Nemo            0.2%
-   1  fundon                  0.2%
-   1  hhuai                   0.2%
-   1  Liu Xing                0.2%
-   1  kerngven                0.2%
-   1  leizongmin              0.2%
-   1  LeToNode                0.2%
-   1  roymax                  0.2%
-   1  Finian                  0.2%
-   1  sunwenchao              0.2%
-   1  superRaytin             0.2%
-   1  thebrecht               0.2%
-   1  xyz2k8                  0.2%
-   1  Eric                    0.2%
-   1  不四                  0.2%
-   1  beforeload              0.2%
 ```
 
 ## License
