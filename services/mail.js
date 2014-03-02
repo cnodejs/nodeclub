@@ -4,7 +4,7 @@ var marked = require('marked-prettyprint');
 var util = require('util');
 
 var transport = mailer.createTransport('SMTP', config.mail_opts);
-var SITE_ROOT_URL = 'http://' + config.host + (config.port !== 80 ? ':' + config.port : '');
+var SITE_ROOT_URL = 'http://' + config.host;
 
 /**
  * Send an email
