@@ -20,7 +20,6 @@ var upload = require('./controllers/upload');
 var assets = require('./controllers/static');
 var tools = require('./controllers/tools');
 var auth = require('./middlewares/auth');
-var notice = require('./middlewares/notice')
 var limit = require('./middlewares/limit');
 var status = require('./controllers/status');
 var github = require('./controllers/github');
