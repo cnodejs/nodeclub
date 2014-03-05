@@ -55,7 +55,6 @@ exports.index = function (req, res, next) {
 
     Reply.getRepliesByAuthorId(user._id, {limit: 20, sort: [['create_at', 'desc']]},
       proxy.done(function (replies) {
-        console.log(replies);
         var topic_ids = [];
         for (var i = 0; i < replies.length; i++) {
           if (topic_ids.indexOf(replies[i].topic_id.toString()) < 0) {
