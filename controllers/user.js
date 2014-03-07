@@ -107,6 +107,30 @@ exports.setting = function (req, res, next) {
     return;
   }
 
+  // 显示出错或成功信息
+  function showMessage (msg, data, isSuccess) {
+    var data = data || req.body;
+    var data2 = {
+      name: data.name,
+      email: data.email,
+      url: data.url,
+      profile_image_url: data.profile_image_url,
+      location: data.location,
+      signature: data.signature,
+      profile: data.profile,
+      weibo: data.weibo,
+      githubUsername: data.github || data.githubUsername,
+      receive_at_mail: data.receive_at_mail,
+      receive_reply_mail: data.receive_reply_mail
+    };
+    if (isSuccess) {
+      data2.success = msg;
+    } else {
+      data2.error = msg;
+    }
+    res.render('user/setting', data2);
+  }
+
   // post
   var action = req.body.action;
   if (action === 'change_setting') {
@@ -143,21 +167,7 @@ exports.setting = function (req, res, next) {
         }
         check(url, '不正确的个人网站。').isUrl();
       } catch (e) {
-        res.render('user/setting', {
-          error: e.message,
-          name: name,
-          email: email,
-          url: url,
-          profile_image_url: profile_image_url,
-          location: location,
-          signature: signature,
-          profile: profile,
-          weibo: weibo,
-          github: github,
-          receive_at_mail: receive_at_mail,
-          receive_reply_mail: receive_reply_mail
-        });
-        return;
+        return showMessage(e.message);
       }
     }
     if (weibo) {
@@ -167,21 +177,7 @@ exports.setting = function (req, res, next) {
         }
         check(weibo, '不正确的微博地址。').isUrl();
       } catch (e) {
-        res.render('user/setting', {
-          error: e.message,
-          name: name,
-          email: email,
-          url: url,
-          profile_image_url: profile_image_url,
-          location: location,
-          signature: signature,
-          profile: profile,
-          weibo: weibo,
-          github: github,
-          receive_at_mail: receive_at_mail,
-          receive_reply_mail: receive_reply_mail
-        });
-        return;
+        return showMessage(e.message);
       }
     }
 
@@ -222,21 +218,7 @@ exports.setting = function (req, res, next) {
       old_pass = md5sum.digest('hex');
 
       if (old_pass !== user.pass) {
-        res.render('user/setting', {
-          error: '当前密码不正确。',
-          name: user.name,
-          email: user.email,
-          url: user.url,
-          profile_image_url: user.profile_image_url,
-          location: user.location,
-          signature: user.signature,
-          profile: user.profile,
-          weibo: user.weibo,
-          github: user.githubUsername,
-          receive_at_mail: user.receive_at_mail,
-          receive_reply_mail: user.receive_reply_mail
-        });
-        return;
+        return showMessage('当前密码不正确。', user);
       }
 
       md5sum = crypto.createHash('md5');
@@ -248,21 +230,7 @@ exports.setting = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        res.render('user/setting', {
-          success: '密码已被修改。',
-          name: user.name,
-          email: user.email,
-          url: user.url,
-          profile_image_url: user.profile_image_url,
-          location: user.location,
-          signature: user.signature,
-          profile: user.profile,
-          weibo: user.weibo,
-          github: user.githubUsername,
-          receive_at_mail: user.receive_at_mail,
-          receive_reply_mail: user.receive_reply_mail
-        });
-        return;
+        return showMessage('密码已被修改。', user, true);
 
       });
     });
