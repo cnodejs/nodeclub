@@ -8,7 +8,10 @@ function createEpicEditor (textarea) {
   var $node = $(textarea);
   var id = $node.attr('id');
   var h = $node.height();
-  $node.before('<div id="editor_' + id + '" style="height:' + h + 'px; border: 1px solid #DDD; border-radius: 4px;"></div>');
+  var l = $node.parents('.reply2_form').find('#editor_'+id).length;
+  if (l == 0) {
+    $node.before('<div id="editor_' + id + '" style="height:' + h + 'px; border: 1px solid #DDD; border-radius: 4px;"></div>');
+  }
   $node.hide();
 
   var opts = {
