@@ -166,7 +166,7 @@
       var editorWrap = parent.find('.reply2_form');
       parent.find('.reply2_area').prepend(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
-      var user = $btn.parents('.cell').find('.reply_author a').html();
+      textarea.val('');
 
       editorWrap.show('fast', function () {
         var editor = createEpicEditor(textarea);
