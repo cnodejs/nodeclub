@@ -19,6 +19,7 @@ var config = {
   // 默认的Google tracker ID，自有站点请修改，申请地址：http://www.google.com/analytics/
   google_tracker_id: 'UA-41753901-5',
   site_logo: '', // default is `name`
+  site_icon: '', // 默认没有 favicon, 这里填写网址
   site_navs: [
     // [ path, title, [target=''] ]
     [ '/about', '关于' ],
