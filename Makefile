@@ -26,7 +26,7 @@ test-cov: cov
 	@$(MAKE) -C .cov test REPORTER=html-cov > coverage.html
 
 build:
-	@./bin/combo views .
+	@./node_modules/loader/bin/build views .
 
 start:
 	@nohup ./node_modules/.bin/forever `pwd`/app.js >> cnode.log 2>&1 &
