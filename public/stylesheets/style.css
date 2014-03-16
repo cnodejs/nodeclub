@@ -83,6 +83,9 @@ body {
 #mark_all_messages_btn {
   margin: 5px 0px;
 }
+#forgot_password {
+    margin-left: 1em;
+}
 
 /* common */
 .col_fade {
@@ -162,10 +165,14 @@ a.light:hover {
 .cell {
   overflow: hidden;
   position: relative;
-  box-shadow: 0px 1px 0px hsl(0, 0%, 90%);
-  padding: 10px;
+  padding: 10px 0px 0px 10px;
   color: rgb(168, 168, 168);
   font-size: 14px;
+}
+.panel .cell {
+    padding-right: 10px;
+    background: white;
+    border-top: 1px solid  rgb(230, 230, 230);
 }
 .cell .reply_count {
     width: 70px;
@@ -183,8 +190,7 @@ a.light:hover {
     font-size: 11px;
 }
 .cell .cell {
-  box-shadow: 0px -1px 0px hsl(0, 0%, 90%);
-  padding: 3px 10px 0px 10px;
+  padding: 10px 0px 0px 10px;
 }
 .cell:last-child {
   border-bottom: none;
@@ -391,10 +397,12 @@ a.user_avatar:hover {
 }
 .author_content .user_avatar {
     display: inline-block;
+    float: left;
 }
 .user_info {
   margin-left: 10px;
   display: inline-block;
+  float: right;
 }
 .user_action {
   float: right;
@@ -407,10 +415,9 @@ a.user_avatar:hover {
   height: 200px;
 }
 .reply2_btn {
-  margin-right: 10px;
 }
 .reply2_area {
-  margin-left: 25px;
+  margin-left: 42px;
 }
 
 .reply2_form {

@@ -14,7 +14,6 @@
       </span>
     </div>
     <div class='user_action'>
-      <span class='col_fade'>#<%= indexInCollection + 1 %></span>
       <% if (locals.current_user && current_user._id.toString() == reply.author._id.toString()) { %>
         <a href='javascript:void(0);' class='delete_reply_btn'>
           <img class='user_icon' src="<%- config.site_static_host %>/public/images/trash_icon&16.png" title='删除' />
@@ -28,6 +27,7 @@
          <span class='col_fade'>{<%= reply.replies.length %>}</span>
         <% } %>-->
       </span>
+      <span class='col_fade'>#<%= indexInCollection + 1 %></span>
     </div>
   </div>
   <div class='reply_content'>
