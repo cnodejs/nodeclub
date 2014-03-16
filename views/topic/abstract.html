@@ -1,31 +1,35 @@
 <div class='cell'>
 
-  <div class='user_avatar block'>
-    <a href="/user/<%= topic.author.name %>">
-      <img src="<%= topic.author.avatar_url %>"
-        title="<%= topic.author.name %>"
-      />
-    </a>
-  </div>
+  <a class="user_avatar" href="/user/<%= topic.author.name %>">
+    <img src="<%= topic.author.avatar_url %>"
+      title="<%= topic.author.name %>"
+    />
+  </a>
 
-  <div class='block count'>
-    <a href="/topic/<%= topic._id %><%- topic.reply ? '#' + topic.reply._id : '' %>"title="回复数"><%= topic.reply_count %></a
-      >/<span title='点击数'><%= topic.visit_count %></span>
-  </div>
+  <span class="reply_count">
+    <span class="count_of_replies" title="回复数">
+      <%= topic.reply_count %>
+    </span>
+    <span class="count_seperator">/</span>
+    <span class="count_of_visits" title='点击数'>
+      <%= topic.visit_count %>
+    </span>
+  </span>
 
-  <div class='topic_wrap'>
-    <!--<%- partial('tag/tag_in_abstract',{collection:topic.tags, as:'tag'}) %>-->
+  <!--<%- partial('tag/tag_in_abstract',{collection:topic.tags, as:'tag'}) %>-->
+  <a class='topic_title' href='/topic/<%= topic._id %>'>
     <% if (topic.top) { %>
       <span class='put_top'>置顶</span>
     <% } %>
-    <a class='' href='/topic/<%= topic._id %>'>
-      <%= topic.title %>
+    <%= topic.title %>
+  </a>
+
+  <% if (topic.reply) {%>
+    <a class='last_time' href="/topic/<%= topic._id %><%- topic.reply ? '#' + topic.reply._id : '' %>">
+      <%= topic.reply.friendly_create_at %>
     </a>
-  </div>
-  <% if(topic.reply) {%>
-    <div class='last_time'><%= topic.reply.friendly_create_at %></div>
   <% } %>
-  <% if(!topic.reply) {%>
-    <div class='last_time'><%= topic.friendly_create_at %></div>
+  <% if (!topic.reply) {%>
+    <span class='last_time'><%= topic.friendly_create_at %></span>
   <% } %>
 </div>
