@@ -11,6 +11,9 @@
     <%- headers[i] %>
     <% } %>
     <link title="RSS" type="application/rss+xml" rel="alternate" href="/rss" />
+    <% if (config.site_icon) { %>
+      <link rel="icon" href="<%- config.site_icon %>" type="image/x-icon" />
+    <% } %>
     <!-- style -->
     <%- Loader('/public/stylesheets/index.min.css')
       .css('/public/libs/bootstrap/css/bootstrap.css')
