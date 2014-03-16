@@ -18,7 +18,7 @@
       </div>
     <% } %>
   </div>
-  
+
   <% if (locals.current_user) { %>
     <div class="panel">
       <div class='inner'>
@@ -36,11 +36,11 @@
     </div>
     <div class='inner'>
       <% if (no_reply_topics.length > 0) { %>
-      <ul>
-      <%- partial('topic/small', { collection: no_reply_topics, as: 'topic' }) %>
-      </ul>
+        <ul class="unstyled">
+          <%- partial('topic/small', { collection: no_reply_topics, as: 'topic' }) %>
+        </ul>
       <% } else {  %>
-      <p>无</p>
+        <p>无</p>
       <% } %>
     </div>
   </div>
