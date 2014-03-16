@@ -165,7 +165,7 @@ a.light:hover {
 .cell {
   overflow: hidden;
   position: relative;
-  padding: 10px 0px 0px 10px;
+  padding: 10px 0px 10px 10px;
   color: rgb(168, 168, 168);
   font-size: 14px;
 }
@@ -385,10 +385,12 @@ a.user_avatar:hover {
   display: inline-block;
 }
 .user .user_avatar {
-  max-width: 50px;
+  width: 32px;
+  height: 32px;
 }
 .user .user_name {
-  font-size: 16px;
+  font-size: 14px;
+  margin-left: 1em;
 }
 .reply_author {
   font-size: 14px;
@@ -663,14 +665,9 @@ textarea[id^=wmd-input] {
 .topic_content h3 {
   line-height: 160%;
 }
-.topic_content h1 {
-  margin: 23px 0;
-}
-.topic_content h2 {
-  margin: 16px 0;
-}
-.topic_content h3 {
+.topic_content h1, .topic_content h2, .topic_content h3 {
   margin: 14px 0;
+  font-size: 22px;
 }
 .topic_content h4,
 .topic_content h5,
