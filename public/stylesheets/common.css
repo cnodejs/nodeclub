@@ -1,7 +1,7 @@
-body, p {
+body, p, input, textarea {
   font-size: 14px;
-  font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", "Wenquanyi Micro Hei", Arial, sans-serif;
-  word-break: break-all;
+  font-family: "Lao MN", "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Wenquanyi Micro Hei", "Microsoft Yahei", Arial, sans-serif;
+  word-break: break-word;
   -webkit-font-smoothing: antialiased;
 }
 textarea, input[type="text"],
@@ -30,20 +30,23 @@ pre {
 code {
   padding: 0;
   border: none;
-  line-height: 16px;
 }
 p code {
   background: none;
   color: hsl(0,0%,50%);
   margin: 0 1px;
   padding: 1px 4px;
+  box-shadow: 0px 0px 1px rgb(126, 126, 126);
+  border-radius: 1px;
 }
 div pre.prettyprint {
-  background: none;
   font-size: 14px;
-  border-radius: 3px;
-  border-color: hsl(0,0%,86%);
+  border-radius: 0px;
   padding: 15px;
+  border: rgb(240, 240, 240) solid;
+  margin: 20px -10px;
+  border-width: 1px 0px;
+  background: #fcfafa;
 }
 form {
   margin-bottom: 0;

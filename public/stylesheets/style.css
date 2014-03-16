@@ -23,7 +23,6 @@ body {
 #content {
   padding: 0;
   width: 818px;
-  float: left;
 }
 #sidebar {
   width: 290px;
@@ -37,6 +36,9 @@ body {
 #content .topic_full_title {
     font-size: 20px;
     font-weight: bold;
+    margin-top: 8px;
+    display: inline-block;
+    line-height: 2em;
 }
 #content .changes {
     font-size: 12px;
@@ -61,6 +63,7 @@ body {
 }
 #sidebar .topic_title {
   max-width: 270px;
+  font-size: 14px;
 }
 #footer {
   height: 160px;
@@ -141,8 +144,11 @@ a.light:hover {
   padding: 10px;
 }
 .panel .inner {
-  padding: 10px;
   line-height: 2em;
+  padding: 10px;
+}
+.panel .inner>form {
+    margin-top: 40px;
 }
 .panel .inner.no-padding {
   padding: 0;
@@ -159,7 +165,7 @@ a.light:hover {
   box-shadow: 0px 1px 0px hsl(0, 0%, 90%);
   padding: 10px;
   color: rgb(168, 168, 168);
-  font-size: 13px;
+  font-size: 14px;
 }
 .cell .reply_count {
     width: 70px;
@@ -191,8 +197,6 @@ a.light:hover {
   overflow: hidden;
   text-overflow: ellipsis;
   display: inline-block;
-  height: 14px;
-  line-height: 14px;
   vertical-align: middle;
 }
 .cell.more{
@@ -202,6 +206,12 @@ a.light:hover {
   font-size: 13px;
   display: inline-block;
   margin-left: 20px;
+}
+.last_time .user_small_avatar {
+    height: 18px;
+    width: 18px;
+    vertical-align: middle;
+    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.62);
 }
 .board .floor {
 }
@@ -224,6 +234,7 @@ a.light:hover {
   padding: 1px 5px;
   background-color: #46a546;
   color: white;
+  margin-right: 0.5em;
 }
 .edit_tag {
   margin-left: 8px;
@@ -317,10 +328,9 @@ a.tag_big {
   padding: 1px 2px;
 }
 .user_avatar img, .user_big_avatar img {
-  border-radius: 20px;
-  box-shadow: 0px 0px 6px hsla(0, 27%, 42%, 0.5);
-  width: 40px;
-  height: 40px;
+  box-shadow: 0px 1px 2px hsla(0, 0%, 0%, 0.5);
+  width: 32px;
+  height: 32px;
 }
 a.user_avatar:hover {
   text-decoration: none;
@@ -328,6 +338,7 @@ a.user_avatar:hover {
 .user_card .user_avatar {
   vertical-align: middle;
   width: 48px;
+  margin-right: 0.5em;
 }
 .user_card .user_name {
 }
@@ -377,19 +388,20 @@ a.user_avatar:hover {
   font-size: 14px;
 }
 .author_content{
-  height: 48px;
+}
+.author_content .user_avatar {
+    display: inline-block;
 }
 .user_info {
-  float: left;
   margin-left: 10px;
-  height: 100%;
-  line-height: 48px;
+  display: inline-block;
 }
 .user_action {
   float: right;
 }
 .reply_content {
   padding-left: 50px;
+  color: black;
 }
 .reply_editor {
   height: 200px;
@@ -416,6 +428,7 @@ a.topic_title {
     overflow: hidden;
     display: inline-block;
     vertical-align: middle;
+    font-size: 16px;
 }
 
 .star_name {
@@ -665,10 +678,8 @@ textarea[id^=wmd-input] {
 .topic_content p,
 .reply_content p,
 .reply_form p {
-  font-size: 14px;
-  line-height: 20px;
-  font-family: Consolas, Source Code Pro, Monaco, Ubuntu Mono, "Liberation Mono", Courier,
-    'Wenquanyi Micro Hei Mono', monospace;
+  font-size: 15px;
+  line-height: 2em;
 }
 #main .topic_content p a.content_img,
 #main .reply_content p a.content_img {
@@ -708,6 +719,7 @@ div[class$=part] {
   width: 300px;
 }
 .topic_content{
+    margin: 10px 0px;
 }
 .form-horizontal .control-group:before,
 .form-horizontal .control-group:after {
@@ -777,4 +789,8 @@ textarea.editor {
 .reply_content table tr th>:last-child,
 .reply_content table tr td>:last-child {
   margin-bottom:0;
+}
+
+.markdown-text::first-letter, .topic_full_title::first-letter, .topic_title::first-letter {
+  text-transform: capitalize;
 }

@@ -25,7 +25,8 @@
   </a>
 
   <% if (topic.reply) {%>
-    <a class='last_time' href="/topic/<%= topic._id %><%- topic.reply ? '#' + topic.reply._id : '' %>">
+    <a class='last_time' href="/topic/<%= topic._id %><%- '#' + topic.reply._id %>">
+      <img class="user_small_avatar" src="<%= topic.reply.author.avatar_url %>">
       <%= topic.reply.friendly_create_at %>
     </a>
   <% } %>
