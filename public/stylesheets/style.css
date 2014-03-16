@@ -1,4 +1,7 @@
 /* base */
+body {
+  background-color: #e5e5e5;
+}
 #main p a {
   white-space: nowrap;
   max-width: 600px;
@@ -9,6 +12,7 @@
 }
 #wrapper {
   padding-top: 34px;
+  background: #e5e5e5;
 }
 
 #main {
@@ -33,20 +37,16 @@
 }
 #content .panel {
   background: hsla(0, 0%, 100%, 1);
-  box-shadow: 0px 0px 1px hsl(0,0%,40%);
 }
 #sidebar .panel {
   background: hsla(0, 0%, 100%, 1);
 }
 #sidebar .header {
-  background: hsl(0, 0%, 93%);
   color: hsl(202, 6%, 34%);
-  font-weight: bold;
 }
 #footer {
   height: 200px;
   clear: both;
-  background: hsla(0, 100%, 100%, 1);
   position: relative;
   box-shadow: 0px -1px 0px hsl(0,0%,90%);
   margin-top: 8px;
@@ -98,12 +98,13 @@ a.light:hover {
 }
 
 .panel {
-  margin-bottom: 8px;
-  box-shadow: 0 0 1px hsl(0, 0%, 40%);
+  margin-bottom: 13px;
+  box-shadow: 0px 1px 1px hsla(0, 0%, 40%, 0.47);
 }
 .panel .header {
   padding: 7px 10px;
-  background-color: hsl(0,0%,93%);
+  background-color: #F5F5F5;
+  box-shadow: 0px 1px 0px rgb(224, 224, 224);
 }
 .panel .moon {
   padding: 10px;
@@ -408,7 +409,6 @@ img.unread {
 
 /* single */
 #create_topic_btn {
-  float: right;
 }
 .board {
   margin-top: 10px;
@@ -539,11 +539,11 @@ textarea[id^=wmd-input] {
 /* custom bootstrap */
 .navbar {
   margin-bottom: 0px;
-  background-color: hsl(0, 0%, 93%);
   z-index: 9;
   width: 100%;
   position: relative;
   box-shadow: 0px 0px 1px hsl(0, 0%, 40%);
+  background: white;
 }
 .navbar-inner {
   background: none;
@@ -586,7 +586,6 @@ textarea[id^=wmd-input] {
 }
 .navbar .nav > li > a {
   text-shadow: none;
-  font-weight: bold;
   color: hsl(210, 27%, 30%);
 }
 .form-actions {
@@ -705,7 +704,6 @@ textarea.editor {
 }
 
 #content .header {
-  line-height: 200%;
 }
 
 .marked_icon {

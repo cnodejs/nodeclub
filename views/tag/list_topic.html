@@ -14,6 +14,16 @@
     </div>
     <% } %>
   </div>
+  
+  <% if (locals.current_user) { %>
+    <div class="panel">
+      <div class='inner'>
+        <a href='/topic/create' id='create_topic_btn'>
+          <button class='btn btn-success'>发布话题</button>
+        </a>
+      </div>
+    </div>
+  <% } %>
 
   <div class='panel'>
     <div class='header'>
