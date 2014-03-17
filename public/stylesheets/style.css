@@ -1,4 +1,7 @@
 /* base */
+body {
+  background-color: #e5e5e5;
+}
 #main p a {
   white-space: nowrap;
   max-width: 600px;
@@ -7,14 +10,10 @@
   text-overflow: ellipsis;
   vertical-align: middle;
 }
-#wrapper {
-  padding-top: 34px;
-}
 
 #main {
-  width: 1060px;
-  margin: 0px auto;
-  padding: 0px 0px 30px 0px;
+  width: 1120px;
+  margin: 40px auto;
   min-height:400px;
   position: relative;
 }
@@ -23,42 +22,69 @@
 }
 #content {
   padding: 0;
-  width: 758px;
-  float: left;
+  width: 818px;
 }
 #sidebar {
   width: 290px;
-  float: right;
   font-size: 14px;
+  float: right;
+  margin-bottom: 20px;
 }
 #content .panel {
   background: hsla(0, 0%, 100%, 1);
-  box-shadow: 0px 0px 1px hsl(0,0%,40%);
+}
+#content .topic_full_title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 8px;
+    display: inline-block;
+    line-height: 2em;
+}
+#content .changes {
+    font-size: 12px;
+    margin-top: 10px;
+    margin-left: 10px;
+    color: rgb(131, 131, 131);
+}
+#content .action {
+    text-align: right;
+}
+#content h3 {
+}
+#manage_topic {
+    padding: 10px;
 }
 #sidebar .panel {
   background: hsla(0, 0%, 100%, 1);
+  font-size: 13px;
 }
 #sidebar .header {
-  background: hsl(0, 0%, 93%);
   color: hsl(202, 6%, 34%);
-  font-weight: bold;
+}
+#sidebar .topic_title {
+  max-width: 270px;
+  font-size: 14px;
 }
 #footer {
-  height: 200px;
+  height: 160px;
   clear: both;
-  background: hsla(0, 100%, 100%, 1);
   position: relative;
-  box-shadow: 0px -1px 0px hsl(0,0%,90%);
-  margin-top: 8px;
+  background: white;
+  box-shadow: 0 -1px 0px rgba(168, 168, 168, 0.33);
 }
 #footer_main {
   width: 1040px;
   margin: 0px auto;
   color: #e2e2e2;
   padding: 20px 0px;
+  font-size: 13px;
+  line-height: 2em;
 }
 #mark_all_messages_btn {
   margin: 5px 0px;
+}
+#forgot_password {
+    margin-left: 1em;
 }
 
 /* common */
@@ -76,7 +102,6 @@ a.dark {
   text-overflow: ellipsis;
   text-decoration: none;
   color: #666;
-  font-size: 14px;
 }
 a.dark:link, a.dark:visited, a.dark:active {
   color: #666;
@@ -98,12 +123,13 @@ a.light:hover {
 }
 
 .panel {
-  margin-bottom: 8px;
-  box-shadow: 0 0 1px hsl(0, 0%, 40%);
+  margin-bottom: 13px;
+  box-shadow: 0px 1px 1px hsla(0, 0%, 40%, 0.47);
 }
 .panel .header {
   padding: 7px 10px;
-  background-color: hsl(0,0%,93%);
+  background-color: #F5F5F5;
+  box-shadow: 0px 1px 0px rgb(224, 224, 224);
 }
 .panel .moon {
   padding: 10px;
@@ -121,10 +147,17 @@ a.light:hover {
   padding: 10px;
 }
 .panel .inner {
+  line-height: 2em;
   padding: 10px;
+}
+.panel .inner>form {
+    margin-top: 40px;
 }
 .panel .inner.no-padding {
   padding: 0;
+}
+.panel .inner li {
+    line-height: 2em;
 }
 .panel>.cell:last-child {
   box-shadow: none;
@@ -132,26 +165,35 @@ a.light:hover {
 .cell {
   overflow: hidden;
   position: relative;
-  box-shadow: 0px 1px 0px hsl(0, 0%, 90%);
-  padding: 3px 10px;
+  padding: 10px 0px 10px 10px;
+  color: rgb(168, 168, 168);
+  font-size: 14px;
+}
+.panel .cell {
+    padding-right: 10px;
+    background: white;
+    border-top: 1px solid  rgb(230, 230, 230);
+}
+.cell .reply_count {
+    width: 70px;
+    display: inline-block;
+    text-align: center;
+}
+.cell .count_of_replies {
+    color: rgb(158, 120, 192);
+}
+.cell .count_seperator {
+    margin: 0 -3px;
+    font-size: 10px;
+}
+.cell .count_of_visits {
+    font-size: 11px;
 }
 .cell .cell {
-  box-shadow: 0px -1px 0px hsl(0, 0%, 90%);
-  padding: 3px 10px 0px 10px;
+  padding: 10px 0px 0px 10px;
 }
 .cell:last-child {
   border-bottom: none;
-}
-.cell .block {
-  float: left;
-  text-align: center;
-  font-size: 14px;
-  color: hsl(0,0%,70%);
-  line-height: 48px;
-}
-.cell .block.count {
-  width: 70px;
-  margin: 0px 8px;
 }
 .cell.message, .cell[message_id] {
   padding: 10px;
@@ -161,24 +203,23 @@ a.light:hover {
   overflow: hidden;
   text-overflow: ellipsis;
   display: inline-block;
-  height: 14px;
-  line-height: 14px;
   vertical-align: middle;
 }
 .cell.more{
   padding: 10px;
 }
 .last_time {
-  position: absolute;
-  color: hsl(0, 7%, 70%);
-  top: 0px;
-  right: 0px;
   font-size: 13px;
-  line-height: 53px;
-  padding: 0px 8px;
+  display: inline-block;
+  margin-left: 20px;
+}
+.last_time .user_small_avatar {
+    height: 18px;
+    width: 18px;
+    vertical-align: middle;
+    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.62);
 }
 .board .floor {
-  line-height: 24px;
 }
 .board a {
   color: #404040;
@@ -199,6 +240,7 @@ a.light:hover {
   padding: 1px 5px;
   background-color: #46a546;
   color: white;
+  margin-right: 0.5em;
 }
 .edit_tag {
   margin-left: 8px;
@@ -292,10 +334,9 @@ a.tag_big {
   padding: 1px 2px;
 }
 .user_avatar img, .user_big_avatar img {
-  border-radius: 20px;
-  box-shadow: 0px 0px 6px hsla(0, 27%, 42%, 0.5);
-  width: 40px;
-  height: 40px;
+  box-shadow: 0px 1px 2px hsla(0, 0%, 0%, 0.5);
+  width: 32px;
+  height: 32px;
 }
 a.user_avatar:hover {
   text-decoration: none;
@@ -303,9 +344,9 @@ a.user_avatar:hover {
 .user_card .user_avatar {
   vertical-align: middle;
   width: 48px;
+  margin-right: 0.5em;
 }
 .user_card .user_name {
-  font-size: 16px;
 }
 .cell .user_avatar {
 }
@@ -344,37 +385,41 @@ a.user_avatar:hover {
   display: inline-block;
 }
 .user .user_avatar {
-  max-width: 50px;
+  width: 32px;
+  height: 32px;
 }
 .user .user_name {
-  font-size: 16px;
+  font-size: 14px;
+  margin-left: 1em;
 }
 .reply_author {
   font-size: 14px;
 }
 .author_content{
-  height: 48px;
+}
+.author_content .user_avatar {
+    display: inline-block;
+    float: left;
 }
 .user_info {
-  float: left;
   margin-left: 10px;
-  height: 100%;
-  line-height: 48px;
+  display: inline-block;
+  float: right;
 }
 .user_action {
   float: right;
 }
 .reply_content {
   padding-left: 50px;
+  color: black;
 }
 .reply_editor {
   height: 200px;
 }
 .reply2_btn {
-  margin-right: 10px;
 }
 .reply2_area {
-  margin-left: 25px;
+  margin-left: 42px;
 }
 
 .reply2_form {
@@ -385,21 +430,17 @@ a.user_avatar:hover {
   height: 48px;
   line-height: 48px;
 }
-.topic_wrap {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  line-height: 48px;
-  width: 500px;
-  font-size: 18px;
-}
 a.topic_title {
-  font-size: 16px;
-  line-height: 40px;
+    max-width: 500px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 16px;
 }
 
 .star_name {
-  font-size: 14px;
 }
 img.unread {
   opacity: 0.1;
@@ -408,7 +449,6 @@ img.unread {
 
 /* single */
 #create_topic_btn {
-  float: right;
 }
 .board {
   margin-top: 10px;
@@ -428,12 +468,14 @@ img.unread {
 #backtotop {
   width: 24px;
   color: gray;
-  padding: 10px 4px;
+  padding: 12px 0px 12px 5px;
   display:none;
   position: fixed;
   cursor: pointer;
   text-align: center;
   z-index: 20;
+  background-color: white;
+  border-radius: 12px 0px 0px 12px;
 }
 .tabbable ul {
   max-height: 40px;
@@ -539,11 +581,12 @@ textarea[id^=wmd-input] {
 /* custom bootstrap */
 .navbar {
   margin-bottom: 0px;
-  background-color: hsl(0, 0%, 93%);
   z-index: 9;
   width: 100%;
   position: relative;
   box-shadow: 0px 0px 1px hsl(0, 0%, 40%);
+  background: white;
+  font-size: 13px;
 }
 .navbar-inner {
   background: none;
@@ -553,7 +596,7 @@ textarea[id^=wmd-input] {
 }
 .navbar .container {
   width: 1060px;
-  margin: 4px auto;
+  margin: 0px auto;
 }
 .navbar .brand {
   padding: 4px 0px 0px 20px;
@@ -586,7 +629,6 @@ textarea[id^=wmd-input] {
 }
 .navbar .nav > li > a {
   text-shadow: none;
-  font-weight: bold;
   color: hsl(210, 27%, 30%);
 }
 .form-actions {
@@ -623,14 +665,9 @@ textarea[id^=wmd-input] {
 .topic_content h3 {
   line-height: 160%;
 }
-.topic_content h1 {
-  margin: 23px 0;
-}
-.topic_content h2 {
-  margin: 16px 0;
-}
-.topic_content h3 {
+.topic_content h1, .topic_content h2, .topic_content h3 {
   margin: 14px 0;
+  font-size: 22px;
 }
 .topic_content h4,
 .topic_content h5,
@@ -645,10 +682,8 @@ textarea[id^=wmd-input] {
 .topic_content p,
 .reply_content p,
 .reply_form p {
-  font-size: 14px;
-  line-height: 20px;
-  font-family: Consolas, Source Code Pro, Monaco, Ubuntu Mono, "Liberation Mono", Courier,
-    'Wenquanyi Micro Hei Mono', monospace;
+  font-size: 15px;
+  line-height: 2em;
 }
 #main .topic_content p a.content_img,
 #main .reply_content p a.content_img {
@@ -688,6 +723,7 @@ div[class$=part] {
   width: 300px;
 }
 .topic_content{
+    margin: 10px 0px;
 }
 .form-horizontal .control-group:before,
 .form-horizontal .control-group:after {
@@ -702,10 +738,6 @@ textarea.editor {
 
 #submit_btn {
   margin-top: 10px;
-}
-
-#content .header {
-  line-height: 200%;
 }
 
 .marked_icon {
@@ -761,4 +793,8 @@ textarea.editor {
 .reply_content table tr th>:last-child,
 .reply_content table tr td>:last-child {
   margin-bottom:0;
+}
+
+.markdown-text::first-letter, .topic_full_title::first-letter, .topic_title::first-letter {
+  text-transform: capitalize;
 }

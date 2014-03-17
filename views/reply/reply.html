@@ -1,9 +1,9 @@
 <div class='cell reply_area reply_item' id="reply<%= indexInCollection+1 %>" reply_id="<%- reply._id %>">
   <a id="<%- reply._id %>"></a>
   <div class='author_content'>
-    <div class='user_avatar block'>
-      <a href="/user/<%= reply.author.name %>"><img src="<%= reply.author.avatar_url %>" title="<%= reply.author.name %>" /></a>
-    </div>
+    <a href="/user/<%= reply.author.name %>" class="user_avatar">
+      <img src="<%= reply.author.avatar_url %>"
+      title="<%= reply.author.name %>" /></a>
     <div class='user_info'>
       <span class='reply_author'>
         <a class='dark' href="/user/<%= reply.author.name %>"><%= reply.author.name %>
@@ -14,7 +14,6 @@
       </span>
     </div>
     <div class='user_action'>
-      <span class='col_fade'>#<%= indexInCollection + 1 %></span>
       <% if (locals.current_user && current_user._id.toString() == reply.author._id.toString()) { %>
         <a href='javascript:void(0);' class='delete_reply_btn'>
           <img class='user_icon' src="<%- config.site_static_host %>/public/images/trash_icon&16.png" title='删除' />
@@ -28,6 +27,7 @@
          <span class='col_fade'>{<%= reply.replies.length %>}</span>
         <% } %>-->
       </span>
+      <span class='col_fade'>#<%= indexInCollection + 1 %></span>
     </div>
   </div>
   <div class='reply_content'>

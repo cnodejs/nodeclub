@@ -8,7 +8,7 @@
 				<li class='active'><%= user.name %> 收藏的话题</li>
 			</ul>
 		</div>
-		<div class='inner'>
+		<div class='inner no-padding'>
 			<% if (topics.length > 0) { %>
 			<%- partial('topic/list', { topics: topics, pages: pages, current_pages: current_page, base: '/user/' + user.name + '/collections' }) %>
 			<% } else { %>

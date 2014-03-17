@@ -2,25 +2,23 @@
 
 <div id="content">
   <div class="panel">
-    <div class="header clearfix">
+    <div class="header">
       当前话题
-      <% if (locals.current_user) { %>
-        <a href='/topic/create' id='create_topic_btn'>
-          <button class='btn btn-success'>发布话题</button>
-        </a>
-      <% } %>
     </div>
-    <div class="inner no-padding">
-      <% if (locals.topics && topics.length > 0) { %>
-      <%- partial('topic/list', {
-        topics: topics,
-        pages: pages,
-        current_pages: current_page,
-        base: keyword ? ('/?q=' + keyword) : '/'
-      }) %>
-      <% } else { %>
-      <p>无话题</p>
-      <% } %>
+    <% if (locals.topics && topics.length > 0) { %>
+      <div class="inner no-padding">
+        <%- partial('topic/list', {
+          topics: topics,
+          pages: pages,
+          current_pages: current_page,
+          base: keyword ? ('/?q=' + keyword) : '/'
+        }) %>
+      </div>
+    <% } else { %>
+      <div class="inner">
+        <p>无话题</p>
+      </div>
+    <% } %>
     </div>
   </div>
 </div>

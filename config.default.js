@@ -8,7 +8,7 @@ var pkg = require('./package.json');
 var config = {
   debug: true,
   name: 'Node Club',
-  description: 'Node Club 是用Node.js开发的社区软件',
+  description: 'Node Club 是用 Node.js 开发的社区软件',
   version: pkg.version,
 
   // site settings
