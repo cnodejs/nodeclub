@@ -408,6 +408,7 @@ a.user_avatar:hover {
 }
 .user_action {
   float: right;
+  margin-left: 20px;
 }
 .reply_content {
   padding-left: 50px;
