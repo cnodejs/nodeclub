@@ -1,5 +1,5 @@
 <div class='cell reply_area reply_item' id="reply<%= indexInCollection+1 %>" reply_id="<%- reply._id %>">
-  <a id="<%- reply._id %>"></a>
+  <a class="anchor" id="<%- reply._id %>"></a>
   <div class='author_content'>
     <a href="/user/<%= reply.author.name %>" class="user_avatar">
       <img src="<%= reply.author.avatar_url %>"
