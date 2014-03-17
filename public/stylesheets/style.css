@@ -166,13 +166,13 @@ a.light:hover {
   overflow: hidden;
   position: relative;
   padding: 10px 0px 10px 10px;
-  color: rgb(168, 168, 168);
+  color: rgb(190, 190, 190);
   font-size: 14px;
 }
 .panel .cell {
     padding-right: 10px;
     background: white;
-    border-top: 1px solid  rgb(230, 230, 230);
+    border-top: 1px solid  rgb(240, 240, 240);
 }
 .cell .reply_count {
     width: 70px;
@@ -697,8 +697,9 @@ textarea[id^=wmd-input] {
 #main .topic_content p a.content_img,
 #main .reply_content p a.content_img {
   color: hsl(0,0%,40%);
-  box-shadow: 1px 1px 15px hsla(0, 21%, 60%, 0.6);
+  box-shadow: 0px 1px 2px hsla(0, 0%, 55%, 0.6);
   display: inline-block;
+  margin: 10px 0px;
 }
 div[class$=content] > blockquote > p {
   font-size: 14px;
