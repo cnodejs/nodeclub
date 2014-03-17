@@ -2,7 +2,6 @@ body, p, input, textarea {
   font-size: 14px;
   font-family: "Lao MN", "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Wenquanyi Micro Hei", "Microsoft Yahei", Arial, sans-serif;
   word-break: break-word;
-  -webkit-font-smoothing: antialiased;
 }
 textarea, input[type="text"],
 input[type="password"],
