@@ -5,10 +5,8 @@
       <img src="<%= reply2.author.avatar_url %>" title="<%= reply2.author.name %>" />
     </a>
     <div class='user_info'>
-      <span class='reply_author'><a class='dark' href="/user/<%= reply2.author.name %>"><%= reply2.author.name %></a></span>
-      <span class='col_fade'>
-        <a href="#<%- reply2._id %>"><%= reply2.friendly_create_at %></a>
-      </span>
+      <a class='dark reply_author' href="/user/<%= reply2.author.name %>"><%= reply2.author.name %></a>
+      <a class="reply_time" href="#<%- reply2._id %>"><%= reply2.friendly_create_at %></a>
     </div>
     <div class='user_action'>
       <% if (locals.current_user && current_user._id.toString() == reply2.author._id.toString()) { %>

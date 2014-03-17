@@ -395,6 +395,9 @@ a.user_avatar:hover {
 .reply_author {
   font-size: 14px;
 }
+.reply_time {
+    margin-left: 1em;
+}
 .cell .anchor {
     position: absolute;
     top: 0;

@@ -5,13 +5,9 @@
       <img src="<%= reply.author.avatar_url %>"
       title="<%= reply.author.name %>" /></a>
     <div class='user_info'>
-      <span class='reply_author'>
-        <a class='dark' href="/user/<%= reply.author.name %>"><%= reply.author.name %>
-        </a>
-      </span>
-      <span class='col_fade'>
-        <a href="#<%- reply._id %>"><%= reply.friendly_create_at %></a>
-      </span>
+      <a class='dark reply_author' href="/user/<%= reply.author.name %>"><%= reply.author.name %>
+      </a>
+      <a class="reply_time" href="#<%- reply._id %>"><%= reply.friendly_create_at %></a>
     </div>
     <div class='user_action'>
       <% if (locals.current_user && current_user._id.toString() == reply.author._id.toString()) { %>
