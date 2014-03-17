@@ -439,6 +439,9 @@ a.topic_title {
     vertical-align: middle;
     font-size: 16px;
 }
+#topic_list a.topic_title {
+    color: black;
+}
 
 .star_name {
 }
