@@ -797,7 +797,3 @@ textarea.editor {
 .reply_content table tr td>:last-child {
   margin-bottom:0;
 }
-
-.markdown-text::first-letter, .topic_full_title::first-letter, .topic_title::first-letter {
-  text-transform: capitalize;
-}
