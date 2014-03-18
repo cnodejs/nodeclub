@@ -197,7 +197,7 @@
       var editorWrap = $btn.parents('.reply2_area').find('.reply2_form');
       $btn.parents('.reply2_item').after(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
-      var user = $btn.parents('.cell').find('.reply_author a').html();
+      var user = $btn.parents('.cell').find('.reply_author').html();
       if (textarea.val().indexOf('@' + user) < 0) {
         textarea.val('@' + user + ' ');
       }
