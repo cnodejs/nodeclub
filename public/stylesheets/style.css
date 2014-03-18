@@ -166,13 +166,13 @@ a.light:hover {
   overflow: hidden;
   position: relative;
   padding: 10px 0px 10px 10px;
-  color: rgb(168, 168, 168);
+  color: rgb(190, 190, 190);
   font-size: 14px;
 }
 .panel .cell {
     padding-right: 10px;
     background: white;
-    border-top: 1px solid  rgb(230, 230, 230);
+    border-top: 1px solid  rgb(240, 240, 240);
 }
 .cell .reply_count {
     width: 70px;
@@ -395,7 +395,12 @@ a.user_avatar:hover {
 .reply_author {
   font-size: 14px;
 }
-.author_content{
+.reply_time {
+    margin-left: 1em;
+}
+.cell .anchor {
+    position: absolute;
+    top: 0;
 }
 .author_content .user_avatar {
     display: inline-block;
@@ -408,6 +413,7 @@ a.user_avatar:hover {
 }
 .user_action {
   float: right;
+  margin-left: 20px;
 }
 .reply_content {
   padding-left: 50px;
@@ -438,6 +444,9 @@ a.topic_title {
     display: inline-block;
     vertical-align: middle;
     font-size: 16px;
+}
+#topic_list a.topic_title {
+    color: black;
 }
 
 .star_name {
@@ -595,7 +604,7 @@ textarea[id^=wmd-input] {
   box-shadow: none;
 }
 .navbar .container {
-  width: 1060px;
+  width: 1120px;
   margin: 0px auto;
 }
 .navbar .brand {
@@ -688,8 +697,9 @@ textarea[id^=wmd-input] {
 #main .topic_content p a.content_img,
 #main .reply_content p a.content_img {
   color: hsl(0,0%,40%);
-  box-shadow: 1px 1px 15px hsla(0, 21%, 60%, 0.6);
+  box-shadow: 0px 1px 2px hsla(0, 0%, 55%, 0.6);
   display: inline-block;
+  margin: 10px 0px;
 }
 div[class$=content] > blockquote > p {
   font-size: 14px;
@@ -793,8 +803,4 @@ textarea.editor {
 .reply_content table tr th>:last-child,
 .reply_content table tr td>:last-child {
   margin-bottom:0;
-}
-
-.markdown-text::first-letter, .topic_full_title::first-letter, .topic_title::first-letter {
-  text-transform: capitalize;
 }
