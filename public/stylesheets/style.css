@@ -674,9 +674,10 @@ textarea[id^=wmd-input] {
 .topic_content h3 {
   line-height: 160%;
 }
+.reply_area h1, .reply_area h2, .reply_area h3,
 .topic_content h1, .topic_content h2, .topic_content h3 {
   margin: 14px 0;
-  font-size: 22px;
+  font-size: 20px;
 }
 .topic_content h4,
 .topic_content h5,
