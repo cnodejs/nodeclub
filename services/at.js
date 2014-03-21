@@ -19,7 +19,7 @@ var EventProxy = require('eventproxy');
  * @return {Array} 用户名数组
  */
 var fetchUsers = function (text) {
-  var results = text.match(/@[a-zA-Z0-9]+/ig);
+  var results = text.match(/@[a-zA-Z0-9\-_]+/ig);
   var names = [];
   if (results) {
     for (var i = 0, l = results.length; i < l; i++) {
