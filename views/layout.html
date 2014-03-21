@@ -4,6 +4,7 @@
     <!-- meta -->
     <meta charset="utf-8" />
     <meta name='description' content='<%= config.description %>'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <%
     var headers = config.site_headers || [];
     for (var i = 0, l = headers.length; i < l; i++) {
@@ -20,6 +21,7 @@
       .css('/public/stylesheets/common.css')
       .css('/public/stylesheets/style.css')
       .css('/public/libs/code-prettify/prettify.css')
+      .css('/public/stylesheets/responsive.css')
       .done(assets, config.site_static_host, config.mini_assets)
     %>
     <% if (locals.extra_style) { %>
@@ -33,6 +35,7 @@
       .js('/public/libs/jquery-ujs.js')
       .js('/public/libs/bootstrap/js/bootstrap.js')
       .js('/public/javascripts/main.js')
+      .js('/public/javascripts/responsive.js')
       .done(assets, config.site_static_host, config.mini_assets)
     %>
     <% if (config.site_enable_search_preview) { %>
@@ -77,6 +80,11 @@
             <li><a href='/signin'>登录</a></li>
             <% } %>
           </ul>
+          <a class="btn btn-navbar" id="responsive-sidebar-trigger">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
         </div>
       </div>
     </div>
@@ -101,6 +109,7 @@
         </div>
       </div>
     </div>
+    <div id="sidebar-mask"></div>
     <script defer>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
