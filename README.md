@@ -31,12 +31,12 @@ $ make test-cov
 ```
 
 * jscoverage: [**31%**](http://fengmk2.github.com/coverage/nodeclub.html)
-    
+
 ## 其它
 
-小量修改了两个依赖模块：node-markdown，express
- 
-* node-markdown/lib/markdown.js  
+小量修改了两个依赖模块：node-markdown
+
+* node-markdown/lib/markdown.js
 
 allowedTags 添加：
 
@@ -44,18 +44,12 @@ allowedTags 添加：
 embed  //支持 flash 视频
 table|thead|tbody|tr|td|th|caption  //支持表格
 ```
-   
+
 allowedAttributes 添加：
 
 ```
 embed:'src|quality|width|height|align|allowScriptAccess|allowFullScreen|mode|type'
 table: 'class'
-```
-
-* express/node_modules/connect/lib/middleware/csrf.js 添加：
-
-```javascript
-if (req.body && req.body.user_action === 'upload_image') return next();
 ```
 
 ## 关于pull request
@@ -64,38 +58,27 @@ if (req.body && req.body.user_action === 'upload_image') return next();
 
 ## Contributors
 
-Below is the output from `git-summary`.
+Below is the output from `git-summary`. Only first ten.
 
-```
- $ git summary 
+```bash
+$ git summary
 
- project  : nodeclub
- repo age : 1 year, 1 month
- active   : 113 days
- commits  : 270
- files    : 280
- authors  : 
-   129  fengmk2                 47.8%
-    31  Jackson Tian            11.5%
-    30  dead-horse              11.1%
-    16  jiyinyiyong             5.9%
-    10  Kenny Zhao              3.7%
-     9  Lei Zongmin             3.3%
-     9  muyuan                  3.3%
-     7  young40                 2.6%
-     6  aisk                    2.2%
-     5  ericzhang               1.9%
-     4  spout                   1.5%
-     3  Json Shen               1.1%
-     2  Cong Ding               0.7%
-     2  chang                   0.7%
-     1  sunwenchao              0.4%
-     1  roymax                  0.4%
-     1  Xiang Gao               0.4%
-     1  leizongmin              0.4%
-     1  thebrecht               0.4%
-     1  LeToNode                0.4%
-     1  张洋                  0.4%
+project  : nodeclub
+repo age : 2 years
+active   : 205 days
+commits  : 471
+files    : 260
+authors  :
+ 203  fengmk2                 43.1%
+  49  jiyinyiyong             10.4%
+  48  Jackson Tian            10.2%
+  44  Alsotang                9.3%
+  30  dead-horse              6.4%
+  10  Kenny Zhao              2.1%
+  10  Lei Zongmin             2.1%
+   9  muyuan                  1.9%
+   8  Zongmin Lei             1.7%
+   7  young40                 1.5%
 ```
 
 ## License

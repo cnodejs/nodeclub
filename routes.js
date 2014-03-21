@@ -19,17 +19,27 @@ var rss = require('./controllers/rss');
 var upload = require('./controllers/upload');
 var assets = require('./controllers/static');
 var tools = require('./controllers/tools');
-var auth = require('./midderwares/auth');
+var auth = require('./middlewares/auth');
+var limit = require('./middlewares/limit');
 var status = require('./controllers/status');
+var github = require('./controllers/github');
+var passport = require('passport');
+var configMiddleware = require('./middlewares/conf');
+var config = require('./config');
+
 
 module.exports = function (app) {
   // home page
   app.get('/', site.index);
 
   // sign up, login, logout
-  app.get('/signup', sign.showSignup);
-  app.post('/signup', sign.signup);
-  app.get('/signout', sign.signout);
+  if (config.allow_sign_up) {
+    app.get('/signup', sign.showSignup);
+    app.post('/signup', sign.signup);
+  } else {
+    app.get('/signup', configMiddleware.github, passport.authenticate('github'));
+  }
+  app.post('/signout', sign.signout);
   app.get('/signin', sign.showLogin);
   app.post('/signin', sign.login);
   app.get('/active_account', sign.active_account);
@@ -47,7 +57,7 @@ module.exports = function (app) {
   app.get('/stars', user.show_stars);
   app.get('/users/top100', user.top100);
   app.get('/user/:name/tags', user.get_collect_tags);
-  app.get('/user/:name/topics', user.get_collect_topics);
+  app.get('/user/:name/collections', user.get_collect_topics);
   app.get('/my/messages', message.index);
   app.get('/user/:name/follower', user.get_followers);
   app.get('/user/:name/following', user.get_followings);
@@ -57,6 +67,7 @@ module.exports = function (app) {
   app.post('/user/un_follow', user.un_follow);
   app.post('/user/set_star', user.toggle_star);
   app.post('/user/cancel_star', user.toggle_star);
+  app.post('/user/:name/block', auth.adminRequired, user.block);
 
   // message
   app.post('/messages/mark_read', message.mark_read);
@@ -66,11 +77,11 @@ module.exports = function (app) {
   app.get('/tags/edit', tag.edit_tags);
   app.get('/tag/:name', tag.list_topic);
   // 编辑界面
-  app.get('/tag/:name/edit', auth, tag.edit);
-  app.get('/tag/:name/delete', tag.delete);
-  app.post('/tag/add', tag.add);
+  app.get('/tag/:name/edit', auth.adminRequired, tag.edit);
+  app.get('/tag/:name/delete', auth.adminRequired, tag.delete);
+  app.post('/tag/add', auth.adminRequired, tag.add);
   // 更新
-  app.post('/tag/:name/edit', auth, tag.update);
+  app.post('/tag/:id', auth.adminRequired, tag.update);
   app.post('/tag/collect', tag.collect);
   app.post('/tag/de_collect', auth.userRequired, tag.de_collect);
 
@@ -89,15 +100,15 @@ module.exports = function (app) {
   // 保存新建的文章
   // TODO: 如果创建文章的过程太长，导致session过期，界面的内容会丢失
   // FIXME: 采用前端来判断，不通过跳转的形式来解决
-  app.post('/topic/create', auth.signinRequired, topic.put);
+  app.post('/topic/create', auth.signinRequired, limit.postInterval, topic.put);
   app.post('/topic/:tid/edit', topic.update);
   app.post('/topic/collect', auth.userRequired, topic.collect);
   app.post('/topic/de_collect', auth.userRequired, topic.de_collect);
 
   // reply
   // 回复
-  app.post('/:topic_id/reply', auth.userRequired, reply.add);
-  app.post('/:topic_id/reply2', auth.userRequired, reply.add_reply2);
+  app.post('/:topic_id/reply', auth.userRequired, limit.postInterval, reply.add);
+  app.post('/:topic_id/reply2', auth.userRequired, limit.postInterval, reply.add_reply2);
   app.post('/reply/:reply_id/delete', reply.delete);
 
   // upload
@@ -115,4 +126,12 @@ module.exports = function (app) {
 
   // site status
   app.get('/status', status.status);
+
+  // github oauth
+  app.get('/auth/github', configMiddleware.github, passport.authenticate('github'));
+  app.get('/auth/github/callback',
+    passport.authenticate('github', { failureRedirect: '/signin' }),
+    github.callback);
+  app.get('/auth/github/new', github.new);
+  app.post('/auth/github/create', github.create);
 };

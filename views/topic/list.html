@@ -1,11 +1,13 @@
-<%- partial('topic/abstract', {collection:topics, as:'topic'}) %>
+<div id="topic_list">
+	<%- partial('topic/abstract', {collection:topics, as:'topic'}) %>
+</div>
 <div class='pagination' current_page='<%= current_page %>'>
 	<ul>
 		<% var base_url = base + (base.indexOf('?') < 0 ? '?' : '&') + 'page='; %>
 		<% if (current_page == 1) { %>
-		<li class='disabled'><a>«</a></li>
+			<li class='disabled'><a>«</a></li>
 		<% } else { %>
-		<li><a href="<%= base_url %>1">«</a></li>
+			<li><a href="<%= base_url %>1">«</a></li>
 		<% } %>
 
 		<%
@@ -14,7 +16,7 @@
 		%> 
 
 		<% if (page_start > 1) { %>
-		<li><a>...</a></li>
+			<li><a>...</a></li>
 		<% } %>
 
 		<% for(var i = page_start; i <= page_end; i++) { %>
@@ -26,13 +28,13 @@
 		<% } %>
 
 		<% if (page_end < pages ) { %>
-		<li><a>...</a></li>
+			<li><a>...</a></li>
 		<% } %>
 
 		<% if (current_page == pages) { %>
-		<li class='disabled'><a>»</a></li>
+			<li class='disabled'><a>»</a></li>
 		<% } else { %>
-		<li><a href='<%= base_url + pages %>'>»</a></li>
+			<li><a href='<%= base_url + pages %>'>»</a></li>
 		<% } %>
 	</ul>
 </div>

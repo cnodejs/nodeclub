@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var config = require('../config');
+var config = require('../config').config;
 
 var UserSchema = new Schema({
   name: { type: String, index: true },
@@ -14,6 +14,9 @@ var UserSchema = new Schema({
   profile: { type: String },
   weibo: { type: String },
   avatar: { type: String },
+  githubId: { type: String, index: true },
+  githubUsername: {type: String},
+  is_block: {type: Boolean, default: false},
 
   score: { type: Number, default: 0 },
   topic_count: { type: Number, default: 0 },
@@ -37,11 +40,8 @@ var UserSchema = new Schema({
 });
 
 UserSchema.virtual('avatar_url').get(function () {
-  var avatar_url = this.profile_image_url || this.avatar;
-  if (!avatar_url) {
-    avatar_url = config.site_static_host + '/images/user_icon&48.png';
-  }
-  return avatar_url;
+  var url = this.profile_image_url || this.avatar || config.site_static_host + '/public/images/user_icon&48.png';
+  return url.replace('http://www.gravatar.com/', 'http://cnodegravatar.u.qiniudn.com/');
 });
 
 mongoose.model('User', UserSchema);

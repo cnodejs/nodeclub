@@ -8,42 +8,53 @@
 				<li class='active'><%= user.name %></li>
 			</ul>
 		</div>
-		<div class='inner'>
+		<div class='inner userinfo'>
 			<div class='user_big_avatar'>
 				<img src="<%= user.avatar_url %>" class="user_avatar" title="<%= user.name %>" />
 			</div>
 			<% if (locals.current_user && current_user._id != user._id) { %>
 				<% if (!locals.relation) { %>
-				<button class='btn btn-success fr follow_btn' action='follow'>加入关注</button>
+				<button class='btn btn-success follow_btn' action='follow'>加入关注</button>
 				<% } else { %>
-				<button class='btn fr follow_btn' action='un_follow'>取消关注</button>
+				<button class='btn follow_btn' action='un_follow'>取消关注</button>
 				<% } %>
 			<% } %>
-			<h2><%= user.name %></h2>
+			<a class='dark'><%= user.name %></a>
 			<div class='col_fade'>
-				<span><img src="<%- config.site_static_host %>/images/cert_icon&16.png" /> <%= user.following_count %> 关注  |  <%= user.follower_count %> 粉丝  | <%= user.score %> 积分</span>
+				<span>
+					<img src="<%- config.site_static_host %>/public/images/cert_icon&16.png" />
+					<%= user.following_count %> 关注
+					<%= user.follower_count %> 粉丝
+					<%= user.score %> 积分</span>
 				<% if (user.signature) { %>
-				<span class='sp10'></span>
-				<span><%= user.signature %></span>
+					<span><%= user.signature %></span>
 				<% } %>
 			</div>
 			<div class='user_profile'>
 				<ul class='unstyled'>
 					<% if (user.url) { %>
 					<li>
-						<img class='user_icon' src="<%- config.site_static_host %>/images/paper_airplane_icon&16.png" />
+						<img class='user_icon' src="<%- config.site_static_host %>/public/images/paper_airplane_icon&16.png" />
 						<a class='dark' href="<%= user.url %>" target='_blank'><%= user.url %></a>
 					</li>
 					<% } %>
 					<% if (user.location) { %>
 					<li>
-						<img class='user_icon' src="<%- config.site_static_host %>/images/compass_icon&16.png" />
+						<img class='user_icon' src="<%- config.site_static_host %>/public/images/compass_icon&16.png" />
 						<span class='col_fade'><%= user.location %></span>
 					</li>
 					<% } %>
+          <% if (user.githubUsername) { %>
+          <li>
+            <img class='user_icon' src="<%- config.site_static_host %>/public/images/github_icon&16.png" />
+            <a class='dark' href="https://github.com/<%= user.githubUsername %>" target='_blank'>
+              @<%= user.githubUsername %>
+            </a>
+          </li>
+          <% } %>
 					<% if (user.weibo) { %>
 					<li>
-						<img class='user_icon' src="<%- config.site_static_host %>/images/twitter_2_icon&16.png" />
+						<img class='user_icon' src="<%- config.site_static_host %>/public/images/twitter_2_icon&16.png" />
 						<a class='dark' href="<%= user.weibo %>" target='_blank'><%= user.weibo %></a>
 					</li>
 					<% } %>
@@ -59,6 +70,13 @@
 				<% } else { %>
 				<button class='btn' id='set_star_btn' action='cancel_star'>取消达人</button>
 				<% } %>
+
+        <% if (!user.is_block) { %>
+          <button class='btn' id='set_block_btn' action='set_block'>屏蔽用户并删其所有帖</button>
+        <% } else { %>
+          <button class='btn' id='set_block_btn' action='cancel_block'>取消屏蔽用户</button>
+        <% } %>
+
 				<br/><br/>
 				Email (Seen by Administrator): <a href="mailto:<%= user.email %>"><%= user.email %></a>
 				<% if (!user.active) { %>
@@ -66,15 +84,15 @@
 				<% } %>
 			<% } %>
 		</div>
-	</div>	
-	<div class='sep10'></div>
+	</div>
+
 	<div class='panel'>
 		<div class='header'>
 			<span class='col_fade'>最近发布话题</span>
 		</div>
 		<% if (locals.recent_topics && recent_topics.length > 0) { %>
 		<%- partial('topic/abstract', { collection: recent_topics, as: 'topic' }) %>
-		<div class='cell'>
+		<div class='cell more'>
 			<a class='dark' href="/user/<%= user.name %>/topics">查看更多»</a>
 		</div>
 		<% } else { %>
@@ -83,14 +101,14 @@
 		</div>
 		<% } %>
 	</div>
-	<div class='sep10'></div>
+
 	<div class='panel'>
 		<div class='header'>
 			<span class='col_fade'>最近参与话题</span>
 		</div>
 		<% if (locals.recent_replies && recent_replies.length > 0) { %>
 		<%- partial('topic/abstract', { collection: recent_replies, as: 'topic' }) %>
-		<div class='cell'>
+		<div class='cell more'>
 			<a class='dark' href="/user/<%= user.name %>/replies">查看更多»</a>
 		</div>
 		<% } else { %>
@@ -121,8 +139,31 @@
 						$me.attr('action','set_star');
 					}
 				}
-			}, 'json');	
+			}, 'json');
 		});
+
+    $('#set_block_btn').click(function () {
+      var $me = $(this);
+      var action = $me.attr('action');
+      var params = {
+        _csrf: '<%- csrf %>',
+        action: action
+      };
+      if (action === 'set_block' && !confirm('确定要屏蔽该用户吗？此操作不可逆且会删除该用户的所有主题和回复！')) {
+        return;
+      }
+      $.post('/user/<%- user.name %>/block', params, function (data) {
+        if (data.status === 'success') {
+          if (action === 'set_block') {
+            $me.html('取消屏蔽用户');
+            $me.attr('action', 'cancel_block');
+          } else if (action === 'cancel_block') {
+            $me.html('屏蔽用户并删其所有帖');
+            $me.attr('action', 'set_block');
+          }
+        }
+      }, 'json');
+    })
 	});
 </script>
 <% } %>

@@ -1,63 +1,50 @@
 <div id='sidebar'>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>话题发布步骤</span>
+      <span class='col_fade'>Markdown 语法参考</span>
     </div>
     <div class='inner'>
       <ol>
-        <li>填写标题</li>
-        <li>填写内容</li>
-        <li>选择话题标签</li>
-        <li>确认后发布话题</li>
+        <li><tt>### 单行的标题</tt></li>
+        <li><tt>**粗体**</tt></li>
+        <li><tt>`console.log('行内代码')`</tt></li>
+        <li><tt>```</tt> 包裹标记代码块</li>
+        <li><tt>```js</tt> 在开始的位置标记编程语言</li>
+        <li><tt>[内容](链接)</tt></li>
+        <li><tt>![文字说明](图片链接)</tt></li>
       </ol>
+      <span><a href='http://www.ituring.com.cn/article/775' target='_blank'>Markdown 文档</a></span>
     </div>
   </div>
-  <div class='sep10'></div>
+
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>话题发布指南</span>
     </div>
     <div class='inner'>
-      <ul>
+      <ol>
         <li>尽量把话题要点浓缩到标题里</li>
         <li>内容对标题做进一步说明，但不是必须的</li>
         <li>给话题选择合适的标签能增加被阅读的机会</li>
-      </ul>
+      </ol>
     </div>
   </div>
-  <div class='sep10'></div>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>markdown语法参考</span>
-    </div>
-    <div class='inner'>
-      <ul>
-        <li>换行：两个空格</li>
-        <li>分段：一个空行</li>
-        <li>斜体：*斜体*</li>
-        <li>粗体：**粗体**</li>
-        <li>代码：行首四个空格</li>
-        <li>链接：[文字](url)</li>
-        <li>图片：![alt 文字](url)</li>
-      </ul>
-      <span>详见 <a href='http://www.ituring.com.cn/article/775' target='_blank'>Markdown Wiki</a></span>
-    </div>
-  </div>
+
 </div>
 
 <div id='content'>
   <div class='panel'>
     <div class='header'>
-      <ul class='breadcrumb'>
+      <ol class='breadcrumb'>
         <li><a href='/'>主页</a><span class='divider'>/</span></li>
         <% if(locals.action && action == 'edit'){ %>
         <li class='active'>编辑话题</li>
         <% }else{ %>
         <li class='active'>发布话题</li>
         <% } %>
-      </ul>
+      </ol>
     </div>
-    <div class='inner'>
+    <div class='inner post'>
       <% if(locals.edit_error){ %>
       <div class="alert alert-error"> 
         <a class="close" data-dismiss="alert" href="#">&times;</a>
@@ -69,59 +56,21 @@
         <strong><%= error %></strong>
       </div>
       <% }else{ %>
-      <% if(locals.action && action == 'edit'){ %>
+      <% if (locals.action && action === 'edit') { %>
       <form id='create_topic_form' action='/topic/<%= topic_id %>/edit' method='post'>
-      <% }else{ %>
+      <% } else { %>
       <form id='create_topic_form' action='/topic/create' method='post'>
       <% } %>
-        <div>
+        <fieldset>
           <label class='bold' for='title'>标题</label>
-          <div>
-            <% if(locals.title){ %>
-            <textarea class='span8' id='title' name='title' rows='3'><%= title %></textarea>
-            <% }else{ %>
-            <textarea class='span8' id='title' name='title' rows='3'></textarea>
-            <% } %>
-            <p class='help-block'>字数控制在10到100个之间</p>
-          </div>
-        </div>
-        <div class='sep10'></div>
-        <div class='sep10'></div>
-        <div>
-          <label class='bold' for='t_content'>内容和标签</label>
-          <div class='tabbable'>
-            <ul class='nav nav-pills'>
-              <li class='active'><a href='#markdown' data-toggle='pill'>markdown</a></li>
-              <li><a href='#preview' data-toggle='pill' class="preview-btn">预览</a></li>
-              <li><a href='#tags'data-toggle='pill'>标签</a></li>
-            </ul>
-            <div class='tab-content'>
-              <div class='active tab-pane' id='markdown'>
-                <div id='wmd-button-bar'></div>
-                <div class='input'>
-                  <% if(locals.content){ %>
-                  <textarea class='span8' id='wmd-input' name='t_content' rows='20'><%= content %></textarea>
-                  <% }else{ %>
-                  <textarea class='span8' id='wmd-input' name='t_content' rows='20'></textarea>
-                  <% } %>
-                </div>
-              </div>
-              <div id='preview' class='tab-pane'>
-                <div id='wmd-preview' class='wmd-preview topic-wmd-preview'></div>
-              </div>
-              <div id='tags' class='tab-pane'>
-                <div class='tags_select'>
-                  <%- partial('tag/tag_selectable',{collection:tags, as:'tag'}) %>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <input type='hidden' id='topic_tags' name='topic_tags' value=''></input>
-        <input type='hidden' name='_csrf' value='<%= csrf %>' />
-        <div class='form-actions'>
-          <button id='submit_btn' class='btn'>发布</button>
-        </div>
+          <textarea class='span9' id='title' name='title' rows='1' placeholder="请在此输入标题，字数控制在10到100个之间"><%= locals.title || '' %></textarea>
+          <label class='bold' for='t_content'>内容</label>
+          <textarea class='editor' id='wmd-input' name='t_content' rows='20'><%= locals.content || '' %></textarea>
+
+          <input type='hidden' id='topic_tags' name='topic_tags' value=''></input>
+          <input type='hidden' name='_csrf' value='<%= csrf %>' />
+          <button id='submit_btn' type="submit" class='btn'>发布</button>
+        </fieldset>
       </form>
     </div>
     <% } %>
@@ -129,28 +78,15 @@
 </div>
 
 <!-- ajaxupload -->
-<script src='/libs/ajax-upload/ajaxupload.js'></script>
 <!-- markdown editor -->
-<script src='/libs/pagedown/Markdown.Converter.js'></script>
-<script src='/libs/showdown.js'></script>
-<script src='/libs/pagedown/Markdown.Editor.js'></script>
-
+<%- Loader('/public/topic_edit.min.js')
+  .js('/public/libs/ajax-upload/ajaxupload.js')
+  .js('/public/libs/epiceditor/epiceditor.js')
+  .js('/public/javascripts/editor.js')
+  .done(assets, config.site_static_host, config.mini_assets)
+%>
 <script>
-$(document).ready(function(){
-  var editor;
-  function run_md_editor(){
-    // var converter = Markdown.getSanitizingConverter();
-    var converter = new Showdown.converter();
-    editor = new Markdown.Editor(converter);
-    editor.run();
-  }
-  run_md_editor();
-
-  $('.preview-btn').click(function() {
-    editor.makePreviewHtml();
-    prettyPrint();
-  });
-
+$(function () {
   $('.tag_selectable').click(function(){
     $(this).toggleClass('tag_select');
   });

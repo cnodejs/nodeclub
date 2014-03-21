@@ -1,34 +1,36 @@
 <div class='user_card'>
 	<div>
-		<a href="/user/<%= user.name %>"><img class='user_avatar' 
-			src="<%= user.avatar_url %>" title="<%= user.name %>" /></a>
-		<span class='sp10'></span>
+		<a  class='user_avatar'  href="/user/<%= user.name %>">
+			<img src="<%= user.avatar_url %>" title="<%= user.name %>" />
+		</a>
 		<span class='user_name'><a class='dark' href="/user/<%= user.name %>"><%= user.name %></a></span>
 
 		<% if (locals.current_user && current_user._id != user._id) { %>
 			<% if (!locals.relation) { %>
-				<button class='btn btn-success fr follow_btn' action='follow'>加入关注</button>
+				<button class='btn btn-success follow_btn' action='follow'>加入关注</button>
 			<% } else { %>
-				<button class='btn fr follow_btn' action='un_follow'>取消关注</button>
+				<button class='btn follow_btn' action='un_follow'>取消关注</button>
 			<% } %>
 		<% } %>
 
-		<div class='board cl'>
+		<div class='board clearfix'>
 			<div class='floor'>
-				<a href='/user/<%= user.name %>/tags/'><span class='big'><%= user.collect_tag_count %></span> 标签收藏</a> &nbsp; &nbsp; 
-				<a href='/user/<%= user.name %>/topics'><span class='big'><%= user.collect_topic_count %></span> 话题收藏</a>
+				<a href='/user/<%= user.name %>/collections'><span class='big'><%= user.collect_topic_count %></span> 话题收藏</a>
 			</div>
 			<div class='floor'>
-				<a href='/user/<%= user.name %>/following'><span class='big'><%= user.following_count %></span> 关注</a> &nbsp; &nbsp;
-				<a href='/user/<%= user.name %>/follower'><span class='big'><%= user.follower_count %></span> 粉丝</a> &nbsp; &nbsp;
+				<a href='/user/<%= user.name %>/following'><span class='big'><%= user.following_count %></span> 关注</a>
+				<div class='space'></div>
+				<a href='/user/<%= user.name %>/follower'><span class='big'><%= user.follower_count %></span> 粉丝</a>
+				<div class='space'></div>
 				<span class='big'><%= user.score %></span> 积分
 			</div>
 
-			<% if (user.messages_count > 0) { %>
 			<div class='floor'>
-				<a href='/my/messages'><span class='big messages_count'><%= user.messages_count %></span> 未读消息</a>
+				<a href='/my/messages'>
+          <span class='big <%= user.messages_count ? 'messages_count' : '' %>'>
+            <%= user.messages_count || 0 %>
+          </span> 未读消息</a>
 			</div>
-			<% } %>
 		</div>
 	</div>
 </div>
@@ -53,9 +55,9 @@
 						$btns.html('加入关注');
 						$btns.attr('action','follow');
 					}
-					$btns.toggleClass('btn-success');	
-				}	
-			}, 'json');	
+					$btns.toggleClass('btn-success');
+				}
+			}, 'json');
 		});
 	});
 </script>

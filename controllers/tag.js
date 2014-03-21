@@ -122,7 +122,7 @@ exports.add = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    if (tags.length > 0) {
+    if (tags && tags.length > 0) {
       res.render('notify/notify', {error: '这个标签已存在。'});
       return;
     }
@@ -135,7 +135,7 @@ exports.add = function (req, res, next) {
   });
 };
 
-exports.view = function (req, res, next) {
+exports.edit = function (req, res, next) {
   var tag_name = req.params.name;
   Tag.getTagByName(tag_name, function (err, tag) {
     if (err) {
@@ -157,8 +157,8 @@ exports.view = function (req, res, next) {
 };
 
 exports.update = function (req, res, next) {
-  var tag_name = req.params.name;
-  Tag.findOne({name: tag_name}, function (err, tag) {
+  var id = req.params.id;
+  Tag.getTagById(id, function (err, tag) {
     if (err) {
       return next(err);
     }

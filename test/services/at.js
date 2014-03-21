@@ -23,10 +23,10 @@ describe('services/at.js', function () {
     testuser3 @testuser2你好 \
     @testuser1@testuser3\
     @testuser2@testuser123 oh my god';
-  var linkedText = '@[testuser1](/user/testuser1) 哈哈, hellowprd testuser1 testuser2 \
-    testuser3 @[testuser2](/user/testuser2)你好 \
-    @[testuser1](/user/testuser1)@[testuser3](/user/testuser3)\
-    @[testuser2](/user/testuser2)@[testuser1](/user/testuser1)23 oh my god';
+  var linkedText = '[@testuser1](/user/testuser1) 哈哈, hellowprd testuser1 testuser2 \
+    testuser3 [@testuser2](/user/testuser2)你好 \
+    [@testuser1](/user/testuser1)[@testuser3](/user/testuser3)\
+    [@testuser2](/user/testuser2)[@testuser1](/user/testuser1)23 oh my god';
 
   describe('fetchUsers()', function () {
     var mentionUser = rewire('../../services/at');

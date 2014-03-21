@@ -4,6 +4,7 @@ var Message = require('../models').Message;
 
 var User = require('./user');
 var Topic = require('./topic');
+var Reply = require('./reply');
 
 /**
  * 根据用户ID，获取未读消息的数量
@@ -34,9 +35,10 @@ exports.getMessageById = function (id, callback) {
     }
     if (message.type === 'reply' || message.type === 'reply2' || message.type === 'at') {
       var proxy = new EventProxy();
-      proxy.assign('author_found', 'topic_found', function (author, topic) {
+      proxy.assign('author_found', 'topic_found', 'reply_found', function (author, topic, reply) {
         message.author = author;
         message.topic = topic;
+        message.reply = reply;
         if (!author || !topic) {
           message.is_invalid = true;
         }
@@ -44,6 +46,7 @@ exports.getMessageById = function (id, callback) {
       }).fail(callback); // 接收异常
       User.getUserById(message.author_id, proxy.done('author_found'));
       Topic.getTopicById(message.topic_id, proxy.done('topic_found'));
+      Reply.getReplyById(message.reply_id, proxy.done('reply_found'));
     }
 
     if (message.type === 'follow') {
@@ -70,7 +73,7 @@ exports.getMessageById = function (id, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getMessagesByUserId = function (userId, callback) {
-  Message.find({master_id: userId}, [], {sort: [['create_at', 'desc']]}, callback);
+  Message.find({master_id: userId}, [], {sort: [['create_at', 'desc']], limit: 20}, callback);
 };
 
 /**

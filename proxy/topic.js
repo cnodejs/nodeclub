@@ -93,20 +93,26 @@ exports.getTopicsByQuery = function (query, opt, callback) {
     }
 
     var proxy = new EventProxy();
-    var topics = [];
-    proxy.after('topic_ready', topics_id.length, function () {
-      return callback(null, topics);
+    proxy.after('topic_ready', topics_id.length, function (topics) {
+      // 过滤掉空值
+      var filtered = topics.filter(function (item) {
+        return !!item;
+      });
+      return callback(null, filtered);
     });
     proxy.fail(callback);
 
     topics_id.forEach(function (id, i) {
-      exports.getTopicById(id, proxy.done(function (topic, tags, author, last_reply) {
-        topic.tags = tags;
-        topic.author = author;
-        topic.reply = last_reply;
-        topic.friendly_create_at = Util.format_date(topic.create_at, true);
-        topics[i] = topic;
-        proxy.emit('topic_ready');
+      exports.getTopicById(id, proxy.group('topic_ready', function (topic, tags, author, last_reply) {
+        // 当id查询出来之后，进一步查询列表时，文章可能已经被删除了
+        // 所以这里有可能是null
+        if (topic) {
+          topic.tags = tags;
+          topic.author = author;
+          topic.reply = last_reply;
+          topic.friendly_create_at = Util.format_date(topic.create_at, true);
+        }
+        return topic;
       }));
     });
   });
@@ -166,14 +172,13 @@ exports.getFullTopic = function (id, callback) {
  */
 exports.updateLastReply = function (topicId, replyId, callback) {
   Topic.findOne({_id: topicId}, function (err, topic) {
-    if (err) {
+    if (err || !topic) {
       return callback(err);
     }
     topic.last_reply = replyId;
     topic.last_reply_at = new Date();
     topic.reply_count += 1;
-    topic.save();
-    callback(null, topic);
+    topic.save(callback);
   });
 };
 
@@ -211,7 +216,5 @@ exports.newAndSave = function (title, content, authorId, callback) {
   topic.title = title;
   topic.content = content;
   topic.author_id = authorId;
-  topic.save(function (err) {
-    callback(err, topic);
-  });
+  topic.save(callback);
 };

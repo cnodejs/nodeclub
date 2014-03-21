@@ -1,44 +1,36 @@
 <div class='cell'>
-  <div class='user_avatar'>
-    <a href="/user/<%= topic.author.name %>">
-      <img src="<%= topic.author.avatar_url %>" title="<%= topic.author.name %>" />
-    </a>
-  </div>
 
-  <div class='topic_wrap'>
-    <div class='title_wrap'>
-      <!--<%- partial('tag/tag_in_abstract',{collection:topic.tags, as:'tag'}) %>-->
-      <a class='topic_title' href='/topic/<%= topic._id %>'>
-        <% if(topic.top){%>
-          <span class='put_top'>置顶</span>
-          <% } %>
-        <%= topic.title %>
-      </a>
-    </div>
-    <% if (topic.reply_count > 0) { %>
-      <a class='count fr' href="/topic/<%= topic._id %>#reply<%= topic.reply_count %>"><%= topic.reply_count %></a>
-    <% } %>
-    <div class='sep10'></div>
-    <div class='sep5'></div>
-    <span class='col_fade'>
-      <!-- <div class='name_part'>
-        <a class='dark' href='/user/<%= topic.author.name %>'><%= topic.author.name %></a> 
-      </div> -->
-      <div class='click_part'>
-        点击数 <%= topic.visit_count %>
-      </div>
-      <% if(topic.reply){  %>
-        <div class='reply_part'>
-          <a class='dark' href="/user/<%= topic.reply.author.name %>"><%= topic.reply.author.name %> </a>
-          回复于
-          <%= topic.reply.friendly_create_at %>
-        </div>
-      <% }else{ %>
-        <a class='dark' href="/user/<%= topic.author.name %>"><%= topic.author.name %> </a>
-        <div class='reply_part'>
-          创建于 <%= topic.friendly_create_at %>
-        </div>
-      <% } %>
+  <a class="user_avatar" href="/user/<%= topic.author.name %>">
+    <img src="<%= topic.author.avatar_url %>"
+      title="<%= topic.author.name %>"
+    />
+  </a>
+
+  <span class="reply_count">
+    <span class="count_of_replies" title="回复数">
+      <%= topic.reply_count %>
     </span>
-  </div>
+    <span class="count_seperator">/</span>
+    <span class="count_of_visits" title='点击数'>
+      <%= topic.visit_count %>
+    </span>
+  </span>
+
+  <!--<%- partial('tag/tag_in_abstract',{collection:topic.tags, as:'tag'}) %>-->
+  <a class='topic_title' href='/topic/<%= topic._id %>'>
+    <% if (topic.top) { %>
+      <span class='put_top'>置顶</span>
+    <% } %>
+    <%= topic.title %>
+  </a>
+
+  <% if (topic.reply) {%>
+    <a class='last_time' href="/topic/<%= topic._id %><%- '#' + topic.reply._id %>">
+      <img class="user_small_avatar" src="<%= topic.reply.author.avatar_url %>">
+      <%= topic.reply.friendly_create_at %>
+    </a>
+  <% } %>
+  <% if (!topic.reply) {%>
+    <span class='last_time'><%= topic.friendly_create_at %></span>
+  <% } %>
 </div>

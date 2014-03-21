@@ -10,13 +10,13 @@
 		</div>
 		<div class='inner'>
 			<% if(locals.error){ %>
-			<div class="alert alert-error">	
+			<div class="alert alert-error">
 				<a class="close" data-dismiss="alert" href="#">&times;</a>
 				<strong><%= error %></strong>
 			</div>
 			<% } %>
 			<% if (locals.success) { %>
-			<div class="alert alert-success">	
+			<div class="alert alert-success">
 				<strong><%= success %></strong>
 			</div>
 			<% } %>
@@ -31,12 +31,7 @@
 					<label class='control-label' for='email'>电子邮件</label>
 					<div class='controls'>
 						<input class='input-xlarge readonly' id='email' name='email' size='30' type='text' readonly='true' value="<%= email %>" />
-					</div>
-				</div>
-				<div class='control-group'>
-					<label class='control-label' for='profile_image_url'>头像URL</label>
-					<div class='controls'>
-						<input class='input-xlarge' id='profile_image_url' name='profile_image_url' type='text' value="<%= locals.profile_image_url || '' %>" />
+            <p>同时决定了 Gravatar 头像</p>
 					</div>
 				</div>
 				<div class='control-group'>
@@ -83,12 +78,24 @@
 					<label class='control-label' for='weibo'>微博</label>
 					<div class='controls'>
 						<% if(locals.weibo){ %>
-						<input class='input-xlarge' id='weibo' name='weibo' size='30' type='text' value="<%= weibo %>" />
+						<input class='input-xlarge' id='weibo' name='weibo' size='30' type='text' value="<%= weibo %>" placeholder="e.g. http://weibo.com/cnodejs" />
 						<% }else{ %>
-						<input class='input-xlarge' id='weibo' name='weibo' size='30' type='text' value='' />
+						<input class='input-xlarge' id='weibo' name='weibo' size='30' type='text' value=''
+            placeholder="e.g. http://weibo.com/cnodejs" />
 						<% } %>
 					</div>
 				</div>
+        <div class='control-group'>
+          <label class='control-label' for='github'>GitHub</label>
+          <div class='controls'>
+            <% if(locals.githubUsername){ %>
+            <input class='input-xlarge' id='github' name='github' size='30' type='text' value="<%= githubUsername %>" placeholder="@username" />
+            <% }else{ %>
+            <input class='input-xlarge' id='github' name='github' size='30' type='text' value=''
+            placeholder="@username" />
+            <% } %>
+          </div>
+        </div>
 				<div class='control-group'>
 					<label class='control-label' for='receive_at_msg'>邮件提醒</label>
 					<div class='controls'>
@@ -117,29 +124,13 @@
 				</div>
 			</form>
 		</div>
-	</div>	
-	<div class='sep10'></div>
-	<div class='panel'>
-		<div class='header'>	
-			<span class='col_fade'>头像</span>
-		</div>
-		<div class='inner'>
-			<p><%= config.name %> 使用<a href='http://en.wikipedia.org/wiki/Gravatar' target='_blank'> Globally Recognized Avata </a>，与您的 Email 关联，请在<a href='http://en.gravatar.com/' target='_blank'> Gravatar </a>注册或更改您的头像。</p>
-			<p>您当前的头像如下：</p>
-			<% if (locals.profile_image_url) { %>
-			自定义: <img class="user_avatar" src="<%= locals.profile_image_url %>" />
-			&nbsp;|&nbsp;
-			<% } %>
-			gravatar: <img class="user_avatar" src="<%= current_user.avatar %>" />
-		</div>
 	</div>
-	<div class='sep10'></div>
+
 	<div class='panel'>
-		<div class='header'>	
+		<div class='header'>
 			<span class='col_fade'>更改密码</span>
 		</div>
 		<div class='inner'>
-			<div class='sep10'></div>
 			<form id='change_pass_form' class='form-horizontal' action='/setting' method='post'>
 				<div class='control-group'>
 					<label class='control-label' for='old_pass'>当前密码</label>

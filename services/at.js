@@ -41,7 +41,11 @@ var fetchUsers = function (text) {
  * @param {String} authorId 作者ID
  * @param {Function} callback 回调函数
  */
-exports.sendMessageToMentionUsers = function (text, topicId, authorId, callback) {
+exports.sendMessageToMentionUsers = function (text, topicId, authorId, reply_id, callback) {
+  if (typeof reply_id === 'function') {
+    callback = reply_id;
+    reply_id = null;
+  }
   callback = callback || function () {};
   User.getUsersByNames(fetchUsers(text), function (err, users) {
     if (err || !users) {
@@ -53,7 +57,7 @@ exports.sendMessageToMentionUsers = function (text, topicId, authorId, callback)
     }).fail(callback);
 
     users.forEach(function (user) {
-      Message.sendAtMessage(user._id, authorId, topicId, ep.done('sent'));
+      Message.sendAtMessage(user._id, authorId, topicId, reply_id, ep.done('sent'));
     });
   });
 };
@@ -73,7 +77,7 @@ exports.linkUsers = function (text, callback) {
     }
     for (var i = 0, l = users.length; i < l; i++) {
       var name = users[i].name;
-      text = text.replace(new RegExp('@' + name, 'gmi'), '@[' + name + '](/user/' + name + ')');
+      text = text.replace(new RegExp('@' + name, 'gmi'), '[@' + name + '](/user/' + name + ')');
     }
     return callback(null, text);
   });

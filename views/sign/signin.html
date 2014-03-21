@@ -9,10 +9,8 @@
 			</ul>
 		</div>
 		<div class='inner'>
-			<div class='sep10'></div>
-			<div class='sep10'></div>
 			<% if(locals.error){ %>
-			<div class="alert alert-error">	
+			<div class="alert alert-error">
 				<a class="close" data-dismiss="alert" href="#">&times;</a>
 				<strong><%= error %></strong>
 			</div>
@@ -33,13 +31,9 @@
 				<input type='hidden' name='_csrf' value='<%= csrf %>' />
 				<div class='form-actions'>
 					<input type='submit' class='btn' value='登录' />
-				</div>
-				<div class='control-group'>
-					<div class='controls'>
-					<a href='/search_pass'>忘记密码了?</a>
-					</div>
+					<a id="forgot_password" href='/search_pass'>忘记密码了?</a>
 				</div>
 			</form>
 		</div>
-	</div>	
+	</div>
 </div>

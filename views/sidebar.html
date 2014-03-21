@@ -1,106 +1,56 @@
 <div id='sidebar'>
+
   <div class='panel'>
     <% if (locals.user || locals.current_user) { %>
-    <div class='inner'>
-      <%- partial('user/card',{ object: locals.user || locals.current_user, as: 'user' }) %>
-    </div>
-    <% } else { %>
-    <div class='inner'>
-      <p><%= config.description %></p>
-      <div class='sep10'></div>
-      <div class='cen'>
-        <a href='/signup'><button class='btn'>现在注册</button></a>
-        <div class='sep10'></div>
-        <span>已注册用户请<a class='light' href='/signin'> 登录</a></span>
+      <div class='header'>
+        <span class='col_fade'>个人信息<span>
       </div>
-    </div>
+      <div class='inner'>
+        <%- partial('user/card',{ object: locals.user || locals.current_user, as: 'user' }) %>
+      </div>
+      <% } else { %>
+      <div class='inner'>
+        <p><%= config.description %></p>
+        <div>
+          您可以
+          <a href='/signin'>登录</a>
+          或
+          <a href='/signup'>注册</a>
+          , 也可以
+          <a href="/auth/github" class="btn btn-info">通过 GitHub 登录</a>
+        </div>
+      </div>
     <% } %>
   </div>
 
-  <div class='sep10'></div>
-  <div class=panel>
-    <div class='header'>
-      <!-- <img src='<%- config.site_static_host %>/images/tag_icon&16.png' title='标签'/> -->
-      <!-- CNode社区宣传通告 -->
-      <span class="index_notify">社区消息：
+  <% if (locals.current_user) { %>
+    <div class="panel">
+      <div class='inner'>
+        <a href='/topic/create' id='create_topic_btn'>
+          <button class='btn btn-success'>发布话题</button>
+        </a>
+      </div>
     </div>
-    <div class='inner'>
-      <p><a href="/topic/4fa69d90bac222c3780576d8" target="_blank">如何获得NodeAppEngine邀请码?</a></p>
-      <p><a href="/topic/4f4d9f007f999acb7c00af57" target="_blank">如何获得Node官方T-Shirt?</a> </p>
-      <p><a href="/topic/4f17948d9f40a8335200518e" target="_blank">如何加入CNode社区?</a></p>
-    </div>
-  </div>
-
-  <% if (locals.hot_tags) { %>
-  <div class='sep10'></div>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>热门标签</span>
-    </div>
-    <div class='inner'>
-      <% if (hot_tags.length > 0) { %>
-      <%- partial('tag/tag_with_count', { collection: hot_tags, as: 'tag' }) %>
-      <% } else { %>
-      <p>无</p>
-      <% } %>
-    </div>
-  </div>
-  <% } %>
-
-  <% if (locals.hot_topics) { %>
-  <div class='sep10'></div>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>热门话题</span>
-    </div>
-    <div class='inner'>
-      <% if (hot_topics.length >0) { %>
-      <ul class='unstyled'>
-      <%- partial('topic/small', { collection: hot_topics, as: 'topic' }) %>
-      </ul>
-      <% } else { %>
-      <p>无</p>
-      <% } %>
-    </div>
-  </div>
   <% } %>
 
   <% if (locals.no_reply_topics) { %>
-  <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>无人回复的话题</span>
     </div>
     <div class='inner'>
       <% if (no_reply_topics.length > 0) { %>
-      <ul class='unstyled'>
-      <%- partial('topic/small', { collection: no_reply_topics, as: 'topic' }) %>
-      </ul>
+        <ul class="unstyled">
+          <%- partial('topic/small', { collection: no_reply_topics, as: 'topic' }) %>
+        </ul>
       <% } else {  %>
-      <p>无</p>
+        <p>无</p>
       <% } %>
     </div>
   </div>
   <% } %>
 
-  <% if (config.site_links && config.site_links.length > 0) { %>
-  <div class='sep10'></div>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>相关站点</span>
-    </div>
-    <div class='inner'>
-      <ul class='unstyled'>
-        <% config.site_links.forEach(function (site) { %>
-        <li><a href='<%= site.url %>' target='_blank'><%= site.text %></a></li>
-        <% }); %>
-      </ul>
-    </div>
-  </div>
-  <% } %>
-
   <% if (locals.tops) { %>
-  <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>积分榜</span>
@@ -120,7 +70,6 @@
   <% } %>
 
   <% if (locals.stars) { %>
-  <div class='sep10'></div>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>社区达人</span> &nbsp;
@@ -138,30 +87,4 @@
   </div>
   <% } %>
 
-  <div class='sep10'></div>
-
-  <% if (config.side_ads && config.side_ads.length > 0) { %>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>友情社区 | 赞助商</span>
-    </div>
-    <% config.side_ads.forEach(function (ad) { %>
-    <div class='inner'>
-      <a href="<%- ad.url %>" title="<%= ad.text %>" target='_blank'>
-        <img src="<%- ad.image %>" />
-      </a>
-    </div>
-    <% }); %>
-  </div>
-  <% } %>
-
-  <div class='sep10'></div>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>RSS订阅</span>
-    </div>
-    <div class='inner'>
-    <a href="/rss"><img alt="RSS订阅" src="/images/rss_icon&40.png" /></a>
-    </div>
-  </div>
 </div>

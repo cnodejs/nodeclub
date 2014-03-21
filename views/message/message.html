@@ -1,24 +1,20 @@
-<% if(message.has_read){ %>
+<% if (message.has_read) { %>
 	<div class='cell' message_id='<%= message._id %>'>
-<% }else{ %>
+<% } else { %>
 	<div class='cell message' message_id='<%= message._id %>'>
 <% } %>
 	<% if(message.type == 'reply'){ %>
 		<span>
 			<a href="/user/<%= message.author.name %>" target='_blank'><%= message.author.name %></a> 
 			回复了你的话题 
-			<div class='title_wrap'>
-			<a href="/topic/<%= message.topic._id %>" target='_blank'><%= message.topic.title %></a>
-			</div>
+			<a href="/topic/<%- message.topic._id + (message.reply ? '#' + message.reply._id : '') %>" target='_blank'><%= message.topic.title %></a>
 		</span>
 	<% } %>
 	<% if(message.type == 'reply2'){ %>
 		<span>
 			<a href="/user/<%= message.author.name %>" target='_blank'><%= message.author.name %></a> 
 			在话题 
-			<div class='title_wrap'>
-				<a href="/topic/<%= message.topic._id %>" target='_blank'><%= message.topic.title %></a>
-			</div>
+			<a href="/topic/<%= message.topic._id + (message.reply ? '#' + message.reply._id : '') %>" target='_blank'><%= message.topic.title %></a>
 			中回复了你的回复
 		</span>
 	<% } %>
@@ -32,20 +28,17 @@
 		<span>
 			<a href="/user/<%= message.author.name %>" target='_blank'><%= message.author.name %></a>
 			在话题
-			<div class='title_wrap'>
-				<a href="/topic/<%= message.topic._id %>" target='_blank'><%= message.topic.title %></a>
-			</div>
+			<a href="/topic/<%= message.topic._id + (message.reply ? '#' + message.reply._id : '') %>" target='_blank'><%= message.topic.title %></a>
 			中@了你
 		</span>
 	<% } %>
 
-
 	<% if (message.has_read) { %>
-	<span class='fr'><img src='<%- config.site_static_host %>/images/checkmark_icon&16.png' title='消息已读'/></span>
+	<span class="marked_icon"><img src='<%- config.site_static_host %>/public/images/checkmark_icon&16.png' title='消息已读'/></span>
 	<% } else { %>
-	<span class='fr marked_icon mark_read_btn'>
+	<span class="marked_icon mark_read_btn">
 		<img class='unread'
-		  src='<%- config.site_static_host %>/images/checkmark_icon&16.png'
+		  src='<%- config.site_static_host %>/public/images/checkmark_icon&16.png'
 		  title='消息已读'
 		/>
 	</span>
