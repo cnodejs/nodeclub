@@ -138,25 +138,24 @@
     </div>
     <div class='inner reply'>
       <form id='reply_form' action='/<%= topic._id %>/reply' method='post'>
-        <div class='tabbable'>
-          <ul class='nav nav-pills'>
-            <li class='active'><a href='#markdown' data-toggle='pill'>markdown</a></li>
-            <!-- <li><a href='#preview' data-toggle='pill' class="preview-btn">预览</a></li> -->
-          </ul>
-          <div class='tab-content'>
-            <div class='tab-pane active' id='markdown'>
-              <div id='wmd-button-bar'></div>
-              <textarea class='span8 editor' id='wmd-input' name='r_content' rows='8'></textarea>
-            </div>
-            <div id='preview' class='tab-pane'>
-              <div id='wmd-preview' class='wmd-preview reply-wmd-preview'></div>
+
+        <div class='markdown_editor in_editor'>
+          <div class='markdown_in_editor'>
+            <textarea class='editor' name='r_content' rows='8'></textarea>
+            <div class='editor_buttons'>
+              <button class='btn action_preview'>预览</button>
             </div>
           </div>
-          <input type='hidden' name='_csrf' id="_csrf" value='<%= csrf %>' />
+          <div class='markdown_in_preview'>
+            <div class='preview'></div>
+            <div class='editor_buttons'>
+              <button class='btn'>提交</button>
+              <button class='btn action_modify'>修改</button>
+            </div>
+          </div>
         </div>
 
-        <button id='submit_btn' class='btn'>回复</button>
-        <span class='col_fade'>Ctrl+Enter 快捷回复</span>
+      <input type='hidden' name='_csrf' id="_csrf" value='<%= csrf %>' />
       </form>
     </div>
   </div>
@@ -168,14 +167,12 @@
 <!-- markdown editor -->
 <%- Loader('/public/topic_edit.min.js')
   .js('/public/libs/ajax-upload/ajaxupload.js')
-  .js('/public/libs/epiceditor/epiceditor.js')
-  .js('/public/javascripts/editor.js')
+  .js('/public/libs/marked.js')
+  .js('/public/javascripts/markdown_editor.js')
   .done(assets, config.site_static_host, config.mini_assets)
 %>
 <script>
   $(document).ready(function () {
-
-    var editorList = {};
 
     $('.reply2_btn').click(function () {
       var $btn = $(this);
@@ -185,10 +182,8 @@
       var textarea = editorWrap.find('textarea.editor');
       textarea.val('');
 
-      editorWrap.show('fast', function () {
-        var editor = createEpicEditor(textarea);
-        editorList[textarea.attr('id')] = editor;
-        editor.load();
+      editorWrap.show('fast', function() {
+        textarea.focus();
       });
     });
 
@@ -202,10 +197,8 @@
         textarea.val('@' + user + ' ');
       }
 
-      editorWrap.show('fast', function () {
-        var editor = createEpicEditor(textarea);
-        editorList[textarea.attr('id')] = editor;
-        editor.load();
+      editorWrap.show('fast', function() {
+        textarea.focus();
       });
     });
 
@@ -282,20 +275,6 @@
         }
       });
     });
-
-    document.onkeyup=function(event) {
-      if(window.ActiveXObject) {
-        var keydown = window.event.keyCode;
-        event=window.event;
-      }else{
-        var keydown = event.keyCode;
-        if(event.ctrlKey == true && keydown == 13){
-          if(submit_btn){
-            submit_btn.click();
-          }
-        }
-      }
-    };
   });
 </script>
 <% } %>

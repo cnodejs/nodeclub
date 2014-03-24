@@ -38,11 +38,25 @@
       <form class='reply2_form' action='/<%= topic._id %>/reply2' method='post'>
         <input type='hidden' name='_csrf' value='<%- csrf %>' />
         <input type='hidden' name='reply_id' value='<%- reply._id %>' />
-        <textarea class='span8 editor reply_editor' id="reply2_editor_<%- reply._id %>" name='r2_content' rows='4'></textarea>
-        <p style="margin-top: 10px">
-          <button class='btn reply2_submit_btn' type="submit" data-id='<%= reply._id %>'>回复</button>
-          <span class='col_fade'>Ctrl+Enter 快捷回复</span>
-        </p>
+
+        <div class='markdown_editor in_editor'>
+          <div class='markdown_in_editor'>
+            <textarea class='span8 editor reply_editor'
+              id="reply2_editor_<%- reply._id %>" name='r2_content' rows='4'></textarea>
+            <div class='editor_buttons'>
+              <button class='btn action_preview'>预览</button>
+            </div>
+          </div>
+          <div class='markdown_in_preview'>
+            <div class='preview'></div>
+            <div class='editor_buttons'>
+              <button class='btn reply2_submit_btn'
+                type="submit" data-id='<%= reply._id %>'>回复</button>
+              <button class='btn action_modify'>修改</button>
+            </div>
+          </div>
+        </div>
+
       </form>
       <% } %>
     </div>

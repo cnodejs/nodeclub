@@ -62,14 +62,31 @@
       <form id='create_topic_form' action='/topic/create' method='post'>
       <% } %>
         <fieldset>
-          <label class='bold' for='title'>标题</label>
-          <textarea class='span9' id='title' name='title' rows='1' placeholder="请在此输入标题，字数控制在10到100个之间"><%= locals.title || '' %></textarea>
-          <label class='bold' for='t_content'>内容</label>
-          <textarea class='editor' id='wmd-input' name='t_content' rows='20'><%= locals.content || '' %></textarea>
+          <textarea autofocus class='span9' id='title' name='title' rows='1'
+            placeholder="请在此输入标题，字数控制在10到100个之间"
+            ><%= locals.title || '' %></textarea>
+          <div class='editor_buttons'></div>
+
+          <div class='markdown_editor in_editor'>
+            <div class='markdown_in_editor'>
+              <textarea class='editor' name='t_content' rows='20'
+                placeholder='用 Markdown 输入文章的内容'
+                ><%= locals.content || '' %></textarea>
+              <div class='editor_buttons'>
+                <button class='btn action_preview'>预览</button>
+              </div>
+            </div>
+            <div class='markdown_in_preview'>
+              <div class='preview'></div>
+              <div class='editor_buttons'>
+                <button id='submit_btn' type="submit" class='btn'>发布</button>
+                <button class='btn action_modify'>修改</button>
+              </div>
+            </div>
+          </div>
 
           <input type='hidden' id='topic_tags' name='topic_tags' value=''></input>
           <input type='hidden' name='_csrf' value='<%= csrf %>' />
-          <button id='submit_btn' type="submit" class='btn'>发布</button>
         </fieldset>
       </form>
     </div>
@@ -81,8 +98,8 @@
 <!-- markdown editor -->
 <%- Loader('/public/topic_edit.min.js')
   .js('/public/libs/ajax-upload/ajaxupload.js')
-  .js('/public/libs/epiceditor/epiceditor.js')
-  .js('/public/javascripts/editor.js')
+  .js('/public/libs/marked.js')
+  .js('/public/javascripts/markdown_editor.js')
   .done(assets, config.site_static_host, config.mini_assets)
 %>
 <script>
