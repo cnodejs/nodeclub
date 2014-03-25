@@ -76,7 +76,6 @@
 	}
 	#content .topic_title{
 		font-size: 1em;
-		line-height: 1em;
 		width: 100%;
 	}
 	#content .last_time{
@@ -93,9 +92,9 @@
 		bottom: 0;
 		left: 50px;
 		text-align: left;
-	}
-	.topic_title_wrapper{
 		line-height: 1em;
+}
+	.topic_title_wrapper{
 		padding-left: 40px;
 	}
 	#main .topic_content p a.content_img,
