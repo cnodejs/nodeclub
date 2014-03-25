@@ -4,7 +4,12 @@ $(document).ready(function(){
       $sidebar = $('#sidebar'),
       $main = $('#main'),
       startX = 0,
-      swipeThreshold = 10,
+      startY = 0,
+      delta = {
+        x: 0,
+        y: 0
+      },
+      swipeThreshold = 20,
       toggleSideBar = function(){
         var isShow = $responsiveBtn.data('is-show'),
             mainHeight = $main.height(),
@@ -19,31 +24,41 @@ $(document).ready(function(){
       touchstart = function(e){
         var touchs = e.targetTouches;
         startX = +touchs[0].pageX;
+        startY = +touchs[0].pageY;
+        delta.x = delta.y = 0;
+        document.body.addEventListener('touchmove', touchmove, false);
+        document.body.addEventListener('touchend', touchend, false);
       },
       touchmove = function(e){
         var touchs = e.changedTouches;
-        if(Math.abs(+touchs[0].pageX - startX) > swipeThreshold){
+        delta.x = +touchs[0].pageX - startX;
+        delta.y = +touchs[0].pageY - startY;
+        //当水平距离大于垂直距离时，才认为是用户想滑动打开右侧栏
+        if(Math.abs(delta.x) > Math.abs(delta.y)){
           e.preventDefault();
         }
       },
       touchend = function(e){
         var touchs = e.changedTouches,
-            x = +touchs[0].pageX,
-            winWidth = $(window).width(),
+            docWidth = $(document).width(),
             isShow = $responsiveBtn.data('is-show');
-        if(!isShow && (startX > winWidth*3/4) && Math.abs(startX - x) > swipeThreshold){
+        delta.x = +touchs[0].pageX - startX;
+        //右侧栏未显示&&用户touch点在屏幕右侧1/4区域内&&move距离大于阀值时，打开右侧栏
+        if(!isShow && (startX > docWidth*3/4) && Math.abs(delta.x) > swipeThreshold){
           $responsiveBtn.trigger('click');
         }
-        if(isShow && (startX < winWidth*1/4) && Math.abs(startX - x) > swipeThreshold){
+        //右侧栏显示中&&用户touch点在屏幕左侧侧1/4区域内&&move距离大于阀值时，关闭右侧栏
+        if(isShow && (startX < docWidth*1/4) && Math.abs(delta.x) > swipeThreshold){
           $responsiveBtn.trigger('click');
         }
-        startX = 0;
+        startX = startY = 0;
+        delta.x = delta.y = 0;
+        document.body.removeEventListener('touchmove', touchmove, false);
+        document.body.removeEventListener('touchend', touchend, false);
       };
 
   if(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch){
     document.body.addEventListener('touchstart', touchstart);
-    document.body.addEventListener('touchmove', touchmove);
-    document.body.addEventListener('touchend', touchend);
   }
 
   $responsiveBtn.on('click', toggleSideBar);

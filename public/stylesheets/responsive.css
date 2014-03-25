@@ -33,11 +33,13 @@
 
 @media (max-width: 979px) {
 	.navbar{
-		margin:0 auto;
+		margin:0 5px;
 		z-index: 999;
+		width: auto !important;
 	}
 	.navbar .container, #main, #content, #footer_main{
 		width: 100%;
+		min-width: 0;
 	}
 	.navbar .nav.pull-right{
 		float: none;
@@ -52,6 +54,9 @@
 		overflow: hidden;
 		margin: 20px auto;
 		min-height: 0;
+	}
+	#content .panel{
+		margin: 0 5px;
 	}
 	#sidebar{
 		float: none;
@@ -69,12 +74,35 @@
 		transition: .3s right;
 	}
 	#content .topic_title{
-		white-space: normal;
+		font-size: 1em !important;
+		line-height: 1em !important;
+		vertical-align: baseline;
+		width: 100%;
 	}
 	#content .last_time{
 		position: absolute;
-		top: 10px;
+		bottom: 0;
 		right: 10px;
+		font-size: 0.8em;
+	}
+	#content .last_time img{
+		display: none;
+	}
+	#content .reply_count{
+		position: absolute;
+		bottom: 0;
+		left: 50px;
+		text-align: left;
+	}
+	.topic_title_wrapper{
+		line-height: 1em;
+		padding-left: 40px;
+	}
+	#main .topic_content p a.content_img, #main .reply_content p a.content_img{
+		width: 100%;
+	}
+	#footer{
+		margin: 0 5px 5px;
 	}
 	#footer_main{
 		text-align: center;

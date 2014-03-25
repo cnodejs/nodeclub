@@ -1,12 +1,12 @@
 <div class='cell'>
 
-  <a class="user_avatar" href="/user/<%= topic.author.name %>">
+  <a class="user_avatar pull-left" href="/user/<%= topic.author.name %>">
     <img src="<%= topic.author.avatar_url %>"
       title="<%= topic.author.name %>"
     />
   </a>
 
-  <span class="reply_count">
+  <span class="reply_count pull-left">
     <span class="count_of_replies" title="回复数">
       <%= topic.reply_count %>
     </span>
@@ -16,21 +16,23 @@
     </span>
   </span>
 
+  <% if (topic.reply) {%>
+    <a class='last_time pull-right' href="/topic/<%= topic._id %><%- '#' + topic.reply._id %>">
+      <img class="user_small_avatar" src="<%= topic.reply.author.avatar_url %>">
+      <%= topic.reply.friendly_create_at %>
+    </a>
+  <% } %>
+  <% if (!topic.reply) {%>
+    <span class='last_time pull-right'><%= topic.friendly_create_at %></span>
+  <% } %>
+
   <!--<%- partial('tag/tag_in_abstract',{collection:topic.tags, as:'tag'}) %>-->
+  <div class="topic_title_wrapper">
   <a class='topic_title' href='/topic/<%= topic._id %>'>
     <% if (topic.top) { %>
       <span class='put_top'>置顶</span>
     <% } %>
     <%= topic.title %>
   </a>
-
-  <% if (topic.reply) {%>
-    <a class='last_time' href="/topic/<%= topic._id %><%- '#' + topic.reply._id %>">
-      <img class="user_small_avatar" src="<%= topic.reply.author.avatar_url %>">
-      <%= topic.reply.friendly_create_at %>
-    </a>
-  <% } %>
-  <% if (!topic.reply) {%>
-    <span class='last_time'><%= topic.friendly_create_at %></span>
-  <% } %>
+  </div>
 </div>

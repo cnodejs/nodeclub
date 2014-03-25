@@ -12,7 +12,9 @@ body {
 }
 
 #main {
-  width: 1120px;
+  width: 90%;
+  max-width: 1400px;
+  min-width: 960px;
   margin: 40px auto;
   min-height:400px;
   position: relative;
@@ -22,7 +24,7 @@ body {
 }
 #content {
   padding: 0;
-  width: 818px;
+  margin-right: 300px;
 }
 #sidebar {
   width: 290px;
@@ -417,7 +419,7 @@ a.user_avatar:hover {
 }
 .reply_content {
   padding-left: 50px;
-  color: black;
+  color: #333;
 }
 .reply_editor {
   height: 200px;
@@ -446,9 +448,15 @@ a.topic_title {
     font-size: 16px;
 }
 #topic_list a.topic_title {
-    color: black;
+    color: #333;
 }
-
+#topic_list a.topic_title:visited{
+  color: #888;
+}
+.topic_title_wrapper{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .star_name {
 }
 img.unread {
@@ -604,7 +612,8 @@ textarea[id^=wmd-input] {
   box-shadow: none;
 }
 .navbar .container {
-  width: 1120px;
+  width: 100%;
+  min-width: 960px;
   margin: 0px auto;
 }
 .navbar .brand {
