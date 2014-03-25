@@ -37,7 +37,8 @@
 		z-index: 999;
 		width: auto !important;
 	}
-	.navbar .container, #main, #content, #footer_main{
+	.navbar .container, #main,
+	#content, #footer_main{
 		width: 100%;
 		min-width: 0;
 	}
@@ -98,7 +99,8 @@
 		line-height: 1em;
 		padding-left: 40px;
 	}
-	#main .topic_content p a.content_img, #main .reply_content p a.content_img{
+	#main .topic_content p a.content_img,
+	#main .reply_content p a.content_img{
 		width: 100%;
 	}
 	#footer{
