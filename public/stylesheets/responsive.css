@@ -75,16 +75,15 @@
 		transition: .3s right;
 	}
 	#content .topic_title{
-		font-size: 1em !important;
-		line-height: 1em !important;
-		vertical-align: baseline;
+		font-size: 1em;
+		line-height: 1em;
 		width: 100%;
 	}
 	#content .last_time{
 		position: absolute;
 		bottom: 0;
 		right: 10px;
-		font-size: 0.8em;
+		font-size: .8em;
 	}
 	#content .last_time img{
 		display: none;
