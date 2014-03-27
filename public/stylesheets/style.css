@@ -43,7 +43,7 @@ body {
     line-height: 2em;
 }
 #content .changes {
-    font-size: 12px;
+    font-size: 11px;
     margin-top: 10px;
     margin-left: 10px;
     color: rgb(131, 131, 131);
@@ -189,7 +189,7 @@ a.light:hover {
     font-size: 10px;
 }
 .cell .count_of_visits {
-    font-size: 11px;
+    font-size: 10px;
 }
 .cell .cell {
   padding: 10px 0px 0px 10px;
@@ -211,9 +211,10 @@ a.light:hover {
   padding: 10px;
 }
 .last_time {
-  font-size: 13px;
+  font-size: 11px;
   display: inline-block;
   margin-left: 20px;
+  color: #777;
 }
 .last_time .user_small_avatar {
     height: 18px;
@@ -399,6 +400,7 @@ a.user_avatar:hover {
 }
 .reply_time {
     margin-left: 1em;
+    font-size: 11px;
 }
 .cell .anchor {
     position: absolute;
@@ -615,6 +617,7 @@ textarea[id^=wmd-input] {
   width: 100%;
   min-width: 960px;
   margin: 0px auto;
+  max-width: 1400px;
 }
 .navbar .brand {
   padding: 4px 0px 0px 20px;
