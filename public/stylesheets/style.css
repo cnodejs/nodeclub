@@ -399,7 +399,6 @@ a.user_avatar:hover {
   font-size: 14px;
 }
 .reply_time {
-    margin-left: 1em;
     font-size: 11px;
 }
 .cell .anchor {
@@ -426,7 +425,12 @@ a.user_avatar:hover {
 .reply_editor {
   height: 200px;
 }
-.reply2_btn {
+.reply2_btn, .reply2_at_btn {
+  opacity: 0.4;
+  cursor: pointer;
+}
+.reply2_btn:hover, .reply2_at_btn:hover {
+  opacity: 0.6;
 }
 .reply2_area {
   margin-left: 42px;

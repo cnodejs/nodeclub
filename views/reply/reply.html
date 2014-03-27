@@ -17,13 +17,12 @@
       <% } %>
       <span>
         <% if(locals.current_user){ %>
-          <a href='javascript:void(0)' class='dark reply2_btn'>回复</a>  
+          <img class='dark reply2_btn' src="<%- config.site_static_host %>/public/images/reply_icon_16.png" title="回复">
         <% } %>
         <!--<% if(reply.replies.length>0){ %>
          <span class='col_fade'>{<%= reply.replies.length %>}</span>
         <% } %>-->
       </span>
-      <span class='col_fade'>#<%= indexInCollection + 1 %></span>
     </div>
   </div>
   <div class='reply_content'>
