@@ -50,13 +50,11 @@
       </span>
       <div class="changes">
         <div>
-          <a href="/user/<%= topic.author.name %>"><%= topic.author.name %></a>
-          在 <%= topic.friendly_create_at %> 发布
+          发布于 <%= topic.friendly_create_at %>
         </div>
         <% if (topic.friendly_create_at != topic.friendly_update_at) { %>
           <div>
-            <a href="/user/<%= topic.author.name %>"><%= topic.author.name %></a>
-            在 <%= topic.friendly_update_at %> 重新编辑
+            最后一次编辑是 <%= topic.friendly_update_at %>
           </div>
         <% } %>
       </div>
