@@ -92,7 +92,8 @@
 		bottom: 0;
 		left: 50px;
 		text-align: left;
-		line-height: 1em;
+		line-height: 2em;
+		font-size: 10px;
 }
 	.topic_title_wrapper{
 		padding-left: 40px;
