@@ -3,7 +3,6 @@ var Reply = models.Reply;
 var EventProxy = require('eventproxy');
 
 var Util = require('../libs/util');
-var Showdown = require('../public/libs/showdown');
 var User = require('./user');
 var at = require('../services/at');
 

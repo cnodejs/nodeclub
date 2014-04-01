@@ -1,6 +1,6 @@
 var mailer = require('nodemailer');
 var config = require('../config').config;
-var marked = require('marked-prettyprint');
+var marked = require('marked');
 var util = require('util');
 
 var transport = mailer.createTransport('SMTP', config.mail_opts);

@@ -10,19 +10,25 @@
  * Module dependencies.
  */
 
-var marked = require('marked-prettyprint');
+var marked = require('marked');
 var utils = require('../libs/util');
 
 // Set default options
+var renderer = new marked.Renderer()
+renderer.code = function(code, lang) {
+  var ret = '<pre class="prettyprint language-' + lang + '">'
+  ret+= '<code>' + code + '</code>'
+  ret+= '</pre>'
+  return ret
+}
 marked.setOptions({
+  renderer: renderer,
   gfm: true,
   tables: true,
   breaks: true,
   pedantic: false,
   sanitize: false,
-  smartLists: true,
-  codeClass: 'prettyprint',
-  langPrefix: 'language-'
+  smartLists: true
 });
 
 exports.markdown = function () {
