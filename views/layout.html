@@ -63,12 +63,12 @@
           </form>
           <ul class='nav pull-right'>
             <li><a href='/'>首页</a></li>
+            <li><a href='https://github.com/cnodejs/nodeclub/wiki/'>Wiki</a></li>
             <%
             var site_navs = config.site_navs || [];
             for (var i = 0, l = site_navs.length; i < l; i++) {
               var nav = site_navs[i];
             %>
-            <li><a href='https://github.com/cnodejs/nodeclub/wiki/'>Wiki</a></li>
             <li><a href="<%- nav[0] %>" target="<%- nav[2] %>"><%- nav[1] %></a></li>
             <% } %>
             <% if (locals.current_user) { %>
