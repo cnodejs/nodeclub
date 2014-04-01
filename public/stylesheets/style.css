@@ -443,6 +443,7 @@ a.user_avatar:hover {
 
 .reply2_form {
   display: none;
+  margin-top: 2px;
 }
 
 .submit_control {
