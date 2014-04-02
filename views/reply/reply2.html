@@ -10,6 +10,9 @@
     </div>
     <div class='user_action'>
       <% if (locals.current_user && current_user._id.toString() == reply2.author._id.toString()) { %>
+        <a href='/reply/<%- reply2._id %>/edit' class='edit_reply_btn'>
+          <img class='user_icon' src="<%- config.site_static_host %>/public/images/doc_edit_icon&16.png" title='编辑' />
+        </a>
         <a href='javascript:void(0)' class='delete_reply2_btn'>
           <img class='user_icon' src="<%- config.site_static_host %>/public/images/trash_icon&16.png" title='删除' />
         </a>

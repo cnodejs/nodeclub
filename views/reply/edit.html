@@ -5,11 +5,7 @@
     <div class='header'>
       <ol class='breadcrumb'>
         <li><a href='/'>主页</a><span class='divider'>/</span></li>
-        <% if(locals.action && action == 'edit'){ %>
-        <li class='active'>编辑话题</li>
-        <% }else{ %>
-        <li class='active'>发布话题</li>
-        <% } %>
+        <li class='active'>编辑回复</li>
       </ol>
     </div>
     <div class='inner post'>
@@ -24,20 +20,13 @@
         <strong><%= error %></strong>
       </div>
       <% }else{ %>
-      <% if (locals.action && action === 'edit') { %>
-      <form id='create_topic_form' action='/topic/<%= topic_id %>/edit' method='post'>
-      <% } else { %>
-      <form id='create_topic_form' action='/topic/create' method='post'>
-      <% } %>
+      <form id='edit_reply_form' action='/reply/<%= reply_id %>/edit' method='post'>
         <fieldset>
-          <textarea autofocus class='span9' id='title' name='title' rows='1'
-            placeholder="请在此输入标题，字数控制在10到100个之间"
-            ><%= locals.title || '' %></textarea>
-
           <div class='markdown_editor in_editor'>
             <div class='markdown_in_editor'>
               <textarea class='editor' name='t_content' rows='20'
-                placeholder='用 Markdown 输入文章的内容'
+                placeholder='用 Markdown 输入回复的内容'
+                autofocus
                 ><%= locals.content || '' %></textarea>
               <div class='editor_buttons'>
                 <button class='btn action_preview'>预览</button>
@@ -53,7 +42,6 @@
             </div>
           </div>
 
-          <input type='hidden' id='topic_tags' name='topic_tags' value=''></input>
           <input type='hidden' name='_csrf' value='<%= csrf %>' />
         </fieldset>
       </form>
@@ -70,21 +58,3 @@
   .js('/public/javascripts/markdown_editor.js')
   .done(assets, config.site_static_host, config.mini_assets)
 %>
-<script>
-$(function () {
-  $('.tag_selectable').click(function(){
-    $(this).toggleClass('tag_select');
-  });
-
-  $('#submit_btn').click(function(){
-    var values=[];
-    $('.tag_selectable').each(function(){
-      if($(this).hasClass('tag_select')){
-        values.push($(this).attr('tag_id'));
-      }
-    });
-    $('#topic_tags').val(values);
-    $('#create_topic_form').submit();
-  });
-});
-</script>
