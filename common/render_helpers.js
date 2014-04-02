@@ -17,7 +17,7 @@ var utils = require('../libs/util');
 var renderer = new marked.Renderer()
 renderer.code = function(code, lang) {
   var ret = '<pre class="prettyprint language-' + lang + '">'
-  ret+= '<code>' + code + '</code>'
+  ret+= '<code>' + code.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code>'
   ret+= '</pre>'
   return ret
 }

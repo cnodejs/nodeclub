@@ -141,8 +141,8 @@
           <div class='markdown_in_editor'>
             <textarea class='editor' name='r_content' rows='8'></textarea>
             <div class='editor_buttons'>
-              <button class='btn' type="submit">提交</button>
               <button class='btn action_preview'>预览</button>
+              <button class='btn' type="submit">提交</button>
             </div>
           </div>
           <div class='markdown_in_preview'>
@@ -192,12 +192,12 @@
       $btn.parents('.reply2_item').after(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
       var user = $btn.parents('.cell').find('.reply_author').html();
-      if (textarea.val().indexOf('@' + user) < 0) {
-        textarea.val('@' + user + ' ');
-      }
 
       editorWrap.show('fast', function() {
         textarea.focus();
+        if (textarea.val().indexOf('@' + user) < 0) {
+          textarea.val('@' + user + ' ');
+        }
       });
     });
 
