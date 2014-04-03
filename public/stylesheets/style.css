@@ -62,6 +62,10 @@ body {
 #manage_topic {
     padding: 10px;
 }
+#manage_topic a {
+  text-decoration: none;
+  margin-right: 0.5em;
+}
 #sidebar .panel {
   background: hsla(0, 0%, 100%, 1);
   font-size: 13px;
@@ -367,7 +371,6 @@ a.user_avatar:hover {
   height: 40px;
 }
 .user_icon {
-  margin-right: 7px;
   opacity: 0.4;
 }
 .user_icon:hover {
@@ -422,6 +425,9 @@ a.user_avatar:hover {
 .user_action {
   float: right;
   margin-left: 20px;
+}
+.user_action a {
+  text-decoration: none;
 }
 .reply_content {
   padding-left: 50px;
