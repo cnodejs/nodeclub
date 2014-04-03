@@ -554,6 +554,13 @@ img.unread {
   font-size: 14px;
   line-height: 2em;
 }
+.markdown-text p code, .preview p code,
+.markdown-text li code, .preview li code {
+    color: black;
+    box-shadow: 0px 0px 1px rgb(153, 153, 153);
+    background-color: #fcfafa;
+    padding: 4px 6px;
+}
 .preview {
     padding: 0.5em;
 }
@@ -694,7 +701,8 @@ textarea#title {
 }
 .topic_content p,
 .reply_content p,
-.reply_form p {
+.reply_form p,
+.preview p {
   font-size: 16px;
   line-height: 2em;
 }
