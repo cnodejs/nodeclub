@@ -145,3 +145,71 @@ exports.delete = function (req, res, next) {
     Topic.reduceCount(reply.topic_id, function () {});
   });
 };
+/*
+  打开回复编辑器
+*/
+exports.showEdit = function (req, res, next) {
+  if (!req.session.user) {
+    res.redirect('home');
+    return;
+  }
+
+  var reply_id = req.params.reply_id;
+  if (reply_id.length !== 24) {
+    res.render('notify/notify', {error: '此话题不存在或已被删除。'});
+    return;
+  }
+  Reply.getReplyById(reply_id, function (err, reply) {
+    if (!reply) {
+      res.render('notify/notify', {error: '此回复不存在或已被删除。'});
+      return;
+    }
+    if (String(reply.author_id) === req.session.user._id || req.session.user.is_admin) {
+      res.render('reply/edit', {
+        reply_id: reply._id,
+        content: reply.content
+      });
+    } else {
+      res.render('notify/notify', {error: '对不起，你不能编辑此回复。'});
+    }
+  });
+};
+/*
+  提交编辑回复
+*/
+exports.update = function (req, res, next) {
+  if (!req.session.user) {
+    res.redirect('home');
+    return;
+  }
+  var reply_id = req.params.reply_id;
+  if (reply_id.length !== 24) {
+    res.render('notify/notify', {error: '此回复不存在或已被删除。'});
+    return;
+  }
+
+  Reply.getReplyById(reply_id, function (err, reply) {
+    if (!reply) {
+      res.render('notify/notify', {error: '此回复不存在或已被删除。'});
+      return;
+    }
+
+    if (String(reply.author_id) === req.session.user._id || req.session.user.is_admin) {
+      var content = req.body.t_content;
+
+      reply.content = content.trim();
+      if (content.length > 0) {
+        reply.save(function(err) {
+          if (err) {
+            return next(err);
+          }
+          res.redirect('/topic/' + reply.topic_id + '/#' + reply._id);
+        });
+      } else {
+        res.render('notify/notify', {error: '回复的字数太少。'});
+      }
+    } else {
+      res.render('notify/notify', {error: '对不起，你不能编辑此回复。'});
+    }
+  });
+};

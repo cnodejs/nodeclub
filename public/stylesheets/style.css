@@ -408,7 +408,7 @@ a.user_avatar:hover {
 }
 .cell .anchor {
     position: absolute;
-    top: 0;
+    top: -5px;
 }
 .author_content .user_avatar {
     display: inline-block;
@@ -579,6 +579,8 @@ textarea#title {
   border-radius: 0px;
   border: none;
   box-shadow: none;
+  width: 90%;
+  margin: auto;
 }
 .navbar .container {
   width: 100%;

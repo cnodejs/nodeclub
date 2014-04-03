@@ -107,8 +107,10 @@ module.exports = function (app) {
 
   // reply
   // 回复
+  app.get('/reply/:reply_id/edit', reply.showEdit)
   app.post('/:topic_id/reply', auth.userRequired, limit.postInterval, reply.add);
   app.post('/:topic_id/reply2', auth.userRequired, limit.postInterval, reply.add_reply2);
+  app.post('/reply/:reply_id/edit', reply.update)
   app.post('/reply/:reply_id/delete', reply.delete);
 
   // upload
