@@ -19,11 +19,13 @@
   <% if (topic.reply) {%>
     <a class='last_time pull-right' href="/topic/<%= topic._id %><%- '#' + topic.reply._id %>">
       <img class="user_small_avatar" src="<%= topic.reply.author.avatar_url %>">
-      <%= topic.reply.friendly_create_at %>
+      <span class="last_active_time"><%= topic.reply.friendly_create_at %></span>
     </a>
   <% } %>
   <% if (!topic.reply) {%>
-    <span class='last_time pull-right'><%= topic.friendly_create_at %></span>
+    <span class='last_time pull-right'>
+      <span class="last_active_time"><%= topic.friendly_create_at %></span>
+    </span>
   <% } %>
 
   <!--<%- partial('tag/tag_in_abstract',{collection:topic.tags, as:'tag'}) %>-->

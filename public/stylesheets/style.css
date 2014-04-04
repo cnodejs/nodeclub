@@ -62,6 +62,10 @@ body {
 #manage_topic {
     padding: 10px;
 }
+#manage_topic a {
+  text-decoration: none;
+  margin-right: 0.5em;
+}
 #sidebar .panel {
   background: hsla(0, 0%, 100%, 1);
   font-size: 13px;
@@ -195,6 +199,7 @@ a.light:hover {
 }
 .cell .count_of_visits {
     font-size: 10px;
+    color: rgb(180, 180, 180);
 }
 .cell .cell {
   padding: 10px 0px 0px 10px;
@@ -221,11 +226,21 @@ a.light:hover {
   margin-left: 20px;
   color: #777;
 }
+.last_time .last_active_time {
+    text-align: right;
+    width: 50px;
+    display: inline-block;
+    white-space: nowrap;
+}
+a.last_time {
+  text-decoration: none;
+}
 .last_time .user_small_avatar {
     height: 18px;
     width: 18px;
     vertical-align: middle;
     box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.62);
+    margin-right: 0.5em;
 }
 .board .floor {
 }
@@ -367,7 +382,6 @@ a.user_avatar:hover {
   height: 40px;
 }
 .user_icon {
-  margin-right: 7px;
   opacity: 0.4;
 }
 .user_icon:hover {
@@ -423,6 +437,9 @@ a.user_avatar:hover {
   float: right;
   margin-left: 20px;
 }
+.user_action a {
+  text-decoration: none;
+}
 .reply_content {
   padding-left: 50px;
   color: #333;
@@ -458,6 +475,7 @@ a.topic_title {
     display: inline-block;
     vertical-align: middle;
     font-size: 16px;
+    line-height: 2em;
 }
 #topic_list a.topic_title {
     color: #333;
@@ -529,9 +547,19 @@ img.unread {
     margin: 0;
     margin-bottom: 2em;
 }
+.markdown-text p:last-child, .preview p:last-child {
+  margin-bottom: 0em;
+}
 .markdown-text li, .preview li {
   font-size: 14px;
   line-height: 2em;
+}
+.markdown-text p code, .preview p code,
+.markdown-text li code, .preview li code {
+    color: black;
+    box-shadow: 0px 0px 1px rgb(153, 153, 153);
+    background-color: #fcfafa;
+    padding: 4px 6px;
 }
 .preview {
     padding: 0.5em;
@@ -673,8 +701,9 @@ textarea#title {
 }
 .topic_content p,
 .reply_content p,
-.reply_form p {
-  font-size: 15px;
+.reply_form p,
+.preview p {
+  font-size: 16px;
   line-height: 2em;
 }
 #main .topic_content p a.content_img,
