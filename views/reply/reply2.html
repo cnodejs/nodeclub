@@ -9,7 +9,7 @@
       <a class="reply_time" href="#<%- reply2._id %>"><%= reply2.friendly_create_at %></a>
     </div>
     <div class='user_action'>
-      <% if ( current_user.is_admin ||
+      <% if ( locals.current_user && current_user.is_admin ||
         (locals.current_user && current_user._id.toString() == reply2.author._id.toString())
         ) { %>
         <a href='/reply/<%- reply2._id %>/edit' class='edit_reply_btn'>
