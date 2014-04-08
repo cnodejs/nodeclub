@@ -47,6 +47,7 @@ body {
     margin-top: 8px;
     display: inline-block;
     line-height: 2em;
+    font-family: Optima, "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Wenquanyi Micro Hei", "Microsoft Yahei", Arial, sans-serif;
 }
 #content .changes {
     font-size: 11px;
@@ -358,8 +359,8 @@ a.tag_big {
 }
 .user_avatar img, .user_big_avatar img {
   box-shadow: 0px 1px 2px hsla(0, 0%, 0%, 0.5);
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
 }
 a.user_avatar:hover {
   text-decoration: none;
@@ -368,8 +369,6 @@ a.user_avatar:hover {
   vertical-align: middle;
   width: 48px;
   margin-right: 0.5em;
-}
-.user_card .user_name {
 }
 .cell .user_avatar {
 }
@@ -413,6 +412,14 @@ a.user_avatar:hover {
 .user .user_name {
   font-size: 14px;
   margin-left: 1em;
+}
+.user_name {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
 }
 .reply_author {
   font-size: 11px;
@@ -475,7 +482,8 @@ a.topic_title {
     display: inline-block;
     vertical-align: middle;
     font-size: 16px;
-    line-height: 2em;
+    line-height: 30px;
+    font-family: Optima, "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Wenquanyi Micro Hei", "Microsoft Yahei", Arial, sans-serif;
 }
 #topic_list a.topic_title {
     color: #333;
@@ -563,6 +571,7 @@ img.unread {
 }
 .preview {
     padding: 0.5em;
+    font-size: 15px;
 }
 .preview p > img {
     display: block;
@@ -703,7 +712,7 @@ textarea#title {
 .reply_content p,
 .reply_form p,
 .preview p {
-  font-size: 16px;
+  font-size: 15px;
   line-height: 2em;
 }
 #main .topic_content p a.content_img,
@@ -764,7 +773,7 @@ textarea.editor {
     line-height: 2em;
     height: 100px;
     resize: vertical;
-    font-size: 14px;
+    font-size: 15px;
     padding: 0.5em;
     border: none;
 }
