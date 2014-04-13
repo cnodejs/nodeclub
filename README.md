@@ -32,29 +32,9 @@ $ make test-cov
 
 * jscoverage: [**31%**](http://fengmk2.github.com/coverage/nodeclub.html)
 
-## 其它
-
-小量修改了两个依赖模块：node-markdown
-
-* node-markdown/lib/markdown.js
-
-allowedTags 添加：
-
-```
-embed  //支持 flash 视频
-table|thead|tbody|tr|td|th|caption  //支持表格
-```
-
-allowedAttributes 添加：
-
-```
-embed:'src|quality|width|height|align|allowScriptAccess|allowFullScreen|mode|type'
-table: 'class'
-```
-
 ## 关于pull request
 
-从现在开始，所有提交都要严格遵循[代码规范](https://github.com/windyrobin/iFrame/blob/master/style.md)。
+从现在开始，所有提交都要严格遵循[代码规范](/dead-horse/node-style-guide)。
 
 ## Contributors
 
