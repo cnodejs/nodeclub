@@ -34,7 +34,7 @@ $ make test-cov
 
 ## 关于pull request
 
-从现在开始，所有提交都要严格遵循[代码规范](/dead-horse/node-style-guide)。
+从现在开始，所有提交都要严格遵循[代码规范](https://github.com/dead-horse/node-style-guide)。
 
 ## Contributors
 
