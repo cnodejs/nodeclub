@@ -19,6 +19,7 @@ var GitHubStrategy = require('passport-github').Strategy;
 var githubStrategyMiddleware = require('./middlewares/github_strategy');
 var routes = require('./routes');
 var auth = require('./middlewares/auth');
+var MongoStore = require('connect-mongo')(express);
 
 var maxAge = 3600000 * 24 * 30;
 var staticDir = path.join(__dirname, 'public');
@@ -58,7 +59,10 @@ app.use(express.bodyParser({
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({
-  secret: config.session_secret
+  secret: config.session_secret,
+  store: new MongoStore({
+    db: config.db_name,
+  }),
 }));
 app.use(passport.initialize());
 // custom middleware
