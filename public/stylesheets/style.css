@@ -10,12 +10,6 @@ body {
   text-overflow: ellipsis;
   vertical-align: middle;
 }
-#main p a[href^='/user/'] {
-  display: inline-block;
-  width: 70px;
-  font-size: 11px;
-  margin: 0px 0.5em;
-}
 
 #main {
   width: 90%;
