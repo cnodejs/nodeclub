@@ -15,7 +15,7 @@ body {
   width: 90%;
   max-width: 1400px;
   min-width: 960px;
-  margin: 40px auto;
+  margin: 40px auto 160px;
   min-height:400px;
   position: relative;
 }
@@ -546,11 +546,13 @@ img.unread {
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
     line-height: 2em;
-    margin: 0;
-    margin-bottom: 2em;
+    margin: 1em 0;
 }
-.markdown-text p:last-child, .preview p:last-child {
-  margin-bottom: 0em;
+.markdown-text>*:first-child, .preview>*:first-child {
+    margin-top: 0;
+}
+.markdown-text>*:last-child, .preview>*:last-child {
+  margin-bottom: 1em;
 }
 .markdown-text li, .preview li {
   font-size: 14px;
@@ -562,6 +564,10 @@ img.unread {
     box-shadow: 0px 0px 1px rgb(153, 153, 153);
     background-color: #fcfafa;
     padding: 4px 6px;
+}
+.markdown-text pre.prettyprint,
+.preview pre.prettyprint {
+  margin: 0.5em -10px;
 }
 .preview {
     padding: 0.5em;
@@ -587,6 +593,7 @@ img.unread {
 textarea#title {
     width: 98%;
     border: none;
+    margin-bottom: 1em;
 }
 .editor_buttons {
     margin-top: 10px;
@@ -729,7 +736,7 @@ div[class$=content] > blockquote > p {
   color: gray;
   padding: 2px;
 }
-.inner ol {
+#sidebar .inner ol {
   margin: 4px 0px;
   list-style: none;
 }
@@ -765,12 +772,13 @@ textarea.editor {
     width: 98%;
     padding: 0px;
     line-height: 2em;
-    height: 100px;
+    height: 200px;
     resize: vertical;
     font-size: 15px;
     padding: 0.5em;
     border: none;
 }
+#edit_reply_form textarea.editor,
 #create_topic_form textarea.editor {
     height: 400px;
 }
