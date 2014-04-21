@@ -723,6 +723,9 @@ textarea#title {
   display: inline-block;
   margin: 10px 0px;
 }
+#main p a.content_img {
+  max-width: 100%;
+}
 div[class$=content] > blockquote > p {
   font-size: 14px;
   line-height: 18px;

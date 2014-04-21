@@ -25,19 +25,19 @@
           <div class='markdown_editor in_editor'>
             <div class='markdown_in_editor'>
               <textarea class='editor' name='t_content' rows='20'
-                placeholder='用 Markdown 输入回复的内容'
+                placeholder='回复支持 Markdown 语法, 请注意标记代码'
                 autofocus
                 ><%= locals.content || '' %></textarea>
               <div class='editor_buttons'>
                 <button class='btn action_preview'>预览</button>
-                <button id='submit_btn' type="submit" class='btn'>发布</button>
+                <button id='submit_btn' type="submit" class='btn btn-primary'>提交</button>
               </div>
             </div>
             <div class='markdown_in_preview'>
               <div class='preview'></div>
               <div class='editor_buttons'>
-                <button id='submit_btn' type="submit" class='btn'>发布</button>
                 <button class='btn action_modify'>修改</button>
+                <button id='submit_btn' type="submit" class='btn btn-primary'>提交</button>
               </div>
             </div>
           </div>
