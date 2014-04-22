@@ -50,10 +50,8 @@
   </div>  
 </div>
 
-<!-- ajaxupload -->
 <!-- markdown editor -->
 <%- Loader('/public/topic_edit.min.js')
-  .js('/public/libs/ajax-upload/ajaxupload.js')
   .js('/public/libs/marked.js')
   .js('/public/javascripts/markdown_editor.js')
   .done(assets, config.site_static_host, config.mini_assets)
