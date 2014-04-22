@@ -24,38 +24,19 @@ exports.index = function (req, res, next) {
   keyword = keyword.trim();
   var limit = config.list_topic_count;
 
-  var render = function (tags, topics, hot_topics, stars, tops, no_reply_topics, pages) {
-    var all_tags = tags.slice(0);
-
-    // 计算最热标签
-    tags.sort(function (tag_a, tag_b) {
-      return tag_b.topic_count - tag_a.topic_count;
+  var proxy = EventProxy.create('topics', 'tops', 'no_reply_topics', 'pages',
+    function (topics, tops, no_reply_topics, pages) {
+      res.render('index', {
+        topics: topics,
+        current_page: page,
+        list_topic_count: limit,
+        tops: tops,
+        no_reply_topics: no_reply_topics,
+        pages: pages,
+        keyword: keyword
+      });
     });
-
-    // 计算最新标签
-    tags.sort(function (tag_a, tag_b) {
-      return tag_b.create_at - tag_a.create_at;
-    });
-    var recent_tags = tags.slice(0, 5);
-    res.render('index', {
-      tags: all_tags,
-      topics: topics,
-      current_page: page,
-      list_topic_count: limit,
-      recent_tags: recent_tags,
-      hot_topics: hot_topics,
-      stars: stars,
-      tops: tops,
-      no_reply_topics: no_reply_topics,
-      pages: pages,
-      keyword: keyword
-    });
-  };
-
-  var proxy = EventProxy.create('tags', 'topics', 'hot_topics', 'stars', 'tops', 'no_reply_topics', 'pages', render);
   proxy.fail(next);
-  // 取标签
-  Tag.getAllTags(proxy.done('tags'));
 
   var options = { skip: (page - 1) * limit, limit: limit, sort: [ ['top', 'desc' ], [ 'last_reply_at', 'desc' ] ] };
   var query = {};
@@ -65,10 +46,6 @@ exports.index = function (req, res, next) {
   }
   // 取主题
   Topic.getTopicsByQuery(query, options, proxy.done('topics'));
-  // 取热门主题
-  Topic.getTopicsByQuery({}, { limit: 5, sort: [ [ 'visit_count', 'desc' ] ] }, proxy.done('hot_topics'));
-  // 取星标用户
-  User.getUsersByQuery({ is_star: true }, { limit: 5 }, proxy.done('stars'));
   // 取排行榜上的用户
   User.getUsersByQuery({'$or': [
     {is_block: {'$exists': false}},

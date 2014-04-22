@@ -69,22 +69,4 @@
   </div>
   <% } %>
 
-  <% if (locals.stars) { %>
-  <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>社区达人</span> &nbsp;
-      <a class='dark' href='/stars'>更多»</a>
-    </div>
-    <div class='inner'>
-      <% if (stars.length > 0) { %>
-      <ul class='unstyled'>
-      <%- partial('user/star', { collection: stars, as: 'user' }) %>
-      </ul>
-      <% } else { %>
-      <p>无</p>
-      <% } %>
-    </div>
-  </div>
-  <% } %>
-
 </div>
