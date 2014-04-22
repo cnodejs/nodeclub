@@ -572,6 +572,7 @@ img.unread {
 .preview {
     padding: 0.5em;
     font-size: 15px;
+    min-height: 200px;
 }
 .preview p > img {
     display: block;
@@ -784,6 +785,11 @@ textarea.editor {
 #edit_reply_form textarea.editor,
 #create_topic_form textarea.editor {
     height: 400px;
+}
+
+#edit_reply_form .preview,
+#create_topic_form .preview {
+    min-height: 400px;
 }
 
 #submit_btn {
