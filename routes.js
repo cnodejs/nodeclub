@@ -23,6 +23,7 @@ var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
 var status = require('./controllers/status');
 var github = require('./controllers/github');
+var search = require('./controllers/search');
 var passport = require('passport');
 var configMiddleware = require('./middlewares/conf');
 var config = require('./config');
@@ -136,4 +137,6 @@ module.exports = function (app) {
     github.callback);
   app.get('/auth/github/new', github.new);
   app.post('/auth/github/create', github.create);
+
+  app.get('/search', search.index);
 };
