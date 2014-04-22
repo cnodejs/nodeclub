@@ -5,16 +5,20 @@
     <meta charset="utf-8" />
     <meta name='description' content='<%= config.description %>'>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <%
-    var headers = config.site_headers || [];
-    for (var i = 0, l = headers.length; i < l; i++) {
+      var headers = config.site_headers || [];
+      for (var i = 0, l = headers.length; i < l; i++) {
     %>
-    <%- headers[i] %>
+      <%- headers[i] %>
     <% } %>
+
     <link title="RSS" type="application/rss+xml" rel="alternate" href="/rss" />
+
     <% if (config.site_icon) { %>
       <link rel="icon" href="<%- config.site_icon %>" type="image/x-icon" />
     <% } %>
+
     <!-- style -->
     <%- Loader('/public/stylesheets/index.min.css')
       .css('/public/libs/bootstrap/css/bootstrap.css')
@@ -22,13 +26,9 @@
       .css('/public/stylesheets/style.css')
       .css('/public/libs/code-prettify/prettify.css')
       .css('/public/stylesheets/responsive.css')
+      .css('/public/stylesheets/gsc.less')
       .done(assets, config.site_static_host, config.mini_assets)
     %>
-    <% if (locals.extra_style) { %>
-    <style type="text/css">
-      <%- locals.extra_style %>
-    </style>
-    <% } %>
     <%- Loader('/public/index.min.js')
       .js('/public/libs/code-prettify/prettify.js')
       .js('/public/libs/jquery/jquery.js')
@@ -38,12 +38,6 @@
       .js('/public/javascripts/responsive.js')
       .done(assets, config.site_static_host, config.mini_assets)
     %>
-    <% if (config.site_enable_search_preview) { %>
-    <script>
-      var __google_search_domain = '<%= config.site_google_search_domain || "" %>';
-    </script>
-    <script src='/public/javascripts/google_search_preview.js'></script>
-    <% } %>
     <% if (locals.topic) { %>
     <title><%= topic.title %> - <%= config.name %></title>
     <% } else { %>
@@ -58,9 +52,19 @@
       <div class='navbar-inner'>
         <div class='container'>
           <a class='brand' href='/'><%- config.site_logo || config.name %></a>
-          <form id='search_form' class='navbar-search' action="/">
-            <input type='text' id='q' name='q' class='search-query span3' value='<%= locals.keyword || '' %>'/>
-          </form>
+          <script>
+            (function() {
+              var cx = '013626818774326637431:k27snvx507a';
+              var gcse = document.createElement('script');
+              gcse.type = 'text/javascript';
+              gcse.async = true;
+              gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                  '//www.google.com/cse/cse.js?cx=' + cx;
+              var s = document.getElementsByTagName('script')[0];
+              s.parentNode.insertBefore(gcse, s);
+            })();
+          </script>
+          <gcse:searchbox-only newWindow="true"></gcse:searchbox-only>
           <ul class='nav pull-right'>
             <li><a href='/'>首页</a></li>
             <li><a href='https://github.com/cnodejs/nodeclub/wiki/'>Wiki</a></li>

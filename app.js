@@ -72,6 +72,7 @@ app.use('/upload/', express.static(config.upload_dir, { maxAge: maxAge }));
 // old image url: http://host/user_data/images/xxxx
 app.use('/user_data/', express.static(path.join(__dirname, 'public', 'user_data'), { maxAge: maxAge }));
 
+app.use(Loader.less(__dirname));
 if (config.debug) {
   app.use('/public', express.static(staticDir));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
