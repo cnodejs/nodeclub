@@ -42,6 +42,7 @@
               <div class='editor_buttons'>
                 <button class='btn action_preview'>预览</button>
                 <button id='submit_btn' type="submit" class='btn btn-primary'>提交</button>
+                <input class="upload_image pull-right" type="file">
               </div>
             </div>
             <div class='markdown_in_preview'>
@@ -84,5 +85,22 @@ $(function () {
     $('#topic_tags').val(values);
     $('#create_topic_form').submit();
   });
+
+  $('.upload_image').change(function(event) {
+    var fd = new FormData();
+    fd.append('file', event.target.files[0]);
+    $.ajax({
+      url: '/upload/image',
+      data: fd,
+      type: 'POST',
+      processData: false,
+      contentType: false,
+      cache: false,
+      success: function(data) {
+        console.log("data", data);
+      }
+    })
+  })
+
 });
 </script>
