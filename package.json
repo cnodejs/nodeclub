@@ -24,7 +24,8 @@
     "passport-github": "~0.1.5",
     "forever": "~0.10.11",
     "marked": "~0.3.2",
-    "connect-mongo": "^0.4.0"
+    "connect-mongo": "^0.4.0",
+    "newrelic": "^1.5.1"
   },
   "devDependencies": {
     "supertest": "*",
