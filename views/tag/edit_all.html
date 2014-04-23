@@ -88,9 +88,9 @@
 <% if(locals.current_user){ %>
 <script type='text/javascript'>
   $(document).ready(function(){
-    $('.delete_tag_btn').click(function(){
+    $('body').on('click', '.delete_tag_btn', function(event){
       if(confirm('确定要删除此标签吗？')){
-        window.location.href = $(this).attr('href');
+        window.location.href = $(event.currentTarget).attr('href');
       }
       return false;
     });

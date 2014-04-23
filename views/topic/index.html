@@ -163,10 +163,8 @@
 </div>
 
 <% if (locals.current_user && locals.topic) { %>
-<!-- ajaxupload -->
 <!-- markdown editor -->
 <%- Loader('/public/topic_edit.min.js')
-  .js('/public/libs/ajax-upload/ajaxupload.js')
   .js('/public/libs/marked.js')
   .js('/public/javascripts/markdown_editor.js')
   .done(assets, config.site_static_host, config.mini_assets)
@@ -174,8 +172,8 @@
 <script>
   $(document).ready(function () {
 
-    $('.reply2_btn').click(function () {
-      var $btn = $(this);
+    $('body').on('click', '.reply2_btn', function (event) {
+      var $btn = $(event.currentTarget);
       var parent = $btn.parents('.reply_area');
       var editorWrap = parent.find('.reply2_form');
       parent.find('.reply2_area').prepend(editorWrap);
@@ -187,12 +185,12 @@
       });
     });
 
-    $('.reply2_at_btn').click(function () {
-      var $btn = $(this);
+    $('body').on('click', '.reply2_at_btn', function (event) {
+      var $btn = $(event.currentTarget);
       var editorWrap = $btn.parents('.reply2_area').find('.reply2_form');
       $btn.parents('.reply2_item').after(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
-      var user = $btn.parents('.cell').find('.reply_author').html();
+      var user = $btn.parents('.cell').find('.reply_author').html().trim();
 
       editorWrap.show('fast', function() {
         textarea.focus();
@@ -223,8 +221,8 @@
       }, 'json');
     });
 
-    $('.delete_reply_btn, .delete_reply2_btn').live('click', function() {
-      var $me = $(this);
+    $('body').on('click', '.delete_reply_btn, .delete_reply2_btn', function(event) {
+      var $me = $(event.currentTarget);
       if (confirm('确定要删除此回复吗？')) {
         var reply_id = null;
         if ($me.hasClass('delete_reply_btn')) {
@@ -275,9 +273,3 @@
 
 </script>
 <% } %>
-<%- Loader('/public/fancebox.min.js', '/public/libs/fancybox/fancebox.min.css')
-  .css('/public/libs/fancybox/jquery.fancybox-1.3.4.css')
-  .js('/public/libs/fancybox/jquery.fancybox-1.3.4.pack.js')
-  .js('/public/javascripts/topic.js')
-  .done(assets, config.site_static_host, config.mini_assets)
-%>
