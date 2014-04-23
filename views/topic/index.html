@@ -163,10 +163,8 @@
 </div>
 
 <% if (locals.current_user && locals.topic) { %>
-<!-- ajaxupload -->
 <!-- markdown editor -->
 <%- Loader('/public/topic_edit.min.js')
-  .js('/public/libs/ajax-upload/ajaxupload.js')
   .js('/public/libs/marked.js')
   .js('/public/javascripts/markdown_editor.js')
   .done(assets, config.site_static_host, config.mini_assets)
@@ -223,7 +221,7 @@
       }, 'json');
     });
 
-    $('.delete_reply_btn, .delete_reply2_btn').live('click', function() {
+    $('.delete_reply_btn, .delete_reply2_btn').on('click', function() {
       var $me = $(this);
       if (confirm('确定要删除此回复吗？')) {
         var reply_id = null;
@@ -275,9 +273,3 @@
 
 </script>
 <% } %>
-<%- Loader('/public/fancebox.min.js', '/public/libs/fancybox/fancebox.min.css')
-  .css('/public/libs/fancybox/jquery.fancybox-1.3.4.css')
-  .js('/public/libs/fancybox/jquery.fancybox-1.3.4.pack.js')
-  .js('/public/javascripts/topic.js')
-  .done(assets, config.site_static_host, config.mini_assets)
-%>
