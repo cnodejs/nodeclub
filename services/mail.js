@@ -81,6 +81,8 @@ exports.sendResetPassMail = function (who, token, name) {
  * @param {Object} msg 发送的消息对象
  */
 exports.sendReplyMail = function (who, msg) {
+  return; // !!!关闭发送通知邮件
+
   var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
   var to = who;
   var subject = config.name + ' 新消息';
@@ -110,10 +112,13 @@ exports.sendReplyMail = function (who, msg) {
  * @param {Object} msg 发送的消息对象
  */
 exports.sendAtMail = function (who, msg) {
+  return; // !!!关闭发送at通知邮件
+
+
   if (!msg.topic || !msg.reply) {
     return;
   }
-  
+
   var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
   var to = who;
   var subject = config.name + ' 新消息';

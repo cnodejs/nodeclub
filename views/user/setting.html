@@ -96,27 +96,6 @@
             <% } %>
           </div>
         </div>
-				<div class='control-group'>
-					<label class='control-label' for='receive_at_msg'>邮件提醒</label>
-					<div class='controls'>
-						<label class='checkbox'>
-							<% if(locals.receive_at_mail){ %>
-							<input type='checkbox' name='receive_at_mail' checked='checked' />
-							<% }else{ %>
-							<input type='checkbox' name='receive_at_mail' />
-							<% } %>
-							我被别人@时
-						</label>
-						<label class='checkbox'>
-							<% if (locals.receive_reply_mail){ %>
-							<input type='checkbox' name='receive_reply_mail' checked='checked' />
-							<% }else{ %>
-							<input type='checkbox' name='receive_reply_mail' />
-							<% } %>
-							我的话题收到回复时
-						</label>
-					</div>
-				</div>
 				<input type='hidden' id='action' name='action' value='change_setting' />
 				<input type='hidden' name='_csrf' value='<%= csrf %>' />
 				<div class='form-actions'>

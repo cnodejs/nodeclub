@@ -120,8 +120,6 @@ exports.setting = function (req, res, next) {
       profile: data.profile,
       weibo: data.weibo,
       githubUsername: data.github || data.githubUsername,
-      receive_at_mail: data.receive_at_mail,
-      receive_reply_mail: data.receive_reply_mail
     };
     if (isSuccess) {
       data2.success = msg;
@@ -157,8 +155,6 @@ exports.setting = function (req, res, next) {
     if (github.indexOf('@') === 0) {
       github = github.slice(1);
     }
-    var receive_at_mail = req.body.receive_at_mail === 'on';
-    var receive_reply_mail = req.body.receive_reply_mail === 'on';
 
     if (url !== '') {
       try {
@@ -194,8 +190,6 @@ exports.setting = function (req, res, next) {
       user.profile = profile;
       user.weibo = weibo;
       user.githubUsername = github;
-      user.receive_at_mail = receive_at_mail;
-      user.receive_reply_mail = receive_reply_mail;
       user.save(function (err) {
         if (err) {
           return next(err);
