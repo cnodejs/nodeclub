@@ -172,8 +172,8 @@
 <script>
   $(document).ready(function () {
 
-    $('.reply2_btn').click(function () {
-      var $btn = $(this);
+    $('body').on('click', '.reply2_btn', function (event) {
+      var $btn = $(event.currentTarget);
       var parent = $btn.parents('.reply_area');
       var editorWrap = parent.find('.reply2_form');
       parent.find('.reply2_area').prepend(editorWrap);
@@ -185,12 +185,12 @@
       });
     });
 
-    $('.reply2_at_btn').click(function () {
-      var $btn = $(this);
+    $('body').on('click', '.reply2_at_btn', function (event) {
+      var $btn = $(event.currentTarget);
       var editorWrap = $btn.parents('.reply2_area').find('.reply2_form');
       $btn.parents('.reply2_item').after(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
-      var user = $btn.parents('.cell').find('.reply_author').html();
+      var user = $btn.parents('.cell').find('.reply_author').html().trim();
 
       editorWrap.show('fast', function() {
         textarea.focus();
@@ -221,8 +221,8 @@
       }, 'json');
     });
 
-    $('.delete_reply_btn, .delete_reply2_btn').on('click', function() {
-      var $me = $(this);
+    $('body').on('click', '.delete_reply_btn, .delete_reply2_btn', function(event) {
+      var $me = $(event.currentTarget);
       if (confirm('确定要删除此回复吗？')) {
         var reply_id = null;
         if ($me.hasClass('delete_reply_btn')) {

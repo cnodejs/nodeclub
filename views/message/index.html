@@ -35,8 +35,8 @@
 
 <script type='text/javascript'>
 $(document).ready(function() {
-	$('.mark_read_btn').click(function() {
-		var $me = $(this);
+	$('body').on('click', '.mark_read_btn', function(event) {
+		var $me = $(event.currentTarget);
 		var message_id = $me.parent().attr('message_id');
 		var data = {
 			message_id: message_id,
