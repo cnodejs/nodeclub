@@ -28,19 +28,4 @@ describe('controllers/site.js', function () {
     });
   });
 
-  it('should /?q=neverexistskeyword 200', function (done) {
-    app.request().get('/?q=neverexistskeyword').end(function (res) {
-      res.should.status(200);
-      res.body.toString().should.include('无话题');
-      done();
-    });
-  });
-
-  it('should /?q=neverexistskeyword&q=foo2 200', function (done) {
-    app.request().get('/?q=neverexistskeyword&q=foo2').end(function (res) {
-      res.should.status(200);
-      res.body.toString().should.include('无话题');
-      done();
-    });
-  });
 });
