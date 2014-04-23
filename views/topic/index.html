@@ -265,17 +265,14 @@
       return false;
     });
 
-    var submit_btn;
-    $('textarea').each(function(){
-      $(this).focus(function(){
-        var parent = $(this).parent().parent().parent().parent();
-        var btn = parent.find('button');
-        if(btn.html() == '回复'){
-          submit_btn = btn;
-        }
-      });
+    $('textarea.editor').keydown(function(event) {
+      if (event.keyCode == 13 && (event.ctrlKey || event.metaKey)) {
+        event.preventDefault()
+        $(this).parents('form').submit()
+      }
     });
   });
+
 </script>
 <% } %>
 <%- Loader('/public/fancebox.min.js', '/public/libs/fancybox/fancebox.min.css')
