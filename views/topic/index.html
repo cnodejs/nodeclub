@@ -107,7 +107,7 @@
           <%- partial('tag/tag_in_topic',{ collection: topic.tags, as: 'tag' }) %>
         </div>
       <% } %>
-    
+
       <div class="action">
         <button class='btn btn-success' id='share_weibo_btn'
           onclick="((function(s,d,e,r,l,p,t,z,c){var f='http://v.t.sina.com.cn/share/share.php?appkey=<%= config.weibo_key %>',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else a();})(screen,document,encodeURIComponent,'','','','分享来自<%= config.name %>的话题：<%= topic.title %>','',''));"
@@ -172,7 +172,7 @@
 <script>
   $(document).ready(function () {
 
-    $('body').on('click', '.reply2_btn', function (event) {
+    $('#content').on('click', '.reply2_btn', function (event) {
       var $btn = $(event.currentTarget);
       var parent = $btn.parents('.reply_area');
       var editorWrap = parent.find('.reply2_form');
@@ -185,7 +185,7 @@
       });
     });
 
-    $('body').on('click', '.reply2_at_btn', function (event) {
+    $('#content').on('click', '.reply2_at_btn', function (event) {
       var $btn = $(event.currentTarget);
       var editorWrap = $btn.parents('.reply2_area').find('.reply2_form');
       $btn.parents('.reply2_item').after(editorWrap);
@@ -221,7 +221,7 @@
       }, 'json');
     });
 
-    $('body').on('click', '.delete_reply_btn, .delete_reply2_btn', function(event) {
+    $('#content').on('click', '.delete_reply_btn, .delete_reply2_btn', function(event) {
       var $me = $(event.currentTarget);
       if (confirm('确定要删除此回复吗？')) {
         var reply_id = null;

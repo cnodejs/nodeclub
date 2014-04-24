@@ -35,17 +35,17 @@
 
 <script type='text/javascript'>
 $(document).ready(function() {
-	$('body').on('click', '.mark_read_btn', function(event) {
-		var $me = $(event.currentTarget);
+	$('#content').on('click', '.mark_read_btn', function () {
+		var $me = $(this);
 		var message_id = $me.parent().attr('message_id');
 		var data = {
 			message_id: message_id,
 			_csrf: '<%- csrf %>'
 		};
-		$.post('/messages/mark_read', data, function(data) {
+		$.post('/messages/mark_read', data, function (data) {
 			if (data.status === 'success') {
 				$me.parent().toggleClass('message');
-				$me.parent().find('.unread').each(function(index) {
+				$me.parent().find('.unread').each(function (index) {
 					$($me.parent().find('.unread')[index]).removeClass('unread');
 					var count = parseInt($('.messages_count').html()) - 1;
 					$('.messages_count').html(count);
