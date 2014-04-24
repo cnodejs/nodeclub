@@ -40,10 +40,9 @@ describe('proxy/topic.js', function () {
 
   describe('getTopicById', function () {
     it('should empty', function (done) {
-      Topic.getTopicById(null, function (err, topic, tags, author, lastReply) {
+      Topic.getTopicById(null, function (err, topic, author, lastReply) {
         should.not.exist(err);
         should.not.exist(topic);
-        tags.should.have.length(0);
         should.not.exist(author);
         should.not.exist(lastReply);
         done();
@@ -51,10 +50,9 @@ describe('proxy/topic.js', function () {
     });
 
     it('should ok', function (done) {
-      Topic.getTopicById(topic._id, function (err, topic, tags, author, lastReply) {
+      Topic.getTopicById(topic._id, function (err, topic, author, lastReply) {
         should.not.exist(err);
         should.exist(topic);
-        tags.should.have.length(0);
         author.loginname.should.equal(user.loginname);
         should.not.exist(lastReply);
         done();
@@ -64,7 +62,7 @@ describe('proxy/topic.js', function () {
 
   describe('getFullTopic', function () {
     it('should empty', function (done) {
-      Topic.getFullTopic(null, function (err, message, topic, tags, author, replies) {
+      Topic.getFullTopic(null, function (err, message, topic, author, replies) {
         should.not.exist(err);
         message.should.be.equal("此话题不存在或已被删除。");
         done();

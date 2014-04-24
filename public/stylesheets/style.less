@@ -12,10 +12,8 @@ body {
 }
 
 #main {
-  width: 90%;
-  max-width: 1400px;
-  min-width: 960px;
-  margin: 40px auto 160px;
+  width: 960px;
+  margin: 10px auto;
   min-height:400px;
   position: relative;
 }
@@ -36,26 +34,24 @@ body {
   background: hsla(0, 0%, 100%, 1);
 }
 #content .topic_full_title {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
-    margin-top: 8px;
+    margin: 8px 0;
     display: inline-block;
-    line-height: 2em;
     font-family: Optima, "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Wenquanyi Micro Hei", "Microsoft Yahei", Arial, sans-serif;
 }
 #content .changes {
-    font-size: 11px;
-    margin-top: 10px;
-    margin-left: 10px;
-    color: rgb(131, 131, 131);
+    font-size: 12px;
+    color: #838383;
+
+    span:before {
+      content: "•"
+    }
 }
 #content .action {
     text-align: right;
 }
 #content h3 {
-}
-#manage_topic {
-    padding: 10px;
 }
 #manage_topic a {
   text-decoration: none;
@@ -576,7 +572,7 @@ img.unread {
 }
 .preview p > img {
     display: block;
-  
+
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.6);
 }
 
