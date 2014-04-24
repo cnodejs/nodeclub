@@ -12,7 +12,6 @@ var at = require('../services/at');
 var User = require('../proxy').User;
 var Topic = require('../proxy').Topic;
 var Tag = require('../proxy').Tag;
-var Relation = require('../proxy').Relation;
 var TopicTag = require('../proxy').TopicTag;
 var TopicCollect = require('../proxy').TopicCollect;
 
