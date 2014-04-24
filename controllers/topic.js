@@ -33,27 +33,16 @@ exports.index = function (req, res, next) {
       error: '此话题不存在或已被删除。'
     });
   }
-  var events = ['topic', 'other_topics', 'no_reply_topics', 'get_relation', '@user'];
-  var ep = EventProxy.create(events, function (topic, other_topics, no_reply_topics, relation) {
+  var events = ['topic', 'other_topics', 'no_reply_topics'];
+  var ep = EventProxy.create(events, function (topic, other_topics, no_reply_topics) {
     res.render('topic/index', {
       topic: topic,
       author_other_topics: other_topics,
       no_reply_topics: no_reply_topics,
-      relation : relation
     });
   });
 
   ep.fail(next);
-
-  ep.once('topic', function (topic) {
-    if (topic.content_is_html) {
-      return ep.emit('@user');
-    }
-    at.linkUsers(topic.content, ep.done(function (content) {
-      topic.content = content;
-      ep.emit('@user');
-    }));
-  });
 
   Topic.getFullTopic(topic_id, ep.done(function (message, topic, author, replies) {
     if (message) {
@@ -62,29 +51,22 @@ exports.index = function (req, res, next) {
     }
 
     topic.visit_count += 1;
-    topic.save(ep.done(function () {
-      // format date
-      topic.friendly_create_at = Util.format_date(topic.create_at, true);
-      topic.friendly_update_at = Util.format_date(topic.update_at, true);
+    topic.save();
 
-      topic.author = author;
-      topic.replies = replies;
+    // format date
+    topic.friendly_create_at = Util.format_date(topic.create_at, true);
+    topic.friendly_update_at = Util.format_date(topic.update_at, true);
 
-      if (!req.session.user) {
-        ep.emit('topic', topic);
-      } else {
-        TopicCollect.getTopicCollect(req.session.user._id, topic._id, ep.done(function (doc) {
-          topic.in_collection = doc;
-          ep.emit('topic', topic);
-        }));
-      }
-    }));
+    topic.author = author;
+    topic.replies = replies;
 
-    // get author's relationship
-    if (req.session.user && req.session.user._id) {
-      Relation.getRelation(req.session.user._id, topic.author_id, ep.done('get_relation'));
+    if (!req.session.user) {
+      ep.emit('topic', topic);
     } else {
-      ep.emit('get_relation', null);
+      TopicCollect.getTopicCollect(req.session.user._id, topic._id, ep.done(function (doc) {
+        topic.in_collection = doc;
+        ep.emit('topic', topic);
+      }));
     }
 
     // get author other topics
