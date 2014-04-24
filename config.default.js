@@ -120,6 +120,7 @@ var config = {
     callbackURL: 'http://cnodejs.org/auth/github/callback',
   },
   allow_sign_up: true,
+  newrelic_key: 'yourkey'
 };
 
 module.exports = config;
