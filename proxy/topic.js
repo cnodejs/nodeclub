@@ -132,10 +132,12 @@ exports.getTopicsByQuery = function (query, opt, callback) {
  */
 exports.getFullTopic = function (id, callback) {
   var proxy = new EventProxy();
-  var events = ['topic', 'tags', 'author', 'replies'];
-  proxy.assign(events, function (topic, tags, author, replies) {
-    callback(null, '', topic, tags, author, replies);
-  }).fail(callback);
+  var events = ['topic', 'author', 'replies'];
+  proxy
+  .assign(events, function (topic, author, replies) {
+    callback(null, '', topic, author, replies);
+  })
+  .fail(callback);
 
   Topic.findOne({_id: id}, proxy.done(function (topic) {
     if (!topic) {
@@ -143,14 +145,6 @@ exports.getFullTopic = function (id, callback) {
       return callback(null, '此话题不存在或已被删除。');
     }
     proxy.emit('topic', topic);
-
-    TopicTag.find({topic_id: topic._id}, proxy.done(function (topic_tags) {
-      var tags_ids = [];
-      for (var i = 0; i < topic_tags.length; i++) {
-        tags_ids.push(topic_tags[i].tag_id);
-      }
-      Tag.getTagsByIds(tags_ids, proxy.done('tags'));
-    }));
 
     User.getUserById(topic.author_id, proxy.done(function (author) {
       if (!author) {

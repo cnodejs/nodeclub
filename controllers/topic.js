@@ -55,7 +55,7 @@ exports.index = function (req, res, next) {
     }));
   });
 
-  Topic.getFullTopic(topic_id, ep.done(function (message, topic, tags, author, replies) {
+  Topic.getFullTopic(topic_id, ep.done(function (message, topic, author, replies) {
     if (message) {
       ep.unbind();
       return res.render('notify/notify', { error: message });
@@ -67,7 +67,6 @@ exports.index = function (req, res, next) {
       topic.friendly_create_at = Util.format_date(topic.create_at, true);
       topic.friendly_update_at = Util.format_date(topic.update_at, true);
 
-      topic.tags = tags;
       topic.author = author;
       topic.replies = replies;
 

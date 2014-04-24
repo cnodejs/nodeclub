@@ -68,7 +68,7 @@ exports.getRepliesByTopicId = function (id, cb) {
       return cb(err);
     }
     if (replies.length === 0) {
-      return cb(err, []);
+      return cb(null, []);
     }
 
     var proxy = new EventProxy();

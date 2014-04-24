@@ -101,12 +101,6 @@
       <div class='topic_content'>
         <%- markdown(topic.content) %>
       </div>
-      <% if (topic.tags.length > 0) { %>
-        <div class="tags">
-          <span class='col_fade'>标签：</span>
-          <%- partial('tag/tag_in_topic',{ collection: topic.tags, as: 'tag' }) %>
-        </div>
-      <% } %>
 
       <div class="action">
         <button class='btn btn-success' id='share_weibo_btn'
