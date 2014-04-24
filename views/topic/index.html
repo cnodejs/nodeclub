@@ -107,7 +107,7 @@
           <%- partial('tag/tag_in_topic',{ collection: topic.tags, as: 'tag' }) %>
         </div>
       <% } %>
-    
+
       <div class="action">
         <button class='btn btn-success' id='share_weibo_btn'
           onclick="((function(s,d,e,r,l,p,t,z,c){var f='http://v.t.sina.com.cn/share/share.php?appkey=<%= config.weibo_key %>',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else a();})(screen,document,encodeURIComponent,'','','','分享来自<%= config.name %>的话题：<%= topic.title %>','',''));"
@@ -163,10 +163,8 @@
 </div>
 
 <% if (locals.current_user && locals.topic) { %>
-<!-- ajaxupload -->
 <!-- markdown editor -->
 <%- Loader('/public/topic_edit.min.js')
-  .js('/public/libs/ajax-upload/ajaxupload.js')
   .js('/public/libs/marked.js')
   .js('/public/javascripts/markdown_editor.js')
   .done(assets, config.site_static_host, config.mini_assets)
@@ -174,8 +172,8 @@
 <script>
   $(document).ready(function () {
 
-    $('.reply2_btn').click(function () {
-      var $btn = $(this);
+    $('#content').on('click', '.reply2_btn', function (event) {
+      var $btn = $(event.currentTarget);
       var parent = $btn.parents('.reply_area');
       var editorWrap = parent.find('.reply2_form');
       parent.find('.reply2_area').prepend(editorWrap);
@@ -187,12 +185,12 @@
       });
     });
 
-    $('.reply2_at_btn').click(function () {
-      var $btn = $(this);
+    $('#content').on('click', '.reply2_at_btn', function (event) {
+      var $btn = $(event.currentTarget);
       var editorWrap = $btn.parents('.reply2_area').find('.reply2_form');
       $btn.parents('.reply2_item').after(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
-      var user = $btn.parents('.cell').find('.reply_author').html();
+      var user = $btn.parents('.cell').find('.reply_author').html().trim();
 
       editorWrap.show('fast', function() {
         textarea.focus();
@@ -223,8 +221,8 @@
       }, 'json');
     });
 
-    $('.delete_reply_btn, .delete_reply2_btn').live('click', function() {
-      var $me = $(this);
+    $('#content').on('click', '.delete_reply_btn, .delete_reply2_btn', function(event) {
+      var $me = $(event.currentTarget);
       if (confirm('确定要删除此回复吗？')) {
         var reply_id = null;
         if ($me.hasClass('delete_reply_btn')) {
@@ -275,9 +273,3 @@
 
 </script>
 <% } %>
-<%- Loader('/public/fancebox.min.js', '/public/libs/fancybox/fancebox.min.css')
-  .css('/public/libs/fancybox/jquery.fancybox-1.3.4.css')
-  .js('/public/libs/fancybox/jquery.fancybox-1.3.4.pack.js')
-  .js('/public/javascripts/topic.js')
-  .done(assets, config.site_static_host, config.mini_assets)
-%>
