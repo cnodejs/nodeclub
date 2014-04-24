@@ -17,4 +17,6 @@ var TopicSchema = new Schema({
   content_is_html: { type: Boolean }
 });
 
+TopicSchema.index({create_at: -1});
+
 mongoose.model('Topic', TopicSchema);
