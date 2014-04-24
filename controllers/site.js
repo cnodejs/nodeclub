@@ -20,9 +20,9 @@ setInterval(function () {
   queryCache = {};
 }, 1000 * 60 * 1); // 一分钟更新一次
 
-var topicsCache;
+var topicsCache = {};
 setInterval(function () {
-  topicsCache = null;
+  topicsCache = {};
 }, 1000 * 5); // 五秒更新一次
 // END 主页的缓存工作
 
@@ -43,14 +43,14 @@ exports.index = function (req, res, next) {
     });
   proxy.fail(next);
 
-  var query = {};
   // 取主题
   var options = { skip: (page - 1) * limit, limit: limit, sort: [ ['top', 'desc' ], [ 'last_reply_at', 'desc' ] ] };
-  if (topicsCache) {
-    proxy.emit('topics', topicsCache);
+  var optionsStr = JSON.stringify(options);
+  if (topicsCache[optionsStr]) {
+    proxy.emit('topics', topicsCache[optionsStr]);
   } else {
-    Topic.getTopicsByQuery(query, options, proxy.done('topics', function (topics) {
-      topicsCache = topics;
+    Topic.getTopicsByQuery({}, options, proxy.done('topics', function (topics) {
+      topicsCache[optionsStr] = topics;
       return topics;
     }));
   }
@@ -83,7 +83,7 @@ exports.index = function (req, res, next) {
   if (queryCache.pages) {
     proxy.emit('pages', queryCache.pages);
   } else {
-    Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
+    Topic.getCountByQuery({}, proxy.done(function (all_topics_count) {
       var pages = Math.ceil(all_topics_count / limit);
       queryCache.pages = pages;
       proxy.emit('pages', pages);
