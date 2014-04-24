@@ -72,11 +72,10 @@ describe('proxy/topic.js', function () {
     });
 
     it('should ok', function (done) {
-      Topic.getFullTopic(topic._id, function (err, message, topic, tags, author, replies) {
+      Topic.getFullTopic(topic._id, function (err, message, topic, author, replies) {
         should.not.exist(err);
         message.should.be.equal("");
         topic.author_id.should.eql(user._id);
-        tags.should.have.length(0);
         author.loginname.should.be.equal(user.loginname);
         replies.should.have.length(0);
         done();
