@@ -41,7 +41,7 @@ p code {
 div pre.prettyprint {
   font-size: 14px;
   border-radius: 0px;
-  padding: 15px;
+  padding: 0 15px;
   border: rgb(240, 240, 240) solid;
   margin: 20px -10px;
   border-width: 1px 0px;
