@@ -25,12 +25,14 @@
 				<span class='big'><%= user.score %></span> 积分
 			</div>
 
-			<div class='floor'>
-				<a href='/my/messages'>
-          <span class='big <%= user.messages_count ? 'messages_count' : '' %>'>
-            <%= user.messages_count || 0 %>
-          </span> 未读消息</a>
-			</div>
+      <% if (user.messages_count !== undefined) { %>
+        <div class='floor'>
+          <a href='/my/messages'>
+            <span class='big <%= user.messages_count ? 'messages_count' : '' %>'>
+              <%= user.messages_count %>
+            </span> 未读消息</a>
+        </div>
+      <% } %>
 		</div>
 	</div>
 </div>
