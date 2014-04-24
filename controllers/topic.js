@@ -80,12 +80,7 @@ exports.index = function (req, res, next) {
 };
 
 exports.create = function (req, res, next) {
-  Tag.getAllTags(function (err, tags) {
-    if (err) {
-      return next(err);
-    }
-    res.render('topic/edit', {tags: tags});
-  });
+  res.render('topic/edit');
 };
 
 exports.put = function (req, res, next) {

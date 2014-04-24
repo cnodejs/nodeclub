@@ -2,9 +2,7 @@ var EventProxy = require('eventproxy');
 
 var models = require('../models');
 var Topic = models.Topic;
-var TopicTag = models.TopicTag;
 var User = require('./user');
-var Tag = require('./tag');
 var Reply = require('./reply');
 var Util = require('../libs/util');
 
@@ -13,7 +11,6 @@ var Util = require('../libs/util');
  * Callback:
  * - err, 数据库错误
  * - topic, 主题
- * - tags, 标签列表
  * - author, 作者
  * - lastReply, 最后回复
  * @param {String} id 主题ID
@@ -21,29 +18,19 @@ var Util = require('../libs/util');
  */
 exports.getTopicById = function (id, callback) {
   var proxy = new EventProxy();
-  var events = ['topic', 'tags', 'author', 'last_reply'];
-  proxy.assign(events, function (topic, tags, author, last_reply) {
-    return callback(null, topic, tags, author, last_reply);
+  var events = ['topic', 'author', 'last_reply'];
+  proxy.assign(events, function (topic, author, last_reply) {
+    return callback(null, topic, author, last_reply);
   }).fail(callback);
 
   Topic.findOne({_id: id}, proxy.done(function (topic) {
     if (!topic) {
       proxy.emit('topic', null);
-      proxy.emit('tags', []);
       proxy.emit('author', null);
       proxy.emit('last_reply', null);
       return;
     }
     proxy.emit('topic', topic);
-
-    // TODO: 可以只查tag_id这个字段的吧？
-    TopicTag.find({topic_id: topic._id}, proxy.done(function (topic_tags) {
-      var tags_id = [];
-      for (var i = 0; i < topic_tags.length; i++) {
-        tags_id.push(topic_tags[i].tag_id);
-      }
-      Tag.getTagsByIds(tags_id, proxy.done('tags'));
-    }));
 
     User.getUserById(topic.author_id, proxy.done('author'));
 
@@ -103,11 +90,10 @@ exports.getTopicsByQuery = function (query, opt, callback) {
     proxy.fail(callback);
 
     topics_id.forEach(function (id, i) {
-      exports.getTopicById(id, proxy.group('topic_ready', function (topic, tags, author, last_reply) {
+      exports.getTopicById(id, proxy.group('topic_ready', function (topic, author, last_reply) {
         // 当id查询出来之后，进一步查询列表时，文章可能已经被删除了
         // 所以这里有可能是null
         if (topic) {
-          topic.tags = tags;
           topic.author = author;
           topic.reply = last_reply;
           topic.friendly_create_at = Util.format_date(topic.create_at, true);
@@ -124,7 +110,6 @@ exports.getTopicsByQuery = function (query, opt, callback) {
  * - err, 数据库异常
  * - message, 消息
  * - topic, 主题
- * - tags, 主题的标签
  * - author, 主题作者
  * - replies, 主题的回复
  * @param {String} id 主题ID
