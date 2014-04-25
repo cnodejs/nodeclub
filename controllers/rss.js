@@ -14,7 +14,7 @@ exports.index = function (req, res, next) {
     return res.send('Please set `rss` in config.js');
   }
   res.contentType('application/xml');
-  if (rssCache) {
+  if (!config.debug && rssCache) {
     res.send(rssCache);
   } else {
     var opt = { limit: config.rss.max_rss_items, sort: [ [ 'create_at', 'desc' ] ] };
