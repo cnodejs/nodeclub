@@ -168,7 +168,7 @@
 
     $('#content').on('click', '.reply2_btn', function (event) {
       var $btn = $(event.currentTarget);
-      var parent = $btn.parents('.reply_area');
+      var parent = $btn.closest('.reply_area');
       var editorWrap = parent.find('.reply2_form');
       parent.find('.reply2_area').prepend(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
@@ -181,10 +181,10 @@
 
     $('#content').on('click', '.reply2_at_btn', function (event) {
       var $btn = $(event.currentTarget);
-      var editorWrap = $btn.parents('.reply2_area').find('.reply2_form');
-      $btn.parents('.reply2_item').after(editorWrap);
+      var editorWrap = $btn.closest('.reply2_area').find('.reply2_form');
+      $btn.closest('.reply2_item').after(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
-      var user = $btn.parents('.cell').find('.reply_author').html().trim();
+      var user = $btn.closest('.reply2_item').find('.reply_author').html().trim();
 
       editorWrap.show('fast', function() {
         textarea.focus();
@@ -220,10 +220,10 @@
       if (confirm('确定要删除此回复吗？')) {
         var reply_id = null;
         if ($me.hasClass('delete_reply_btn')) {
-          reply_id = $me.parents('.reply_item').attr('reply_id');
+          reply_id = $me.closest('.reply_item').attr('reply_id');
         }
         if ($me.hasClass('delete_reply2_btn')) {
-          reply_id = $me.parents('.reply2_item').attr('reply_id');
+          reply_id = $me.closest('.reply2_item').attr('reply_id');
         }
         var data = {
           reply_id: reply_id,
@@ -232,10 +232,10 @@
         $.post('/reply/' + reply_id + '/delete', data, function (data) {
           if (data.status === 'success') {
             if($me.hasClass('delete_reply_btn')){
-              $me.parents('.reply_item').remove();
+              $me.closest('.reply_item').remove();
             }
             if($me.hasClass('delete_reply2_btn')){
-              $me.parents('.reply2_item').remove();
+              $me.closest('.reply2_item').remove();
             }
           }
         }, 'json');
@@ -260,7 +260,7 @@
     $('textarea.editor').keydown(function(event) {
       if (event.keyCode == 13 && (event.ctrlKey || event.metaKey)) {
         event.preventDefault()
-        $(this).parents('form').submit()
+        $(this).closest('form').submit()
       }
     });
   });
