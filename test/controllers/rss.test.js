@@ -12,7 +12,7 @@ var should = require('should');
 var app = require('../../app');
 var config = require('../../config').config;
 
-describe('controllers/rss.js', function () {
+describe('test/controllers/rss.test.js', function () {
   before(function (done) {
     app.listen(0, done);
   });

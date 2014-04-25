@@ -8,7 +8,7 @@ var Models = require('../../models');
 var User = Models.User;
 var config = require('../../config');
 
-describe('controllers/github.js', function () {
+describe('test/controllers/github.test.js', function () {
   afterEach(function () {
     mm.restore();
   });

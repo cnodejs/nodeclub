@@ -11,9 +11,10 @@
 var should = require('should');
 var config = require('../../config').config;
 var app = require('../../app');
+var request = require('supertest')(app);
 
 
-describe('controllers/site.js', function () {
+describe('test/controllers/site.test.js', function () {
   before(function (done) {
     app.listen(0, done);
   });
@@ -22,9 +23,10 @@ describe('controllers/site.js', function () {
   });
 
   it('should /index 200', function (done) {
-    app.request().get('/').end(function (res) {
+    request.get('/').end(function (err, res) {
       res.should.status(200);
-      done();
+      res.text.should.include('当前话题');
+      done(err);
     });
   });
 
