@@ -22,7 +22,14 @@ setInterval(function () {
 
 var topicsCache = {};
 setInterval(function () {
-  topicsCache = {};
+  var limit = config.list_topic_count;
+  // 只缓存第一页, page = 1
+  var options = { skip: (1 - 1) * limit, limit: limit, sort: [ ['top', 'desc' ], [ 'last_reply_at', 'desc' ] ] };
+  var optionsStr = JSON.stringify(options);
+  Topic.getTopicsByQuery({}, options, function (err, topics) {
+    topicsCache[optionsStr] = topics;
+    return topics;
+  });
 }, 1000 * 5); // 五秒更新一次
 // END 主页的缓存工作
 
@@ -50,7 +57,6 @@ exports.index = function (req, res, next) {
     proxy.emit('topics', topicsCache[optionsStr]);
   } else {
     Topic.getTopicsByQuery({}, options, proxy.done('topics', function (topics) {
-      topicsCache[optionsStr] = topics;
       return topics;
     }));
   }
