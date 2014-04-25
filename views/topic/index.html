@@ -263,6 +263,14 @@
         $(this).closest('form').submit()
       }
     });
+    var allNames = $('.reply_author').map(function (idx, ele) {
+      return $(ele).text().trim();
+    }).toArray();
+    allNames = _.uniq(allNames);
+    $('textarea.editor').atwho({
+      at: '@',
+      data: allNames
+    });
   });
 
 </script>
