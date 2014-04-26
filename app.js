@@ -55,6 +55,7 @@ var app = express.createServer();
 app.set('view engine', 'html');
 app.set('views', path.join(__dirname, 'views'));
 app.register('.html', require('ejs'));
+app.use(express.responseTime());
 app.use(express.bodyParser({
   uploadDir: config.upload_dir
 }));
