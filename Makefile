@@ -28,8 +28,11 @@ test-cov: cov
 build:
 	@./node_modules/loader/bin/build views .
 
-start:
+start: install build
 	@nohup ./node_modules/.bin/forever `pwd`/app.js >> cnode.log 2>&1 &
 
+restart: install build
+	@nohup ./node_modules/.bin/forever restart `pwd`/app.js >> cnode.log 2>&1 &
 
-.PHONY: test test-cov cov start
+
+.PHONY: install test cov test-cov build start restart
