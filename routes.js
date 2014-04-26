@@ -70,10 +70,6 @@ module.exports = function (app) {
   app.post('/user/cancel_star', user.toggle_star);
   app.post('/user/:name/block', auth.adminRequired, user.block);
 
-  // message
-  app.post('/messages/mark_read', message.mark_read);
-  app.post('/messages/mark_all_read', message.mark_all_read);
-
   // tag
   app.get('/tags/edit', tag.edit_tags);
   app.get('/tag/:name', tag.list_topic);

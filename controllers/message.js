@@ -33,6 +33,8 @@ exports.index = function (req, res, next) {
             has_read_messages.push(messages[i]);
           } else {
             hasnot_read_messages.push(messages[i]);
+            messages[i].has_read = true;
+            messages[i].save();
           }
         }
       }
@@ -49,58 +51,5 @@ exports.index = function (req, res, next) {
         proxy.emit('message_ready');
       });
     });
-  });
-};
-
-exports.mark_read = function (req, res, next) {
-  if (!req.session || !req.session.user) {
-    res.send('forbidden!');
-    return;
-  }
-
-  var message_id = req.body.message_id;
-  Message.getMessageById(message_id, function (err, message) {
-    if (err) {
-      return next(err);
-    }
-    if (!message) {
-      res.json({status: 'failed'});
-      return;
-    }
-    if (message.master_id.toString() !== req.session.user._id.toString()) {
-      res.json({status: 'failed'});
-      return;
-    }
-    message.has_read = true;
-    message.save(function (err) {
-      if (err) {
-        return next(err);
-      }
-      res.json({status: 'success'});
-    });
-  });
-};
-
-exports.mark_all_read = function (req, res, next) {
-  if (!req.session || !req.session.user) {
-    res.send('forbidden!');
-    return;
-  }
-  // TODO: 直接做update，无需查找然后再逐个修改。
-  Message.getUnreadMessageByUserId(req.session.user._id, function (err, messages) {
-    if (messages.length === 0) {
-      res.json({'status': 'success'});
-      return;
-    }
-    var proxy = new EventProxy();
-    proxy.after('marked', messages.length, function () {
-      res.json({'status': 'success'});
-    });
-    proxy.fail(next);
-    for (var i = 0; i < messages.length; i++) {
-      var message = messages[i];
-      message.has_read = true;
-      message.save(proxy.done('marked'));
-    }
   });
 };
