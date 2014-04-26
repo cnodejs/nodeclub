@@ -546,6 +546,11 @@ img.unread {
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
     line-height: 2em;
     margin: 1em 0;
+    overflow: auto;
+}
+.markdown-text a, .preview a {
+  overflow: visible;
+  vertical-align: baseline;
 }
 .markdown-text>*:first-child, .preview>*:first-child {
     margin-top: 0;
