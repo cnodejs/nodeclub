@@ -190,6 +190,9 @@
         textarea.focus();
         if (textarea.val().indexOf('@' + user) < 0) {
           textarea.val('@' + user + ' ');
+          textarea.next('div.editor_buttons').find('button.reply2_submit_btn').removeAttr('disabled');
+          textarea.parents('div.markdown_in_editor').next('div.markdown_in_preview')
+          .find('div.editor_buttons').find('button.reply2_submit_btn').removeAttr('disabled');
         }
       });
     });
@@ -271,6 +274,15 @@
       at: '@',
       data: allNames
     });
+  });
+
+  $('textarea.editor').keyup(function() {
+      var txtValue = this.value;
+      if (txtValue !== '') {
+        $(this).next('div.editor_buttons').find('button.reply2_submit_btn').removeAttr('disabled');
+      } else {
+        $(this).next('div.editor_buttons').find('button.reply2_submit_btn').attr('disabled', 'disabled');
+      }
   });
 
 </script>
