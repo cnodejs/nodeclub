@@ -20,6 +20,17 @@ $('.action_preview').click(function(event) {
   var $editor = $(this).parents('.markdown_editor');
   $editor.removeClass('in_editor').addClass('in_preview');
   var content = $editor.find('textarea.editor').val();
+  if (content !== '') {
+    $editor.find('div.markdown_in_preview')
+    .find('div.editor_buttons')
+    .find('button.reply2_submit_btn')
+    .removeAttr('disabled');
+  } else {
+    $editor.find('div.markdown_in_preview')
+    .find('div.editor_buttons')
+    .find('button.reply2_submit_btn')
+    .attr('disabled', 'disabled');
+  }
   var html = marked(content);
   $editor.find('.preview').html(html);
   prettyPrint();
@@ -29,4 +40,18 @@ $('.action_modify').click(function() {
   var $editor = $(this).parents('.markdown_editor');
   $editor.removeClass('in_preview').addClass('in_editor');
   $editor.find('textarea.editor').focus()
+});
+
+$('.action_cancel').click(function(event) {
+  event.preventDefault();
+  var $editor = $(this).parents('.markdown_editor');
+  var $form = $(this).parents('form.reply2_form');
+  $editor.removeClass('in_preview').addClass('in_editor');
+  $form.find('textarea.reply_editor').val('');
+  $(this).next('button.reply2_submit_btn').attr('disabled', 'disabled');
+  $editor.find('div.markdown_in_editor')
+         .find('div.editor_buttons')
+         .find('button.reply2_submit_btn')
+         .attr('disabled', 'disabled');
+  $form.hide('fast');
 });
