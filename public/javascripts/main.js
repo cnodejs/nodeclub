@@ -43,4 +43,6 @@ $(document).ready(function () {
 
   $('.topic_content a,.reply_content a').attr('target', '_blank');
 
+  // pretty code
+  prettyPrint();
 });
