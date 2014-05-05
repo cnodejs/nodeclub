@@ -14,13 +14,15 @@ var marked = require('marked');
 var utils = require('../libs/util');
 
 // Set default options
-var renderer = new marked.Renderer()
+var renderer = new marked.Renderer();
+
 renderer.code = function(code, lang) {
-  var ret = '<pre class="prettyprint language-' + lang + '">'
-  ret+= '<code>' + code.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code>'
-  ret+= '</pre>'
-  return ret
-}
+  var language = lang && (' language-' + lang) || '';
+  return '<pre class="prettyprint' + language + '">'
+    + '<code>' + code.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code>'
+    + '</pre>';
+};
+
 marked.setOptions({
   renderer: renderer,
   gfm: true,
@@ -31,12 +33,12 @@ marked.setOptions({
   smartLists: true
 });
 
-exports.markdown = function () {
-  return function (text) {
+exports.markdown = function() {
+  return function(text) {
     return '<div class="markdown-text">' + utils.xss(marked(text || '')) + '</div>';
   };
 };
 
-exports.csrf = function (req, res) {
+exports.csrf = function(req, res) {
   return req.session ? req.session._csrf : '';
 };
