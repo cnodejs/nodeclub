@@ -11,84 +11,87 @@
 var onehost = require('../../plugins/onehost');
 var express = require('express');
 var should = require('should');
+var request = require('supertest');
 
 
-describe('plugins/onehost.js', function () {
+describe('plugins/onehost.js', function() {
 
   var bindHost = 'test.localhost.onehost.com';
-  var app = express.createServer();
+  var app = express();
+  var server;
   app.use(onehost({
     host: bindHost
   }));
-  app.use(function (req, res) {
+  app.use(function(req, res) {
     res.send(req.method + ' ' + req.url);
   });
-  before(function (done) {
-    app.listen(0, done);
+  before(function(done) {
+    server = app.listen(0, done);
   });
-  after(function () {
-    app.close();
+  after(function() {
+    server.close();
   });
 
-  it('should 301 redirect all `GET` to ' + bindHost, function (done) {
-    app.request().get('/foo/bar').end(function (res) {
+  it('should 301 redirect all `GET` to ' + bindHost, function(done) {
+    request(app).get('/foo/bar').end(function(err, res) {
       res.should.status(301);
-      res.headers.location.should.equal('http://' + bindHost + '/foo/bar');
+      res.header.location.should.equal('http://' + bindHost + '/foo/bar');
       done();
     });
   });
 
-  it('should 301 when GET request 127.0.0.1:port', function (done) {
-      app.request({ address: '127.0.0.1', port: app.address().port }).get('/foo/bar').end(function (res) {
-        res.should.status(301);
-        res.headers.location.should.equal('http://' + bindHost + '/foo/bar');
-        done();
-      });
+  it('should 301 when GET request 127.0.0.1:port', function(done) {
+    request(app).get('/foo/bar').end(function(err, res) {
+      res.should.status(301);
+      res.header.location.should.equal('http://' + bindHost + '/foo/bar');
+      done();
     });
+  });
 
-  [ 'post', 'put', 'delete', 'head' ].forEach(function (method) {
-    it('should no redirect for `' + method + '`', function (done) {
-      app.request()[method]('/foo/bar').end(function (res) {
+  [ 'post', 'put', 'delete', 'head' ].forEach(function(method) {
+    it('should no redirect for `' + method + '`', function(done) {
+      request(app)[method]('/foo/bar').end(function(err, res) {
         res.should.status(200);
-        res.headers.should.not.have.property('location');
+        res.header.should.not.have.property('location');
         if (method === 'head') {
-          res.body.should.length(0);
+          res.text.should.length(0);
         } else {
-          res.body.toString().should.equal(method.toUpperCase() + ' /foo/bar');
+          res.text.should.equal(method.toUpperCase() + ' /foo/bar');
         }
         done();
       });
     });
   });
 
-  describe('exclude options', function () {
-    var app2 = express.createServer();
+  describe('exclude options', function() {
+    var server;
+    var app2 = express();
     app2.use(onehost({
       host: bindHost,
       exclude: '127.0.0.1:58964'
     }));
-    app2.use(function (req, res) {
+    app2.use(function(req, res) {
       res.send(req.method + ' ' + req.url);
     });
-    before(function (done) {
-      app2.listen(58964, done);
+    before(function(done) {
+      server = app2.listen(58964, done);
     });
-    after(function () {
-      app2.close();
+    after(function() {
+      server.close();
     });
 
-    it('should 301 redirect all `GET` to ' + bindHost, function (done) {
-      app.request().get('/foo/bar').end(function (res) {
+    it('should 301 redirect all `GET` to ' + bindHost, function(done) {
+      request('http://' + bindHost + ':58964').get('/foo/bar').end(function(err, res) {
         res.should.status(301);
-        res.headers.location.should.equal('http://' + bindHost + '/foo/bar');
-        done();
+        res.header.location.should.equal('http://' + bindHost + '/foo/bar');
+        done(err);
       });
     });
 
-    it('should 200 when request GET exclude host', function (done) {
-      app2.request({ address: '127.0.0.1', port: 58964 }).get('/foo/bar').end(function (res) {
-        res.should.status(200);
-        res.body.toString().should.equal('GET /foo/bar');
+    it('should 200 when request GET exclude host', function(done) {
+      request('http://127.0.0.1:58964').get('/foo/bar').end(function(err, res) {
+        res.statusCode.should.equal(200);
+        res.text.should.equal('GET /foo/bar');
         done();
       });
     });

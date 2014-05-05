@@ -1,25 +1,21 @@
+var request = require('supertest');
 var app = require('../../app');
 
 describe('controllers/status.js', function () {
+  var server;
+
   before(function (done) {
-    app.listen(0, done);
+    server = app.listen(0, done);
   });
   after(function () {
-    app.close();
+    server.close();
   });
 
   it('should /status 200', function (done) {
-    app.request().get('/status').end(function (res) {
+    request(app).get('/status').end(function (err, res) {
       res.should.status(200);
-      res.should.header('content-type', 'application/json; charset=utf-8');
-      var json;
-      try {
-        json = JSON.parse(res.body.toString());
-      } catch (e) {
-        done(e);
-      }
-      json.should.have.property("status", "success");
-      json.should.have.property("now");
+      res.body.should.have.property("status", "success");
+      res.body.should.have.property("now");
       done();
     });
   });
