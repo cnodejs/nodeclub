@@ -36,7 +36,7 @@
   <div class='clearfix'>
     <div class='reply2_area'>
       <% if (reply.replies.length >0) { %>
-        <%- partial('reply/reply2',{collection: reply.replies, as: 'reply2'}) %>
+        <%- partial('../reply/reply2',{collection: reply.replies, as: 'reply2'}) %>
       <% } %>
       <% if (locals.current_user) { %>
       <form class='reply2_form' action='/<%= topic._id %>/reply2' method='post'>

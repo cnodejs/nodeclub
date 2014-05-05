@@ -33,12 +33,6 @@ marked.setOptions({
   smartLists: true
 });
 
-exports.markdown = function() {
-  return function(text) {
-    return '<div class="markdown-text">' + utils.xss(marked(text || '')) + '</div>';
-  };
-};
-
-exports.csrf = function(req, res) {
-  return req.session ? req.session._csrf : '';
+exports.markdown =  function(text) {
+  return '<div class="markdown-text">' + utils.xss(marked(text || '')) + '</div>';
 };

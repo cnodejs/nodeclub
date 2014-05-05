@@ -1,4 +1,4 @@
-<%- partial('sidebar') %>
+<%- partial('../sidebar') %>
 
 <div id='content'>
 	<div class='panel'>
@@ -67,7 +67,7 @@
 			<span class='col_fade'><%= user.name %> 发布的话题</span>
 		</div>
 		<% if(locals.topics && topics.length > 0 ){ %>
-		<%- partial('topic/list', {topics:topics,pages:pages,current_pages:current_page,base:'/user/'+user.name+'/topics'}) %>
+		<%- partial('../topic/list', {topics:topics,pages:pages,current_pages:current_page,base:'/user/'+user.name+'/topics'}) %>
 		<% }else{ %>
 		<div class='inner'>
 			<p>无话题</p>

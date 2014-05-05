@@ -1,4 +1,4 @@
-<%- partial('sidebar') %>
+<%- partial('../sidebar') %>
 
 <div id='content'>
 	<div class='panel'>
@@ -9,7 +9,7 @@
 			</ul>
 		</div>
 		<% if (locals.hasnot_read_messages && hasnot_read_messages.length > 0) { %>
-		<%- partial('message/message', { collection: hasnot_read_messages, as: 'message' }) %>
+		<%- partial('../message/message', { collection: hasnot_read_messages, as: 'message' }) %>
 		<% } else { %>
 		<div class='inner'>
 			<p>无消息</p>
@@ -21,7 +21,7 @@
 			<span class='col_fade'>过往信息</span>
 		</div>
 		<% if (locals.has_read_messages && has_read_messages.length > 0) { %>
-		<%- partial('message/message', { collection: has_read_messages, as: 'message' }) %>
+		<%- partial('../message/message', { collection: has_read_messages, as: 'message' }) %>
 		<% } else { %>
 		<div class='inner'>
 			<p>无消息</p>

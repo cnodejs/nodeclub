@@ -2,7 +2,7 @@
   <div class='panel'>
     <% if (locals.current_user) { %>
     <div class='inner'>
-      <%- partial('user/card', { object: current_user, as: 'user' }) %>
+      <%- partial('../user/card', { object: current_user, as: 'user' }) %>
     </div>
     <% } else { %>
     <div class='inner'>
@@ -32,7 +32,7 @@
     <div class='inner'>
       <% if (locals.hot_topics && hot_topics.length > 0) { %>
       <ul class='unstyled'>
-      <%- partial('topic/small', { collection: hot_topics, as: 'topic' }) %>
+      <%- partial('../topic/small', { collection: hot_topics, as: 'topic' }) %>
       </ul>
       <% } else { %>
       <p>无</p>
@@ -47,7 +47,7 @@
     <div class='inner'>
       <% if (locals.no_reply_topics && no_reply_topics.length > 0) { %>
       <ul class='unstyled'>
-      <%- partial('topic/small', { collection: no_reply_topics, as: 'topic' }) %>
+      <%- partial('../topic/small', { collection: no_reply_topics, as: 'topic' }) %>
       </ul>
       <% } else {  %>
       <p>无</p>
@@ -92,7 +92,7 @@
     <% } else { %>
       <% if (locals.topics && topics.length > 0) { %>
       <%- 
-      partial('topic/list', { 
+      partial('../topic/list', {
         topics: topics, pages: pages, 
         current_pages: current_page, 
         base: '/tag/' + tag.name
