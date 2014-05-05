@@ -292,7 +292,7 @@ exports.auth_user = function (req, res, next) {
       if (!req.session.user.avatar_url) {
         req.session.user.avatar_url = getAvatarURL(req.session.user);
       }
-      res.local('current_user', req.session.user);
+      res.locals.current_user = req.session.user;
       return next();
     });
   } else {
@@ -318,7 +318,7 @@ exports.auth_user = function (req, res, next) {
           }
           user.messages_count = count;
           req.session.user = user;
-          res.local('current_user', req.session.user);
+          res.locals.current_user, req.session.user;
           return next();
         });
       } else {

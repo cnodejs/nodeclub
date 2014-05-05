@@ -12,8 +12,6 @@ var fs = require('fs');
 var path = require('path');
 var Loader = require('loader');
 var express = require('express');
-var ejs = require('ejs');
-var partials = require('express-partials');
 var session = require('express-session');
 var errorHandler = require('errorhandler');
 var ndir = require('ndir');
@@ -59,10 +57,8 @@ var app = express();
 // configuration in all env
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
-app.engine('html', ejs.renderFile);
-
-app.use(partials());
-partials.register('.html', ejs.render);
+app.engine('html', require('ejs-locals'));
+app.locals._layoutFile = '/layout.html';
 
 app.use(require('response-time')());
 app.use(require('body-parser')({uploadDir: config.upload_dir}));
@@ -113,6 +109,11 @@ _.extend(app.locals, {
 });
 
 _.extend(app.locals, require('./common/render_helpers'));
+
+app.use(function(req, res, next) {
+  res.locals.csrf = req.session ? req.session._csrf : '';
+  next();
+});
 
 if (process.env.NODE_ENV !== 'test') {
   // plugins

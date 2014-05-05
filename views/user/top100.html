@@ -1,4 +1,4 @@
-<%- partial('sidebar') %>
+<%- partial('../sidebar') %>
 
 <div id='content'>
 	<div class='panel'>
@@ -19,7 +19,7 @@
 					<th>积分</th>
 				</thead>
 				<tbody>
-				<%- partial('user/top100_user',{collection:users,as:'user'}) %>			
+				<%- partial('../user/top100_user',{collection:users,as:'user'}) %>
 				</tbody>
 			</table>
 			<% }else{ %>

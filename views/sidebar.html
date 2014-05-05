@@ -3,7 +3,7 @@
   <div class='panel'>
     <% if (locals.user || locals.current_user) { %>
       <div class='header'>
-        <span class='col_fade'>个人信息<span>
+        <span class='col_fade'>个人信息</span>
       </div>
       <div class='inner'>
         <%- partial('user/card',{ object: locals.user || locals.current_user, as: 'user' }) %>
