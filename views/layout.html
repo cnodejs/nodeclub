@@ -41,7 +41,7 @@
       .js('/public/javascripts/responsive.js')
       .done(assets, config.site_static_host, config.mini_assets)
     %>
-    <% if (locals.topic) { %>
+    <% if (typeof(topic) !== 'undefined') { %>
     <title><%= topic.title %> - <%= config.name %></title>
     <% } else { %>
     <title><%= config.description %></title>
@@ -68,7 +68,7 @@
             %>
             <li><a href="<%- nav[0] %>" target="<%- nav[2] %>"><%- nav[1] %></a></li>
             <% } %>
-            <% if (locals.current_user) { %>
+            <% if (typeof(current_user) !== 'undefined') { %>
             <li><a href='/setting'>设置</a></li>
             <li>
               <a href='/signout' data-method="post" rel="nofollow">退出</a>

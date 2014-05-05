@@ -5,7 +5,7 @@
     <div class='header'>
       <ol class='breadcrumb'>
         <li><a href='/'>主页</a><span class='divider'>/</span></li>
-        <% if(locals.action && action == 'edit'){ %>
+        <% if(typeof(action) !== 'undefined' && action == 'edit'){ %>
         <li class='active'>编辑话题</li>
         <% }else{ %>
         <li class='active'>发布话题</li>
@@ -13,18 +13,18 @@
       </ol>
     </div>
     <div class='inner post'>
-      <% if(locals.edit_error){ %>
+      <% if(typeof(edit_error) !== 'undefined' && edit_error){ %>
       <div class="alert alert-error"> 
         <a class="close" data-dismiss="alert" href="#">&times;</a>
         <strong><%= edit_error %></strong>
       </div>
       <% } %>
-      <% if(locals.error){ %>
+      <% if(typeof(error) !== 'undefined' && error){ %>
       <div class="alert alert-error" >  
         <strong><%= error %></strong>
       </div>
       <% }else{ %>
-      <% if (locals.action && action === 'edit') { %>
+      <% if (typeof(action) !== 'undefined' && action === 'edit') { %>
       <form id='create_topic_form' action='/topic/<%= topic_id %>/edit' method='post'>
       <% } else { %>
       <form id='create_topic_form' action='/topic/create' method='post'>

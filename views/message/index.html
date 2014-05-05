@@ -8,7 +8,7 @@
 				<li class='active'>新消息</li>
 			</ul>
 		</div>
-		<% if (locals.hasnot_read_messages && hasnot_read_messages.length > 0) { %>
+		<% if (typeof(hasnot_read_messages) !== 'undefined' && hasnot_read_messages.length > 0) { %>
 		<%- partial('../message/message', { collection: hasnot_read_messages, as: 'message' }) %>
 		<% } else { %>
 		<div class='inner'>
@@ -20,7 +20,7 @@
 		<div class='header'>
 			<span class='col_fade'>过往信息</span>
 		</div>
-		<% if (locals.has_read_messages && has_read_messages.length > 0) { %>
+		<% if (typeof(has_read_messages) !== 'undefined' && has_read_messages.length > 0) { %>
 		<%- partial('../message/message', { collection: has_read_messages, as: 'message' }) %>
 		<% } else { %>
 		<div class='inner'>

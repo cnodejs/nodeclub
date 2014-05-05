@@ -12,8 +12,8 @@
 			<div class='user_big_avatar'>
 				<img src="<%= user.avatar_url %>" class="user_avatar" title="<%= user.name %>" />
 			</div>
-			<% if (locals.current_user && current_user._id != user._id) { %>
-				<% if (!locals.relation) { %>
+			<% if (typeof(current_user) !== 'undefined' && current_user._id != user._id) { %>
+				<% if (typeof(relation) === 'undefined' || !relation) { %>
 				<button class='btn btn-success follow_btn' action='follow'>加入关注</button>
 				<% } else { %>
 				<button class='btn follow_btn' action='un_follow'>取消关注</button>
@@ -64,7 +64,7 @@
 				<% } %>
 			</div>
 			<p class='col_fade'>于 <%= user.friendly_create_at %> 加入 <%= config.name %></p>
-			<% if (locals.current_user && current_user.is_admin) { %>
+			<% if (typeof(current_user) !== 'undefined' && current_user.is_admin) { %>
 				<% if (!user.is_star) { %>
 				<button class='btn' id='set_star_btn' action='set_star'>设为达人</button>
 				<% } else { %>
@@ -90,7 +90,7 @@
 		<div class='header'>
 			<span class='col_fade'>最近发布话题</span>
 		</div>
-		<% if (locals.recent_topics && recent_topics.length > 0) { %>
+		<% if (typeof(recent_topics) !== 'undefined' && recent_topics.length > 0) { %>
 		<%- partial('../topic/abstract', { collection: recent_topics, as: 'topic' }) %>
 		<div class='cell more'>
 			<a class='dark' href="/user/<%= user.name %>/topics">查看更多»</a>
@@ -106,7 +106,7 @@
 		<div class='header'>
 			<span class='col_fade'>最近参与话题</span>
 		</div>
-		<% if (locals.recent_replies && recent_replies.length > 0) { %>
+		<% if (typeof(recent_replies) !== 'undefined' && recent_replies.length > 0) { %>
 		<%- partial('../topic/abstract', { collection: recent_replies, as: 'topic' }) %>
 		<div class='cell more'>
 			<a class='dark' href="/user/<%= user.name %>/replies">查看更多»</a>
@@ -119,7 +119,7 @@
 	</div>
 </div>
 
-<% if (locals.current_user) { %>
+<% if (typeof(current_user) !== 'undefined') { %>
 <script>
 	$(document).ready(function () {
 		$('#set_star_btn').click(function () {

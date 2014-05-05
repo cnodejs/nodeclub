@@ -9,7 +9,7 @@
 			</ul>
 		</div>
 		<div class='inner'>
-			<% if (locals.error) { %>
+			<% if (typeof(error) !== 'undefined' && error) { %>
 			<div class="alert alert-error">	
 				<a class="close" data-dismiss="alert" href="#">&times;</a>
 				<strong><%= error %></strong>
@@ -19,7 +19,7 @@
 				<div class='control-group'>
 					<label class='control-label' for='email'>电子邮箱</label>
 					<div class='controls'>
-						<% if (locals.email) { %>
+						<% if (typeof(email) !== 'undefined') { %>
 						<input class='input-xlarge' id='email' name='email' size='30' type='text' value='<%= email %>' />
 						<% } else { %>
 						<input class='input-xlarge' id='email' name='email' size='30' type='text' />

@@ -7,7 +7,7 @@
       <span class='col_fade'>所有标签</span>
     </div>
     <div class='inner'>
-      <% if(locals.tags && tags.length > 0 ){ %>
+      <% if(typeof(tags) !== 'undefined' && tags.length > 0 ){ %>
       <table class='table'>
         <thead>
           <th>序号</th>
@@ -29,7 +29,7 @@
       <span class='col_fade'>添加标签</span>
     </div>
     <div class='inner'>
-      <% if(locals.edit_error){ %>
+      <% if(typeof(edit_error) !== 'undefined' && edit_error){ %>
       <div class="alert alert-error">	
         <a class="close" data-dismiss="alert" href="#">&times;</a>
         <strong><%= edit_error %></strong>
@@ -48,7 +48,7 @@
           <label class='control-label' for='order'>序号</label>
           <div class='controls'>
             <select class='span2' name='order'>
-              <% if(locals.tags && tags.length >= 0 ){ %>
+              <% if(typeof(tags) !== 'undefined' && tags.length >= 0 ){ %>
               <% for(var i=0; i<=tags.length; i++){ %>
               <% if(i != tags.length){ %>
               <option value='<%= i+1 %>'><%= i+1 %></option>
@@ -85,7 +85,7 @@
 </div>
 
 
-<% if(locals.current_user){ %>
+<% if(typeof(current_user) !== 'undefined'){ %>
 <script type='text/javascript'>
   $(document).ready(function(){
     $('body').on('click', '.delete_tag_btn', function(event){

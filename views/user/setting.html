@@ -9,13 +9,13 @@
 			</ul>
 		</div>
 		<div class='inner'>
-			<% if(locals.error){ %>
+			<% if(typeof(error) !== 'undefined' && error){ %>
 			<div class="alert alert-error">
 				<a class="close" data-dismiss="alert" href="#">&times;</a>
 				<strong><%= error %></strong>
 			</div>
 			<% } %>
-			<% if (locals.success) { %>
+			<% if (typeof(success) !== 'undefined' && success) { %>
 			<div class="alert alert-success">
 				<strong><%= success %></strong>
 			</div>
@@ -37,7 +37,7 @@
 				<div class='control-group'>
 					<label class='control-label' for='url'>个人网站</label>
 					<div class='controls'>
-						<% if(locals.url){ %>
+						<% if(typeof(url) !== 'undefined'){ %>
 						<input class='input-xlarge' id='url' name='url' size='30' type='text' value="<%= url %>" />
 						<% }else{ %>
 						<input class='input-xlarge' id='url' name='url' size='30' type='text' value='' />
@@ -47,7 +47,7 @@
 				<div class='control-group'>
 					<label class='control-label' for='location'>所在地点</label>
 					<div class='controls'>
-						<% if(locals.location){ %>
+						<% if(typeof(location) !== 'undefined'){ %>
 						<input class='input-xlarge' id='location' name='location' size='30' type='text' value="<%= location %>" />
 						<% }else{ %>
 						<input class='input-xlarge' id='location' name='location' size='30' type='text' value='' />
@@ -57,7 +57,7 @@
 				<div class='control-group'>
 					<label class='control-label' for='signature'>个性签名</label>
 					<div class='controls'>
-						<% if(locals.signature){ %>
+						<% if(typeof(signature) !== 'undefined'){ %>
 						<input class='input-xlarge' id='signature' name='signature' size='30' type='text' value="<%= signature %>" />
 						<% }else{ %>
 						<input class='input-xlarge' id='signature' name='signature' size='30' type='text' value='' />
@@ -67,7 +67,7 @@
 				<div class='control-group'>
 					<label class='control-label' for='profile'>个人简介</label>
 					<div class='controls'>
-						<% if(locals.profile){ %>
+						<% if(typeof(profile) !== 'undefined'){ %>
 						<textarea class='input-xlarge' id='profile' name='profile' rows='4'><%= profile %></textarea>
 						<% }else{ %>
 						<textarea class='input-xlarge' id='profile' name='profile' rows='4'></textarea>
@@ -77,7 +77,7 @@
 				<div class='control-group'>
 					<label class='control-label' for='weibo'>微博</label>
 					<div class='controls'>
-						<% if(locals.weibo){ %>
+						<% if(typeof(weibo) !== 'undefined'){ %>
 						<input class='input-xlarge' id='weibo' name='weibo' size='30' type='text' value="<%= weibo %>" placeholder="e.g. http://weibo.com/cnodejs" />
 						<% }else{ %>
 						<input class='input-xlarge' id='weibo' name='weibo' size='30' type='text' value=''
@@ -88,7 +88,7 @@
         <div class='control-group'>
           <label class='control-label' for='github'>GitHub</label>
           <div class='controls'>
-            <% if(locals.githubUsername){ %>
+            <% if(typeof(githubUsername) !== 'undefined'){ %>
             <input class='input-xlarge' id='github' name='github' size='30' type='text' value="<%= githubUsername %>" placeholder="@username" />
             <% }else{ %>
             <input class='input-xlarge' id='github' name='github' size='30' type='text' value=''
