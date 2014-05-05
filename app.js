@@ -12,6 +12,10 @@ var fs = require('fs');
 var path = require('path');
 var Loader = require('loader');
 var express = require('express');
+var ejs = require('ejs');
+var partials = require('express-partials');
+var session = require('express-session');
+var errorHandler = require('errorhandler');
 var ndir = require('ndir');
 var config = require('./config').config;
 var passport = require('passport');
@@ -21,7 +25,8 @@ var GitHubStrategy = require('passport-github').Strategy;
 var githubStrategyMiddleware = require('./middlewares/github_strategy');
 var routes = require('./routes');
 var auth = require('./middlewares/auth');
-var MongoStore = require('connect-mongo')(express);
+var MongoStore = require('connect-mongo')(session);
+var _ = require('lodash');
 
 var maxAge = 3600000 * 24 * 30;
 var staticDir = path.join(__dirname, 'public');
@@ -49,36 +54,42 @@ ndir.mkdir(config.upload_dir, function (err) {
   }
 });
 
-var app = express.createServer();
+var app = express();
 
 // configuration in all env
-app.set('view engine', 'html');
 app.set('views', path.join(__dirname, 'views'));
-app.register('.html', require('ejs'));
-app.use(express.responseTime());
-app.use(express.bodyParser({
-  uploadDir: config.upload_dir
-}));
-app.use(express.methodOverride());
-app.use(express.cookieParser());
-app.use(express.session({
+app.set('view engine', 'html');
+app.engine('html', ejs.renderFile);
+
+app.use(partials());
+partials.register('.html', ejs.render);
+
+app.use(require('response-time')());
+app.use(require('body-parser')({uploadDir: config.upload_dir}));
+app.use(require('method-override')());
+app.use(require('cookie-parser')(config.session_secret));
+app.use(session({
   secret: config.session_secret,
+  key: 'sid',
   store: new MongoStore({
-    db: config.db_name,
-  }),
+    db: config.db_name
+  })
 }));
+
 app.use(passport.initialize());
+
 // custom middleware
 app.use(require('./controllers/sign').auth_user);
 app.use(auth.blockUser());
 app.use('/upload/', express.static(config.upload_dir, { maxAge: maxAge }));
+
 // old image url: http://host/user_data/images/xxxx
 app.use('/user_data/', express.static(path.join(__dirname, 'public', 'user_data'), { maxAge: maxAge }));
 
 app.use(Loader.less(__dirname));
 if (config.debug) {
   app.use('/public', express.static(staticDir));
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 } else {
   app.use(function (req, res, next) {
     var csrf = express.csrf();
@@ -89,18 +100,19 @@ if (config.debug) {
     csrf(req, res, next);
   });
   app.use('/public', express.static(staticDir, { maxAge: maxAge }));
-  app.use(express.errorHandler());
+  app.use(errorHandler());
   app.set('view cache', true);
 }
 
 
 // set static, dynamic helpers
-app.helpers({
+_.extend(app.locals, {
   config: config,
   Loader: Loader,
   assets: assets
 });
-app.dynamicHelpers(require('./common/render_helpers'));
+
+_.extend(app.locals, require('./common/render_helpers'));
 
 if (process.env.NODE_ENV !== 'test') {
   // plugins
