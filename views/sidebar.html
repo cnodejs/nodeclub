@@ -1,12 +1,12 @@
 <div id='sidebar'>
 
   <div class='panel'>
-    <% if (locals.user || locals.current_user) { %>
+    <% if (typeof(user) !== 'undefined' || typeof(current_user) !== 'undefined') { %>
       <div class='header'>
         <span class='col_fade'>个人信息</span>
       </div>
       <div class='inner'>
-        <%- partial('user/card',{ object: locals.user || locals.current_user, as: 'user' }) %>
+        <%- partial('user/card',{ object: typeof(user) === 'undefined' ? current_user : user, as: 'user' }) %>
       </div>
       <% } else { %>
       <div class='inner'>
@@ -23,7 +23,7 @@
     <% } %>
   </div>
 
-  <% if (locals.current_user) { %>
+  <% if (typeof(current_user) !== 'undefined') { %>
     <div class="panel">
       <div class='inner'>
         <a href='/topic/create' id='create_topic_btn'>
@@ -33,7 +33,7 @@
     </div>
   <% } %>
 
-  <% if (locals.no_reply_topics) { %>
+  <% if (typeof(no_reply_topics) !== 'undefined') { %>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>无人回复的话题</span>
@@ -50,7 +50,7 @@
   </div>
   <% } %>
 
-  <% if (locals.tops) { %>
+  <% if (typeof(tops) !== 'undefined') { %>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>积分榜</span>

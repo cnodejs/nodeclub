@@ -12,8 +12,8 @@
 			<div class='user_big_avatar'>
 				<img src="<%= user.avatar_url %>" title="<%= user.name %>" />
 			</div>
-			<% if(locals.current_user && current_user._id != user._id){ %>
-			<% if(!locals.relation){ %>
+			<% if(typeof(current_user) !== 'undefined' && current_user._id != user._id){ %>
+			<% if(typeof(relation) === 'undefined' || !relation){ %>
 			<button class='btn btn-success' id='follow_btn' action='follow'>加入关注</button>
 			<% }else{ %>
 			<button class='btn' id='follow_btn' action='un_follow'>取消关注</button>
@@ -53,7 +53,7 @@
 				<% } %>
 			</div>
 			<p class='col_fade'>于 <%= user.friendly_create_at %> 加入 <%= config.name %></p>
-			<% if(locals.current_user && current_user.is_admin){ %>
+			<% if(typeof(current_user) !== 'undefined' && current_user.is_admin){ %>
 			<% if(!user.is_star){ %>
 			<button class='btn' id='set_star_btn' action='set_star'>设为达人</button>
 			<% }else{ %>
@@ -66,7 +66,7 @@
 		<div class='header'>
 			<span class='col_fade'><%= user.name %> 发布的话题</span>
 		</div>
-		<% if(locals.topics && topics.length > 0 ){ %>
+		<% if(typeof(topics) !== 'undefined' && topics.length > 0 ){ %>
 		<%- partial('../topic/list', {topics:topics,pages:pages,current_pages:current_page,base:'/user/'+user.name+'/topics'}) %>
 		<% }else{ %>
 		<div class='inner'>
@@ -76,7 +76,7 @@
 	</div>
 </div>
 
-<% if (locals.current_user) { %>
+<% if (typeof(current_user) !== 'undefined') { %>
 <script>
 	$(document).ready(function(){
 		$('#follow_btn').click(function(){

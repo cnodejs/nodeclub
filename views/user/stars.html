@@ -9,7 +9,7 @@
 			</ul>
 		</div>
 		<div class='inner'>
-			<% if(locals.stars && stars.length > 0){ %>
+			<% if(typeof(stars) !== 'undefined' && stars.length > 0){ %>
 			<%- partial('../user/user',{collection:stars,as:'user'}) %>
 			<% }else{ %>
 			<p>还没有社区达人</p>	

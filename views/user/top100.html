@@ -9,7 +9,7 @@
 			</ul>
 		</div>
 		<div class='inner'>
-			<% if(locals.users && users.length > 0){ %>
+			<% if(typeof(users) !== 'undefined' && users.length > 0){ %>
 			<table class='table table-condensed table-striped'>
 				<thead>
 					<th>#</th>

@@ -1,6 +1,6 @@
 <div id='sidebar'>
   <div class='panel'>
-    <% if (locals.current_user) { %>
+    <% if (typeof(current_user) !== 'undefined') { %>
     <div class='inner'>
       <%- partial('../user/card', { object: current_user, as: 'user' }) %>
     </div>
@@ -15,7 +15,7 @@
     <% } %>
   </div>
   
-  <% if (locals.current_user) { %>
+  <% if (typeof(current_user) !== 'undefined') { %>
     <div class="panel">
       <div class='inner'>
         <a href='/topic/create' id='create_topic_btn'>
@@ -30,7 +30,7 @@
       <span class='col_fade'>热门话题</span>
     </div>
     <div class='inner'>
-      <% if (locals.hot_topics && hot_topics.length > 0) { %>
+      <% if (typeof(hot_topics) !== 'undefined' && hot_topics.length > 0) { %>
       <ul class='unstyled'>
       <%- partial('../topic/small', { collection: hot_topics, as: 'topic' }) %>
       </ul>
@@ -45,7 +45,7 @@
       <span class='col_fade'>无人回复的话题</span>
     </div>
     <div class='inner'>
-      <% if (locals.no_reply_topics && no_reply_topics.length > 0) { %>
+      <% if (typeof(no_reply_topics) !== 'undefined' && no_reply_topics.length > 0) { %>
       <ul class='unstyled'>
       <%- partial('../topic/small', { collection: no_reply_topics, as: 'topic' }) %>
       </ul>
@@ -62,19 +62,19 @@
     <div class='header'>
       <ul class='breadcrumb'>
         <li><a href='/'>主页</a><span class='divider'>/</span></li>
-        <% if (locals.tag) { %>
+        <% if (typeof(tag) !== 'undefined') { %>
         <li class='active'><%= tag.name %></li>
         <% } else { %>
         <li class='active'>错误</li>
         <% } %>
       </ul>
-      <% if (locals.tag) { %>
+      <% if (typeof(tag) !== 'undefined') { %>
       <span class='col_fade'><%= tag.description %></span>
       <% } %>
-      <% if (locals.current_user) { %>
-        <% if (!locals.error) { %>
+      <% if (typeof(current_user) !== 'undefined') { %>
+        <% if (typeof(error) === 'undefined' || !error) { %>
         <a href='/topic/create'><button class='btn' id='create_topic_btn'>发布话题</button></a>
-          <% if (!locals.in_collection) { %>
+          <% if (typeof(in_collection) === 'undefined' || !in_collection) { %>
           <button class='btn btn-success' id='collect_btn' action='collect'>加入收藏</button>
           <% } else { %>
           <button class='btn' id='collect_btn' action='de_collect'>取消收藏</button>
@@ -83,14 +83,14 @@
       <% } %>
     </div>
 
-    <% if (locals.error) { %>
+    <% if (typeof(error) !== 'undefined' && error) { %>
     <div class='inner'>
       <div class="alert alert-error" >  
         <strong><%= error %></strong>
       </div>
     </div>
     <% } else { %>
-      <% if (locals.topics && topics.length > 0) { %>
+      <% if (typeof(topics) !== 'undefined' && topics.length > 0) { %>
       <%- 
       partial('../topic/list', {
         topics: topics, pages: pages, 
@@ -106,7 +106,7 @@
   </div>
 </div>
 
-<% if (locals.current_user && locals.tag) { %>
+<% if (typeof(current_user) !== 'undefined' && typeof(tag) !== 'undefined') { %>
 <script type='text/javascript'>
 $(document).ready(function(){
   $('#collect_btn').click(function() {

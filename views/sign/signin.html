@@ -9,7 +9,7 @@
 			</ul>
 		</div>
 		<div class='inner'>
-			<% if(locals.error){ %>
+			<% if(typeof(error) !== 'undefined' && error){ %>
 			<div class="alert alert-error">
 				<a class="close" data-dismiss="alert" href="#">&times;</a>
 				<strong><%= error %></strong>

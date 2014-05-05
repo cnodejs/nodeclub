@@ -13,7 +13,7 @@
       <span class='col_fade'>作者其它话题</span>
     </div>
     <div class='inner'>
-      <% if (locals.author_other_topics && author_other_topics.length > 0) { %>
+      <% if (typeof(author_other_topics) !== 'undefined' && author_other_topics.length > 0) { %>
       <ul class='unstyled'>
       <%- partial('../topic/small', { collection: author_other_topics, as: 'topic' }) %>
       </ul>
@@ -28,7 +28,7 @@
       <span class='col_fade'>无人回复的话题</span>
     </div>
     <div class='inner'>
-      <% if (locals.no_reply_topics && no_reply_topics.length > 0) { %>
+      <% if (typeof(no_reply_topics) !== 'undefined' && no_reply_topics.length > 0) { %>
       <ul class='unstyled'>
       <%- partial('../topic/small', { collection: no_reply_topics, as: 'topic' }) %>
       </ul>
@@ -59,7 +59,7 @@
           </span>
         <% } %>
       </div>
-      <% if (locals.current_user) { %>
+      <% if (typeof(current_user) !== 'undefined') { %>
         <div id="manage_topic">
           <% if (current_user.is_admin) { %>
           <% if (topic.top) { %>
@@ -106,7 +106,7 @@
         <button class='btn btn-success' id='share_weibo_btn'
           onclick="((function(s,d,e,r,l,p,t,z,c){var f='http://v.t.sina.com.cn/share/share.php?appkey=<%= config.weibo_key %>',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else a();})(screen,document,encodeURIComponent,'','','','分享来自<%= config.name %>的话题：<%= topic.title %>','',''));"
           >分享到微博</button>
-        <% if (locals.current_user) { %>
+        <% if (typeof(current_user) !== 'undefined') { %>
           <% if (!topic.in_collection) { %>
           <button class='btn btn-success' id='collect_btn' action='collect'>加入收藏</button>
           <% } else { %>
@@ -124,7 +124,7 @@
     <%- partial('../reply/reply', topic.replies) %>
   </div>
   <% } %>
-  <% if (locals.current_user && locals.topic) { %>
+  <% if (typeof(current_user) !== 'undefined' && typeof(topic) !== 'undefined') { %>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>添加回复</span>
@@ -156,7 +156,7 @@
   <% } %>
 </div>
 
-<% if (locals.current_user && locals.topic) { %>
+<% if (typeof(current_user) !== 'undefined' && typeof(topic) !== 'undefined') { %>
 <!-- markdown editor -->
 <%- Loader('/public/topic_edit.min.js')
   .js('/public/libs/marked.js')

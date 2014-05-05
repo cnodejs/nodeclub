@@ -7,7 +7,7 @@
       <span class='col_fade'>编辑标签</span>
     </div>
     <div class='inner'>
-      <% if(locals.edit_error){ %>
+      <% if(typeof(edit_error) !== 'undefined' && edit_error){ %>
       <div class="alert alert-error">	
         <a class="close" data-dismiss="alert" href="#">&times;</a>
         <strong><%= edit_error %></strong>
@@ -26,7 +26,7 @@
           <label class='control-label' for='order'>序号</label>
           <div class='controls'>
             <select class='span2' name='order'>
-              <% if(locals.tags && tags.length > 0 ){ %>
+              <% if(typeof(tags) !== 'undefined' && tags.length > 0 ){ %>
               <% for(var i=0; i<tags.length; i++){ %>
               <% if(tag.order == (i+1)){ %>
               <option value='<%= i+1 %>' selected='selected'><%= i+1 %></option>
