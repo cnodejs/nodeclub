@@ -29,10 +29,9 @@ build:
 	@./node_modules/loader/bin/build views .
 
 start: install build
-	@nohup ./node_modules/.bin/forever `pwd`/app.js >> cnode.log 2>&1 &
+	@nohup ./node_modules/.bin/pm2 start app.js -i max --name "cnode" >> cnode.log 2>&1 &
 
 restart: install build
-	@nohup ./node_modules/.bin/forever restart `pwd`/app.js >> cnode.log 2>&1 &
-
+	@nohup ./node_modules/.bin/pm2 restart "cnode" >> cnode.log 2>&1 &
 
 .PHONY: install test cov test-cov build start restart

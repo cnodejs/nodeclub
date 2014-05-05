@@ -25,7 +25,8 @@
     "forever": "~0.10.11",
     "marked": "~0.3.2",
     "connect-mongo": "^0.4.0",
-    "newrelic": "^1.5.1"
+    "newrelic": "^1.5.1",
+    "pm2": "^0.8.1"
   },
   "devDependencies": {
     "supertest": "*",
