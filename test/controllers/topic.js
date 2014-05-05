@@ -15,12 +15,14 @@ var request = require('supertest');
 var app = require('../../app');
 
 describe('controllers/topic.js', function () {
+  var server;
+
   before(function (done) {
-    app.listen(0, done);
+    server = app.listen(0, done);
   });
 
   after(function () {
-    app.close();
+    server.close();
   });
 
   describe('/topic', function () {

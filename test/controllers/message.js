@@ -1,22 +1,25 @@
+var request = require('supertest');
 var should = require('should');
 var app = require('../../app');
 
-describe('controllers/message.js', function () {
-  before(function (done) {
-    app.listen(0, done);
+describe('controllers/message.js', function() {
+  var server;
+
+  before(function(done) {
+    server = app.listen(0, done);
   });
 
-  after(function () {
-    app.close();
+  after(function() {
+    server.close();
   });
 
-  describe('index', function () {
-    it('should 302 without session', function (done) {
-      app.request().get('/my/messages').end(function (res) {
+  describe('index', function() {
+    it('should 302 without session', function(done) {
+      request(app).get('/my/messages').end(function(err, res) {
         res.statusCode.should.equal(302);
-        res.headers.should.have.property('content-type', 'text/html');
-        res.headers.should.have.property('location');
-        done();
+        res.type.should.equal('text/plain');
+        res.header.should.have.property('location');
+        done(err);
       });
     });
   });

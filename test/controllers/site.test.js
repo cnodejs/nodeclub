@@ -15,11 +15,13 @@ var request = require('supertest')(app);
 
 
 describe('test/controllers/site.test.js', function () {
+  var server;
+
   before(function (done) {
-    app.listen(0, done);
+    server = app.listen(0, done);
   });
   after(function () {
-    app.close();
+    server.close();
   });
 
   it('should /index 200', function (done) {

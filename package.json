@@ -17,7 +17,6 @@
     "errorhandler": "^1.0.0",
     "eventproxy": "0.2.6",
     "express": "~4.1.1",
-    "express-partials": "^0.2.0",
     "express-session": "^1.0.4",
     "forever": "~0.10.11",
     "loader": "0.1.2",
@@ -40,13 +39,13 @@
     "xss": "~0.0.9"
   },
   "devDependencies": {
-    "supertest": "*",
-    "should": "*",
-    "mocha": "*",
-    "rewire": "*",
     "jscover": "*",
+    "mm": "*",
+    "mocha": "*",
     "pedding": "*",
-    "mm": "*"
+    "rewire": "*",
+    "should": "*",
+    "supertest": "*"
   },
   "scripts": {
     "test": "make test"

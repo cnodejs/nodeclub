@@ -8,40 +8,43 @@
  * Module dependencies.
  */
 
+var request = require('supertest');
 var should = require('should');
 var app = require('../../app');
 
-describe('controllers/user.js', function () {
-  before(function (done) {
-    app.listen(0, done);
+describe('controllers/user.js', function() {
+  var server;
+
+  before(function(done) {
+    server = app.listen(0, done);
   });
-  after(function () {
-    app.close();
+  after(function() {
+    server.close();
   });
 
-  it('/user/testuser1 should 200', function (done) {
-    app.request().get('/user/testuser1').end(function (res) {
+  it('/user/testuser1 should 200', function(done) {
+    request(app).get('/user/testuser1').end(function(err, res) {
       res.should.status(200);
       done();
     });
   });
 
-  it('/stars should 200', function (done) {
-    app.request().get('/stars').end(function (res) {
+  it('/stars should 200', function(done) {
+    request(app).get('/stars').end(function(err, res) {
       res.should.status(200);
       done();
     });
   });
 
-  it('/users/top100 should 200', function (done) {
-    app.request().get('/users/top100').end(function (res) {
+  it('/users/top100 should 200', function(done) {
+    request(app).get('/users/top100').end(function(err, res) {
       res.should.status(200);
       done();
     });
   });
 
-  it('/setting should 302 when not login', function (done) {
-    app.request().get('/setting').end(function (res) {
+  it('/setting should 302 when not login', function(done) {
+    request(app).get('/setting').end(function(err, res) {
       res.should.status(302);
       done();
     });

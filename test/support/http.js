@@ -13,6 +13,7 @@
 var EventEmitter = require('events').EventEmitter;
 var methods = ['get', 'post', 'put', 'delete', 'head'];
 var express = require('express');
+var request = require('supertest');
 var connect = null;
 try {
   connect = require('connect');
@@ -24,12 +25,12 @@ var querystring = require('querystring');
 
 
 // need to change > 0.3.x
-express.HTTPServer.prototype.request = function (address) {
-  return new Request(this, address);
+express.prototype.request = function (address) {
+  return request(this);
 };
 
 if (connect && connect.HTTPServer) {
-  connect.HTTPServer.prototype.request = express.HTTPServer.prototype.request;
+  connect.HTTPServer.prototype.request = express.prototype.request;
 }
 
 // not support < 0.2.0
