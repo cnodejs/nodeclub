@@ -10,13 +10,13 @@
     </div>
     <div class='inner post'>
       <% if(typeof(edit_error) !== 'undefined' && edit_error){ %>
-      <div class="alert alert-error"> 
+      <div class="alert alert-error">
         <a class="close" data-dismiss="alert" href="#">&times;</a>
         <strong><%= edit_error %></strong>
       </div>
       <% } %>
       <% if(typeof(error) !== 'undefined' && error){ %>
-      <div class="alert alert-error" >  
+      <div class="alert alert-error" >
         <strong><%= error %></strong>
       </div>
       <% }else{ %>
@@ -27,7 +27,7 @@
               <textarea class='editor' name='t_content' rows='20'
                 placeholder='回复支持 Markdown 语法, 请注意标记代码'
                 autofocus
-                ><%= locals.content || '' %></textarea>
+                ><%= typeof(content) !== 'undefined' && content || '' %></textarea>
               <div class='editor_buttons'>
                 <button class='btn action_preview'>预览</button>
                 <button id='submit_btn' type="submit" class='btn btn-primary'>提交</button>
@@ -47,7 +47,7 @@
       </form>
     </div>
     <% } %>
-  </div>  
+  </div>
 </div>
 
 <!-- markdown editor -->
