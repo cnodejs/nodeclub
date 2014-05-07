@@ -15,14 +15,6 @@ var request = require('supertest')(app);
 
 
 describe('test/controllers/site.test.js', function () {
-  var server;
-
-  before(function (done) {
-    server = app.listen(0, done);
-  });
-  after(function () {
-    server.close();
-  });
 
   it('should /index 200', function (done) {
     request.get('/').end(function (err, res) {

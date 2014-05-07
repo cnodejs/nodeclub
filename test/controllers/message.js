@@ -3,15 +3,6 @@ var should = require('should');
 var app = require('../../app');
 
 describe('controllers/message.js', function() {
-  var server;
-
-  before(function(done) {
-    server = app.listen(0, done);
-  });
-
-  after(function() {
-    server.close();
-  });
 
   describe('index', function() {
     it('should 302 without session', function(done) {

@@ -14,14 +14,6 @@ var app = require('../../app');
 var config = require('../../config').config;
 
 describe('test/controllers/rss.test.js', function() {
-  var server;
-
-  before(function(done) {
-    server = app.listen(0, done);
-  });
-  after(function() {
-    server.close();
-  });
 
   describe('/rss', function() {
     it('should return `application/xml` Content-Type', function(done) {
@@ -32,7 +24,7 @@ describe('test/controllers/rss.test.js', function() {
         body.indexOf('<?xml version="1.0" encoding="utf-8"?>').should.equal(0);
         body.should.include('<rss version="2.0">');
         body.should.include('<channel><title>' + config.rss.title + '</title>');
-        done();
+        done(err);
       });
     });
 
@@ -49,7 +41,7 @@ describe('test/controllers/rss.test.js', function() {
         request(app).get('/rss').end(function(err, res) {
           res.should.status(404);
           res.text.should.equal('Please set `rss` in config.js');
-          done();
+          done(err);
         });
       });
     });
@@ -73,7 +65,7 @@ describe('test/controllers/rss.test.js', function() {
         request(app).get('/rss').end(function(err, res) {
           res.should.status(500);
           res.text.should.include('mock getTopicsByQuery() error');
-          done();
+          done(err);
         });
       });
     });

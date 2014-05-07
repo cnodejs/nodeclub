@@ -1,8 +1,8 @@
 /*!
  * nodeclub - One host only
- * 
+ *
  * Redirect `HTTP GET` for `club.cnodejs.org` and `www.cnodejs.org` to `cnodejs.org`.
- * 
+ *
  * Copyright(c) 2012 fengmk2 <fengmk2@gmail.com>
  * MIT Licensed
  */

@@ -318,7 +318,7 @@ exports.auth_user = function (req, res, next) {
           }
           user.messages_count = count;
           req.session.user = user;
-          res.locals.current_user, req.session.user;
+          res.locals.current_user = req.session.user;
           return next();
         });
       } else {

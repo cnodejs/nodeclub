@@ -15,15 +15,6 @@ var request = require('supertest');
 var app = require('../../app');
 
 describe('controllers/topic.js', function () {
-  var server;
-
-  before(function (done) {
-    server = app.listen(0, done);
-  });
-
-  after(function () {
-    server.close();
-  });
 
   describe('/topic', function () {
     it('should ok', function (done) {
@@ -38,7 +29,10 @@ describe('controllers/topic.js', function () {
     it('should GET /user/lzghades/replies?page=1 %27%27%29%29%28%27%27%29%27%28 status 200', function (done) {
       request(app)
       .get('/user/lzghades/replies?page=1 %27%27%29%29%28%27%27%29%27%28 ')
-      .expect(200, done);
+      .expect(200, function (err, res) {
+        res.text.should.match(/这个用户不存在/);
+        done(err);
+      });
     });
   });
 });

@@ -13,40 +13,32 @@ var should = require('should');
 var app = require('../../app');
 
 describe('controllers/user.js', function() {
-  var server;
-
-  before(function(done) {
-    server = app.listen(0, done);
-  });
-  after(function() {
-    server.close();
-  });
 
   it('/user/testuser1 should 200', function(done) {
     request(app).get('/user/testuser1').end(function(err, res) {
       res.should.status(200);
-      done();
+      done(err);
     });
   });
 
   it('/stars should 200', function(done) {
     request(app).get('/stars').end(function(err, res) {
       res.should.status(200);
-      done();
+      done(err);
     });
   });
 
   it('/users/top100 should 200', function(done) {
     request(app).get('/users/top100').end(function(err, res) {
       res.should.status(200);
-      done();
+      done(err);
     });
   });
 
   it('/setting should 302 when not login', function(done) {
     request(app).get('/setting').end(function(err, res) {
       res.should.status(302);
-      done();
+      done(err);
     });
   });
 });
