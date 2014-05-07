@@ -79,7 +79,7 @@ exports.add_reply2 = function (req, res, next) {
   }
 
   var proxy = new EventProxy();
-  proxy.assign('reply_saved', 'message_saved', function (reply) {
+  proxy.assign('reply_saved', function (reply) {
     Reply.getReplyById(reply._id, function (err, reply) {
       res.redirect('/topic/' + topic_id + '#' + reply._id);
       // res.partial('reply/reply2', {object: reply, as: 'reply'});
@@ -103,15 +103,15 @@ exports.add_reply2 = function (req, res, next) {
   });
 
   // 将回复信息发送通知到相关人
-  Reply.getReply(reply_id, function (err, reply) {
-    if (err) {
-      return next(err);
-    }
-    if (reply && reply.author_id.toString() !== req.session.user._id.toString()) {
-      message.sendReply2Message(reply.author_id, req.session.user._id, topic_id, reply._id);
-    }
-    proxy.emit('message_saved');
-  });
+  // Reply.getReply(reply_id, function (err, reply) {
+  //   if (err) {
+  //     return next(err);
+  //   }
+  //   if (reply && reply.author_id.toString() !== req.session.user._id.toString()) {
+  //     message.sendReply2Message(reply.author_id, req.session.user._id, topic_id, reply._id);
+  //   }
+  //   proxy.emit('message_saved');
+  // });
 };
 
 /**
