@@ -24,6 +24,7 @@ var routes = require('./routes');
 var auth = require('./middlewares/auth');
 var MongoStore = require('connect-mongo')(session);
 var _ = require('lodash');
+var csurf = require('csurf');
 
 var maxAge = 3600000 * 24 * 30;
 var staticDir = path.join(__dirname, 'public');
@@ -87,7 +88,7 @@ if (config.debug) {
   app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 } else {
   app.use(function (req, res, next) {
-    var csrf = express.csrf();
+    var csrf = csurf();
     // ignore upload image
     if (req.body && req.body.user_action === 'upload_image') {
       return next();
