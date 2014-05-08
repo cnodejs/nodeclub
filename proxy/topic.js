@@ -36,7 +36,7 @@ exports.getTopicById = function (id, callback) {
 
     if (topic.last_reply) {
       Reply.getReplyById(topic.last_reply, proxy.done(function (last_reply) {
-        proxy.emit('last_reply', last_reply || null);
+        proxy.emit('last_reply', last_reply);
       }));
     } else {
       proxy.emit('last_reply', null);

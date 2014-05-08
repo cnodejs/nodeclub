@@ -50,7 +50,9 @@
       </span>
       <div class="changes">
         <span>
-          发布于 <%= topic.friendly_create_at %>,
+          发布于 <%= topic.friendly_create_at %>
+        </span>
+        <span>
           <%= topic.visit_count %> 次浏览
         </span>
         <% if (topic.friendly_create_at != topic.friendly_update_at) { %>

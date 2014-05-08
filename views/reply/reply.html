@@ -7,7 +7,7 @@
     <div class='user_info'>
       <a class='dark reply_author' href="/user/<%= reply.author.name %>"><%= reply.author.name %>
       </a>
-      <a class="reply_time" href="#<%- reply._id %>"><%= reply.friendly_create_at %></a>
+      <a class="reply_time" href="#<%- reply._id %>"><%= indexInCollection + 1 %>楼•<%= reply.friendly_create_at %></a>
     </div>
     <div class='user_action'>
       <% if ( typeof(current_user) !== 'undefined' && current_user.is_admin ||
