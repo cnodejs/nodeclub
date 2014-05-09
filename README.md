@@ -1,6 +1,6 @@
 # nodeclub [![Build Status](https://secure.travis-ci.org/cnodejs/nodeclub.png?branch=master)](http://travis-ci.org/cnodejs/nodeclub) [![依赖模块状态](https://david-dm.org/cnodejs/nodeclub.png)](http://david-dm.org/cnodejs/nodeclub)
 
-基于nodejs的社区系统
+基于nodejs的社区系统。可访问 http://cnodejs.org/ 查看。
 
 ## 介绍
 
@@ -30,8 +30,6 @@ jscoverage
 $ make test-cov
 ```
 
-* jscoverage: [**31%**](http://fengmk2.github.com/coverage/nodeclub.html)
-
 ## 关于pull request
 
 从现在开始，所有提交都要严格遵循[代码规范](https://github.com/dead-horse/node-style-guide)。
@@ -44,21 +42,19 @@ Below is the output from `git-summary`. Only first ten.
 $ git summary
 
 project  : nodeclub
-repo age : 2 years
-active   : 205 days
-commits  : 471
-files    : 260
+repo age : 2 years, 3 months
+active   : 244 days
+commits  : 632
+files    : 224
 authors  :
- 203  fengmk2                 43.1%
-  49  jiyinyiyong             10.4%
-  48  Jackson Tian            10.2%
-  44  Alsotang                9.3%
-  30  dead-horse              6.4%
-  10  Kenny Zhao              2.1%
-  10  Lei Zongmin             2.1%
-   9  muyuan                  1.9%
-   8  Zongmin Lei             1.7%
-   7  young40                 1.5%
+ 203  fengmk2                 32.1%
+ 111  Alsotang                17.6%
+  98  jiyinyiyong             15.5%
+  49  Jackson Tian            7.8%
+  30  dead-horse              4.7%
+  24  alsotang                3.8%
+  10  Kenny Zhao              1.6%
+  10  Lei Zongmin             1.6%
 ```
 
 ## License
