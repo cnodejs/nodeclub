@@ -50,7 +50,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.engine('html', require('ejs-locals'));
-app.locals._layoutFile = 'layout.html';
+app.locals._layoutFile = '/layout.html';
 
 app.use(require('response-time')());
 app.use(require('body-parser')({uploadDir: config.upload_dir}));
