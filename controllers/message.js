@@ -22,8 +22,7 @@ exports.index = function (req, res, next) {
         ep.emit(idx === 0 ? 'has_read_messages' : 'hasnot_read_messages', docs);
       });
       msgs.forEach(function (doc) {
-        console.log(doc._id, 1111111);
-        Message.getMessageById(doc._id, epfill.done('message_ready'));
+        Message.getMessageById(doc._id, epfill.group('message_ready'));
       });
     });
   });
