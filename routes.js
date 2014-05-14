@@ -12,7 +12,6 @@ var sign = require('./controllers/sign');
 var site = require('./controllers/site');
 var user = require('./controllers/user');
 var message = require('./controllers/message');
-var tag = require('./controllers/tag');
 var topic = require('./controllers/topic');
 var reply = require('./controllers/reply');
 var rss = require('./controllers/rss');
@@ -70,18 +69,6 @@ module.exports = function (app) {
   app.post('/user/cancel_star', user.toggle_star);
   app.post('/user/:name/block', auth.adminRequired, user.block);
 
-  // tag
-  app.get('/tags/edit', tag.edit_tags);
-  app.get('/tag/:name', tag.list_topic);
-  // 编辑界面
-  app.get('/tag/:name/edit', auth.adminRequired, tag.edit);
-  app.get('/tag/:name/delete', auth.adminRequired, tag.delete);
-  app.post('/tag/add', auth.adminRequired, tag.add);
-  // 更新
-  app.post('/tag/:id', auth.adminRequired, tag.update);
-  app.post('/tag/collect', tag.collect);
-  app.post('/tag/de_collect', auth.userRequired, tag.de_collect);
-
   // topic
   // 新建文章界面
   app.get('/topic/create', auth.signinRequired, topic.create);
@@ -104,10 +91,10 @@ module.exports = function (app) {
 
   // reply
   // 回复
-  app.get('/reply/:reply_id/edit', reply.showEdit)
+  app.get('/reply/:reply_id/edit', reply.showEdit);
   app.post('/:topic_id/reply', auth.userRequired, limit.postInterval, reply.add);
   app.post('/:topic_id/reply2', auth.userRequired, limit.postInterval, reply.add_reply2);
-  app.post('/reply/:reply_id/edit', reply.update)
+  app.post('/reply/:reply_id/edit', reply.update);
   app.post('/reply/:reply_id/delete', reply.delete);
 
   // upload
