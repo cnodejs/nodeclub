@@ -25,6 +25,7 @@ var auth = require('./middlewares/auth');
 var MongoStore = require('connect-mongo')(session);
 var _ = require('lodash');
 var csurf = require('csurf');
+var compress = require('compression');
 
 var maxAge = 3600000 * 24 * 30;
 var staticDir = path.join(__dirname, 'public');
@@ -63,6 +64,7 @@ app.use(session({
     db: config.db_name
   })
 }));
+app.use(compress());
 
 app.use(passport.initialize());
 
