@@ -45,4 +45,15 @@ $(document).ready(function () {
 
   // pretty code
   prettyPrint();
+
+  // daily sentence
+  $('#zh-sentence').click(function () {
+    $(this).css('display', 'none');
+    $('#en-sentence,#say-sentence').css('display', 'inline');
+  });
+  $('#en-sentence').click(function () {
+    $(this).css('display', 'none');
+    $("#say-sentence").css('display', 'none');
+    $('#zh-sentence').css('display', 'inline');
+  });
 });
