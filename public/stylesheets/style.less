@@ -2,6 +2,9 @@
 body {
   background-color: #e5e5e5;
 }
+.fl { float: left; }
+.fr { float: right; }
+.cl { clear: both; }
 
 #main {
   width: 90%;
@@ -143,6 +146,27 @@ a.light:hover {
   padding: 7px 10px;
   background-color: #F5F5F5;
   box-shadow: 0px 1px 0px rgb(224, 224, 224);
+}
+.panel .daily-sentence {
+  padding: 7px 10px;
+  background-color: #F5F5F5;
+  border-top: 1px solid rgb(224, 224, 224);
+  color: #999;
+}
+.panel .daily-sentence span {
+  cursor: pointer;
+}
+.panel .daily-sentence span#en-sentence {
+  font-family: "Times New Roman";
+  font-style: italic;
+}
+.panel .daily-sentence span#zh-sentence {
+  display: none;
+  font-size: 10px;
+  font-style: italic;
+}
+.panel .daily-sentence i {
+  cursor: pointer;
 }
 .panel .moon {
   padding: 10px;

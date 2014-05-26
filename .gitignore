@@ -5,6 +5,8 @@ node_modules
 public/user_data
 coverage.html
 .monitor
+.idea
+.daily-sen-db
 
 *.min.*.js
 *.min.*.css

@@ -38,7 +38,8 @@
     "static-favicon": "^1.0.2",
     "utility": "0.0.x",
     "validator": "0.3.7",
-    "xss": "~0.0.9"
+    "xss": "~0.0.9",
+    "daily-sentence": "~0.0.1"
   },
   "devDependencies": {
     "jscover": "*",

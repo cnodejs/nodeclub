@@ -13,6 +13,7 @@ var User = require('../proxy').User;
 var Topic = require('../proxy').Topic;
 var config = require('../config').config;
 var EventProxy = require('eventproxy');
+var daily = require("daily-sentence");
 
 // 主页的缓存工作
 var queryCache = {};
@@ -37,15 +38,16 @@ exports.index = function (req, res, next) {
   var page = parseInt(req.query.page, 10) || 1;
   var limit = config.list_topic_count;
 
-  var proxy = EventProxy.create('topics', 'tops', 'no_reply_topics', 'pages',
-    function (topics, tops, no_reply_topics, pages) {
+  var proxy = EventProxy.create('topics', 'tops', 'no_reply_topics', 'pages', 'sentence',
+    function (topics, tops, no_reply_topics, pages, sentence) {
       res.render('index', {
         topics: topics,
         current_page: page,
         list_topic_count: limit,
         tops: tops,
         no_reply_topics: no_reply_topics,
-        pages: pages
+        pages: pages,
+        sentence: sentence
       });
     });
   proxy.fail(next);
@@ -95,4 +97,12 @@ exports.index = function (req, res, next) {
       proxy.emit('pages', pages);
     }));
   }
+  // 取每日一句
+  daily.today(function(err, sentence) {
+    if(err) {
+      proxy.emit('sentence', null);
+    } else {
+      proxy.emit('sentence', sentence);
+    }
+  });
 };
