@@ -32,7 +32,6 @@ var maxAge = 3600000 * 24 * 30;
 var staticDir = path.join(__dirname, 'public');
 var cmdProcess = require('child_process');
 
-
 // assets
 var assets = {};
 if (config.mini_assets) {
@@ -114,10 +113,14 @@ app.listen(config.port, function () {
   console.log("God bless love....");
   console.log("Your current operating system is " + osPlatform);
   console.log("You can debug your app with http://" + config.hostname + ':' + config.port);
-  if (osPlatform === 'win32'){
-    cmdProcess.exec('explorer "http://' + config.hostname + ':' + config.port + '"')
-  } else {
-    cmdProcess.exec('open http://' + config.hostname + ':' + config.port)
+  if (app.settings.env === 'development') {
+    if (osPlatform === 'linux'){
+      cmdProcess.exec('firefox http://' + config.hostname + ':' + config.port)
+    } else if(osPlatform === 'darwin') {
+      cmdProcess.exec('open http://' + config.hostname + ':' + config.port)
+    } else {
+      cmdProcess.exec('explorer "http://' + config.hostname + ':' + config.port + '"')
+    }
   }
 });
 
