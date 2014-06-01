@@ -8,6 +8,7 @@
 
 require('newrelic');
 
+var os = require('os');
 var fs = require('fs');
 var path = require('path');
 var Loader = require('loader');
@@ -29,6 +30,8 @@ var compress = require('compression');
 
 var maxAge = 3600000 * 24 * 30;
 var staticDir = path.join(__dirname, 'public');
+var cmdProcess = require('child_process');
+
 
 // assets
 var assets = {};
@@ -106,9 +109,16 @@ passport.use(new GitHubStrategy(config.GITHUB_OAUTH, githubStrategyMiddleware));
 routes(app);
 
 app.listen(config.port, function () {
+  var osPlatform = os.platform()
   console.log("NodeClub listening on port %d in %s mode", config.port, app.settings.env);
   console.log("God bless love....");
+  console.log("Your current operating system is " + osPlatform);
   console.log("You can debug your app with http://" + config.hostname + ':' + config.port);
+  if (osPlatform === 'win32'){
+    cmdProcess.exec('explorer "http://' + config.hostname + ':' + config.port + '"')
+  } else {
+    cmdProcess.exec('open http://' + config.hostname + ':' + config.port)
+  }
 });
 
 

@@ -15,7 +15,7 @@ var config = {
   site_headers: [
     '<meta name="author" content="EDP@TAOBAO" />',
   ],
-  host: 'localhost.cnodejs.org',
+  host: 'localhost',
   // 默认的Google tracker ID，自有站点请修改，申请地址：http://www.google.com/analytics/
   google_tracker_id: 'UA-41753901-5',
   site_logo: '', // default is `name`
