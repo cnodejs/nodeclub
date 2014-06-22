@@ -14,7 +14,7 @@ var Topic = require('../proxy').Topic;
 var Tag = require('../proxy').Tag;
 var TopicTag = require('../proxy').TopicTag;
 var TopicCollect = require('../proxy').TopicCollect;
-
+var Relation = require('../proxy').Relation;
 var EventProxy = require('eventproxy');
 var Util = require('../libs/util');
 
@@ -32,12 +32,13 @@ exports.index = function (req, res, next) {
       error: '此话题不存在或已被删除。'
     });
   }
-  var events = ['topic', 'other_topics', 'no_reply_topics'];
-  var ep = EventProxy.create(events, function (topic, other_topics, no_reply_topics) {
+  var events = ['topic', 'other_topics', 'no_reply_topics', 'relation'];
+  var ep = EventProxy.create(events, function (topic, other_topics, no_reply_topics, relation) {
     res.render('topic/index', {
       topic: topic,
       author_other_topics: other_topics,
       no_reply_topics: no_reply_topics,
+      relation: relation
     });
   });
 
@@ -61,11 +62,13 @@ exports.index = function (req, res, next) {
 
     if (!req.session.user) {
       ep.emit('topic', topic);
+      ep.emit('relation', null);
     } else {
       TopicCollect.getTopicCollect(req.session.user._id, topic._id, ep.done(function (doc) {
         topic.in_collection = doc;
         ep.emit('topic', topic);
       }));
+      Relation.getRelation(req.session.user._id, author._id, ep.done('relation'));
     }
 
     // get author other topics
