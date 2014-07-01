@@ -55,6 +55,7 @@ app.use(require('response-time')());
 app.use(require('body-parser')({uploadDir: config.upload_dir}));
 app.use(require('method-override')());
 app.use(require('cookie-parser')(config.session_secret));
+app.use(compress());
 app.use(session({
   secret: config.session_secret,
   key: 'sid',
@@ -62,9 +63,6 @@ app.use(session({
     db: config.db_name
   })
 }));
-if (!config.debug) {
-  app.use(compress());
-}
 
 app.use(passport.initialize());
 
