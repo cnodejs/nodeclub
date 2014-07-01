@@ -150,7 +150,7 @@ exports.delete = function (req, res, next) {
 */
 exports.showEdit = function (req, res, next) {
   if (!req.session.user) {
-    res.redirect('home');
+    res.redirect('/');
     return;
   }
 
@@ -179,7 +179,7 @@ exports.showEdit = function (req, res, next) {
 */
 exports.update = function (req, res, next) {
   if (!req.session.user) {
-    res.redirect('home');
+    res.redirect('/');
     return;
   }
   var reply_id = req.params.reply_id;

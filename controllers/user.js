@@ -85,7 +85,7 @@ exports.show_stars = function (req, res, next) {
 
 exports.showSetting = function (req, res, next) {
   if (!req.session.user) {
-    res.redirect('home');
+    res.redirect('/');
     return;
   }
 
@@ -103,7 +103,7 @@ exports.showSetting = function (req, res, next) {
 
 exports.setting = function (req, res, next) {
   if (!req.session.user) {
-    res.redirect('home');
+    res.redirect('/');
     return;
   }
 

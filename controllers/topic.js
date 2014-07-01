@@ -158,7 +158,7 @@ exports.put = function (req, res, next) {
 
 exports.showEdit = function (req, res, next) {
   if (!req.session.user) {
-    res.redirect('home');
+    res.redirect('/');
     return;
   }
 
@@ -195,7 +195,7 @@ exports.showEdit = function (req, res, next) {
 
 exports.update = function (req, res, next) {
   if (!req.session.user) {
-    res.redirect('home');
+    res.redirect('/');
     return;
   }
   var topic_id = req.params.tid;
@@ -331,7 +331,7 @@ exports.delete = function (req, res, next) {
 
 exports.top = function (req, res, next) {
   if (!req.session.user.is_admin) {
-    res.redirect('home');
+    res.redirect('/');
     return;
   }
   var topic_id = req.params.tid;
