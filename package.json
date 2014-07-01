@@ -10,7 +10,7 @@
   "dependencies": {
     "body-parser": "^1.0.2",
     "compression": "^1.0.2",
-    "connect-mongo": "^0.4.0",
+    "connect-mongo": "0.4.0",
     "cookie-parser": "^1.0.1",
     "csurf": "^1.1.0",
     "data2xml": "0.8.0",
