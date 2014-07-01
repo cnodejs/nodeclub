@@ -14,7 +14,6 @@ var Loader = require('loader');
 var express = require('express');
 var session = require('express-session');
 var errorHandler = require('errorhandler');
-var ndir = require('ndir');
 var config = require('./config').config;
 var passport = require('passport');
 require('./models');
@@ -27,7 +26,6 @@ var _ = require('lodash');
 var csurf = require('csurf');
 var compress = require('compression');
 
-var maxAge = 3600000 * 24 * 30;
 var staticDir = path.join(__dirname, 'public');
 
 // assets
@@ -64,7 +62,9 @@ app.use(session({
     db: config.db_name
   })
 }));
-app.use(compress());
+if (!config.debug) {
+  app.use(compress());
+}
 
 app.use(passport.initialize());
 

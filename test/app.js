@@ -4,7 +4,7 @@ var app = require('../app');
 describe('app.js', function () {
   it('should / status 200', function (done) {
     request(app).get('/').end(function (err, res) {
-      res.should.status(200);
+      res.status.should.equal(200);
       done();
     });
   });

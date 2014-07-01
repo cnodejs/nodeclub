@@ -18,12 +18,12 @@ describe('test/controllers/rss.test.js', function() {
   describe('/rss', function() {
     it('should return `application/xml` Content-Type', function(done) {
       request(app).get('/rss').end(function(err, res) {
-        res.should.status(200);
-        res.should.header('content-type', 'application/xml');
+        res.status.should.equal(200);
+        res.headers.should.property('content-type', 'application/xml');
         var body = res.text;
         body.indexOf('<?xml version="1.0" encoding="utf-8"?>').should.equal(0);
-        body.should.include('<rss version="2.0">');
-        body.should.include('<channel><title>' + config.rss.title + '</title>');
+        body.should.containEql('<rss version="2.0">');
+        body.should.containEql('<channel><title>' + config.rss.title + '</title>');
         done(err);
       });
     });
@@ -39,7 +39,7 @@ describe('test/controllers/rss.test.js', function() {
 
       it('should return waring message', function(done) {
         request(app).get('/rss').end(function(err, res) {
-          res.should.status(404);
+          res.status.should.equal(404);
           res.text.should.equal('Please set `rss` in config.js');
           done(err);
         });
@@ -63,8 +63,8 @@ describe('test/controllers/rss.test.js', function() {
 
       it('should return error', function(done) {
         request(app).get('/rss').end(function(err, res) {
-          res.should.status(500);
-          res.text.should.include('mock getTopicsByQuery() error');
+          res.status.should.equal(500);
+          res.text.should.containEql('mock getTopicsByQuery() error');
           done(err);
         });
       });

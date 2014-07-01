@@ -18,8 +18,8 @@ describe('test/controllers/site.test.js', function () {
 
   it('should /index 200', function (done) {
     request.get('/').end(function (err, res) {
-      res.should.status(200);
-      res.text.should.include('当前话题');
+      res.status.should.equal(200);
+      res.text.should.containEql('当前话题');
       done(err);
     });
   });

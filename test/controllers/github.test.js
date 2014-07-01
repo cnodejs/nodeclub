@@ -73,7 +73,7 @@ describe('test/controllers/github.test.js', function () {
           if (err) {
             return done(err);
           }
-          res.text.should.include('/auth/github/create');
+          res.text.should.containEql('/auth/github/create');
           done();
         });
     });
