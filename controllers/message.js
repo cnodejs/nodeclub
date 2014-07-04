@@ -19,6 +19,9 @@ exports.index = function (req, res, next) {
       var epfill = new eventproxy();
       epfill.fail(next);
       epfill.after('message_ready', msgs.length, function (docs) {
+        docs.filter(function (doc) {
+          return !doc.is_invalid;
+        });
         ep.emit(idx === 0 ? 'has_read_messages' : 'hasnot_read_messages', docs);
       });
       msgs.forEach(function (doc) {
