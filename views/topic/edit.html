@@ -41,14 +41,14 @@
                 ><%= typeof(content) !== 'undefined' && content || '' %></textarea>
               <div class='editor_buttons'>
                 <button class='btn action_preview'>预览</button>
-                <button id='submit_btn' type="submit" class='btn btn-primary'>提交</button>
+                <button id='submit_btn' type="submit" class='btn btn-primary' data-loading-text="提交中">提交</button>
               </div>
             </div>
             <div class='markdown_in_preview'>
               <div class='preview'></div>
               <div class='editor_buttons'>
                 <button class='btn action_modify'>修改</button>
-                <button id='submit_btn' type="submit" class='btn btn-primary'>提交</button>
+                <button id='submit_btn' type="submit" class='btn btn-primary' data-loading-text="提交中">提交</button>
               </div>
             </div>
           </div>
@@ -70,19 +70,8 @@
 %>
 <script>
 $(function () {
-  $('body').on('click', '.tag_selectable', function(event){
-    $(event.currentTarget).toggleClass('tag_select');
-  });
-
-  $('#submit_btn').click(function(){
-    var values=[];
-    $('.tag_selectable').each(function(){
-      if($(this).hasClass('tag_select')){
-        values.push($(this).attr('tag_id'));
-      }
-    });
-    $('#topic_tags').val(values);
-    $('#create_topic_form').submit();
+  $('#submit_btn').click(function () {
+    $(this).button('loading');
   });
 });
 </script>
