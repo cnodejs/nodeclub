@@ -35,6 +35,7 @@ setInterval(function () {
 
 exports.index = function (req, res, next) {
   var page = parseInt(req.query.page, 10) || 1;
+  page = page > 0 ? page : 1;
   var limit = config.list_topic_count;
 
   var proxy = EventProxy.create('topics', 'tops', 'no_reply_topics', 'pages',

@@ -16,8 +16,16 @@ var request = require('supertest')(app);
 
 describe('test/controllers/site.test.js', function () {
 
-  it('should /index 200', function (done) {
+  it('should / 200', function (done) {
     request.get('/').end(function (err, res) {
+      res.status.should.equal(200);
+      res.text.should.containEql('当前话题');
+      done(err);
+    });
+  });
+
+  it('should /?page=-1 200', function (done) {
+    request.get('/?page=-1').end(function (err, res) {
       res.status.should.equal(200);
       res.text.should.containEql('当前话题');
       done(err);
