@@ -24,6 +24,7 @@ var MongoStore = require('connect-mongo')(session);
 var _ = require('lodash');
 var csurf = require('csurf');
 var compress = require('compression');
+var bodyParser = require('body-parser');
 
 var staticDir = path.join(__dirname, 'public');
 
@@ -51,7 +52,10 @@ app.engine('html', require('ejs-mate'));
 app.locals._layoutFile = 'layout.html';
 
 app.use(require('response-time')());
-app.use(require('body-parser')({uploadDir: config.upload_dir}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(require('method-override')());
 app.use(require('cookie-parser')(config.session_secret));
 app.use(compress());
@@ -60,7 +64,9 @@ app.use(session({
   key: 'sid',
   store: new MongoStore({
     db: config.db_name
-  })
+  }),
+  resave: true,
+  saveUninitialized: true,
 }));
 
 app.use(passport.initialize());
