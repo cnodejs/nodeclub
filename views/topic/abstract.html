@@ -29,7 +29,7 @@
   <% } %>
 
   <div class="topic_title_wrapper">
-    <a class='topic_title' href='/topic/<%= topic._id %>'>
+    <a class='topic_title' href='/topic/<%= topic._id %>' title='<%= topic.title %>'>
       <% if (topic.top) { %>
         <span class='put_top'>置顶</span>
       <% } %>
