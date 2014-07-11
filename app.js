@@ -6,7 +6,7 @@
  * Module dependencies.
  */
 
-require('newrelic');
+// require('newrelic');
 
 var path = require('path');
 var Loader = require('loader');
