@@ -23,6 +23,7 @@
     "loader": "0.1.2",
     "lodash": "^2.4.1",
     "marked": "~0.3.2",
+    "memory-cache": "0.0.5",
     "method-override": "^1.0.0",
     "mongoose": "~2.8.0",
     "ndir": "0.1.3",

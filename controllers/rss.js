@@ -2,11 +2,7 @@ var config = require('../config').config;
 var convert = require('data2xml')();
 var markdown = require('node-markdown').Markdown;
 var Topic = require('../proxy').Topic;
-
-var rssCache;
-setInterval(function () {
-  rssCache = null;
-}, 1000 * 60 * 5); // 五分钟清理一次
+var mcache = require('memory-cache');
 
 exports.index = function (req, res, next) {
   if (!config.rss) {
@@ -14,8 +10,8 @@ exports.index = function (req, res, next) {
     return res.send('Please set `rss` in config.js');
   }
   res.contentType('application/xml');
-  if (!config.debug && rssCache) {
-    res.send(rssCache);
+  if (!config.debug && mcache.get('rss')) {
+    res.send(mcache.get('rss'));
   } else {
     var opt = { limit: config.rss.max_rss_items, sort: [ [ 'create_at', 'desc' ] ] };
     Topic.getTopicsByQuery({}, opt, function (err, topics) {
@@ -44,10 +40,10 @@ exports.index = function (req, res, next) {
         });
       });
 
-      var rss_content = convert('rss', rss_obj);
+      var rssContent = convert('rss', rss_obj);
 
-      rssCache = rss_content;
-      res.send(rss_content);
+      mcache.put('rss', rssContent, 1000 * 60 * 5); // 五分钟
+      res.send(rssContent);
     });
   }
 };
