@@ -156,27 +156,6 @@ exports.setting = function (req, res, next) {
       github = github.slice(1);
     }
 
-    if (url !== '') {
-      try {
-        if ((url.indexOf('http://') < 0) && (url.indexOf('https://') < 0)) {
-          url = 'http://' + url;
-        }
-        check(url, '不正确的个人网站。').isUrl();
-      } catch (e) {
-        return showMessage(e.message);
-      }
-    }
-    if (weibo) {
-      try {
-        if (weibo.indexOf('http://') < 0) {
-          weibo = 'http://' + weibo;
-        }
-        check(weibo, '不正确的微博地址。').isUrl();
-      } catch (e) {
-        return showMessage(e.message);
-      }
-    }
-
     User.getUserById(req.session.user._id, function (err, user) {
       if (err) {
         return next(err);
