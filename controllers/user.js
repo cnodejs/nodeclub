@@ -181,6 +181,9 @@ exports.setting = function (req, res, next) {
   if (action === 'change_password') {
     var old_pass = sanitize(req.body.old_pass).trim();
     var new_pass = sanitize(req.body.new_pass).trim();
+    if (!old_pass || !new_pass) {
+      return res.send('旧密码或新密码不得为空');
+    }
 
     User.getUserById(req.session.user._id, function (err, user) {
       if (err) {
