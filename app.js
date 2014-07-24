@@ -77,11 +77,16 @@ app.use(auth.blockUser());
 
 app.use(Loader.less(__dirname));
 app.use('/public', express.static(staticDir));
-app.use(errorHandler({ dumpExceptions: true, showStack: true }));
+
 if (!config.debug) {
   app.use(csurf());
   app.set('view cache', true);
 }
+
+// for debug
+// app.get('/err', function (req, res, next) {
+//   next(new Error('haha'))
+// });
 
 // set static, dynamic helpers
 _.extend(app.locals, {
@@ -107,6 +112,11 @@ passport.use(new GitHubStrategy(config.GITHUB_OAUTH, githubStrategyMiddleware));
 
 // routes
 routes(app);
+
+// error handler
+app.use(function (err, req, res, next) {
+  return res.send(500, err.message);
+});
 
 app.listen(config.port, function () {
   console.log("NodeClub listening on port %d in %s mode", config.port, app.settings.env);
