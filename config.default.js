@@ -57,21 +57,17 @@ var config = {
   // site links
   site_links: [
     {
-      'text': 'Node 官方网站',
-      'url': 'http://nodejs.org/'
+      'text': 'Node.js 官网',
+      'url': 'http://nodejs.org/',
     },
     {
-      'text': 'Node Party',
-      'url': 'http://party.cnodejs.net/'
+      text: 'Ruby-China',
+      url: 'https://ruby-china.org/',
     },
     {
-      'text': 'Node 入门',
-      'url': 'http://nodebeginner.org/index-zh-cn.html'
+      text: 'Golang中国',
+      url: 'http://golangtc.com/',
     },
-    {
-      'text': 'Node 中文文档',
-      'url': 'http://docs.cnodejs.net/cman/'
-    }
   ],
 
   // sidebar ads

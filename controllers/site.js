@@ -41,7 +41,8 @@ exports.index = function (req, res, next) {
         list_topic_count: limit,
         tops: tops,
         no_reply_topics: no_reply_topics,
-        pages: pages
+        pages: pages,
+        site_links: config.site_links,
       });
     });
   proxy.fail(next);
