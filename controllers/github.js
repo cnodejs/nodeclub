@@ -54,8 +54,7 @@ exports.create = function (req, res, next) {
         if (err.err.indexOf('duplicate key error') !== -1) {
           if (err.err.indexOf('users.$email') !== -1) {
             return res.status(500)
-              .send('您 GitHub 账号的 Email 与之前在 CNodejs 注册的 Email 重复了，\
-也可能是您的 GitHub 没有提供公开的 Profile Email 导致注册失败。请访问：https://github.com/settings/profile。');
+              .render('sign/no_github_email');
           }
           if (err.err.indexOf('users.$loginname') !== -1) {
             return res.status(500)
