@@ -174,10 +174,13 @@
       var editorWrap = parent.find('.reply2_form');
       parent.find('.reply2_area').prepend(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
-      textarea.val('');
+      var user = $btn.closest('.author_content').find('.reply_author').text().trim();
 
       editorWrap.show('fast', function() {
         textarea.focus();
+        if (textarea.val().indexOf('@' + user) < 0) {
+          textarea.val('@' + user + ' ');
+        }
       });
     });
 
@@ -186,7 +189,7 @@
       var editorWrap = $btn.closest('.reply2_area').find('.reply2_form');
       $btn.closest('.reply2_item').after(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
-      var user = $btn.closest('.reply2_item').find('.reply_author').html().trim();
+      var user = $btn.closest('.reply2_item').find('.reply_author').text().trim();
 
       editorWrap.show('fast', function() {
         textarea.focus();

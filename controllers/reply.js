@@ -101,17 +101,6 @@ exports.add_reply2 = function (req, res, next) {
       at.sendMessageToMentionUsers(content, topic_id, req.session.user._id, reply._id);
     });
   });
-
-  // 将回复信息发送通知到相关人
-  // Reply.getReply(reply_id, function (err, reply) {
-  //   if (err) {
-  //     return next(err);
-  //   }
-  //   if (reply && reply.author_id.toString() !== req.session.user._id.toString()) {
-  //     message.sendReply2Message(reply.author_id, req.session.user._id, topic_id, reply._id);
-  //   }
-  //   proxy.emit('message_saved');
-  // });
 };
 
 /**
