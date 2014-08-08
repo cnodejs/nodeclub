@@ -16,11 +16,7 @@ exports.postInterval = function (req, res, next) {
   }
   if (Date.now() - req.session.lastPostTimestamp < POST_INTERVAL) {
     var ERROR_MSG = '您的回复速度太快。';
-    if (req.accepts('json')) {
-      res.json({error: ERROR_MSG});
-    } else {
-      res.render('notify/notify', {error: ERROR_MSG});
-    }
+    res.render('notify/notify', {error: ERROR_MSG});
     return;
   }
 
