@@ -61,10 +61,13 @@ module.exports = function (app) {
   app.get('/my/messages', message.index);
   app.get('/user/:name/follower', user.get_followers);
   app.get('/user/:name/following', user.get_followings);
+  app.get('/user/:name/blocking', user.get_blockings);
   app.get('/user/:name/topics', user.list_topics);
   app.get('/user/:name/replies', user.list_replies);
   app.post('/user/follow', auth.userRequired, user.follow);
   app.post('/user/un_follow', user.un_follow);
+  app.post('/user/user_block', auth.userRequired, user.user_block);
+  app.post('/user/user_unblock', user.user_unblock);
   app.post('/user/set_star', user.toggle_star);
   app.post('/user/cancel_star', user.toggle_star);
   app.post('/user/:name/block', auth.adminRequired, user.block);
