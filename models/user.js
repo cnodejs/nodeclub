@@ -24,6 +24,7 @@ var UserSchema = new Schema({
   reply_count: { type: Number, default: 0 },
   follower_count: { type: Number, default: 0 },
   following_count: { type: Number, default: 0 },
+  blocking_count: { type: Number, default: 0 },
   collect_tag_count: { type: Number, default: 0 },
   collect_topic_count: { type: Number, default: 0 },
   create_at: { type: Date, default: Date.now },

@@ -12,13 +12,6 @@
 			<div class='user_big_avatar'>
 				<img src="<%= user.avatar_url %>" class="user_avatar" title="<%= user.name %>" />
 			</div>
-			<% if (typeof(current_user) !== 'undefined' && current_user._id != user._id) { %>
-				<% if (typeof(relation) === 'undefined' || !relation) { %>
-				<button class='btn btn-success follow_btn' action='follow'>加入关注</button>
-				<% } else { %>
-				<button class='btn follow_btn' action='un_follow'>取消关注</button>
-				<% } %>
-			<% } %>
 			<a class='dark'><%= user.name %></a>
 			<div class='col_fade'>
 				<span>

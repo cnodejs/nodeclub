@@ -41,7 +41,7 @@ exports.index = function (req, res, next) {
         recent_topics: recent_topics,
         recent_replies: recent_replies,
         relation: relation,
-        token: token,
+        token: token
       });
     };
 
@@ -208,7 +208,7 @@ exports.setting = function (req, res, next) {
 };
 
 exports.follow = function (req, res, next) {
-  var follow_id = req.body.follow_id;
+  var follow_id = req.body.target_id;
   User.getUserById(follow_id, function (err, user) {
     if (err) {
       return next(err);
@@ -221,13 +221,13 @@ exports.follow = function (req, res, next) {
       res.json({status: 'success'});
     });
     proxy.fail(next);
-    Relation.getRelation(req.session.user._id, user._id, proxy.done(function (doc) {
+    Relation.getFollowRelation(req.session.user._id, user._id, proxy.done(function (doc) {
       if (doc) {
         return proxy.emit('relation_saved');
       }
 
       // 新建关系并保存
-      Relation.newAndSave(req.session.user._id, user._id);
+      Relation.newAndSaveFollowRelation(req.session.user._id, user._id);
       proxy.emit('relation_saved');
 
       User.getUserById(req.session.user._id, proxy.done(function (me) {
@@ -251,7 +251,7 @@ exports.un_follow = function (req, res, next) {
     res.send('forbidden!');
     return;
   }
-  var follow_id = req.body.follow_id;
+  var follow_id = req.body.target_id;
   User.getUserById(follow_id, function (err, user) {
     if (err) {
       return next(err);
@@ -288,6 +288,82 @@ exports.un_follow = function (req, res, next) {
     req.session.user.following_count -= 1;
     if (req.session.user.following_count < 0) {
       req.session.user.following_count = 0;
+    }
+  });
+};
+
+exports.user_block = function (req, res, next) {
+  var block_id = req.body.target_id;
+  User.getUserById(block_id, function (err, user) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      res.json({status: 'failed'});
+    }
+
+    var proxy = EventProxy.create('relation_saved', 'message_saved', function () {
+      res.json({status: 'success'});
+    });
+    proxy.fail(next);
+    Relation.getBlockRelation(req.session.user._id, user._id, proxy.done(function (doc) {
+      if (doc) {
+        return proxy.emit('relation_saved');
+      }
+
+      // 新建关系并保存
+      Relation.newAndSaveBlockRelation(req.session.user._id, user._id);
+      proxy.emit('relation_saved');
+
+      User.getUserById(req.session.user._id, proxy.done(function (me) {
+        me.blocking_count += 1;
+        me.save();
+      }));
+
+      req.session.user.blocking_count += 1;
+    }));
+
+    message.sendBlockMessage(block_id, req.session.user._id);
+    proxy.emit('message_saved');
+  });
+};
+
+exports.user_unblock = function (req, res, next) {
+  if (!req.session || !req.session.user) {
+    res.send('forbidden!');
+    return;
+  }
+  var block_id = req.body.target_id;
+  User.getUserById(block_id, function (err, user) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      res.json({status: 'failed'});
+      return;
+    }
+    // 删除关系
+    Relation.remove(req.session.user._id, user._id, function (err) {
+      if (err) {
+        return next(err);
+      }
+      res.json({status: 'success'});
+    });
+
+    User.getUserById(req.session.user._id, function (err, me) {
+      if (err) {
+        return next(err);
+      }
+      me.blocking_count -= 1;
+      if (me.blocking_count < 0) {
+        me.blocking_count = 0;
+      }
+      me.save();
+    });
+
+    req.session.user.blocking_count -= 1;
+    if (req.session.user.blocking_count < 0) {
+      req.session.user.blocking_count = 0;
     }
   });
 };
@@ -410,7 +486,7 @@ exports.get_followers = function (req, res, next) {
     }
     var proxy = new EventProxy();
     proxy.fail(next);
-    Relation.getRelationsByUserId(user._id, proxy.done(function (docs) {
+    Relation.getFollowers(user._id, proxy.done(function (docs) {
       var ids = [];
       for (var i = 0; i < docs.length; i++) {
         ids.push(docs[i].user_id);
@@ -419,6 +495,30 @@ exports.get_followers = function (req, res, next) {
         res.render('user/followers', {users: users, user: user});
       }));
     }));
+  });
+};
+
+exports.get_blockings = function (req, res, next) {
+  var name = req.params.name;
+  User.getUserByName(name, function (err, user) {
+    if (err || !user) {
+      return next(err);
+    }
+    Relation.getBlockings(user._id, function (err, docs) {
+      if (err) {
+        return next(err);
+      }
+      var ids = [];
+      for (var i = 0; i < docs.length; i++) {
+        ids.push(docs[i].block_id);
+      }
+      User.getUsersByIds(ids, function (err, users) {
+        if (err) {
+          return next(err);
+        }
+        res.render('user/blockings', { users: users, user: user });
+      });
+    });
   });
 };
 

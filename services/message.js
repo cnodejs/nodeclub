@@ -83,3 +83,7 @@ exports.sendFollowMessage = function (follow_id, author_id) {
   message.author_id = author_id;
   message.save();
 };
+
+exports.sendBlockMessage = function (block_id, author_id) {
+  // 暂不发送屏蔽消息
+};

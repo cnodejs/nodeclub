@@ -5,6 +5,7 @@ var ObjectId = Schema.ObjectId;
 var RelationSchema = new Schema({
   user_id: { type: ObjectId },
   follow_id: { type: ObjectId },
+  block_id: { type: ObjectId },
   create_at: { type: Date, default: Date.now }
 });
 
