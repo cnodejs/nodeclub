@@ -1,7 +1,7 @@
 var sign = require('./sign');
-var crypto = require('crypto');
 var Models = require('../models');
 var User = Models.User;
+var utility = require('utility');
 
 exports.callback = function (req, res, next) {
   var profile = req.user;
@@ -9,6 +9,7 @@ exports.callback = function (req, res, next) {
     if (err) {
       return next(err);
     }
+    // 当用户已经是 cnode 用户时，通过 github 登陆将会更新他的资料
     if (user) {
       user.name = profile.username;
       user.githubUsername = profile.username;
@@ -23,6 +24,7 @@ exports.callback = function (req, res, next) {
         return res.redirect('/');
       });
     } else {
+      // 如果用户还未存在，则建立新用户
       req.session.profile = profile;
       return res.redirect('/auth/github/new');
     }
@@ -68,7 +70,7 @@ exports.create = function (req, res, next) {
     });
   } else { // 关联老账号
     req.body.name = req.body.name.toLowerCase();
-    User.findOne({loginname: req.body.name, pass: md5(req.body.pass)},
+    User.findOne({loginname: req.body.name, pass: utility.md5(req.body.pass)},
       function (err, user) {
         if (err) {
           return next(err);
@@ -87,10 +89,3 @@ exports.create = function (req, res, next) {
       });
   }
 };
-
-function md5(str) {
-  var md5sum = crypto.createHash('md5');
-  md5sum.update(str);
-  str = md5sum.digest('hex');
-  return str;
-}

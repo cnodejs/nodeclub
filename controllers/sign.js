@@ -65,8 +65,8 @@ exports.signup = function (req, res, next) {
 
     // md5 the pass
     pass = md5(pass);
-    // create gavatar
-    var avatar_url = 'http://www.gravatar.com/avatar/' + md5(email.toLowerCase()) + '?size=48';
+    // create gravatar
+    var avatar_url = User.makeGravatar(email);
 
     User.newAndSave(name, loginname, pass, email, avatar_url, false, function (err) {
       if (err) {
@@ -267,17 +267,6 @@ exports.update_pass = function (req, res, next) {
   });
 };
 
-function getAvatarURL(user) {
-  if (user.avatar_url) {
-    return user.avatar_url;
-  }
-  var avatar_url = user.profile_image_url || user.avatar;
-  if (!avatar_url) {
-    avatar_url = config.site_static_host + '/public/images/user_icon&48.png';
-  }
-  return avatar_url;
-}
-
 // auth_user middleware
 exports.auth_user = function (req, res, next) {
   if (req.session.user) {
@@ -289,9 +278,6 @@ exports.auth_user = function (req, res, next) {
         return next(err);
       }
       req.session.user.messages_count = count;
-      if (!req.session.user.avatar_url) {
-        req.session.user.avatar_url = getAvatarURL(req.session.user);
-      }
       res.locals.current_user = req.session.user;
       return next();
     });

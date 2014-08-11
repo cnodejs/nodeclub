@@ -114,7 +114,6 @@ exports.setting = function (req, res, next) {
       name: data.name,
       email: data.email,
       url: data.url,
-      profile_image_url: data.profile_image_url,
       location: data.location,
       signature: data.signature,
       profile: data.profile,
@@ -138,10 +137,6 @@ exports.setting = function (req, res, next) {
     email = sanitize(email).xss();
     var url = sanitize(req.body.url).trim();
     url = sanitize(url).xss();
-    var profile_image_url = null;
-    if (typeof req.body.profile_image_url === 'string') {
-      profile_image_url = sanitize(sanitize(req.body.profile_image_url).trim()).xss();
-    }
     var location = sanitize(req.body.location).trim();
     location = sanitize(location).xss();
     var signature = sanitize(req.body.signature).trim();
@@ -161,13 +156,12 @@ exports.setting = function (req, res, next) {
         return next(err);
       }
       user.url = url;
-      if (typeof profile_image_url === 'string') {
-        user.profile_image_url = profile_image_url;
-      }
       user.location = location;
       user.signature = signature;
       user.profile = profile;
       user.weibo = weibo;
+      // create gravatar
+      user.avatar = User.makeGravatar(user.email);
       user.githubUsername = github;
       user.save(function (err) {
         if (err) {
