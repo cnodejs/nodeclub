@@ -212,11 +212,9 @@
           if (action == 'collect') {
             $me.text('取消收藏');
             $me.attr('action','de_collect');
-            $countSpan.text(~~$countSpan.text() + 1);
           } else {
             $me.text('加入收藏');
             $me.attr('action','collect');
-            $countSpan.text(~~$countSpan.text() - 1);
           }
           $me.toggleClass('span-success');
         }
