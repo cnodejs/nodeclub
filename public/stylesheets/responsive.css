@@ -94,7 +94,12 @@
 		text-align: left;
 		line-height: 2em;
 		font-size: 10px;
-}
+  }
+	#content .reply_content{
+    clear: both;
+    padding-left: 0;
+    padding-top: 5px;
+  }
 	.topic_title_wrapper{
 		padding-left: 40px;
 	}
