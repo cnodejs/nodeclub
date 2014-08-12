@@ -24,7 +24,7 @@ $('.action_preview').click(function (event) {
   $editor.find('.preview').html(html);
   prettyPrint();
 });
-$('.action_modify').click(function () {
+$('.action_modify').click(function (event) {
   event.preventDefault()
   var $editor = $(this).parents('.markdown_editor');
   $editor.removeClass('in_preview').addClass('in_editor');
