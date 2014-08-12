@@ -278,7 +278,7 @@ exports.auth_user = function (req, res, next) {
       return next();
     }
     res.locals.current_user = req.session.user = user;
-    req.session.user.avatar_url = User.makeGravatar(user.email);
+    req.session.user.avatar_url = User.getGravatar(user.email);
 
     if (config.admins.hasOwnProperty(user.name)) {
       user.is_admin = true;

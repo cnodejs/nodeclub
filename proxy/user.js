@@ -114,6 +114,11 @@ exports.newAndSave = function (name, loginname, pass, email, avatar_url, active,
   user.save(callback);
 };
 
-exports.makeGravatar = function (email) {
+var makeGravatar = function (email) {
   return 'http://www.gravatar.com/avatar/' + utility.md5(email.toLowerCase()) + '?size=48';
+};
+exports.makeGravatar = makeGravatar;
+
+exports.getGravatar = function (user) {
+  return user.avatar || makeGravatar(user.email);
 };
