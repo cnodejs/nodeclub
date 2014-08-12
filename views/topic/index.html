@@ -110,9 +110,9 @@
           >分享到微博</span>
         <% if (typeof(current_user) !== 'undefined') { %>
           <% if (!topic.in_collection) { %>
-          <span class='span-success' id='collect_btn' action='collect'>加入收藏</span>
+          <span class='span-common span-success' id='collect_btn' action='collect'>加入收藏</span>
           <% } else { %>
-          <span class='span-success' id='collect_btn' action='de_collect'>取消收藏</span>
+          <span class='span-common span-success' id='collect_btn' action='de_collect'>取消收藏</span>
           <% } %>
         <% } %>
       </div>
@@ -206,16 +206,19 @@
         topic_id: '<%= topic._id %>',
         _csrf: '<%= csrf %>'
       };
+      var $countSpan = $('.collect-topic-count');
       $.post('/topic/' + action, data, function(data) {
         if (data.status === 'success') {
           if (action == 'collect') {
-            $me.html('取消收藏');
+            $me.text('取消收藏');
             $me.attr('action','de_collect');
+            $countSpan.text(~~$countSpan.text() + 1);
           } else {
-            $me.html('加入收藏');
+            $me.text('加入收藏');
             $me.attr('action','collect');
+            $countSpan.text(~~$countSpan.text() - 1);
           }
-          $me.toggleClass('btn-success');
+          $me.toggleClass('span-success');
         }
       }, 'json');
     });

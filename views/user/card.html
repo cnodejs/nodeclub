@@ -8,16 +8,16 @@
 		<% if (typeof(current_user) !== 'undefined' && current_user._id != user._id) { %>
             <div class="board clearfix">
 			<% if (typeof(relation) === 'undefined' || !relation) { %>
-				<button class='btn btn-success follow_btn' action='follow'>加入关注</button>
+				<span class='span-success follow_btn' action='follow'>加入关注</span>
 			<% } else { %>
-				<button class='btn follow_btn' action='un_follow'>取消关注</button>
+				<span class='span-common follow_btn' action='un_follow'>取消关注</span>
 			<% } %>
             </div>
 		<% } %>
 
 		<div class='board clearfix'>
 			<div class='floor'>
-				<a href='/user/<%= user.name %>/collections'><span class='big'><%= user.collect_topic_count %></span> 话题收藏</a>
+				<a href='/user/<%= user.name %>/collections'><span class='big collect-topic-count'><%= user.collect_topic_count %></span> 话题收藏</a>
 			</div>
 			<div class='floor'>
 				<a href='/user/<%= user.name %>/following'><span class='big'><%= user.following_count %></span> 关注</a>
