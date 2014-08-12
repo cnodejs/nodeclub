@@ -23,7 +23,9 @@ exports.list_topic = function (req, res, next) {
     }
     var done = function (topic_ids, collection, hot_topics, no_reply_topics, pages) {
       var query = {'_id': {'$in': topic_ids}};
-      var opt = {skip: (page - 1) * limit, limit: limit, sort: [['create_at', 'desc']]};
+      var opt = {skip: (page - 1) * limit, limit: limit, sort: [
+        ['create_at', 'desc']
+      ]};
 
       Topic.getTopicsByQuery(query, opt, function (err, topics) {
         for (var i = 0; i < topics.length; i++) {
@@ -74,10 +76,14 @@ exports.list_topic = function (req, res, next) {
       TagCollect.getTagCollect(req.session.user._id, tag._id, proxy.done('collection'));
     }
 
-    var opt = {limit: 5, sort: [['visit_count', 'desc']]};
+    var opt = {limit: 5, sort: [
+      ['visit_count', 'desc']
+    ]};
     Topic.getTopicsByQuery({}, opt, proxy.done('hot_topics'));
 
-    opt = {limit: 5, sort: [['create_at', 'desc']]};
+    opt = {limit: 5, sort: [
+      ['create_at', 'desc']
+    ]};
     Topic.getTopicsByQuery({reply_count: 0}, opt, proxy.done('no_reply_topics'));
   });
 };

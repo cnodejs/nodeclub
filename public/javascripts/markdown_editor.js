@@ -1,9 +1,9 @@
 // configure marked
 var renderer = new marked.Renderer()
-renderer.code = function(code, lang) {
+renderer.code = function (code, lang) {
   var ret = '<pre class="prettyprint language-' + lang + '">'
-  ret+= '<code>' + code.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code>'
-  ret+= '</pre>'
+  ret += '<code>' + code.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code>'
+  ret += '</pre>'
   return ret
 }
 marked.setOptions({
@@ -15,7 +15,7 @@ marked.setOptions({
   sanitize: false,
   smartLists: true
 });
-$('.action_preview').click(function(event) {
+$('.action_preview').click(function (event) {
   event.preventDefault()
   var $editor = $(this).parents('.markdown_editor');
   $editor.removeClass('in_editor').addClass('in_preview');
@@ -24,7 +24,7 @@ $('.action_preview').click(function(event) {
   $editor.find('.preview').html(html);
   prettyPrint();
 });
-$('.action_modify').click(function() {
+$('.action_modify').click(function () {
   event.preventDefault()
   var $editor = $(this).parents('.markdown_editor');
   $editor.removeClass('in_preview').addClass('in_editor');

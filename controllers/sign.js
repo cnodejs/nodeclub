@@ -55,7 +55,10 @@ exports.signup = function (req, res, next) {
     return;
   }
 
-  User.getUsersByQuery({'$or': [{'loginname': loginname}, {'email': email}]}, {}, function (err, users) {
+  User.getUsersByQuery({'$or': [
+    {'loginname': loginname},
+    {'email': email}
+  ]}, {}, function (err, users) {
     if (err) {
       return next(err);
     }
@@ -234,9 +237,9 @@ exports.reset_pass = function (req, res, next) {
     var now = new Date().getTime();
     var oneDay = 1000 * 60 * 60 * 24;
     if (!user.retrieve_time || now - user.retrieve_time > oneDay) {
-      return res.render('notify/notify', {error : '该链接已过期，请重新申请。'});
+      return res.render('notify/notify', {error: '该链接已过期，请重新申请。'});
     }
-    return res.render('sign/reset', {name : name, key : key});
+    return res.render('sign/reset', {name: name, key: key});
   });
 };
 
@@ -246,14 +249,14 @@ exports.update_pass = function (req, res, next) {
   var key = req.body.key || '';
   var name = req.body.name || '';
   if (psw !== repsw) {
-    return res.render('sign/reset', {name : name, key : key, error : '两次密码输入不一致。'});
+    return res.render('sign/reset', {name: name, key: key, error: '两次密码输入不一致。'});
   }
   User.getUserByQuery(name, key, function (err, user) {
     if (err) {
       return next(err);
     }
     if (!user) {
-      return res.render('notify/notify', {error : '错误的激活链接'});
+      return res.render('notify/notify', {error: '错误的激活链接'});
     }
     user.pass = md5(psw);
     user.retrieve_key = null;

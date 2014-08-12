@@ -25,7 +25,9 @@ exports.getTagsByIds = function (ids, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getAllTags = function (callback) {
-  Tag.find({}, [], {sort: [['order', 'asc']]}, callback);
+  Tag.find({}, [], {sort: [
+    ['order', 'asc']
+  ]}, callback);
 };
 
 /**

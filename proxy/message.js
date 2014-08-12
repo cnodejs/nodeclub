@@ -73,7 +73,9 @@ exports.getMessageById = function (id, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getReadMessagesByUserId = function (userId, callback) {
-  Message.find({master_id: userId, has_read: true}, null, {sort: [['create_at', 'desc']], limit: 20}, callback);
+  Message.find({master_id: userId, has_read: true}, null, {sort: [
+    ['create_at', 'desc']
+  ], limit: 20}, callback);
 };
 
 /**
@@ -85,5 +87,7 @@ exports.getReadMessagesByUserId = function (userId, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getUnreadMessageByUserId = function (userId, callback) {
-  Message.find({master_id: userId, has_read: false}, null, {sort: [['create_at', 'desc']]}, callback);
+  Message.find({master_id: userId, has_read: false}, null, {sort: [
+    ['create_at', 'desc']
+  ]}, callback);
 };

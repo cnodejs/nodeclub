@@ -9,7 +9,7 @@ var rewire = require("rewire");
 fs.existsSync = fs.existsSync || path.existsSync;
 
 describe('controllers/upload.js', function () {
-  
+
   describe('uploadImage()', function () {
 
     var mockRequest;
@@ -61,7 +61,7 @@ describe('controllers/upload.js', function () {
       ndir.mkdir(tmpdirpath, function (err) {
         fs.writeFileSync(tmpFile, fs.readFileSync(path.join(__dirname, '../fixtures', 'logo.png')));
         done(err);
-      });      
+      });
     });
 
     after(function (done) {
@@ -134,7 +134,7 @@ describe('controllers/upload.js', function () {
           }
         }
       });
-      
+
       upload2.uploadImage(mockLoginedRequest, {
         send: function (data) {
           throw new Error('should not call this method');
@@ -157,7 +157,7 @@ describe('controllers/upload.js', function () {
           }
         }
       });
-      
+
       upload3.uploadImage(mockLoginedRequest, {
         send: function (data) {
           throw new Error('should not call this method');

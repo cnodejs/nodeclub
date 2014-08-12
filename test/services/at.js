@@ -84,18 +84,18 @@ describe('services/at.js', function () {
   describe('sendMessageToMentionUsers()', function () {
     it('should send message to all mention users', function (done) {
       at.sendMessageToMentionUsers(text, '4fb9db9c1dc2160000000005', '4fcae41e1eb86c0000000003',
-      function (err) {
-        should.not.exist(err);
-        done();
-      });
+        function (err) {
+          should.not.exist(err);
+          done();
+        });
     });
 
     it('should not send message to no mention users', function (done) {
       at.sendMessageToMentionUsers('abc no mentions', '4fb9db9c1dc2160000000005', '4fcae41e1eb86c0000000003',
-      function (err) {
-        should.not.exist(err);
-        done();
-      });
+        function (err) {
+          should.not.exist(err);
+          done();
+        });
     });
 
     describe('mock message.sendAtMessage() error', function () {
@@ -113,11 +113,11 @@ describe('services/at.js', function () {
       });
       it('should return error', function (done) {
         at.sendMessageToMentionUsers(text, '4fb9db9c1dc2160000000005', '4fcae41e1eb86c0000000003',
-        function (err) {
-          should.exist(err);
-          err.message.should.equal('mock sendAtMessage() error');
-          done();
-        });
+          function (err) {
+            should.exist(err);
+            err.message.should.equal('mock sendAtMessage() error');
+            done();
+          });
       });
     });
 

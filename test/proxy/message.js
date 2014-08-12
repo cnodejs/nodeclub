@@ -30,7 +30,7 @@ describe('proxy/message.js', function () {
       //   message.type.should.be.equal('');
       //   message.topic_id.toString().should.be.equal('4fb9db9c1dc2160000000005');
       //   message.author_id.toString().should.be.equal('4fcae41e1eb86c0000000003');
-         done();
+      done();
       // });
     });
 

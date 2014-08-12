@@ -19,7 +19,10 @@ var mcache = require('memory-cache');
 setInterval(function () {
   var limit = config.list_topic_count;
   // 只缓存第一页, page = 1
-  var options = { skip: (1 - 1) * limit, limit: limit, sort: [ ['top', 'desc' ], [ 'last_reply_at', 'desc' ] ] };
+  var options = { skip: (1 - 1) * limit, limit: limit, sort: [
+    ['top', 'desc' ],
+    [ 'last_reply_at', 'desc' ]
+  ] };
   var optionsStr = JSON.stringify(options);
   Topic.getTopicsByQuery({}, options, function (err, topics) {
     mcache.put(optionsStr, topics);
@@ -48,7 +51,10 @@ exports.index = function (req, res, next) {
   proxy.fail(next);
 
   // 取主题
-  var options = { skip: (page - 1) * limit, limit: limit, sort: [ ['top', 'desc' ], [ 'last_reply_at', 'desc' ] ] };
+  var options = { skip: (page - 1) * limit, limit: limit, sort: [
+    ['top', 'desc' ],
+    [ 'last_reply_at', 'desc' ]
+  ] };
   var optionsStr = JSON.stringify(options);
   if (mcache.get(optionsStr)) {
     proxy.emit('topics', mcache.get(optionsStr));
@@ -62,8 +68,13 @@ exports.index = function (req, res, next) {
     proxy.emit('tops', mcache.get('tops'));
   } else {
     User.getUsersByQuery(
-      {'$or': [{is_block: {'$exists': false}}, {is_block: false}]},
-      { limit: 10, sort: [ [ 'score', 'desc' ] ] },
+      {'$or': [
+        {is_block: {'$exists': false}},
+        {is_block: false}
+      ]},
+      { limit: 10, sort: [
+        [ 'score', 'desc' ]
+      ] },
       proxy.done('tops', function (tops) {
         mcache.put('tops', tops, 1000 * 60 * 1);
         return tops;
@@ -76,7 +87,9 @@ exports.index = function (req, res, next) {
   } else {
     Topic.getTopicsByQuery(
       { reply_count: 0 },
-      { limit: 5, sort: [ [ 'create_at', 'desc' ] ] },
+      { limit: 5, sort: [
+        [ 'create_at', 'desc' ]
+      ] },
       proxy.done('no_reply_topics', function (no_reply_topics) {
         mcache.put('no_reply_topics', no_reply_topics, 1000 * 60 * 1);
         return no_reply_topics;

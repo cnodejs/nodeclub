@@ -8,10 +8,10 @@ $(document).ready(function () {
     var q = document.getElementById('q');
     if (q.value) {
       /*
-      var hostname = window.location.hostname;
-      var url = 'http://www.google.com/search?q=site:' + hostname + '%20';
-      window.open(url + q.value, '_blank');
-      */
+       var hostname = window.location.hostname;
+       var url = 'http://www.google.com/search?q=site:' + hostname + '%20';
+       window.open(url + q.value, '_blank');
+       */
       return true;
     } else {
       return false;
@@ -22,9 +22,11 @@ $(document).ready(function () {
   var $backtotop = $('#backtotop');
   var $sidebar = $('#sidebar');
   var top = $(window).height() - $backtotop.height() - 200;
+
   function moveBacktotop() {
     $backtotop.css({ top: top, right: 0});
   }
+
   $backtotop.click(function () {
     $('html,body').animate({ scrollTop: 0 });
     return false;

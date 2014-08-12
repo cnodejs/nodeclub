@@ -13,11 +13,11 @@ var should = require('should');
 var app = require('../../app');
 var config = require('../../config').config;
 
-describe('test/controllers/rss.test.js', function() {
+describe('test/controllers/rss.test.js', function () {
 
-  describe('/rss', function() {
-    it('should return `application/xml` Content-Type', function(done) {
-      request(app).get('/rss').end(function(err, res) {
+  describe('/rss', function () {
+    it('should return `application/xml` Content-Type', function (done) {
+      request(app).get('/rss').end(function (err, res) {
         res.status.should.equal(200);
         res.headers.should.property('content-type', 'application/xml');
         var body = res.text;
@@ -28,17 +28,17 @@ describe('test/controllers/rss.test.js', function() {
       });
     });
 
-    describe('mock `config.rss` not set', function() {
+    describe('mock `config.rss` not set', function () {
       var rss = config.rss;
-      before(function() {
+      before(function () {
         config.rss = null;
       });
-      after(function() {
+      after(function () {
         config.rss = rss;
       });
 
-      it('should return waring message', function(done) {
-        request(app).get('/rss').end(function(err, res) {
+      it('should return waring message', function (done) {
+        request(app).get('/rss').end(function (err, res) {
           res.status.should.equal(404);
           res.text.should.equal('Please set `rss` in config.js');
           done(err);
@@ -46,23 +46,23 @@ describe('test/controllers/rss.test.js', function() {
       });
     });
 
-    describe('mock `topic.getTopicsByQuery()` error', function() {
+    describe('mock `topic.getTopicsByQuery()` error', function () {
       var topic = require('../../proxy').Topic;
       var getTopicsByQuery = topic.getTopicsByQuery;
-      before(function() {
-        topic.getTopicsByQuery = function() {
+      before(function () {
+        topic.getTopicsByQuery = function () {
           var callback = arguments[arguments.length - 1];
-          process.nextTick(function() {
+          process.nextTick(function () {
             callback(new Error('mock getTopicsByQuery() error'));
           });
         };
       });
-      after(function() {
+      after(function () {
         topic.getTopicsByQuery = getTopicsByQuery;
       });
 
-      it('should return error', function(done) {
-        request(app).get('/rss').end(function(err, res) {
+      it('should return error', function (done) {
+        request(app).get('/rss').end(function (err, res) {
           res.status.should.equal(500);
           res.text.should.containEql('mock getTopicsByQuery() error');
           done(err);

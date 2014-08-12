@@ -119,10 +119,10 @@ exports.getFullTopic = function (id, callback) {
   var proxy = new EventProxy();
   var events = ['topic', 'author', 'replies'];
   proxy
-  .assign(events, function (topic, author, replies) {
-    callback(null, '', topic, author, replies);
-  })
-  .fail(callback);
+    .assign(events, function (topic, author, replies) {
+      callback(null, '', topic, author, replies);
+    })
+    .fail(callback);
 
   Topic.findOne({_id: id}, proxy.done(function (topic) {
     if (!topic) {

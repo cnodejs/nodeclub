@@ -50,10 +50,14 @@ exports.index = function (req, res, next) {
     proxy.fail(next);
 
     var query = {author_id: user._id};
-    var opt = {limit: 5, sort: [['create_at', 'desc']]};
+    var opt = {limit: 5, sort: [
+      ['create_at', 'desc']
+    ]};
     Topic.getTopicsByQuery(query, opt, proxy.done('recent_topics'));
 
-    Reply.getRepliesByAuthorId(user._id, {limit: 20, sort: [['create_at', 'desc']]},
+    Reply.getRepliesByAuthorId(user._id, {limit: 20, sort: [
+        ['create_at', 'desc']
+      ]},
       proxy.done(function (replies) {
         var topic_ids = [];
         for (var i = 0; i < replies.length; i++) {
@@ -62,7 +66,9 @@ exports.index = function (req, res, next) {
           }
         }
         var query = {_id: {'$in': topic_ids}};
-        var opt = {limit: 5, sort: [['create_at', 'desc']]};
+        var opt = {limit: 5, sort: [
+          ['create_at', 'desc']
+        ]};
         Topic.getTopicsByQuery(query, opt, proxy.done('recent_replies'));
       }));
 
@@ -108,7 +114,7 @@ exports.setting = function (req, res, next) {
   }
 
   // 显示出错或成功信息
-  function showMessage (msg, data, isSuccess) {
+  function showMessage(msg, data, isSuccess) {
     var data = data || req.body;
     var data2 = {
       name: data.name,
@@ -364,7 +370,9 @@ exports.get_collect_topics = function (req, res, next) {
       var opt = {
         skip: (page - 1) * limit,
         limit: limit,
-        sort: [ [ 'create_at', 'desc' ] ]
+        sort: [
+          [ 'create_at', 'desc' ]
+        ]
       };
       Topic.getTopicsByQuery(query, opt, proxy.done('topics'));
       Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
@@ -420,7 +428,9 @@ exports.get_followers = function (req, res, next) {
 };
 
 exports.top100 = function (req, res, next) {
-  var opt = {limit: 100, sort: [['score', 'desc']]};
+  var opt = {limit: 100, sort: [
+    ['score', 'desc']
+  ]};
   User.getUsersByQuery({'$or': [
     {is_block: {'$exists': false}},
     {is_block: false},
@@ -459,7 +469,9 @@ exports.list_topics = function (req, res, next) {
     proxy.fail(next);
 
     var query = {'author_id': user._id};
-    var opt = {skip: (page - 1) * limit, limit: limit, sort: [['create_at', 'desc']]};
+    var opt = {skip: (page - 1) * limit, limit: limit, sort: [
+      ['create_at', 'desc']
+    ]};
     Topic.getTopicsByQuery(query, opt, proxy.done('topics'));
 
     if (!req.session.user) {
@@ -510,7 +522,9 @@ exports.list_replies = function (req, res, next) {
         }
       }
       var query = {'_id': {'$in': topic_ids}};
-      var opt = {skip: (page - 1) * limit, limit: limit, sort: [['create_at', 'desc']]};
+      var opt = {skip: (page - 1) * limit, limit: limit, sort: [
+        ['create_at', 'desc']
+      ]};
       Topic.getTopicsByQuery(query, opt, proxy.done('topics'));
 
       Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {

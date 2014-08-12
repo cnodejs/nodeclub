@@ -36,8 +36,8 @@ var UserSchema = new Schema({
   receive_at_mail: { type: Boolean, default: false },
   from_wp: { type: Boolean },
 
-  retrieve_time : {type: Number},
-  retrieve_key : {type: String}
+  retrieve_time: {type: Number},
+  retrieve_key: {type: String}
 });
 
 UserSchema.virtual('avatar_url').get(function () {

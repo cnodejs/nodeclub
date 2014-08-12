@@ -46,7 +46,8 @@ exports.sendMessageToMentionUsers = function (text, topicId, authorId, reply_id,
     callback = reply_id;
     reply_id = null;
   }
-  callback = callback || function () {};
+  callback = callback || function () {
+  };
   User.getUsersByNames(fetchUsers(text), function (err, users) {
     if (err || !users) {
       return callback(err);

@@ -17,7 +17,7 @@ var _ = require('lodash');
 // Set default options
 var renderer = new marked.Renderer();
 
-renderer.code = function(code, lang) {
+renderer.code = function (code, lang) {
   var language = lang && (' language-' + lang) || '';
   return '<pre class="prettyprint' + language + '">'
     + '<code>' + code.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code>'
@@ -34,7 +34,7 @@ marked.setOptions({
   smartLists: true
 });
 
-exports.markdown =  function(text) {
+exports.markdown = function (text) {
   return '<div class="markdown-text">' + utils.xss(marked(text || '')) + '</div>';
 };
 

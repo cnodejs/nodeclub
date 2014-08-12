@@ -131,12 +131,13 @@ exports.delete = function (req, res, next) {
       return;
     }
 
-    Topic.reduceCount(reply.topic_id, function () {});
+    Topic.reduceCount(reply.topic_id, function () {
+    });
   });
 };
 /*
-  打开回复编辑器
-*/
+ 打开回复编辑器
+ */
 exports.showEdit = function (req, res, next) {
   if (!req.session.user) {
     res.redirect('/');
@@ -164,8 +165,8 @@ exports.showEdit = function (req, res, next) {
   });
 };
 /*
-  提交编辑回复
-*/
+ 提交编辑回复
+ */
 exports.update = function (req, res, next) {
   if (!req.session.user) {
     res.redirect('/');
@@ -188,7 +189,7 @@ exports.update = function (req, res, next) {
 
       reply.content = content.trim();
       if (content.length > 0) {
-        reply.save(function(err) {
+        reply.save(function (err) {
           if (err) {
             return next(err);
           }

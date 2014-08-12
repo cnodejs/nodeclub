@@ -17,15 +17,15 @@ describe('test/controllers/github.test.js', function () {
     var _clientID = config.GITHUB_OAUTH.clientID;
     config.GITHUB_OAUTH.clientID = 'aldskfjo2i34j2o3';
     request.get('/auth/github')
-    .expect(302, function (err, res) {
-      if (err) {
-        return done(err);
-      }
-      res.headers.should.have.property('location')
-        .with.startWith('https://github.com/login/oauth/authorize?');
-      config.GITHUB_OAUTH.clientID = _clientID;
-      done();
-    });
+      .expect(302, function (err, res) {
+        if (err) {
+          return done(err);
+        }
+        res.headers.should.have.property('location')
+          .with.startWith('https://github.com/login/oauth/authorize?');
+        config.GITHUB_OAUTH.clientID = _clientID;
+        done();
+      });
   });
 
   describe('get /auth/github/callback', function () {
@@ -39,14 +39,14 @@ describe('test/controllers/github.test.js', function () {
     });
     it('should redirect to /auth/github/new when the github id not in database', function (done) {
       request.get('/auth/github/test_callback?code=123456')
-      .expect(302, function (err, res) {
-        if (err) {
-          return done(err);
-        }
-        res.headers.should.have.property('location')
-          .with.endWith('/auth/github/new');
-        done();
-      });
+        .expect(302, function (err, res) {
+          if (err) {
+            return done(err);
+          }
+          res.headers.should.have.property('location')
+            .with.endWith('/auth/github/new');
+          done();
+        });
     });
 
     it('should redirect to / when the user is registed', function (done) {
@@ -86,7 +86,9 @@ describe('test/controllers/github.test.js', function () {
           displayName: 'alsotang' + new Date(),
           username: 'alsotang' + new Date(),
           accessToken: 'a3l24j23lk5jtl35tkjglfdsf',
-          emails: [{value: 'alsotang@gmail.com' + new Date()}],
+          emails: [
+            {value: 'alsotang@gmail.com' + new Date()}
+          ],
           _json: {avatar_url: 'http://avatar_url.com/1.jpg'},
           id: 22,
         };
