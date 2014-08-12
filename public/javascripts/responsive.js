@@ -10,7 +10,7 @@ $(document).ready(function(){
         x: 0,
         y: 0
       },
-      swipeThreshold = winWidth/2,
+      swipeThreshold = winWidth/3,
       toggleSideBar = function(){
         var isShow = $responsiveBtn.data('is-show'),
             mainHeight = $main.height(),
