@@ -34,6 +34,7 @@
 }
 
 @media (max-width: 979px) {
+
     .navbar {
         margin: 0 5px;
         z-index: 999;
@@ -149,6 +150,12 @@
     .form-horizontal .form-actions {
         padding-right: 10px;
         padding-left: 10px;
+    }
+
+    #content .reply_content {
+        clear: both;
+        padding-left: 0;
+        padding-top: 5px;
     }
 }
 

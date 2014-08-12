@@ -3,13 +3,14 @@ $(document).ready(function () {
     $sidebarMask = $('#sidebar-mask'),
     $sidebar = $('#sidebar'),
     $main = $('#main'),
+    winWidth = $(window).width(),
     startX = 0,
     startY = 0,
     delta = {
       x: 0,
       y: 0
     },
-    swipeThreshold = 20,
+    swipeThreshold = winWidth / 3,
     toggleSideBar = function () {
       var isShow = $responsiveBtn.data('is-show'),
         mainHeight = $main.height(),
@@ -40,15 +41,14 @@ $(document).ready(function () {
     },
     touchend = function (e) {
       var touchs = e.changedTouches,
-        docWidth = $(document).width(),
         isShow = $responsiveBtn.data('is-show');
       delta.x = +touchs[0].pageX - startX;
       //右侧栏未显示&&用户touch点在屏幕右侧1/4区域内&&move距离大于阀值时，打开右侧栏
-      if (!isShow && (startX > docWidth * 3 / 4) && Math.abs(delta.x) > swipeThreshold) {
+      if (!isShow && (startX > winWidth * 3 / 4) && Math.abs(delta.x) > swipeThreshold) {
         $responsiveBtn.trigger('click');
       }
       //右侧栏显示中&&用户touch点在屏幕左侧侧1/4区域内&&move距离大于阀值时，关闭右侧栏
-      if (isShow && (startX < docWidth * 1 / 4) && Math.abs(delta.x) > swipeThreshold) {
+      if (isShow && (startX < winWidth * 1 / 4) && Math.abs(delta.x) > swipeThreshold) {
         $responsiveBtn.trigger('click');
       }
       startX = startY = 0;
