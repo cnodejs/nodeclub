@@ -73,7 +73,13 @@ app.use(passport.initialize());
 
 // custom middleware
 app.use(require('./controllers/sign').auth_user);
-app.use(auth.blockUser());
+app.use(function (req, res, next) {
+  // 被屏蔽的用户不可执行任何 post 操作
+  if (req.method !== 'GET') {
+    return auth.blockUser()(req, res, next);
+  }
+  next();
+});
 
 app.use(Loader.less(__dirname));
 app.use('/public', express.static(staticDir));

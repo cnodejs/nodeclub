@@ -532,32 +532,32 @@ exports.list_replies = function (req, res, next) {
 
 exports.block = function (req, res, next) {
   var userName = req.params.name;
-  User.getUserByName(userName, function (err, user) {
-    if (err) {
-      return next(err);
-    }
+
+  var ep = EventProxy.create();
+  ep.fail(next);
+
+  User.getUserByName(userName, ep.done(function (user) {
     if (req.body.action === 'set_block') {
-      var ep = EventProxy.create();
-      ep.fail(next);
       ep.all('block_user', 'del_topics', 'del_replys',
         function (user, topics, replys) {
           res.json({status: 'success'});
         });
       user.is_block = true;
       user.save(ep.done('block_user'));
+
+      // 防止误操作
       // TopicModel.remove({author_id: user._id}, ep.done('del_topics'));
       // ReplyModel.remove({author_id: user._id}, ep.done('del_replys'));
       ep.emit('del_topics');
       ep.emit('del_replys');
+      // END 防止误操作
+
     } else if (req.body.action === 'cancel_block') {
       user.is_block = false;
-      user.save(function (err) {
-        if (err) {
-          return next(err);
-        }
-        res.json({status: 'success'});
-      });
-    }
+      user.save(ep.done(function () {
 
-  });
+        res.json({status: 'success'});
+      }));
+    }
+  }));
 };

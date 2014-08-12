@@ -35,7 +35,7 @@ exports.signinRequired = function (req, res, next) {
 exports.blockUser = function () {
   return function (req, res, next) {
     if (req.session.user && req.session.user.is_block) {
-      return res.send('您被屏蔽了。');
+      return res.render('notify/notify', {error: '您已被管理员屏蔽了。'});
     }
     next();
   };
