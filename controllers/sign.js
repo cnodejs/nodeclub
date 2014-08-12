@@ -303,7 +303,7 @@ exports.auth_user = function (req, res, next) {
             return next(err);
           }
           user.messages_count = count;
-          req.session.user = user.toObject();
+          req.session.user = user.toObject({virtual: true});
           res.locals.current_user = req.session.user;
           return next();
         });
