@@ -116,7 +116,6 @@ exports.setting = function (req, res, next) {
       url: data.url,
       location: data.location,
       signature: data.signature,
-      profile: data.profile,
       weibo: data.weibo,
       githubUsername: data.github || data.githubUsername,
     };
@@ -141,8 +140,6 @@ exports.setting = function (req, res, next) {
     location = sanitize(location).xss();
     var signature = sanitize(req.body.signature).trim();
     signature = sanitize(signature).xss();
-    var profile = sanitize(req.body.profile).trim();
-    profile = sanitize(profile).xss();
     var weibo = sanitize(req.body.weibo).trim();
     weibo = sanitize(weibo).xss();
     var github = sanitize(req.body.github).trim();
@@ -158,7 +155,6 @@ exports.setting = function (req, res, next) {
       user.url = url;
       user.location = location;
       user.signature = signature;
-      user.profile = profile;
       user.weibo = weibo;
       // create gravatar
       user.avatar = User.makeGravatar(user.email);
@@ -167,6 +163,7 @@ exports.setting = function (req, res, next) {
         if (err) {
           return next(err);
         }
+        req.session.user = user.toObject({virtual: true});
         return res.redirect('/setting?save=success');
       });
     });

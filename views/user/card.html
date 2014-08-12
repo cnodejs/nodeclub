@@ -6,11 +6,13 @@
 		<span class='user_name'><a class='dark' href="/user/<%= user.name %>"><%= user.name %></a></span>
 
 		<% if (typeof(current_user) !== 'undefined' && current_user._id != user._id) { %>
+            <div class="board clearfix">
 			<% if (typeof(relation) === 'undefined' || !relation) { %>
 				<button class='btn btn-success follow_btn' action='follow'>加入关注</button>
 			<% } else { %>
 				<button class='btn follow_btn' action='un_follow'>取消关注</button>
 			<% } %>
+            </div>
 		<% } %>
 
 		<div class='board clearfix'>
@@ -23,6 +25,8 @@
 				<a href='/user/<%= user.name %>/follower'><span class='big'><%= user.follower_count %></span> 粉丝</a>
 				<div class='space'></div>
 				<span class='big'><%= user.score %></span> 积分
+                <div class="space"></div>
+                <span class="signature"><%= user.signature || '' %></span>
 			</div>
 		</div>
 	</div>
