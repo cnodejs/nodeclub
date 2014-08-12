@@ -1,5 +1,6 @@
-var check = require('validator').check,
-  sanitize = require('validator').sanitize;
+var check = require('validator').check;
+var sanitize = require('validator').sanitize;
+var eventproxy = require('eventproxy');
 
 var crypto = require('crypto');
 var config = require('../config').config;
@@ -269,18 +270,28 @@ exports.update_pass = function (req, res, next) {
 
 // auth_user middleware
 exports.auth_user = function (req, res, next) {
-  if (req.session.user) {
-    if (config.admins.hasOwnProperty(req.session.user.name)) {
-      req.session.user.is_admin = true;
-    }
-    Message.getMessagesCount(req.session.user._id, function (err, count) {
-      if (err) {
-        return next(err);
-      }
-      req.session.user.messages_count = count;
-      res.locals.current_user = req.session.user;
+  var ep = new eventproxy();
+  ep.fail(next);
+
+  ep.all('get_user', function (user) {
+    if (!user) {
       return next();
-    });
+    }
+    res.locals.current_user = req.session.user = user;
+    req.session.user.avatar_url = User.makeGravatar(user.email);
+
+    if (config.admins.hasOwnProperty(user.name)) {
+      user.is_admin = true;
+    }
+    Message.getMessagesCount(user._id, ep.done(function (count) {
+      user.messages_count = count;
+      next();
+    }));
+
+  });
+
+  if (req.session.user) {
+    ep.emit('get_user', req.session.user);
   } else {
     var cookie = req.cookies[config.auth_cookie_name];
     if (!cookie) {
@@ -290,27 +301,7 @@ exports.auth_user = function (req, res, next) {
     var auth_token = decrypt(cookie, config.session_secret);
     var auth = auth_token.split('\t');
     var user_id = auth[0];
-    User.getUserById(user_id, function (err, user) {
-      if (err) {
-        return next(err);
-      }
-      if (user) {
-        if (config.admins.hasOwnProperty(user.name)) {
-          user.is_admin = true;
-        }
-        Message.getMessagesCount(user._id, function (err, count) {
-          if (err) {
-            return next(err);
-          }
-          user.messages_count = count;
-          req.session.user = user;
-          res.locals.current_user = req.session.user;
-          return next();
-        });
-      } else {
-        return next();
-      }
-    });
+    User.getUserById(user_id, ep.done('get_user'));
   }
 };
 
