@@ -18,15 +18,22 @@
 		<div class='board clearfix'>
 			<div class='floor'>
 				<a href='/user/<%= user.name %>/collections'><span class='big collect-topic-count'><%= user.collect_topic_count %></span> 话题收藏</a>
-			</div>
-			<div class='floor'>
+                <div class="space"></div>
 				<a href='/user/<%= user.name %>/following'><span class='big'><%= user.following_count %></span> 关注</a>
 				<div class='space'></div>
 				<a href='/user/<%= user.name %>/follower'><span class='big'><%= user.follower_count %></span> 粉丝</a>
 				<div class='space'></div>
 				<span class='big'><%= user.score %></span> 积分
                 <div class="space"></div>
-                <span class="signature"><%= user.signature || '' %></span>
+                <span class="signature">
+                    “
+                    <% if (user.signature) {%>
+                        <%-escapeSignature(user.signature)%>
+                    <%} else {%>
+                        这家伙很懒，什么个性签名都没有留下。
+                    <%}%>
+                    ”
+                </span>
 			</div>
 		</div>
 	</div>

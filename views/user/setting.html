@@ -1,124 +1,142 @@
 <%- partial('../sidebar') %>
 
 <div id='content'>
-	<div class='panel'>
-		<div class='header'>
-			<ul class='breadcrumb'>
-				<li><a href='/'>主页</a><span class='divider'>/</span></li>
-				<li class='active'>设置</li>
-			</ul>
-		</div>
-		<div class='inner'>
-			<% if(typeof(error) !== 'undefined' && error){ %>
-			<div class="alert alert-error">
-				<a class="close" data-dismiss="alert" href="#">&times;</a>
-				<strong><%= error %></strong>
-			</div>
-			<% } %>
-			<% if (typeof(success) !== 'undefined' && success) { %>
-			<div class="alert alert-success">
-				<strong><%= success %></strong>
-			</div>
-			<% } %>
-			<form id='setting_form' class='form-horizontal' action='/setting' method='post'>
-				<div class='control-group'>
-					<label class='control-label' for='name'>用户名</label>
-					<div class='controls'>
-						<input class='input-xlarge readonly' id='name' name='name' size='30' type='text' readonly='true' value="<%= name %>" />
-					</div>
-				</div>
-				<div class='control-group'>
-					<label class='control-label' for='email'>电子邮件</label>
-					<div class='controls'>
-						<input class='input-xlarge readonly' id='email' name='email' size='30' type='text' readonly='true' value="<%= email %>" />
-            <p>同时决定了 Gravatar 头像</p>
-					</div>
-				</div>
-				<div class='control-group'>
-					<label class='control-label' for='url'>个人网站</label>
-					<div class='controls'>
-						<% if(typeof(url) !== 'undefined'){ %>
-						<input class='input-xlarge' id='url' name='url' size='30' type='text' value="<%= url %>" />
-						<% }else{ %>
-						<input class='input-xlarge' id='url' name='url' size='30' type='text' value='' />
-						<% } %>
-					</div>
-				</div>
-				<div class='control-group'>
-					<label class='control-label' for='location'>所在地点</label>
-					<div class='controls'>
-						<% if(typeof(location) !== 'undefined'){ %>
-						<input class='input-xlarge' id='location' name='location' size='30' type='text' value="<%= location %>" />
-						<% }else{ %>
-						<input class='input-xlarge' id='location' name='location' size='30' type='text' value='' />
-						<% } %>
-					</div>
-				</div>
-				<div class='control-group'>
-					<label class='control-label' for='signature'>个性签名</label>
-					<div class='controls'>
-						<% if(typeof(signature) !== 'undefined'){ %>
-						<input class='input-xlarge' id='signature' name='signature' size='30' type='text' value="<%= signature %>" />
-						<% }else{ %>
-						<input class='input-xlarge' id='signature' name='signature' size='30' type='text' value='' />
-						<% } %>
-					</div>
-				</div>
-				<div class='control-group'>
-					<label class='control-label' for='weibo'>微博</label>
-					<div class='controls'>
-						<% if(typeof(weibo) !== 'undefined'){ %>
-						<input class='input-xlarge' id='weibo' name='weibo' size='30' type='text' value="<%= weibo %>" placeholder="e.g. http://weibo.com/cnodejs" />
-						<% }else{ %>
-						<input class='input-xlarge' id='weibo' name='weibo' size='30' type='text' value=''
-            placeholder="e.g. http://weibo.com/cnodejs" />
-						<% } %>
-					</div>
-				</div>
-        <div class='control-group'>
-          <label class='control-label' for='github'>GitHub</label>
-          <div class='controls'>
-            <% if(typeof(githubUsername) !== 'undefined'){ %>
-            <input class='input-xlarge' id='github' name='github' size='30' type='text' value="<%= githubUsername %>" placeholder="@username" />
-            <% }else{ %>
-            <input class='input-xlarge' id='github' name='github' size='30' type='text' value=''
-            placeholder="@username" />
-            <% } %>
-          </div>
+    <div class='panel'>
+        <div class='header'>
+            <ul class='breadcrumb'>
+                <li><a href='/'>主页</a><span class='divider'>/</span></li>
+                <li class='active'>设置</li>
+            </ul>
         </div>
-				<input type='hidden' id='action' name='action' value='change_setting' />
-				<input type='hidden' name='_csrf' value='<%= csrf %>' />
-				<div class='form-actions'>
-					<input type='submit' class='span-primary submit_btn' data-loading-text="保存中.." value='保存设置' />
-				</div>
-			</form>
-		</div>
-	</div>
+        <div class='inner'>
+            <% if(typeof(error) !== 'undefined' && error){ %>
+            <div class="alert alert-error">
+                <a class="close" data-dismiss="alert" href="#">&times;</a>
+                <strong><%= error %></strong>
+            </div>
+            <% } %>
+            <% if (typeof(success) !== 'undefined' && success) { %>
+            <div class="alert alert-success">
+                <strong><%= success %></strong>
+            </div>
+            <% } %>
+            <form id='setting_form' class='form-horizontal' action='/setting' method='post'>
+                <div class='control-group'>
+                    <label class='control-label' for='name'>用户名</label>
 
-	<div class='panel'>
-		<div class='header'>
-			<span class='col_fade'>更改密码</span>
-		</div>
-		<div class='inner'>
-			<form id='change_pass_form' class='form-horizontal' action='/setting' method='post'>
-				<div class='control-group'>
-					<label class='control-label' for='old_pass'>当前密码</label>
-					<div class='controls'>
-						<input class='input-xlarge' type='password' id='old_pass' name='old_pass' size='30' />
-					</div>
-				</div>
-				<div class='control-group'>
-					<label class='control-label' for='new_pass'>新密码</label>
-					<div class='controls'>
-						<input class='input-xlarge' type='password' id='new_pass' name='new_pass' size='30' />
-					</div>
-				</div>
-				<input type='hidden' id='action' name='action' value='change_password' />
-				<input type='hidden' name='_csrf' value='<%= csrf %>' />
-				<div class='form-actions'>
-					<input type='submit' class='span-primary submit_btn' data-loading-text="更改中.." value='更改密码' />
-				</div>
-			</form>
-		</div>
-	</div>
+                    <div class='controls'>
+                        <input class='input-xlarge readonly' id='name' name='name' size='30' type='text' readonly='true'
+                               value="<%= name %>"/>
+                    </div>
+                </div>
+                <div class='control-group'>
+                    <label class='control-label' for='email'>电子邮件</label>
+
+                    <div class='controls'>
+                        <input class='input-xlarge readonly' id='email' name='email' size='30' type='text'
+                               readonly='true' value="<%= email %>"/>
+
+                        <p>同时决定了 Gravatar 头像</p>
+                    </div>
+                </div>
+                <div class='control-group'>
+                    <label class='control-label' for='url'>个人网站</label>
+
+                    <div class='controls'>
+                        <% if(typeof(url) !== 'undefined'){ %>
+                        <input class='input-xlarge' id='url' name='url' size='30' type='text' value="<%= url %>"/>
+                        <% }else{ %>
+                        <input class='input-xlarge' id='url' name='url' size='30' type='text' value=''/>
+                        <% } %>
+                    </div>
+                </div>
+                <div class='control-group'>
+                    <label class='control-label' for='location'>所在地点</label>
+
+                    <div class='controls'>
+                        <% if(typeof(location) !== 'undefined'){ %>
+                        <input class='input-xlarge' id='location' name='location' size='30' type='text'
+                               value="<%= location %>"/>
+                        <% }else{ %>
+                        <input class='input-xlarge' id='location' name='location' size='30' type='text' value=''/>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class='control-group'>
+                    <label class='control-label' for='weibo'>微博</label>
+
+                    <div class='controls'>
+                        <% if(typeof(weibo) !== 'undefined'){ %>
+                        <input class='input-xlarge' id='weibo' name='weibo' size='30' type='text' value="<%= weibo %>"
+                               placeholder="e.g. http://weibo.com/cnodejs"/>
+                        <% }else{ %>
+                        <input class='input-xlarge' id='weibo' name='weibo' size='30' type='text' value=''
+                               placeholder="e.g. http://weibo.com/cnodejs"/>
+                        <% } %>
+                    </div>
+                </div>
+                <div class='control-group'>
+                    <label class='control-label' for='github'>GitHub</label>
+
+                    <div class='controls'>
+                        <% if(typeof(githubUsername) !== 'undefined'){ %>
+                        <input class='input-xlarge' id='github' name='github' size='30' type='text'
+                               value="<%= githubUsername %>" placeholder="@username"/>
+                        <% }else{ %>
+                        <input class='input-xlarge' id='github' name='github' size='30' type='text' value=''
+                               placeholder="@username"/>
+                        <% } %>
+                    </div>
+                </div>
+                <div class='control-group'>
+                    <label class='control-label' for='signature'>个性签名</label>
+
+                    <div class='controls'>
+                        <% if(typeof(signature) !== 'undefined'){ %>
+                        <textarea class='input-xlarge' id='signature' name='signature' size='30'><%= signature %></textarea>
+                        <% }else{ %>
+                        <textarea class='input-xlarge' id='signature' name='signature' size='30'></textarea>
+                        <% } %>
+                    </div>
+                </div>
+                <input type='hidden' id='action' name='action' value='change_setting'/>
+                <input type='hidden' name='_csrf' value='<%= csrf %>'/>
+
+                <div class='form-actions'>
+                    <input type='submit' class='span-primary submit_btn' data-loading-text="保存中.." value='保存设置'/>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class='panel'>
+        <div class='header'>
+            <span class='col_fade'>更改密码</span>
+        </div>
+        <div class='inner'>
+            <form id='change_pass_form' class='form-horizontal' action='/setting' method='post'>
+                <div class='control-group'>
+                    <label class='control-label' for='old_pass'>当前密码</label>
+
+                    <div class='controls'>
+                        <input class='input-xlarge' type='password' id='old_pass' name='old_pass' size='30'/>
+                    </div>
+                </div>
+                <div class='control-group'>
+                    <label class='control-label' for='new_pass'>新密码</label>
+
+                    <div class='controls'>
+                        <input class='input-xlarge' type='password' id='new_pass' name='new_pass' size='30'/>
+                    </div>
+                </div>
+                <input type='hidden' id='action' name='action' value='change_password'/>
+                <input type='hidden' name='_csrf' value='<%= csrf %>'/>
+
+                <div class='form-actions'>
+                    <input type='submit' class='span-primary submit_btn' data-loading-text="更改中.." value='更改密码'/>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

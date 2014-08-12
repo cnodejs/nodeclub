@@ -12,6 +12,7 @@
 
 var marked = require('marked');
 var utils = require('../libs/util');
+var _ = require('lodash');
 
 // Set default options
 var renderer = new marked.Renderer();
@@ -35,4 +36,10 @@ marked.setOptions({
 
 exports.markdown =  function(text) {
   return '<div class="markdown-text">' + utils.xss(marked(text || '')) + '</div>';
+};
+
+exports.escapeSignature = function (signature) {
+  return signature.split('\n').map(function (p) {
+    return _.escape(p);
+  }).join('<br>');
 };
