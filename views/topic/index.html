@@ -105,14 +105,14 @@
       </div>
 
       <div class="action">
-        <button class='btn btn-success' id='share_weibo_btn'
+        <span class='span-success' id='share_weibo_btn'
           onclick="((function(s,d,e,r,l,p,t,z,c){var f='http://v.t.sina.com.cn/share/share.php?appkey=<%= config.weibo_key %>',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else a();})(screen,document,encodeURIComponent,'','','','分享来自<%= config.name %>的话题：<%= topic.title %>','',''));"
-          >分享到微博</button>
+          >分享到微博</span>
         <% if (typeof(current_user) !== 'undefined') { %>
           <% if (!topic.in_collection) { %>
-          <button class='btn btn-success' id='collect_btn' action='collect'>加入收藏</button>
+          <span class='span-success' id='collect_btn' action='collect'>加入收藏</span>
           <% } else { %>
-          <button class='btn' id='collect_btn' action='de_collect'>取消收藏</button>
+          <span class='span-success' id='collect_btn' action='de_collect'>取消收藏</span>
           <% } %>
         <% } %>
       </div>
@@ -138,15 +138,15 @@
           <div class='markdown_in_editor'>
             <textarea class='editor' name='r_content' rows='8'></textarea>
             <div class='editor_buttons'>
-              <button class='btn action_preview'>预览</button>
-              <button class='btn btn-primary' type="submit">回复</button>
+              <input class='span-common action_preview' type="button" value="预览">
+              <input class='span-primary submit_btn' type="submit" data-loading-text="回复中.." value="回复">
             </div>
           </div>
           <div class='markdown_in_preview'>
             <div class='preview'></div>
             <div class='editor_buttons'>
-              <button class='btn action_modify'>修改</button>
-              <button class='btn btn-primary' type="submit">回复</button>
+              <input class='span-common action_modify' type="button" value="修改">
+              <input class='span-primary submit_btn' type="submit" data-loading-text="回复中.." value="回复">
             </div>
           </div>
         </div>

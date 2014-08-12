@@ -796,10 +796,6 @@ textarea.editor {
     min-height: 400px;
 }
 
-#submit_btn {
-  margin-top: 10px;
-}
-
 .marked_icon {
   float: right;
 }
@@ -853,4 +849,47 @@ textarea.editor {
 .reply_content table tr th>:last-child,
 .reply_content table tr td>:last-child {
   margin-bottom:0;
+}
+
+.span-common {
+  display: inline-block;
+  float: none;
+  padding: 3px 10px;
+  margin: 0;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  letter-spacing: 2px;
+  box-shadow: none;
+  border-radius: 1px;
+  line-height: 2em;
+
+  background-color: #e5e5e5;
+  &:hover {
+    background-color: #909090;
+    color: white;
+  }
+}
+.span-success {
+  .span-common();
+
+  color: white;
+  background-color: #7DB461;
+  &:hover {
+    background-color: #6ba44e;
+  }
+}
+
+.span-primary {
+  .span-common();
+
+  color: white;
+  background-color: #08c;
+  &:hover {
+    background-color: #05c;
+  }
+}
+
+.alert {
+  border-radius: 0px;
 }

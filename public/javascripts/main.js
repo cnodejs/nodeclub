@@ -45,4 +45,9 @@ $(document).ready(function () {
 
   // pretty code
   prettyPrint();
+
+  // data-loading-text="提交中"
+  $('.submit_btn').click(function () {
+    $(this).button('loading');
+  });
 });
