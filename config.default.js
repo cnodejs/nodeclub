@@ -41,7 +41,7 @@ var config = {
   list_topic_count: 20,
 
   // 限制发帖时间间隔，单位：毫秒
-  post_interval: 10000,
+  post_interval: 2000,
 
   // RSS
   rss: {
