@@ -66,7 +66,7 @@ app.use(session({
     db: config.db_name
   }),
   resave: true,
-  saveUninitialized: true,
+  saveUninitialized: true
 }));
 
 app.use(passport.initialize());
