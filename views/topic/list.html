@@ -12,7 +12,7 @@
 
         <%
         var page_start = current_page - 2 > 0 ? current_page - 2 : 1;
-        var page_end = page_start + 4 >= pages ? pages : page_start + 4;
+        var page_end = page_start + 4 >= pages ? (pages_start = (pages - 4 > 0 ? pages -4 : 1) , pages) : page_start + 4;
         %>
 
         <% if (page_start > 1) { %>
@@ -36,6 +36,8 @@
         <% } else { %>
         <li><a href='<%= base_url + pages %>'>»</a></li>
         <% } %>
+        <span class='jumpLabel'>跳转到：</span><input type = 'text' id='pageInput'/>
+        <li><input type='button' id='jumpTo' value='go'/></li>
     </ul>
 </div>
 <script>
@@ -52,5 +54,15 @@
                 }
             });
         }
+        $('#jumpTo').click(function () {
+            var page = $('#pageInput').val();
+
+            if (/^\d+$/.test(page)) {
+                window.location.href = '<%= base_url %>' + page;
+            } else {
+                alert('请输入合法数字！');
+                $('#pageInput').val('').focus();
+            }
+        });
     });
 </script>
