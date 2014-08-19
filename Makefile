@@ -2,9 +2,10 @@ TESTS = $(shell find test -type f -name "*.js")
 TESTTIMEOUT = 5000
 REPORTER = spec
 JSCOVERAGE = ./node_modules/jscover/bin/jscover
+REGISTRY = "--registry=http://registry.npm.taobao.org"
 
 install:
-	@npm install
+	@npm install $(REGISTRY)
 
 test: install
 	@if ! test -f config.js; then \
