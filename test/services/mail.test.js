@@ -13,7 +13,7 @@ describe('services/mail.js', function () {
     });
   });
 
-  xdescribe('sendAtMail', function () {
+  describe('sendAtMail', function () {
     it('should ok', function () {
       mail.sendAtMail();
     });
