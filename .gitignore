@@ -1,5 +1,6 @@
 config.js
 .cov
+coverage
 node_modules
 .naeindex
 public/user_data

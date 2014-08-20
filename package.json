@@ -39,7 +39,7 @@
     "xss": "~0.0.9"
   },
   "devDependencies": {
-    "jscover": "*",
+    "istanbul": "^0.3.0",
     "mm": "*",
     "mocha": "*",
     "pedding": "*",
