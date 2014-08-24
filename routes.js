@@ -56,7 +56,6 @@ module.exports = function (app) {
   app.post('/setting', user.setting); // 提交个人信息设置
   app.get('/stars', user.show_stars); // 显示所有达人列表页
   app.get('/users/top100', user.top100);  // 显示积分前一百用户页
-  app.get('/user/:name/tags', user.get_collect_tags); //
   app.get('/user/:name/collections', user.get_collect_topics);  // 用户收藏的所有话题页
   app.get('/my/messages', message.index); // 用户个人的所有消息页
   app.get('/user/:name/follower', user.get_followers);  // 用户的粉丝页
