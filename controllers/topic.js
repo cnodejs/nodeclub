@@ -1,4 +1,4 @@
-/*!
+/*
  * nodeclub - controllers/topic.js
  */
 
