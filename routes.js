@@ -33,11 +33,11 @@ module.exports = function(app) {
   app.get('/', site.index);
 
   // sign up, login, logout
-  if (config.allow_sign_up) { // 如果允许注册
-      app.get('/signup', sign.showSignup); // 跳转到注册页面
-      app.post('/signup', sign.signup); // 提交注册信息
+  if (config.allow_sign_up) {
+    app.get('/signup', sign.showSignup); // 跳转到注册页面
+    app.post('/signup', sign.signup); // 提交注册信息
   } else {
-      app.get('/signup', configMiddleware.github, passport.authenticate('github')); //进行github验证
+    app.get('/signup', configMiddleware.github, passport.authenticate('github')); //进行github验证
   }
   app.post('/signout', sign.signout); // 登出
   app.get('/signin', sign.showLogin); // 进入登录页面
@@ -115,11 +115,10 @@ module.exports = function(app) {
 
   // github oauth
   app.get('/auth/github', configMiddleware.github, passport.authenticate('github'));
-  app.get('/auth/github/callback',
-    passport.authenticate('github', {
-        failureRedirect: '/signin'
-    }),
-    github.callback);
+  app.get('/auth/github/callback', passport.authenticate('github', {
+    failureRedirect: '/signin'
+
+  }), github.callback);
   app.get('/auth/github/new', github.new);
   app.post('/auth/github/create', github.create);
 
