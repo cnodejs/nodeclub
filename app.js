@@ -25,6 +25,7 @@ var csurf = require('csurf');
 var compress = require('compression');
 var bodyParser = require('body-parser');
 
+// 静态文件目录
 var staticDir = path.join(__dirname, 'public');
 
 // assets

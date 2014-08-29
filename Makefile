@@ -13,17 +13,14 @@ pretest:
 	@if ! test -f config.js; then \
 		cp config.default.js config.js; \
 	fi
-	@if ! test -f assets.json; then \
-		make build; \
-	fi
 
-test: install pretest
+test: install
 	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
 		--reporter $(REPORTER) \
 		--timeout $(TESTTIMEOUT) \
 		$(TESTS)
 
-test-cov cov: install pretest
+test-cov cov: install
 	@NODE_ENV=test node \
 		node_modules/.bin/istanbul cover --preserve-comments \
 		./node_modules/.bin/_mocha \

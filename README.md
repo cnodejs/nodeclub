@@ -23,7 +23,7 @@ Nodeclub 是使用 **Node.js** 和 **MongoDB** 开发的社区系统，界面优
 1. install `node.js` `mongodb`
 2. run mongod
 3. `$ make install` 安装 Nodeclub 的依赖包
-4. `$ cp config.default.js config.js` 使用默认的配置文件
+4. `$ make test` 确保各项服务都正常
 5. `$ node app.js`
 6. done!
 ```
