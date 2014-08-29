@@ -11,11 +11,7 @@ exports.callback = function (req, res, next) {
     }
     // 当用户已经是 cnode 用户时，通过 github 登陆将会更新他的资料
     if (user) {
-      user.name = profile.username;
       user.githubUsername = profile.username;
-      user.loginname = profile.username;
-      user.email = profile.emails && profile.emails[0].value;
-      user.avatar = profile._json && profile._json.avatar_url;
       user.save(function (err) {
         if (err) {
           return next(err);
@@ -53,6 +49,7 @@ exports.create = function (req, res, next) {
     });
     user.save(function (err) {
       if (err) {
+        // 根据 err.err 的错误信息决定如何回应用户，这个地方写得很难看
         if (err.err.indexOf('duplicate key error') !== -1) {
           if (err.err.indexOf('users.$email') !== -1) {
             return res.status(500)
@@ -64,6 +61,7 @@ exports.create = function (req, res, next) {
           }
         }
         return next(err);
+        // END 根据 err.err 的错误信息决定如何回应用户，这个地方写得很难看
       }
       sign.gen_session(user, res);
       res.redirect('/');
