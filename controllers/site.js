@@ -106,3 +106,8 @@ exports.index = function (req, res, next) {
     }));
   }
 };
+
+// 跳回到首页
+exports.home =function(req,res){
+    res.redirect('/');
+}
