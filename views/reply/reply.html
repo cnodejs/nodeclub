@@ -1,29 +1,29 @@
 <div class='cell reply_area reply_item' id="reply<%= indexInCollection+1 %>" reply_id="<%- reply._id %>">
-    <a class="anchor" id="<%- reply._id %>"></a>
+  <a class="anchor" id="<%- reply._id %>"></a>
 
-    <div class='author_content'>
-        <a href="/user/<%= reply.author.name %>" class="user_avatar">
-            <img src="<%= reply.author.avatar_url %>"
-                 title="<%= reply.author.name %>"/></a>
+  <div class='author_content'>
+    <a href="/user/<%= reply.author.name %>" class="user_avatar">
+      <img src="<%= reply.author.avatar_url %>"
+           title="<%= reply.author.name %>"/></a>
 
-        <div class='user_info'>
-            <a class='dark reply_author' href="/user/<%= reply.author.name %>"><%= reply.author.name %>
-            </a>
-            <a class="reply_time" href="#<%- reply._id %>"><%= indexInCollection + 1 %>楼•<%= reply.friendly_create_at
-                %></a>
-        </div>
-        <div class='user_action'>
-            <% if ( typeof(current_user) !== 'undefined' && current_user.is_admin ||
-            (typeof(current_user) !== 'undefined' && current_user._id.toString() == reply.author._id.toString())
-            ) { %>
-            <a href='/reply/<%- reply._id %>/edit' class='edit_reply_btn'>
-                <img class='user_icon' src="<%- config.site_static_host %>/public/images/doc_edit_icon&16.png"
-                     title='编辑'/>
-            </a>
-            <a href='javascript:void(0);' class='delete_reply_btn'>
-                <img class='user_icon' src="<%- config.site_static_host %>/public/images/trash_icon&16.png" title='删除'/>
-            </a>
-            <% } %>
+    <div class='user_info'>
+      <a class='dark reply_author' href="/user/<%= reply.author.name %>"><%= reply.author.name %>
+      </a>
+      <a class="reply_time" href="#<%- reply._id %>"><%= indexInCollection + 1 %>楼•<%= reply.friendly_create_at
+        %></a>
+    </div>
+    <div class='user_action'>
+      <% if ( typeof(current_user) !== 'undefined' && current_user.is_admin ||
+      (typeof(current_user) !== 'undefined' && current_user._id.toString() == reply.author._id.toString())
+      ) { %>
+      <a href='/reply/<%- reply._id %>/edit' class='edit_reply_btn'>
+        <img class='user_icon' src="<%- config.site_static_host %>/public/images/doc_edit_icon&16.png"
+             title='编辑'/>
+      </a>
+      <a href='javascript:void(0);' class='delete_reply_btn'>
+        <img class='user_icon' src="<%- config.site_static_host %>/public/images/trash_icon&16.png" title='删除'/>
+      </a>
+      <% } %>
       <span>
         <% if(typeof(current_user) !== 'undefined'){ %>
           <img class='dark reply2_btn' src="<%- config.site_static_host %>/public/images/reply_icon_16.png" title="回复">
@@ -32,44 +32,44 @@
          <span class='col_fade'>{<%= reply.replies.length %>}</span>
         <% } %>-->
       </span>
+    </div>
+  </div>
+  <div class='reply_content'>
+    <%- markdown(reply.content) %>
+  </div>
+  <div class='clearfix'>
+    <div class='reply2_area'>
+      <% if (reply.replies.length >0) { %>
+      <%- partial('../reply/reply2',{collection: reply.replies, as: 'reply2'}) %>
+      <% } %>
+      <% if (typeof(current_user) !== 'undefined') { %>
+      <form class='reply2_form' action='/<%= topic._id %>/reply2' method='post'>
+        <input type='hidden' name='_csrf' value='<%- csrf %>'/>
+        <input type='hidden' name='reply_id' value='<%- reply._id %>'/>
+
+        <div class='markdown_editor in_editor'>
+          <div class='markdown_in_editor'>
+            <textarea class='span8 editor reply_editor'
+                      id="reply2_editor_<%- reply._id %>" name='r2_content' rows='4'></textarea>
+
+            <div class='editor_buttons'>
+              <input class='span-common action_preview' type="button" value="预览">
+              <input class='span-primary reply2_submit_btn submit_btn'
+                     type="submit" data-id='<%= reply._id %>' data-loading-text="回复中.." value="回复">
+            </div>
+          </div>
+          <div class='markdown_in_preview'>
+            <div class='preview'></div>
+            <div class='editor_buttons'>
+              <input class='span-common action_modify' type="button" value="修改">
+              <input class='span-primary reply2_submit_btn submit_btn'
+                     type="submit" data-id='<%= reply._id %>' data-loading-text="回复中.." value="回复">
+            </div>
+          </div>
         </div>
-    </div>
-    <div class='reply_content'>
-        <%- markdown(reply.content) %>
-    </div>
-    <div class='clearfix'>
-        <div class='reply2_area'>
-            <% if (reply.replies.length >0) { %>
-            <%- partial('../reply/reply2',{collection: reply.replies, as: 'reply2'}) %>
-            <% } %>
-            <% if (typeof(current_user) !== 'undefined') { %>
-            <form class='reply2_form' action='/<%= topic._id %>/reply2' method='post'>
-                <input type='hidden' name='_csrf' value='<%- csrf %>'/>
-                <input type='hidden' name='reply_id' value='<%- reply._id %>'/>
 
-                <div class='markdown_editor in_editor'>
-                    <div class='markdown_in_editor'>
-                        <textarea class='span8 editor reply_editor'
-                                  id="reply2_editor_<%- reply._id %>" name='r2_content' rows='4'></textarea>
-
-                        <div class='editor_buttons'>
-                            <input class='span-common action_preview' type="button" value="预览">
-                            <input class='span-primary reply2_submit_btn submit_btn'
-                                   type="submit" data-id='<%= reply._id %>' data-loading-text="回复中.." value="回复">
-                        </div>
-                    </div>
-                    <div class='markdown_in_preview'>
-                        <div class='preview'></div>
-                        <div class='editor_buttons'>
-                            <input class='span-common action_modify' type="button" value="修改">
-                            <input class='span-primary reply2_submit_btn submit_btn'
-                                   type="submit" data-id='<%= reply._id %>' data-loading-text="回复中.." value="回复">
-                        </div>
-                    </div>
-                </div>
-
-            </form>
-            <% } %>
-        </div>
+      </form>
+      <% } %>
     </div>
+  </div>
 </div>

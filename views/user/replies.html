@@ -1,24 +1,24 @@
 <%- partial('../sidebar') %>
 
 <div id='content'>
-    <div class='panel'>
-        <div class='header'>
-            <ul class='breadcrumb'>
-                <li><a href='/'>主页</a><span class='divider'>/</span></li>
-                <li class='active'><a href="/user/<%=user.name%>"><%=user.name%>的主页</a></li>
-            </ul>
-        </div>
+  <div class='panel'>
+    <div class='header'>
+      <ul class='breadcrumb'>
+        <li><a href='/'>主页</a><span class='divider'>/</span></li>
+        <li class='active'><a href="/user/<%=user.name%>"><%=user.name%>的主页</a></li>
+      </ul>
     </div>
-    <div class='panel'>
-        <div class="header"><%= user.name %> 参与的话题</div>
-        <% if(typeof(topics) !== 'undefined' && topics.length > 0){ %>
-        <%- partial('../topic/list',
-        {topics:topics,pages:pages,current_pages:current_page,base:'/user/'+user.name+'/replies'}) %>
-        <% }else{ %>
-        <div class='inner'>
-            <p>无话题</p>
-        </div>
-        <% } %>
+  </div>
+  <div class='panel'>
+    <div class="header"><%= user.name %> 参与的话题</div>
+    <% if(typeof(topics) !== 'undefined' && topics.length > 0){ %>
+    <%- partial('../topic/list',
+    {topics:topics,pages:pages,current_pages:current_page,base:'/user/'+user.name+'/replies'}) %>
+    <% }else{ %>
+    <div class='inner'>
+      <p>无话题</p>
     </div>
+    <% } %>
+  </div>
 </div>
 

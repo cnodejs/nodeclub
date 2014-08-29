@@ -1,92 +1,92 @@
 <div id='sidebar'>
 
-    <div class='panel'>
-        <% if (typeof(user) !== 'undefined' || typeof(current_user) !== 'undefined') { %>
-        <div class='header'>
-            <span class='col_fade'>个人信息</span>
-        </div>
-        <div class='inner'>
-            <%- partial('user/card',{ object: typeof(user) === 'undefined' ? current_user : user, as: 'user' }) %>
-        </div>
-        <% } else { %>
-        <div class='inner'>
-            <p><%= config.description %></p>
-
-            <div>
-                您可以
-                <a href='/signin'>登录</a>
-                或
-                <a href='/signup'>注册</a>
-                , 也可以
-                <a href="/auth/github" class="btn btn-info">通过 GitHub 登录</a>
-            </div>
-        </div>
-        <% } %>
+  <div class='panel'>
+    <% if (typeof(user) !== 'undefined' || typeof(current_user) !== 'undefined') { %>
+    <div class='header'>
+      <span class='col_fade'>个人信息</span>
     </div>
+    <div class='inner'>
+      <%- partial('user/card',{ object: typeof(user) === 'undefined' ? current_user : user, as: 'user' }) %>
+    </div>
+    <% } else { %>
+    <div class='inner'>
+      <p><%= config.description %></p>
 
-    <% if (typeof(current_user) !== 'undefined') { %>
-    <div class="panel">
-        <div class='inner'>
-            <a href='/topic/create' id='create_topic_btn'>
-                <span class='span-success'>发布话题</span>
-            </a>
-        </div>
+      <div>
+        您可以
+        <a href='/signin'>登录</a>
+        或
+        <a href='/signup'>注册</a>
+        , 也可以
+        <a href="/auth/github" class="btn btn-info">通过 GitHub 登录</a>
+      </div>
     </div>
     <% } %>
+  </div>
 
-    <% if (typeof(no_reply_topics) !== 'undefined') { %>
-    <div class='panel'>
-        <div class='header'>
-            <span class='col_fade'>无人回复的话题</span>
-        </div>
-        <div class='inner'>
-            <% if (no_reply_topics.length > 0) { %>
-            <ul class="unstyled">
-                <%- partial('topic/small', { collection: no_reply_topics, as: 'topic' }) %>
-            </ul>
-            <% } else { %>
-            <p>无</p>
-            <% } %>
-        </div>
+  <% if (typeof(current_user) !== 'undefined') { %>
+  <div class="panel">
+    <div class='inner'>
+      <a href='/topic/create' id='create_topic_btn'>
+        <span class='span-success'>发布话题</span>
+      </a>
     </div>
-    <% } %>
+  </div>
+  <% } %>
 
-    <% if (typeof(tops) !== 'undefined') { %>
-    <div class='panel'>
-        <div class='header'>
-            <span class='col_fade'>积分榜</span>
-            &nbsp;
-            <a class='dark' href='/users/top100'>TOP 100 &gt;&gt;</a>
-        </div>
-        <div class='inner'>
-            <% if (tops.length > 0) { %>
-            <ol>
-                <%- partial('user/top', { collection: tops, as: 'user' }) %>
-            </ol>
-            <% } else { %>
-            <p>无</p>
-            <% } %>
-        </div>
+  <% if (typeof(no_reply_topics) !== 'undefined') { %>
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>无人回复的话题</span>
     </div>
-    <% } %>
+    <div class='inner'>
+      <% if (no_reply_topics.length > 0) { %>
+      <ul class="unstyled">
+        <%- partial('topic/small', { collection: no_reply_topics, as: 'topic' }) %>
+      </ul>
+      <% } else { %>
+      <p>无</p>
+      <% } %>
+    </div>
+  </div>
+  <% } %>
 
-    <% if (typeof(site_links) !== 'undefined') { %>
-    <div class='panel'>
-        <div class='header'>
-            <span class='col_fade'>友情链接</span>
-        </div>
-        <div class='inner'>
-            <% if (site_links.length > 0) { %>
-            <ol>
-                <%site_links.forEach(function (link) {%>
-                <li><a href="<%-link.url%>"><%-link.text%></a></li>
-                <%})%>
-            </ol>
-            <% } else { %>
-            <p>无</p>
-            <% } %>
-        </div>
+  <% if (typeof(tops) !== 'undefined') { %>
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>积分榜</span>
+      &nbsp;
+      <a class='dark' href='/users/top100'>TOP 100 &gt;&gt;</a>
     </div>
-    <% } %>
+    <div class='inner'>
+      <% if (tops.length > 0) { %>
+      <ol>
+        <%- partial('user/top', { collection: tops, as: 'user' }) %>
+      </ol>
+      <% } else { %>
+      <p>无</p>
+      <% } %>
+    </div>
+  </div>
+  <% } %>
+
+  <% if (typeof(site_links) !== 'undefined') { %>
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>友情链接</span>
+    </div>
+    <div class='inner'>
+      <% if (site_links.length > 0) { %>
+      <ol>
+        <%site_links.forEach(function (link) {%>
+        <li><a href="<%-link.url%>"><%-link.text%></a></li>
+        <%})%>
+      </ol>
+      <% } else { %>
+      <p>无</p>
+      <% } %>
+    </div>
+  </div>
+  <% } %>
 
 </div>
