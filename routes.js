@@ -15,7 +15,6 @@ var message = require('./controllers/message');
 var topic = require('./controllers/topic');
 var reply = require('./controllers/reply');
 var rss = require('./controllers/rss');
-var upload = require('./controllers/upload');
 var assets = require('./controllers/static');
 var tools = require('./controllers/tools');
 var auth = require('./middlewares/auth');
@@ -95,9 +94,6 @@ module.exports = function (app) {
   app.post('/:topic_id/reply2', auth.userRequired, limit.postInterval, reply.add_reply2); // 提交二级回复
   app.post('/reply/:reply_id/edit', reply.update); // 修改某评论
   app.post('/reply/:reply_id/delete', reply.delete); // 删除某评论
-
-  // upload
-  app.post('/upload/image', upload.uploadImage);
 
   // tools
   app.get('/site_tools', tools.run_site_tools);

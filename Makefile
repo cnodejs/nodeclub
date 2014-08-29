@@ -4,6 +4,9 @@ REPORTER = spec
 JSCOVERAGE = ./node_modules/jscover/bin/jscover
 REGISTRY = "--registry=http://registry.npm.taobao.org"
 
+
+all: test
+
 install:
 	@npm install $(REGISTRY)
 
@@ -25,7 +28,7 @@ test-cov cov: install pretest
 	@NODE_ENV=test node \
 		node_modules/.bin/istanbul cover --preserve-comments \
 		./node_modules/.bin/_mocha \
-		-- -u exports \
+		-- \
 		--reporter $(REPORTER) \
 		--timeout $(TESTTIMEOUT) \
 		$(TESTS)

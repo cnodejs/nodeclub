@@ -12,7 +12,6 @@ var path = require('path');
 var Loader = require('loader');
 var express = require('express');
 var session = require('express-session');
-var errorHandler = require('errorhandler');
 var config = require('./config').config;
 var passport = require('passport');
 require('./models');
