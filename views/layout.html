@@ -61,15 +61,16 @@
             </form>
             <ul class='nav pull-right'>
                 <li><a href='/'>首页</a></li>
-                <% if (typeof(current_user) !== 'undefined' &&
-                current_user.messages_count) { %>
                 <li>
                     <a href='/my/messages'>
-                  <span class='big messages_count'>
-                    <%= current_user.messages_count %>
-                  </span> 未读消息</a>
+                        <% if (typeof(current_user) !== 'undefined' &&
+                        current_user.messages_count) { %>
+                      <span class='big messages_count'>
+                        <%= current_user.messages_count %>
+                      </span>
+                        <% } %>
+                        未读消息</a>
                 </li>
-                <% } %>
                 <li><a href='https://github.com/cnodejs/nodeclub/wiki/'>Wiki</a></li>
                 <%
                 var site_navs = config.site_navs || [];
@@ -103,23 +104,16 @@
 <div id='footer'>
     <div id='footer_main'>
         <div class="links">
-            <a class='dark' href='/about'>关于</a>
-            |
-            <a class='dark' href='/faq'>FAQ</a>
-            |
-            <a class='dark' href='https://github.com/cnodejs/nodeclub/' target="_blank">GitHub</a>
-            |
             <a class='dark' href='/rss' target="_blank">RSS</a>
+            |
+            <a class='dark' href='https://github.com/cnodejs/nodeclub/' target="_blank">源码地址</a>
         </div>
         <div class='col_fade'>
-            <p>&copy; <%= "2012 - " + (new Date()).getFullYear() %> </p>
-
-            <p>本社区为开源系统，版本: <%= config.version %> ，欢迎贡献代码</p>
-
-            <p>本站服务器由<a href="http://www.ucloud.cn/?ref=cnode"><img src="/public/images/ucloud.png" title="UCloud云主机"
-                                                          alt="UCloud云主机"
-                                                          height="28px" width="92px"/></a>
-                赞助</p>
+            <p>本站服务器的赞助商为<a href="http://www.ucloud.cn/?ref=cnode"><img src="/public/images/ucloud.png"
+                                                                        title="UCloud云主机"
+                                                                        alt="UCloud云主机"
+                                                                        height="28px" width="92px"/></a>
+            </p>
         </div>
     </div>
 </div>
