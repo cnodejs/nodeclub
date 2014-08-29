@@ -25,7 +25,6 @@
     "method-override": "^1.0.0",
     "mongoose": "~2.8.0",
     "newrelic": "^1.7.5",
-    "node-markdown": "0.1.0",
     "nodemailer": "0.3.43",
     "passport": "~0.1.17",
     "passport-github": "~0.1.5",

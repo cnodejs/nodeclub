@@ -1,8 +1,19 @@
 var config = require('../config').config;
 var convert = require('data2xml')();
-var markdown = require('node-markdown').Markdown;
 var Topic = require('../proxy').Topic;
 var mcache = require('memory-cache');
+var marked = require('marked');
+
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: true,
+  smartLists: true,
+  smartypants: false
+});
 
 exports.index = function (req, res, next) {
   if (!config.rss) {
@@ -36,7 +47,7 @@ exports.index = function (req, res, next) {
           title: topic.title,
           link: config.rss.link + '/topic/' + topic._id,
           guid: config.rss.link + '/topic/' + topic._id,
-          description: markdown(topic.content, true),
+          description: marked(topic.content),
           author: topic.author.name,
           pubDate: topic.create_at.toUTCString()
         });
