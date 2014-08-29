@@ -1,7 +1,6 @@
 TESTS = $(shell find test -type f -name "*.test.js")
 TESTTIMEOUT = 5000
 REPORTER = spec
-JSCOVERAGE = ./node_modules/jscover/bin/jscover
 REGISTRY = "--registry=http://registry.npm.taobao.org"
 
 
