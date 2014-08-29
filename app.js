@@ -39,7 +39,6 @@ if (config.mini_assets) {
   }
 }
 
-// host: http://127.0.0.1
 var urlinfo = require('url').parse(config.host);
 config.hostname = urlinfo.hostname || config.host;
 
