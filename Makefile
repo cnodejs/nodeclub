@@ -1,13 +1,13 @@
 TESTS = $(shell find test -type f -name "*.test.js")
-TESTTIMEOUT = 5000
-REPORTER = spec
-REGISTRY = "--registry=http://registry.npm.taobao.org"
+TEST_TIMEOUT = 5000
+MOCHA_REPORTER = spec
+NPM_REGISTRY = "--registry=http://registry.npm.taobao.org"
 
 
 all: test
 
 install:
-	@npm install $(REGISTRY)
+	@npm install $(NPM_REGISTRY)
 
 pretest:
 	@if ! test -f config.js; then \
@@ -16,8 +16,8 @@ pretest:
 
 test: install
 	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
-		--reporter $(REPORTER) \
-		--timeout $(TESTTIMEOUT) \
+		--reporter $(MOCHA_REPORTER) \
+		--timeout $(TEST_TIMEOUT) \
 		$(TESTS)
 
 test-cov cov: install
@@ -25,8 +25,8 @@ test-cov cov: install
 		node_modules/.bin/istanbul cover --preserve-comments \
 		./node_modules/.bin/_mocha \
 		-- \
-		--reporter $(REPORTER) \
-		--timeout $(TESTTIMEOUT) \
+		--reporter $(MOCHA_REPORTER) \
+		--timeout $(TEST_TIMEOUT) \
 		$(TESTS)
 
 build:
