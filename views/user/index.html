@@ -1,131 +1,153 @@
-<%- partial('sidebar') %>
+<%- partial('../sidebar') %>
 
 <div id='content'>
-	<div class='panel'>
-		<div class='header'>
-			<ul class='breadcrumb'>
-				<li><a href='/'>主页</a><span class='divider'>/</span></li>
-				<li class='active'><%= user.name %></li>
-			</ul>
-		</div>
-		<div class='inner userinfo'>
-			<div class='user_big_avatar'>
-				<img src="<%= user.avatar_url %>" class="user_avatar" title="<%= user.name %>" />
-			</div>
-			<% if (locals.current_user && current_user._id != user._id) { %>
-				<% if (!locals.relation) { %>
-				<button class='btn btn-success follow_btn' action='follow'>加入关注</button>
-				<% } else { %>
-				<button class='btn follow_btn' action='un_follow'>取消关注</button>
-				<% } %>
-			<% } %>
-			<a class='dark'><%= user.name %></a>
-			<div class='col_fade'>
-				<span>
-					<img src="<%- config.site_static_host %>/public/images/cert_icon&16.png" />
-					<%= user.following_count %> 关注
-					<%= user.follower_count %> 粉丝
-					<%= user.score %> 积分</span>
-				<% if (user.signature) { %>
-					<span><%= user.signature %></span>
-				<% } %>
-			</div>
-			<div class='user_profile'>
-				<ul class='unstyled'>
-					<% if (user.url) { %>
-					<li>
-						<img class='user_icon' src="<%- config.site_static_host %>/public/images/paper_airplane_icon&16.png" />
-						<a class='dark' href="<%= user.url %>" target='_blank'><%= user.url %></a>
-					</li>
-					<% } %>
-					<% if (user.location) { %>
-					<li>
-						<img class='user_icon' src="<%- config.site_static_host %>/public/images/compass_icon&16.png" />
-						<span class='col_fade'><%= user.location %></span>
-					</li>
-					<% } %>
-					<% if (user.weibo) { %>
-					<li>
-						<img class='user_icon' src="<%- config.site_static_host %>/public/images/twitter_2_icon&16.png" />
-						<a class='dark' href="<%= user.weibo %>" target='_blank'><%= user.weibo %></a>
-					</li>
-					<% } %>
-				</ul>
-				<% if (user.profile) { %>
-					<p><%= user.profile %></p>
-				<% } %>
-			</div>
-			<p class='col_fade'>于 <%= user.friendly_create_at %> 加入 <%= config.name %></p>
-			<% if (locals.current_user && current_user.is_admin) { %>
-				<% if (!user.is_star) { %>
-				<button class='btn' id='set_star_btn' action='set_star'>设为达人</button>
-				<% } else { %>
-				<button class='btn' id='set_star_btn' action='cancel_star'>取消达人</button>
-				<% } %>
-				<br/><br/>
-				Email (Seen by Administrator): <a href="mailto:<%= user.email %>"><%= user.email %></a>
-				<% if (!user.active) { %>
-				<a class='btn' href="/active_account?key=<%- locals.token %>&name=<%= user.name %>" target="_blank">激活账号</a>
-				<% } %>
-			<% } %>
-		</div>
-	</div>	
+  <div class='panel'>
+    <div class='header'>
+      <ul class='breadcrumb'>
+        <li><a href='/'>主页</a><span class='divider'>/</span></li>
+      </ul>
+    </div>
+    <div class='inner userinfo'>
+      <div class='user_big_avatar'>
+        <img src="<%= user.avatar_url %>" class="user_avatar" title="<%= user.name %>"/>
+      </div>
+      <a class='dark'><%= user.name %></a>
 
-	<div class='panel'>
-		<div class='header'>
-			<span class='col_fade'>最近发布话题</span>
-		</div>
-		<% if (locals.recent_topics && recent_topics.length > 0) { %>
-		<%- partial('topic/abstract', { collection: recent_topics, as: 'topic' }) %>
-		<div class='cell more'>
-			<a class='dark' href="/user/<%= user.name %>/topics">查看更多»</a>
-		</div>
-		<% } else { %>
-		<div class='inner'>
-			<p>无话题</p>
-		</div>
-		<% } %>
-	</div>
+      <div class='user_profile'>
+        <ul class='unstyled'>
+          <% if (user.url) { %>
+          <li>
+            <img class='user_icon'
+                 src="<%- config.site_static_host %>/public/images/paper_airplane_icon&16.png"/>
+            <a class='dark' href="<%= user.url %>" target='_blank'><%= user.url %></a>
+          </li>
+          <% } %>
+          <% if (user.location) { %>
+          <li>
+            <img class='user_icon' src="<%- config.site_static_host %>/public/images/compass_icon&16.png"/>
+            <span class='dark'><%= user.location %></span>
+          </li>
+          <% } %>
+          <% if (user.githubUsername) { %>
+          <li>
+            <img class='user_icon' src="<%- config.site_static_host %>/public/images/github_icon&16.png"/>
+            <a class='dark' href="https://github.com/<%= user.githubUsername %>" target='_blank'>
+              @<%= user.githubUsername %>
+            </a>
+          </li>
+          <% } %>
+          <% if (user.weibo) { %>
+          <li>
+            <img class='user_icon'
+                 src="<%- config.site_static_host %>/public/images/twitter_2_icon&16.png"/>
+            <a class='dark' href="<%= user.weibo %>" target='_blank'><%= user.weibo %></a>
+          </li>
+          <% } %>
+        </ul>
+      </div>
+      <p class='col_fade'>注册时间 <%= user.friendly_create_at %></p>
+      <% if (typeof(current_user) !== 'undefined' && current_user.is_admin) { %>
+      <% if (!user.is_star) { %>
+      <button class='btn' id='set_star_btn' action='set_star'>设为达人</button>
+      <% } else { %>
+      <button class='btn' id='set_star_btn' action='cancel_star'>取消达人</button>
+      <% } %>
 
-	<div class='panel'>
-		<div class='header'>
-			<span class='col_fade'>最近参与话题</span>
-		</div>
-		<% if (locals.recent_replies && recent_replies.length > 0) { %>
-		<%- partial('topic/abstract', { collection: recent_replies, as: 'topic' }) %>
-		<div class='cell more'>
-			<a class='dark' href="/user/<%= user.name %>/replies">查看更多»</a>
-		</div>
-		<% } else { %>
-		<div class='inner'>
-			<p>无话题</p>
-		</div>
-		<% } %>
-	</div>
+      <% if (!user.is_block) { %>
+      <button class='btn' id='set_block_btn' action='set_block'>屏蔽用户并删其所有帖</button>
+      <% } else { %>
+      <button class='btn' id='set_block_btn' action='cancel_block'>取消屏蔽用户</button>
+      <% } %>
+
+      <br/><br/>
+      Email (Seen by Administrator): <a href="mailto:<%= user.email %>"><%= user.email %></a>
+      <% if (!user.active) { %>
+      <a class='btn'
+         href="/active_account?key=<%- typeof(token) !== 'undefined' && token %>&name=<%= user.name %>"
+         target="_blank">激活账号</a>
+      <% } %>
+      <% } %>
+    </div>
+  </div>
+
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>最近创建的话题</span>
+    </div>
+    <% if (typeof(recent_topics) !== 'undefined' && recent_topics.length > 0) { %>
+    <%- partial('../topic/abstract', { collection: recent_topics, as: 'topic' }) %>
+    <div class='cell more'>
+      <a class='dark' href="/user/<%= user.name %>/topics">查看更多»</a>
+    </div>
+    <% } else { %>
+    <div class='inner'>
+      <p>无话题</p>
+    </div>
+    <% } %>
+  </div>
+
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>最近参与的话题</span>
+    </div>
+    <% if (typeof(recent_replies) !== 'undefined' && recent_replies.length > 0) { %>
+    <%- partial('../topic/abstract', { collection: recent_replies, as: 'topic' }) %>
+    <div class='cell more'>
+      <a class='dark' href="/user/<%= user.name %>/replies">查看更多»</a>
+    </div>
+    <% } else { %>
+    <div class='inner'>
+      <p>无话题</p>
+    </div>
+    <% } %>
+  </div>
 </div>
 
-<% if (locals.current_user) { %>
+<% if (typeof(current_user) !== 'undefined') { %>
 <script>
-	$(document).ready(function () {
-		$('#set_star_btn').click(function () {
-			var $me = $(this);
-			var action = $me.attr('action');
-			var params = {
-				user_id: '<%= user._id %>',
-				_csrf: '<%- csrf %>'
-			};
-			$.post('/user/' + action, params, function (data) {
-				if (data.status === 'success') {
-					if (action === 'set_star') {
-						$me.html('取消达人');
-						$me.attr('action','cancel_star');
-					} else {
-						$me.html('设为达人');
-						$me.attr('action','set_star');
-					}
-				}
-			}, 'json');	
-		});
-	});
+  $(document).ready(function () {
+    $('#set_star_btn').click(function () {
+      var $me = $(this);
+      var action = $me.attr('action');
+      var params = {
+        user_id: '<%= user._id %>',
+        _csrf: '<%- csrf %>'
+      };
+      $.post('/user/' + action, params, function (data) {
+        if (data.status === 'success') {
+          if (action === 'set_star') {
+            $me.html('取消达人');
+            $me.attr('action', 'cancel_star');
+          } else {
+            $me.html('设为达人');
+            $me.attr('action', 'set_star');
+          }
+        }
+      }, 'json');
+    });
+
+    $('#set_block_btn').click(function () {
+      var $me = $(this);
+      var action = $me.attr('action');
+      var params = {
+        _csrf: '<%- csrf %>',
+        action: action
+      };
+      if (action === 'set_block' && !confirm('确定要屏蔽该用户吗？此操作不可逆且会删除该用户的所有主题和回复！')) {
+        return;
+      }
+      $.post('/user/<%- user.name %>/block', params, function (data) {
+        if (data.status === 'success') {
+          if (action === 'set_block') {
+            $me.html('取消屏蔽用户');
+            $me.attr('action', 'cancel_block');
+          } else if (action === 'cancel_block') {
+            $me.html('屏蔽用户并删其所有帖');
+            $me.attr('action', 'set_block');
+          }
+        }
+      }, 'json');
+    })
+  });
 </script>
 <% } %>

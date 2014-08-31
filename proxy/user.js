@@ -1,5 +1,6 @@
 var models = require('../models');
 var User = models.User;
+var utility = require('utility');
 
 /**
  * 根据用户名列表查找用户列表
@@ -111,4 +112,13 @@ exports.newAndSave = function (name, loginname, pass, email, avatar_url, active,
   user.avatar = avatar_url;
   user.active = false;
   user.save(callback);
+};
+
+var makeGravatar = function (email) {
+  return 'http://www.gravatar.com/avatar/' + utility.md5(email.toLowerCase()) + '?size=48';
+};
+exports.makeGravatar = makeGravatar;
+
+exports.getGravatar = function (user) {
+  return user.avatar || makeGravatar(user);
 };

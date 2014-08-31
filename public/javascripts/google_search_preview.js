@@ -36,7 +36,7 @@ $(function () {
   $in.attr('autocomplete', 'off');
   $in.focusin(start).focusout(stop);
   $in.after('<div id="__quick_search_list" style="display:none; z-index:1000; position:fixed; padding:8px; background-color:white; opacity:0.95; color:black; font-size:14px; line-height:1.8em; border:1px solid #AAA; width:500px; box-shadow:2px 2px 4px #AAA;"></div>')
-     .after('<style>.__quick_search_list_item { border-bottom:1px solid #EEE; padding:4px 0px; }\n.__quick_search_list_item:last-child { border-bottom:none; }\n.__quick_search_list_item:hover { background-color:#EEE; }\n.__quick_search_list_item span { font-size:10px ;margin-left:20px; color:#333; }\n.__quick_search_list_item b { color:#DD4B39; font-weight:normal; margin:2px; }</style>');
+    .after('<style>.__quick_search_list_item { border-bottom:1px solid #EEE; padding:4px 0px; }\n.__quick_search_list_item:last-child { border-bottom:none; }\n.__quick_search_list_item:hover { background-color:#EEE; }\n.__quick_search_list_item span { font-size:10px ;margin-left:20px; color:#333; }\n.__quick_search_list_item b { color:#DD4B39; font-weight:normal; margin:2px; }</style>');
   var $list = $('#__quick_search_list');
   var showList = function (list) {
     var html = '';

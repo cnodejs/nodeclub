@@ -17,4 +17,9 @@ var TopicSchema = new Schema({
   content_is_html: { type: Boolean }
 });
 
+TopicSchema.index({create_at: -1});
+TopicSchema.index({top: -1, last_reply_at: -1});
+TopicSchema.index({last_reply_at: -1});
+TopicSchema.index({author_id: 1, create_at: -1});
+
 mongoose.model('Topic', TopicSchema);

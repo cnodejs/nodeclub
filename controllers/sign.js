@@ -1,5 +1,6 @@
-var check = require('validator').check,
-  sanitize = require('validator').sanitize;
+var check = require('validator').check;
+var sanitize = require('validator').sanitize;
+var eventproxy = require('eventproxy');
 
 var crypto = require('crypto');
 var config = require('../config').config;
@@ -54,7 +55,10 @@ exports.signup = function (req, res, next) {
     return;
   }
 
-  User.getUsersByQuery({'$or': [{'loginname': loginname}, {'email': email}]}, {}, function (err, users) {
+  User.getUsersByQuery({'$or': [
+    {'loginname': loginname},
+    {'email': email}
+  ]}, {}, function (err, users) {
     if (err) {
       return next(err);
     }
@@ -65,15 +69,15 @@ exports.signup = function (req, res, next) {
 
     // md5 the pass
     pass = md5(pass);
-    // create gavatar
-    var avatar_url = 'http://www.gravatar.com/avatar/' + md5(email.toLowerCase()) + '?size=48';
+    // create gravatar
+    var avatar_url = User.makeGravatar(email);
 
     User.newAndSave(name, loginname, pass, email, avatar_url, false, function (err) {
       if (err) {
         return next(err);
       }
       // 发送激活邮件
-      mail.sendActiveMail(email, md5(email + config.session_secret), name, email);
+      mail.sendActiveMail(email, md5(email + config.session_secret), name);
       res.render('sign/signup', {
         success: '欢迎加入 ' + config.name + '！我们已给您的注册邮箱发送了一封邮件，请点击里面的链接来激活您的帐号。'
       });
@@ -131,7 +135,7 @@ exports.login = function (req, res, next) {
     }
     if (!user.active) {
       // 从新发送激活邮件
-      mail.sendActiveMail(user.email, md5(user.email + config.session_secret), user.name, user.email);
+      mail.sendActiveMail(user.email, md5(user.email + config.session_secret), user.name);
       return res.render('sign/signin', { error: '此帐号还没有被激活，激活链接已发送到 ' + user.email + ' 邮箱，请查收。' });
     }
     // store session cookie
@@ -233,9 +237,9 @@ exports.reset_pass = function (req, res, next) {
     var now = new Date().getTime();
     var oneDay = 1000 * 60 * 60 * 24;
     if (!user.retrieve_time || now - user.retrieve_time > oneDay) {
-      return res.render('notify/notify', {error : '该链接已过期，请重新申请。'});
+      return res.render('notify/notify', {error: '该链接已过期，请重新申请。'});
     }
-    return res.render('sign/reset', {name : name, key : key});
+    return res.render('sign/reset', {name: name, key: key});
   });
 };
 
@@ -245,14 +249,14 @@ exports.update_pass = function (req, res, next) {
   var key = req.body.key || '';
   var name = req.body.name || '';
   if (psw !== repsw) {
-    return res.render('sign/reset', {name : name, key : key, error : '两次密码输入不一致。'});
+    return res.render('sign/reset', {name: name, key: key, error: '两次密码输入不一致。'});
   }
   User.getUserByQuery(name, key, function (err, user) {
     if (err) {
       return next(err);
     }
     if (!user) {
-      return res.render('notify/notify', {error : '错误的激活链接'});
+      return res.render('notify/notify', {error: '错误的激活链接'});
     }
     user.pass = md5(psw);
     user.retrieve_key = null;
@@ -267,34 +271,30 @@ exports.update_pass = function (req, res, next) {
   });
 };
 
-function getAvatarURL(user) {
-  if (user.avatar_url) {
-    return user.avatar_url;
-  }
-  var avatar_url = user.profile_image_url || user.avatar;
-  if (!avatar_url) {
-    avatar_url = config.site_static_host + '/public/images/user_icon&48.png';
-  }
-  return avatar_url;
-}
-
 // auth_user middleware
 exports.auth_user = function (req, res, next) {
-  if (req.session.user) {
-    if (config.admins[req.session.user.name]) {
-      req.session.user.is_admin = true;
-    }
-    Message.getMessagesCount(req.session.user._id, function (err, count) {
-      if (err) {
-        return next(err);
-      }
-      req.session.user.messages_count = count;
-      if (!req.session.user.avatar_url) {
-        req.session.user.avatar_url = getAvatarURL(req.session.user);
-      }
-      res.local('current_user', req.session.user);
+  var ep = new eventproxy();
+  ep.fail(next);
+
+  ep.all('get_user', function (user) {
+    if (!user) {
       return next();
-    });
+    }
+    res.locals.current_user = req.session.user = user;
+    req.session.user.avatar_url = User.getGravatar(user.email);
+
+    if (config.admins.hasOwnProperty(user.name)) {
+      user.is_admin = true;
+    }
+    Message.getMessagesCount(user._id, ep.done(function (count) {
+      user.messages_count = count;
+      next();
+    }));
+
+  });
+
+  if (req.session.user) {
+    ep.emit('get_user', req.session.user);
   } else {
     var cookie = req.cookies[config.auth_cookie_name];
     if (!cookie) {
@@ -304,28 +304,7 @@ exports.auth_user = function (req, res, next) {
     var auth_token = decrypt(cookie, config.session_secret);
     var auth = auth_token.split('\t');
     var user_id = auth[0];
-    User.getUserById(user_id, function (err, user) {
-      if (err) {
-        return next(err);
-      }
-      if (user) {
-        if (config.admins[user.name]) {
-          user.is_admin = true;
-        }
-        Message.getMessagesCount(user._id, function (err, count) {
-          if (err) {
-            return next(err);
-          }
-          user.messages_count = count;
-          req.session.user = user;
-          req.session.user.avatar_url = user.avatar_url;
-          res.local('current_user', req.session.user);
-          return next();
-        });
-      } else {
-        return next();
-      }
-    });
+    User.getUserById(user_id, ep.done('get_user'));
   }
 };
 
@@ -334,6 +313,8 @@ function gen_session(user, res) {
   var auth_token = encrypt(user._id + '\t' + user.name + '\t' + user.pass + '\t' + user.email, config.session_secret);
   res.cookie(config.auth_cookie_name, auth_token, {path: '/', maxAge: 1000 * 60 * 60 * 24 * 30}); //cookie 有效期30天
 }
+
+exports.gen_session = gen_session;
 
 function encrypt(str, secret) {
   var cipher = crypto.createCipher('aes192', secret);

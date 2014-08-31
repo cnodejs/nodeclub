@@ -1,31 +1,41 @@
-TESTS = $(shell find test -type f -name "*.js")
-TESTTIMEOUT = 5000
-REPORTER = spec
-JSCOVERAGE = ./node_modules/jscover/bin/jscover
+TESTS = $(shell find test -type f -name "*.test.js")
+TEST_TIMEOUT = 5000
+MOCHA_REPORTER = spec
+NPM_REGISTRY = "--registry=http://registry.npm.taobao.org"
+
+
+all: test
 
 install:
-	@npm install
+	@npm install $(NPM_REGISTRY)
 
-test: install
+pretest:
 	@if ! test -f config.js; then \
 		cp config.default.js config.js; \
 	fi
-	@if ! test -f assets.json; then \
-		make build; \
-	fi
+
+test: install pretest
 	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
-		--reporter $(REPORTER) --timeout $(TESTTIMEOUT) $(TESTS)
+		--reporter $(MOCHA_REPORTER) \
+		--timeout $(TEST_TIMEOUT) \
+		$(TESTS)
 
-cov: install
-	@rm -rf .cov
-	@$(JSCOVERAGE) --exclude=public --exclude=test . .cov
-	@cp -rf node_modules test public .cov
-
-test-cov: cov
-	@$(MAKE) -C .cov test REPORTER=progress
-	@$(MAKE) -C .cov test REPORTER=html-cov > coverage.html
+test-cov cov: install pretest
+	@NODE_ENV=test node \
+		node_modules/.bin/istanbul cover --preserve-comments \
+		./node_modules/.bin/_mocha \
+		-- \
+		--reporter $(MOCHA_REPORTER) \
+		--timeout $(TEST_TIMEOUT) \
+		$(TESTS)
 
 build:
-	@./bin/combo views .
+	@./node_modules/loader/bin/build views .
 
-.PHONY: test test-cov cov
+start: install build
+	@nohup ./node_modules/.bin/pm2 start app.js -i max --name "cnode" >> cnode.log 2>&1 &
+
+restart: install build
+	@nohup ./node_modules/.bin/pm2 restart "cnode" >> cnode.log 2>&1 &
+
+.PHONY: install test cov test-cov build start restart

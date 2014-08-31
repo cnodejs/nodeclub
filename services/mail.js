@@ -1,10 +1,10 @@
 var mailer = require('nodemailer');
 var config = require('../config').config;
-var marked = require('marked-prettyprint');
+var marked = require('marked');
+var util = require('util');
 
 var transport = mailer.createTransport('SMTP', config.mail_opts);
-
-var SITE_ROOT_URL = 'http://' + config.hostname + (config.port !== 80 ? ':' + config.port : '');
+var SITE_ROOT_URL = 'http://' + config.host;
 
 /**
  * Send an email
@@ -32,10 +32,9 @@ var sendMail = function (data) {
  * @param {String} who 接收人的邮件地址
  * @param {String} token 重置用的token字符串
  * @param {String} name 接收人的用户名
- * @param {String} email 接受人的邮件地址
  */
 exports.sendActiveMail = function (who, token, name) {
-  var from = config.mail_opts.auth.user;
+  var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
   var to = who;
   var subject = config.name + '社区帐号激活';
   var html = '<p>您好：<p/>' +
@@ -59,10 +58,10 @@ exports.sendActiveMail = function (who, token, name) {
  * @param {String} name 接收人的用户名
  */
 exports.sendResetPassMail = function (who, token, name) {
-  var from = config.mail_opts.auth.user;
+  var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
   var to = who;
   var subject = config.name + '社区密码重置';
-  var html = '<p>您好：<p/>' +
+  var html = '<p>您好：' + name + '</p>' +
     '<p>我们收到您在' + config.name + '社区重置密码的请求，请在24小时内单击下面的链接来重置密码：</p>' +
     '<a href="' + SITE_ROOT_URL + '/reset_pass?key=' + token + '&name=' + name + '">重置密码链接</a>' +
     '<p>若您没有在' + config.name + '社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p>' +
@@ -82,7 +81,9 @@ exports.sendResetPassMail = function (who, token, name) {
  * @param {Object} msg 发送的消息对象
  */
 exports.sendReplyMail = function (who, msg) {
-  var from = config.mail_opts.auth.user;
+  return; // !!!关闭发送通知邮件
+
+  var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
   var to = who;
   var subject = config.name + ' 新消息';
   var url = SITE_ROOT_URL + '/topic/' + msg.topic._id + '#' + msg.reply._id;
@@ -111,7 +112,14 @@ exports.sendReplyMail = function (who, msg) {
  * @param {Object} msg 发送的消息对象
  */
 exports.sendAtMail = function (who, msg) {
-  var from = config.mail_opts.auth.user;
+  return; // !!!关闭发送at通知邮件
+
+
+  if (!msg.topic || !msg.reply) {
+    return;
+  }
+
+  var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
   var to = who;
   var subject = config.name + ' 新消息';
   var url = SITE_ROOT_URL + '/topic/' + msg.topic._id + '#' + msg.reply._id;

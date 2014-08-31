@@ -12,10 +12,9 @@ var at = require('../services/at');
 var User = require('../proxy').User;
 var Topic = require('../proxy').Topic;
 var Tag = require('../proxy').Tag;
-var Relation = require('../proxy').Relation;
 var TopicTag = require('../proxy').TopicTag;
 var TopicCollect = require('../proxy').TopicCollect;
-
+var Relation = require('../proxy').Relation;
 var EventProxy = require('eventproxy');
 var Util = require('../libs/util');
 
@@ -33,79 +32,62 @@ exports.index = function (req, res, next) {
       error: '此话题不存在或已被删除。'
     });
   }
-  var events = ['topic', 'other_topics', 'no_reply_topics', 'get_relation', '@user'];
+  var events = ['topic', 'other_topics', 'no_reply_topics', 'relation'];
   var ep = EventProxy.create(events, function (topic, other_topics, no_reply_topics, relation) {
     res.render('topic/index', {
       topic: topic,
       author_other_topics: other_topics,
       no_reply_topics: no_reply_topics,
-      relation : relation
+      relation: relation
     });
   });
 
   ep.fail(next);
 
-  ep.once('topic', function (topic) {
-    if (topic.content_is_html) {
-      return ep.emit('@user');
-    }
-    at.linkUsers(topic.content, ep.done(function (content) {
-      topic.content = content;
-      ep.emit('@user');
-    }));
-  });
-
-  Topic.getFullTopic(topic_id, ep.done(function (message, topic, tags, author, replies) {
+  Topic.getFullTopic(topic_id, ep.done(function (message, topic, author, replies) {
     if (message) {
       ep.unbind();
       return res.render('notify/notify', { error: message });
     }
 
     topic.visit_count += 1;
-    topic.save(ep.done(function () {
-      // format date
-      topic.friendly_create_at = Util.format_date(topic.create_at, true);
-      topic.friendly_update_at = Util.format_date(topic.update_at, true);
+    topic.save();
 
-      topic.tags = tags;
-      topic.author = author;
-      topic.replies = replies;
+    // format date
+    topic.friendly_create_at = Util.format_date(topic.create_at, true);
+    topic.friendly_update_at = Util.format_date(topic.update_at, true);
 
-      if (!req.session.user) {
-        ep.emit('topic', topic);
-      } else {
-        TopicCollect.getTopicCollect(req.session.user._id, topic._id, ep.done(function (doc) {
-          topic.in_collection = doc;
-          ep.emit('topic', topic);
-        }));
-      }
-    }));
+    topic.author = author;
+    topic.replies = replies;
 
-    // get author's relationship
-    if (req.session.user && req.session.user._id) {
-      Relation.getRelation(req.session.user._id, topic.author_id, ep.done('get_relation'));
+    if (!req.session.user) {
+      ep.emit('topic', topic);
+      ep.emit('relation', null);
     } else {
-      ep.emit('get_relation', null);
+      TopicCollect.getTopicCollect(req.session.user._id, topic._id, ep.done(function (doc) {
+        topic.in_collection = doc;
+        ep.emit('topic', topic);
+      }));
+      Relation.getRelation(req.session.user._id, author._id, ep.done('relation'));
     }
 
     // get author other topics
-    var options = { limit: 5, sort: [ [ 'last_reply_at', 'desc' ] ]};
+    var options = { limit: 5, sort: [
+      [ 'last_reply_at', 'desc' ]
+    ]};
     var query = { author_id: topic.author_id, _id: { '$nin': [ topic._id ] } };
     Topic.getTopicsByQuery(query, options, ep.done('other_topics'));
 
     // get no reply topics
-    var options2 = { limit: 5, sort: [ ['create_at', 'desc'] ] };
+    var options2 = { limit: 5, sort: [
+      ['create_at', 'desc']
+    ] };
     Topic.getTopicsByQuery({reply_count: 0}, options2, ep.done('no_reply_topics'));
   }));
 };
 
 exports.create = function (req, res, next) {
-  Tag.getAllTags(function (err, tags) {
-    if (err) {
-      return next(err);
-    }
-    res.render('topic/edit', {tags: tags});
-  });
+  res.render('topic/edit');
 };
 
 exports.put = function (req, res, next) {
@@ -117,7 +99,11 @@ exports.put = function (req, res, next) {
     topic_tags = req.body.topic_tags.split(',');
   }
 
-  if (title === '') {
+  var edit_error =
+      title === '' ?
+    '标题不能是空的。' :
+    (title.length >= 10 && title.length <= 100 ? '' : '标题字数太多或太少。');
+  if (edit_error) {
     Tag.getAllTags(function (err, tags) {
       if (err) {
         return next(err);
@@ -129,21 +115,7 @@ exports.put = function (req, res, next) {
           }
         }
       }
-      res.render('topic/edit', {tags: tags, edit_error: '标题不能是空的。', content: content});
-    });
-  } else if (title.length < 10 || title.length > 100) {
-    Tag.getAllTags(function (err, tags) {
-      if (err) {
-        return next(err);
-      }
-      for (var i = 0; i < topic_tags.length; i++) {
-        for (var j = 0; j < tags.length; j++) {
-          if (topic_tags[i] === tags[j]._id) {
-            tags[j].is_selected = true;
-          }
-        }
-      }
-      res.render('topic/edit', {tags: tags, edit_error: '标题字数太多或太少', title: title, content: content});
+      res.render('topic/edit', {tags: tags, edit_error: edit_error, title: title, content: content});
     });
   } else {
     Topic.newAndSave(title, content, req.session.user._id, function (err, topic) {
@@ -178,7 +150,7 @@ exports.put = function (req, res, next) {
         user.score += 5;
         user.topic_count += 1;
         user.save();
-        req.session.user.score += 5;
+        req.session.user = user;
         proxy.emit('score_saved');
       }));
 
@@ -190,7 +162,7 @@ exports.put = function (req, res, next) {
 
 exports.showEdit = function (req, res, next) {
   if (!req.session.user) {
-    res.redirect('home');
+    res.redirect('/');
     return;
   }
 
@@ -227,7 +199,7 @@ exports.showEdit = function (req, res, next) {
 
 exports.update = function (req, res, next) {
   if (!req.session.user) {
-    res.redirect('home');
+    res.redirect('/');
     return;
   }
   var topic_id = req.params.tid;
@@ -363,7 +335,7 @@ exports.delete = function (req, res, next) {
 
 exports.top = function (req, res, next) {
   if (!req.session.user.is_admin) {
-    res.redirect('home');
+    res.redirect('/');
     return;
   }
   var topic_id = req.params.tid;

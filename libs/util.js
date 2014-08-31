@@ -29,7 +29,7 @@ exports.format_date = function (date, friendly) {
   //day = ((day < 10) ? '0' : '') + day;
   hour = ((hour < 10) ? '0' : '') + hour;
   minute = ((minute < 10) ? '0' : '') + minute;
-  second = ((second < 10) ? '0': '') + second;
+  second = ((second < 10) ? '0' : '') + second;
 
   var thisYear = new Date().getFullYear();
   year = (thisYear === year) ? '' : (year + '-');
@@ -50,7 +50,7 @@ exports.escape = function (html) {
   var spans = [];
   var blocks = [];
   var text = String(html).replace(/\r\n/g, '\n')
-  .replace('/\r/g', '\n');
+    .replace('/\r/g', '\n');
 
   text = '\n\n' + text + '\n\n';
 
@@ -65,19 +65,19 @@ exports.escape = function (html) {
     blocks.push(code);
     return '\n\tblock' + nextChar;
   })
-  .replace(/&(?!\w+;)/g, '&amp;')
-  .replace(/</g, '&lt;')
-  .replace(/>/g, '&gt;')
-  .replace(/"/g, '&quot;')
-  .replace(/`span`/g, function () {
-    return spans.shift();
-  })
-  .replace(/\n\tblock/g, function () {
-    return blocks.shift();
-  })
-  .replace(/~0$/, '')
-  .replace(/^\n\n/, '')
-  .replace(/\n\n$/, '');
+    .replace(/&(?!\w+;)/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/`span`/g, function () {
+      return spans.shift();
+    })
+    .replace(/\n\tblock/g, function () {
+      return blocks.shift();
+    })
+    .replace(/~0$/, '')
+    .replace(/^\n\n/, '')
+    .replace(/\n\n$/, '');
 };
 
 /**
@@ -85,42 +85,43 @@ exports.escape = function (html) {
  */
 var xssOptions = {
   whiteList: {
-    h1:     [],
-    h2:     [],
-    h3:     [],
-    h4:     [],
-    h5:     [],
-    h6:     [],
-    hr:     [],
-    span:   [],
+    h1: [],
+    h2: [],
+    h3: [],
+    h4: [],
+    h5: [],
+    h6: [],
+    hr: [],
+    span: [],
     strong: [],
-    b:      [],
-    i:      [],
-    br:     [],
-    p:      [],
-    pre:    ['class'],
-    code:   [],
-    a:      ['target', 'href', 'title'],
-    img:    ['src', 'alt', 'title'],
-    div:    [],
-    table:  ['width', 'border'],
-    tr:     [],
-    td:     ['width', 'colspan'],
-    th:     ['width', 'colspan'],
-    tbody:  [],
-    ul:     [],
-    li:     [],
-    ol:     [],
-    dl:     [],
-    dt:     [],
-    em:     [],
-    cite:   [],
+    b: [],
+    i: [],
+    br: [],
+    p: [],
+    pre: ['class'],
+    code: [],
+    a: ['target', 'href', 'title'],
+    img: ['src', 'alt', 'title'],
+    div: [],
+    table: ['width', 'border'],
+    tr: [],
+    td: ['width', 'colspan'],
+    th: ['width', 'colspan'],
+    tbody: [],
+    thead: [],
+    ul: [],
+    li: [],
+    ol: [],
+    dl: [],
+    dt: [],
+    em: [],
+    cite: [],
     section: [],
     header: [],
     footer: [],
     blockquote: [],
-    audio:  ['autoplay', 'controls', 'loop', 'preload', 'src'],
-    video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width']
+    audio: ['autoplay', 'controls', 'loop', 'preload', 'src'],
+    video: ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width']
   }
 };
 

@@ -1,65 +1,72 @@
 <div class='user_card'>
-	<div>
-		<a  class='user_avatar'  href="/user/<%= user.name %>">
-			<img src="<%= user.avatar_url %>" title="<%= user.name %>" />
-		</a>
-		<span class='user_name'><a class='dark' href="/user/<%= user.name %>"><%= user.name %></a></span>
+  <div>
+    <a class='user_avatar' href="/user/<%= user.name %>">
+      <img src="<%= user.avatar_url %>" title="<%= user.name %>"/>
+    </a>
+    <span class='user_name'><a class='dark' href="/user/<%= user.name %>"><%= user.name %></a></span>
 
-		<% if (locals.current_user && current_user._id != user._id) { %>
-			<% if (!locals.relation) { %>
-				<button class='btn btn-success follow_btn' action='follow'>加入关注</button>
-			<% } else { %>
-				<button class='btn follow_btn' action='un_follow'>取消关注</button>
-			<% } %>
-		<% } %>
+    <% if (typeof(current_user) !== 'undefined' && current_user._id != user._id) { %>
+    <div class="board clearfix">
+      <% if (typeof(relation) === 'undefined' || !relation) { %>
+      <span class='span-success follow_btn' action='follow'>加入关注</span>
+      <% } else { %>
+      <span class='span-common follow_btn' action='un_follow'>取消关注</span>
+      <% } %>
+    </div>
+    <% } %>
 
-		<div class='board clearfix'>
-			<div class='floor'>
-				<a href='/user/<%= user.name %>/tags/'><span class='big'><%= user.collect_tag_count %></span> 标签收藏</a>
-				<div class='space'></div>
-				<a href='/user/<%= user.name %>/collections'><span class='big'><%= user.collect_topic_count %></span> 话题收藏</a>
-			</div>
-			<div class='floor'>
-				<a href='/user/<%= user.name %>/following'><span class='big'><%= user.following_count %></span> 关注</a>
-				<div class='space'></div>
-				<a href='/user/<%= user.name %>/follower'><span class='big'><%= user.follower_count %></span> 粉丝</a>
-				<div class='space'></div>
-				<span class='big'><%= user.score %></span> 积分
-			</div>
+    <div class='board clearfix'>
+      <div class='floor'>
+        <a href='/user/<%= user.name %>/collections'><span class='big collect-topic-count'><%= user.collect_topic_count %></span>
+          话题收藏</a>
 
-			<% if (user.messages_count > 0) { %>
-			<div class='floor'>
-				<a href='/my/messages'><span class='big messages_count'><%= user.messages_count %></span> 未读消息</a>
-			</div>
-			<% } %>
-		</div>
-	</div>
+        <div class="space"></div>
+        <a href='/user/<%= user.name %>/following'><span class='big'><%= user.following_count %></span> 关注</a>
+
+        <div class='space'></div>
+        <a href='/user/<%= user.name %>/follower'><span class='big'><%= user.follower_count %></span> 粉丝</a>
+
+        <div class='space'></div>
+        <span class='big'><%= user.score %></span> 积分
+        <div class="space"></div>
+                <span class="signature">
+                    “
+                    <% if (user.signature) {%>
+                        <%-escapeSignature(user.signature)%>
+                    <%} else {%>
+                        这家伙很懒，什么个性签名都没有留下。
+                    <%}%>
+                    ”
+                </span>
+      </div>
+    </div>
+  </div>
 </div>
 
-<% if (locals.current_user) { %>
+<% if (typeof(current_user) !== 'undefined') { %>
 <script>
-	$(document).ready(function () {
-		$('.follow_btn').click(function () {
-			var $me = $(this);
-			var action = $me.attr('action');
-			var params = {
-				follow_id: '<%= user._id %>',
-				_csrf: '<%- csrf %>'
-			};
-			$.post('/user/' + action, params, function (data) {
-				if (data.status === 'success') {
-					var $btns = $('.follow_btn');
-					if (action === 'follow') {
-						$btns.html('取消关注');
-						$btns.attr('action','un_follow');
-					} else {
-						$btns.html('加入关注');
-						$btns.attr('action','follow');
-					}
-					$btns.toggleClass('btn-success');	
-				}	
-			}, 'json');	
-		});
-	});
+  $(document).ready(function () {
+    $('.follow_btn').click(function () {
+      var $me = $(this);
+      var action = $me.attr('action');
+      var params = {
+        follow_id: '<%= user._id %>',
+        _csrf: '<%- csrf %>'
+      };
+      $.post('/user/' + action, params, function (data) {
+        if (data.status === 'success') {
+          var $btns = $('.follow_btn');
+          if (action === 'follow') {
+            $btns.html('取消关注');
+            $btns.attr('action', 'un_follow');
+          } else {
+            $btns.html('加入关注');
+            $btns.attr('action', 'follow');
+          }
+          $btns.toggleClass('btn-success');
+        }
+      }, 'json');
+    });
+  });
 </script>
 <% } %>

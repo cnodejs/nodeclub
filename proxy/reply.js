@@ -3,7 +3,6 @@ var Reply = models.Reply;
 var EventProxy = require('eventproxy');
 
 var Util = require('../libs/util');
-var Showdown = require('../public/libs/showdown');
 var User = require('./user');
 var at = require('../services/at');
 
@@ -64,12 +63,14 @@ exports.getReplyById = function (id, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getRepliesByTopicId = function (id, cb) {
-  Reply.find({topic_id: id}, [], {sort: [['create_at', 'asc']]}, function (err, replies) {
+  Reply.find({topic_id: id}, [], {sort: [
+    ['create_at', 'asc']
+  ]}, function (err, replies) {
     if (err) {
       return cb(err);
     }
     if (replies.length === 0) {
-      return cb(err, []);
+      return cb(null, []);
     }
 
     var proxy = new EventProxy();
@@ -145,6 +146,10 @@ exports.newAndSave = function (content, topicId, authorId, replyId, callback) {
   });
 };
 
-exports.getRepliesByAuthorId = function (authorId, callback) {
-  Reply.find({author_id: authorId}, callback);
+exports.getRepliesByAuthorId = function (authorId, opt, callback) {
+  if (!callback) {
+    callback = opt;
+    opt = null;
+  }
+  Reply.find({author_id: authorId}, {}, opt, callback);
 };

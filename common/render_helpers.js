@@ -10,27 +10,36 @@
  * Module dependencies.
  */
 
-var marked = require('marked-prettyprint');
+var marked = require('marked');
 var utils = require('../libs/util');
+var _ = require('lodash');
 
 // Set default options
+var renderer = new marked.Renderer();
+
+renderer.code = function (code, lang) {
+  var language = lang && (' language-' + lang) || '';
+  return '<pre class="prettyprint' + language + '">'
+    + '<code>' + code.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code>'
+    + '</pre>';
+};
+
 marked.setOptions({
+  renderer: renderer,
   gfm: true,
   tables: true,
   breaks: true,
   pedantic: false,
   sanitize: false,
-  smartLists: true,
-  codeClass: 'prettyprint',
-  langPrefix: 'language-'
+  smartLists: true
 });
 
-exports.markdown = function () {
-  return function (text) {
-    return '<div class="markdown-text">' + utils.xss(marked(text || '')) + '</div>';
-  };
+exports.markdown = function (text) {
+  return '<div class="markdown-text">' + utils.xss(marked(text || '')) + '</div>';
 };
 
-exports.csrf = function (req, res) {
-  return req.session ? req.session._csrf : '';
+exports.escapeSignature = function (signature) {
+  return signature.split('\n').map(function (p) {
+    return _.escape(p);
+  }).join('<br>');
 };

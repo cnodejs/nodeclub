@@ -1,7 +1,10 @@
 var User = require('../proxy').User;
+var UserModel = require('../models').User;
 var Tag = require('../proxy').Tag;
 var Topic = require('../proxy').Topic;
+var TopicModel = require('../models').Topic;
 var Reply = require('../proxy').Reply;
+var ReplyModel = require('../models').Reply;
 var Relation = require('../proxy').Relation;
 var TopicCollect = require('../proxy').TopicCollect;
 var TagCollect = require('../proxy').TagCollect;
@@ -47,20 +50,27 @@ exports.index = function (req, res, next) {
     proxy.fail(next);
 
     var query = {author_id: user._id};
-    var opt = {limit: 5, sort: [['create_at', 'desc']]};
+    var opt = {limit: 5, sort: [
+      ['create_at', 'desc']
+    ]};
     Topic.getTopicsByQuery(query, opt, proxy.done('recent_topics'));
 
-    Reply.getRepliesByAuthorId(user._id, proxy.done(function (replies) {
-      var topic_ids = [];
-      for (var i = 0; i < replies.length; i++) {
-        if (topic_ids.indexOf(replies[i].topic_id.toString()) < 0) {
-          topic_ids.push(replies[i].topic_id.toString());
+    Reply.getRepliesByAuthorId(user._id, {limit: 20, sort: [
+        ['create_at', 'desc']
+      ]},
+      proxy.done(function (replies) {
+        var topic_ids = [];
+        for (var i = 0; i < replies.length; i++) {
+          if (topic_ids.indexOf(replies[i].topic_id.toString()) < 0) {
+            topic_ids.push(replies[i].topic_id.toString());
+          }
         }
-      }
-      var query = {_id: {'$in': topic_ids}};
-      var opt = {limit: 5, sort: [['create_at', 'desc']]};
-      Topic.getTopicsByQuery(query, opt, proxy.done('recent_replies'));
-    }));
+        var query = {_id: {'$in': topic_ids}};
+        var opt = {limit: 5, sort: [
+          ['create_at', 'desc']
+        ]};
+        Topic.getTopicsByQuery(query, opt, proxy.done('recent_replies'));
+      }));
 
     if (!req.session.user) {
       proxy.emit('relation', null);
@@ -81,7 +91,7 @@ exports.show_stars = function (req, res, next) {
 
 exports.showSetting = function (req, res, next) {
   if (!req.session.user) {
-    res.redirect('home');
+    res.redirect('/');
     return;
   }
 
@@ -99,8 +109,28 @@ exports.showSetting = function (req, res, next) {
 
 exports.setting = function (req, res, next) {
   if (!req.session.user) {
-    res.redirect('home');
+    res.redirect('/');
     return;
+  }
+
+  // 显示出错或成功信息
+  function showMessage(msg, data, isSuccess) {
+    var data = data || req.body;
+    var data2 = {
+      name: data.name,
+      email: data.email,
+      url: data.url,
+      location: data.location,
+      signature: data.signature,
+      weibo: data.weibo,
+      githubUsername: data.github || data.githubUsername,
+    };
+    if (isSuccess) {
+      data2.success = msg;
+    } else {
+      data2.error = msg;
+    }
+    res.render('user/setting', data2);
   }
 
   // post
@@ -112,63 +142,16 @@ exports.setting = function (req, res, next) {
     email = sanitize(email).xss();
     var url = sanitize(req.body.url).trim();
     url = sanitize(url).xss();
-    var profile_image_url = sanitize(sanitize(req.body.profile_image_url).trim()).xss();
     var location = sanitize(req.body.location).trim();
     location = sanitize(location).xss();
     var signature = sanitize(req.body.signature).trim();
     signature = sanitize(signature).xss();
-    var profile = sanitize(req.body.profile).trim();
-    profile = sanitize(profile).xss();
     var weibo = sanitize(req.body.weibo).trim();
     weibo = sanitize(weibo).xss();
-    var receive_at_mail = req.body.receive_at_mail === 'on';
-    var receive_reply_mail = req.body.receive_reply_mail === 'on';
-
-    if (url !== '') {
-      try {
-        if ((url.indexOf('http://') < 0) && (url.indexOf('https://') < 0)) {
-          url = 'http://' + url;
-        }
-        check(url, '不正确的个人网站。').isUrl();
-      } catch (e) {
-        res.render('user/setting', {
-          error: e.message,
-          name: name,
-          email: email,
-          url: url,
-          profile_image_url: profile_image_url,
-          location: location,
-          signature: signature,
-          profile: profile,
-          weibo: weibo,
-          receive_at_mail: receive_at_mail,
-          receive_reply_mail: receive_reply_mail
-        });
-        return;
-      }
-    }
-    if (weibo) {
-      try {
-        if (weibo.indexOf('http://') < 0) {
-          weibo = 'http://' + weibo;
-        }
-        check(weibo, '不正确的微博地址。').isUrl();
-      } catch (e) {
-        res.render('user/setting', {
-          error: e.message,
-          name: name,
-          email: email,
-          url: url,
-          profile_image_url: profile_image_url,
-          location: location,
-          signature: signature,
-          profile: profile,
-          weibo: weibo,
-          receive_at_mail: receive_at_mail,
-          receive_reply_mail: receive_reply_mail
-        });
-        return;
-      }
+    var github = sanitize(req.body.github).trim();
+    github = sanitize(github).xss();
+    if (github.indexOf('@') === 0) {
+      github = github.slice(1);
     }
 
     User.getUserById(req.session.user._id, function (err, user) {
@@ -176,17 +159,17 @@ exports.setting = function (req, res, next) {
         return next(err);
       }
       user.url = url;
-      user.profile_image_url = profile_image_url;
       user.location = location;
       user.signature = signature;
-      user.profile = profile;
       user.weibo = weibo;
-      user.receive_at_mail = receive_at_mail;
-      user.receive_reply_mail = receive_reply_mail;
+      // create gravatar
+      user.avatar = User.makeGravatar(user.email);
+      user.githubUsername = github;
       user.save(function (err) {
         if (err) {
           return next(err);
         }
+        req.session.user = user.toObject({virtual: true});
         return res.redirect('/setting?save=success');
       });
     });
@@ -195,6 +178,9 @@ exports.setting = function (req, res, next) {
   if (action === 'change_password') {
     var old_pass = sanitize(req.body.old_pass).trim();
     var new_pass = sanitize(req.body.new_pass).trim();
+    if (!old_pass || !new_pass) {
+      return res.send('旧密码或新密码不得为空');
+    }
 
     User.getUserById(req.session.user._id, function (err, user) {
       if (err) {
@@ -205,20 +191,7 @@ exports.setting = function (req, res, next) {
       old_pass = md5sum.digest('hex');
 
       if (old_pass !== user.pass) {
-        res.render('user/setting', {
-          error: '当前密码不正确。',
-          name: user.name,
-          email: user.email,
-          url: user.url,
-          profile_image_url: user.profile_image_url,
-          location: user.location,
-          signature: user.signature,
-          profile: user.profile,
-          weibo: user.weibo,
-          receive_at_mail: user.receive_at_mail,
-          receive_reply_mail: user.receive_reply_mail
-        });
-        return;
+        return showMessage('当前密码不正确。', user);
       }
 
       md5sum = crypto.createHash('md5');
@@ -230,20 +203,7 @@ exports.setting = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        res.render('user/setting', {
-          success: '密码已被修改。',
-          name: user.name,
-          email: user.email,
-          url: user.url,
-          profile_image_url: user.profile_image_url,
-          location: user.location,
-          signature: user.signature,
-          profile: user.profile,
-          weibo: user.weibo,
-          receive_at_mail: user.receive_at_mail,
-          receive_reply_mail: user.receive_reply_mail
-        });
-        return;
+        return showMessage('密码已被修改。', user, true);
 
       });
     });
@@ -345,7 +305,7 @@ exports.toggle_star = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    user.is_star = !!user.is_star;
+    user.is_star = !user.is_star;
     user.save(function (err) {
       if (err) {
         return next(err);
@@ -410,7 +370,9 @@ exports.get_collect_topics = function (req, res, next) {
       var opt = {
         skip: (page - 1) * limit,
         limit: limit,
-        sort: [ [ 'create_at', 'desc' ] ]
+        sort: [
+          [ 'create_at', 'desc' ]
+        ]
       };
       Topic.getTopicsByQuery(query, opt, proxy.done('topics'));
       Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
@@ -466,8 +428,13 @@ exports.get_followers = function (req, res, next) {
 };
 
 exports.top100 = function (req, res, next) {
-  var opt = {limit: 100, sort: [['score', 'desc']]};
-  User.getUsersByQuery({}, opt, function (err, tops) {
+  var opt = {limit: 100, sort: [
+    ['score', 'desc']
+  ]};
+  User.getUsersByQuery({'$or': [
+    {is_block: {'$exists': false}},
+    {is_block: false},
+  ]}, opt, function (err, tops) {
     if (err) {
       return next(err);
     }
@@ -502,7 +469,9 @@ exports.list_topics = function (req, res, next) {
     proxy.fail(next);
 
     var query = {'author_id': user._id};
-    var opt = {skip: (page - 1) * limit, limit: limit, sort: [['create_at', 'desc']]};
+    var opt = {skip: (page - 1) * limit, limit: limit, sort: [
+      ['create_at', 'desc']
+    ]};
     Topic.getTopicsByQuery(query, opt, proxy.done('topics'));
 
     if (!req.session.user) {
@@ -553,7 +522,9 @@ exports.list_replies = function (req, res, next) {
         }
       }
       var query = {'_id': {'$in': topic_ids}};
-      var opt = {skip: (page - 1) * limit, limit: limit, sort: [['create_at', 'desc']]};
+      var opt = {skip: (page - 1) * limit, limit: limit, sort: [
+        ['create_at', 'desc']
+      ]};
       Topic.getTopicsByQuery(query, opt, proxy.done('topics'));
 
       Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
@@ -568,4 +539,36 @@ exports.list_replies = function (req, res, next) {
       Relation.getRelation(req.session.user._id, user._id, proxy.done('relation'));
     }
   });
+};
+
+exports.block = function (req, res, next) {
+  var userName = req.params.name;
+
+  var ep = EventProxy.create();
+  ep.fail(next);
+
+  User.getUserByName(userName, ep.done(function (user) {
+    if (req.body.action === 'set_block') {
+      ep.all('block_user', 'del_topics', 'del_replys',
+        function (user, topics, replys) {
+          res.json({status: 'success'});
+        });
+      user.is_block = true;
+      user.save(ep.done('block_user'));
+
+      // 防止误操作
+      // TopicModel.remove({author_id: user._id}, ep.done('del_topics'));
+      // ReplyModel.remove({author_id: user._id}, ep.done('del_replys'));
+      ep.emit('del_topics');
+      ep.emit('del_replys');
+      // END 防止误操作
+
+    } else if (req.body.action === 'cancel_block') {
+      user.is_block = false;
+      user.save(ep.done(function () {
+
+        res.json({status: 'success'});
+      }));
+    }
+  }));
 };
