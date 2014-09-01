@@ -217,7 +217,7 @@ exports.follow = function (req, res, next) {
       return next(err);
     }
     if (!user) {
-      res.json({status: 'failed'});
+      return res.json({status: 'failed'});
     }
 
     var proxy = EventProxy.create('relation_saved', 'message_saved', function () {
