@@ -235,6 +235,7 @@ exports.follow = function (req, res, next) {
 
       User.getUserById(req.session.user._id, proxy.done(function (me) {
         me.following_count += 1;
+        req.session.user = me;
         me.save();
       }));
 
@@ -279,6 +280,7 @@ exports.un_follow = function (req, res, next) {
       if (me.following_count < 0) {
         me.following_count = 0;
       }
+      req.session.user = me;
       me.save();
     });
 
@@ -288,10 +290,6 @@ exports.un_follow = function (req, res, next) {
     }
     user.save();
 
-    req.session.user.following_count -= 1;
-    if (req.session.user.following_count < 0) {
-      req.session.user.following_count = 0;
-    }
   });
 };
 
