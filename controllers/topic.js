@@ -21,6 +21,14 @@ var crypto = require('crypto');
 var path = require('path');
 var fs = require('fs');
 var config = require('../config').config;
+var qn = require('qn');
+
+//7牛 client
+var qnClient = false;
+if(config.qn_access && config.qn_access.secretKey !== 'your secret key'){
+  qnClient = qn.create(config.qn_access);
+}
+
 /**
  * Topic page
  *
@@ -445,6 +453,8 @@ function md5(str) {
 }
 
 exports.upload = function (req, res, next) {
+  
+
   var isSend = false;
   req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
       if(mimetype.indexOf('image/') !== 0){
@@ -455,25 +465,43 @@ exports.upload = function (req, res, next) {
         });
       }
 
-      var hasName = md5(filename + String((new Date()).getTime())) + 
-                    '.' +
-                    filename.split('.').pop();
+      if(false === qnClient){
+        var hasName = md5(filename + String((new Date()).getTime())) + 
+                      '.' +
+                      filename.split('.').pop();
 
-      var upload_path = config.upload_path || path.join(__dirname, '../public/upload/');
+        var upload_path = config.upload.path;
+        var base_url    = config.upload.url;
+        var filePath    = path.join(upload_path, hasName);
+        var fileUrl     = base_url + hasName;
 
-      var base_url = config.upload_base_url || '/public/upload/';
-      var filePath = path.join(upload_path, hasName);
-      var fileUrl  = base_url + hasName;
-
-      file.on('end', function () {
-        isSend = true;
-        res.json({
-          success: true,
-          url: fileUrl
+        file.on('end', function () {
+          isSend = true;
+          res.json({
+            success: true,
+            url: fileUrl
+          });
         });
-      });
 
-      file.pipe(fs.createWriteStream(filePath));
+        file.pipe(fs.createWriteStream(filePath));
+      }
+      else{
+        qnClient.upload(file, {filename: filename}, function (err, result) {
+          isSend = true;
+
+          if(err){
+            return res.json({
+              success: false,
+              msg: err
+            });
+          }
+
+          res.json({
+            success: true,
+            url: result.url
+          });
+        });
+      }
 
   });
 

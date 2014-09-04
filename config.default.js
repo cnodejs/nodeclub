@@ -103,7 +103,22 @@ var config = {
   allow_sign_up: true,
 
   // newrelic 是个用来监控网站性能的服务
-  newrelic_key: 'yourkey'
+  newrelic_key: 'yourkey',
+
+  //7牛的access信息，用于文件上传
+  qn_access: {
+    accessKey: 'your access key',
+    secretKey: 'your secret key',
+    bucket: 'your bucket name',
+    domain: 'http://{bucket}.qiniudn.com',
+  },
+
+  //文件上传配置
+  //注：如果填写 7牛access，侧会上传到 7牛，以下配置无效
+  upload:{
+    path: path.join(__dirname, 'public/upload/'),
+    url: '/public/upload/'
+  }
 };
 
 module.exports = config;
