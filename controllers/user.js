@@ -241,8 +241,6 @@ exports.follow = function (req, res, next) {
 
       user.follower_count += 1;
       user.save();
-
-      req.session.user.following_count += 1;
     }));
 
     message.sendFollowMessage(follow_id, req.session.user._id);
