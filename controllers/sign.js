@@ -280,7 +280,6 @@ exports.auth_user = function (req, res, next) {
     if (!user) {
       return next();
     }
-    console.log('req.session.user >>>>', req.session.user.following_count);
     res.locals.current_user = req.session.user = user;
     req.session.user.avatar_url = User.getGravatar(user.email);
 
