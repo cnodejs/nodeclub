@@ -231,11 +231,11 @@ exports.follow = function (req, res, next) {
 
       // 新建关系并保存
       Relation.newAndSave(req.session.user._id, user._id);
+      req.session.user.following_count += 1;
       proxy.emit('relation_saved');
 
       User.getUserById(req.session.user._id, proxy.done(function (me) {
         me.following_count += 1;
-        req.session.user = me;
         me.save();
       }));
 
@@ -262,6 +262,7 @@ exports.un_follow = function (req, res, next) {
       res.json({status: 'failed'});
       return;
     }
+    req.session.user.following_count -= 1;
     // 删除关系
     Relation.remove(req.session.user._id, user._id, function (err) {
       if (err) {
@@ -278,7 +279,6 @@ exports.un_follow = function (req, res, next) {
       if (me.following_count < 0) {
         me.following_count = 0;
       }
-      req.session.user = me;
       me.save();
     });
 
