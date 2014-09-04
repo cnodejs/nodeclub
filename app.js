@@ -24,6 +24,7 @@ var _ = require('lodash');
 var csurf = require('csurf');
 var compress = require('compression');
 var bodyParser = require('body-parser');
+var busboy = require('connect-busboy');
 
 // 静态文件目录
 var staticDir = path.join(__dirname, 'public');
@@ -108,6 +109,8 @@ passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 passport.use(new GitHubStrategy(config.GITHUB_OAUTH, githubStrategyMiddleware));
+
+app.use(busboy());
 
 // routes
 routes(app);

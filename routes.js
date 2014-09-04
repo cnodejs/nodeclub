@@ -95,6 +95,8 @@ module.exports = function (app) {
   app.post('/reply/:reply_id/edit', reply.update); // 修改某评论
   app.post('/reply/:reply_id/delete', reply.delete); // 删除某评论
 
+  app.post('/upload', auth.userRequired, topic.upload); //上传图片
+
   // tools
   app.get('/site_tools', tools.run_site_tools);
 

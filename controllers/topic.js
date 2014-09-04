@@ -17,7 +17,10 @@ var TopicCollect = require('../proxy').TopicCollect;
 var Relation = require('../proxy').Relation;
 var EventProxy = require('eventproxy');
 var Util = require('../libs/util');
-
+var crypto = require('crypto');
+var path = require('path');
+var fs = require('fs');
+var config = require('../config').config;
 /**
  * Topic page
  *
@@ -432,4 +435,56 @@ exports.de_collect = function (req, res, next) {
 
     req.session.user.collect_topic_count -= 1;
   });
+};
+
+function md5(str) {
+  var md5sum = crypto.createHash('md5');
+  md5sum.update(str);
+  str = md5sum.digest('hex');
+  return str;
+}
+
+exports.upload = function (req, res, next) {
+  var isSend = false;
+  req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
+      if(mimetype.indexOf('image/') !== 0){
+        isSend = true;
+        return res.json({
+          success: false,
+          msg: '只容许上传图片'
+        });
+      }
+
+      var hasName = md5(filename + String((new Date()).getTime())) + 
+                    '.' +
+                    filename.split('.').pop();
+
+      var upload_path = config.upload_path || path.join(__dirname, '../public/upload/');
+
+      var base_url = config.upload_base_url || '/public/upload/';
+      var filePath = path.join(upload_path, hasName);
+      var fileUrl  = base_url + hasName;
+
+      file.on('end', function () {
+        isSend = true;
+        res.json({
+          success: true,
+          url: fileUrl
+        });
+      });
+
+      file.pipe(fs.createWriteStream(filePath));
+
+  });
+
+  req.busboy.on('end', function(){
+    if(false === isSend){
+      res.json({
+        success: false,
+        msg: '只容许上传图片'
+      }); 
+    }
+  });
+
+  req.pipe(req.busboy);
 };
