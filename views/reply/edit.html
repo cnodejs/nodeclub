@@ -34,7 +34,7 @@
                        value="提交">
               </div>
             </div>
-            
+
           </div>
 
           <input type='hidden' name='_csrf' value='<%= csrf %>'/>
@@ -54,8 +54,8 @@
 .done(assets, config.site_static_host, config.mini_assets)
 %>
 <script>
-(function(){
-  var editor = new Editor();
-  editor.render($('.editor')[0]);
-})();
+  (function () {
+    var editor = new Editor();
+    editor.render($('.editor')[0]);
+  })();
 </script>

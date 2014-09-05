@@ -113,7 +113,7 @@ exports.put = function (req, res, next) {
   var edit_error =
       title === '' ?
     '标题不能是空的。' :
-    (title.length >= 10 && title.length <= 100 ? '' : '标题字数太多或太少。');
+    (title.length >= 5 && title.length <= 100 ? '' : '标题字数太多或太少。');
   if (edit_error) {
     Tag.getAllTags(function (err, tags) {
       if (err) {
@@ -453,11 +453,11 @@ function md5(str) {
 }
 
 exports.upload = function (req, res, next) {
-  
+
 
   var isSend = false;
   req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
-      if(mimetype.indexOf('image/') !== 0){
+      if (mimetype.indexOf('image/') !== 0) {
         isSend = true;
         return res.json({
           success: false,
@@ -465,8 +465,9 @@ exports.upload = function (req, res, next) {
         });
       }
 
-      if(false === qnClient){
-        var hasName = md5(filename + String((new Date()).getTime())) + 
+      // 不使用七牛的话
+      if (false === qnClient) {
+        var hasName = md5(filename + String((new Date()).getTime())) +
                       '.' +
                       filename.split('.').pop();
 
@@ -484,12 +485,11 @@ exports.upload = function (req, res, next) {
         });
 
         file.pipe(fs.createWriteStream(filePath));
-      }
-      else{
+      } else {
         qnClient.upload(file, {filename: filename}, function (err, result) {
           isSend = true;
 
-          if(err){
+          if (err) {
             return res.json({
               success: false,
               msg: err
@@ -502,15 +502,14 @@ exports.upload = function (req, res, next) {
           });
         });
       }
+    });
 
-  });
-
-  req.busboy.on('end', function(){
-    if(false === isSend){
+  req.busboy.on('end', function () {
+    if (false === isSend) {
       res.json({
         success: false,
         msg: '只容许上传图片'
-      }); 
+      });
     }
   });
 
