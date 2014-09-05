@@ -164,35 +164,46 @@
 %>
 <script>
   $(document).ready(function () {
-    //TODO 加入后，@返回值会换行，待解决
-    // var allNames = $('.reply_author').map(function (idx, ele) {
-    //   return $(ele).text().trim();
-    // }).toArray();
-    // allNames = _.uniq(allNames);
+    var allNames = $('.reply_author').map(function (idx, ele) {
+      return $(ele).text().trim();
+    }).toArray();
+    allNames = _.uniq(allNames);
 
     $('textarea.editor').each(function(){
       var editor = new Editor({
         status: []
       });
-      var cm = editor.codemirror;
       var $el = $(this);
+
       editor.render(this); 
       //绑定editor
       $(this).data('editor', editor);
       $(editor.codemirror.display.wrapper).height(160);
-      //Controller.prototype.insert = function (content, $li) {
-     
+      
       var $input = $(editor.codemirror.display.input).keydown(function(event){
         if (event.keyCode === 13 && (event.ctrlKey || event.metaKey)) {
           event.preventDefault();
           $el.closest('form').submit();
         }
-      })
-      //TODO 加入后，@返回值会换行，待解决
-      // $input.atwho({
-      //   at: '@',
-      //   data: allNames
-      // });
+      });
+      var isAtInserted = false;
+      $input.atwho({
+        at: '@',
+        data: allNames
+      }).on("inserted.atwho", function() {
+        isAtInserted = true;
+      });
+      editor.codemirror.on('update', function(){
+        if(isAtInserted === false){
+          return false;
+        }
+        isAtInserted = false;
+        var line = editor.codemirror.lastLine();
+        var name = editor.codemirror.getLine(line);
+        editor.codemirror.removeLine(line);
+        line--;
+        editor.codemirror.setLine(line, editor.codemirror.getLine(line) + name);
+      }); 
      
     });
 
