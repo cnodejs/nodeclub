@@ -140,17 +140,10 @@
             <textarea class='editor' name='r_content' rows='8'></textarea>
 
             <div class='editor_buttons'>
-              <input class='span-common action_preview' type="button" value="预览">
               <input class='span-primary submit_btn' type="submit" data-loading-text="回复中.." value="回复">
             </div>
           </div>
-          <div class='markdown_in_preview'>
-            <div class='preview'></div>
-            <div class='editor_buttons'>
-              <input class='span-common action_modify' type="button" value="修改">
-              <input class='span-primary submit_btn' type="submit" data-loading-text="回复中.." value="回复">
-            </div>
-          </div>
+          
         </div>
 
         <input type='hidden' name='_csrf' id="_csrf" value='<%= csrf %>'/>
@@ -162,13 +155,46 @@
 
 <% if (typeof(current_user) !== 'undefined' && typeof(topic) !== 'undefined') { %>
 <!-- markdown editor -->
-<%- Loader('/public/topic_edit.min.js')
+<%- Loader('/public/editor.min.js')
 .js('/public/libs/marked.js')
-.js('/public/javascripts/markdown_editor.js')
+.js('/public/libs/editor/editor.js')
+.js('/public/libs/webuploader/webuploader.withoutimage.js')
+.js('/public/libs/editor/ext.js')
 .done(assets, config.site_static_host, config.mini_assets)
 %>
 <script>
   $(document).ready(function () {
+    //TODO 加入后，@返回值会换行，待解决
+    // var allNames = $('.reply_author').map(function (idx, ele) {
+    //   return $(ele).text().trim();
+    // }).toArray();
+    // allNames = _.uniq(allNames);
+
+    $('textarea.editor').each(function(){
+      var editor = new Editor({
+        status: []
+      });
+      var cm = editor.codemirror;
+      var $el = $(this);
+      editor.render(this); 
+      //绑定editor
+      $(this).data('editor', editor);
+      $(editor.codemirror.display.wrapper).height(160);
+      //Controller.prototype.insert = function (content, $li) {
+     
+      var $input = $(editor.codemirror.display.input).keydown(function(event){
+        if (event.keyCode === 13 && (event.ctrlKey || event.metaKey)) {
+          event.preventDefault();
+          $el.closest('form').submit();
+        }
+      })
+      //TODO 加入后，@返回值会换行，待解决
+      // $input.atwho({
+      //   at: '@',
+      //   data: allNames
+      // });
+     
+    });
 
     $('#content').on('click', '.reply2_btn', function (event) {
       var $btn = $(event.currentTarget);
@@ -177,11 +203,12 @@
       parent.find('.reply2_area').prepend(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
       var user = $btn.closest('.author_content').find('.reply_author').text().trim();
-
+      var editor = textarea.data('editor');
       editorWrap.show('fast', function () {
-        textarea.focus();
-        if (textarea.val().indexOf('@' + user) < 0) {
-          textarea.val('@' + user + ' ');
+        var cm = editor.codemirror;
+        cm.focus();
+        if(cm.getValue().indexOf('@' + user) < 0){
+          editor.push('@' + user + ' ');
         }
       });
     });
@@ -192,11 +219,12 @@
       $btn.closest('.reply2_item').after(editorWrap);
       var textarea = editorWrap.find('textarea.editor');
       var user = $btn.closest('.reply2_item').find('.reply_author').text().trim();
-
+      var editor = textarea.data('editor');
       editorWrap.show('fast', function () {
-        textarea.focus();
-        if (textarea.val().indexOf('@' + user) < 0) {
-          textarea.val('@' + user + ' ');
+        var cm = editor.codemirror;
+        cm.focus();
+        if(cm.getValue().indexOf('@' + user) < 0){
+          editor.push('@' + user + ' ');
         }
       });
     });
@@ -265,20 +293,6 @@
       return false;
     });
 
-    $('textarea.editor').keydown(function (event) {
-      if (event.keyCode == 13 && (event.ctrlKey || event.metaKey)) {
-        event.preventDefault()
-        $(this).closest('form').submit()
-      }
-    });
-    var allNames = $('.reply_author').map(function (idx, ele) {
-      return $(ele).text().trim();
-    }).toArray();
-    allNames = _.uniq(allNames);
-    $('textarea.editor').atwho({
-      at: '@',
-      data: allNames
-    });
   });
 
 </script>

@@ -52,13 +52,7 @@
             var link = $el.find('[name=link]').val();
 
             self.$win.modal('hide');
-            var cm = self.editor.codemirror;
-            var line = cm.lastLine();
-        
-            cm.setLine(
-                line, 
-                cm.getLine(line) + ' ['+ title +']('+ link +')'
-            );
+            self.editor.push(' ['+ title +']('+ link +')');
 
             $el.find('[name=title]').val('');
             $el.find('[name=link]').val('http://');
@@ -93,7 +87,7 @@
 
         this.$upload = this.$win.find('.upload-img').css({
             height: 50,
-            padding: 60,
+            padding: '60px 0',
             textAlign: 'center',
             border: '4px dashed#ddd'
         });
@@ -127,7 +121,7 @@
         });
 
         this.uploader.on('beforeFileQueued', function(file){
-            if(self.file !== false){
+            if(self.file !== false || !self.editor){
                 return false;
             }
             self.showFile(file);
@@ -141,14 +135,7 @@
         this.uploader.on('uploadSuccess', function(file, res){
             if(res.success){
                 self.$win.modal('hide');
-                var cm = self.editor.codemirror;
-                var line = cm.lastLine();
-                //console.log('!['+ file.name +']('+ res.url +')');
-
-                cm.setLine(
-                    line, 
-                    cm.getLine(line) + ' !['+ file.name +']('+ res.url +')'
-                );
+                self.editor.push(' !['+ file.name +']('+ res.url +')');
             }
             else{
                 self.removeFile();
@@ -225,4 +212,21 @@
     replaceTool('link', function(editor){
         toolLink.bind(editor);
     });
+
+    //当编辑器取得焦点时，绑定 toolImage；
+    var createToolbar = Editor.prototype.createToolbar;
+    Editor.prototype.createToolbar = function(items){
+        createToolbar.call(this, items);
+        var self = this;
+        $(self.codemirror.display.input).on('focus', function(){
+            toolImage.editor = self;
+        });
+    };
+
+    //追加内容
+    Editor.prototype.push = function(txt){
+        var cm = this.codemirror;
+        var line = cm.lastLine();
+        cm.setLine(line, cm.getLine(line) + txt);
+    };
 })(window.Editor);
