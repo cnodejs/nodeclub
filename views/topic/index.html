@@ -61,6 +61,9 @@
             最后一次编辑是 <%= topic.friendly_update_at %>
           </span>
         <% } %>
+        <% if (topic.tab) { console.log(topic.tab)%>
+          <span>来自 <%= topic.tabName %></span>
+        <%}%>
       </div>
       <% if (typeof(current_user) !== 'undefined') { %>
       <div id="manage_topic">
