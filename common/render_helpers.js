@@ -47,5 +47,5 @@ exports.escapeSignature = function (signature) {
 };
 
 exports.staticFile = function (filePath) {
-  return path.join(config.site_static_host, filePath);
+  return config.site_static_host + filePath;
 };
