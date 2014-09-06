@@ -3,7 +3,6 @@ config.js
 coverage
 node_modules
 .naeindex
-public/user_data
 coverage.html
 .monitor
 

@@ -3,7 +3,7 @@ var sanitize = require('validator').sanitize;
 var eventproxy = require('eventproxy');
 
 var crypto = require('crypto');
-var config = require('../config').config;
+var config = require('../config');
 
 var User = require('../proxy').User;
 var Message = require('../proxy').Message;

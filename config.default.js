@@ -114,7 +114,7 @@ var config = {
   },
 
   //文件上传配置
-  //注：如果填写 7牛access，侧会上传到 7牛，以下配置无效
+  //注：如果填写 7牛access，则会上传到 7牛，以下配置无效
   upload: {
     path: path.join(__dirname, 'public/upload/'),
     url: '/public/upload/'
@@ -122,4 +122,3 @@ var config = {
 };
 
 module.exports = config;
-module.exports.config = config;

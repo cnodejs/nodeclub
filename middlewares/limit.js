@@ -1,4 +1,4 @@
-var config = require('../config').config;
+var config = require('../config');
 
 // 发帖时间间隔，为毫秒
 var POST_INTERVAL = config.post_interval;

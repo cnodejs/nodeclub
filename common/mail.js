@@ -1,5 +1,5 @@
 var mailer = require('nodemailer');
-var config = require('../config').config;
+var config = require('../config');
 var marked = require('marked');
 var util = require('util');
 

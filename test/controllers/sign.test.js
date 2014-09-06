@@ -1,6 +1,6 @@
 var should = require('should');
 var app = require('../../app');
-var config = require('../../config').config;
+var config = require('../../config');
 var request = require('supertest');
 
 var agent = request.agent(app);
