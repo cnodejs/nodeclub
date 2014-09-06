@@ -13,6 +13,8 @@
 var marked = require('marked');
 var utils = require('./util');
 var _ = require('lodash');
+var config = require('../config');
+var path = require('path');
 
 // Set default options
 var renderer = new marked.Renderer();
@@ -42,4 +44,8 @@ exports.escapeSignature = function (signature) {
   return signature.split('\n').map(function (p) {
     return _.escape(p);
   }).join('<br>');
+};
+
+exports.staticFile = function (filePath) {
+  return path.join(config.site_static_host, filePath);
 };
