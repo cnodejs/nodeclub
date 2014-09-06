@@ -23,10 +23,18 @@ setInterval(function () {
     ['top', 'desc' ],
     [ 'last_reply_at', 'desc' ]
   ] };
-  var optionsStr = JSON.stringify(options);
-  Topic.getTopicsByQuery({}, options, function (err, topics) {
-    mcache.put(optionsStr, topics);
-    return topics;
+  // 为所有版块（tab）做缓存
+  ['', '全部'].concat(config.tabs).forEach(function (pair) {
+    var tabValue = pair[0];
+    var query = {};
+    if (tabValue) {
+      query.tab = tabValue;
+    }
+    var optionsStr = JSON.stringify(query) + JSON.stringify(options);
+    Topic.getTopicsByQuery({}, options, function (err, topics) {
+      mcache.put(optionsStr, topics);
+      return topics;
+    });
   });
 }, 1000 * 5); // 五秒更新一次
 // END 主页的缓存工作
