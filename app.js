@@ -25,6 +25,7 @@ var csurf = require('csurf');
 var compress = require('compression');
 var bodyParser = require('body-parser');
 var busboy = require('connect-busboy');
+var errorhandler = require('errorhandler');
 
 // 静态文件目录
 var staticDir = path.join(__dirname, 'public');
@@ -120,9 +121,13 @@ app.use(busboy({
 routes(app);
 
 // error handler
-app.use(function (err, req, res, next) {
-  return res.send(500, err.message);
-});
+if (config.debug) {
+  app.use(errorhandler());
+} else {
+  app.use(function (err, req, res, next) {
+    return res.send(500, '500 status');
+  });
+}
 
 app.listen(config.port, function () {
   console.log("NodeClub listening on port %d in %s mode", config.port, app.settings.env);
