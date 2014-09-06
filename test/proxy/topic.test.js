@@ -29,7 +29,7 @@ describe('test/proxy/topic.test.js', function () {
 
   describe('newAndSave', function () {
     it('should ok', function (done) {
-      Topic.newAndSave('title', 'content', user._id, function (err, topic) {
+      Topic.newAndSave('title', 'content', '招聘', user._id, function (err, topic) {
         should.not.exist(err);
         topic.title.should.equal('title');
         topic.content.should.equal('content');
