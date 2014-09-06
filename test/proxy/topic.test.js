@@ -2,7 +2,7 @@ var Topic = require('../../proxy/topic');
 var support = require('../support/support');
 var should = require('should');
 
-describe('proxy/topic.js', function () {
+describe('test/proxy/topic.test.js', function () {
   var user;
   var topic;
   before(function (done) {

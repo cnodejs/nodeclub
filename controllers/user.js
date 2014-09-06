@@ -10,8 +10,8 @@ var TopicCollect = require('../proxy').TopicCollect;
 var TagCollect = require('../proxy').TagCollect;
 var utility = require('utility');
 
-var message = require('../services/message');
-var Util = require('../libs/util');
+var message = require('../common/message');
+var Util = require('../common/util');
 var config = require('../config').config;
 var EventProxy = require('eventproxy');
 var check = require('validator').check;

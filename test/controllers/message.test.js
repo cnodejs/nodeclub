@@ -2,7 +2,7 @@ var request = require('supertest');
 var should = require('should');
 var app = require('../../app');
 
-describe('controllers/message.js', function () {
+describe('test/controllers/message.test.js', function () {
 
   describe('index', function () {
     it('should 302 without session', function (done) {

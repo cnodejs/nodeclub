@@ -1,7 +1,7 @@
 var Message = require('../../proxy/message');
 var should = require('should');
 
-describe('proxy/message.js', function () {
+describe('test/proxy/message.test.js', function () {
   xdescribe('getMessagesCount', function () {
     it('should ok', function (done) {
       Message.getMessagesCount('4fd5efe5dbf01e466c000002', function (err, count) {

@@ -11,7 +11,7 @@
  */
 
 var marked = require('marked');
-var utils = require('../libs/util');
+var utils = require('./util');
 var _ = require('lodash');
 
 // Set default options

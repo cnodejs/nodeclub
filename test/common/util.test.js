@@ -7,10 +7,10 @@
 /**
  * Module dependencies.
  */
-var Util = require('../../libs/util');
+var Util = require('../../common/util');
 var should = require('should');
 
-describe('libs/util', function () {
+describe('test/common/util.test.js', function () {
   describe('escape', function () {
     var text1 = '<script></script> text';
     var text2 = 'outside:<>, inside: ```js\n<>\n```\n`<>`\n```\n<>\n```\n`span` `span`';

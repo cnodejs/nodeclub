@@ -2,7 +2,7 @@ var Reply = require('../../proxy/reply');
 var support = require('../support/support');
 var should = require('should');
 
-describe('proxy/reply.js', function () {
+describe('test/proxy/reply.test.js', function () {
   var reply;
   before(function (done) {
     support.createUser(function (err, user) {

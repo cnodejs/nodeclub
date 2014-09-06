@@ -8,7 +8,7 @@
 
 var sanitize = require('validator').sanitize;
 
-var at = require('../services/at');
+var at = require('../common/at');
 var User = require('../proxy').User;
 var Topic = require('../proxy').Topic;
 var Tag = require('../proxy').Tag;
@@ -16,7 +16,7 @@ var TopicTag = require('../proxy').TopicTag;
 var TopicCollect = require('../proxy').TopicCollect;
 var Relation = require('../proxy').Relation;
 var EventProxy = require('eventproxy');
-var Util = require('../libs/util');
+var Util = require('../common/util');
 var crypto = require('crypto');
 var path = require('path');
 var fs = require('fs');
@@ -453,8 +453,6 @@ function md5(str) {
 }
 
 exports.upload = function (req, res, next) {
-
-
   var isSend = false;
   req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
       if (mimetype.indexOf('image/') !== 0) {

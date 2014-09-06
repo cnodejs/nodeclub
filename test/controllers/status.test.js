@@ -1,7 +1,7 @@
 var request = require('supertest');
 var app = require('../../app');
 
-describe('controllers/status.js', function () {
+describe('test/controllers/status.test.js', function () {
 
   it('should /status 200', function (done) {
     request(app).get('/status').end(function (err, res) {
