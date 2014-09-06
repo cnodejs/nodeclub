@@ -97,18 +97,21 @@ exports.put = function (req, res, next) {
   title = sanitize(title).xss();
   var tab = sanitize(req.body.tab).xss().trim();
   var content = req.body.t_content;
-  var topic_tags = [];
-  if (req.body.topic_tags !== '') {
-    topic_tags = req.body.topic_tags.split(',');
-  }
 
-  var edit_error =
-      title === '' ?
-    '标题不能是空的。' :
-    (title.length >= 5 && title.length <= 100 ? '' : '标题字数太多或太少。');
-  if (edit_error) {
+  // 验证
+  var editError;
+  if (title === '') {
+    editError = '标题不能是空的。';
+  } else if (title.length >= 5 && title.length <= 100) {
+    editError = '标题字数太多或太少。';
+  } else if (!tab) {
+    editError = '必须选择一个版块。';
+  }
+  // END 验证
+
+  if (editError) {
     res.render('topic/edit', {
-      edit_error: edit_error,
+      edit_error: editError,
       title: title,
       content: content,
       tabs: config.tabs,
@@ -155,6 +158,7 @@ exports.showEdit = function (req, res, next) {
       res.render('notify/notify', {error: '此话题不存在或已被删除。'});
       return;
     }
+
     if (String(topic.author_id) === req.session.user._id || req.session.user.is_admin) {
       res.render('topic/edit', {
         action: 'edit',
@@ -192,15 +196,22 @@ exports.update = function (req, res, next) {
       title = sanitize(title).xss();
       var tab = sanitize(req.body.tab).xss().trim();
       var content = req.body.t_content;
-      var topic_tags = [];
-      if (req.body.topic_tags !== '') {
-        topic_tags = req.body.topic_tags.split(',');
-      }
 
+      // 验证
+      var editError;
       if (title === '') {
+        editError = '标题不能是空的。';
+      } else if (title.length >= 5 && title.length <= 100) {
+        editError = '标题字数太多或太少。';
+      } else if (!tab) {
+        editError = '必须选择一个版块。';
+      }
+      // END 验证
+
+      if (editError) {
         res.render('topic/edit', {
           action: 'edit',
-          edit_error: '标题不能是空的。',
+          edit_error: editError,
           topic_id: topic._id,
           content: content,
           tabs: config.tabs,
