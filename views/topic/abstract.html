@@ -32,7 +32,7 @@
     <% if (topic.top) { %>
     <span class='put_top'>置顶</span>
     <% } %>
-    <% if (tab === 'all' && topic.tabName && !topic.top) { %>
+    <% if (typeof(tab) !== 'undefined' &&  tab === 'all' && topic.tabName && !topic.top) { %>
       <span class="topiclist-tab"><%= topic.tabName %></span>
     <% } %>
     <a class='topic_title' href='/topic/<%= topic._id %>' title='<%= topic.title %>'>
