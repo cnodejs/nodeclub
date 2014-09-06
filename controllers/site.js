@@ -15,7 +15,7 @@ var config = require('../config');
 var EventProxy = require('eventproxy');
 var mcache = require('memory-cache');
 
-// 主页的缓存工作
+// 主页的缓存工作。主页是需要主动缓存的
 setInterval(function () {
   var limit = config.list_topic_count;
   // 只缓存第一页, page = 1
@@ -34,6 +34,8 @@ setInterval(function () {
 exports.index = function (req, res, next) {
   var page = parseInt(req.query.page, 10) || 1;
   page = page > 0 ? page : 1;
+  var tab = req.query.tab || req.session.tab || '';
+  req.session.tab = tab;
   var limit = config.list_topic_count;
 
   var proxy = EventProxy.create('topics', 'tops', 'no_reply_topics', 'pages',
@@ -46,23 +48,31 @@ exports.index = function (req, res, next) {
         no_reply_topics: no_reply_topics,
         pages: pages,
         site_links: config.site_links,
+        tabs: config.tabs,
+        tab: tab,
       });
     });
   proxy.fail(next);
 
   // 取主题
+  var query = {};
+  if (tab && tab !== 'all') {
+    query.tab = tab;
+  }
   var options = { skip: (page - 1) * limit, limit: limit, sort: [
     ['top', 'desc' ],
     [ 'last_reply_at', 'desc' ]
   ] };
-  var optionsStr = JSON.stringify(options);
+  var optionsStr = JSON.stringify(query) + JSON.stringify(options);
   if (mcache.get(optionsStr)) {
     proxy.emit('topics', mcache.get(optionsStr));
   } else {
-    Topic.getTopicsByQuery({}, options, proxy.done('topics', function (topics) {
+    Topic.getTopicsByQuery(query, options, proxy.done('topics', function (topics) {
       return topics;
     }));
   }
+  // END 取主题
+
   // 取排行榜上的用户
   if (mcache.get('tops')) {
     proxy.emit('tops', mcache.get('tops'));
@@ -99,9 +109,9 @@ exports.index = function (req, res, next) {
   if (mcache.get('pages')) {
     proxy.emit('pages', mcache.get('pages'));
   } else {
-    Topic.getCountByQuery({}, proxy.done(function (all_topics_count) {
+    Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
       var pages = Math.ceil(all_topics_count / limit);
-      mcache.put('pages', pages, 1000 * 60 * 1);
+      mcache.put(JSON.stringify(query) + 'pages', pages, 1000 * 60 * 1);
       proxy.emit('pages', pages);
     }));
   }

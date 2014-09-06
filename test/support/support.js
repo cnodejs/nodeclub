@@ -13,6 +13,6 @@ exports.createUser = function (callback) {
 
 exports.createTopic = function (authorId, callback) {
   var key = new Date().getTime() + '_' + randomInt();
-  Topic.newAndSave('title' + key, 'content' + key, authorId, callback);
+  Topic.newAndSave('title' + key, 'content' + key, '分享', authorId, callback);
 };
 

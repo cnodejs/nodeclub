@@ -30,6 +30,22 @@
         <form id='create_topic_form' action='/topic/create' method='post'>
           <% } %>
           <fieldset>
+            选择版块：
+            <select name="tab">
+              <option></option>
+              <%
+              var tabValue = '';
+              if (typeof(tab) !== 'undefined') {
+                tabValue = tab;
+              }
+              tabs.forEach(function (pair) {
+                var value = pair[0];
+                var text = pair[1];
+                %>
+                <option value="<%=value%>" <%= tabValue === value ? 'selected': '' %>><%=text%></option>
+
+              <%});%>
+            </select>
             <textarea autofocus class='span9' id='title' name='title' rows='1'
                       placeholder="标题字数 10 字以上"
                     ><%= typeof(title) !== 'undefined' && title || '' %></textarea>

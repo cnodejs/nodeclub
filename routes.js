@@ -19,7 +19,6 @@ var assets = require('./controllers/static');
 var tools = require('./controllers/tools');
 var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
-var status = require('./controllers/status');
 var github = require('./controllers/github');
 var search = require('./controllers/search');
 var passport = require('passport');
@@ -106,9 +105,6 @@ module.exports = function (app) {
 
   //rss
   app.get('/rss', rss.index);
-
-  // site status
-  app.get('/status', status.status);
 
   // github oauth
   app.get('/auth/github', configMiddleware.github, passport.authenticate('github'));

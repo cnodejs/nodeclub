@@ -118,7 +118,14 @@ var config = {
   upload: {
     path: path.join(__dirname, 'public/upload/'),
     url: '/public/upload/'
-  }
+  },
+
+  // 版块
+  tabs: [
+    ['share', '分享'],
+    ['ask', '问答'],
+    ['job', '招聘']
+  ],
 };
 
 module.exports = config;
