@@ -48,7 +48,7 @@ exports.index = function (req, res, next) {
           link: config.rss.link + '/topic/' + topic._id,
           guid: config.rss.link + '/topic/' + topic._id,
           description: marked(topic.content),
-          author: topic.author.name,
+          author: topic.author.loginname,
           pubDate: topic.create_at.toUTCString()
         });
       });

@@ -2,7 +2,6 @@ var models = require('../models');
 var Message = models.Message;
 var User = require('../proxy').User;
 var messageProxy = require('../proxy/message');
-var mail = require('./mail');
 
 exports.sendReplyMessage = function (master_id, author_id, topic_id, reply_id) {
   var message = new Message();
@@ -21,7 +20,6 @@ exports.sendReplyMessage = function (master_id, author_id, topic_id, reply_id) {
         messageProxy.getMessageById(message._id, function (err, msg) {
           msg.reply_id = reply_id;
           // TODO: 异常处理
-          mail.sendReplyMail(master.email, msg);
         });
       }
     });
@@ -45,7 +43,6 @@ exports.sendReply2Message = function (master_id, author_id, topic_id, reply_id) 
         messageProxy.getMessageById(message._id, function (err, msg) {
           msg.reply_id = reply_id;
           // TODO: 异常处理
-          mail.sendReplyMail(master.email, msg);
         });
       }
     });
@@ -68,7 +65,6 @@ exports.sendAtMessage = function (master_id, author_id, topic_id, reply_id, call
         message.save();
         messageProxy.getMessageById(message._id, function (err, msg) {
           // TODO: 异常处理
-          mail.sendAtMail(master.email, msg);
         });
       }
     });

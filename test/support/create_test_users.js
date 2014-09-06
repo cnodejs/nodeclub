@@ -9,10 +9,14 @@
  */
 
 var User = require('../../models').User;
+var eventproxy = require('eventproxy');
 
 exports.createUsers = function (callback) {
   var names = [ 'testuser1', 'testuser2', 'testuser3' ];
-  var count = 0;
+  var ep = new eventproxy();
+  ep.all('testuser1', 'testuser2', 'testuser3', function () {
+    callback();
+  });
   names.forEach(function (name) {
     User.findOne({ loginname: name }, function (err, user) {
       if (!user) {
@@ -23,17 +27,10 @@ exports.createUsers = function (callback) {
           email: name + '@localhost.cnodejs.org'
         });
         user.save(function () {
-          // console.log(arguments);
-          count++;
-          if (count === names.length) {
-            callback();
-          }
+          ep.emit(name);
         });
       } else {
-        count++;
-        if (count === names.length) {
-          callback();
-        }
+        ep.emit(name);
       }
     });
   });

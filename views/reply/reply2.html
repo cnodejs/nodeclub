@@ -2,12 +2,12 @@
   <a class="anchor" id="<%- reply2._id %>"></a>
 
   <div class='author_content'>
-    <a href="/user/<%= reply2.author.name %>" class="user_avatar">
-      <img src="<%= reply2.author.avatar_url %>" title="<%= reply2.author.name %>"/>
+    <a href="/user/<%= reply2.author.loginname %>" class="user_avatar">
+      <img src="<%= reply2.author.avatar_url %>" title="<%= reply2.author.loginname %>"/>
     </a>
 
     <div class='user_info'>
-      <a class='dark reply_author' href="/user/<%= reply2.author.name %>"><%= reply2.author.name %></a>
+      <a class='dark reply_author' href="/user/<%= reply2.author.loginname %>"><%= reply2.author.loginname %></a>
       <a class="reply_time" href="#<%- reply2._id %>"><%= reply2.friendly_create_at %></a>
     </div>
     <div class='user_action'>

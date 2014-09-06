@@ -9,9 +9,9 @@
     </div>
     <div class='inner userinfo'>
       <div class='user_big_avatar'>
-        <img src="<%= user.avatar_url %>" class="user_avatar" title="<%= user.name %>"/>
+        <img src="<%= user.avatar_url %>" class="user_avatar" title="<%= user.loginname %>"/>
       </div>
-      <a class='dark'><%= user.name %></a>
+      <a class='dark'><%= user.loginname %></a>
 
       <div class='user_profile'>
         <ul class='unstyled'>
@@ -63,7 +63,7 @@
       Email (Seen by Administrator): <a href="mailto:<%= user.email %>"><%= user.email %></a>
       <% if (!user.active) { %>
       <a class='btn'
-         href="/active_account?key=<%- typeof(token) !== 'undefined' && token %>&name=<%= user.name %>"
+         href="/active_account?key=<%- typeof(token) !== 'undefined' && token %>&name=<%= user.loginname %>"
          target="_blank">激活账号</a>
       <% } %>
       <% } %>
@@ -77,7 +77,7 @@
     <% if (typeof(recent_topics) !== 'undefined' && recent_topics.length > 0) { %>
     <%- partial('../topic/abstract', { collection: recent_topics, as: 'topic' }) %>
     <div class='cell more'>
-      <a class='dark' href="/user/<%= user.name %>/topics">查看更多»</a>
+      <a class='dark' href="/user/<%= user.loginname %>/topics">查看更多»</a>
     </div>
     <% } else { %>
     <div class='inner'>
@@ -93,7 +93,7 @@
     <% if (typeof(recent_replies) !== 'undefined' && recent_replies.length > 0) { %>
     <%- partial('../topic/abstract', { collection: recent_replies, as: 'topic' }) %>
     <div class='cell more'>
-      <a class='dark' href="/user/<%= user.name %>/replies">查看更多»</a>
+      <a class='dark' href="/user/<%= user.loginname %>/replies">查看更多»</a>
     </div>
     <% } else { %>
     <div class='inner'>
@@ -136,7 +136,7 @@
       if (action === 'set_block' && !confirm('确定要屏蔽该用户吗？此操作不可逆且会删除该用户的所有主题和回复！')) {
         return;
       }
-      $.post('/user/<%- user.name %>/block', params, function (data) {
+      $.post('/user/<%- user.loginname %>/block', params, function (data) {
         if (data.status === 'success') {
           if (action === 'set_block') {
             $me.html('取消屏蔽用户');

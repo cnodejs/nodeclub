@@ -1,5 +1,4 @@
 var User = require('../../proxy/user');
-var Tag = require('../../proxy/tag');
 var Topic = require('../../proxy/topic');
 
 
@@ -17,7 +16,3 @@ exports.createTopic = function (authorId, callback) {
   Topic.newAndSave('title' + key, 'content' + key, authorId, callback);
 };
 
-exports.createTag = function (callback) {
-  var key = new Date().getTime() + '_' + randomInt();
-  Tag.newAndSave('name' + key, 'background' + key, 1, 'description' + key, callback);
-};

@@ -135,7 +135,7 @@ exports.login = function (req, res, next) {
     }
     if (!user.active) {
       // 从新发送激活邮件
-      mail.sendActiveMail(user.email, md5(user.email + config.session_secret), user.name);
+      mail.sendActiveMail(user.email, md5(user.email + config.session_secret), user.loginname);
       return res.render('sign/signin', { error: '此帐号还没有被激活，激活链接已发送到 ' + user.email + ' 邮箱，请查收。' });
     }
     // store session cookie
@@ -163,7 +163,7 @@ exports.active_account = function (req, res, next) {
   var key = req.query.key;
   var name = req.query.name;
 
-  User.getUserByName(name, function (err, user) {
+  User.getUserByLoginName(name, function (err, user) {
     if (err) {
       return next(err);
     }
@@ -213,7 +213,7 @@ exports.updateSearchPass = function (req, res, next) {
         return next(err);
       }
       // 发送重置密码邮件
-      mail.sendResetPassMail(email, retrieveKey, user.name);
+      mail.sendResetPassMail(email, retrieveKey, user.loginname);
       res.render('notify/notify', {success: '我们已给您填写的电子邮箱发送了一封邮件，请在24小时内点击里面的链接来重置密码。'});
     });
   });
@@ -283,7 +283,7 @@ exports.auth_user = function (req, res, next) {
     res.locals.current_user = req.session.user = user;
     req.session.user.avatar_url = User.getGravatar(user.email);
 
-    if (config.admins.hasOwnProperty(user.name)) {
+    if (config.admins.hasOwnProperty(user.loginname)) {
       user.is_admin = true;
     }
     Message.getMessagesCount(user._id, ep.done(function (count) {
@@ -310,7 +310,7 @@ exports.auth_user = function (req, res, next) {
 
 // private
 function gen_session(user, res) {
-  var auth_token = encrypt(user._id + '\t' + user.name + '\t' + user.pass + '\t' + user.email, config.session_secret);
+  var auth_token = encrypt(user._id + '\t' + user.loginname + '\t' + user.pass + '\t' + user.email, config.session_secret);
   res.cookie(config.auth_cookie_name, auth_token, {path: '/', maxAge: 1000 * 60 * 60 * 24 * 30}); //cookie 有效期30天
 }
 
