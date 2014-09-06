@@ -12,7 +12,7 @@ var utility = require('utility');
 
 var message = require('../common/message');
 var Util = require('../common/util');
-var config = require('../config').config;
+var config = require('../config');
 var EventProxy = require('eventproxy');
 var check = require('validator').check;
 var sanitize = require('validator').sanitize;

@@ -12,7 +12,7 @@ var path = require('path');
 var Loader = require('loader');
 var express = require('express');
 var session = require('express-session');
-var config = require('./config').config;
+var config = require('./config');
 var passport = require('passport');
 require('./models');
 var GitHubStrategy = require('passport-github').Strategy;
@@ -110,7 +110,11 @@ passport.deserializeUser(function (user, done) {
 });
 passport.use(new GitHubStrategy(config.GITHUB_OAUTH, githubStrategyMiddleware));
 
-app.use(busboy());
+app.use(busboy({
+  limits: {
+    fileSize: 10 * 1024 * 1024 // 10MB
+  }
+}));
 
 // routes
 routes(app);

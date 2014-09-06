@@ -1,4 +1,4 @@
-var config = require('../config').config;
+var config = require('../config');
 var convert = require('data2xml')();
 var Topic = require('../proxy').Topic;
 var mcache = require('memory-cache');
