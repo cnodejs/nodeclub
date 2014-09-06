@@ -15,16 +15,16 @@
       (typeof(current_user) !== 'undefined' && current_user._id.toString() == reply2.author._id.toString())
       ) { %>
       <a href='/reply/<%- reply2._id %>/edit' class='edit_reply_btn'>
-        <img class='user_icon' src="<%- config.site_static_host %>/public/images/doc_edit_icon&16.png"
+        <img class='user_icon' src="<%- staticFile('/public/images/doc_edit_icon&16.png') %>"
              title='编辑'/>
       </a>
       <a href='javascript:void(0)' class='delete_reply2_btn'>
-        <img class='user_icon' src="<%- config.site_static_host %>/public/images/trash_icon&16.png" title='删除'/>
+        <img class='user_icon' src="<%- staticFile('/public/images/trash_icon&16.png') %>" title='删除'/>
       </a>
       <% } %>
       <span>
         <% if (typeof(current_user) !== 'undefined') { %>
-          <img class='dark reply2_at_btn' src="<%- config.site_static_host %>/public/images/reply_icon_16.png"
+          <img class='dark reply2_at_btn' src="<%- staticFile('/public/images/reply_icon_16.png') %>"
                title="回复">
         <% } %>
       </span>

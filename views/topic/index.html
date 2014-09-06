@@ -68,31 +68,31 @@
         <% if (topic.top) { %>
         <a href='/topic/<%= topic._id %>/top/0'>
           <img class='user_icon'
-               src='<%- config.site_static_host %>/public/images/star_fav_icon&16.png'
+               src='<%- staticFile("/public/images/star_fav_icon&16.png") %>'
                title='取消置顶'/>
         </a>
         <% } else { %>
         <a href='/topic/<%= topic._id %>/top/1'>
           <img class='user_icon'
-               src='<%- config.site_static_host %>/public/images/star_fav_empty_icon&16.png'
+               src='<%- staticFile("/public/images/star_fav_empty_icon&16.png") %>'
                title='置顶'/>
         </a>
         <% } %>
         <a href='/topic/<%= topic._id %>/edit'>
           <img
                   class='user_icon'
-                  src='<%- config.site_static_host %>/public/images/doc_edit_icon&16.png'
+                  src='<%- staticFile("/public/images/doc_edit_icon&16.png") %>'
                   title='编辑'/></a>
         <a href='javascript:;'
            data-id="<%= topic._id %>"
            class='delete_topic_btn'><img class='user_icon'
-                                         src='<%- config.site_static_host %>/public/images/trash_icon&16.png'
+                                         src='<%- staticFile("/public/images/trash_icon&16.png") %>'
                                          title='删除'/></a>
         <% } else { %>
         <% if (current_user._id == topic.author_id) { %>
         <a href='/topic/<%= topic._id %>/edit'>
           <img class='user_icon'
-               src='<%- config.site_static_host %>/public/images/doc_edit_icon&16.png'
+               src='<%- staticFile("/public/images/doc_edit_icon&16.png") %>'
                title='编辑'/></a>
         <% } %>
         <% } %>
@@ -143,7 +143,7 @@
               <input class='span-primary submit_btn' type="submit" data-loading-text="回复中.." value="回复">
             </div>
           </div>
-          
+
         </div>
 
         <input type='hidden' name='_csrf' id="_csrf" value='<%= csrf %>'/>
@@ -175,11 +175,11 @@
       });
       var $el = $(this);
 
-      editor.render(this); 
+      editor.render(this);
       //绑定editor
       $(this).data('editor', editor);
       $(editor.codemirror.display.wrapper).height(160);
-      
+
       var $input = $(editor.codemirror.display.input).keydown(function(event){
         if (event.keyCode === 13 && (event.ctrlKey || event.metaKey)) {
           event.preventDefault();
@@ -203,8 +203,8 @@
         editor.codemirror.removeLine(line);
         line--;
         editor.codemirror.setLine(line, editor.codemirror.getLine(line) + name);
-      }); 
-     
+      });
+
     });
 
     $('#content').on('click', '.reply2_btn', function (event) {
