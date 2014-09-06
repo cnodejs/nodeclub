@@ -34,7 +34,7 @@
     "response-time": "^1.0.0",
     "utility": "1.0.0",
     "validator": "0.3.7",
-    "xss": "~0.0.9"
+    "xss": "0.1.11"
   },
   "devDependencies": {
     "errorhandler": "^1.2.0",
