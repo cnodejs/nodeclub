@@ -4,7 +4,7 @@ var models = require('../models');
 var Topic = models.Topic;
 var User = require('./user');
 var Reply = require('./reply');
-var Util = require('../libs/util');
+var Util = require('../common/util');
 
 /**
  * 根据主题ID获取主题

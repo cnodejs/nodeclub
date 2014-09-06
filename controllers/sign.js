@@ -7,7 +7,7 @@ var config = require('../config').config;
 
 var User = require('../proxy').User;
 var Message = require('../proxy').Message;
-var mail = require('../services/mail');
+var mail = require('../common/mail');
 
 //sign up
 exports.showSignup = function (req, res) {

@@ -1,7 +1,7 @@
 var sanitize = require('validator').sanitize;
 
-var at = require('../services/at');
-var message = require('../services/message');
+var at = require('../common/at');
+var message = require('../common/message');
 
 var EventProxy = require('eventproxy');
 

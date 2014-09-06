@@ -9,12 +9,12 @@
  */
 var rewire = require("rewire");
 var should = require('should');
-var at = require('../../services/at');
-var message = require('../../services/message');
+var at = require('../../common/at');
+var message = require('../../common/message');
 var createUsers = require('../support/create_test_users').createUsers;
 var mm = require('mm');
 
-describe('services/at.js', function () {
+describe('test/common/at.test.js', function () {
 
   before(function (done) {
     createUsers(done);
@@ -33,7 +33,7 @@ describe('services/at.js', function () {
     [@testuser2](/user/testuser2)[@testuser1](/user/testuser1)23 oh my god';
 
   describe('fetchUsers()', function () {
-    var mentionUser = rewire('../../services/at');
+    var mentionUser = rewire('../../common/at');
     var fetchUsers = mentionUser.__get__('fetchUsers');
     it('should found 6 users', function () {
       var users = fetchUsers(text);

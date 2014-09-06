@@ -1,6 +1,6 @@
-var mail = require('../../services/mail');
+var mail = require('../../common/mail');
 
-describe('services/mail.js', function () {
+describe('test/common/mail.test.js', function () {
   describe('sendActiveMail', function () {
     it('should ok', function () {
       mail.sendActiveMail('shyvo1987@gmail.com', 'token', 'jacksontian');

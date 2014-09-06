@@ -1,7 +1,7 @@
 var conf = require('../../middlewares/conf');
 var config = require('../../config');
 
-describe('middlewares/conf.js', function () {
+describe('test/middlewares/conf.test.js', function () {
   it('should alert no github oauth', function (done) {
     var _clientID = config.GITHUB_OAUTH.clientID;
     config.GITHUB_OAUTH.clientID = 'your GITHUB_CLIENT_ID';

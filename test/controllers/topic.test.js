@@ -14,7 +14,7 @@ var should = require('should');
 var request = require('supertest');
 var app = require('../../app');
 
-describe('controllers/topic.js', function () {
+describe('test/controllers/topic.test.js', function () {
 
   describe('/topic', function () {
     it('should ok', function (done) {

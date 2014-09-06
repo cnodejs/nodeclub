@@ -12,7 +12,7 @@ var request = require('supertest');
 var should = require('should');
 var app = require('../../app');
 
-describe('controllers/user.js', function () {
+describe('test/controllers/user.test.js', function () {
 
   it('/user/testuser1 should 200', function (done) {
     request(app).get('/user/testuser1').end(function (err, res) {
