@@ -16,7 +16,7 @@
   <link title="RSS" type="application/rss+xml" rel="alternate" href="/rss"/>
 
   <% if (config.site_icon) { %>
-  <link rel="icon" href="<%- config.site_icon %>" type="image/x-icon"/>
+  <link rel="icon" href="<%- staticFile(config.site_icon) %>" type="image/x-icon"/>
   <% } %>
 
   <!-- style -->

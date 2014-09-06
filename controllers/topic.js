@@ -107,7 +107,12 @@ exports.put = function (req, res, next) {
     '标题不能是空的。' :
     (title.length >= 5 && title.length <= 100 ? '' : '标题字数太多或太少。');
   if (edit_error) {
-    res.render('topic/edit', {edit_error: edit_error, title: title, content: content});
+    res.render('topic/edit', {
+      edit_error: edit_error,
+      title: title,
+      content: content,
+      tabs: config.tabs,
+    });
   } else {
     Topic.newAndSave(title, content, tab, req.session.user._id, function (err, topic) {
       if (err) {
@@ -115,16 +120,11 @@ exports.put = function (req, res, next) {
       }
 
       var proxy = new EventProxy();
-      var render = function () {
-        res.redirect('/topic/' + topic._id);
-      };
 
-      proxy.assign('tags_saved', 'score_saved', render);
+      proxy.all('score_saved', function () {
+        res.redirect('/topic/' + topic._id);
+      });
       proxy.fail(next);
-      // 话题可以没有标签
-      if (topic_tags.length === 0) {
-        proxy.emit('tags_saved');
-      }
       User.getUserById(req.session.user._id, proxy.done(function (user) {
         user.score += 5;
         user.topic_count += 1;
@@ -198,7 +198,13 @@ exports.update = function (req, res, next) {
       }
 
       if (title === '') {
-        res.render('topic/edit', {action: 'edit', edit_error: '标题不能是空的。', topic_id: topic._id, content: content});
+        res.render('topic/edit', {
+          action: 'edit',
+          edit_error: '标题不能是空的。',
+          topic_id: topic._id,
+          content: content,
+          tabs: config.tabs,
+        });
       } else {
         //保存话题
         //删除topic_tag，标签topic_count减1

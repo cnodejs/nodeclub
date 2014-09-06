@@ -30,8 +30,8 @@
         <form id='create_topic_form' action='/topic/create' method='post'>
           <% } %>
           <fieldset>
-            选择版块：
-            <select name="tab">
+            <span class="tab-selector">选择版块：</span>
+            <select name="tab" id="tab-value">
               <option></option>
               <%
               var tabValue = '';
@@ -85,5 +85,17 @@
   (function () {
     var editor = new Editor();
     editor.render($('.editor')[0]);
+
+    // 版块选择的检查，必须选择
+    $('#create_topic_form').on('submit', function (e) {
+      var tabValue = $('#tab-value').val();
+      if (!tabValue) {
+        alert('必须选择一个版块！');
+        $('.submit_btn').button('reset');
+        $('.tab-selector').css('color', 'red');
+        return false;
+      }
+    });
+    // END 版块选择的检查，必须选择
   })();
 </script>
