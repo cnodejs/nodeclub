@@ -2,14 +2,14 @@
   <% if (indexInCollection < 20) { %>
   <td><b><%= indexInCollection+1 %></b></td>
   <td>
-    <a class='user_avatar' href="/user/<%= user.name %>">
-      <img src="<%= user.avatar_url %>" title="<%= user.name %>"/>
+    <a class='user_avatar' href="/user/<%= user.loginname %>">
+      <img src="<%= user.avatar_url %>" title="<%= user.loginname %>"/>
     </a>
     <span class='sp10'></span>
-    <a href='/user/<%= user.name %>'><%= user.name %></a></td>
+    <a href='/user/<%= user.loginname %>'><%= user.loginname %></a></td>
   <% } else { %>
   <td><%= indexInCollection+1 %></td>
-  <td><a href="/user/<%= user.name %>"><%= user.name %></a></td>
+  <td><a href="/user/<%= user.loginname %>"><%= user.loginname %></a></td>
   <% } %>
   <td><%= user.follower_count %></td>
   <td><%= user.topic_count %></td>

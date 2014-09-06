@@ -13,9 +13,4 @@ describe('services/mail.js', function () {
     });
   });
 
-  describe('sendAtMail', function () {
-    it('should ok', function () {
-      mail.sendAtMail();
-    });
-  });
 });
