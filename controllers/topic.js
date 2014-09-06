@@ -439,13 +439,6 @@ exports.de_collect = function (req, res, next) {
   });
 };
 
-function md5(str) {
-  var md5sum = crypto.createHash('md5');
-  md5sum.update(str);
-  str = md5sum.digest('hex');
-  return str;
-}
-
 exports.upload = function (req, res, next) {
   req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
       store.upload(file, {filename: filename}, function (err, result) {
