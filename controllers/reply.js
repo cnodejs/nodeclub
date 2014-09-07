@@ -203,3 +203,24 @@ exports.update = function (req, res, next) {
     }
   });
 };
+
+exports.up = function (req, res, next) {
+  var replyId = req.params.reply_id;
+  var userId = req.session.user._id;
+  Reply.getReplyById(replyId, function (err, reply) {
+    if (err) {
+      return next(err);
+    }
+    var success = false;
+    reply.ups = reply.ups || [];
+    if (reply.ups.indexOf(userId) === -1) {
+      reply.ups.push(userId);
+      success = true;
+    }
+    reply.save(function () {
+      res.send({
+        success: success
+      });
+    });
+  });
+};

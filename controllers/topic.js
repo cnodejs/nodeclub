@@ -26,6 +26,13 @@ var config = require('../config');
  * @param  {Function} next
  */
 exports.index = function (req, res, next) {
+  function isUped(user, reply) {
+    if (!reply.ups) {
+      return false;
+    }
+    return reply.ups.indexOf(user._id) !== -1;
+  }
+
   var topic_id = req.params.tid;
   if (topic_id.length !== 24) {
     return res.render('notify/notify', {
@@ -39,6 +46,7 @@ exports.index = function (req, res, next) {
       author_other_topics: other_topics,
       no_reply_topics: no_reply_topics,
       relation: relation,
+      isUped: isUped,
     });
   });
 

@@ -1,4 +1,4 @@
-<div class='cell reply2_item' reply_id='<%= reply2._id %>'>
+<div class='cell reply_area reply2_item' reply_id='<%= reply2._id %>'>
   <a class="anchor" id="<%- reply2._id %>"></a>
 
   <div class='author_content'>
@@ -8,9 +8,18 @@
 
     <div class='user_info'>
       <a class='dark reply_author' href="/user/<%= reply2.author.loginname %>"><%= reply2.author.loginname %></a>
-      <a class="reply_time" href="#<%- reply2._id %>"><%= reply2.friendly_create_at %></a>
+      <a class="reply_time" href="#<%- reply2._id %>">
+        <span class="up_count"><%= reply2.friendly_create_at %></span></a>
     </div>
     <div class='user_action'>
+      <% if(typeof(current_user) !== 'undefined'){ %>
+        <span>
+          <img class='dark up_btn <%= isUped(current_user, reply) ? 'uped' : '' %>' src="<%- staticFile('/public/images/up_icon&16.png') %>" title="喜欢">
+          <span class="up-count">
+            <%= reply2.ups && reply2.ups.length ? reply2.ups.length : '' %>
+          </span>
+        </span>
+      <% } %>
       <% if ( typeof(current_user) !== 'undefined' && current_user.is_admin ||
       (typeof(current_user) !== 'undefined' && current_user._id.toString() == reply2.author._id.toString())
       ) { %>
