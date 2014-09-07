@@ -41,7 +41,7 @@ exports.index = function (req, res, next) {
         recent_topics: recent_topics,
         recent_replies: recent_replies,
         relation: relation,
-        token: token,
+        token: token
       });
     };
 
@@ -123,7 +123,7 @@ exports.setting = function (req, res, next) {
       location: data.location,
       signature: data.signature,
       weibo: data.weibo,
-      githubUsername: data.github || data.githubUsername,
+      githubUsername: data.github || data.githubUsername
     };
     if (isSuccess) {
       data2.success = msg;

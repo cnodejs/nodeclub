@@ -14,7 +14,6 @@ var marked = require('marked');
 var utils = require('./util');
 var _ = require('lodash');
 var config = require('../config');
-var path = require('path');
 
 // Set default options
 var renderer = new marked.Renderer();

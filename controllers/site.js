@@ -57,7 +57,7 @@ exports.index = function (req, res, next) {
         pages: pages,
         site_links: config.site_links,
         tabs: config.tabs,
-        tab: tab,
+        tab: tab
       });
     });
   proxy.fail(next);
