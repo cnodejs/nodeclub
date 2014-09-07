@@ -211,15 +211,20 @@ exports.up = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    var success = false;
+    var action;
     reply.ups = reply.ups || [];
-    if (reply.ups.indexOf(userId) === -1) {
+    var upIndex = reply.ups.indexOf(userId);
+    if (upIndex === -1) {
       reply.ups.push(userId);
-      success = true;
+      action = 'up';
+    } else {
+      reply.ups.splice(upIndex, 1);
+      action = 'down';
     }
     reply.save(function () {
       res.send({
-        success: success
+        success: true,
+        action: action,
       });
     });
   });
