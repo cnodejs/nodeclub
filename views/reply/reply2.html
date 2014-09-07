@@ -14,7 +14,7 @@
     <div class='user_action'>
       <% if(typeof(current_user) !== 'undefined'){ %>
         <span>
-          <img class='dark up_btn <%= isUped(current_user, reply) ? 'uped' : '' %>' src="<%- staticFile('/public/images/up_icon&16.png') %>" title="喜欢">
+          <img class='dark up_btn <%= isUped(current_user, reply2) ? 'uped' : '' %>' src="<%- staticFile('/public/images/up_icon&16.png') %>" title="喜欢">
           <span class="up-count">
             <%= reply2.ups && reply2.ups.length ? reply2.ups.length : '' %>
           </span>
