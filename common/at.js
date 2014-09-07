@@ -53,9 +53,10 @@ exports.sendMessageToMentionUsers = function (text, topicId, authorId, reply_id,
       return callback(err);
     }
     var ep = new EventProxy();
+    ep.fail(callback);
     ep.after('sent', users.length, function () {
       callback();
-    }).fail(callback);
+    });
 
     users.forEach(function (user) {
       Message.sendAtMessage(user._id, authorId, topicId, reply_id, ep.done('sent'));
@@ -72,14 +73,10 @@ exports.sendMessageToMentionUsers = function (text, topicId, authorId, reply_id,
  * @param {Function} callback 回调函数
  */
 exports.linkUsers = function (text, callback) {
-  User.getUsersByNames(fetchUsers(text), function (err, users) {
-    if (err) {
-      return callback(err);
-    }
-    for (var i = 0, l = users.length; i < l; i++) {
-      var name = users[i].name;
-      text = text.replace(new RegExp('@' + name + '(?!\s*\\])', 'gmi'), '[@' + name + '](/user/' + name + ')');
-    }
-    return callback(null, text);
-  });
+  var users = fetchUsers(text);
+  for (var i = 0, l = users.length; i < l; i++) {
+    var name = users[i];
+    text = text.replace(new RegExp('@' + name + '(?!\s*\\])', 'gmi'), '[@' + name + '](/user/' + name + ')');
+  }
+  return callback(null, text);
 };

@@ -4,7 +4,7 @@ var models = require('../models');
 var Topic = models.Topic;
 var User = require('./user');
 var Reply = require('./reply');
-var Util = require('../libs/util');
+var Util = require('../common/util');
 
 /**
  * 根据主题ID获取主题
@@ -190,10 +190,11 @@ exports.reduceCount = function (id, callback) {
   });
 };
 
-exports.newAndSave = function (title, content, authorId, callback) {
+exports.newAndSave = function (title, content, tab, authorId, callback) {
   var topic = new Topic();
   topic.title = title;
   topic.content = content;
+  topic.tab = tab;
   topic.author_id = authorId;
   topic.save(callback);
 };

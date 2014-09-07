@@ -1,30 +1,39 @@
-<div class='cell reply2_item' reply_id='<%= reply2._id %>'>
+<div class='cell reply_area reply2_item' reply_id='<%= reply2._id %>'>
   <a class="anchor" id="<%- reply2._id %>"></a>
 
   <div class='author_content'>
-    <a href="/user/<%= reply2.author.name %>" class="user_avatar">
-      <img src="<%= reply2.author.avatar_url %>" title="<%= reply2.author.name %>"/>
+    <a href="/user/<%= reply2.author.loginname %>" class="user_avatar">
+      <img src="<%= reply2.author.avatar_url %>" title="<%= reply2.author.loginname %>"/>
     </a>
 
     <div class='user_info'>
-      <a class='dark reply_author' href="/user/<%= reply2.author.name %>"><%= reply2.author.name %></a>
-      <a class="reply_time" href="#<%- reply2._id %>"><%= reply2.friendly_create_at %></a>
+      <a class='dark reply_author' href="/user/<%= reply2.author.loginname %>"><%= reply2.author.loginname %></a>
+      <a class="reply_time" href="#<%- reply2._id %>">
+        <span class="up_count"><%= reply2.friendly_create_at %></span></a>
     </div>
     <div class='user_action'>
+      <% if(typeof(current_user) !== 'undefined'){ %>
+        <span>
+          <img class='dark up_btn <%= isUped(current_user, reply2) ? 'uped' : '' %>' src="<%- staticFile('/public/images/up_icon&16.png') %>" title="喜欢">
+          <span class="up-count">
+            <%= reply2.ups && reply2.ups.length ? reply2.ups.length : '' %>
+          </span>
+        </span>
+      <% } %>
       <% if ( typeof(current_user) !== 'undefined' && current_user.is_admin ||
       (typeof(current_user) !== 'undefined' && current_user._id.toString() == reply2.author._id.toString())
       ) { %>
       <a href='/reply/<%- reply2._id %>/edit' class='edit_reply_btn'>
-        <img class='user_icon' src="<%- config.site_static_host %>/public/images/doc_edit_icon&16.png"
+        <img class='user_icon' src="<%- staticFile('/public/images/doc_edit_icon&16.png') %>"
              title='编辑'/>
       </a>
       <a href='javascript:void(0)' class='delete_reply2_btn'>
-        <img class='user_icon' src="<%- config.site_static_host %>/public/images/trash_icon&16.png" title='删除'/>
+        <img class='user_icon' src="<%- staticFile('/public/images/trash_icon&16.png') %>" title='删除'/>
       </a>
       <% } %>
       <span>
         <% if (typeof(current_user) !== 'undefined') { %>
-          <img class='dark reply2_at_btn' src="<%- config.site_static_host %>/public/images/reply_icon_16.png"
+          <img class='dark reply2_at_btn' src="<%- staticFile('/public/images/reply_icon_16.png') %>"
                title="回复">
         <% } %>
       </span>

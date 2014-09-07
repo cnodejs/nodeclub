@@ -10,7 +10,8 @@
   "dependencies": {
     "body-parser": "^1.0.2",
     "compression": "^1.0.2",
-    "connect-mongo": "^0.4.0",
+    "connect-busboy": "0.0.1",
+    "connect-mongo": "^0.4.1",
     "cookie-parser": "^1.0.1",
     "csurf": "^1.1.0",
     "data2xml": "0.8.0",
@@ -29,12 +30,14 @@
     "passport": "~0.1.17",
     "passport-github": "~0.1.5",
     "pm2": "^0.8.1",
-    "response-time": "^1.0.0",
+    "qn": "^0.2.2",
+    "response-time": "^2.0.1",
     "utility": "1.0.0",
     "validator": "0.3.7",
-    "xss": "~0.0.9"
+    "xss": "0.1.11"
   },
   "devDependencies": {
+    "errorhandler": "^1.2.0",
     "istanbul": "^0.3.0",
     "mm": "*",
     "mocha": "*",

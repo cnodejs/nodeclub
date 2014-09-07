@@ -1,8 +1,8 @@
 <div class='cell'>
 
-  <a class="user_avatar pull-left" href="/user/<%= topic.author.name %>">
+  <a class="user_avatar pull-left" href="/user/<%= topic.author.loginname %>">
     <img src="<%= topic.author.avatar_url %>"
-         title="<%= topic.author.name %>"
+         title="<%= topic.author.loginname %>"
             />
   </a>
 
@@ -29,10 +29,13 @@
   <% } %>
 
   <div class="topic_title_wrapper">
+    <% if (topic.top) { %>
+    <span class='put_top'>置顶</span>
+    <% } %>
+    <% if (typeof(tab) !== 'undefined' &&  tab === 'all' && topic.tabName && !topic.top) { %>
+      <span class="topiclist-tab"><%= topic.tabName %></span>
+    <% } %>
     <a class='topic_title' href='/topic/<%= topic._id %>' title='<%= topic.title %>'>
-      <% if (topic.top) { %>
-      <span class='put_top'>置顶</span>
-      <% } %>
       <%= topic.title %>
     </a>
   </div>

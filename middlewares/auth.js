@@ -39,4 +39,4 @@ exports.blockUser = function () {
     }
     next();
   };
-}
+};

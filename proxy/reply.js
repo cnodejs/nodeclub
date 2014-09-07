@@ -2,9 +2,9 @@ var models = require('../models');
 var Reply = models.Reply;
 var EventProxy = require('eventproxy');
 
-var Util = require('../libs/util');
+var Util = require('../common/util');
 var User = require('./user');
-var at = require('../services/at');
+var at = require('../common/at');
 
 /**
  * 获取一条回复信息

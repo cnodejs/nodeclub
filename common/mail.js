@@ -1,5 +1,5 @@
 var mailer = require('nodemailer');
-var config = require('../config').config;
+var config = require('../config');
 var marked = require('marked');
 var util = require('util');
 
@@ -37,7 +37,7 @@ exports.sendActiveMail = function (who, token, name) {
   var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
   var to = who;
   var subject = config.name + '社区帐号激活';
-  var html = '<p>您好：<p/>' +
+  var html = '<p>您好：' + name + '</p>' +
     '<p>我们收到您在' + config.name + '社区的注册信息，请点击下面的链接来激活帐户：</p>' +
     '<a href="' + SITE_ROOT_URL + '/active_account?key=' + token + '&name=' + name + '">激活链接</a>' +
     '<p>若您没有在' + config.name + '社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p>' +
@@ -66,73 +66,6 @@ exports.sendResetPassMail = function (who, token, name) {
     '<a href="' + SITE_ROOT_URL + '/reset_pass?key=' + token + '&name=' + name + '">重置密码链接</a>' +
     '<p>若您没有在' + config.name + '社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p>' +
     '<p>' + config.name + '社区 谨上。</p>';
-
-  sendMail({
-    from: from,
-    to: to,
-    subject: subject,
-    html: html
-  });
-};
-
-/**
- * 发送回复通知邮件
- * @param {String} who 接收人的邮件地址
- * @param {Object} msg 发送的消息对象
- */
-exports.sendReplyMail = function (who, msg) {
-  return; // !!!关闭发送通知邮件
-
-  var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
-  var to = who;
-  var subject = config.name + ' 新消息';
-  var url = SITE_ROOT_URL + '/topic/' + msg.topic._id + '#' + msg.reply._id;
-  var html = '<p>您好：<p/> \
-    <p> \
-      <a href="' + SITE_ROOT_URL + '/user/' + msg.author.name + '">' + msg.author.name + '</a> \
-      在话题 ' + '<a href="' + url + '">' + msg.topic.title + '</a> \
-      中回复了你: \
-    </p> \
-    <blockquote>' + marked(msg.reply.content || '') + '</blockquote> \
-    <hr/> \
-    <p>若您没有在' + config.name + '社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p> \
-    <p>' + config.name + '社区 谨上。</p>';
-
-  sendMail({
-    from: from,
-    to: to,
-    subject: subject,
-    html: html
-  });
-};
-
-/**
- * 发送at通知邮件
- * @param {String} who 接收人的邮件地址
- * @param {Object} msg 发送的消息对象
- */
-exports.sendAtMail = function (who, msg) {
-  return; // !!!关闭发送at通知邮件
-
-
-  if (!msg.topic || !msg.reply) {
-    return;
-  }
-
-  var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
-  var to = who;
-  var subject = config.name + ' 新消息';
-  var url = SITE_ROOT_URL + '/topic/' + msg.topic._id + '#' + msg.reply._id;
-  var html = '<p>您好：<p/> \
-    <p> \
-      <a href="' + SITE_ROOT_URL + '/user/' + msg.author.name + '">' + msg.author.name + '</a> \
-      在话题 ' + '<a href="' + url + '">' + msg.topic.title + '</a> \
-      中@了你: \
-    </p> \
-    <blockquote>' + marked(msg.reply.content || '') + '</blockquote> \
-    <hr/> \
-    <p>若您没有在' + config.name + '社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p> \
-    <p>' + config.name + '社区 谨上。</p>';
 
   sendMail({
     from: from,

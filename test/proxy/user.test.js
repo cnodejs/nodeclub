@@ -2,7 +2,7 @@ var User = require('../../proxy/user');
 var should = require('should');
 var support = require('../support/support');
 
-describe('proxy/user.js', function () {
+describe('test/proxy/user.test.js', function () {
   describe('getUserByLoginName', function () {
     it('should ok', function (done) {
       User.getUserByLoginName('jacksontian', function (err, user) {

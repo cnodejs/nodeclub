@@ -9,14 +9,18 @@
  */
 var rewire = require("rewire");
 var should = require('should');
-var at = require('../../services/at');
-var message = require('../../services/message');
+var at = require('../../common/at');
+var message = require('../../common/message');
 var createUsers = require('../support/create_test_users').createUsers;
+var mm = require('mm');
 
-describe('services/at.js', function () {
+describe('test/common/at.test.js', function () {
 
   before(function (done) {
     createUsers(done);
+  });
+  afterEach(function () {
+    mm.restore();
   });
 
   var text = '@testuser1 哈哈, hellowprd testuser1 testuser2 \
@@ -29,7 +33,7 @@ describe('services/at.js', function () {
     [@testuser2](/user/testuser2)[@testuser1](/user/testuser1)23 oh my god';
 
   describe('fetchUsers()', function () {
-    var mentionUser = rewire('../../services/at');
+    var mentionUser = rewire('../../common/at');
     var fetchUsers = mentionUser.__get__('fetchUsers');
     it('should found 6 users', function () {
       var users = fetchUsers(text);
@@ -37,13 +41,12 @@ describe('services/at.js', function () {
       users.should.length(6);
       for (var i = 0; i < users.length; i++) {
         var user = users[i];
-        user.should.match(/^testuser\d*$/);
+        user.should.match(/^testuser\d+$/);
       }
     });
 
     it('should found 0 user in text', function () {
       var users = fetchUsers('no users match in text @ @@@@ @ @@@ @哈哈 @ testuser1');
-      should.exist(users);
       users.should.length(0);
     });
   });
@@ -56,29 +59,6 @@ describe('services/at.js', function () {
         done();
       });
     });
-
-    // TODO: mock User.getUsersByNames
-    // describe('mock searchUsers() error', function () {
-    //   before(function () {
-    //     mentionUser.__set__({
-    //       searchUsers: function () {
-    //         var callback = arguments[arguments.length - 1];
-    //         process.nextTick(function () {
-    //           callback(new Error('mock searchUsers() error'));
-    //         });
-    //       }
-    //     });
-    //   });
-
-    //   it('should return error', function (done) {
-    //     mentionUser.linkUsers(text, function (err, text2) {
-    //       should.exist(err);
-    //       err.message.should.equal('mock searchUsers() error');
-    //       should.not.exist(text2);
-    //       done();
-    //     });
-    //   });
-    // });
   });
 
   describe('sendMessageToMentionUsers()', function () {
@@ -99,17 +79,13 @@ describe('services/at.js', function () {
     });
 
     describe('mock message.sendAtMessage() error', function () {
-      var sendAtMessage = message.sendAtMessage;
       before(function () {
-        message.sendAtMessage = function () {
+        mm(message, 'sendAtMessage', function () {
           var callback = arguments[arguments.length - 1];
           process.nextTick(function () {
             callback(new Error('mock sendAtMessage() error'));
           });
-        };
-      });
-      after(function () {
-        message.sendAtMessage = sendAtMessage;
+        });
       });
       it('should return error', function (done) {
         at.sendMessageToMentionUsers(text, '4fb9db9c1dc2160000000005', '4fcae41e1eb86c0000000003',

@@ -9,28 +9,28 @@
     </div>
     <div class='inner userinfo'>
       <div class='user_big_avatar'>
-        <img src="<%= user.avatar_url %>" class="user_avatar" title="<%= user.name %>"/>
+        <img src="<%= user.avatar_url %>" class="user_avatar" title="<%= user.loginname %>"/>
       </div>
-      <a class='dark'><%= user.name %></a>
+      <a class='dark'><%= user.loginname %></a>
 
       <div class='user_profile'>
         <ul class='unstyled'>
           <% if (user.url) { %>
           <li>
             <img class='user_icon'
-                 src="<%- config.site_static_host %>/public/images/paper_airplane_icon&16.png"/>
+                 src="<%- staticFile('/public/images/paper_airplane_icon&16.png') %>"/>
             <a class='dark' href="<%= user.url %>" target='_blank'><%= user.url %></a>
           </li>
           <% } %>
           <% if (user.location) { %>
           <li>
-            <img class='user_icon' src="<%- config.site_static_host %>/public/images/compass_icon&16.png"/>
+            <img class='user_icon' src="<%- staticFile('/public/images/compass_icon&16.png') %>"/>
             <span class='dark'><%= user.location %></span>
           </li>
           <% } %>
           <% if (user.githubUsername) { %>
           <li>
-            <img class='user_icon' src="<%- config.site_static_host %>/public/images/github_icon&16.png"/>
+            <img class='user_icon' src="<%- staticFile('/public/images/github_icon&16.png') %>"/>
             <a class='dark' href="https://github.com/<%= user.githubUsername %>" target='_blank'>
               @<%= user.githubUsername %>
             </a>
@@ -39,7 +39,7 @@
           <% if (user.weibo) { %>
           <li>
             <img class='user_icon'
-                 src="<%- config.site_static_host %>/public/images/twitter_2_icon&16.png"/>
+                 src="<%- staticFile('/public/images/twitter_2_icon&16.png') %>"/>
             <a class='dark' href="<%= user.weibo %>" target='_blank'><%= user.weibo %></a>
           </li>
           <% } %>
@@ -63,7 +63,7 @@
       Email (Seen by Administrator): <a href="mailto:<%= user.email %>"><%= user.email %></a>
       <% if (!user.active) { %>
       <a class='btn'
-         href="/active_account?key=<%- typeof(token) !== 'undefined' && token %>&name=<%= user.name %>"
+         href="/active_account?key=<%- typeof(token) !== 'undefined' && token %>&name=<%= user.loginname %>"
          target="_blank">激活账号</a>
       <% } %>
       <% } %>
@@ -77,7 +77,7 @@
     <% if (typeof(recent_topics) !== 'undefined' && recent_topics.length > 0) { %>
     <%- partial('../topic/abstract', { collection: recent_topics, as: 'topic' }) %>
     <div class='cell more'>
-      <a class='dark' href="/user/<%= user.name %>/topics">查看更多»</a>
+      <a class='dark' href="/user/<%= user.loginname %>/topics">查看更多»</a>
     </div>
     <% } else { %>
     <div class='inner'>
@@ -93,7 +93,7 @@
     <% if (typeof(recent_replies) !== 'undefined' && recent_replies.length > 0) { %>
     <%- partial('../topic/abstract', { collection: recent_replies, as: 'topic' }) %>
     <div class='cell more'>
-      <a class='dark' href="/user/<%= user.name %>/replies">查看更多»</a>
+      <a class='dark' href="/user/<%= user.loginname %>/replies">查看更多»</a>
     </div>
     <% } else { %>
     <div class='inner'>
@@ -136,7 +136,7 @@
       if (action === 'set_block' && !confirm('确定要屏蔽该用户吗？此操作不可逆且会删除该用户的所有主题和回复！')) {
         return;
       }
-      $.post('/user/<%- user.name %>/block', params, function (data) {
+      $.post('/user/<%- user.loginname %>/block', params, function (data) {
         if (data.status === 'success') {
           if (action === 'set_block') {
             $me.html('取消屏蔽用户');

@@ -1,7 +1,7 @@
 var sanitize = require('validator').sanitize;
 
-var at = require('../services/at');
-var message = require('../services/message');
+var at = require('../common/at');
+var message = require('../common/message');
 
 var EventProxy = require('eventproxy');
 
@@ -201,5 +201,31 @@ exports.update = function (req, res, next) {
     } else {
       res.render('notify/notify', {error: '对不起，你不能编辑此回复。'});
     }
+  });
+};
+
+exports.up = function (req, res, next) {
+  var replyId = req.params.reply_id;
+  var userId = req.session.user._id;
+  Reply.getReplyById(replyId, function (err, reply) {
+    if (err) {
+      return next(err);
+    }
+    var action;
+    reply.ups = reply.ups || [];
+    var upIndex = reply.ups.indexOf(userId);
+    if (upIndex === -1) {
+      reply.ups.push(userId);
+      action = 'up';
+    } else {
+      reply.ups.splice(upIndex, 1);
+      action = 'down';
+    }
+    reply.save(function () {
+      res.send({
+        success: true,
+        action: action,
+      });
+    });
   });
 };

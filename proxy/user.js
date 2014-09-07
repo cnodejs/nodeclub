@@ -14,7 +14,7 @@ exports.getUsersByNames = function (names, callback) {
   if (names.length === 0) {
     return callback(null, []);
   }
-  User.find({ name: { $in: names } }, callback);
+  User.find({ loginname: { $in: names } }, callback);
 };
 
 /**
@@ -105,7 +105,7 @@ exports.getUserByQuery = function (name, key, callback) {
 
 exports.newAndSave = function (name, loginname, pass, email, avatar_url, active, callback) {
   var user = new User();
-  user.name = name;
+  user.name = loginname;
   user.loginname = loginname;
   user.pass = pass;
   user.email = email;

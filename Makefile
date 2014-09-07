@@ -13,6 +13,9 @@ pretest:
 	@if ! test -f config.js; then \
 		cp config.default.js config.js; \
 	fi
+	@if ! test -d public/upload; then \
+		mkdir public/upload; \
+	fi
 
 test: install pretest
 	@NODE_ENV=test ./node_modules/mocha/bin/mocha \

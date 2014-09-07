@@ -10,9 +10,9 @@ var TopicCollect = require('../proxy').TopicCollect;
 var TagCollect = require('../proxy').TagCollect;
 var utility = require('utility');
 
-var message = require('../services/message');
-var Util = require('../libs/util');
-var config = require('../config').config;
+var message = require('../common/message');
+var Util = require('../common/util');
+var config = require('../config');
 var EventProxy = require('eventproxy');
 var check = require('validator').check;
 var sanitize = require('validator').sanitize;
@@ -20,7 +20,7 @@ var crypto = require('crypto');
 
 exports.index = function (req, res, next) {
   var user_name = req.params.name;
-  User.getUserByName(user_name, function (err, user) {
+  User.getUserByLoginName(user_name, function (err, user) {
     if (err) {
       return next(err);
     }
@@ -115,9 +115,9 @@ exports.setting = function (req, res, next) {
 
   // 显示出错或成功信息
   function showMessage(msg, data, isSuccess) {
-    var data = data || req.body;
+    data = data || req.body;
     var data2 = {
-      name: data.name,
+      loginname: data.loginname,
       email: data.email,
       url: data.url,
       location: data.location,
@@ -136,16 +136,10 @@ exports.setting = function (req, res, next) {
   // post
   var action = req.body.action;
   if (action === 'change_setting') {
-    var name = sanitize(req.body.name).trim();
-    name = sanitize(name).xss();
-    var email = sanitize(req.body.email).trim();
-    email = sanitize(email).xss();
     var url = sanitize(req.body.url).trim();
     url = sanitize(url).xss();
     var location = sanitize(req.body.location).trim();
     location = sanitize(location).xss();
-    var signature = sanitize(req.body.signature).trim();
-    signature = sanitize(signature).xss();
     var weibo = sanitize(req.body.weibo).trim();
     weibo = sanitize(weibo).xss();
     var github = sanitize(req.body.github).trim();
@@ -153,6 +147,8 @@ exports.setting = function (req, res, next) {
     if (github.indexOf('@') === 0) {
       github = github.slice(1);
     }
+    var signature = sanitize(req.body.signature).trim();
+    signature = sanitize(signature).xss();
 
     User.getUserById(req.session.user._id, function (err, user) {
       if (err) {
@@ -217,7 +213,7 @@ exports.follow = function (req, res, next) {
       return next(err);
     }
     if (!user) {
-      res.json({status: 'failed'});
+      return res.json({status: 'failed'});
     }
 
     var proxy = EventProxy.create('relation_saved', 'message_saved', function () {
@@ -231,6 +227,7 @@ exports.follow = function (req, res, next) {
 
       // 新建关系并保存
       Relation.newAndSave(req.session.user._id, user._id);
+      req.session.user.following_count += 1;
       proxy.emit('relation_saved');
 
       User.getUserById(req.session.user._id, proxy.done(function (me) {
@@ -240,8 +237,6 @@ exports.follow = function (req, res, next) {
 
       user.follower_count += 1;
       user.save();
-
-      req.session.user.following_count += 1;
     }));
 
     message.sendFollowMessage(follow_id, req.session.user._id);
@@ -263,6 +258,7 @@ exports.un_follow = function (req, res, next) {
       res.json({status: 'failed'});
       return;
     }
+    req.session.user.following_count -= 1;
     // 删除关系
     Relation.remove(req.session.user._id, user._id, function (err) {
       if (err) {
@@ -288,10 +284,6 @@ exports.un_follow = function (req, res, next) {
     }
     user.save();
 
-    req.session.user.following_count -= 1;
-    if (req.session.user.following_count < 0) {
-      req.session.user.following_count = 0;
-    }
   });
 };
 
@@ -315,33 +307,9 @@ exports.toggle_star = function (req, res, next) {
   });
 };
 
-exports.get_collect_tags = function (req, res, next) {
-  var name = req.params.name;
-  User.getUserByName(name, function (err, user) {
-    if (err || !user) {
-      return next(err);
-    }
-    TagCollect.getTagCollectsByUserId(user._id, function (err, docs) {
-      if (err) {
-        return next(err);
-      }
-      var ids = [];
-      for (var i = 0; i < docs.length; i++) {
-        ids.push(docs[i].tag_id);
-      }
-      Tag.getTagsByIds(ids, function (err, tags) {
-        if (err) {
-          return next(err);
-        }
-        res.render('user/collect_tags', { tags: tags, user: user });
-      });
-    });
-  });
-};
-
 exports.get_collect_topics = function (req, res, next) {
   var name = req.params.name;
-  User.getUserByName(name, function (err, user) {
+  User.getUserByLoginName(name, function (err, user) {
     if (err || !user) {
       return next(err);
     }
@@ -385,7 +353,7 @@ exports.get_collect_topics = function (req, res, next) {
 
 exports.get_followings = function (req, res, next) {
   var name = req.params.name;
-  User.getUserByName(name, function (err, user) {
+  User.getUserByLoginName(name, function (err, user) {
     if (err || !user) {
       return next(err);
     }
@@ -409,7 +377,7 @@ exports.get_followings = function (req, res, next) {
 
 exports.get_followers = function (req, res, next) {
   var name = req.params.name;
-  User.getUserByName(name, function (err, user) {
+  User.getUserByLoginName(name, function (err, user) {
     if (err || !user) {
       return next(err);
     }
@@ -447,7 +415,7 @@ exports.list_topics = function (req, res, next) {
   var page = Number(req.query.page) || 1;
   var limit = config.list_topic_count;
 
-  User.getUserByName(user_name, function (err, user) {
+  User.getUserByLoginName(user_name, function (err, user) {
     if (!user) {
       res.render('notify/notify', {error: '这个用户不存在。'});
       return;
@@ -492,7 +460,7 @@ exports.list_replies = function (req, res, next) {
   var page = Number(req.query.page) || 1;
   var limit = config.list_topic_count;
 
-  User.getUserByName(user_name, function (err, user) {
+  User.getUserByLoginName(user_name, function (err, user) {
     if (!user) {
       res.render('notify/notify', {error: '这个用户不存在。'});
       return;
@@ -547,7 +515,7 @@ exports.block = function (req, res, next) {
   var ep = EventProxy.create();
   ep.fail(next);
 
-  User.getUserByName(userName, ep.done(function (user) {
+  User.getUserByLoginName(userName, ep.done(function (user) {
     if (req.body.action === 'set_block') {
       ep.all('block_user', 'del_topics', 'del_replys',
         function (user, topics, replys) {

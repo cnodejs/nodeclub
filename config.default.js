@@ -20,7 +20,7 @@ var config = {
   site_headers: [
     '<meta name="author" content="EDP@TAOBAO" />',
   ],
-  site_logo: '<img src="/public/images/logo.png" title="Node.js专业中文社区" />', // default is `name`
+  site_logo: '/public/images/logo.png', // default is `name`
   site_icon: '/public/images/cnode_icon_32.png', // 默认没有 favicon, 这里填写网址
   // 右上角的导航区
   site_navs: [
@@ -103,8 +103,29 @@ var config = {
   allow_sign_up: true,
 
   // newrelic 是个用来监控网站性能的服务
-  newrelic_key: 'yourkey'
+  newrelic_key: 'yourkey',
+
+  //7牛的access信息，用于文件上传
+  qn_access: {
+    accessKey: 'your access key',
+    secretKey: 'your secret key',
+    bucket: 'your bucket name',
+    domain: 'http://{bucket}.qiniudn.com',
+  },
+
+  //文件上传配置
+  //注：如果填写 7牛access，则会上传到 7牛，以下配置无效
+  upload: {
+    path: path.join(__dirname, 'public/upload/'),
+    url: '/public/upload/'
+  },
+
+  // 版块
+  tabs: [
+    ['share', '分享'],
+    ['ask', '问答'],
+    ['job', '招聘']
+  ],
 };
 
 module.exports = config;
-module.exports.config = config;

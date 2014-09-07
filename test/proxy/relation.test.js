@@ -2,7 +2,7 @@ var relation = require('../../proxy/relation');
 var support = require('../support/support');
 var should = require('should');
 
-describe('proxy/relation.js', function () {
+describe('test/proxy/relation.test.js', function () {
   var star, fan;
   before(function (done) {
     support.createUser(function (err, user1) {

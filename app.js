@@ -12,7 +12,7 @@ var path = require('path');
 var Loader = require('loader');
 var express = require('express');
 var session = require('express-session');
-var config = require('./config').config;
+var config = require('./config');
 var passport = require('passport');
 require('./models');
 var GitHubStrategy = require('passport-github').Strategy;
@@ -24,6 +24,8 @@ var _ = require('lodash');
 var csurf = require('csurf');
 var compress = require('compression');
 var bodyParser = require('body-parser');
+var busboy = require('connect-busboy');
+var errorhandler = require('errorhandler');
 
 // 静态文件目录
 var staticDir = path.join(__dirname, 'public');
@@ -109,13 +111,23 @@ passport.deserializeUser(function (user, done) {
 });
 passport.use(new GitHubStrategy(config.GITHUB_OAUTH, githubStrategyMiddleware));
 
+app.use(busboy({
+  limits: {
+    fileSize: 10 * 1024 * 1024 // 10MB
+  }
+}));
+
 // routes
 routes(app);
 
 // error handler
-app.use(function (err, req, res, next) {
-  return res.send(500, err.message);
-});
+if (config.debug) {
+  app.use(errorhandler());
+} else {
+  app.use(function (err, req, res, next) {
+    return res.send(500, '500 status');
+  });
+}
 
 app.listen(config.port, function () {
   console.log("NodeClub listening on port %d in %s mode", config.port, app.settings.env);
