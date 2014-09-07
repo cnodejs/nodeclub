@@ -1,5 +1,4 @@
 var request = require('supertest');
-var should = require('should');
 var app = require('../../app');
 
 describe('test/controllers/message.test.js', function () {
