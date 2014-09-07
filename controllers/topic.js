@@ -254,7 +254,7 @@ exports.delete = function (req, res, next) {
   //删除回复，回复作者reply_count减1
   //删除topic_tag，标签topic_count减1
   //删除topic_collect，用户collect_topic_count减1
-  if (!req.session.user || !req.session.user.is_admin) {
+  if (!req.session.user) {
     return res.send({success: false, message: '无权限'});
   }
   var topic_id = req.params.tid;
@@ -264,6 +264,9 @@ exports.delete = function (req, res, next) {
   Topic.getTopic(topic_id, function (err, topic) {
     if (err) {
       return res.send({ success: false, message: err.message });
+    }
+    if( !req.session.user.is_admin && !(topic.author_id.equals(req.session.user._id))){
+      return res.send({success: false, message: '无权限'});
     }
     if (!topic) {
       return res.send({ success: false, message: '此话题不存在或已被删除。' });
