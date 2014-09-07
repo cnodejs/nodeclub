@@ -91,6 +91,7 @@ module.exports = function (app) {
   app.get('/reply/:reply_id/edit', reply.showEdit); // 修改自己的评论页
   app.post('/:topic_id/reply', auth.userRequired, limit.postInterval, reply.add); // 提交一级回复
   app.post('/:topic_id/reply2', auth.userRequired, limit.postInterval, reply.add_reply2); // 提交二级回复
+  app.post('/reply/:reply_id/up', auth.userRequired, reply.up); // 为评论点赞
   app.post('/reply/:reply_id/edit', reply.update); // 修改某评论
   app.post('/reply/:reply_id/delete', reply.delete); // 删除某评论
 

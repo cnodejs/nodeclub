@@ -167,11 +167,14 @@
 %>
 <script>
   $(document).ready(function () {
+    // 获取所有回复者name
     var allNames = $('.reply_author').map(function (idx, ele) {
       return $(ele).text().trim();
     }).toArray();
     allNames = _.uniq(allNames);
+    // END 获取所有回复者name
 
+    // 编辑器相关
     $('textarea.editor').each(function(){
       var editor = new Editor({
         status: []
@@ -209,7 +212,9 @@
       });
 
     });
+    // END 编辑器相关
 
+    // 评论回复
     $('#content').on('click', '.reply2_btn', function (event) {
       var $btn = $(event.currentTarget);
       var parent = $btn.closest('.reply_area');
@@ -242,7 +247,9 @@
         }
       });
     });
+    // END 评论回复
 
+    // 加入收藏
     $('#collect_btn').click(function () {
       var $me = $(this);
       var action = $me.attr('action');
@@ -264,7 +271,9 @@
         }
       }, 'json');
     });
+    // END 加入收藏
 
+    // 删除回复
     $('#content').on('click', '.delete_reply_btn, .delete_reply2_btn', function (event) {
       var $me = $(event.currentTarget);
       if (confirm('确定要删除此回复吗？')) {
@@ -292,7 +301,9 @@
       }
       return false;
     });
+    // END 删除回复
 
+    // 删除话题
     $('.delete_topic_btn').click(function () {
       var topicId = $(this).data('id');
       if (topicId && confirm('确定要删除此话题吗？')) {
@@ -306,7 +317,25 @@
       }
       return false;
     });
+    // END 删除话题
 
+    // 点赞
+    $('.up_btn').click(function (e) {
+      var $this = $(this);
+      var replyId = $this.closest('.reply_area').attr('reply_id');
+      $.ajax({
+        url: '/reply/' + replyId + '/up',
+        method: 'POST',
+      }).done(function (data) {
+        if (data.success) {
+          $this.next('.up-count').text((+$this.next('.up-count').text || 0) + 1);
+          $this.addClass('uped');
+        } else {
+          alert('重复投票。');
+        }
+      });
+    });
+    // END 点赞
   });
 
 </script>
