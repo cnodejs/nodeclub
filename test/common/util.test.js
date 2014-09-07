@@ -8,7 +8,6 @@
  * Module dependencies.
  */
 var Util = require('../../common/util');
-var should = require('should');
 
 describe('test/common/util.test.js', function () {
   describe('escape', function () {
