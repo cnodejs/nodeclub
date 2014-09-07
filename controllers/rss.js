@@ -39,7 +39,7 @@ exports.index = function (req, res, next) {
           language: config.rss.language,
           description: config.rss.description,
           item: []
-        }
+        },
       };
 
       topics.forEach(function (topic) {

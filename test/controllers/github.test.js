@@ -1,6 +1,8 @@
 var app = require('../../app');
 var request = require('supertest')(app);
 var mm = require('mm');
+var passport = require('passport');
+var path = require('path');
 var github = require('../../controllers/github');
 var Models = require('../../models');
 var User = Models.User;
@@ -88,7 +90,7 @@ describe('test/controllers/github.test.js', function () {
             {value: 'alsotang@gmail.com' + new Date()}
           ],
           _json: {avatar_url: 'http://avatar_url.com/1.jpg'},
-          id: 22
+          id: 22,
         };
         next();
       }, github.create);

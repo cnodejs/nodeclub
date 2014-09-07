@@ -46,7 +46,7 @@ exports.index = function (req, res, next) {
       author_other_topics: other_topics,
       no_reply_topics: no_reply_topics,
       relation: relation,
-      isUped: isUped
+      isUped: isUped,
     });
   });
 
@@ -96,7 +96,7 @@ exports.index = function (req, res, next) {
 
 exports.create = function (req, res, next) {
   res.render('topic/edit', {
-    tabs: config.tabs
+    tabs: config.tabs,
   });
 };
 
@@ -122,7 +122,7 @@ exports.put = function (req, res, next) {
       edit_error: editError,
       title: title,
       content: content,
-      tabs: config.tabs
+      tabs: config.tabs,
     });
   } else {
     Topic.newAndSave(title, content, tab, req.session.user._id, function (err, topic) {
@@ -174,7 +174,7 @@ exports.showEdit = function (req, res, next) {
         title: topic.title,
         content: topic.content,
         tab: topic.tab,
-        tabs: config.tabs
+        tabs: config.tabs,
       });
     } else {
       res.render('notify/notify', {error: '对不起，你不能编辑此话题。'});
@@ -222,7 +222,7 @@ exports.update = function (req, res, next) {
           edit_error: editError,
           topic_id: topic._id,
           content: content,
-          tabs: config.tabs
+          tabs: config.tabs,
         });
       } else {
         //保存话题
