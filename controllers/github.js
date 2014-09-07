@@ -45,7 +45,7 @@ exports.create = function (req, res, next) {
       email: profile.emails[0].value,
       avatar: profile._json.avatar_url,
       githubId: profile.id,
-      githubUsername: profile.username
+      githubUsername: profile.username,
     });
     user.save(function (err) {
       if (err) {

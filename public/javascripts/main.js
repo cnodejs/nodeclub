@@ -18,7 +18,9 @@ $(document).ready(function () {
     }
   }
 
+  var $wrapper = $('#wrapper');
   var $backtotop = $('#backtotop');
+  var $sidebar = $('#sidebar');
   var top = $(window).height() - $backtotop.height() - 200;
 
   function moveBacktotop() {
