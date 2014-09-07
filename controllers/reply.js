@@ -224,7 +224,7 @@ exports.up = function (req, res, next) {
     reply.save(function () {
       res.send({
         success: true,
-        action: action
+        action: action,
       });
     });
   });
