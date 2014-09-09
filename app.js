@@ -64,7 +64,8 @@ app.use(session({
   secret: config.session_secret,
   key: 'sid',
   store: new MongoStore({
-    db: config.db_name
+    db: config.db_name,
+    url: config.db
   }),
   resave: true,
   saveUninitialized: true,
