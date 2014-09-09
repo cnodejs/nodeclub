@@ -61,7 +61,7 @@
             最后一次编辑是 <%= topic.friendly_update_at %>
           </span>
         <% } %>
-        <% if (topic.tab) { console.log(topic.tab)%>
+        <% if (topic.tab) { %>
           <span>来自 <%= topic.tabName %></span>
         <%}%>
       </div>
@@ -216,7 +216,6 @@
         var txt = editor.codemirror.getLine(line);
         var lastLen = txt.length;
         for(var i=txt.length-1; i >= 0; i--){
-          console.log(txt[i]);
           if(txt[i] === '@'){
             lastLen = i;
             break;
@@ -224,7 +223,7 @@
         }
         txt = txt.substring(0, lastLen + 1);
         editor.codemirror.setLine(line, txt + name);
-      }); 
+      });
 
     });
     // END 编辑器相关
