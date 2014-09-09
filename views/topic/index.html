@@ -214,13 +214,20 @@
         line--;
         var txt = editor.codemirror.getLine(line);
         var lastLen = txt.length;
+        var pre = [];
         for(var i=txt.length-1; i >= 0; i--){
           if(txt[i] === '@'){
             lastLen = i;
             break;
           }
+          else{
+            pre.push(txt[i]);
+          }
         }
-        txt = txt.substring(0, lastLen + 1);
+        pre.reverse();
+        if(-1 !== name.indexOf(pre.join(''))){
+          txt = txt.substring(0, lastLen + 1);
+        }
         editor.codemirror.setLine(line, txt + name);
       });
 
