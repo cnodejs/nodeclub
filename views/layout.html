@@ -69,16 +69,16 @@
       </form>
       <ul class='nav pull-right'>
         <li><a href='/'>首页</a></li>
+        <% if (typeof(current_user) !== 'undefined'){ %>
         <li>
-          <a href='/my/messages'>
-            <% if (typeof(current_user) !== 'undefined' &&
-            current_user.messages_count) { %>
-                      <span class='big messages_count'>
-                        <%= current_user.messages_count %>
-                      </span>
-            <% } %>
-            未读消息</a>
+            <a href='/my/messages'>
+              <% if (current_user.messages_count) { %>
+                <span class='big messages_count'><%= current_user.messages_count %></span>
+              <% } %>
+              未读消息
+            </a>
         </li>
+        <% } %>
         <li><a href='https://github.com/cnodejs/nodeclub/wiki/'>Wiki</a></li>
         <%
         var site_navs = config.site_navs || [];
