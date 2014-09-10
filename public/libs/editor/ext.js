@@ -1,4 +1,22 @@
-(function(Editor){
+(function(Editor, marked, WebUploader){
+    // configure marked
+    var renderer = new marked.Renderer();
+    renderer.code = function (code, lang) {
+        var ret = '<pre class="prettyprint language-' + lang + '">';
+        ret += '<code>' + code.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code>';
+        ret += '</pre>';
+        return ret;
+    };
+    marked.setOptions({
+        renderer: renderer,
+        gfm: true,
+        tables: true,
+        breaks: true,
+        pedantic: false,
+        sanitize: false,
+        smartLists: true
+    });
+
     var toolbar = Editor.toolbar;
 
     var replaceTool = function(name, callback){
@@ -229,4 +247,4 @@
         var line = cm.lastLine();
         cm.setLine(line, cm.getLine(line) + txt);
     };
-})(window.Editor);
+})(window.Editor, window.marked, window.WebUploader);
