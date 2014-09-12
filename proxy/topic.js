@@ -5,6 +5,7 @@ var Topic = models.Topic;
 var User = require('./user');
 var Reply = require('./reply');
 var Util = require('../common/util');
+var at = require('../common/at');
 
 /**
  * 根据主题ID获取主题
@@ -129,7 +130,10 @@ exports.getFullTopic = function (id, callback) {
       proxy.unbind();
       return callback(null, '此话题不存在或已被删除。');
     }
-    proxy.emit('topic', topic);
+    at.linkUsers(topic.content, proxy.done('topic', function (str) {
+      topic.content = str;
+      return topic;
+    }));
 
     User.getUserById(topic.author_id, proxy.done(function (author) {
       if (!author) {
