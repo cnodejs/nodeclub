@@ -282,7 +282,7 @@ exports.auth_user = function (req, res, next) {
     }
     res.locals.current_user = req.session.user = user;
     req.session.user.avatar_url = User.getGravatar(user.email);
-    req.session.user.isAdvanced = user.score > 800;
+    req.session.user.isAdvanced = user.score > 700;
 
     if (config.admins.hasOwnProperty(user.loginname)) {
       user.is_admin = true;
