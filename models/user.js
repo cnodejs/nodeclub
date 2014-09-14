@@ -44,6 +44,11 @@ UserSchema.virtual('avatar_url').get(function () {
   return url;
 });
 
+UserSchema.virtual('isAdvanced').get(function () {
+  // 积分高于 800 则认为是高级用户
+  return this.score > 800;
+});
+
 UserSchema.index({name: 1});
 UserSchema.index({loginname: 1}, {unique: true});
 UserSchema.index({email: 1}, {unique: true});

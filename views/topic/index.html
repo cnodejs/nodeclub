@@ -8,7 +8,9 @@
     </div>
   </div>
 
-  <%- partial('../_ads') %>
+  <% if (typeof(current_user) !== 'undefined' && !current_user.isAdvanced) { %>
+    <%- partial('../_ads') %>
+  <% } %>
 
   <div class='panel'>
     <div class='header'>

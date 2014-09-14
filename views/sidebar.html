@@ -34,7 +34,9 @@
   </div>
   <% } %>
 
-  <%- partial('./_ads') %>
+  <% if (typeof(current_user) !== 'undefined' && !current_user.isAdvanced) { %>
+    <%- partial('./_ads') %>
+  <% } %>
 
   <% if (typeof(no_reply_topics) !== 'undefined') { %>
   <div class='panel'>
