@@ -281,10 +281,6 @@ exports.delete = function (req, res, next) {
 };
 
 exports.top = function (req, res, next) {
-  if (!req.session.user.is_admin) {
-    res.redirect('/');
-    return;
-  }
   var topic_id = req.params.tid;
   var is_top = req.params.is_top;
   if (topic_id.length !== 24) {
@@ -305,6 +301,28 @@ exports.top = function (req, res, next) {
         return next(err);
       }
       var msg = topic.top ? '此话题已经被置顶。' : '此话题已经被取消置顶。';
+      res.render('notify/notify', {success: msg});
+    });
+  });
+};
+
+exports.good = function (req, res, next) {
+  var topicId = req.params.tid;
+  var isGood = req.params.is_good;
+  Topic.getTopic(topicId, function (err, topic) {
+    if (err) {
+      return next(err);
+    }
+    if (!topic) {
+      res.render('notify/notify', {error: '此话题不存在或已被删除。'});
+      return;
+    }
+    topic.good = isGood;
+    topic.save(function (err) {
+      if (err) {
+        return next(err);
+      }
+      var msg = topic.good ? '此话题已加精。' : '此话题已经取消加精。';
       res.render('notify/notify', {success: msg});
     });
   });

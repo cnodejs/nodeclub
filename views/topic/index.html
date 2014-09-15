@@ -47,9 +47,9 @@
   <div class='panel'>
     <div class='header'>
       <span class="topic_full_title">
-        <% if (topic.top) { %>
-          <span class='put_top'>置顶</span>
-        <% } %>
+
+        <%- partial('./_top_good', {topic: topic}) %>
+
         <%= topic.title %>
       </span>
 
@@ -72,6 +72,7 @@
       <% if (typeof(current_user) !== 'undefined') { %>
       <div id="manage_topic">
         <% if (current_user.is_admin) { %>
+
         <% if (topic.top) { %>
         <a href='/topic/<%= topic._id %>/top/0'>
           <img class='user_icon'
@@ -85,6 +86,17 @@
                title='置顶'/>
         </a>
         <% } %>
+
+        <% if (topic.good) { %>
+        <a href='/topic/<%= topic._id %>/good/0'>
+          取消精华
+        </a>
+        <% } else { %>
+        <a href='/topic/<%= topic._id %>/good/1'>
+          设为精华
+        </a>
+        <% } %>
+
         <a href='/topic/<%= topic._id %>/edit'>
           <img
                   class='user_icon'

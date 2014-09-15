@@ -70,7 +70,8 @@ module.exports = function (app) {
   // 新建文章界面
   app.get('/topic/create', auth.signinRequired, topic.create);
   app.get('/topic/:tid', topic.index);  // 显示某个话题
-  app.get('/topic/:tid/top/:is_top?', topic.top);  // 将某话题置顶
+  app.get('/topic/:tid/top/:is_top?', auth.adminRequired, topic.top);  // 将某话题置顶
+  app.get('/topic/:tid/good/:is_good?', auth.adminRequired, topic.good); // 将某话题加精
   app.get('/topic/:tid/edit', topic.showEdit);  // 编辑某话题
 
   // Po-Ying Chen <poying.me@gmail.com>: 當 "非" 作者的使用者在留言的地方貼上一個網址為

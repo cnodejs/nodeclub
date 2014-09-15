@@ -29,12 +29,9 @@
   <% } %>
 
   <div class="topic_title_wrapper">
-    <% if (topic.top) { %>
-    <span class='put_top'>置顶</span>
-    <% } %>
-    <% if (typeof(tab) !== 'undefined' &&  tab === 'all' && topic.tabName && !topic.top) { %>
-      <span class="topiclist-tab"><%= topic.tabName %></span>
-    <% } %>
+
+    <%- partial('./_top_good', {topic: topic}) %>
+
     <a class='topic_title' href='/topic/<%= topic._id %>' title='<%= topic.title %>'>
       <%= topic.title %>
     </a>
