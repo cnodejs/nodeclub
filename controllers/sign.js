@@ -8,6 +8,8 @@ var config = require('../config');
 var User = require('../proxy').User;
 var Message = require('../proxy').Message;
 var mail = require('../common/mail');
+var mongoose = require('mongoose');
+var UserModel = mongoose.model('User');
 
 //sign up
 exports.showSignup = function (req, res) {
@@ -280,9 +282,7 @@ exports.auth_user = function (req, res, next) {
     if (!user) {
       return next();
     }
-    res.locals.current_user = req.session.user = user;
-    req.session.user.avatar_url = User.getGravatar(user.email);
-    req.session.user.isAdvanced = user.score > 700;
+    res.locals.current_user = req.session.user = new UserModel(user);
 
     if (config.admins.hasOwnProperty(user.loginname)) {
       user.is_admin = true;
