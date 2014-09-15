@@ -42,7 +42,7 @@ setInterval(function () {
 exports.index = function (req, res, next) {
   var page = parseInt(req.query.page, 10) || 1;
   page = page > 0 ? page : 1;
-  var tab = req.query.tab || req.session.tab || '';
+  var tab = req.query.tab || req.session.tab || 'all';
   req.session.tab = tab;
   var limit = config.list_topic_count;
 
