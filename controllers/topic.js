@@ -187,7 +187,7 @@ exports.showEdit = function (req, res, next) {
       return;
     }
 
-    if (String(topic.author_id) === req.session.user._id || req.session.user.is_admin) {
+    if (String(topic.author_id) === String(req.session.user._id) || req.session.user.is_admin) {
       res.render('topic/edit', {
         action: 'edit',
         topic_id: topic._id,
@@ -219,7 +219,7 @@ exports.update = function (req, res, next) {
       return;
     }
 
-    if (String(topic.author_id) === req.session.user._id || req.session.user.is_admin) {
+    if (String(topic.author_id) === String(req.session.user._id) || req.session.user.is_admin) {
       var title = sanitize(req.body.title).trim();
       title = sanitize(title).xss();
       var tab = sanitize(req.body.tab).xss().trim();

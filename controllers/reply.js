@@ -154,7 +154,7 @@ exports.showEdit = function (req, res, next) {
       res.render('notify/notify', {error: '此回复不存在或已被删除。'});
       return;
     }
-    if (String(reply.author_id) === req.session.user._id || req.session.user.is_admin) {
+    if (req.session.user._id.equals(reply.author_id) || req.session.user.is_admin) {
       res.render('reply/edit', {
         reply_id: reply._id,
         content: reply.content
@@ -184,7 +184,7 @@ exports.update = function (req, res, next) {
       return;
     }
 
-    if (String(reply.author_id) === req.session.user._id || req.session.user.is_admin) {
+    if (String(reply.author_id) === req.session.user._id.toString() || req.session.user.is_admin) {
       var content = req.body.t_content;
 
       reply.content = content.trim();
