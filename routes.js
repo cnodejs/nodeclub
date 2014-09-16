@@ -68,7 +68,7 @@ module.exports = function (app) {
 
   // topic
   // 新建文章界面
-  app.get('/topic/create', auth.signinRequired, topic.create);
+  app.get('/topic/create', auth.userRequired, topic.create);
   app.get('/topic/:tid', topic.index);  // 显示某个话题
   app.get('/topic/:tid/top/:is_top?', auth.adminRequired, topic.top);  // 将某话题置顶
   app.get('/topic/:tid/good/:is_good?', auth.adminRequired, topic.good); // 将某话题加精
@@ -84,10 +84,11 @@ module.exports = function (app) {
   // 保存新建的文章
   // TODO: 如果创建文章的过程太长，导致session过期，界面的内容会丢失
   // FIXME: 采用前端来判断，不通过跳转的形式来解决
-  app.post('/topic/create', auth.signinRequired, limit.postInterval, topic.put);
+  app.post('/topic/create', auth.userRequired, limit.postInterval, topic.put);
   app.post('/topic/:tid/edit', topic.update);
   app.post('/topic/collect', auth.userRequired, topic.collect); // 关注某话题
   app.post('/topic/de_collect', auth.userRequired, topic.de_collect); // 取消关注某话题
+  app.post('/topic/repliestype', auth.userRequired, topic.repliestype); // 切换评论的显示方式
 
   // reply
   // 回复

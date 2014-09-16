@@ -44,7 +44,7 @@
   </div>
   <div class='clearfix'>
     <div class='reply2_area'>
-      <% if (reply.replies.length >0) { %>
+      <% if (reply.replies && reply.replies.length >0) { %>
       <%- partial('../reply/reply2',{collection: reply.replies, as: 'reply2'}) %>
       <% } %>
       <% if (typeof(current_user) !== 'undefined') { %>
