@@ -419,7 +419,7 @@
 
           texts = texts.slice(-3);
 
-          $repliesHistory.append('之前三条回复');
+          $repliesHistory.append('@' + loginname + ' 之前的三条回复');
           texts.forEach(function (text, idx) {
             $repliesHistory.append('<br>' + idx + '. ' + text);
           });
