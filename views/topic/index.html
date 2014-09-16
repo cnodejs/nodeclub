@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <% if (typeof(current_user) !== 'undefined' && !current_user.isAdvanced) { %>
+  <% if (typeof(current_user) === 'undefined' || !current_user.isAdvanced) { %>
     <%- partial('../_ads') %>
   <% } %>
 
