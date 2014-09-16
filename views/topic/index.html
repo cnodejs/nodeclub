@@ -419,8 +419,10 @@
 
           texts = texts.slice(-3);
 
-          $repliesHistory.append('之前三条回复<br>----<br>');
-          $repliesHistory.append(texts.join('<br>----<br>'));
+          $repliesHistory.append('之前三条回复');
+          texts.forEach(function (text, idx) {
+            $repliesHistory.append('<br>' + idx + '. ' + text);
+          });
 
           $repliesHistory.show();
         }
