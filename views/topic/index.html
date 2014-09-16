@@ -387,51 +387,53 @@
     // END 点赞
 
 
-    // 初始化 $('.replies_history')
-    var $repliesHistory = $('.replies_history');
-    $repliesHistory.hide();
-    // END
-
-    // 显示被 at 用户的本页评论
-    if ($('.reply2_item').length === 0) {
-      // 只在流式布局中使用
-
-      $('#content').on('mouseenter', '.reply_content a', function (e) {
-        var $this = $(this);
-        if ($this.text()[0] === '@') {
-          var thisText = $this.text().trim();
-          var loginname = thisText.slice(1);
-          $repliesHistory.css('left', e.pageX - 30); // magic number
-          $repliesHistory.css('top', e.pageY - 100); // magic number
-          $repliesHistory.empty();
-          var texts = [];
-          var $self = $this
-          var replyId = +$self.closest('.reply_item').attr('id').replace('reply', '');
-          $('.from-' + loginname).each(function (idx, ele) {
-            var $this = $(this);
-            var thisReplyId = +$this.closest('.reply_item').attr('id').replace('reply', '');
-            console.log(replyId, thisReplyId);
-            if (thisReplyId >= replyId) {
-              return;
-            }
-            texts.push($this.text().trim());
-          });
-
-          texts = texts.slice(-3);
-
-          $repliesHistory.append('@' + loginname + ' 之前的三条回复');
-          texts.forEach(function (text, idx) {
-            $repliesHistory.append('<br>' + idx + '. ' + text);
-          });
-
-          $repliesHistory.show();
-        }
-      }).on('mouseleave', '.reply_content a', function (e) {
-        $repliesHistory.hide();
-      });
-    }
-    // END 显示被 at 用户的本页评论
   });
 
 </script>
 <% } %>
+
+<script type="text/javascript">
+  // 初始化 $('.replies_history')
+  var $repliesHistory = $('.replies_history');
+  $repliesHistory.hide();
+  // END
+
+  // 显示被 at 用户的本页评论
+  if ($('.reply2_item').length === 0) {
+    // 只在流式布局中使用
+
+    $('#content').on('mouseenter', '.reply_content a', function (e) {
+      var $this = $(this);
+      if ($this.text()[0] === '@') {
+        var thisText = $this.text().trim();
+        var loginname = thisText.slice(1);
+        $repliesHistory.css('left', e.pageX - 30); // magic number
+        $repliesHistory.css('top', e.pageY - 100); // magic number
+        $repliesHistory.empty();
+        var texts = [];
+        var $self = $this
+        var replyId = +$self.closest('.reply_item').attr('id').replace('reply', '');
+        $('.from-' + loginname).each(function (idx, ele) {
+          var $this = $(this);
+          var thisReplyId = +$this.closest('.reply_item').attr('id').replace('reply', '');
+          if (thisReplyId >= replyId) {
+            return;
+          }
+          texts.push($this.text().trim());
+        });
+
+        texts = texts.slice(-3);
+
+        $repliesHistory.append('@' + loginname + ' 之前的三条回复');
+        texts.forEach(function (text, idx) {
+          $repliesHistory.append('<br>' + idx + '. ' + text);
+        });
+
+        $repliesHistory.show();
+      }
+    }).on('mouseleave', '.reply_content a', function (e) {
+      $repliesHistory.hide();
+    });
+  }
+  // END 显示被 at 用户的本页评论
+</script>
