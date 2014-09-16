@@ -108,7 +108,7 @@
                                          src='<%- staticFile("/public/images/trash_icon&16.png") %>'
                                          title='删除'/></a>
         <% } else { %>
-        <% if (current_user._id == topic.author_id) { %>
+        <% if (current_user._id.equals(topic.author_id)) { %>
         <a href='/topic/<%= topic._id %>/edit'>
           <img class='user_icon'
                src='<%- staticFile("/public/images/doc_edit_icon&16.png") %>'
