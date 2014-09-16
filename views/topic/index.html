@@ -58,6 +58,9 @@
           发布于 <%= topic.friendly_create_at %>
         </span>
         <span>
+          由 <a href="/user/<%= topic.author.name %>"><%= topic.author.name %></a>
+        </span>
+        <span>
           <%= topic.visit_count %> 次浏览
         </span>
         <% if (topic.friendly_create_at != topic.friendly_update_at) { %>
