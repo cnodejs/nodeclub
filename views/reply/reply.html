@@ -1,5 +1,5 @@
-<div class='cell reply_area reply_item' id="reply<%= indexInCollection+1 %>" reply_id="<%- reply._id %>">
-  <a class="anchor" id="<%- reply._id %>"></a>
+<div class='cell reply_area reply_item' id="reply<%= indexInCollection+1 %>" reply_id="<%= reply._id %>" reply_to_id="<%= reply.reply_id || '' %>">
+  <a class="anchor" id="<%= reply._id %>"></a>
 
   <div class='author_content'>
     <a href="/user/<%= reply.author.loginname %>" class="user_avatar">
@@ -9,7 +9,7 @@
     <div class='user_info'>
       <a class='dark reply_author' href="/user/<%= reply.author.loginname %>"><%= reply.author.loginname %>
       </a>
-      <a class="reply_time" href="#<%- reply._id %>"><%= indexInCollection + 1 %>楼•<%= reply.friendly_create_at
+      <a class="reply_time" href="#<%= reply._id %>"><%= indexInCollection + 1 %>楼•<%= reply.friendly_create_at
         %></a>
     </div>
     <div class='user_action'>
@@ -24,7 +24,7 @@
       <% if ( typeof(current_user) !== 'undefined' && current_user.is_admin ||
       (typeof(current_user) !== 'undefined' && current_user._id.toString() == reply.author._id.toString())
       ) { %>
-      <a href='/reply/<%- reply._id %>/edit' class='edit_reply_btn'>
+      <a href='/reply/<%= reply._id %>/edit' class='edit_reply_btn'>
         <img class='user_icon' src="<%- staticFile('/public/images/doc_edit_icon&16.png') %>"
              title='编辑'/>
       </a>
@@ -49,13 +49,13 @@
       <% } %>
       <% if (typeof(current_user) !== 'undefined') { %>
       <form class='reply2_form' action='/<%= topic._id %>/reply2' method='post'>
-        <input type='hidden' name='_csrf' value='<%- csrf %>'/>
-        <input type='hidden' name='reply_id' value='<%- reply._id %>'/>
+        <input type='hidden' name='_csrf' value='<%= csrf %>'/>
+        <input type='hidden' name='reply_id' value='<%= reply._id %>'/>
 
         <div class='markdown_editor in_editor'>
           <div class='markdown_in_editor'>
             <textarea class='span8 editor reply_editor'
-                      id="reply2_editor_<%- reply._id %>" name='r2_content' rows='4'></textarea>
+                      id="reply2_editor_<%= reply._id %>" name='r2_content' rows='4'></textarea>
 
             <div class='editor_buttons'>
               <input class='span-primary reply2_submit_btn submit_btn'

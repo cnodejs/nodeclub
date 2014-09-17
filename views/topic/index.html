@@ -410,22 +410,18 @@
         $repliesHistory.css('top', e.pageY - 100); // magic number
         $repliesHistory.empty();
         var texts = [];
-        var $self = $this
-        var replyId = +$self.closest('.reply_item').attr('id').replace('reply', '');
-        $('.from-' + loginname).each(function (idx, ele) {
-          var $this = $(this);
-          var thisReplyId = +$this.closest('.reply_item').attr('id').replace('reply', '');
-          if (thisReplyId >= replyId) {
-            return;
-          }
-          texts.push($this.text().trim());
-        });
+        var replyToId = $this.closest('.reply_item').attr('reply_to_id');
+        while (replyToId) {
+          var $replyItem = $('.reply_item[reply_id=' + replyToId + ']');
+          texts.push($replyItem.find('.reply_content').text().trim());
+          replyToId = $replyItem.attr('reply_to_id');
+        }
 
-        texts = texts.slice(-3);
+        texts.reverse();
 
-        $repliesHistory.append('@' + loginname + ' 之前的三条回复');
+        $repliesHistory.append('<div class="title">查看对话</div>');
         texts.forEach(function (text, idx) {
-          $repliesHistory.append('<br>' + idx + '. ' + text);
+          $repliesHistory.append('<div class="item">' + idx + '. ' + text + '</div>');
         });
 
         $repliesHistory.show();
