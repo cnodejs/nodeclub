@@ -68,25 +68,7 @@ exports.index = function (req, res, next) {
 
     topic.author = author;
 
-    if (!req.session.user || req.session.user.replys_type == 1) {
-      // 流式
-      var newReplies = [];
-      replies.forEach(function (reply) {
-        var reply2s = reply.replies;
-        delete reply.replies;
-        newReplies.push(reply);
-        reply2s.forEach(function (r) {
-          newReplies.push(r);
-        });
-      });
-      newReplies = _.sortBy(newReplies, function (r) {
-        return r.create_at;
-      });
-      topic.replies = newReplies;
-    } else {
-      // 嵌套式
-      topic.replies = replies;
-    }
+    topic.replies = replies;
 
     if (!req.session.user) {
       ep.emit('topic', topic);
@@ -433,21 +415,4 @@ exports.upload = function (req, res, next) {
     });
 
   req.pipe(req.busboy);
-};
-
-exports.repliestype = function (req, res, next) {
-  var type = req.session.user.replys_type == 1 ? '嵌套式' : '流式';
-  req.session.user.replys_type = req.session.user.replys_type == 1 ? 0 : 1;
-
-  User.getUserById(req.session.user._id, function (err, user) {
-    if (err) {
-      return next(err);
-    }
-    user.replys_type = req.session.user.replys_type;
-    user.save(function (err) {
-    });
-  });
-
-
-  res.render('notify/notify', {success: '切换为' + type + '风格成功，请返回并刷新页面。'});
 };

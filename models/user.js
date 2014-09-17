@@ -17,7 +17,6 @@ var UserSchema = new Schema({
   githubId: { type: String},
   githubUsername: {type: String},
   is_block: {type: Boolean, default: false},
-  replys_type: {type: Number, default: 1}, // 0 为嵌套式，1 为流式
 
   score: { type: Number, default: 0 },
   topic_count: { type: Number, default: 0 },

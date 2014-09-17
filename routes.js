@@ -88,7 +88,6 @@ module.exports = function (app) {
   app.post('/topic/:tid/edit', topic.update);
   app.post('/topic/collect', auth.userRequired, topic.collect); // 关注某话题
   app.post('/topic/de_collect', auth.userRequired, topic.de_collect); // 取消关注某话题
-  app.post('/topic/repliestype', auth.userRequired, topic.repliestype); // 切换评论的显示方式
 
   // reply
   // 回复

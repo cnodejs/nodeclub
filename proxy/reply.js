@@ -74,28 +74,9 @@ exports.getRepliesByTopicId = function (id, cb) {
     }
 
     var proxy = new EventProxy();
-    var done = function () {
-      var replies2 = [];
-      for (var i = replies.length - 1; i >= 0; i--) {
-        if (replies[i].reply_id) {
-          replies2.push(replies[i]);
-          replies.splice(i, 1);
-        }
-      }
-      for (var j = 0; j < replies.length; j++) {
-        replies[j].replies = [];
-        for (var k = 0; k < replies2.length; k++) {
-          var id1 = replies[j]._id;
-          var id2 = replies2[k].reply_id;
-          if (id1.toString() === id2.toString()) {
-            replies[j].replies.push(replies2[k]);
-          }
-        }
-        replies[j].replies.reverse();
-      }
-      return cb(err, replies);
-    };
-    proxy.after('reply_find', replies.length, done);
+    proxy.after('reply_find', replies.length, function () {
+      cb(null, replies);
+    });
     for (var j = 0; j < replies.length; j++) {
       (function (i) {
         var author_id = replies[i].author_id;
