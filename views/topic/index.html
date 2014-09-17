@@ -406,8 +406,11 @@
       if ($this.text()[0] === '@') {
         var thisText = $this.text().trim();
         var loginname = thisText.slice(1);
-        $repliesHistory.css('left', e.pageX - 30); // magic number
-        $repliesHistory.css('top', e.pageY - 100); // magic number
+        var offset = $this.offset();
+        var width = $this.width();
+        var mainOffset = $('#main').offset();
+        $repliesHistory.css('left', offset.left-mainOffset.left+width+10); // magic number
+        $repliesHistory.css('top', offset.top-mainOffset.top-10); // magic number
         $repliesHistory.empty();
         var texts = [];
         var replyToId = $this.closest('.reply_item').attr('reply_to_id');
@@ -419,11 +422,11 @@
 
         texts.reverse();
 
-        $repliesHistory.append('<div class="title">查看对话</div>');
+        $repliesHistory.append('<div class="title">与<span class="with">&nbsp;'+$this.text()+'&nbsp;</span>的对话</div>');
         texts.forEach(function (text, idx) {
-          $repliesHistory.append('<div class="item">' + idx + '. ' + text + '</div>');
+          $repliesHistory.append('<div class="item">' + (idx+1) + '. ' + text + '</div>');
         });
-
+        $repliesHistory.append('<div class="anchor">&nbsp;</div>');
         $repliesHistory.show();
       }
     }).on('mouseleave', '.reply_content a', function (e) {

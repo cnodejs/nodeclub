@@ -1108,18 +1108,35 @@ textarea.editor {
 
 .replies_history {
   position: absolute;
-  border: 2px solid black;
-  background-color: #F5F5F5;
+  border: 1px solid #aaa;
+  background-color: #FcFcFc;
+  box-shadow: 2px 2px 6px #aaa;
   padding: 10px;
   min-width: 130px;
   max-width: 300px;
 
   .item {
-    border-top: 2px solid black;
+    border-top: 1px solid #ddd;
     padding: 5px;
   }
   .title {
     margin: 0 auto;
-    width: 50%;
+    width: 100%;
+    text-align: center;
+    .with {
+      font-weight: bold;
+      color: #0088cc;
+    }
+  }
+  .anchor {
+    width: 0;
+    height: 0;
+    border-right: 10px solid #aaa;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 0;
+    position: absolute;
+    top: 12px;
+    left: -10px;
   }
 }
