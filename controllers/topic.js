@@ -102,6 +102,10 @@ exports.create = function (req, res, next) {
   });
 };
 
+var allTags = config.tabs.map(function (tPair) {
+  return tPair[0];
+});
+
 exports.put = function (req, res, next) {
   var title = sanitize(req.body.title).trim();
   title = sanitize(title).xss();
@@ -114,7 +118,7 @@ exports.put = function (req, res, next) {
     editError = '标题不能是空的。';
   } else if (title.length < 5 && title.length > 100) {
     editError = '标题字数太多或太少。';
-  } else if (!tab) {
+  } else if (!tab || allTags.indexOf(tab) === -1) {
     editError = '必须选择一个版块。';
   }
   // END 验证
