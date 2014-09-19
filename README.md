@@ -25,7 +25,8 @@ Nodeclub 是使用 **Node.js** 和 **MongoDB** 开发的社区系统，界面优
 3. `$ make install` 安装 Nodeclub 的依赖包
 4. `$ make test` 确保各项服务都正常
 5. `$ node app.js`
-6. done!
+6. visit `localhost:3000`
+7. done!
 ```
 
 ## 贡献
