@@ -18,13 +18,14 @@ var mcache = require('memory-cache');
 // 主页的缓存工作。主页是需要主动缓存的
 setInterval(function () {
   var limit = config.list_topic_count;
-  // 只缓存第一页, page = 1
-  var options = { skip: (1 - 1) * limit, limit: limit, sort: [
-    ['top', 'desc' ],
-    [ 'last_reply_at', 'desc' ]
-  ] };
   // 为所有版块（tab）做缓存
-  ['', '全部'].concat(config.tabs).forEach(function (pair) {
+  [['', '全部']].concat(config.tabs).forEach(function (pair) {
+    // 只缓存第一页, page = 1。options 之所以每次都生成是因为 mongoose 查询时，
+    // 会改动它
+    var options = { skip: (1 - 1) * limit, limit: limit, sort: [
+      ['top', 'desc' ],
+      [ 'last_reply_at', 'desc' ]
+    ] };
     var tabValue = pair[0];
     var query = {};
     if (tabValue) {
