@@ -6,7 +6,7 @@
  * Module dependencies.
  */
 
-var sanitize = require('validator').sanitize;
+var validator = require('validator');
 
 var at = require('../common/at');
 var User = require('../proxy').User;
@@ -113,11 +113,11 @@ var allTags = config.tabs.map(function (tPair) {
 });
 
 exports.put = function (req, res, next) {
-  var title = sanitize(req.body.title).trim();
-  title = sanitize(title).xss();
-  var tab = sanitize(req.body.tab).xss().trim();
+  var title = validator.trim(req.body.title);
+  title = validator.escape(title);
+  var tab = validator.trim(req.body.tab);
+  tab = validator.escape(tab);
   var content = req.body.t_content;
-
 
   // 验证
   var editError;
@@ -131,36 +131,36 @@ exports.put = function (req, res, next) {
   // END 验证
 
   if (editError) {
-    res.render('topic/edit', {
+    return res.render('topic/edit', {
       edit_error: editError,
       title: title,
       content: content,
       tabs: config.tabs
     });
-  } else {
-    Topic.newAndSave(title, content, tab, req.session.user._id, function (err, topic) {
-      if (err) {
-        return next(err);
-      }
-
-      var proxy = new EventProxy();
-
-      proxy.all('score_saved', function () {
-        res.redirect('/topic/' + topic._id);
-      });
-      proxy.fail(next);
-      User.getUserById(req.session.user._id, proxy.done(function (user) {
-        user.score += 5;
-        user.topic_count += 1;
-        user.save();
-        req.session.user = user;
-        proxy.emit('score_saved');
-      }));
-
-      //发送at消息
-      at.sendMessageToMentionUsers(content, topic._id, req.session.user._id);
-    });
   }
+
+  Topic.newAndSave(title, content, tab, req.session.user._id, function (err, topic) {
+    if (err) {
+      return next(err);
+    }
+
+    var proxy = new EventProxy();
+
+    proxy.all('score_saved', function () {
+      res.redirect('/topic/' + topic._id);
+    });
+    proxy.fail(next);
+    User.getUserById(req.session.user._id, proxy.done(function (user) {
+      user.score += 5;
+      user.topic_count += 1;
+      user.save();
+      req.session.user = user;
+      proxy.emit('score_saved');
+    }));
+
+    //发送at消息
+    at.sendMessageToMentionUsers(content, topic._id, req.session.user._id);
+  });
 };
 
 exports.showEdit = function (req, res, next) {
@@ -212,10 +212,11 @@ exports.update = function (req, res, next) {
       return;
     }
 
-    if (String(topic.author_id) === String(req.session.user._id) || req.session.user.is_admin) {
-      var title = sanitize(req.body.title).trim();
-      title = sanitize(title).xss();
-      var tab = sanitize(req.body.tab).xss().trim();
+    if (topic.author_id.equals(req.session.user._id) || req.session.user.is_admin) {
+      var title = validator.trim(req.body.title);
+      title = validator.escape(title);
+      var tab = validator.trim(req.body.tab);
+      tab = validator.escape(tab);
       var content = req.body.t_content;
 
       // 验证
@@ -230,32 +231,32 @@ exports.update = function (req, res, next) {
       // END 验证
 
       if (editError) {
-        res.render('topic/edit', {
+        return res.render('topic/edit', {
           action: 'edit',
           edit_error: editError,
           topic_id: topic._id,
           content: content,
           tabs: config.tabs
         });
-      } else {
-        //保存话题
-        //删除topic_tag，标签topic_count减1
-        //保存新topic_tag
-        topic.title = title;
-        topic.content = content;
-        topic.tab = tab;
-        topic.update_at = new Date();
-        topic.save(function (err) {
-          if (err) {
-            return next(err);
-          }
-          //发送at消息
-          at.sendMessageToMentionUsers(content, topic._id, req.session.user._id);
-
-          res.redirect('/topic/' + topic._id);
-
-        });
       }
+
+      //保存话题
+      //删除topic_tag，标签topic_count减1
+      //保存新topic_tag
+      topic.title = title;
+      topic.content = content;
+      topic.tab = tab;
+      topic.update_at = new Date();
+      topic.save(function (err) {
+        if (err) {
+          return next(err);
+        }
+        //发送at消息
+        at.sendMessageToMentionUsers(content, topic._id, req.session.user._id);
+
+        res.redirect('/topic/' + topic._id);
+
+      });
     } else {
       res.render('notify/notify', {error: '对不起，你不能编辑此话题。'});
     }

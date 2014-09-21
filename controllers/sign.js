@@ -1,6 +1,5 @@
 
-var check = require('validator').check;
-var sanitize = require('validator').sanitize;
+var validator = require('validator');
 var eventproxy = require('eventproxy');
 
 var crypto = require('crypto');
@@ -11,6 +10,7 @@ var Message = require('../proxy').Message;
 var mail = require('../common/mail');
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
+var tools = require('../common/tools');
 
 //sign up
 exports.showSignup = function (req, res) {
@@ -18,45 +18,36 @@ exports.showSignup = function (req, res) {
 };
 
 exports.signup = function (req, res, next) {
-  var name = sanitize(req.body.name).trim();
-  name = sanitize(name).xss();
-  var loginname = name.toLowerCase();
-  var pass = sanitize(req.body.pass).trim();
-  pass = sanitize(pass).xss();
-  var email = sanitize(req.body.email).trim();
-  email = email.toLowerCase();
-  email = sanitize(email).xss();
-  var re_pass = sanitize(req.body.re_pass).trim();
-  re_pass = sanitize(re_pass).xss();
+  var loginname = validator.trim(loginname).toLowerCase();
+  var pass = validator.trim(pass);
+  var rePass = validator.trim(pass);
+  var email = validator.trim(email).toLowerCase();
 
-  if (name === '' || pass === '' || re_pass === '' || email === '') {
-    res.render('sign/signup', {error: '信息不完整。', name: name, email: email});
+  var ep = new eventproxy();
+  ep.fail(next);
+  ep.on('prop_err', function (msg) {
+    res.render('sign/signup', {error: msg, loginname: loginname, email: email});
+  });
+
+  // 验证信息的正确性
+  if ([loginname, pass, rePass, email].any(function (item) { return item === ''; })) {
+    ep.emit('prop_err', '信息不完整。');
     return;
   }
-
-  if (name.length < 5) {
-    res.render('sign/signup', {error: '用户名至少需要5个字符。', name: name, email: email});
+  if (loginname.length < 5) {
+    ep.emit('prop_err', '用户名至少需要5个字符。');
     return;
   }
-
-  try {
-    check(name, '用户名只能使用0-9，a-z，A-Z。').isAlphanumeric();
-  } catch (e) {
-    res.render('sign/signup', {error: e.message, name: name, email: email});
-    return;
+  if (!tools.validateId(loginname)) {
+    return ep.emit('prop_err', '用户名不合法。');
   }
-
-  if (pass !== re_pass) {
-    res.render('sign/signup', {error: '两次密码输入不一致。', name: name, email: email});
-    return;
+  if (!validator.isEmail(email)) {
+    return ep.emit('prop_err', '邮箱不合法。');
   }
-
-  try {
-    check(email, '不正确的电子邮箱。').isEmail();
-  } catch (e) {
-    res.render('sign/signup', {error: e.message, name: name, email: email});
-    return;
+  if (pass !== rePass) {
+    return ep.emit('prop_err', '两次密码输入不一致。');
   }
+  // END 验证信息的正确性
 
   User.getUsersByQuery({'$or': [
     {'loginname': loginname},
@@ -66,21 +57,21 @@ exports.signup = function (req, res, next) {
       return next(err);
     }
     if (users.length > 0) {
-      res.render('sign/signup', {error: '用户名或邮箱已被使用。', name: name, email: email});
+      ep.emit('prop_err', '用户名或邮箱已被使用。');
       return;
     }
 
     // md5 the pass
     pass = md5(pass);
     // create gravatar
-    var avatar_url = User.makeGravatar(email);
+    var avatarUrl = User.makeGravatar(email);
 
-    User.newAndSave(name, loginname, pass, email, avatar_url, false, function (err) {
+    User.newAndSave(loginname, loginname, pass, email, avatarUrl, false, function (err) {
       if (err) {
         return next(err);
       }
       // 发送激活邮件
-      mail.sendActiveMail(email, md5(email + config.session_secret), name);
+      mail.sendActiveMail(email, md5(email + config.session_secret), loginname);
       res.render('sign/signup', {
         success: '欢迎加入 ' + config.name + '！我们已给您的注册邮箱发送了一封邮件，请点击里面的链接来激活您的帐号。'
       });
@@ -118,8 +109,8 @@ var notJump = [
  * @param {Function} next
  */
 exports.login = function (req, res, next) {
-  var loginname = sanitize(req.body.name).trim().toLowerCase();
-  var pass = sanitize(req.body.pass).trim();
+  var loginname = validator.trim(req.body.name).toLowerCase();
+  var pass = validator.trim(req.body.pass);
 
   if (!loginname || !pass) {
     return res.render('sign/signin', { error: '信息不完整。' });
@@ -198,14 +189,9 @@ exports.showSearchPass = function (req, res) {
 };
 
 exports.updateSearchPass = function (req, res, next) {
-  var email = req.body.email;
-  email = email.toLowerCase();
-
-  try {
-    check(email, '不正确的电子邮箱。').isEmail();
-  } catch (e) {
-    res.render('sign/search_pass', {error: e.message, email: email});
-    return;
+  var email = validator.trim(req.body.email).toLowerCase;
+  if (!validator.isEmail(email)) {
+    return res.render('sign/search_pass', {error: '邮箱不合法', email: email});
   }
 
   // 动态生成retrive_key和timestamp到users collection,之后重置密码进行验证

@@ -10,7 +10,7 @@ var message = require('../common/message');
 var tools = require('../common/tools');
 var config = require('../config');
 var EventProxy = require('eventproxy');
-var sanitize = require('validator').sanitize;
+var validator = require('validator');
 var utility = require('utility');
 var _ = require('lodash');
 
@@ -126,19 +126,19 @@ exports.setting = function (req, res, next) {
   // post
   var action = req.body.action;
   if (action === 'change_setting') {
-    var url = sanitize(req.body.url).trim();
-    url = sanitize(url).xss();
-    var location = sanitize(req.body.location).trim();
-    location = sanitize(location).xss();
-    var weibo = sanitize(req.body.weibo).trim();
-    weibo = sanitize(weibo).xss();
-    var github = sanitize(req.body.github).trim();
-    github = sanitize(github).xss();
+    var url = validator.trim(req.body.url);
+    url = validator.escape(url);
+    var location = validator.trim(req.body.location);
+    location = validator.escape(location);
+    var weibo = validator.trim(req.body.weibo);
+    weibo = validator.escape(weibo);
+    var github = validator.trim(req.body.github);
+    github = validator.escape(github);
     if (github.indexOf('@') === 0) {
       github = github.slice(1);
     }
-    var signature = sanitize(req.body.signature).trim();
-    signature = sanitize(signature).xss();
+    var signature = validator.trim(req.body.signature);
+    signature = validator.escape(signature);
 
     User.getUserById(req.session.user._id, function (err, user) {
       if (err) {
@@ -162,8 +162,8 @@ exports.setting = function (req, res, next) {
 
   }
   if (action === 'change_password') {
-    var old_pass = sanitize(req.body.old_pass).trim();
-    var new_pass = sanitize(req.body.new_pass).trim();
+    var old_pass = validator.trim(req.body.old_pass);
+    var new_pass = validator.trim(req.body.new_pass);
     if (!old_pass || !new_pass) {
       return res.send('旧密码或新密码不得为空');
     }

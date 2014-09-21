@@ -22,13 +22,13 @@
       <% } else { %>
       <form id='signup_form' class='form-horizontal' action='/signup' method='post'>
         <div class='control-group'>
-          <label class='control-label' for='name'>用户名</label>
+          <label class='control-label' for='loginname'>用户名</label>
 
           <div class='controls'>
-            <% if (typeof(name) !== 'undefined') { %>
-            <input class='input-xlarge' id='name' name='name' size='30' type='text' value='<%= name %>'/>
+            <% if (typeof(loginname) !== 'undefined') { %>
+            <input class='input-xlarge' id='loginname' name='loginname' size='30' type='text' value='<%= loginname %>'/>
             <% } else { %>
-            <input class='input-xlarge' id='name' name='name' size='30' type='text' value=''/>
+            <input class='input-xlarge' id='loginname' name='loginname' size='30' type='text' value=''/>
             <% } %>
           </div>
         </div>

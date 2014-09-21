@@ -1,4 +1,4 @@
-var sanitize = require('validator').sanitize;
+var validator = require('validator');
 
 var at = require('../common/at');
 var message = require('../common/message');
@@ -17,7 +17,7 @@ exports.add = function (req, res, next) {
   var content = req.body.r_content;
   var topic_id = req.params.topic_id;
 
-  var str = sanitize(content).trim();
+  var str = validator.trim(content);
   if (str === '') {
     res.render('notify/notify', {error: '回复内容不能为空！'});
     return;
@@ -73,7 +73,7 @@ exports.add_reply2 = function (req, res, next) {
   var reply_id = req.body.reply_id;
   var content = req.body.r2_content;
 
-  var str = sanitize(content).trim();
+  var str = validator.trim(content);
   if (str === '') {
     res.send('');
     return;

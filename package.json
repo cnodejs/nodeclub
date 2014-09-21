@@ -34,7 +34,7 @@
     "qn": "^1.0.0",
     "response-time": "^2.0.1",
     "utility": "1.0.0",
-    "validator": "0.3.7"
+    "validator": "^3.19.0"
   },
   "devDependencies": {
     "errorhandler": "^1.2.0",
