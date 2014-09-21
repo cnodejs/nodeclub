@@ -50,4 +50,11 @@ $(document).ready(function () {
   $('.submit_btn').click(function () {
     $(this).button('loading');
   });
+
+  // 广告的统计信息
+  $('.ads .banner').click(function () {
+    var $this = $(this);
+    var label = $this.data('label');
+    ga('send', 'event', 'banner', 'click', label, 1.00, {'nonInteraction': 1});
+  });
 });
