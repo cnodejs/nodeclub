@@ -1,20 +1,15 @@
+
 var User = require('../proxy').User;
-var UserModel = require('../models').User;
-var Tag = require('../proxy').Tag;
 var Topic = require('../proxy').Topic;
-var TopicModel = require('../models').Topic;
 var Reply = require('../proxy').Reply;
-var ReplyModel = require('../models').Reply;
 var Relation = require('../proxy').Relation;
 var TopicCollect = require('../proxy').TopicCollect;
-var TagCollect = require('../proxy').TagCollect;
 var utility = require('utility');
 
 var message = require('../common/message');
-var Util = require('../common/util');
+var tools = require('../common/tools');
 var config = require('../config');
 var EventProxy = require('eventproxy');
-var check = require('validator').check;
 var sanitize = require('validator').sanitize;
 var crypto = require('crypto');
 var _ = require('lodash');
@@ -31,7 +26,7 @@ exports.index = function (req, res, next) {
     }
 
     var render = function (recent_topics, recent_replies, relation) {
-      user.friendly_create_at = Util.format_date(user.create_at, true);
+      user.friendly_create_at = tools.format_date(user.create_at, true);
       // 如果用户没有激活，那么管理员可以帮忙激活
       var token = '';
       if (!user.active && req.session.user && req.session.user.is_admin) {
@@ -413,7 +408,7 @@ exports.list_topics = function (req, res, next) {
     }
 
     var render = function (topics, relation, pages) {
-      user.friendly_create_at = Util.format_date(user.create_at, true);
+      user.friendly_create_at = tools.format_date(user.create_at, true);
       res.render('user/topics', {
         user: user,
         topics: topics,
@@ -456,7 +451,7 @@ exports.list_replies = function (req, res, next) {
     }
 
     var render = function (topics, relation, pages) {
-      user.friendly_create_at = Util.format_date(user.create_at, true);
+      user.friendly_create_at = tools.format_date(user.create_at, true);
       res.render('user/replies', {
         user: user,
         topics: topics,

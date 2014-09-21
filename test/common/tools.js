@@ -7,7 +7,7 @@
 /**
  * Module dependencies.
  */
-var Util = require('../../common/util');
+var tools = require('../../common/tools');
 
-describe('test/common/util.test.js', function () {
+describe('test/common/tools.test.js', function () {
 });

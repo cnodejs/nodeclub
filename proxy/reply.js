@@ -2,7 +2,7 @@ var models = require('../models');
 var Reply = models.Reply;
 var EventProxy = require('eventproxy');
 
-var Util = require('../common/util');
+var tools = require('../common/tools');
 var User = require('./user');
 var at = require('../common/at');
 
@@ -38,7 +38,7 @@ exports.getReplyById = function (id, callback) {
         return callback(err);
       }
       reply.author = author;
-      reply.friendly_create_at = Util.format_date(reply.create_at, true);
+      reply.friendly_create_at = tools.format_date(reply.create_at, true);
       // TODO: 添加更新方法，有些旧帖子可以转换为markdown格式的内容
       if (reply.content_is_html) {
         return callback(null, reply);
@@ -83,7 +83,7 @@ exports.getRepliesByTopicId = function (id, cb) {
             return cb(err);
           }
           replies[i].author = author || { _id: '' };
-          replies[i].friendly_create_at = Util.format_date(replies[i].create_at, true);
+          replies[i].friendly_create_at = tools.format_date(replies[i].create_at, true);
           if (replies[i].content_is_html) {
             return proxy.emit('reply_find');
           }

@@ -14,7 +14,7 @@ var Topic = require('../proxy').Topic;
 var TopicCollect = require('../proxy').TopicCollect;
 var Relation = require('../proxy').Relation;
 var EventProxy = require('eventproxy');
-var Util = require('../common/util');
+var tools = require('../common/tools');
 var store = require('../common/store');
 var config = require('../config');
 var _ = require('lodash');
@@ -63,8 +63,8 @@ exports.index = function (req, res, next) {
     topic.save();
 
     // format date
-    topic.friendly_create_at = Util.format_date(topic.create_at, true);
-    topic.friendly_update_at = Util.format_date(topic.update_at, true);
+    topic.friendly_create_at = tools.format_date(topic.create_at, true);
+    topic.friendly_update_at = tools.format_date(topic.update_at, true);
 
     topic.author = author;
 

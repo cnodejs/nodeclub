@@ -4,7 +4,7 @@ var models = require('../models');
 var Topic = models.Topic;
 var User = require('./user');
 var Reply = require('./reply');
-var Util = require('../common/util');
+var tools = require('../common/tools');
 var at = require('../common/at');
 
 /**
@@ -97,7 +97,7 @@ exports.getTopicsByQuery = function (query, opt, callback) {
         if (topic) {
           topic.author = author;
           topic.reply = last_reply;
-          topic.friendly_create_at = Util.format_date(topic.create_at, true);
+          topic.friendly_create_at = tools.format_date(topic.create_at, true);
         }
         return topic;
       }));
