@@ -6,7 +6,7 @@
   <div class='author_content'>
     <a href="/user/<%= reply.author.loginname %>" class="user_avatar">
       <img src="<%= reply.author.avatar_url %>"
-           title="<%= reply.author.loginname %>"/></a>
+           title="<%= reply.author.loginname %>" height="30" width="30" /></a>
 
     <div class='user_info'>
       <a class='dark reply_author' href="/user/<%= reply.author.loginname %>"><%= reply.author.loginname %>
@@ -18,7 +18,8 @@
       <span>
         <img class='dark up_btn
           <%= (typeof current_user !== 'undefined' && isUped(current_user, reply)) ? 'uped' : '' %>
-          <%= (!reply.ups || !reply.ups.length) ? 'invisible' : '' %>' src="<%- staticFile('/public/images/up_icon&16.png') %>" title="喜欢">
+          <%= (!reply.ups || !reply.ups.length) ? 'invisible' : '' %>' src="<%- staticFile('/public/images/up_icon&16.png') %>" height="16" width="16"
+          title="喜欢">
         <span class="up-count">
           <%= reply.ups && reply.ups.length ? reply.ups.length : '' %>
         </span>
@@ -27,16 +28,16 @@
       (typeof(current_user) !== 'undefined' && current_user._id.toString() == reply.author._id.toString())
       ) { %>
       <a href='/reply/<%= reply._id %>/edit' class='edit_reply_btn'>
-        <img class='user_icon' src="<%- staticFile('/public/images/doc_edit_icon&16.png') %>"
+        <img class='user_icon' src="<%- staticFile('/public/images/doc_edit_icon&16.png') %>" height="16" width="16"
              title='编辑'/>
       </a>
       <a href='javascript:void(0);' class='delete_reply_btn'>
-        <img class='user_icon' src="<%- staticFile('/public/images/trash_icon&16.png') %>" title='删除'/>
+        <img class='user_icon' src="<%- staticFile('/public/images/trash_icon&16.png') %>" height="16" width="16" title='删除'/>
       </a>
       <% } %>
       <span>
         <% if(typeof(current_user) !== 'undefined'){ %>
-          <img class='dark reply2_btn' src="<%- staticFile('/public/images/reply_icon_16.png') %>" title="回复">
+          <img class='dark reply2_btn' src="<%- staticFile('/public/images/reply_icon_16.png') %>" height="16" width="16" title="回复">
         <% } %>
       </span>
     </div>
