@@ -13,14 +13,14 @@
         %></a>
     </div>
     <div class='user_action'>
-        <% if(typeof(current_user) !== 'undefined'){ %>
-          <span>
-            <img class='dark up_btn <%= isUped(current_user, reply) ? 'uped' : '' %>' src="<%- staticFile('/public/images/up_icon&16.png') %>" title="喜欢">
-            <span class="up-count">
-              <%= reply.ups && reply.ups.length ? reply.ups.length : '' %>
-            </span>
-          </span>
-        <% } %>
+      <span>
+        <img class='dark up_btn
+          <%= (typeof current_user !== 'undefined' && isUped(current_user, reply)) ? 'uped' : '' %>
+          <%= (!reply.ups || !reply.ups.length) ? 'hide' : '' %>' src="<%- staticFile('/public/images/up_icon&16.png') %>" title="喜欢">
+        <span class="up-count">
+          <%= reply.ups && reply.ups.length ? reply.ups.length : '' %>
+        </span>
+      </span>
       <% if ( typeof(current_user) !== 'undefined' && current_user.is_admin ||
       (typeof(current_user) !== 'undefined' && current_user._id.toString() == reply.author._id.toString())
       ) { %>

@@ -183,6 +183,7 @@
 <div class="replies_history">
 </div>
 
+
 <% if (typeof(current_user) !== 'undefined' && typeof(topic) !== 'undefined') { %>
 <!-- markdown editor -->
 <%- Loader('/public/editor.min.js')
@@ -361,29 +362,19 @@
     });
     // END 删除话题
 
-    // 点赞
-    $('.up_btn').click(function (e) {
-      var $this = $(this);
-      var replyId = $this.closest('.reply_area').attr('reply_id');
-      $.ajax({
-        url: '/reply/' + replyId + '/up',
-        method: 'POST',
-      }).done(function (data) {
-        if (data.success) {
-          var currentCount = Number($this.next('.up-count').text().trim()) || 0;
-          if (data.action === 'up') {
-            $this.next('.up-count').text(currentCount + 1);
-            $this.addClass('uped');
-          } else {
-            if (data.action === 'down') {
-              $this.next('.up-count').text(currentCount - 1);
-              $this.removeClass('uped');
-            }
-          }
+    // 用户 hover 在回复框时才显示点赞按钮
+    $('.reply_area').hover(
+      function () {
+        console.log(111);
+        $(this).find('.up_btn').removeClass('hide');
+      },
+      function () {
+        var $this = $(this);
+        if ($this.find('.up-count').text().trim() === '') {
+          $this.find('.up_btn').addClass('hide');
         }
       });
-    });
-    // END 点赞
+    // END 用户 hover 在回复框时才显示点赞按钮
 
 
   });
@@ -439,4 +430,33 @@
     });
   }
   // END 显示被 at 用户的本页评论
+
+
+  // 点赞
+  $('.up_btn').click(function (e) {
+    var $this = $(this);
+    var replyId = $this.closest('.reply_area').attr('reply_id');
+    $.ajax({
+      url: '/reply/' + replyId + '/up',
+      method: 'POST',
+    }).done(function (data) {
+      if (data.success) {
+        var currentCount = Number($this.next('.up-count').text().trim()) || 0;
+        if (data.action === 'up') {
+          $this.next('.up-count').text(currentCount + 1);
+          $this.addClass('uped');
+        } else {
+          if (data.action === 'down') {
+            $this.next('.up-count').text(currentCount - 1);
+            $this.removeClass('uped');
+          }
+        }
+      }
+    }).fail(function (xhr) {
+      if (xhr.status === 403) {
+        alert('请先登录，登陆后即可点赞。');
+      }
+    });
+  });
+  // END 点赞
 </script>
