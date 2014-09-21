@@ -451,6 +451,8 @@
             $this.removeClass('uped');
           }
         }
+      } else {
+        alert(data.message);
       }
     }).fail(function (xhr) {
       if (xhr.status === 403) {
