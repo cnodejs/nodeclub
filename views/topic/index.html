@@ -365,12 +365,12 @@
     // 用户 hover 在回复框时才显示点赞按钮
     $('.reply_area').hover(
       function () {
-        $(this).find('.up_btn').removeClass('hide');
+        $(this).find('.up_btn').removeClass('invisible');
       },
       function () {
         var $this = $(this);
         if ($this.find('.up-count').text().trim() === '') {
-          $this.find('.up_btn').addClass('hide');
+          $this.find('.up_btn').addClass('invisible');
         }
       });
     // END 用户 hover 在回复框时才显示点赞按钮
@@ -440,7 +440,7 @@
       method: 'POST',
     }).done(function (data) {
       if (data.success) {
-        $this.removeClass('hide');
+        $this.removeClass('invisible');
         var currentCount = Number($this.next('.up-count').text().trim()) || 0;
         if (data.action === 'up') {
           $this.next('.up-count').text(currentCount + 1);

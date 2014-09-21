@@ -18,7 +18,7 @@
       <span>
         <img class='dark up_btn
           <%= (typeof current_user !== 'undefined' && isUped(current_user, reply)) ? 'uped' : '' %>
-          <%= (!reply.ups || !reply.ups.length) ? 'hide' : '' %>' src="<%- staticFile('/public/images/up_icon&16.png') %>" title="喜欢">
+          <%= (!reply.ups || !reply.ups.length) ? 'invisible' : '' %>' src="<%- staticFile('/public/images/up_icon&16.png') %>" title="喜欢">
         <span class="up-count">
           <%= reply.ups && reply.ups.length ? reply.ups.length : '' %>
         </span>
