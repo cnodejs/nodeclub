@@ -1,6 +1,7 @@
 var models = require('../models');
 var User = models.User;
 var utility = require('utility');
+var mcache = require('memory-cache');
 
 /**
  * 根据用户名列表查找用户列表
@@ -38,7 +39,19 @@ exports.getUserByLoginName = function (loginName, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getUserById = function (id, callback) {
-  User.findOne({_id: id}, callback);
+  var user = mcache.get(id);
+  if (user) {
+    user = new User(user);
+    callback(null, user);
+  } else {
+    User.findOne({_id: id}, function (err, user) {
+      if (err) {
+        return callback(err);
+      }
+      mcache.put(id, user, 1000); // 所有用户信息缓存 1s
+      callback(null, user);
+    });
+  }
 };
 
 /**
