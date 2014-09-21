@@ -77,7 +77,7 @@ exports.index = function (req, res, next) {
       });
       allUpCount = _.sortBy(allUpCount, Number).reverse();
 
-      return allUpCount[2];
+      return allUpCount[2] || 0;
     })();
 
     if (!req.session.user) {
