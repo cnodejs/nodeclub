@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var utility = require('utility');
+var mcache = require('memory-cache');
 
 var UserSchema = new Schema({
   name: { type: String},
