@@ -88,6 +88,7 @@ var config = {
 
   //weibo app key
   weibo_key: 10000000,
+  weibo_id: 'your_weibo_id',
 
   // admin 可删除话题，编辑标签，设某人为达人
   admins: { user_login_name: true },
