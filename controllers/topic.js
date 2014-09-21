@@ -73,7 +73,7 @@ exports.index = function (req, res, next) {
     // 点赞数排名第三的回答，它的点赞数就是阈值
     topic.reply_up_threshold = (function () {
       var allUpCount = replies.map(function (reply) {
-        return reply.ups.length || 0;
+        return reply.ups && reply.ups.length || 0;
       });
       allUpCount = _.sortBy(allUpCount, Number).reverse();
 
