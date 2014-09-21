@@ -13,8 +13,9 @@
         tables: true,
         breaks: true,
         pedantic: false,
-        sanitize: false,
-        smartLists: true
+        sanitize: true,
+        smartLists: true,
+        smartypants: false,
     });
 
     var toolbar = Editor.toolbar;
@@ -63,7 +64,7 @@
         ].join('')).appendTo($body);
 
         this.$win.on('click', '[role=save]', function(){
-            self.$win.find('form').submit(); 
+            self.$win.find('form').submit();
         }).on('submit', 'form', function(){
             var $el = $(this);
             var title = $el.find('[name=title]').val();
@@ -147,7 +148,7 @@
 
         this.uploader.on('uploadProgress', function(file, percentage){
             // console.log(percentage);
-            self.showProgress(file, percentage * 100); 
+            self.showProgress(file, percentage * 100);
         });
 
         this.uploader.on('uploadSuccess', function(file, res){

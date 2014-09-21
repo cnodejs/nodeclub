@@ -11,7 +11,7 @@ var tools = require('../common/tools');
 var config = require('../config');
 var EventProxy = require('eventproxy');
 var sanitize = require('validator').sanitize;
-var crypto = require('crypto');
+var utility = require('utility');
 var _ = require('lodash');
 
 exports.index = function (req, res, next) {
@@ -172,17 +172,14 @@ exports.setting = function (req, res, next) {
       if (err) {
         return next(err);
       }
-      var md5sum = crypto.createHash('md5');
-      md5sum.update(old_pass);
-      old_pass = md5sum.digest('hex');
+
+      old_pass = utility.md5(old_pass);
 
       if (old_pass !== user.pass) {
         return showMessage('当前密码不正确。', user);
       }
 
-      md5sum = crypto.createHash('md5');
-      md5sum.update(new_pass);
-      new_pass = md5sum.digest('hex');
+      new_pass = utility.md5(new_pass);
 
       user.pass = new_pass;
       user.save(function (err) {

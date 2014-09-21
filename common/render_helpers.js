@@ -11,7 +11,6 @@
  */
 
 var marked = require('marked');
-var tools = require('./tools');
 var _ = require('lodash');
 var config = require('../config');
 
@@ -31,12 +30,13 @@ marked.setOptions({
   tables: true,
   breaks: true,
   pedantic: false,
-  sanitize: false,
-  smartLists: true
+  sanitize: true,
+  smartLists: true,
+  smartypants: false,
 });
 
 exports.markdown = function (text) {
-  return '<div class="markdown-text">' + tools.xss(marked(text || '')) + '</div>';
+  return '<div class="markdown-text">' + marked(text || '') + '</div>';
 };
 
 exports.escapeSignature = function (signature) {

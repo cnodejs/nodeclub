@@ -118,6 +118,7 @@ exports.put = function (req, res, next) {
   var tab = sanitize(req.body.tab).xss().trim();
   var content = req.body.t_content;
 
+
   // 验证
   var editError;
   if (title === '') {
