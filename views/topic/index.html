@@ -181,6 +181,8 @@
 </div>
 
 <div class="replies_history">
+  <div class="inner_content"></div>
+  <div class="anchor"></div>
 </div>
 
 
@@ -382,54 +384,70 @@
 <% } %>
 
 <script type="text/javascript">
-  // 初始化 $('.replies_history')
-  var $repliesHistory = $('.replies_history');
-  $repliesHistory.hide();
-  // END
-
-  // 显示被 at 用户的本页评论
-  if ($('.reply2_item').length === 0) {
-    // 只在流式评论布局中使用
-
-    $('#content').on('mouseenter', '.reply_content a', function (e) {
-      var $this = $(this);
-      if ($this.text()[0] === '@') {
-        var thisText = $this.text().trim();
-        var loginname = thisText.slice(1);
-        var offset = $this.offset();
-        var width = $this.width();
-        var mainOffset = $('#main').offset();
-        $repliesHistory.css('left', offset.left-mainOffset.left+width+10); // magic number
-        $repliesHistory.css('top', offset.top-mainOffset.top-10); // magic number
-        $repliesHistory.empty();
-        var chats = [];
-        var replyToId = $this.closest('.reply_item').attr('reply_to_id');
-        while (replyToId) {
-          var $replyItem = $('.reply_item[reply_id=' + replyToId + ']');
-          chats.push([
-            $replyItem.find('.user_avatar').html(), // avatar
-            $replyItem.find('.reply_content').text().trim() // reply content
-          ]);
-          replyToId = $replyItem.attr('reply_to_id');
-        }
-
-        chats.reverse();
-
-        $repliesHistory.append('<div class="title">查看对话</div>');
-        chats.forEach(function (pair, idx) {
-          $repliesHistory.append('<div class="item">'
-              + pair[0]
-              + pair[1]+ '</div>');
-        });
-        $repliesHistory.append('<div class="anchor">&nbsp;</div>');
-        $repliesHistory.show();
-      }
-    }).on('mouseleave', '.reply_content a', function (e) {
-      $repliesHistory.hide();
+  (function(){
+    var timer = null; //对话框延时定时器
+    // 初始化 $('.replies_history')
+    var $repliesHistory = $('.replies_history');
+    var $repliesHistoryContent = $repliesHistory.find('.inner_content');
+    $repliesHistory.hide();
+    // END
+    // 鼠标移入对话框清除隐藏定时器；移出时隐藏对话框
+    $repliesHistory.on('mouseenter', function(){
+      clearTimeout(timer);
+    }).on('mouseleave', function(){
+      $repliesHistory.fadeOut('fast');
     });
-  }
-  // END 显示被 at 用户的本页评论
+    // 显示被 at 用户的本页评论
+    if ($('.reply2_item').length === 0) {
+      // 只在流式评论布局中使用
 
+      $('#content').on('mouseenter', '.reply_content a', function (e) {
+        clearTimeout(timer);
+        var $this = $(this);
+        if ($this.text()[0] === '@') {
+          var thisText = $this.text().trim();
+          var loginname = thisText.slice(1);
+          var offset = $this.offset();
+          var width = $this.width();
+          var mainOffset = $('#main').offset();
+          $repliesHistory.css('left', offset.left-mainOffset.left+width+10); // magic number
+          $repliesHistory.css('top', offset.top-mainOffset.top-10); // magic number
+          $repliesHistoryContent.empty();
+          var chats = [];
+          var replyToId = $this.closest('.reply_item').attr('reply_to_id');
+          while (replyToId) {
+            var $replyItem = $('.reply_item[reply_id=' + replyToId + ']');
+            var replyContent = $replyItem.find('.reply_content').text().trim()
+            chats.push([
+              $replyItem.find('.user_avatar').html(), // avatar
+              (replyContent.length>300?replyContent.substr(0,300)+'...':replyContent), // reply content
+              '<a href="#'+replyToId+'" class="scroll_to_original" title="查看原文">↑</a>'
+            ]);
+            replyToId = $replyItem.attr('reply_to_id');
+          }
+          if(chats.length > 0) {
+            chats.reverse();
+
+            $repliesHistoryContent.append('<div class="title">查看对话</div>');
+            chats.forEach(function (pair, idx) {
+              $repliesHistoryContent.append('<div class="item">'
+                  + pair[0]
+                  + pair[1]
+                  + pair[2] + '</div>');
+            });
+            $repliesHistory.fadeIn('fast');
+          }else{
+            $repliesHistory.hide();
+          }
+        }
+      }).on('mouseleave', '.reply_content a', function (e) {
+        timer = setTimeout(function(){
+          $repliesHistory.fadeOut('fast');
+        }, 500);
+      });
+    }
+    // END 显示被 at 用户的本页评论
+  })();
 
   // 点赞
   $('.up_btn').click(function (e) {
