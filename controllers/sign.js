@@ -18,10 +18,10 @@ exports.showSignup = function (req, res) {
 };
 
 exports.signup = function (req, res, next) {
-  var loginname = validator.trim(loginname).toLowerCase();
-  var pass = validator.trim(pass);
-  var rePass = validator.trim(pass);
-  var email = validator.trim(email).toLowerCase();
+  var loginname = validator.trim(req.body.loginname).toLowerCase();
+  var pass = validator.trim(req.body.pass);
+  var rePass = validator.trim(req.body.pass);
+  var email = validator.trim(req.body.email).toLowerCase();
 
   var ep = new eventproxy();
   ep.fail(next);
@@ -30,7 +30,7 @@ exports.signup = function (req, res, next) {
   });
 
   // 验证信息的正确性
-  if ([loginname, pass, rePass, email].any(function (item) { return item === ''; })) {
+  if ([loginname, pass, rePass, email].some(function (item) { return item === ''; })) {
     ep.emit('prop_err', '信息不完整。');
     return;
   }
