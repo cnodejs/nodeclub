@@ -42,6 +42,7 @@ var UserSchema = new Schema({
 
 UserSchema.virtual('avatar_url').get(function () {
   var url = this.avatar || ('http://www.gravatar.com/avatar/' + utility.md5(this.email.toLowerCase()) + '?size=48');
+  url = url.replace('http://www.gravatar.com/avatar/', 'https://ruby-china.org/avatar/');
   return url;
 });
 
