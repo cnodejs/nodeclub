@@ -4,17 +4,6 @@ var Topic = require('../proxy').Topic;
 var mcache = require('memory-cache');
 var marked = require('marked');
 
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
-  breaks: false,
-  pedantic: false,
-  sanitize: true,
-  smartLists: true,
-  smartypants: false
-});
-
 exports.index = function (req, res, next) {
   if (!config.rss) {
     res.statusCode = 404;
