@@ -24,6 +24,7 @@
     "marked": "~0.3.2",
     "memory-cache": "0.0.5",
     "method-override": "^1.0.0",
+    "moment": "^2.8.3",
     "mongoose": "3.8.16",
     "newrelic": "^1.7.5",
     "nodemailer": "0.3.43",

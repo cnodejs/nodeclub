@@ -63,8 +63,8 @@ exports.index = function (req, res, next) {
     topic.save();
 
     // format date
-    topic.friendly_create_at = tools.format_date(topic.create_at, true);
-    topic.friendly_update_at = tools.format_date(topic.update_at, true);
+    topic.friendly_create_at = tools.formatDate(topic.create_at, true);
+    topic.friendly_update_at = tools.formatDate(topic.update_at, true);
 
     topic.author = author;
 

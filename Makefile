@@ -20,6 +20,7 @@ pretest:
 test: install pretest
 	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
 		--reporter $(MOCHA_REPORTER) \
+		-r should \
 		--timeout $(TEST_TIMEOUT) \
 		$(TESTS)
 

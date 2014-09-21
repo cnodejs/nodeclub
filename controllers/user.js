@@ -26,7 +26,7 @@ exports.index = function (req, res, next) {
     }
 
     var render = function (recent_topics, recent_replies, relation) {
-      user.friendly_create_at = tools.format_date(user.create_at, true);
+      user.friendly_create_at = tools.formatDate(user.create_at, true);
       // 如果用户没有激活，那么管理员可以帮忙激活
       var token = '';
       if (!user.active && req.session.user && req.session.user.is_admin) {
@@ -405,7 +405,7 @@ exports.list_topics = function (req, res, next) {
     }
 
     var render = function (topics, relation, pages) {
-      user.friendly_create_at = tools.format_date(user.create_at, true);
+      user.friendly_create_at = tools.formatDate(user.create_at, true);
       res.render('user/topics', {
         user: user,
         topics: topics,
@@ -448,7 +448,7 @@ exports.list_replies = function (req, res, next) {
     }
 
     var render = function (topics, relation, pages) {
-      user.friendly_create_at = tools.format_date(user.create_at, true);
+      user.friendly_create_at = tools.formatDate(user.create_at, true);
       res.render('user/replies', {
         user: user,
         topics: topics,
