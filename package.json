@@ -31,7 +31,7 @@
     "passport": "~0.1.17",
     "passport-github": "~0.1.5",
     "pm2": "^0.8.1",
-    "qn": "^0.2.2",
+    "qn": "^1.0.0",
     "response-time": "^2.0.1",
     "utility": "1.0.0",
     "validator": "0.3.7"
