@@ -13,14 +13,16 @@
 var marked = require('marked');
 var _ = require('lodash');
 var config = require('../config');
+var validator = require('validator');
 
 // Set default options
 var renderer = new marked.Renderer();
 
 renderer.code = function (code, lang) {
-  var language = lang && (' language-' + lang) || '';
-  return '<pre class="prettyprint' + language + '">'
-    + '<code>' + code.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code>'
+  var language = lang && ('language-' + lang) || '';
+  language = validator.escape(language);
+  return '<pre class="prettyprint ' + language + '">'
+    + '<code>' + validator.escape(code) + '</code>'
     + '</pre>';
 };
 
