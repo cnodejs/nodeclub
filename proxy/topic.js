@@ -67,7 +67,7 @@ exports.getCountByQuery = function (query, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getTopicsByQuery = function (query, opt, callback) {
-  Topic.find(query, ['_id'], opt, function (err, docs) {
+  Topic.find(query, '_id', opt, function (err, docs) {
     if (err) {
       return callback(err);
     }

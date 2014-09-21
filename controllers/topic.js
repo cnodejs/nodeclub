@@ -92,16 +92,12 @@ exports.index = function (req, res, next) {
     }
 
     // get other_topics
-    var options = { limit: 5, sort: [
-      [ 'last_reply_at', 'desc' ]
-    ]};
+    var options = { limit: 5, sort: '-last_reply_at'};
     var query = { author_id: topic.author_id, _id: { '$nin': [ topic._id ] } };
     Topic.getTopicsByQuery(query, options, ep.done('other_topics'));
 
     // get no_reply_topics
-    var options2 = { limit: 5, sort: [
-      ['create_at', 'desc']
-    ] };
+    var options2 = { limit: 5, sort: '-create_at'};
     Topic.getTopicsByQuery({reply_count: 0}, options2, ep.done('no_reply_topics'));
   }));
 };

@@ -22,10 +22,7 @@ setInterval(function () {
   [['', '全部']].concat(config.tabs).forEach(function (pair) {
     // 只缓存第一页, page = 1。options 之所以每次都生成是因为 mongoose 查询时，
     // 会改动它
-    var options = { skip: (1 - 1) * limit, limit: limit, sort: [
-      ['top', 'desc' ],
-      [ 'last_reply_at', 'desc' ]
-    ] };
+    var options = { skip: (1 - 1) * limit, limit: limit, sort: '-top -last_reply_at'};
     var tabValue = pair[0];
     var query = {};
     if (tabValue) {
@@ -68,10 +65,7 @@ exports.index = function (req, res, next) {
   if (tab && tab !== 'all') {
     query.tab = tab;
   }
-  var options = { skip: (page - 1) * limit, limit: limit, sort: [
-    ['top', 'desc' ],
-    [ 'last_reply_at', 'desc' ]
-  ] };
+  var options = { skip: (page - 1) * limit, limit: limit, sort: '-top -last_reply_at'};
   var optionsStr = JSON.stringify(query) + JSON.stringify(options);
   if (mcache.get(optionsStr)) {
     proxy.emit('topics', mcache.get(optionsStr));
@@ -91,9 +85,7 @@ exports.index = function (req, res, next) {
         {is_block: {'$exists': false}},
         {is_block: false}
       ]},
-      { limit: 10, sort: [
-        [ 'score', 'desc' ]
-      ] },
+      { limit: 10, sort: '-score'},
       proxy.done('tops', function (tops) {
         mcache.put('tops', tops, 1000 * 60 * 1);
         return tops;
@@ -106,9 +98,7 @@ exports.index = function (req, res, next) {
   } else {
     Topic.getTopicsByQuery(
       { reply_count: 0 },
-      { limit: 5, sort: [
-        [ 'create_at', 'desc' ]
-      ] },
+      { limit: 5, sort: '-create_at'},
       proxy.done('no_reply_topics', function (no_reply_topics) {
         mcache.put('no_reply_topics', no_reply_topics, 1000 * 60 * 1);
         return no_reply_topics;

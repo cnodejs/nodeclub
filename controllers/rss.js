@@ -24,9 +24,7 @@ exports.index = function (req, res, next) {
   if (!config.debug && mcache.get('rss')) {
     res.send(mcache.get('rss'));
   } else {
-    var opt = { limit: config.rss.max_rss_items, sort: [
-      [ 'create_at', 'desc' ]
-    ] };
+    var opt = { limit: config.rss.max_rss_items, sort: '-create_at'};
     Topic.getTopicsByQuery({}, opt, function (err, topics) {
       if (err) {
         return next(err);

@@ -93,7 +93,7 @@ exports.getUsersByIds = function (ids, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getUsersByQuery = function (query, opt, callback) {
-  User.find(query, [], opt, callback);
+  User.find(query, '', opt, callback);
 };
 
 /**
