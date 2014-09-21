@@ -70,6 +70,16 @@ exports.index = function (req, res, next) {
 
     topic.replies = replies;
 
+    // 点赞数排名第三的回答，它的点赞数就是阈值
+    topic.reply_up_threshold = (function () {
+      var allUpCount = replies.map(function (reply) {
+        return reply.ups.length || 0;
+      });
+      allUpCount = _.sortBy(allUpCount, Number).reverse();
+
+      return allUpCount[2];
+    })();
+
     if (!req.session.user) {
       ep.emit('topic', topic);
       ep.emit('relation', null);
