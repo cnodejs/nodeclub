@@ -17,6 +17,7 @@ var EventProxy = require('eventproxy');
 var check = require('validator').check;
 var sanitize = require('validator').sanitize;
 var crypto = require('crypto');
+var _ = require('lodash');
 
 exports.index = function (req, res, next) {
   var user_name = req.params.name;
@@ -458,7 +459,7 @@ exports.list_topics = function (req, res, next) {
 exports.list_replies = function (req, res, next) {
   var user_name = req.params.name;
   var page = Number(req.query.page) || 1;
-  var limit = config.list_topic_count;
+  var limit = 50;
 
   User.getUserByLoginName(user_name, function (err, user) {
     if (!user) {
@@ -481,24 +482,22 @@ exports.list_replies = function (req, res, next) {
     proxy.assign('topics', 'relation', 'pages', render);
     proxy.fail(next);
 
-    Reply.getRepliesByAuthorId(user._id, proxy.done(function (replies) {
+    var opt = {skip: (page - 1) * limit, limit: limit, sort: [
+      ['create_at', 'desc']
+    ]};
+    Reply.getRepliesByAuthorId(user._id, opt, proxy.done(function (replies) {
       // 获取所有有评论的主题
-      var topic_ids = [];
-      for (var i = 0; i < replies.length; i++) {
-        if (topic_ids.indexOf(replies[i].topic_id.toString()) < 0) {
-          topic_ids.push(replies[i].topic_id);
-        }
-      }
+      var topic_ids = replies.map(function (reply) {
+        return reply.topic_id;
+      });
+      topic_ids = _.uniq(topic_ids);
       var query = {'_id': {'$in': topic_ids}};
-      var opt = {skip: (page - 1) * limit, limit: limit, sort: [
-        ['create_at', 'desc']
-      ]};
-      Topic.getTopicsByQuery(query, opt, proxy.done('topics'));
+      Topic.getTopicsByQuery(query, {}, proxy.done('topics'));
+    }));
 
-      Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
-        var pages = Math.ceil(all_topics_count / limit);
-        proxy.emit('pages', pages);
-      }));
+    Reply.getCountByAuthorId(user._id, proxy.done('pages', function (count) {
+      var pages = Math.ceil(count / limit);
+      return pages;
     }));
 
     if (!req.session.user) {

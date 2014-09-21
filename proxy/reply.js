@@ -134,3 +134,8 @@ exports.getRepliesByAuthorId = function (authorId, opt, callback) {
   }
   Reply.find({author_id: authorId}, {}, opt, callback);
 };
+
+// 通过 author_id 获取回复总数
+exports.getCountByAuthorId = function (authorId, callback) {
+  Reply.count({author_id: authorId}, callback);
+};
