@@ -124,7 +124,14 @@ exports.login = function (req, res, next) {
     return res.render('sign/signin', { error: '信息不完整。' });
   }
 
-  User.getUserByLoginName(loginname, function (err, user) {
+  var getUser;
+  if (loginname.indexOf('@') !== -1) {
+    getUser = User.getUserByMail;
+  } else {
+    getUser = User.getUserByLoginName;
+  }
+
+  getUser(loginname, function (err, user) {
     if (err) {
       return next(err);
     }
