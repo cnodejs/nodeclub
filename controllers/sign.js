@@ -189,7 +189,7 @@ exports.showSearchPass = function (req, res) {
 };
 
 exports.updateSearchPass = function (req, res, next) {
-  var email = validator.trim(req.body.email).toLowerCase;
+  var email = validator.trim(req.body.email).toLowerCase();
   if (!validator.isEmail(email)) {
     return res.render('sign/search_pass', {error: '邮箱不合法', email: email});
   }
