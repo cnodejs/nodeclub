@@ -29,7 +29,7 @@ setInterval(function () {
       query.tab = tabValue;
     }
     var optionsStr = JSON.stringify(query) + JSON.stringify(options);
-    Topic.getTopicsByQuery({}, options, function (err, topics) {
+    Topic.getTopicsByQuery(query, options, function (err, topics) {
       mcache.put(optionsStr, topics);
       return topics;
     });
