@@ -47,7 +47,7 @@ UserSchema.virtual('avatar_url').get(function () {
 
 UserSchema.virtual('isAdvanced').get(function () {
   // 积分高于 700 则认为是高级用户
-  return this.score > 700;
+  return this.score > 700 || this.is_star;
 });
 
 UserSchema.index({name: 1});
