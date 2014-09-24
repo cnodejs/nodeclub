@@ -136,7 +136,7 @@ exports.sitemap = function (req, res, next) {
   if (sitemapData) {
     ep.emit('sitemap', sitemapData);
   } else {
-    Topic.getTopicsByQuery({}, {limit: 50000, sort: '-create_at'}, function (err, topics) {
+    Topic.getLimit5w(function (err, topics) {
       if (err) {
         return next(err);
       }

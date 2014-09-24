@@ -105,6 +105,11 @@ exports.getTopicsByQuery = function (query, opt, callback) {
   });
 };
 
+// for sitemap
+exports.getLimit5w = function (callback) {
+  Topic.find({}, '_id', {limit: 50000, sort: '-create_at'}, callback);
+};
+
 /**
  * 获取所有信息的主题
  * Callback:
