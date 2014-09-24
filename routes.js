@@ -29,6 +29,8 @@ var config = require('./config');
 module.exports = function (app) {
   // home page
   app.get('/', site.index);
+  // sitemap
+  app.get('/sitemap.xml', site.sitemap);
 
   // sign up, login, logout
   if (config.allow_sign_up) {

@@ -35,7 +35,8 @@
     "qn": "^1.0.0",
     "response-time": "^2.0.1",
     "utility": "1.0.0",
-    "validator": "^3.19.0"
+    "validator": "^3.19.0",
+    "xmlbuilder": "^2.4.4"
   },
   "devDependencies": {
     "errorhandler": "^1.2.0",

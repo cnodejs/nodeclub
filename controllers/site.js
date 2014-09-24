@@ -12,8 +12,9 @@
 var User = require('../proxy').User;
 var Topic = require('../proxy').Topic;
 var config = require('../config');
-var EventProxy = require('eventproxy');
+var eventproxy = require('eventproxy');
 var mcache = require('memory-cache');
+var xmlbuilder = require('xmlbuilder');
 var renderHelpers = require('../common/render_helpers');
 
 // 主页的缓存工作。主页是需要主动缓存的
@@ -45,7 +46,7 @@ exports.index = function (req, res, next) {
   req.session.tab = tab;
   var limit = config.list_topic_count;
 
-  var proxy = EventProxy.create('topics', 'tops', 'no_reply_topics', 'pages',
+  var proxy = eventproxy.create('topics', 'tops', 'no_reply_topics', 'pages',
     function (topics, tops, no_reply_topics, pages) {
       res.render('index', {
         topics: topics,
@@ -115,5 +116,38 @@ exports.index = function (req, res, next) {
       mcache.put(JSON.stringify(query) + 'pages', pages, 1000 * 60 * 1);
       proxy.emit('pages', pages);
     }));
+  }
+};
+
+exports.sitemap = function (req, res, next) {
+  var urlset = xmlbuilder.create('urlset',
+    {version: '1.0', encoding: 'UTF-8'});
+  urlset.att('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
+
+  var ep = new eventproxy();
+  ep.fail(next);
+
+  ep.all('sitemap', function (sitemap) {
+    res.type('xml');
+    res.send(sitemap);
+  });
+
+  var sitemapData = mcache.get('sitemap');
+  if (sitemapData) {
+    ep.emit('sitemap', sitemapData);
+  } else {
+    Topic.getTopicsByQuery({}, {limit: 50000, sort: '-create_at'}, function (err, topics) {
+      if (err) {
+        return next(err);
+      }
+      topics.forEach(function (topic) {
+        urlset.ele('url').ele('loc', 'http://cnodejs.org/topic/' + topic._id);
+      });
+
+      var sitemapData = urlset.end();
+      // 缓存一天
+      mcache.put('sitemap', sitemapData, 1000 * 3600 * 24);
+      ep.emit('sitemap', sitemapData);
+    });
   }
 };
