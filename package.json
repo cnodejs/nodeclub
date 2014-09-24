@@ -26,6 +26,7 @@
     "method-override": "^1.0.0",
     "moment": "^2.8.3",
     "mongoose": "3.8.16",
+    "multiline": "^1.0.0",
     "newrelic": "^1.11.2",
     "nodemailer": "0.3.43",
     "passport": "~0.1.17",

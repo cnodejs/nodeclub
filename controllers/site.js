@@ -14,6 +14,7 @@ var Topic = require('../proxy').Topic;
 var config = require('../config');
 var EventProxy = require('eventproxy');
 var mcache = require('memory-cache');
+var renderHelpers = require('../common/render_helpers');
 
 // 主页的缓存工作。主页是需要主动缓存的
 setInterval(function () {
@@ -55,7 +56,8 @@ exports.index = function (req, res, next) {
         pages: pages,
         site_links: config.site_links,
         tabs: config.tabs,
-        tab: tab
+        tab: tab,
+        pageTitle: renderHelpers.tabName(tab) + '版块',
       });
     });
   proxy.fail(next);

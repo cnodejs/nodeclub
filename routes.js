@@ -106,6 +106,7 @@ module.exports = function (app) {
   // static
   app.get('/about', assets.about);
   app.get('/faq', assets.faq);
+  app.get('/robots.txt', assets.robots);
 
   //rss
   app.get('/rss', rss.index);
@@ -119,4 +120,5 @@ module.exports = function (app) {
   app.post('/auth/github/create', github.create);
 
   app.get('/search', search.index);
+
 };

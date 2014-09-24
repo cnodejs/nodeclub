@@ -45,6 +45,8 @@
   %>
   <% if (typeof(topic) !== 'undefined') { %>
   <title><%= topic.title %> - <%= config.name %></title>
+  <% } else if (typeof(pageTitle) !== 'undefined') { %>
+  <title><%= pageTitle %> - <%= config.name %></title>
   <% } else { %>
   <title><%= config.description %></title>
   <% } %>

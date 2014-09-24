@@ -5,6 +5,7 @@ var Reply = require('../proxy').Reply;
 var Relation = require('../proxy').Relation;
 var TopicCollect = require('../proxy').TopicCollect;
 var utility = require('utility');
+var util = require('util');
 
 var message = require('../common/message');
 var tools = require('../common/tools');
@@ -37,7 +38,8 @@ exports.index = function (req, res, next) {
         recent_topics: recent_topics,
         recent_replies: recent_replies,
         relation: relation,
-        token: token
+        token: token,
+        pageTitle: util.format('@%s 的个人主页', user.loginname),
       });
     };
 
@@ -389,7 +391,10 @@ exports.top100 = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    res.render('user/top100', {users: tops});
+    res.render('user/top100', {
+      users: tops,
+      pageTitle: 'top100',
+    });
   });
 };
 

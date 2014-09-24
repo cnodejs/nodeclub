@@ -50,3 +50,10 @@ exports.escapeSignature = function (signature) {
 exports.staticFile = function (filePath) {
   return config.site_static_host + filePath;
 };
+
+exports.tabName = function (tab) {
+  var pair = _.find(config.tabs, function (pair) {
+    return pair[0];
+  });
+  return pair[1];
+};
