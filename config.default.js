@@ -105,6 +105,9 @@ var config = {
   // newrelic 是个用来监控网站性能的服务
   newrelic_key: 'yourkey',
 
+  // bugsnag https://bugsnag.com 错误监控
+  bugsnag_key: 'yourkey',
+
   //7牛的access信息，用于文件上传
   qn_access: {
     accessKey: 'your access key',

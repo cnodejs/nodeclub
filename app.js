@@ -6,13 +6,16 @@
  * Module dependencies.
  */
 
+var config = require('./config');
+
 require('newrelic');
+var bugsnag = require("bugsnag");
+bugsnag.register(config.bugsnag_key);
 
 var path = require('path');
 var Loader = require('loader');
 var express = require('express');
 var session = require('express-session');
-var config = require('./config');
 var passport = require('passport');
 require('./models');
 var GitHubStrategy = require('passport-github').Strategy;
