@@ -809,21 +809,20 @@ textarea#title {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: 0px 0px 4px hsl(0, 12%, 76%);
-  background: white url('../images/search.png') no-repeat 4px 4px;
+  background: #888 url('../images/search.png') no-repeat 4px 4px;
   padding: 3px 5px 3px 22px;
   color: #666;
   border: 0px;
   margin-top: 2px;
-}
 
-.navbar .search-query:hover {
-  background-color: #fff;
-  color: #666;
-}
+  &:hover {
+    background-color: white;
+  }
+  transition: all 0.5s;
 
-.navbar .search-query:focus, .navbar .search-query.focused {
-  background-color: #fff;
-  color: #000;
+  &:focus, &.focused {
+    background-color: white;
+  }
 }
 
 .navbar .nav .divider-vertical {
