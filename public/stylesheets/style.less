@@ -1,13 +1,18 @@
+@gray1: #e1e1e1;
+@gray2: #f6f6f6;
+@node_green: #80bd01;
+@node_black: #444444;
+
 /* base */
 body {
-  background-color: #e5e5e5;
+  background-color: @gray1;
 }
 
 #main {
   width: 90%;
   max-width: 1400px;
   min-width: 960px;
-  margin: 10px auto;
+  margin: 15px auto;
   min-height: 400px;
   position: relative;
 }
@@ -16,13 +21,13 @@ body {
   margin: 0;
 
   .cell:hover {
-    background: #FAFAFA;
+    background: #f5f5f5;
   }
 }
 
 #content {
   padding: 0;
-  margin-right: 300px;
+  margin-right: 305px;
 }
 
 #sidebar {
@@ -123,7 +128,7 @@ body {
 }
 
 .header .col_fade {
-  color: hsl(202, 6%, 34%);
+  color: @node_black;
 }
 
 .bold {
@@ -164,10 +169,22 @@ a.light:hover {
   margin-bottom: 13px;
 }
 
+.breadcrumb > li {
+  text-shadow: none;
+}
+
+.breadcrumb a {
+  color: @node_green;
+}
+
 .panel .header {
-  padding: 7px 10px;
-  background-color: #F5F5F5;
+  padding: 10px 10px;
+  background-color: @gray2;
   border-radius: 3px 3px 0 0;
+
+  &.topic_header {
+    background-color: white;
+  }
 }
 
 .panel .moon {
@@ -187,6 +204,7 @@ a.light:hover {
 .panel .inner.userinfo,
 .panel .inner.post {
   padding: 10px;
+  border-top: 1px solid #e5e5e5;
 }
 
 .panel .inner {
@@ -194,6 +212,9 @@ a.light:hover {
   padding: 10px;
   background-color: white;
   border-radius: 0 0 3px 3px;
+  a {
+    color: #778087;
+  }
 }
 
 .panel .inner > form.form-horizontal {
@@ -223,6 +244,9 @@ a.light:hover {
   padding-right: 10px;
   background: white;
   border-top: 1px solid rgb(240, 240, 240);
+  &:nth-child(1) {
+    border-top: none;
+  }
 }
 
 .cell .reply_count {
@@ -303,7 +327,6 @@ a.last_time {
 }
 
 .board a:hover {
-  color: #385f8a;
   text-decoration: none;
 }
 
@@ -318,7 +341,7 @@ a.last_time {
   border-radius: 8px;
 
   padding: 1px 5px;
-  background-color: #46a546;
+  background-color: @gray2;
   color: white;
   margin-right: 0.5em;
 }
@@ -546,7 +569,7 @@ a.user_avatar:hover {
 }
 
 .cell.reply_highlight {
-  background-color: #FBFBEF;
+  background-color: #f4fcf0;
 }
 
 .reply2_btn, .reply2_at_btn {
@@ -599,7 +622,7 @@ a.topic_title {
 }
 
 .put_top {
-  background: #000;
+  background: @node_green;
   padding: 2px 4px;
   border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -610,7 +633,7 @@ a.topic_title {
 }
 
 .put_good {
-  background: #80bd01;
+  background: @gray2;
   padding: 1px 2px;
   border-radius: 2px;
   -webkit-border-radius: 2px;
@@ -751,7 +774,7 @@ textarea#title {
   z-index: 9;
   width: 100%;
   position: relative;
-  background: white;
+  background: @node_black;
   font-size: 13px;
 }
 
@@ -762,6 +785,7 @@ textarea#title {
   box-shadow: none;
   width: 90%;
   margin: auto;
+  padding: 5px;
 }
 
 .navbar .container {
@@ -773,7 +797,8 @@ textarea#title {
 
 .navbar .brand {
   padding: 4px 0px 0px 20px;
-  width: 143px;
+  width: 120px;
+  padding: 3px 20px;
 }
 
 .navbar .navbar-search {
@@ -785,9 +810,10 @@ textarea#title {
   -moz-box-shadow: none;
   box-shadow: 0px 0px 4px hsl(0, 12%, 76%);
   background: white url('../images/search.png') no-repeat 4px 4px;
-  padding: 4px 5px 4px 22px;
+  padding: 3px 5px 3px 22px;
   color: #666;
   border: 0px;
+  margin-top: 2px;
 }
 
 .navbar .search-query:hover {
@@ -797,7 +823,6 @@ textarea#title {
 
 .navbar .search-query:focus, .navbar .search-query.focused {
   background-color: #fff;
-  padding: 4px 5px 4px 22px;
   color: #000;
 }
 
@@ -808,7 +833,10 @@ textarea#title {
 
 .navbar .nav > li > a {
   text-shadow: none;
-  color: hsl(210, 27%, 30%);
+  color: #cccccc;
+  &:hover {
+    color: #fff;
+  }
 }
 
 .form-actions {
@@ -847,6 +875,7 @@ textarea#title {
 
 .pagination a {
   line-height: 30px;
+  color: @gray2;
 }
 
 .topic_content {
@@ -1041,7 +1070,7 @@ textarea.editor {
   .span-common();
 
   color: white;
-  background-color: #7DB461;
+  background-color: @node_green;
   &:hover {
     background-color: #6ba44e;
   }
@@ -1065,23 +1094,29 @@ textarea.editor {
   font-style: italic;
 }
 
-.current-tab {
-  color: #ccc;
-}
-
 .topic-tab {
   margin: 0 10px;
+  color: @node_green;
+  &.current-tab {
+    background-color: @node_green;
+    color: white;
+    padding: 3px 4px;
+    border-radius: 3px;
+  }
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .topiclist-tab {
   background-color: #e5e5e5;
   color: #999;
-  padding: 1px 2px;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  -o-border-radius: 2px;
-  font-size: 13px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -o-border-radius: 3px;
+  font-size: 12px;
 }
 
 .up_btn {
