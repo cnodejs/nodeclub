@@ -417,12 +417,14 @@
           var replyToId = $this.closest('.reply_item').attr('reply_to_id');
           while (replyToId) {
             var $replyItem = $('.reply_item[reply_id=' + replyToId + ']');
-            var replyContent = $replyItem.find('.reply_content').text().trim()
-            chats.push([
-              $replyItem.find('.user_avatar').html(), // avatar
-              (replyContent.length>300?replyContent.substr(0,300)+'...':replyContent), // reply content
-              '<a href="#'+replyToId+'" class="scroll_to_original" title="查看原文">↑</a>'
-            ]);
+            var replyContent = $replyItem.find('.reply_content').text().trim();
+            if (replyContent.length > 0) {
+              chats.push([
+                $replyItem.find('.user_avatar').html(), // avatar
+                (replyContent.length>300?replyContent.substr(0,300)+'...':replyContent), // reply content
+                '<a href="#'+replyToId+'" class="scroll_to_original" title="查看原文">↑</a>'
+              ]);
+            }
             replyToId = $replyItem.attr('reply_to_id');
           }
           if(chats.length > 0) {
