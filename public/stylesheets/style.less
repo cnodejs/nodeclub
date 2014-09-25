@@ -33,7 +33,6 @@ body {
 }
 
 #content .panel {
-  background: hsla(0, 0%, 100%, 1);
 }
 
 #content .topic_full_title {
@@ -71,12 +70,12 @@ body {
 }
 
 #sidebar .panel {
-  background: hsla(0, 0%, 100%, 1);
   font-size: 13px;
 }
 
 #sidebar .header {
   color: hsl(202, 6%, 34%);
+  border-radius: 3px 3px 0 0;
 }
 
 #sidebar .topic_title {
@@ -88,7 +87,6 @@ body {
   clear: both;
   position: relative;
   background: white;
-  box-shadow: 0 -1px 0px rgba(168, 168, 168, 0.33);
 }
 
 #footer_main {
@@ -164,13 +162,12 @@ a.light:hover {
 
 .panel {
   margin-bottom: 13px;
-  box-shadow: 0px 1px 1px hsla(0, 0%, 40%, 0.47);
 }
 
 .panel .header {
   padding: 7px 10px;
   background-color: #F5F5F5;
-  box-shadow: 0px 1px 0px rgb(224, 224, 224);
+  border-radius: 3px 3px 0 0;
 }
 
 .panel .moon {
@@ -195,6 +192,8 @@ a.light:hover {
 .panel .inner {
   line-height: 2em;
   padding: 10px;
+  background-color: white;
+  border-radius: 0 0 3px 3px;
 }
 
 .panel .inner > form.form-horizontal {
@@ -292,8 +291,8 @@ a.last_time {
   height: 18px;
   width: 18px;
   vertical-align: middle;
-  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.62);
   margin-right: 0.5em;
+  border-radius: 3px;
 }
 
 .board .floor {
@@ -429,9 +428,9 @@ a.tag_big {
 }
 
 .user_avatar img, .user_big_avatar img {
-  box-shadow: 0px 1px 2px hsla(0, 0%, 0%, 0.5);
   width: 30px;
   height: 30px;
+  border-radius: 3px;
 }
 
 a.user_avatar:hover {
@@ -601,13 +600,13 @@ a.topic_title {
 
 .put_top {
   background: #000;
-  padding: 1px 2px;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  -o-border-radius: 2px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -o-border-radius: 3px;
   color: white;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .put_good {
@@ -752,7 +751,6 @@ textarea#title {
   z-index: 9;
   width: 100%;
   position: relative;
-  box-shadow: 0px 0px 1px hsl(0, 0%, 40%);
   background: white;
   font-size: 13px;
 }
@@ -842,6 +840,9 @@ textarea#title {
 .pagination {
   height: 40px;
   margin: 10px 0px 0px 10px;
+  ul {
+    box-shadow: none;
+  }
 }
 
 .pagination a {
@@ -1026,7 +1027,7 @@ textarea.editor {
   cursor: pointer;
   letter-spacing: 2px;
   box-shadow: none;
-  border-radius: 1px;
+  border-radius: 3px;
   line-height: 2em;
 
   background-color: #e5e5e5;
