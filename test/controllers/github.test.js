@@ -79,13 +79,16 @@ describe('test/controllers/github.test.js', function () {
 
   describe('post /auth/github/create', function () {
     before(function () {
+      var displayName = 'alsotang' + new Date();
+      var username = 'alsotang' + new Date();
+      var email = 'alsotang@gmail.com' + new Date();
       app.post('/auth/github/test_create', function (req, res, next) {
         req.session.profile = {
-          displayName: 'alsotang' + new Date(),
-          username: 'alsotang' + new Date(),
+          displayName: displayName,
+          username: username,
           accessToken: 'a3l24j23lk5jtl35tkjglfdsf',
           emails: [
-            {value: 'alsotang@gmail.com' + new Date()}
+            {value: email}
           ],
           _json: {avatar_url: 'http://avatar_url.com/1.jpg'},
           id: 22
