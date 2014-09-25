@@ -46,6 +46,7 @@ exports.index = function (req, res, next) {
   req.session.tab = tab;
   var limit = config.list_topic_count;
 
+  var tabName = renderHelpers.tabName(tab);
   var proxy = eventproxy.create('topics', 'tops', 'no_reply_topics', 'pages',
     function (topics, tops, no_reply_topics, pages) {
       res.render('index', {
@@ -58,7 +59,7 @@ exports.index = function (req, res, next) {
         site_links: config.site_links,
         tabs: config.tabs,
         tab: tab,
-        pageTitle: renderHelpers.tabName(tab) + '版块',
+        pageTitle: tabName && (tabName + '版块'),
       });
     });
   proxy.fail(next);

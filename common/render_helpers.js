@@ -53,7 +53,9 @@ exports.staticFile = function (filePath) {
 
 exports.tabName = function (tab) {
   var pair = _.find(config.tabs, function (pair) {
-    return pair[0];
+    return pair[0] === tab;
   });
-  return pair[1];
+  if (pair) {
+    return pair[1];
+  }
 };
