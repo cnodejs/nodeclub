@@ -430,10 +430,10 @@
 
             $repliesHistoryContent.append('<div class="title">查看对话</div>');
             chats.forEach(function (pair, idx) {
-              $repliesHistoryContent.append('<div class="item">'
-                  + pair[0]
-                  + pair[1]
-                  + pair[2] + '</div>');
+              var $chat = $repliesHistoryContent.append('<div class="item"></div>');
+              $chat.append(pair[0]); // 头像
+              $chat.append($('<span>').text(pair[1])); // 内容
+              $chat.append(pair[2]); // 查看原文 anchor
             });
             $repliesHistory.fadeIn('fast');
           }else{
