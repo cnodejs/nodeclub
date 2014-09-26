@@ -300,7 +300,7 @@ exports.auth_user = function (req, res, next) {
     var auth_token = decrypt(cookie, config.session_secret);
     if (!auth_token) {
       res.cookie(config.auth_cookie_name, '');
-      return res.send('session 过期，请重新登录');
+      return res.send('session 过期，请刷新并重新登录');
     }
     var auth = auth_token.split('\t');
     var user_id = auth[0];
