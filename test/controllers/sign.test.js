@@ -31,6 +31,7 @@ describe('test/controllers/sign.test.js', function () {
     });
 
     it('should redirect to github oauth page', function (done) {
+      mm(config.GITHUB_OAUTH, 'clientID', 'clientID chenged');
       app.get('/signup_github', configMiddleware.github, passport.authenticate('github'));
       request.get('/signup_github')
       .expect(302, function (err, res) {
