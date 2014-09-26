@@ -5,8 +5,13 @@ var github = require('../../controllers/github');
 var Models = require('../../models');
 var User = Models.User;
 var config = require('../../config');
+var support = require('../support/support');
 
 describe('test/controllers/github.test.js', function () {
+  before(function (done) {
+    support.ready(done);
+  });
+
   afterEach(function () {
     mm.restore();
   });
@@ -129,17 +134,17 @@ describe('test/controllers/github.test.js', function () {
     });
 
     it('should link a old user', function (done) {
-      var username = 'Alsotang';
+      var username = 'alsotang' + +new Date();
       var pass = 'hehe';
-      mm(User, 'findOne', function (loginInfo, callback) {
-        loginInfo.loginname.should.equal(username.toLowerCase());
-        callback(null, {save: function () {
-          done();
-        }});
+      support.createUserByNameAndPwd(username, pass, function (user) {
+        request.post('/auth/github/test_create')
+          .send({name: username, pass: pass})
+          .end(function (err, res) {
+            res.status.should.equal(302);
+            res.headers.location.should.equal('/');
+            done(err);
+          });
       });
-      request.post('/auth/github/test_create')
-        .send({name: username, pass: pass})
-        .end();
     });
   });
 });

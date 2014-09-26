@@ -77,6 +77,7 @@ exports.create = function (req, res, next) {
           return next(err);
         }
         if (!user) {
+          res.status(403);
           return res.render('sign/signin', { error: '账号名或密码错误。' });
         }
         user.githubId = profile.id;

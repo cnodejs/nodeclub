@@ -18,7 +18,7 @@ var xmlbuilder = require('xmlbuilder');
 var renderHelpers = require('../common/render_helpers');
 
 // 主页的缓存工作。主页是需要主动缓存的
-setInterval(function () {
+function indexCache() {
   var limit = config.list_topic_count;
   // 为所有版块（tab）做缓存
   [['', '全部']].concat(config.tabs).forEach(function (pair) {
@@ -36,7 +36,9 @@ setInterval(function () {
       return topics;
     });
   });
-}, 1000 * 5); // 五秒更新一次
+}
+setInterval(indexCache, 1000 * 5); // 五秒更新一次
+indexCache();
 // END 主页的缓存工作
 
 exports.index = function (req, res, next) {
