@@ -273,6 +273,11 @@ exports.auth_user = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);
 
+  if (config.debug && req.cookies['mock_user']) {
+    req.session.user = new UserModel(JSON.parse(req.cookies['mock_user']));
+    return next();
+  }
+
   ep.all('get_user', function (user) {
     if (!user) {
       return next();

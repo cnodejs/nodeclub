@@ -16,7 +16,6 @@ var topic = require('./controllers/topic');
 var reply = require('./controllers/reply');
 var rss = require('./controllers/rss');
 var assets = require('./controllers/static');
-var tools = require('./controllers/tools');
 var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
 var github = require('./controllers/github');
@@ -91,19 +90,14 @@ module.exports = function (app) {
   app.post('/topic/collect', auth.userRequired, topic.collect); // 关注某话题
   app.post('/topic/de_collect', auth.userRequired, topic.de_collect); // 取消关注某话题
 
-  // reply
-  // 回复
-  app.get('/reply/:reply_id/edit', reply.showEdit); // 修改自己的评论页
+  // reply controller
   app.post('/:topic_id/reply', auth.userRequired, limit.postInterval, reply.add); // 提交一级回复
   app.post('/:topic_id/reply2', auth.userRequired, limit.postInterval, reply.add_reply2); // 提交二级回复
+  app.get('/reply/:reply_id/edit', auth.userRequired, reply.showEdit); // 修改自己的评论页
+  app.post('/reply/:reply_id/edit', auth.userRequired, reply.update); // 修改某评论
+  app.post('/reply/:reply_id/delete', auth.userRequired, reply.delete); // 删除某评论
   app.post('/reply/:reply_id/up', auth.userRequired, reply.up); // 为评论点赞
-  app.post('/reply/:reply_id/edit', reply.update); // 修改某评论
-  app.post('/reply/:reply_id/delete', reply.delete); // 删除某评论
-
   app.post('/upload', auth.userRequired, topic.upload); //上传图片
-
-  // tools
-  app.get('/site_tools', tools.run_site_tools);
 
   // static
   app.get('/about', assets.about);

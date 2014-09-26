@@ -14,7 +14,7 @@ exports.faq = function (req, res, next) {
 
 exports.robots = function (req, res, next) {
   res.type('text/plain');
-  res.send(multiline(function () {
+  res.send(multiline(function () {;
 /*
 # See http://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
 #

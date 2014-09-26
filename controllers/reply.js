@@ -1,4 +1,5 @@
 var validator = require('validator');
+var _ = require('lodash');
 
 var at = require('../common/at');
 var message = require('../common/message');
@@ -19,6 +20,7 @@ exports.add = function (req, res, next) {
 
   var str = validator.trim(content);
   if (str === '') {
+    res.status(422);
     res.render('notify/notify', {error: '回复内容不能为空！'});
     return;
   }
@@ -75,7 +77,10 @@ exports.add_reply2 = function (req, res, next) {
 
   var str = validator.trim(content);
   if (str === '') {
-    res.send('');
+    res.status(422);
+    res.render('notify/notify', {
+      error: '内容不可为空',
+    });
     return;
   }
 
@@ -83,7 +88,6 @@ exports.add_reply2 = function (req, res, next) {
   proxy.assign('reply_saved', function (reply) {
     Reply.getReplyById(reply._id, function (err, reply) {
       res.redirect('/topic/' + topic_id + '#' + reply._id);
-      // res.partial('reply/reply2', {object: reply, as: 'reply'});
     });
   });
 
@@ -115,7 +119,8 @@ exports.delete = function (req, res, next) {
     }
 
     if (!reply) {
-      res.json({status: 'failed'});
+      res.status(422);
+      res.json({status: 'no reply ' + reply_id + ' exists'});
       return;
     }
     if (reply.author_id.toString() === req.session.user._id.toString()) {
@@ -132,26 +137,18 @@ exports.delete = function (req, res, next) {
       return;
     }
 
-    Topic.reduceCount(reply.topic_id, function () {
-    });
+    Topic.reduceCount(reply.topic_id, _.noop);
   });
 };
 /*
  打开回复编辑器
  */
 exports.showEdit = function (req, res, next) {
-  if (!req.session.user) {
-    res.redirect('/');
-    return;
-  }
-
   var reply_id = req.params.reply_id;
-  if (reply_id.length !== 24) {
-    res.render('notify/notify', {error: '此话题不存在或已被删除。'});
-    return;
-  }
+
   Reply.getReplyById(reply_id, function (err, reply) {
     if (!reply) {
+      res.status(422);
       res.render('notify/notify', {error: '此回复不存在或已被删除。'});
       return;
     }
@@ -161,6 +158,7 @@ exports.showEdit = function (req, res, next) {
         content: reply.content
       });
     } else {
+      res.status(403);
       res.render('notify/notify', {error: '对不起，你不能编辑此回复。'});
     }
   });
@@ -169,15 +167,8 @@ exports.showEdit = function (req, res, next) {
  提交编辑回复
  */
 exports.update = function (req, res, next) {
-  if (!req.session.user) {
-    res.redirect('/');
-    return;
-  }
   var reply_id = req.params.reply_id;
-  if (reply_id.length !== 24) {
-    res.render('notify/notify', {error: '此回复不存在或已被删除。'});
-    return;
-  }
+  var content = req.body.t_content;
 
   Reply.getReplyById(reply_id, function (err, reply) {
     if (!reply) {
@@ -186,7 +177,6 @@ exports.update = function (req, res, next) {
     }
 
     if (String(reply.author_id) === req.session.user._id.toString() || req.session.user.is_admin) {
-      var content = req.body.t_content;
 
       reply.content = content.trim();
       if (content.length > 0) {
@@ -194,7 +184,7 @@ exports.update = function (req, res, next) {
           if (err) {
             return next(err);
           }
-          res.redirect('/topic/' + reply.topic_id + '/#' + reply._id);
+          res.redirect('/topic/' + reply.topic_id + '#' + reply._id);
         });
       } else {
         res.render('notify/notify', {error: '回复的字数太少。'});

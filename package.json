@@ -33,6 +33,7 @@
     "passport-github": "~0.1.5",
     "pm2": "^0.8.1",
     "qn": "^1.0.0",
+    "ready": "^0.1.1",
     "response-time": "^2.0.1",
     "utility": "1.0.0",
     "validator": "^3.19.0",
