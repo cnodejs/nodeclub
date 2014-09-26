@@ -11,10 +11,6 @@ var SITE_ROOT_URL = 'http://' + config.host;
  */
 var sendMail = function (data) {
   if (config.debug) {
-    console.log('******************** 在测试环境下，不会真的发送邮件*******************');
-    for (var k in data) {
-      console.log('%s: %s', k, data[k]);
-    }
     return;
   }
   // 遍历邮件数组，发送每一封邮件，如果有发送失败的，就再压入数组，同时触发mailEvent事件
@@ -25,6 +21,7 @@ var sendMail = function (data) {
     }
   });
 };
+exports.sendMail = sendMail;
 
 /**
  * 发送激活通知邮件
@@ -42,7 +39,7 @@ exports.sendActiveMail = function (who, token, name) {
     '<p>若您没有在' + config.name + '社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p>' +
     '<p>' + config.name + '社区 谨上。</p>';
 
-  sendMail({
+  exports.sendMail({
     from: from,
     to: to,
     subject: subject,
@@ -66,7 +63,7 @@ exports.sendResetPassMail = function (who, token, name) {
     '<p>若您没有在' + config.name + '社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p>' +
     '<p>' + config.name + '社区 谨上。</p>';
 
-  sendMail({
+  exports.sendMail({
     from: from,
     to: to,
     subject: subject,

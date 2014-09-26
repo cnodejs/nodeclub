@@ -92,7 +92,7 @@ exports.getUsersByQuery = function (query, opt, callback) {
  * @param {String} key 激活码
  * @param {Function} callback 回调函数
  */
-exports.getUserByQuery = function (loginname, key, callback) {
+exports.getUserByNameAndKey = function (loginname, key, callback) {
   User.findOne({loginname: loginname, retrieve_key: key}, callback);
 };
 

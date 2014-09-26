@@ -38,7 +38,7 @@ var config = {
   db_name: 'node_club_dev',
 
 
-  session_secret: 'node_club', // 务必修改
+  session_secret: 'node_club_secret', // 务必修改
   auth_cookie_name: 'node_club',
 
   // 程序运行的端口

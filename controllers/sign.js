@@ -1,17 +1,12 @@
 
 var validator = require('validator');
 var eventproxy = require('eventproxy');
-
-var crypto = require('crypto');
 var config = require('../config');
-
 var User = require('../proxy').User;
-var Message = require('../proxy').Message;
 var mail = require('../common/mail');
-var mongoose = require('mongoose');
-var UserModel = mongoose.model('User');
 var tools = require('../common/tools');
 var utility = require('utility');
+var authMiddleWare = require('../middlewares/auth');
 
 //sign up
 exports.showSignup = function (req, res) {
@@ -20,13 +15,14 @@ exports.showSignup = function (req, res) {
 
 exports.signup = function (req, res, next) {
   var loginname = validator.trim(req.body.loginname).toLowerCase();
-  var pass = validator.trim(req.body.pass);
-  var rePass = validator.trim(req.body.pass);
   var email = validator.trim(req.body.email).toLowerCase();
+  var pass = validator.trim(req.body.pass);
+  var rePass = validator.trim(req.body.re_pass);
 
   var ep = new eventproxy();
   ep.fail(next);
   ep.on('prop_err', function (msg) {
+    res.status(422);
     res.render('sign/signup', {error: msg, loginname: loginname, email: email});
   });
 
@@ -49,6 +45,7 @@ exports.signup = function (req, res, next) {
     return ep.emit('prop_err', '两次密码输入不一致。');
   }
   // END 验证信息的正确性
+
 
   User.getUsersByQuery({'$or': [
     {'loginname': loginname},
@@ -114,6 +111,7 @@ exports.login = function (req, res, next) {
   var pass = validator.trim(req.body.pass);
 
   if (!loginname || !pass) {
+    res.status(422);
     return res.render('sign/signin', { error: '信息不完整。' });
   }
 
@@ -136,12 +134,13 @@ exports.login = function (req, res, next) {
       return res.render('sign/signin', { error: '密码错误。' });
     }
     if (!user.active) {
-      // 从新发送激活邮件
+      // 重新发送激活邮件
       mail.sendActiveMail(user.email, utility.md5(user.email + config.session_secret), user.loginname);
+      res.status(403);
       return res.render('sign/signin', { error: '此帐号还没有被激活，激活链接已发送到 ' + user.email + ' 邮箱，请查收。' });
     }
     // store session cookie
-    gen_session(user, res);
+    authMiddleWare.gen_session(user, res);
     //check at some page just jump to home page
     var refer = req.session._loginReferer || '/';
     for (var i = 0, len = notJump.length; i !== len; ++i) {
@@ -189,6 +188,18 @@ exports.showSearchPass = function (req, res) {
   res.render('sign/search_pass');
 };
 
+function randomString(size) {
+  size = size || 6;
+  var code_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var max_num = code_string.length + 1;
+  var new_pass = '';
+  while (size > 0) {
+    new_pass += code_string.charAt(Math.floor(Math.random() * max_num));
+    size--;
+  }
+  return new_pass;
+}
+
 exports.updateSearchPass = function (req, res, next) {
   var email = validator.trim(req.body.email).toLowerCase();
   if (!validator.isEmail(email)) {
@@ -227,13 +238,15 @@ exports.updateSearchPass = function (req, res, next) {
 exports.reset_pass = function (req, res, next) {
   var key = req.query.key;
   var name = req.query.name;
-  User.getUserByQuery(name, key, function (err, user) {
+  User.getUserByNameAndKey(name, key, function (err, user) {
     if (!user) {
+      res.status(403);
       return res.render('notify/notify', {error: '信息有误，密码无法重置。'});
     }
     var now = new Date().getTime();
     var oneDay = 1000 * 60 * 60 * 24;
     if (!user.retrieve_time || now - user.retrieve_time > oneDay) {
+      res.status(403);
       return res.render('notify/notify', {error: '该链接已过期，请重新申请。'});
     }
     return res.render('sign/reset', {name: name, key: key});
@@ -245,10 +258,11 @@ exports.update_pass = function (req, res, next) {
   var repsw = req.body.repsw || '';
   var key = req.body.key || '';
   var name = req.body.name || '';
+
   if (psw !== repsw) {
     return res.render('sign/reset', {name: name, key: key, error: '两次密码输入不一致。'});
   }
-  User.getUserByQuery(name, key, function (err, user) {
+  User.getUserByNameAndKey(name, key, function (err, user) {
     if (err) {
       return next(err);
     }
@@ -268,85 +282,3 @@ exports.update_pass = function (req, res, next) {
   });
 };
 
-// auth_user middleware
-exports.auth_user = function (req, res, next) {
-  var ep = new eventproxy();
-  ep.fail(next);
-
-  if (config.debug && req.cookies['mock_user']) {
-    req.session.user = new UserModel(JSON.parse(req.cookies['mock_user']));
-    return next();
-  }
-
-  ep.all('get_user', function (user) {
-    if (!user) {
-      return next();
-    }
-    user = res.locals.current_user = req.session.user = new UserModel(user);
-
-    if (config.admins.hasOwnProperty(user.loginname)) {
-      user.is_admin = true;
-    }
-    Message.getMessagesCount(user._id, ep.done(function (count) {
-      user.messages_count = count;
-      next();
-    }));
-
-  });
-
-  if (req.session.user) {
-    ep.emit('get_user', req.session.user);
-  } else {
-    var cookie = req.cookies[config.auth_cookie_name];
-    if (!cookie) {
-      return next();
-    }
-
-    var auth_token = decrypt(cookie, config.session_secret);
-    if (!auth_token) {
-      res.cookie(config.auth_cookie_name, '');
-      return res.send('session 过期，请刷新并重新登录');
-    }
-    var auth = auth_token.split('\t');
-    var user_id = auth[0];
-    User.getUserById(user_id, ep.done('get_user'));
-  }
-};
-
-// private
-function gen_session(user, res) {
-  var auth_token = encrypt(user._id + '\t' + user.loginname + '\t' + user.pass + '\t' + user.email, config.session_secret);
-  res.cookie(config.auth_cookie_name, auth_token, {path: '/', maxAge: 1000 * 60 * 60 * 24 * 30}); //cookie 有效期30天
-}
-
-exports.gen_session = gen_session;
-
-function encrypt(str, secret) {
-  var cipher = crypto.createCipher('aes192', secret);
-  var enc = cipher.update(str, 'utf8', 'hex');
-  enc += cipher.final('hex');
-  return enc;
-}
-
-function decrypt(str, secret) {
-  try {
-    var decipher = crypto.createDecipher('aes192', secret);
-    var dec = decipher.update(str, 'hex', 'utf8');
-    dec += decipher.final('utf8');
-    return dec;
-  } catch (e) {
-    return;
-  }
-}
-
-function randomString(size) {
-  size = size || 6;
-  var code_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var max_num = code_string.length + 1;
-  var new_pass = '';
-  while (size > 0) {
-    new_pass += code_string.charAt(Math.floor(Math.random() * max_num));
-    size--;
-  }
-  return new_pass;
-}

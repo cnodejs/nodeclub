@@ -31,7 +31,7 @@ module.exports = function (app) {
   // sitemap
   app.get('/sitemap.xml', site.sitemap);
 
-  // sign up, login, logout
+  // sign controller
   if (config.allow_sign_up) {
     app.get('/signup', sign.showSignup);  // 跳转到注册页面
     app.post('/signup', sign.signup);  // 提交注册信息
@@ -43,13 +43,12 @@ module.exports = function (app) {
   app.post('/signin', sign.login);  // 登录校验
   app.get('/active_account', sign.active_account);  //帐号激活
 
-  // password
   app.get('/search_pass', sign.showSearchPass);  // 找回密码页面
   app.post('/search_pass', sign.updateSearchPass);  // 更新密码
   app.get('/reset_pass', sign.reset_pass);  // 进入重置密码页面
   app.post('/reset_pass', sign.update_pass);  // 更新密码
 
-  // user
+  // user controller
   app.get('/user/:name', user.index); // 用户个人主页
   app.get('/setting', user.showSetting); // 用户个人设置页
   app.post('/setting', user.setting); // 提交个人信息设置

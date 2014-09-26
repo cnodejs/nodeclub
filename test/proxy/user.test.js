@@ -52,7 +52,7 @@ describe('test/proxy/user.test.js', function () {
     });
   });
 
-  describe('getUserByQuery', function () {
+  describe('getUserByNameAndKey', function () {
     var user;
     before(function (done) {
       support.createUser(function (err, user1) {
@@ -63,7 +63,7 @@ describe('test/proxy/user.test.js', function () {
     });
 
     it('should not exist', function (done) {
-      User.getUserByQuery('name', 'key', function (err, user) {
+      User.getUserByNameAndKey('name', 'key', function (err, user) {
         should.not.exist(err);
         should.not.exist(user);
         done();
@@ -71,7 +71,7 @@ describe('test/proxy/user.test.js', function () {
     });
 
     it('should exist', function (done) {
-      User.getUserByQuery(user.name, null, function (err, user1) {
+      User.getUserByNameAndKey(user.name, null, function (err, user1) {
         should.not.exist(err);
         should.exist(user1);
         user1.name.should.be.equal(user.name);

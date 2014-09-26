@@ -76,7 +76,7 @@ app.use(session({
 app.use(passport.initialize());
 
 // custom middleware
-app.use(require('./controllers/sign').auth_user);
+app.use(auth.authUser);
 app.use(auth.blockUser());
 
 app.use(Loader.less(__dirname));

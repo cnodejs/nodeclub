@@ -2,6 +2,7 @@ var sign = require('./sign');
 var Models = require('../models');
 var User = Models.User;
 var utility = require('utility');
+var authMiddleWare = require('../middlewares/auth');
 
 exports.callback = function (req, res, next) {
   var profile = req.user;
@@ -17,7 +18,7 @@ exports.callback = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        sign.gen_session(user, res);
+        authMiddleWare.gen_session(user, res);
         return res.redirect('/');
       });
     } else {
@@ -46,7 +47,8 @@ exports.create = function (req, res, next) {
       email: profile.emails[0].value,
       avatar: profile._json.avatar_url,
       githubId: profile.id,
-      githubUsername: profile.username
+      githubUsername: profile.username,
+      active: true,
     });
     user.save(function (err) {
       if (err) {
@@ -64,7 +66,7 @@ exports.create = function (req, res, next) {
         return next(err);
         // END 根据 err.err 的错误信息决定如何回应用户，这个地方写得很难看
       }
-      sign.gen_session(user, res);
+      authMiddleWare.gen_session(user, res);
       res.redirect('/');
     });
   } else { // 关联老账号
@@ -82,7 +84,7 @@ exports.create = function (req, res, next) {
           if (err) {
             return next(err);
           }
-          sign.gen_session(user, res);
+          authMiddleWare.gen_session(user, res);
           res.redirect('/');
         });
       });

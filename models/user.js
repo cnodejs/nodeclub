@@ -30,7 +30,7 @@ var UserSchema = new Schema({
   update_at: { type: Date, default: Date.now },
   is_star: { type: Boolean },
   level: { type: String },
-  active: { type: Boolean, default: true },
+  active: { type: Boolean, default: false },
 
   receive_reply_mail: {type: Boolean, default: false },
   receive_at_mail: { type: Boolean, default: false },
