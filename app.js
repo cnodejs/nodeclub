@@ -9,8 +9,6 @@
 var config = require('./config');
 
 require('newrelic');
-var bugsnag = require("bugsnag");
-bugsnag.register(config.bugsnag_key);
 
 var path = require('path');
 var Loader = require('loader');

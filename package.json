@@ -9,7 +9,6 @@
   ],
   "dependencies": {
     "body-parser": "^1.0.2",
-    "bugsnag": "^1.4.0",
     "compression": "^1.0.2",
     "connect-busboy": "0.0.1",
     "connect-mongo": "^0.4.1",
