@@ -11,7 +11,6 @@ var config = require('./config');
 require('newrelic');
 var bugsnag = require("bugsnag");
 bugsnag.register(config.bugsnag_key);
-bugsnag.notify(new Error("Non-fatal"));
 
 var path = require('path');
 var Loader = require('loader');
