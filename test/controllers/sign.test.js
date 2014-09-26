@@ -10,7 +10,7 @@ var mailService = require('../../common/mail');
 var pedding = require('pedding');
 var utility = require('utility');
 
-describe.only('test/controllers/sign.test.js', function () {
+describe('test/controllers/sign.test.js', function () {
   var loginname = 'testuser' + +new Date();
   var email = 'testuser' + +new Date() + '@gmail.com';
   var pass = 'wtffffffffffff';
