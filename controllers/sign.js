@@ -11,6 +11,7 @@ var mail = require('../common/mail');
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
 var tools = require('../common/tools');
+var utility = require('utility');
 
 //sign up
 exports.showSignup = function (req, res) {
@@ -62,7 +63,7 @@ exports.signup = function (req, res, next) {
     }
 
     // md5 the pass
-    pass = md5(pass);
+    pass = utility.md5(pass);
     // create gravatar
     var avatarUrl = User.makeGravatar(email);
 
@@ -71,7 +72,7 @@ exports.signup = function (req, res, next) {
         return next(err);
       }
       // 发送激活邮件
-      mail.sendActiveMail(email, md5(email + config.session_secret), loginname);
+      mail.sendActiveMail(email, utility.md5(email + config.session_secret), loginname);
       res.render('sign/signup', {
         success: '欢迎加入 ' + config.name + '！我们已给您的注册邮箱发送了一封邮件，请点击里面的链接来激活您的帐号。'
       });
@@ -130,13 +131,13 @@ exports.login = function (req, res, next) {
     if (!user) {
       return res.render('sign/signin', { error: '这个用户不存在。' });
     }
-    pass = md5(pass);
+    pass = utility.md5(pass);
     if (pass !== user.pass) {
       return res.render('sign/signin', { error: '密码错误。' });
     }
     if (!user.active) {
       // 从新发送激活邮件
-      mail.sendActiveMail(user.email, md5(user.email + config.session_secret), user.loginname);
+      mail.sendActiveMail(user.email, utility.md5(user.email + config.session_secret), user.loginname);
       return res.render('sign/signin', { error: '此帐号还没有被激活，激活链接已发送到 ' + user.email + ' 邮箱，请查收。' });
     }
     // store session cookie
@@ -168,7 +169,7 @@ exports.active_account = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    if (!user || md5(user.email + config.session_secret) !== key) {
+    if (!user || utility.md5(user.email + config.session_secret) !== key) {
       return res.render('notify/notify', {error: '信息有误，帐号无法被激活。'});
     }
     if (user.active) {
@@ -254,7 +255,7 @@ exports.update_pass = function (req, res, next) {
     if (!user) {
       return res.render('notify/notify', {error: '错误的激活链接'});
     }
-    user.pass = md5(psw);
+    user.pass = utility.md5(psw);
     user.retrieve_key = null;
     user.retrieve_time = null;
     user.active = true; // 用户激活
@@ -297,6 +298,10 @@ exports.auth_user = function (req, res, next) {
     }
 
     var auth_token = decrypt(cookie, config.session_secret);
+    if (!auth_token) {
+      res.cookie(config.auth_cookie_name, '');
+      return res.send('session 过期，请重新登录');
+    }
     var auth = auth_token.split('\t');
     var user_id = auth[0];
     User.getUserById(user_id, ep.done('get_user'));
@@ -319,17 +324,14 @@ function encrypt(str, secret) {
 }
 
 function decrypt(str, secret) {
-  var decipher = crypto.createDecipher('aes192', secret);
-  var dec = decipher.update(str, 'hex', 'utf8');
-  dec += decipher.final('utf8');
-  return dec;
-}
-
-function md5(str) {
-  var md5sum = crypto.createHash('md5');
-  md5sum.update(str);
-  str = md5sum.digest('hex');
-  return str;
+  try {
+    var decipher = crypto.createDecipher('aes192', secret);
+    var dec = decipher.update(str, 'hex', 'utf8');
+    dec += decipher.final('utf8');
+    return dec;
+  } catch (e) {
+    return;
+  }
 }
 
 function randomString(size) {

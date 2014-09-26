@@ -43,6 +43,7 @@
     "istanbul": "^0.3.0",
     "mm": "*",
     "mocha": "*",
+    "nock": "^0.48.0",
     "pedding": "*",
     "rewire": "*",
     "should": "*",

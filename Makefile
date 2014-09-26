@@ -29,6 +29,7 @@ test-cov cov: install pretest
 		node_modules/.bin/istanbul cover --preserve-comments \
 		./node_modules/.bin/_mocha \
 		-- \
+		-r should \
 		--reporter $(MOCHA_REPORTER) \
 		--timeout $(TEST_TIMEOUT) \
 		$(TESTS)

@@ -19,10 +19,9 @@ describe('test/controllers/rss.test.js', function () {
       request(app).get('/rss').end(function (err, res) {
         res.status.should.equal(200);
         res.headers.should.property('content-type', 'application/xml');
-        var body = res.text;
-        body.indexOf('<?xml version="1.0" encoding="utf-8"?>').should.equal(0);
-        body.should.containEql('<rss version="2.0">');
-        body.should.containEql('<channel><title>' + config.rss.title + '</title>');
+        res.text.indexOf('<?xml version="1.0" encoding="utf-8"?>').should.equal(0);
+        res.text.should.containEql('<rss version="2.0">');
+        res.text.should.containEql('<channel><title>' + config.rss.title + '</title>');
         done(err);
       });
     });

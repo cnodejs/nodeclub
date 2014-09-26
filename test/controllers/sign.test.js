@@ -1,17 +1,12 @@
-var should = require('should');
 var app = require('../../app');
-var config = require('../../config');
-var request = require('supertest');
-
-var agent = request.agent(app);
+var request = require('supertest')(app);
 
 describe('test/controllers/sign.test.js', function () {
-  // it('should visit sign in page', function (done) {
-  // request.get('/signin').end(function (err, res) {
-  //   res.should.status(200);
-  //   res.text.should.include('登陆');
-  //   res.text.should.include('密码');
-  //   done(err);
-  // });
-  // });
+  it('should visit sign in page', function (done) {
+    request.get('/signin').end(function (err, res) {
+      res.text.should.containEql('登录');
+      res.text.should.containEql('通过 GitHub 登录');
+      done(err);
+    });
+  });
 });
