@@ -77,13 +77,13 @@
         <% if (current_user.is_admin) { %>
 
         <% if (topic.top) { %>
-        <a href='/topic/<%= topic._id %>/top/0'>
+        <a href='/topic/<%= topic._id %>/top/0' data-method="post">
           <img class='user_icon'
                src='<%- staticFile("/public/images/star_fav_icon&16.png") %>'
                title='取消置顶'/>
         </a>
         <% } else { %>
-        <a href='/topic/<%= topic._id %>/top/1'>
+        <a href='/topic/<%= topic._id %>/top/1' data-method="post">
           <img class='user_icon'
                src='<%- staticFile("/public/images/star_fav_empty_icon&16.png") %>'
                title='置顶'/>
@@ -91,11 +91,11 @@
         <% } %>
 
         <% if (topic.good) { %>
-        <a href='/topic/<%= topic._id %>/good/0'>
+        <a href='/topic/<%= topic._id %>/good/0' data-method="post">
           取消精华
         </a>
         <% } else { %>
-        <a href='/topic/<%= topic._id %>/good/1'>
+        <a href='/topic/<%= topic._id %>/good/1' data-method="post">
           设为精华
         </a>
         <% } %>

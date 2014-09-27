@@ -70,22 +70,22 @@ module.exports = function (app) {
   // 新建文章界面
   app.get('/topic/create', auth.userRequired, topic.create);
   app.get('/topic/:tid', topic.index);  // 显示某个话题
-  app.get('/topic/:tid/top/:is_top?', auth.adminRequired, topic.top);  // 将某话题置顶
-  app.get('/topic/:tid/good/:is_good?', auth.adminRequired, topic.good); // 将某话题加精
-  app.get('/topic/:tid/edit', topic.showEdit);  // 编辑某话题
+  app.post('/topic/:tid/top/:is_top?', auth.adminRequired, topic.top);  // 将某话题置顶
+  app.post('/topic/:tid/good/:is_good?', auth.adminRequired, topic.good); // 将某话题加精
+  app.get('/topic/:tid/edit', auth.userRequired, topic.showEdit);  // 编辑某话题
 
   // Po-Ying Chen <poying.me@gmail.com>: 當 "非" 作者的使用者在留言的地方貼上一個網址為
   // http://[domain name]/topic/[topic id]/delete 的圖片之後，只要作者一看到圖片，文章就會被刪除了，
   // 可能需要將刪除的方法改成 post 來避免此問題
   //删除之后由于主页有缓存机制，重定向到主页之后可能还是能够看到删掉后的帖子，我认为没有必要删除后马上更新缓存，
   //因为可能减弱缓存的作用，等5s自动更新就好了
-  app.post('/topic/:tid/delete', topic.delete);
+  app.post('/topic/:tid/delete', auth.userRequired, topic.delete);
 
   // 保存新建的文章
   // TODO: 如果创建文章的过程太长，导致session过期，界面的内容会丢失
   // FIXME: 采用前端来判断，不通过跳转的形式来解决
   app.post('/topic/create', auth.userRequired, limit.postInterval, topic.put);
-  app.post('/topic/:tid/edit', topic.update);
+  app.post('/topic/:tid/edit', auth.userRequired, topic.update);
   app.post('/topic/collect', auth.userRequired, topic.collect); // 关注某话题
   app.post('/topic/de_collect', auth.userRequired, topic.de_collect); // 取消关注某话题
 

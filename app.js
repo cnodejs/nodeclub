@@ -65,7 +65,6 @@ app.use(require('cookie-parser')(config.session_secret));
 app.use(compress());
 app.use(session({
   secret: config.session_secret,
-  key: 'sid',
   store: new MongoStore({
     url: config.db
   }),

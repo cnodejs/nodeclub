@@ -15,7 +15,7 @@ exports.adminRequired = function (req, res, next) {
     return res.render('notify/notify', {error: '你还没有登录。'});
   }
   if (!req.session.user.is_admin) {
-    return res.render('notify/notify', {error: '管理员才能编辑标签。'});
+    return res.render('notify/notify', {error: '需要管理员权限。'});
   }
   next();
 };
@@ -70,7 +70,11 @@ exports.authUser = function (req, res, next) {
   ep.fail(next);
 
   if (config.debug && req.cookies['mock_user']) {
-    req.session.user = new UserModel(JSON.parse(req.cookies['mock_user']));
+    var mockUser = JSON.parse(req.cookies['mock_user']);
+    req.session.user = new UserModel(mockUser);
+    if (mockUser.is_admin) {
+      req.session.user.is_admin = true;
+    }
     return next();
   }
 

@@ -118,7 +118,7 @@ exports.put = function (req, res, next) {
   title = validator.escape(title);
   var tab = validator.trim(req.body.tab);
   tab = validator.escape(tab);
-  var content = req.body.t_content;
+  var content = validator.trim(req.body.t_content);
 
   // 验证
   var editError;
@@ -128,10 +128,13 @@ exports.put = function (req, res, next) {
     editError = '标题字数太多或太少。';
   } else if (!tab || allTabs.indexOf(tab) === -1) {
     editError = '必须选择一个版块。';
+  } else if (content === '') {
+    editError = '内容不可为空';
   }
   // END 验证
 
   if (editError) {
+    res.status(422);
     return res.render('topic/edit', {
       edit_error: editError,
       title: title,
@@ -165,16 +168,8 @@ exports.put = function (req, res, next) {
 };
 
 exports.showEdit = function (req, res, next) {
-  if (!req.session.user) {
-    res.redirect('/');
-    return;
-  }
-
   var topic_id = req.params.tid;
-  if (topic_id.length !== 24) {
-    res.render('notify/notify', {error: '此话题不存在或已被删除。'});
-    return;
-  }
+
   Topic.getTopicById(topic_id, function (err, topic, tags) {
     if (!topic) {
       res.render('notify/notify', {error: '此话题不存在或已被删除。'});
@@ -197,15 +192,10 @@ exports.showEdit = function (req, res, next) {
 };
 
 exports.update = function (req, res, next) {
-  if (!req.session.user) {
-    res.redirect('/');
-    return;
-  }
   var topic_id = req.params.tid;
-  if (topic_id.length !== 24) {
-    res.render('notify/notify', {error: '此话题不存在或已被删除。'});
-    return;
-  }
+  var title = req.body.title;
+  var tab = req.body.tab;
+  var content = req.body.t_content;
 
   Topic.getTopicById(topic_id, function (err, topic, tags) {
     if (!topic) {
@@ -214,11 +204,11 @@ exports.update = function (req, res, next) {
     }
 
     if (topic.author_id.equals(req.session.user._id) || req.session.user.is_admin) {
-      var title = validator.trim(req.body.title);
+      title = validator.trim(title);
       title = validator.escape(title);
-      var tab = validator.trim(req.body.tab);
+      tab = validator.trim(tab);
       tab = validator.escape(tab);
-      var content = req.body.t_content;
+      content = validator.trim(content);
 
       // 验证
       var editError;
@@ -242,8 +232,6 @@ exports.update = function (req, res, next) {
       }
 
       //保存话题
-      //删除topic_tag，标签topic_count减1
-      //保存新topic_tag
       topic.title = title;
       topic.content = content;
       topic.tab = tab;
@@ -267,23 +255,20 @@ exports.update = function (req, res, next) {
 exports.delete = function (req, res, next) {
   //删除话题, 话题作者topic_count减1
   //删除回复，回复作者reply_count减1
-  //删除topic_tag，标签topic_count减1
   //删除topic_collect，用户collect_topic_count减1
-  if (!req.session.user) {
-    return res.send({success: false, message: '无权限'});
-  }
+
   var topic_id = req.params.tid;
-  if (topic_id.length !== 24) {
-    return res.send({ success: false, error: '此话题不存在或已被删除。' });
-  }
+
   Topic.getTopic(topic_id, function (err, topic) {
     if (err) {
       return res.send({ success: false, message: err.message });
     }
-    if( !req.session.user.is_admin && !(topic.author_id.equals(req.session.user._id))){
+    if (!req.session.user.is_admin && !(topic.author_id.equals(req.session.user._id))){
+      res.status(403);
       return res.send({success: false, message: '无权限'});
     }
     if (!topic) {
+      res.status(422);
       return res.send({ success: false, message: '此话题不存在或已被删除。' });
     }
     topic.remove(function (err) {
@@ -295,6 +280,7 @@ exports.delete = function (req, res, next) {
   });
 };
 
+// 设为置顶
 exports.top = function (req, res, next) {
   var topic_id = req.params.tid;
   var is_top = req.params.is_top;
@@ -321,6 +307,7 @@ exports.top = function (req, res, next) {
   });
 };
 
+// 设为精华
 exports.good = function (req, res, next) {
   var topicId = req.params.tid;
   var isGood = req.params.is_good;

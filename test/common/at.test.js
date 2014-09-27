@@ -11,14 +11,10 @@ var rewire = require("rewire");
 var should = require('should');
 var at = require('../../common/at');
 var message = require('../../common/message');
-var createUsers = require('../support/create_test_users').createUsers;
 var mm = require('mm');
 
 describe('test/common/at.test.js', function () {
 
-  before(function (done) {
-    createUsers(done);
-  });
   afterEach(function () {
     mm.restore();
   });
