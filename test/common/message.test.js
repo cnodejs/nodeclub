@@ -7,7 +7,7 @@ var _ = require('lodash');
 var pedding = require('pedding');
 var multiline = require('multiline');
 var MessageService = require('../../common/message');
-
+var eventproxy = require('eventproxy');
 
 describe('test/common/message.test.js', function () {
   var atUser;
@@ -15,12 +15,17 @@ describe('test/common/message.test.js', function () {
   var topic;
   var reply;
   before(function (done) {
+    var ep = new eventproxy();
+
+    ep.all('topic', function (_topic) {
+      topic = _topic;
+      done();
+    });
     support.ready(function () {
       atUser = support.normalUser;
-      author = support.normalUser2;
-      topic = support.testTopic;
+      author = atUser;
       reply = {};
-      done();
+      support.createTopic(author._id, ep.done('topic'));
     });
   });
 
