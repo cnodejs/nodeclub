@@ -2,7 +2,7 @@ Nodeclub
 =
 
 [![build status][travis-image]][travis-url]
-[![Coverage Status](https://img.shields.io/coveralls/cnodejs/nodeclub.svg)](https://coveralls.io/r/cnodejs/nodeclub?branch=master)
+[![Coverage Status](https://img.shields.io/coveralls/cnodejs/nodeclub.svg?style=flat)](https://coveralls.io/r/cnodejs/nodeclub?branch=master)
 [![David deps][david-image]][david-url]
 [![node version][node-image]][node-url]
 
