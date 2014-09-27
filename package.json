@@ -40,6 +40,7 @@
     "xmlbuilder": "^2.4.4"
   },
   "devDependencies": {
+    "coveralls": "^2.11.2",
     "errorhandler": "^1.2.0",
     "istanbul": "^0.3.0",
     "mm": "*",

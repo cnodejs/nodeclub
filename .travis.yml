@@ -3,3 +3,6 @@ node_js:
   - '0.10'
 services:
   - mongodb
+
+script: make test-cov
+after_success: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
