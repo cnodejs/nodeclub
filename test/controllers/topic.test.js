@@ -122,7 +122,7 @@ describe('test/controllers/topic.test.js', function () {
     it('should update a topic', function (done) {
       request.post('/topic/' + support.testTopic._id + '/edit')
       .send({
-        title: '修改后的呵呵复呵呵',
+        title: '修改后的 topic title',
         tab: 'share',
         t_content: '修改后的木耳敲回车',
       })

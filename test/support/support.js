@@ -10,7 +10,7 @@ function randomInt() {
 
 var createUser = exports.createUser = function (callback) {
   var key = new Date().getTime() + '_' + randomInt();
-  User.newAndSave('alsotang' + key, 'alsotang' + key, 'pass', 'alsotang' + key + '@gmail.com', '', false, callback);
+  User.newAndSave('alsotang' + key, 'alsotang' + key, utility.md5('pass'), 'alsotang' + key + '@gmail.com', '', false, callback);
 };
 
 exports.createUserByNameAndPwd = function (loginname, pwd, callback) {
@@ -19,7 +19,7 @@ exports.createUserByNameAndPwd = function (loginname, pwd, callback) {
 
 var createTopic = exports.createTopic = function (authorId, callback) {
   var key = new Date().getTime() + '_' + randomInt();
-  Topic.newAndSave('title' + key, 'test topic content' + key, 'share', authorId, callback);
+  Topic.newAndSave('topic title' + key, 'test topic content' + key, 'share', authorId, callback);
 };
 
 function mockUser(user) {

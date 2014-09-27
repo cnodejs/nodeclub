@@ -82,11 +82,6 @@ exports.show_stars = function (req, res, next) {
 };
 
 exports.showSetting = function (req, res, next) {
-  if (!req.session.user) {
-    res.redirect('/');
-    return;
-  }
-
   User.getUserById(req.session.user._id, function (err, user) {
     if (err) {
       return next(err);
@@ -100,11 +95,6 @@ exports.showSetting = function (req, res, next) {
 };
 
 exports.setting = function (req, res, next) {
-  if (!req.session.user) {
-    res.redirect('/');
-    return;
-  }
-
   // 显示出错或成功信息
   function showMessage(msg, data, isSuccess) {
     data = data || req.body;
@@ -195,96 +185,14 @@ exports.setting = function (req, res, next) {
   }
 };
 
-exports.follow = function (req, res, next) {
-  var follow_id = req.body.follow_id;
-  User.getUserById(follow_id, function (err, user) {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.json({status: 'failed'});
-    }
-
-    var proxy = EventProxy.create('relation_saved', 'message_saved', function () {
-      res.json({status: 'success'});
-    });
-    proxy.fail(next);
-    Relation.getRelation(req.session.user._id, user._id, proxy.done(function (doc) {
-      if (doc) {
-        return proxy.emit('relation_saved');
-      }
-
-      // 新建关系并保存
-      Relation.newAndSave(req.session.user._id, user._id);
-      req.session.user.following_count += 1;
-      proxy.emit('relation_saved');
-
-      User.getUserById(req.session.user._id, proxy.done(function (me) {
-        me.following_count += 1;
-        me.save();
-      }));
-
-      user.follower_count += 1;
-      user.save();
-    }));
-
-    message.sendFollowMessage(follow_id, req.session.user._id);
-    proxy.emit('message_saved');
-  });
-};
-
-exports.un_follow = function (req, res, next) {
-  if (!req.session || !req.session.user) {
-    res.send('forbidden!');
-    return;
-  }
-  var follow_id = req.body.follow_id;
-  User.getUserById(follow_id, function (err, user) {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      res.json({status: 'failed'});
-      return;
-    }
-    req.session.user.following_count -= 1;
-    // 删除关系
-    Relation.remove(req.session.user._id, user._id, function (err) {
-      if (err) {
-        return next(err);
-      }
-      res.json({status: 'success'});
-    });
-
-    User.getUserById(req.session.user._id, function (err, me) {
-      if (err) {
-        return next(err);
-      }
-      me.following_count -= 1;
-      if (me.following_count < 0) {
-        me.following_count = 0;
-      }
-      me.save();
-    });
-
-    user.follower_count -= 1;
-    if (user.follower_count < 0) {
-      user.follower_count = 0;
-    }
-    user.save();
-
-  });
-};
-
 exports.toggle_star = function (req, res, next) {
-  if (!req.session.user || !req.session.user.is_admin) {
-    res.send('forbidden!');
-    return;
-  }
   var user_id = req.body.user_id;
   User.getUserById(user_id, function (err, user) {
     if (err) {
       return next(err);
+    }
+    if (!user) {
+      return next(new Error('user is not exists'));
     }
     user.is_star = !user.is_star;
     user.save(function (err) {
@@ -333,50 +241,6 @@ exports.get_collect_topics = function (req, res, next) {
       Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
         var pages = Math.ceil(all_topics_count / limit);
         proxy.emit('pages', pages);
-      }));
-    }));
-  });
-};
-
-exports.get_followings = function (req, res, next) {
-  var name = req.params.name;
-  User.getUserByLoginName(name, function (err, user) {
-    if (err || !user) {
-      return next(err);
-    }
-    Relation.getFollowings(user._id, function (err, docs) {
-      if (err) {
-        return next(err);
-      }
-      var ids = [];
-      for (var i = 0; i < docs.length; i++) {
-        ids.push(docs[i].follow_id);
-      }
-      User.getUsersByIds(ids, function (err, users) {
-        if (err) {
-          return next(err);
-        }
-        res.render('user/followings', { users: users, user: user });
-      });
-    });
-  });
-};
-
-exports.get_followers = function (req, res, next) {
-  var name = req.params.name;
-  User.getUserByLoginName(name, function (err, user) {
-    if (err || !user) {
-      return next(err);
-    }
-    var proxy = new EventProxy();
-    proxy.fail(next);
-    Relation.getRelationsByUserId(user._id, proxy.done(function (docs) {
-      var ids = [];
-      for (var i = 0; i < docs.length; i++) {
-        ids.push(docs[i].user_id);
-      }
-      User.getUsersByIds(ids, proxy.done(function (users) {
-        res.render('user/followers', {users: users, user: user});
       }));
     }));
   });
@@ -493,12 +357,16 @@ exports.list_replies = function (req, res, next) {
 
 exports.block = function (req, res, next) {
   var userName = req.params.name;
+  var action = req.body.action;
 
   var ep = EventProxy.create();
   ep.fail(next);
 
   User.getUserByLoginName(userName, ep.done(function (user) {
-    if (req.body.action === 'set_block') {
+    if (!user) {
+      return next(new Error('user is not exists'));
+    }
+    if (action === 'set_block') {
       ep.all('block_user', 'del_topics', 'del_replys',
         function (user, topics, replys) {
           res.json({status: 'success'});
@@ -506,14 +374,14 @@ exports.block = function (req, res, next) {
       user.is_block = true;
       user.save(ep.done('block_user'));
 
-      // 防止误操作
+      // 防止误操作，平时都注释
       // TopicModel.remove({author_id: user._id}, ep.done('del_topics'));
       // ReplyModel.remove({author_id: user._id}, ep.done('del_replys'));
       ep.emit('del_topics');
       ep.emit('del_replys');
-      // END 防止误操作
+      // END 防止误操作，平时都注释
 
-    } else if (req.body.action === 'cancel_block') {
+    } else if (action === 'cancel_block') {
       user.is_block = false;
       user.save(ep.done(function () {
 

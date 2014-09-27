@@ -50,22 +50,19 @@ module.exports = function (app) {
 
   // user controller
   app.get('/user/:name', user.index); // 用户个人主页
-  app.get('/setting', user.showSetting); // 用户个人设置页
-  app.post('/setting', user.setting); // 提交个人信息设置
+  app.get('/setting', auth.userRequired, user.showSetting); // 用户个人设置页
+  app.post('/setting', auth.userRequired, user.setting); // 提交个人信息设置
   app.get('/stars', user.show_stars); // 显示所有达人列表页
   app.get('/users/top100', user.top100);  // 显示积分前一百用户页
   app.get('/user/:name/collections', user.get_collect_topics);  // 用户收藏的所有话题页
-  app.get('/my/messages', message.index); // 用户个人的所有消息页
-  app.get('/user/:name/follower', user.get_followers);  // 用户的粉丝页
-  app.get('/user/:name/following', user.get_followings);  // 用户关注的对象页
   app.get('/user/:name/topics', user.list_topics);  // 用户发布的所有话题页
   app.get('/user/:name/replies', user.list_replies);  // 用户参与的所有回复页
-  app.post('/user/follow', auth.userRequired, user.follow); // 关注某用户
-  app.post('/user/un_follow', user.un_follow);  // 取消关注某用户
-  app.post('/user/set_star', user.toggle_star); // 把某用户设为达人
-  app.post('/user/cancel_star', user.toggle_star);  // 取消某用户的达人身份
+  app.post('/user/set_star', auth.adminRequired, user.toggle_star); // 把某用户设为达人
+  app.post('/user/cancel_star', auth.adminRequired, user.toggle_star);  // 取消某用户的达人身份
   app.post('/user/:name/block', auth.adminRequired, user.block);  // 禁言某用户
 
+  // message controler
+  app.get('/my/messages', auth.userRequired, message.index); // 用户个人的所有消息页
   // topic
   // 新建文章界面
   app.get('/topic/create', auth.userRequired, topic.create);

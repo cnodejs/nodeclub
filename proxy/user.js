@@ -38,12 +38,7 @@ exports.getUserByLoginName = function (loginName, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getUserById = function (id, callback) {
-  User.findOne({_id: id}, function (err, user) {
-    if (err) {
-      return callback(err);
-    }
-    callback(null, user);
-  });
+  User.findOne({_id: id}, callback);
 };
 
 /**
