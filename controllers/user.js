@@ -2,7 +2,6 @@
 var User = require('../proxy').User;
 var Topic = require('../proxy').Topic;
 var Reply = require('../proxy').Reply;
-var Relation = require('../proxy').Relation;
 var TopicCollect = require('../proxy').TopicCollect;
 var utility = require('utility');
 var util = require('util');
@@ -26,7 +25,7 @@ exports.index = function (req, res, next) {
       return;
     }
 
-    var render = function (recent_topics, recent_replies, relation) {
+    var render = function (recent_topics, recent_replies) {
       user.friendly_create_at = tools.formatDate(user.create_at, true);
       // 如果用户没有激活，那么管理员可以帮忙激活
       var token = '';
@@ -37,14 +36,13 @@ exports.index = function (req, res, next) {
         user: user,
         recent_topics: recent_topics,
         recent_replies: recent_replies,
-        relation: relation,
         token: token,
         pageTitle: util.format('@%s 的个人主页', user.loginname),
       });
     };
 
     var proxy = new EventProxy();
-    proxy.assign('recent_topics', 'recent_replies', 'relation', render);
+    proxy.assign('recent_topics', 'recent_replies', render);
     proxy.fail(next);
 
     var query = {author_id: user._id};
@@ -63,12 +61,6 @@ exports.index = function (req, res, next) {
         var opt = {limit: 5, sort: '-create_at'};
         Topic.getTopicsByQuery(query, opt, proxy.done('recent_replies'));
       }));
-
-    if (!req.session.user) {
-      proxy.emit('relation', null);
-    } else {
-      Relation.getRelation(req.session.user._id, user._id, proxy.done('relation'));
-    }
   });
 };
 
@@ -273,30 +265,23 @@ exports.list_topics = function (req, res, next) {
       return;
     }
 
-    var render = function (topics, relation, pages) {
+    var render = function (topics, pages) {
       user.friendly_create_at = tools.formatDate(user.create_at, true);
       res.render('user/topics', {
         user: user,
         topics: topics,
-        relation: relation,
         current_page: page,
         pages: pages
       });
     };
 
     var proxy = new EventProxy();
-    proxy.assign('topics', 'relation', 'pages', render);
+    proxy.assign('topics', 'pages', render);
     proxy.fail(next);
 
     var query = {'author_id': user._id};
     var opt = {skip: (page - 1) * limit, limit: limit, sort: '-create_at'};
     Topic.getTopicsByQuery(query, opt, proxy.done('topics'));
-
-    if (!req.session.user) {
-      proxy.emit('relation', null);
-    } else {
-      Relation.getRelation(req.session.user._id, user._id, proxy.done('relation'));
-    }
 
     Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
       var pages = Math.ceil(all_topics_count / limit);
@@ -316,19 +301,18 @@ exports.list_replies = function (req, res, next) {
       return;
     }
 
-    var render = function (topics, relation, pages) {
+    var render = function (topics, pages) {
       user.friendly_create_at = tools.formatDate(user.create_at, true);
       res.render('user/replies', {
         user: user,
         topics: topics,
-        relation: relation,
         current_page: page,
         pages: pages
       });
     };
 
     var proxy = new EventProxy();
-    proxy.assign('topics', 'relation', 'pages', render);
+    proxy.assign('topics', 'pages', render);
     proxy.fail(next);
 
     var opt = {skip: (page - 1) * limit, limit: limit, sort: '-create_at'};
@@ -346,12 +330,6 @@ exports.list_replies = function (req, res, next) {
       var pages = Math.ceil(count / limit);
       return pages;
     }));
-
-    if (!req.session.user) {
-      proxy.emit('relation', null);
-    } else {
-      Relation.getRelation(req.session.user._id, user._id, proxy.done('relation'));
-    }
   });
 };
 

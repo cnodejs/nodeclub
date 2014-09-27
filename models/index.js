@@ -13,12 +13,10 @@ require('./user');
 require('./topic');
 require('./reply');
 require('./topic_collect');
-require('./relation');
 require('./message');
 
 exports.User = mongoose.model('User');
 exports.Topic = mongoose.model('Topic');
 exports.Reply = mongoose.model('Reply');
 exports.TopicCollect = mongoose.model('TopicCollect');
-exports.Relation = mongoose.model('Relation');
 exports.Message = mongoose.model('Message');
