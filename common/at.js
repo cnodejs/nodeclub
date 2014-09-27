@@ -12,6 +12,7 @@
 var User = require('../proxy').User;
 var Message = require('./message');
 var EventProxy = require('eventproxy');
+var _ = require('lodash');
 
 /**
  * 从文本中提取出@username 标记的用户名数组
@@ -31,6 +32,7 @@ var fetchUsers = function (text) {
   }
   return names;
 };
+exports.fetchUsers = fetchUsers;
 
 /**
  * 根据文本内容中读取用户，并发送消息给提到的用户
@@ -46,8 +48,8 @@ exports.sendMessageToMentionUsers = function (text, topicId, authorId, reply_id,
     callback = reply_id;
     reply_id = null;
   }
-  callback = callback || function () {
-  };
+  callback = callback || _.noop;
+
   User.getUsersByNames(fetchUsers(text), function (err, users) {
     if (err || !users) {
       return callback(err);

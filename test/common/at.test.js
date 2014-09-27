@@ -1,19 +1,23 @@
-/*!
- * nodeclub - mention controller test
- * Copyright(c) 2012 fengmk2 <fengmk2@gmail.com>
- * MIT Licensed
- */
 
-/**
- * Module dependencies.
- */
-var rewire = require("rewire");
 var should = require('should');
+var mm = require('mm');
+var support = require('../support/support');
+
 var at = require('../../common/at');
 var message = require('../../common/message');
-var mm = require('mm');
+var multiline = require('multiline');
+var pedding = require('pedding');
 
 describe('test/common/at.test.js', function () {
+  var testTopic, normalUser, normalUser2;
+  before(function (done) {
+    support.ready(function () {
+      testTopic = support.testTopic;
+      normalUser = support.normalUser;
+      normalUser2 = support.normalUser2;
+      done();
+    });
+  });
 
   afterEach(function () {
     mm.restore();
@@ -28,9 +32,8 @@ describe('test/common/at.test.js', function () {
     [@testuser1](/user/testuser1)[@testuser3](/user/testuser3)\
     [@testuser2](/user/testuser2)[@testuser1](/user/testuser1)23 oh my god';
 
-  describe('fetchUsers()', function () {
-    var mentionUser = rewire('../../common/at');
-    var fetchUsers = mentionUser.__get__('fetchUsers');
+  describe('#fetchUsers()', function () {
+    var fetchUsers = at.fetchUsers;
     it('should found 6 users', function () {
       var users = fetchUsers(text);
       should.exist(users);
@@ -47,7 +50,7 @@ describe('test/common/at.test.js', function () {
     });
   });
 
-  describe('linkUsers()', function () {
+  describe('#linkUsers()', function () {
     it('should link all mention users', function (done) {
       at.linkUsers(text, function (err, text2) {
         should.not.exist(err);
@@ -59,7 +62,18 @@ describe('test/common/at.test.js', function () {
 
   describe('sendMessageToMentionUsers()', function () {
     it('should send message to all mention users', function (done) {
-      at.sendMessageToMentionUsers(text, '4fb9db9c1dc2160000000005', '4fcae41e1eb86c0000000003',
+      var count = 0;
+      var atUserIds = [normalUser._id, normalUser2._id];
+      mm(message, 'sendAtMessage',
+        function (atUserId, authorId, topicId, replyId, callback) {
+          String(atUserId).should.equal(String(atUserIds[count++]));
+          callback();
+        });
+
+      var text = '@' + normalUser.loginname + ' @' + normalUser2.loginname + ' @notexitstuser 你们好';
+      at.sendMessageToMentionUsers(text,
+        testTopic._id,
+        normalUser._id,
         function (err) {
           should.not.exist(err);
           done();
@@ -67,7 +81,10 @@ describe('test/common/at.test.js', function () {
     });
 
     it('should not send message to no mention users', function (done) {
-      at.sendMessageToMentionUsers('abc no mentions', '4fb9db9c1dc2160000000005', '4fcae41e1eb86c0000000003',
+      mm(message, 'sendAtMessage', function () {
+        throw new Error('should not call me');
+      });
+      at.sendMessageToMentionUsers('abc no mentions', testTopic._id, normalUser._id,
         function (err) {
           should.not.exist(err);
           done();
@@ -75,7 +92,7 @@ describe('test/common/at.test.js', function () {
     });
 
     describe('mock message.sendAtMessage() error', function () {
-      before(function () {
+      beforeEach(function () {
         mm(message, 'sendAtMessage', function () {
           var callback = arguments[arguments.length - 1];
           process.nextTick(function () {
@@ -84,7 +101,9 @@ describe('test/common/at.test.js', function () {
         });
       });
       it('should return error', function (done) {
-        at.sendMessageToMentionUsers(text, '4fb9db9c1dc2160000000005', '4fcae41e1eb86c0000000003',
+        var text = '@' + normalUser.loginname + ' @' + normalUser2.loginname + ' @notexitstuser 你们好';
+
+        at.sendMessageToMentionUsers(text, testTopic._id, normalUser._id,
           function (err) {
             should.exist(err);
             err.message.should.equal('mock sendAtMessage() error');

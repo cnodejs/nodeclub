@@ -46,7 +46,6 @@
     "mocha": "*",
     "nock": "^0.48.0",
     "pedding": "^1.0.0",
-    "rewire": "*",
     "should": "*",
     "supertest": "*"
   },
