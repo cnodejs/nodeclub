@@ -16,6 +16,9 @@
 }
 
 @media (max-width: 400px) {
+  .navbar {
+    max-height: 450px;
+  }
   .navbar .brand {
       float: none;
       margin: 0 auto;
