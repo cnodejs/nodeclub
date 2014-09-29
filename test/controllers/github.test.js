@@ -35,7 +35,7 @@ describe('test/controllers/github.test.js', function () {
     before(function () {
       app.get('/auth/github/test_callback',
         function (req, res, next) {
-          req.user = {id: 'notexists'};
+          req.user = {id: 'notexists', _json: {avatar_url: 'http://avatar_url'}};
           next();
         },
         github.callback);
