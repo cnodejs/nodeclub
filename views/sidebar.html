@@ -74,23 +74,24 @@
   </div>
   <% } %>
 
-  <% if (typeof(site_links) !== 'undefined') { %>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'>友情链接</span>
+      <span class='col_fade'>友情社区</span>
     </div>
     <div class='inner'>
-      <% if (site_links.length > 0) { %>
-      <ol>
-        <%site_links.forEach(function (link) {%>
-        <li><a href="<%-link.url%>"><%-link.text%></a></li>
-        <%})%>
+      <ol class="friendship-community">
+        <li>
+          <a href="https://ruby-china.org/" target="_blank">
+            <img src="<%- staticFile('/public/images/ruby-china-logo.png') %>">
+          </a>
+        </li>
+        <li>
+          <a href="http://golangtc.com/" target="_blank">
+            <img src="<%- staticFile('/public/images/golangtc-logo.png') %>">
+          </a>
+        </li>
       </ol>
-      <% } else { %>
-      <p>无</p>
-      <% } %>
     </div>
   </div>
-  <% } %>
 
 </div>

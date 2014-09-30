@@ -61,22 +61,6 @@ var config = {
     max_rss_items: 50
   },
 
-  // site links
-  site_links: [
-    {
-      'text': 'Node.js 官网',
-      'url': 'http://nodejs.org/'
-    },
-    {
-      text: 'Ruby-China',
-      url: 'https://ruby-china.org/'
-    },
-    {
-      text: 'Golang中国',
-      url: 'http://golangtc.com/'
-    },
-  ],
-
   // 邮箱配置
   mail_opts: {
     host: 'smtp.126.com',
