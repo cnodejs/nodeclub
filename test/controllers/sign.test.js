@@ -139,7 +139,7 @@ describe('test/controllers/sign.test.js', function () {
   describe('active', function () {
     it('should active account', function (done) {
       UserProxy.getUserByLoginName(loginname, function (err, user) {
-        var key = utility.md5(user.email + user.pass);
+        var key = utility.md5(user.email + user.pass + config.session_secret);
         request.get('/active_account')
         .query({
           key: key,

@@ -30,7 +30,7 @@ exports.index = function (req, res, next) {
       // 如果用户没有激活，那么管理员可以帮忙激活
       var token = '';
       if (!user.active && req.session.user && req.session.user.is_admin) {
-        token = utility.md5(user.email + user.pass);
+        token = utility.md5(user.email + user.pass + config.session_secret);
       }
       res.render('user/index', {
         user: user,

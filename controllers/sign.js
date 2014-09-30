@@ -67,7 +67,7 @@ exports.signup = function (req, res, next) {
           return next(err);
         }
         // 发送激活邮件
-        mail.sendActiveMail(email, utility.md5(email + passhash), loginname);
+        mail.sendActiveMail(email, utility.md5(email + passhash + config.session_secret), loginname);
         res.render('sign/signup', {
           success: '欢迎加入 ' + config.name + '！我们已给您的注册邮箱发送了一封邮件，请点击里面的链接来激活您的帐号。'
         });
@@ -143,7 +143,7 @@ exports.login = function (req, res, next) {
       }
       if (!user.active) {
         // 重新发送激活邮件
-        mail.sendActiveMail(user.email, utility.md5(user.email + passhash), user.loginname);
+        mail.sendActiveMail(user.email, utility.md5(user.email + passhash + config.session_secret), user.loginname);
         res.status(403);
         return res.render('sign/signin', { error: '此帐号还没有被激活，激活链接已发送到 ' + user.email + ' 邮箱，请查收。' });
       }
@@ -178,7 +178,7 @@ exports.active_account = function (req, res, next) {
       return next(err);
     }
     var passhash = user.pass;
-    if (!user || utility.md5(user.email + passhash) !== key) {
+    if (!user || utility.md5(user.email + passhash + config.session_secret) !== key) {
       return res.render('notify/notify', {error: '信息有误，帐号无法被激活。'});
     }
     if (user.active) {
