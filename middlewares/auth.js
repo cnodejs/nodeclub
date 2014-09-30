@@ -39,27 +39,11 @@ exports.blockUser = function () {
   };
 };
 
-function encrypt(str, secret) {
-  var cipher = crypto.createCipher('aes192', secret);
-  var enc = cipher.update(str, 'utf8', 'hex');
-  enc += cipher.final('hex');
-  return enc;
-}
 
-function decrypt(str, secret) {
-  try {
-    var decipher = crypto.createDecipher('aes192', secret);
-    var dec = decipher.update(str, 'hex', 'utf8');
-    dec += decipher.final('utf8');
-    return dec;
-  } catch (e) {
-    return;
-  }
-}
-// private
 function gen_session(user, res) {
-  var auth_token = encrypt(user._id + '\t' + user.loginname + '\t' + user.pass + '\t' + user.email, config.session_secret);
-  res.cookie(config.auth_cookie_name, auth_token, {path: '/', maxAge: 1000 * 60 * 60 * 24 * 30}); //cookie 有效期30天
+  var auth_token = user._id + '$$$$'; // 以后可能会存储更多信息，用 $$$$ 来分隔
+  res.cookie(config.auth_cookie_name, auth_token,
+    {path: '/', maxAge: 1000 * 60 * 60 * 24 * 30, signed: true, httpOnly: true}); //cookie 有效期30天
 }
 
 exports.gen_session = gen_session;
@@ -97,17 +81,16 @@ exports.authUser = function (req, res, next) {
   if (req.session.user) {
     ep.emit('get_user', req.session.user);
   } else {
-    var cookie = req.cookies[config.auth_cookie_name];
-    if (!cookie) {
+    var auth_token = req.signedCookies[config.auth_cookie_name];
+    if (!auth_token) {
       return next();
     }
 
-    var auth_token = decrypt(cookie, config.session_secret);
     if (!auth_token) {
-      res.cookie(config.auth_cookie_name, '');
+      res.cookie(config.auth_cookie_name, '', {signed: true});
       return res.redirect('/');
     }
-    var auth = auth_token.split('\t');
+    var auth = auth_token.split('$$$$');
     var user_id = auth[0];
     UserProxy.getUserById(user_id, ep.done('get_user'));
   }
