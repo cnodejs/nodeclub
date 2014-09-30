@@ -46,6 +46,7 @@
 
               <%});%>
             </select>
+            <span id="topic_create_warn"></span>
             <textarea autofocus class='span9' id='title' name='title' rows='1'
                       placeholder="标题字数 10 字以上"
                     ><%= typeof(title) !== 'undefined' && title || '' %></textarea>
@@ -97,5 +98,17 @@
       }
     });
     // END 版块选择的检查，必须选择
+
+    // 选择招聘版块时，给出提示
+    $('#tab-value').on('change', function () {
+      var $this = $(this);
+      var value = $this.val();
+      var warnMsg = '';
+      if (value === 'job') {
+        warnMsg = '<strong>为避免被管理员删帖，发帖时请好好阅读<a href="http://cnodejs.org/topic/541ed2d05e28155f24676a12">《招聘帖规范》</a></strong>';
+      }
+      $('#topic_create_warn').html(warnMsg);
+    });
+    // END 选择招聘版块时，给出提示
   })();
 </script>
