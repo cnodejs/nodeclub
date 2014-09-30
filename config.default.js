@@ -13,7 +13,8 @@ var config = {
   mini_assets: !debug, // 是否启用静态文件的合并压缩，详见视图中的Loader
 
   name: 'Nodeclub', // 社区名字
-  description: 'Node Club 是用 Node.js 开发的社区软件', // 社区的描述
+  description: 'CNode：Node.js专业中文社区', // 社区的描述
+  keywords: 'nodejs, node, express, connect, socket.io',
 
   // 添加到 html head 中的信息
   site_headers: [
