@@ -50,7 +50,6 @@ UserSchema.virtual('isAdvanced').get(function () {
   return this.score > 700 || this.is_star;
 });
 
-UserSchema.index({name: 1});
 UserSchema.index({loginname: 1}, {unique: true});
 UserSchema.index({email: 1}, {unique: true});
 UserSchema.index({score: -1});
