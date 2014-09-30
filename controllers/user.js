@@ -30,7 +30,7 @@ exports.index = function (req, res, next) {
       // 如果用户没有激活，那么管理员可以帮忙激活
       var token = '';
       if (!user.active && req.session.user && req.session.user.is_admin) {
-        token = utility.md5(user.email + config.session_secret);
+        token = utility.md5(user.email + user.pass);
       }
       res.render('user/index', {
         user: user,
@@ -87,6 +87,9 @@ exports.showSetting = function (req, res, next) {
 };
 
 exports.setting = function (req, res, next) {
+  var ep = new EventProxy();
+  ep.fail(next);
+
   // 显示出错或成功信息
   function showMessage(msg, data, isSuccess) {
     data = data || req.body;
@@ -124,10 +127,7 @@ exports.setting = function (req, res, next) {
     var signature = validator.trim(req.body.signature);
     signature = validator.escape(signature);
 
-    User.getUserById(req.session.user._id, function (err, user) {
-      if (err) {
-        return next(err);
-      }
+    User.getUserById(req.session.user._id, ep.done(function (user) {
       user.url = url;
       user.location = location;
       user.signature = signature;
@@ -142,8 +142,7 @@ exports.setting = function (req, res, next) {
         req.session.user = user.toObject({virtual: true});
         return res.redirect('/setting?save=success');
       });
-    });
-
+    }));
   }
   if (action === 'change_password') {
     var old_pass = validator.trim(req.body.old_pass);
@@ -152,28 +151,24 @@ exports.setting = function (req, res, next) {
       return res.send('旧密码或新密码不得为空');
     }
 
-    User.getUserById(req.session.user._id, function (err, user) {
-      if (err) {
-        return next(err);
-      }
-
-      old_pass = utility.md5(old_pass);
-
-      if (old_pass !== user.pass) {
-        return showMessage('当前密码不正确。', user);
-      }
-
-      new_pass = utility.md5(new_pass);
-
-      user.pass = new_pass;
-      user.save(function (err) {
-        if (err) {
-          return next(err);
+    User.getUserById(req.session.user._id, ep.done(function (user) {
+      tools.bcompare(old_pass, user.pass, ep.done(function (bool) {
+        if (!bool) {
+          return showMessage('当前密码不正确。', user);
         }
-        return showMessage('密码已被修改。', user, true);
 
-      });
-    });
+        tools.bhash(new_pass, ep.done(function (passhash) {
+          user.pass = passhash;
+          user.save(function (err) {
+            if (err) {
+              return next(err);
+            }
+            return showMessage('密码已被修改。', user, true);
+
+          });
+        }));
+      }));
+    }));
   }
 };
 
@@ -334,13 +329,13 @@ exports.list_replies = function (req, res, next) {
 };
 
 exports.block = function (req, res, next) {
-  var userName = req.params.name;
+  var loginname = req.params.name;
   var action = req.body.action;
 
   var ep = EventProxy.create();
   ep.fail(next);
 
-  User.getUserByLoginName(userName, ep.done(function (user) {
+  User.getUserByLoginName(loginname, ep.done(function (user) {
     if (!user) {
       return next(new Error('user is not exists'));
     }

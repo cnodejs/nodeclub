@@ -2,6 +2,8 @@
 var should = require('should');
 var mm = require('mm');
 var support = require('../support/support');
+var eventproxy = require('eventproxy');
+var _ = require('lodash');
 
 var at = require('../../common/at');
 var message = require('../../common/message');
@@ -62,11 +64,18 @@ describe('test/common/at.test.js', function () {
 
   describe('sendMessageToMentionUsers()', function () {
     it('should send message to all mention users', function (done) {
-      var count = 0;
-      var atUserIds = [normalUser._id, normalUser2._id];
+      done = pedding(done, 2);
+      var atUserIds = [String(normalUser._id), String(normalUser2._id)];
+
+      var ep  = new eventproxy();
+      ep.after('user_id', atUserIds.length, function (user_ids) {
+        user_ids.sort().should.eql(atUserIds.sort());
+        done();
+      });
       mm(message, 'sendAtMessage',
         function (atUserId, authorId, topicId, replyId, callback) {
-          String(atUserId).should.equal(String(atUserIds[count++]));
+          // String(atUserId).should.equal(String(atUserIds[count++]));
+          ep.emit('user_id', String(atUserId));
           callback();
         });
 

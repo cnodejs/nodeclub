@@ -246,7 +246,7 @@ describe('test/controllers/user.test.js', function () {
     })
 
     it('should wrong when user is not exists', function (done) {
-      request.post('/user/' + support.normalUser + '/block')
+      request.post('/user/not_exists_user/block')
       .send({
         action: 'set_block'
       })

@@ -3,6 +3,8 @@ var Models = require('../models');
 var User = Models.User;
 var utility = require('utility');
 var authMiddleWare = require('../middlewares/auth');
+var tools = require('../common/tools');
+var eventproxy = require('eventproxy');
 
 exports.callback = function (req, res, next) {
   var profile = req.user;
@@ -36,11 +38,17 @@ exports.new = function (req, res, next) {
 
 exports.create = function (req, res, next) {
   var profile = req.session.profile;
+  var isnew = req.body.isnew;
+  var loginname = String(req.body.name).toLowerCase();
+  var password = req.body.pass;
+  var ep = new eventproxy();
+  ep.fail(next);
+
   if (!profile) {
     return res.redirect('/signin');
   }
   delete req.session.profile;
-  if (req.body.isnew) { // 注册新账号
+  if (isnew) { // 注册新账号
     var user = new User({
       name: profile.username,
       loginname: profile.username,
@@ -71,24 +79,28 @@ exports.create = function (req, res, next) {
       res.redirect('/');
     });
   } else { // 关联老账号
-    req.body.name = req.body.name.toLowerCase();
-    User.findOne({loginname: req.body.name, pass: utility.md5(req.body.pass)},
-      function (err, user) {
-        if (err) {
-          return next(err);
-        }
+    ep.on('login_error', function (login_error) {
+      res.status(403);
+      res.render('sign/signin', { error: '账号名或密码错误。' });
+    });
+    User.findOne({loginname: loginname},
+      ep.done(function (user) {
         if (!user) {
-          res.status(403);
-          return res.render('sign/signin', { error: '账号名或密码错误。' });
+          return ep.emit('login_error');
         }
-        user.githubId = profile.id;
-        user.save(function (err) {
-          if (err) {
-            return next(err);
+        tools.bcompare(password, user.pass, ep.done(function (bool) {
+          if (!bool) {
+            return ep.emit('login_error');
           }
-          authMiddleWare.gen_session(user, res);
-          res.redirect('/');
-        });
-      });
+          user.githubId = profile.id;
+          user.save(function (err) {
+            if (err) {
+              return next(err);
+            }
+            authMiddleWare.gen_session(user, res);
+            res.redirect('/');
+          });
+        }));
+      }));
   }
 };

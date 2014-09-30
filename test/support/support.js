@@ -3,6 +3,7 @@ var Topic = require('../../proxy/topic');
 var ready = require('ready');
 var eventproxy = require('eventproxy');
 var utility = require('utility');
+var tools = require('../../common/tools');
 
 function randomInt() {
   return (Math.random() * 10000).toFixed(0);
@@ -10,11 +11,15 @@ function randomInt() {
 
 var createUser = exports.createUser = function (callback) {
   var key = new Date().getTime() + '_' + randomInt();
-  User.newAndSave('alsotang' + key, 'alsotang' + key, utility.md5('pass'), 'alsotang' + key + '@gmail.com', '', false, callback);
+  tools.bhash('pass', function (err, passhash) {
+    User.newAndSave('alsotang' + key, 'alsotang' + key, passhash, 'alsotang' + key + '@gmail.com', '', false, callback);
+  });
 };
 
 exports.createUserByNameAndPwd = function (loginname, pwd, callback) {
-  User.newAndSave(loginname, loginname, utility.md5(pwd), loginname + +new Date() + '@gmail.com', '', true, callback);
+  tools.bhash(pwd, function (err, passhash) {
+    User.newAndSave(loginname, loginname, passhash, loginname + +new Date() + '@gmail.com', '', true, callback);
+  });
 };
 
 var createTopic = exports.createTopic = function (authorId, callback) {

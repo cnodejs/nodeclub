@@ -9,12 +9,13 @@ var UserProxy = require('../../proxy/user');
 var mailService = require('../../common/mail');
 var pedding = require('pedding');
 var utility = require('utility');
+var tools = require('../../common/tools');
 
 describe('test/controllers/sign.test.js', function () {
-  var loginname = 'testuser' + +new Date();
-  var email = 'testuser' + +new Date() + '@gmail.com';
+  var now = +new Date();
+  var loginname = 'testuser' + now;
+  var email = 'testuser' + now + '@gmail.com';
   var pass = 'wtffffffffffff';
-  var activeKey = utility.md5(email + config.session_secret);
 
   afterEach(function () {
     mm.restore();
@@ -137,15 +138,17 @@ describe('test/controllers/sign.test.js', function () {
 
   describe('active', function () {
     it('should active account', function (done) {
-      var key = activeKey;
-      request.get('/active_account')
-      .query({
-        key: key,
-        name: loginname,
-      })
-      .expect(200, function (err, res) {
-        res.text.should.containEql('帐号已被激活，请登录');
-        done(err);
+      UserProxy.getUserByLoginName(loginname, function (err, user) {
+        var key = utility.md5(user.email + user.pass);
+        request.get('/active_account')
+        .query({
+          key: key,
+          name: loginname,
+        })
+        .expect(200, function (err, res) {
+          res.text.should.containEql('帐号已被激活，请登录');
+          done(err);
+        });
       });
     });
   });
