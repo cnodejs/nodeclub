@@ -1,7 +1,7 @@
 <div class='user_card'>
   <div>
     <% if (user.githubUsername) { %>
-        <iframe src="http://lab.lepture.com/github-cards/card.html?user=<%=user.githubUsername%>&amp;client_id=a11a1bda412d928fb39a&amp;client_secret=92b7cf30bc42c49d589a10372c3f9ff3bb310037" frameborder="0" scrolling="0" width="270" height="150" allowtransparency></iframe>
+        <iframe src="<%-staticFile('/public/github-card.html')%>?user=<%=user.githubUsername%>&amp;client_id=a11a1bda412d928fb39a&amp;client_secret=92b7cf30bc42c49d589a10372c3f9ff3bb310037" frameborder="0" scrolling="0" width="270" height="150" allowtransparency></iframe>
         <a href="/user/<%= user.loginname %>" class="pull-right"><%=user.loginname%> 的 CNode 主页 -></a>
     <% } else { %>
       <a class='user_avatar' href="/user/<%= user.loginname %>">
