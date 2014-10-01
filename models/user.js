@@ -42,7 +42,7 @@ var UserSchema = new Schema({
 
 UserSchema.virtual('avatar_url').get(function () {
   var url = this.avatar || ('//www.gravatar.com/avatar/' + utility.md5(this.email.toLowerCase()) + '?size=48');
-  if (url.indexOf('http:') !== -1) {
+  if (url.indexOf('http:') === 0) {
     url = url.slice(5);
   }
   return url;
