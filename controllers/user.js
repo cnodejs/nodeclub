@@ -100,7 +100,6 @@ exports.setting = function (req, res, next) {
       location: data.location,
       signature: data.signature,
       weibo: data.weibo,
-      githubUsername: data.github || data.githubUsername
     };
     if (isSuccess) {
       data2.success = msg;
@@ -119,11 +118,6 @@ exports.setting = function (req, res, next) {
     location = validator.escape(location);
     var weibo = validator.trim(req.body.weibo);
     weibo = validator.escape(weibo);
-    var github = validator.trim(req.body.github);
-    github = validator.escape(github);
-    if (github.indexOf('@') === 0) {
-      github = github.slice(1);
-    }
     var signature = validator.trim(req.body.signature);
     signature = validator.escape(signature);
 
@@ -134,7 +128,6 @@ exports.setting = function (req, res, next) {
       user.weibo = weibo;
       // create gravatar
       user.avatar = User.makeGravatar(user.email);
-      user.githubUsername = github;
       user.save(function (err) {
         if (err) {
           return next(err);

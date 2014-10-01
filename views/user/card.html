@@ -1,25 +1,30 @@
 <div class='user_card'>
   <div>
-    <a class='user_avatar' href="/user/<%= user.loginname %>">
-      <img src="<%= user.avatar_url %>" title="<%= user.loginname %>"/>
-    </a>
-    <span class='user_name'><a class='dark' href="/user/<%= user.loginname %>"><%= user.loginname %></a></span>
+    <% if (user.githubUsername) { %>
+        <iframe src="http://lab.lepture.com/github-cards/card.html?user=<%=user.githubUsername%>" frameborder="0" scrolling="0" width="270" height="150" allowtransparency></iframe>
+        <a href="/user/<%= user.loginname %>" class="pull-right"><%=user.loginname%> 的 CNode 主页 -></a>
+    <% } else { %>
+      <a class='user_avatar' href="/user/<%= user.loginname %>">
+        <img src="<%= user.avatar_url %>" title="<%= user.loginname %>"/>
+      </a>
+      <span class='user_name'><a class='dark' href="/user/<%= user.loginname %>"><%= user.loginname %></a></span>
 
-    <div class='board clearfix'>
-      <div class='floor'>
-        <span class='big'><%= user.score %></span> 积分
-        <div class="space"></div>
-                <span class="signature">
-                    “
-                    <% if (user.signature) {%>
-                        <%-escapeSignature(user.signature)%>
-                    <%} else {%>
-                        这家伙很懒，什么个性签名都没有留下。
-                    <%}%>
-                    ”
-                </span>
+      <div class='board clearfix'>
+        <div class='floor'>
+          <span class='big'><%= user.score %></span> 积分
+        </div>
       </div>
-    </div>
+    <%}%>
+    <div class="space clearfix"></div>
+    <span class="signature">
+        “
+        <% if (user.signature) {%>
+            <%-escapeSignature(user.signature)%>
+        <%} else {%>
+            这家伙很懒，什么个性签名都没有留下。
+        <%}%>
+        ”
+    </span>
   </div>
 </div>
 

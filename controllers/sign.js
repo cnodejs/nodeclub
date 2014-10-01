@@ -166,7 +166,7 @@ exports.login = function (req, res, next) {
 exports.signout = function (req, res, next) {
   req.session.destroy();
   res.clearCookie(config.auth_cookie_name, { path: '/' });
-  res.redirect(req.headers.referer || '/');
+  res.redirect('/');
 };
 
 exports.active_account = function (req, res, next) {

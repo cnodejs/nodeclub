@@ -43,23 +43,15 @@
           <label class='control-label' for='url'>个人网站</label>
 
           <div class='controls'>
-            <% if(typeof(url) !== 'undefined'){ %>
-            <input class='input-xlarge' id='url' name='url' size='30' type='text' value="<%= url %>"/>
-            <% }else{ %>
-            <input class='input-xlarge' id='url' name='url' size='30' type='text' value=''/>
-            <% } %>
+            <input class='input-xlarge' id='url' name='url' size='30' type='text' value="<%= typeof(url) !== 'undefined' ? url : '' %>"/>
           </div>
         </div>
         <div class='control-group'>
           <label class='control-label' for='location'>所在地点</label>
 
           <div class='controls'>
-            <% if(typeof(location) !== 'undefined'){ %>
             <input class='input-xlarge' id='location' name='location' size='30' type='text'
-                   value="<%= location %>"/>
-            <% }else{ %>
-            <input class='input-xlarge' id='location' name='location' size='30' type='text' value=''/>
-            <% } %>
+                   value="<%= typeof(location) !== 'undefined' ? location : '' %>"/>
           </div>
         </div>
 
@@ -67,38 +59,24 @@
           <label class='control-label' for='weibo'>微博</label>
 
           <div class='controls'>
-            <% if(typeof(weibo) !== 'undefined'){ %>
-            <input class='input-xlarge' id='weibo' name='weibo' size='30' type='text' value="<%= weibo %>"
+            <input class='input-xlarge' id='weibo' name='weibo' size='30' type='text' value="<%= typeof(weibo) !== 'undefined' ? weibo : '' %>"
                    placeholder="e.g. http://weibo.com/cnodejs"/>
-            <% }else{ %>
-            <input class='input-xlarge' id='weibo' name='weibo' size='30' type='text' value=''
-                   placeholder="e.g. http://weibo.com/cnodejs"/>
-            <% } %>
           </div>
         </div>
         <div class='control-group'>
           <label class='control-label' for='github'>GitHub</label>
 
           <div class='controls'>
-            <% if(typeof(githubUsername) !== 'undefined'){ %>
             <input class='input-xlarge' id='github' name='github' size='30' type='text'
-                   value="<%= githubUsername %>" placeholder="@username"/>
-            <% }else{ %>
-            <input class='input-xlarge' id='github' name='github' size='30' type='text' value=''
-                   placeholder="@username"/>
-            <% } %>
+                   value="<%= typeof(githubUsername) !== 'undefined' ? '@' + githubUsername : '' %>" placeholder="@username" readonly="readonly" />
+            <p>请通过 GitHub 登陆 CNode 来修改此处</p>
           </div>
         </div>
         <div class='control-group'>
           <label class='control-label' for='signature'>个性签名</label>
 
           <div class='controls'>
-            <% if(typeof(signature) !== 'undefined'){ %>
-            <textarea class='input-xlarge' id='signature' name='signature' size='30'><%= signature
-              %></textarea>
-            <% }else{ %>
-            <textarea class='input-xlarge' id='signature' name='signature' size='30'></textarea>
-            <% } %>
+            <textarea class='input-xlarge' id='signature' name='signature' size='30'><%= typeof(signature) !== 'undefined' ? signature : "" %></textarea>
           </div>
         </div>
         <input type='hidden' id='action' name='action' value='change_setting'/>
