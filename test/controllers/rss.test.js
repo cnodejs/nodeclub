@@ -18,7 +18,7 @@ describe('test/controllers/rss.test.js', function () {
     it('should return `application/xml` Content-Type', function (done) {
       request(app).get('/rss').end(function (err, res) {
         res.status.should.equal(200);
-        res.headers.should.property('content-type', 'application/xml');
+        res.headers.should.property('content-type', 'application/xml; charset=utf-8');
         res.text.indexOf('<?xml version="1.0" encoding="utf-8"?>').should.equal(0);
         res.text.should.containEql('<rss version="2.0">');
         res.text.should.containEql('<channel><title>' + config.rss.title + '</title>');

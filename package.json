@@ -18,7 +18,7 @@
     "data2xml": "0.8.0",
     "ejs-mate": "2.0.0",
     "eventproxy": "0.3.1",
-    "express": "~4.1.1",
+    "express": "4.9.5",
     "express-session": "^1.0.4",
     "loader": "0.1.4",
     "lodash": "^2.4.1",
