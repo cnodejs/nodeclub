@@ -127,7 +127,7 @@ if (config.debug) {
   app.use(errorhandler());
 } else {
   app.use(function (err, req, res, next) {
-    return res.send(500, '500 status');
+    return res.status(500).send('500 status');
   });
 }
 

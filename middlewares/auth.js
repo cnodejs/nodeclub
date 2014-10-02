@@ -25,7 +25,7 @@ exports.adminRequired = function (req, res, next) {
  */
 exports.userRequired = function (req, res, next) {
   if (!req.session || !req.session.user) {
-    return res.send(403, 'forbidden!');
+    return res.status(403).send('forbidden!');
   }
   next();
 };
@@ -33,7 +33,7 @@ exports.userRequired = function (req, res, next) {
 exports.blockUser = function () {
   return function (req, res, next) {
     if (req.session.user && req.session.user.is_block && req.method !== 'GET') {
-      return res.send(403, '您已被管理员屏蔽了。有疑问请联系 @alsotang。');
+      return res.status(403).send('您已被管理员屏蔽了。有疑问请联系 @alsotang。');
     }
     next();
   };
