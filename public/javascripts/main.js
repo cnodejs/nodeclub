@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
   $('#search_form').submit(function (e) {
     //e.preventDefault();
     search();
