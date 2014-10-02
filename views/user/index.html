@@ -56,23 +56,26 @@
       <p class='col_fade'>注册时间 <%= user.friendly_create_at %></p>
       <% if (typeof(current_user) !== 'undefined' && current_user.is_admin) { %>
       <% if (!user.is_star) { %>
-      <button class='btn' id='set_star_btn' action='set_star'>设为达人</button>
+      <span class='span-common' id='set_star_btn' action='set_star'>设为达人</span>
       <% } else { %>
-      <button class='btn' id='set_star_btn' action='cancel_star'>取消达人</button>
+      <span class='span-common' id='set_star_btn' action='cancel_star'>取消达人</span>
       <% } %>
 
       <% if (!user.is_block) { %>
-      <button class='btn' id='set_block_btn' action='set_block'>屏蔽用户并删其所有帖</button>
+      <span class='span-common' id='set_block_btn' action='set_block'>屏蔽用户并删其所有帖</span>
       <% } else { %>
-      <button class='btn' id='set_block_btn' action='cancel_block'>取消屏蔽用户</button>
+      <span class='span-common' id='set_block_btn' action='cancel_block'>取消屏蔽用户</span>
       <% } %>
 
       <br/><br/>
       Email (Seen by Administrator): <a href="mailto:<%= user.email %>"><%= user.email %></a>
       <% if (!user.active) { %>
-      <a class='btn'
-         href="/active_account?key=<%- typeof(token) !== 'undefined' && token %>&name=<%= user.loginname %>"
-         target="_blank">激活账号</a>
+      <a href="/active_account?key=<%- typeof(token) !== 'undefined' && token %>&name=<%= user.loginname %>"
+         target="_blank">
+         <span class="span-common">
+           激活账号
+         </span>
+       </a>
       <% } %>
       <% } %>
     </div>
