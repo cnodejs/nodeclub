@@ -18,6 +18,14 @@ describe('test/controllers/static.test.js', function () {
       });
   });
 
+  it('should get /getstart', function (done) {
+    request.get('/getstart').expect(200)
+    .end(function (err, res) {
+      res.text.should.containEql('Node.js 新手入门');
+      done(err);
+    });
+  });
+
   it('should get /robots.txt', function (done) {
     request.get('/robots.txt').expect(200)
       .end(function (err, res) {

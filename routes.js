@@ -15,7 +15,7 @@ var message = require('./controllers/message');
 var topic = require('./controllers/topic');
 var reply = require('./controllers/reply');
 var rss = require('./controllers/rss');
-var assets = require('./controllers/static');
+var staticController  = require('./controllers/static');
 var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
 var github = require('./controllers/github');
@@ -95,9 +95,10 @@ module.exports = function (app) {
   app.post('/upload', auth.userRequired, topic.upload); //上传图片
 
   // static
-  app.get('/about', assets.about);
-  app.get('/faq', assets.faq);
-  app.get('/robots.txt', assets.robots);
+  app.get('/about', staticController.about);
+  app.get('/faq', staticController.faq);
+  app.get('/getstart', staticController.getstart);
+  app.get('/robots.txt', staticController.robots);
 
   //rss
   app.get('/rss', rss.index);

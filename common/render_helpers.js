@@ -14,6 +14,7 @@ var marked = require('marked');
 var _ = require('lodash');
 var config = require('../config');
 var validator = require('validator');
+var multiline = require('multiline');
 
 // Set default options
 var renderer = new marked.Renderer();
@@ -40,6 +41,8 @@ marked.setOptions({
 exports.markdown = function (text) {
   return '<div class="markdown-text">' + marked(text || '') + '</div>';
 };
+
+exports.multiline = multiline;
 
 exports.escapeSignature = function (signature) {
   return signature.split('\n').map(function (p) {
