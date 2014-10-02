@@ -12,11 +12,12 @@ var Reply = require('../proxy').Reply;
 var config = require('../config');
 
 /**
- * 添加一级回复
+ * 添加回复
  */
 exports.add = function (req, res, next) {
   var content = req.body.r_content;
   var topic_id = req.params.topic_id;
+  var reply_id = req.body.reply_id;
 
   var str = validator.trim(content);
   if (str === '') {
@@ -37,12 +38,17 @@ exports.add = function (req, res, next) {
     ep.emit('topic', topic);
   }));
 
-  ep.on('topic', function (topic) {
-    Reply.newAndSave(content, topic_id, req.session.user._id, ep.done(function (reply) {
+  ep.all('topic', function (topic) {
+    User.getUserById(topic.author_id, ep.done('topic_author'));
+  });
+
+  ep.all('topic', 'topic_author', function (topic, topicAuthor) {
+    Reply.newAndSave(content, topic_id, req.session.user._id, reply_id, ep.done(function (reply) {
       Topic.updateLastReply(topic_id, reply._id, ep.done(function () {
         ep.emit('reply_saved', reply);
-        //发送at消息
-        at.sendMessageToMentionUsers(content, topic_id, req.session.user._id, reply._id);
+        //发送at消息，并防止重复 at 作者
+        var newContent = content.replace('@' + topicAuthor.loginname + ' ', '');
+        at.sendMessageToMentionUsers(newContent, topic_id, req.session.user._id, reply._id);
       }));
     }));
 
@@ -64,47 +70,6 @@ exports.add = function (req, res, next) {
 
   ep.all('reply_saved', 'message_saved', 'score_saved', function (reply) {
     res.redirect('/topic/' + topic_id + '#' + reply._id);
-  });
-};
-
-/**
- * 添加二级回复
- */
-exports.add_reply2 = function (req, res, next) {
-  var topic_id = req.params.topic_id;
-  var reply_id = req.body.reply_id;
-  var content = req.body.r2_content;
-
-  var str = validator.trim(content);
-  if (str === '') {
-    res.status(422);
-    res.render('notify/notify', {
-      error: '内容不可为空',
-    });
-    return;
-  }
-
-  var proxy = new EventProxy();
-  proxy.assign('reply_saved', function (reply) {
-    Reply.getReplyById(reply._id, function (err, reply) {
-      res.redirect('/topic/' + topic_id + '#' + reply._id);
-    });
-  });
-
-  // 创建一条回复，并保存
-  Reply.newAndSave(content, topic_id, req.session.user._id, reply_id, function (err, reply) {
-    if (err) {
-      return next(err);
-    }
-    // 更新主题的最后回复信息
-    Topic.updateLastReply(topic_id, reply._id, function (err) {
-      if (err) {
-        return next(err);
-      }
-      proxy.emit('reply_saved', reply);
-      //发送at消息
-      at.sendMessageToMentionUsers(content, topic_id, req.session.user._id, reply._id);
-    });
   });
 };
 

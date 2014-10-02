@@ -47,18 +47,15 @@
   </div>
   <div class='clearfix'>
     <div class='reply2_area'>
-      <% if (reply.replies && reply.replies.length >0) { %>
-      <%- partial('../reply/reply2',{collection: reply.replies, as: 'reply2'}) %>
-      <% } %>
       <% if (typeof(current_user) !== 'undefined') { %>
-      <form class='reply2_form' action='/<%= topic._id %>/reply2' method='post'>
+      <form class='reply2_form' action='/<%= topic._id %>/reply' method='post'>
         <input type='hidden' name='_csrf' value='<%= csrf %>'/>
         <input type='hidden' name='reply_id' value='<%= reply._id %>'/>
 
         <div class='markdown_editor in_editor'>
           <div class='markdown_in_editor'>
             <textarea class='span8 editor reply_editor'
-                      id="reply2_editor_<%= reply._id %>" name='r2_content' rows='4'></textarea>
+                      id="reply2_editor_<%= reply._id %>" name='r_content' rows='4'></textarea>
 
             <div class='editor_buttons'>
               <input class='span-primary reply2_submit_btn submit_btn'

@@ -88,7 +88,6 @@ module.exports = function (app) {
 
   // reply controller
   app.post('/:topic_id/reply', auth.userRequired, limit.postInterval, reply.add); // 提交一级回复
-  app.post('/:topic_id/reply2', auth.userRequired, limit.postInterval, reply.add_reply2); // 提交二级回复
   app.get('/reply/:reply_id/edit', auth.userRequired, reply.showEdit); // 修改自己的评论页
   app.post('/reply/:reply_id/edit', auth.userRequired, reply.update); // 修改某评论
   app.post('/reply/:reply_id/delete', auth.userRequired, reply.delete); // 删除某评论

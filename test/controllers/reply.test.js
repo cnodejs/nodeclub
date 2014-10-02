@@ -50,35 +50,6 @@ describe('test/controllers/reply.test.js', function () {
     });
   });
 
-  describe('reply2', function () {
-    it('should add reply2', function (done) {
-      var topic = support.testTopic;
-      request.post('/' + topic._id + '/reply2')
-      .set('Cookie', support.normalUserCookie)
-      .send({
-        r2_content: 'test reply 2',
-        reply_id: reply1Id,
-      })
-      .expect(302)
-      .end(function (err, res) {
-        res.headers['location'].should.match(new RegExp('/topic/' + topic.id + '#\\w+'));
-        done();
-      });
-    });
-
-    it('should 422 when add a empty reply2', function (done) {
-      var topic = support.testTopic;
-      request.post('/' + topic._id + '/reply')
-      .set('Cookie', support.normalUserCookie)
-      .send({
-        r2_content: '',
-        reply_id: reply1Id,
-      })
-      .expect(422)
-      .end(done);
-    });
-  });
-
   describe('edit reply', function () {
     it('should not show edit page when not author', function (done) {
       request.get('/reply/' + reply1Id + '/edit')

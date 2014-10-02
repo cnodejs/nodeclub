@@ -41,6 +41,7 @@ exports.fetchUsers = fetchUsers;
  * @param {String} text 文本内容
  * @param {String} topicId 主题ID
  * @param {String} authorId 作者ID
+ * @param {String} reply_id 回复ID
  * @param {Function} callback 回调函数
  */
 exports.sendMessageToMentionUsers = function (text, topicId, authorId, reply_id, callback) {
