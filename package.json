@@ -32,7 +32,7 @@
     "nodemailer": "0.3.43",
     "passport": "~0.1.17",
     "passport-github": "~0.1.5",
-    "pm2": "^0.8.1",
+    "pm2": "^0.10.8",
     "qn": "^1.0.0",
     "ready": "^0.1.1",
     "response-time": "^2.0.1",
