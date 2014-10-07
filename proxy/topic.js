@@ -169,6 +169,7 @@ exports.updateLastReply = function (topicId, replyId, callback) {
     topic.last_reply = replyId;
     topic.last_reply_at = new Date();
     topic.reply_count += 1;
+    topic.increment();
     topic.save(callback);
   });
 };
@@ -198,6 +199,7 @@ exports.reduceCount = function (id, callback) {
     }
 
     topic.reply_count -= 1;
+    topic.increment();
     topic.save(callback);
   });
 };
@@ -208,5 +210,6 @@ exports.newAndSave = function (title, content, tab, authorId, callback) {
   topic.content = content;
   topic.tab = tab;
   topic.author_id = authorId;
+  topic.increment();
   topic.save(callback);
 };
