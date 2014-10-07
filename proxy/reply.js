@@ -120,6 +120,8 @@ exports.newAndSave = function (content, topicId, authorId, replyId, callback) {
   if (replyId) {
     reply.reply_id = replyId;
   }
+
+  reply.increment();
   reply.save(function (err) {
     callback(err, reply);
   });
