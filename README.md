@@ -30,7 +30,7 @@ Nodeclub 是使用 **Node.js** 和 **MongoDB** 开发的社区系统，界面优
 7. done!
 ```
 
-## 贡献
+## 其他
 
 跑测试
 
