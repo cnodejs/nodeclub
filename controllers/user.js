@@ -343,10 +343,10 @@ exports.block = function (req, res, next) {
       user.save(ep.done('block_user'));
 
       // 防止误操作，平时都注释
-      // TopicModel.remove({author_id: user._id}, ep.done('del_topics'));
-      // ReplyModel.remove({author_id: user._id}, ep.done('del_replys'));
-      ep.emit('del_topics');
-      ep.emit('del_replys');
+      TopicModel.remove({author_id: user._id}, ep.done('del_topics'));
+      ReplyModel.remove({author_id: user._id}, ep.done('del_replys'));
+      // ep.emit('del_topics');
+      // ep.emit('del_replys');
       // END 防止误操作，平时都注释
 
     } else if (action === 'cancel_block') {
