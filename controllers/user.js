@@ -5,8 +5,8 @@ var Reply = require('../proxy').Reply;
 var TopicCollect = require('../proxy').TopicCollect;
 var utility = require('utility');
 var util = require('util');
-var TopicModel = require('../models/topic');
-var ReplyModel = require('../models/reply');
+var TopicModel = require('../models').Topic;
+var ReplyModel = require('../models').Reply;
 
 var message = require('../common/message');
 var tools = require('../common/tools');
