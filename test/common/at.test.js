@@ -34,7 +34,7 @@ describe('test/common/at.test.js', function () {
     Text 中文@begin_with_no_spaces
     @end_with_no_space@begin_with_no_spaces
 
-    jysperm@gmail.com
+    jysperm@gmail.com @alsotang
 
     @
     @@
@@ -52,36 +52,36 @@ describe('test/common/at.test.js', function () {
     ```
   */});
 
-  var matched_users = ['A-aZ-z0-9_', 'begin_with_spaces', 'multi_in_oneline', 'around_text', 'end_with_no_space', 'begin_with_no_spaces', 'end_with_no_space', 'begin_with_no_spaces'];
+  var matched_users = ['A-aZ-z0-9_', 'begin_with_spaces', 'multi_in_oneline', 'around_text', 'end_with_no_space', 'begin_with_no_spaces', 'end_with_no_space', 'begin_with_no_spaces', 'alsotang'];
 
   var linkedText = multiline.stripIndent(function(){/*
-     [@A-aZ-z0-9_](/user/A-aZ-z0-9_)
-     @中文
-       [@begin_with_spaces](/user/begin_with_spaces) [@multi_in_oneline](/user/multi_in_oneline)
-     Text More Text [@around_text](/user/around_text) ![Pic](/public/images/cnode_icon_32.png)
-     [@end_with_no_space](/user/end_with_no_space)中文
-     Text 中文@begin_with_no_spaces
-     [@end_with_no_space](/user/end_with_no_space)@begin_with_no_spaces
+[@A-aZ-z0-9_](/user/A-aZ-z0-9_)
+@中文
+  [@begin_with_spaces](/user/begin_with_spaces) [@multi_in_oneline](/user/multi_in_oneline)
+Text More Text [@around_text](/user/around_text) ![Pic](/public/images/cnode_icon_32.png)
+[@end_with_no_space](/user/end_with_no_space)中文
+Text 中文[@begin_with_no_spaces](/user/begin_with_no_spaces)
+[@end_with_no_space](/user/end_with_no_space)[@begin_with_no_spaces](/user/begin_with_no_spaces)
 
-     jysperm@gmail.com
+jysperm@gmail.com [@alsotang](/user/alsotang)
 
-     @
-     @@
+@
+@@
 
-     `@code_begin_with_no_space`
-     code: `@in_code`
+`@code_begin_with_no_space`
+code: `@in_code`
 
-         @in_pre
+    @in_pre
 
-     ``` @in_oneline_pre ```
+``` @in_oneline_pre ```
 
-     ```
-       Some Code
-       Code @in_multi_line_pre
-     ```
+```
+  Some Code
+  Code @in_multi_line_pre
+```
   */});
 
-  describe.only('#fetchUsers()', function () {
+  describe('#fetchUsers()', function () {
     var fetchUsers = at.fetchUsers;
     it('should found 6 users', function () {
       var users = fetchUsers(text);
