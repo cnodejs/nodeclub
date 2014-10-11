@@ -52,7 +52,7 @@ describe('test/common/at.test.js', function () {
     ```
   */});
 
-  var matched_users = ['A-aZ-z0-9_', 'begin_with_spaces', 'multi_in_oneline', 'around_text', 'end_with_no_space', 'end_with_no_space'];
+  var matched_users = ['A-aZ-z0-9_', 'begin_with_spaces', 'multi_in_oneline', 'around_text', 'end_with_no_space', 'begin_with_no_spaces', 'end_with_no_space', 'begin_with_no_spaces'];
 
   var linkedText = multiline.stripIndent(function(){/*
      [@A-aZ-z0-9_](/user/A-aZ-z0-9_)
@@ -81,7 +81,7 @@ describe('test/common/at.test.js', function () {
      ```
   */});
 
-  describe('#fetchUsers()', function () {
+  describe.only('#fetchUsers()', function () {
     var fetchUsers = at.fetchUsers;
     it('should found 6 users', function () {
       var users = fetchUsers(text);
