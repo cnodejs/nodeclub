@@ -20,21 +20,19 @@ var _ = require('lodash');
  * @return {Array} 用户名数组
  */
 var fetchUsers = function (text) {
-  var ignore_regexs = [/`[^`]+`/, /```[^(```)]+```/, /^    .*/];
+  var ignore_regexs = [/```[\s\S]*```/gm, /[^`]`[^`]+?`/g, /^    .*/gm];
 
   ignore_regexs.forEach(function(ignore_regex) {
-    while (text.match(ignore_regex)) {
-      text = text.replace(ignore_regex, '');
-    }
+    text = text.replace(ignore_regex, '');
   });
 
-  var results = text.match(/@[a-zA-Z0-9\-_]+/ig);
+  var results = text.match(/(^| )@[a-z0-9\-_]+/igm);
   var names = [];
   if (results) {
     for (var i = 0, l = results.length; i < l; i++) {
       var s = results[i];
       //remove char @
-      s = s.slice(1);
+      s = s.replace(/ ?@/, '');
       names.push(s);
     }
   }
