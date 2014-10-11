@@ -20,11 +20,13 @@ var _ = require('lodash');
  * @return {Array} 用户名数组
  */
 var fetchUsers = function (text) {
-  var ignore_regex = /`[^`]+`/;
+  var ignore_regexs = [/`[^`]+`/, /```[^(```)]+```/, /^    .*/];
 
-  while (text.match(ignore_regex)) {
-    text = text.replace(ignore_regex, '');
-  }
+  ignore_regexs.forEach(function(ignore_regex) {
+    while (text.match(ignore_regex)) {
+      text = text.replace(ignore_regex, '');
+    }
+  });
 
   var results = text.match(/@[a-zA-Z0-9\-_]+/ig);
   var names = [];
