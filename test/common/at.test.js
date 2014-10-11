@@ -32,9 +32,17 @@ describe('test/common/at.test.js', function () {
     Text More Text @around_text ![Pic](/public/images/cnode_icon_32.png)
     @end_with_no_space中文
     Text 中文@begin_with_no_spaces
-    @end_with_no_space@begin_with_no_spaces
+    @end_with_no_space2@begin_with_no_spaces2
 
     jysperm@gmail.com @alsotang
+
+    @alsotang2
+
+
+    ```
+    呵呵 ```
+    @alsotang3
+    ```
 
     @
     @@
@@ -44,7 +52,9 @@ describe('test/common/at.test.js', function () {
 
         @in_pre
 
-    ``` @in_oneline_pre ```
+    ```
+    @in_oneline_pre
+    ```
 
     ```
       Some Code
@@ -52,7 +62,7 @@ describe('test/common/at.test.js', function () {
     ```
   */});
 
-  var matched_users = ['A-aZ-z0-9_', 'begin_with_spaces', 'multi_in_oneline', 'around_text', 'end_with_no_space', 'begin_with_no_spaces', 'end_with_no_space', 'begin_with_no_spaces', 'alsotang'];
+  var matched_users = ['A-aZ-z0-9_', 'begin_with_spaces', 'multi_in_oneline', 'around_text', 'end_with_no_space', 'begin_with_no_spaces', 'end_with_no_space2', 'begin_with_no_spaces2', 'alsotang', 'alsotang2'];
 
   var linkedText = multiline.stripIndent(function(){/*
 [@A-aZ-z0-9_](/user/A-aZ-z0-9_)
@@ -61,9 +71,17 @@ describe('test/common/at.test.js', function () {
 Text More Text [@around_text](/user/around_text) ![Pic](/public/images/cnode_icon_32.png)
 [@end_with_no_space](/user/end_with_no_space)中文
 Text 中文[@begin_with_no_spaces](/user/begin_with_no_spaces)
-[@end_with_no_space](/user/end_with_no_space)[@begin_with_no_spaces](/user/begin_with_no_spaces)
+[@end_with_no_space2](/user/end_with_no_space2)[@begin_with_no_spaces2](/user/begin_with_no_spaces2)
 
 jysperm@gmail.com [@alsotang](/user/alsotang)
+
+[@alsotang2](/user/alsotang2)
+
+
+```
+呵呵 ```
+@alsotang3
+```
 
 @
 @@
@@ -73,7 +91,9 @@ code: `@in_code`
 
     @in_pre
 
-``` @in_oneline_pre ```
+```
+@in_oneline_pre
+```
 
 ```
   Some Code
