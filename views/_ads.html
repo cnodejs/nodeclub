@@ -21,15 +21,27 @@
 
     <div class="sep10"></div>
 
-    <a href="https://portal.qiniu.com/contest/demo2014" target="_blank" class="banner sponsor_outlink" data-label="qiniu">
-      <img src="<%- staticFile('/public/images/qiniu_ad.png') %>">
-    </a>
-
-    <div class="sep10"></div>
-
     <a href="https://worktile.com?hmsr=https%3A%2F%2Fcnodejs.org%2F&hmmd=%E5%9B%BE%E7%89%87%E5%B9%BF%E5%91%8A&hmpl=&hmkw=&hmci=" target="_blank" class="banner sponsor_outlink" data-label="worktile">
       <img src="<%- staticFile('/public/images/worktile.jpg') %>">
     </a>
 
+    <div class="sep10"></div>
+
+    <%
+      var codingLogos = [
+        staticFile('/public/images/coding-net-logo-1.jpg'),
+        staticFile('/public/images/coding-net-logo-2.jpg'),
+        staticFile('/public/images/coding-net-logo-3.jpg'),
+        staticFile('/public/images/coding-net-logo-4.jpg'),
+      ];
+      var codingIdx = new Date().getDay() % 4;
+      var codingImg = codingLogos[codingIdx];
+      var codingHref = codingIdx === 3
+        ? 'https://coding.net/u/desperatecat/p/recommended-projects/topic/4660?hmsr=nodejs&hmmd=&hmpl=&hmkw=&hmci='
+        : 'https://coding.net/?hmsr=nodejs&hmmd=%E5%9B%BE%E7%89%87%E5%B9%BF%E5%91%8A&hmpl=&hmkw=&hmci=';
+    %>
+    <a href="<%-codingHref%>" target="_blank" class="banner sponsor_outlink" data-label="coding-net">
+      <img src="<%- codingImg %>">
+    </a>
   </div>
 </div>
