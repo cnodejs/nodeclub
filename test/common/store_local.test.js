@@ -10,10 +10,12 @@ describe('test/common/store_local.test.js', function () {
     storeLocal.upload(file, {filename: filename}, function (err, data) {
       var newFilename = data.url.match(/([^\/]+\.js)$/)[1];
       var newFilePath = path.join(config.upload.path, newFilename);
-      fs.existsSync(newFilePath)
-        .should.ok;
-      fs.unlinkSync(newFilePath);
-      done(err);
+      setTimeout(function () {
+        fs.existsSync(newFilePath)
+          .should.ok;
+        fs.unlinkSync(newFilePath);
+        done(err);
+      }, 200);
     });
   });
 });
