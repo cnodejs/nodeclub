@@ -48,13 +48,13 @@
   <div class='inner ads'>
 
     <% ads.forEach(function (adObj, idx) { %>
+      <% if (idx !== 0) { %>
+        <div class="sep10"></div>
+      <% } %>
       <a href="<%-adObj.href%>" target="_blank" class="banner sponsor_outlink"
     data-label="<%=adObj.label%>">
         <img src="<%- staticFile(adObj.img_src) %>">
       </a>
-      <% if (idx !== 0) { %>
-        <div class="sep10"></div>
-      <% } %>
     <% }) %>
   </div>
 </div>
