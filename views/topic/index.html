@@ -412,6 +412,9 @@
           var mainOffset = $('#main').offset();
           $repliesHistory.css('left', offset.left-mainOffset.left+width+10); // magic number
           $repliesHistory.css('top', offset.top-mainOffset.top-10); // magic number
+          $repliesHistory.css({
+            'z-index': 1,
+          });
           $repliesHistoryContent.empty();
           var chats = [];
           var replyToId = $this.closest('.reply_item').attr('reply_to_id');
