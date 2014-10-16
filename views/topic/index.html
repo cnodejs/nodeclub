@@ -215,21 +215,25 @@
       //绑定editor
       $(this).data('editor', editor);
 
-      var $input = $(editor.codemirror.display.input).keydown(function(event){
+      var $input = $(editor.codemirror.display.input);
+      $input.keydown(function(event){
         if (event.keyCode === 13 && (event.ctrlKey || event.metaKey)) {
           event.preventDefault();
           $el.closest('form').submit();
         }
       });
       var isAtInserted = false;
+      var insertName;
       $input.atwho({
         at: '@',
         data: allNames
-      }).on("inserted.atwho", function() {
+      }).on("inserted.atwho", function(e, $li) {
         isAtInserted = true;
+        insertName = $li.data('value');
       });
+
       editor.codemirror.on('update', function(){
-        if(isAtInserted === false){
+        if (isAtInserted === false) {
           return false;
         }
         isAtInserted = false;
@@ -238,22 +242,13 @@
         editor.codemirror.removeLine(line);
         line--;
         var txt = editor.codemirror.getLine(line);
-        var lastLen = txt.length;
-        var pre = [];
-        for(var i=txt.length-1; i >= 0; i--){
-          if(txt[i] === '@'){
-            lastLen = i;
-            break;
-          }
-          else{
-            pre.push(txt[i]);
-          }
-        }
-        pre.reverse();
-        if(-1 !== name.indexOf(pre.join(''))){
-          txt = txt.substring(0, lastLen + 1);
-        }
-        editor.codemirror.setLine(line, txt + name);
+        // 找到最后一个 at
+        var lastAt = txt.search(/@(?!.*@)/);
+
+        // 去掉最后一个 at 后面的所有，包括 at 自身
+        txt = txt.slice(0, lastAt);
+
+        editor.codemirror.setLine(line, txt + insertName + ' ');
       });
 
     });
