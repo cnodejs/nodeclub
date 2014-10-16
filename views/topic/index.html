@@ -244,11 +244,12 @@
         var txt = editor.codemirror.getLine(line);
         // 找到最后一个 at
         var lastAt = txt.search(/@(?!.*@)/);
+        var spaceAfterLastAt = name.search(/\s/);
 
-        // 去掉最后一个 at 后面的所有，包括 at 自身
+        // 去掉最后一个 at 后面的所有，直到遇到第一个 \s，包括 at 自身
         txt = txt.slice(0, lastAt);
 
-        editor.codemirror.setLine(line, txt + insertName + ' ');
+        editor.codemirror.setLine(line, txt + insertName + ' ' + name.slice(spaceAfterLastAt));
       });
 
     });
