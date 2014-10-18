@@ -1,50 +1,54 @@
-//@ sourceMappingURL=jquery.caret.map
 /*
- Implement Github like autocomplete mentions
- http://ichord.github.com/At.js
+  Implement Github like autocomplete mentions
+  http://ichord.github.com/At.js
 
- Copyright (c) 2013 chord.luo@gmail.com
- Licensed under the MIT license.
- */
+  Copyright (c) 2013 chord.luo@gmail.com
+  Licensed under the MIT license.
+*/
 
 
 /*
- 本插件操作 textarea 或者 input 内的插入符
- 只实现了获得插入符在文本框中的位置，我设置
- 插入符的位置.
- */
+本插件操作 textarea 或者 input 内的插入符
+只实现了获得插入符在文本框中的位置，我设置
+插入符的位置.
+*/
 
 
-(function () {
-  (function (factory) {
+(function() {
+  (function(factory) {
     if (typeof define === 'function' && define.amd) {
       return define(['jquery'], factory);
     } else {
       return factory(window.jQuery);
     }
-  })(function ($) {
+  })(function($) {
     "use strict";
-    var EditableCaret, InputCaret, Mirror, Utils, configure, methods, oDocument, oFrame, oWindow, pluginName, setContextBy;
+    var EditableCaret, InputCaret, Mirror, Utils, discoveryIframeOf, methods, oDocument, oFrame, oWindow, pluginName, setContextBy;
     pluginName = 'caret';
-    EditableCaret = (function () {
+    EditableCaret = (function() {
       function EditableCaret($inputor) {
         this.$inputor = $inputor;
         this.domInputor = this.$inputor[0];
       }
 
-      EditableCaret.prototype.setPos = function (pos) {
+      EditableCaret.prototype.setPos = function(pos) {
         return this.domInputor;
       };
 
-      EditableCaret.prototype.getIEPosition = function () {
-        return $.noop();
+      EditableCaret.prototype.getIEPosition = function() {
+        return this.getPosition();
       };
 
-      EditableCaret.prototype.getPosition = function () {
-        return $.noop();
+      EditableCaret.prototype.getPosition = function() {
+        var inputor_offset, offset;
+        offset = this.getOffset();
+        inputor_offset = this.$inputor.offset();
+        offset.left -= inputor_offset.left;
+        offset.top -= inputor_offset.top;
+        return offset;
       };
 
-      EditableCaret.prototype.getOldIEPos = function () {
+      EditableCaret.prototype.getOldIEPos = function() {
         var preCaretTextRange, textRange;
         textRange = oDocument.selection.createRange();
         preCaretTextRange = oDocument.body.createTextRange();
@@ -53,7 +57,7 @@
         return preCaretTextRange.text.length;
       };
 
-      EditableCaret.prototype.getPos = function () {
+      EditableCaret.prototype.getPos = function() {
         var clonedRange, pos, range;
         if (range = this.range()) {
           clonedRange = range.cloneRange();
@@ -67,7 +71,7 @@
         }
       };
 
-      EditableCaret.prototype.getOldIEOffset = function () {
+      EditableCaret.prototype.getOldIEOffset = function() {
         var range, rect;
         range = oDocument.selection.createRange().duplicate();
         range.moveStart("character", -1);
@@ -79,7 +83,7 @@
         };
       };
 
-      EditableCaret.prototype.getOffset = function (pos) {
+      EditableCaret.prototype.getOffset = function(pos) {
         var clonedRange, offset, range, rect;
         if (oWindow.getSelection && (range = this.range())) {
           if (range.endOffset - 1 < 0) {
@@ -98,14 +102,14 @@
         } else if (oDocument.selection) {
           offset = this.getOldIEOffset();
         }
-        if (offset && !oFrame) {
+        if (offset) {
           offset.top += $(oWindow).scrollTop();
           offset.left += $(oWindow).scrollLeft();
         }
         return offset;
       };
 
-      EditableCaret.prototype.range = function () {
+      EditableCaret.prototype.range = function() {
         var sel;
         if (!oWindow.getSelection) {
           return;
@@ -121,13 +125,13 @@
       return EditableCaret;
 
     })();
-    InputCaret = (function () {
+    InputCaret = (function() {
       function InputCaret($inputor) {
         this.$inputor = $inputor;
         this.domInputor = this.$inputor[0];
       }
 
-      InputCaret.prototype.getIEPos = function () {
+      InputCaret.prototype.getIEPos = function() {
         var endRange, inputor, len, normalizedValue, pos, range, textInputRange;
         inputor = this.domInputor;
         range = oDocument.selection.createRange();
@@ -148,7 +152,7 @@
         return pos;
       };
 
-      InputCaret.prototype.getPos = function () {
+      InputCaret.prototype.getPos = function() {
         if (oDocument.selection) {
           return this.getIEPos();
         } else {
@@ -156,7 +160,7 @@
         }
       };
 
-      InputCaret.prototype.setPos = function (pos) {
+      InputCaret.prototype.setPos = function(pos) {
         var inputor, range;
         inputor = this.domInputor;
         if (oDocument.selection) {
@@ -169,7 +173,7 @@
         return inputor;
       };
 
-      InputCaret.prototype.getIEOffset = function (pos) {
+      InputCaret.prototype.getIEOffset = function(pos) {
         var h, textRange, x, y;
         textRange = this.domInputor.createTextRange();
         pos || (pos = this.getPos());
@@ -184,7 +188,7 @@
         };
       };
 
-      InputCaret.prototype.getOffset = function (pos) {
+      InputCaret.prototype.getOffset = function(pos) {
         var $inputor, offset, position;
         $inputor = this.$inputor;
         if (oDocument.selection) {
@@ -203,23 +207,25 @@
         }
       };
 
-      InputCaret.prototype.getPosition = function (pos) {
-        var $inputor, at_rect, format, html, mirror, start_range;
+      InputCaret.prototype.getPosition = function(pos) {
+        var $inputor, at_rect, end_range, format, html, mirror, start_range;
         $inputor = this.$inputor;
-        format = function (value) {
-          return value.replace(/</g, '&lt').replace(/>/g, '&gt').replace(/`/g, '&#96').replace(/"/g, '&quot').replace(/\r\n|\r|\n/g, "<br />");
+        format = function(value) {
+          return $('<div></div>').text(value).html().replace(/\r\n|\r|\n/g, "<br/>").replace(/\s/g, "&nbsp;");
         };
         if (pos === void 0) {
           pos = this.getPos();
         }
         start_range = $inputor.val().slice(0, pos);
-        html = "<span>" + format(start_range) + "</span>";
-        html += "<span id='caret'>|</span>";
+        end_range = $inputor.val().slice(pos);
+        html = "<span style='position: relative; display: inline;'>" + format(start_range) + "</span>";
+        html += "<span id='caret' style='position: relative; display: inline;'>|</span>";
+        html += "<span style='position: relative; display: inline;'>" + format(end_range) + "</span>";
         mirror = new Mirror($inputor);
         return at_rect = mirror.create(html).rect();
       };
 
-      InputCaret.prototype.getIEPosition = function (pos) {
+      InputCaret.prototype.getIEPosition = function(pos) {
         var h, inputorOffset, offset, x, y;
         offset = this.getIEOffset(pos);
         inputorOffset = this.$inputor.offset();
@@ -236,30 +242,32 @@
       return InputCaret;
 
     })();
-    Mirror = (function () {
-      Mirror.prototype.css_attr = ["overflowY", "height", "width", "paddingTop", "paddingLeft", "paddingRight", "paddingBottom", "marginTop", "marginLeft", "marginRight", "marginBottom", "fontFamily", "borderStyle", "borderWidth", "wordWrap", "fontSize", "lineHeight", "overflowX", "text-align"];
+    Mirror = (function() {
+      Mirror.prototype.css_attr = ["borderBottomWidth", "borderLeftWidth", "borderRightWidth", "borderTopStyle", "borderRightStyle", "borderBottomStyle", "borderLeftStyle", "borderTopWidth", "boxSizing", "fontFamily", "fontSize", "fontWeight", "height", "letterSpacing", "lineHeight", "marginBottom", "marginLeft", "marginRight", "marginTop", "outlineWidth", "overflow", "overflowX", "overflowY", "paddingBottom", "paddingLeft", "paddingRight", "paddingTop", "textAlign", "textOverflow", "textTransform", "whiteSpace", "wordBreak", "wordWrap"];
 
       function Mirror($inputor) {
         this.$inputor = $inputor;
       }
 
-      Mirror.prototype.mirrorCss = function () {
+      Mirror.prototype.mirrorCss = function() {
         var css,
           _this = this;
         css = {
           position: 'absolute',
           left: -9999,
           top: 0,
-          zIndex: -20000,
-          'white-space': 'pre-wrap'
+          zIndex: -20000
         };
-        $.each(this.css_attr, function (i, p) {
+        if (this.$inputor.prop('tagName') === 'TEXTAREA') {
+          this.css_attr.push('width');
+        }
+        $.each(this.css_attr, function(i, p) {
           return css[p] = _this.$inputor.css(p);
         });
         return css;
       };
 
-      Mirror.prototype.create = function (html) {
+      Mirror.prototype.create = function(html) {
         this.$mirror = $('<div></div>');
         this.$mirror.css(this.mirrorCss());
         this.$mirror.html(html);
@@ -267,7 +275,7 @@
         return this;
       };
 
-      Mirror.prototype.rect = function () {
+      Mirror.prototype.rect = function() {
         var $flag, pos, rect;
         $flag = this.$mirror.find("#caret");
         pos = $flag.position();
@@ -284,70 +292,67 @@
 
     })();
     Utils = {
-      contentEditable: function ($inputor) {
+      contentEditable: function($inputor) {
         return !!($inputor[0].contentEditable && $inputor[0].contentEditable === 'true');
       }
     };
     methods = {
-      pos: function (pos) {
+      pos: function(pos) {
         if (pos || pos === 0) {
           return this.setPos(pos);
         } else {
           return this.getPos();
         }
       },
-      position: function (pos) {
+      position: function(pos) {
         if (oDocument.selection) {
           return this.getIEPosition(pos);
         } else {
           return this.getPosition(pos);
         }
       },
-      offset: function (pos) {
-        var iOffset, offset;
+      offset: function(pos) {
+        var offset;
         offset = this.getOffset(pos);
-        if (oFrame) {
-          iOffset = $(oFrame).offset();
-          offset.top += iOffset.top;
-          offset.left += iOffset.left;
-        }
         return offset;
       }
     };
     oDocument = null;
     oWindow = null;
     oFrame = null;
-    setContextBy = function (iframe) {
-      oFrame = iframe;
-      oWindow = iframe.contentWindow;
-      return oDocument = iframe.contentDocument || oWindow.document;
-    };
-    configure = function ($dom, settings) {
-      var error, iframe;
-      if ($.isPlainObject(settings) && (iframe = settings.iframe)) {
-        $dom.data('caret-iframe', iframe);
-        return setContextBy(iframe);
-      } else if (iframe = $dom.data('caret-iframe')) {
-        return setContextBy(iframe);
+    setContextBy = function(settings) {
+      var iframe;
+      if (iframe = settings != null ? settings.iframe : void 0) {
+        oFrame = iframe;
+        oWindow = iframe.contentWindow;
+        return oDocument = iframe.contentDocument || oWindow.document;
       } else {
-        oDocument = $dom[0].ownerDocument;
-        oWindow = oDocument.defaultView || oDocument.parentWindow;
-        try {
-          return oFrame = oWindow.frameElement;
-        } catch (_error) {
-          error = _error;
-        }
+        oFrame = void 0;
+        oWindow = window;
+        return oDocument = document;
       }
     };
-    $.fn.caret = function (method) {
+    discoveryIframeOf = function($dom) {
+      var error;
+      oDocument = $dom[0].ownerDocument;
+      oWindow = oDocument.defaultView || oDocument.parentWindow;
+      try {
+        return oFrame = oWindow.frameElement;
+      } catch (_error) {
+        error = _error;
+      }
+    };
+    $.fn.caret = function(method, value, settings) {
       var caret;
-      if (typeof method === 'object') {
-        configure(this, method);
-        return this;
-      } else if (methods[method]) {
-        configure(this);
+      if (methods[method]) {
+        if ($.isPlainObject(value)) {
+          setContextBy(value);
+          value = void 0;
+        } else {
+          setContextBy(settings);
+        }
         caret = Utils.contentEditable(this) ? new EditableCaret(this) : new InputCaret(this);
-        return methods[method].apply(caret, Array.prototype.slice.call(arguments, 1));
+        return methods[method].apply(caret, [value]);
       } else {
         return $.error("Method " + method + " does not exist on jQuery.caret");
       }
