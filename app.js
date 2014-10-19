@@ -20,7 +20,8 @@ var passport = require('passport');
 require('./models');
 var GitHubStrategy = require('passport-github').Strategy;
 var githubStrategyMiddleware = require('./middlewares/github_strategy');
-var routes = require('./routes');
+var webRouter = require('./web_router');
+var apiRouterV1 = require('./api_router_v1');
 var auth = require('./middlewares/auth');
 var MongoStore = require('connect-mongo')(session);
 var _ = require('lodash');
@@ -120,7 +121,8 @@ app.use(busboy({
 }));
 
 // routes
-routes(app);
+app.use('/', webRouter);
+app.use('/api/v1', apiRouterV1);
 
 // error handler
 if (config.debug) {
