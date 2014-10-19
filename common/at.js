@@ -26,13 +26,14 @@ var fetchUsers = function (text) {
     /`[\s\S]+?`/g, // 同一行中，`some code` 中内容也不该被解析
     /^    .*/gm, // 4个空格也是 pre 标签，在这里 . 不会匹配换行
     /\b.*?@[^\s]*?\..+?\b/g, // somebody@gmail.com 会被去除
+    /\[@.+?\]\(\/.+?\)/, // 已经被 link 的 username
   ];
 
   ignore_regexs.forEach(function(ignore_regex) {
     text = text.replace(ignore_regex, '');
   });
 
-  var results = text.match(/@[a-z0-9\-_]+\s/igm);
+  var results = text.match(/@[a-z0-9\-_]+\b/igm);
   var names = [];
   if (results) {
     for (var i = 0, l = results.length; i < l; i++) {
