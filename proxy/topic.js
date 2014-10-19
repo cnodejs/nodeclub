@@ -79,9 +79,7 @@ exports.getTopicsByQuery = function (query, opt, callback) {
       return callback(null, []);
     }
 
-    var topics_id = _.map(docs, function(topic){
-      return topic.id;
-    });
+    var topics_id = _.pluck(docs, 'id');
 
     var proxy = new EventProxy();
     proxy.after('topic_ready', topics_id.length, function (topics) {
