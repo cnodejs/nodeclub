@@ -1,5 +1,6 @@
 var models = require('../../models');
 var TopicModel = models.Topic;
+var TopicProxy = require('../../proxy').Topic;
 var UserModel = models.User;
 var config = require('../../config');
 var eventproxy = require('eventproxy');
@@ -49,13 +50,19 @@ var show = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);
 
-  TopicModel.findById(topicId, ep.done('topic'));
-
-  ep.all('topic', function (topic) {
+  TopicProxy.getFullTopic(topicId, ep.done(function (msg, topic, author, replies) {
     topic = _.pick(topic, ['id', 'author_id', 'tab', 'content', 'title', 'last_reply_at',
       'good', 'top', 'author']);
+
+    topic.author = _.pick(author, ['loginname', 'avatar_url']);
+
+    topic.replies = replies.map(function (reply) {
+      reply.author = _.pick(reply.author, ['loginname', 'avatar_url']);
+      reply =  _.pick(reply, ['id', 'author', 'content', 'ups', 'create_at']);
+      return reply;
+    });
     res.send(topic);
-  });
+  }));
 };
 
 exports.show = show;
