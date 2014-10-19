@@ -32,7 +32,7 @@ var fetchUsers = function (text) {
     text = text.replace(ignore_regex, '');
   });
 
-  var results = text.match(/@[a-z0-9\-_]+\b/igm);
+  var results = text.match(/@[a-z0-9\-_]+\s/igm);
   var names = [];
   if (results) {
     for (var i = 0, l = results.length; i < l; i++) {

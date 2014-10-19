@@ -1,9 +1,10 @@
 var express = require('express');
 
-var postController = require('./api/v1/post');
+var topicController = require('./api/v1/topic');
 
 var router = express.Router();
 
-router.get('/posts', postController.index);
+router.get('/topics', topicController.index);
+router.get('/topic/:id', topicController.show);
 
 module.exports = router;

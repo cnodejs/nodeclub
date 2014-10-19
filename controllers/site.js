@@ -45,24 +45,10 @@ exports.index = function (req, res, next) {
   var page = parseInt(req.query.page, 10) || 1;
   page = page > 0 ? page : 1;
   var tab = req.query.tab || req.session.tab || 'all';
-  req.session.tab = tab;
-  var limit = config.list_topic_count;
 
-  var tabName = renderHelpers.tabName(tab);
-  var proxy = eventproxy.create('topics', 'tops', 'no_reply_topics', 'pages',
-    function (topics, tops, no_reply_topics, pages) {
-      res.render('index', {
-        topics: topics,
-        current_page: page,
-        list_topic_count: limit,
-        tops: tops,
-        no_reply_topics: no_reply_topics,
-        pages: pages,
-        tabs: config.tabs,
-        tab: tab,
-        pageTitle: tabName && (tabName + '版块'),
-      });
-    });
+  req.session.tab = tab;
+
+  var proxy = new eventproxy();
   proxy.fail(next);
 
   // 取主题
@@ -70,10 +56,13 @@ exports.index = function (req, res, next) {
   if (tab && tab !== 'all') {
     query.tab = tab;
   }
+
+  var limit = config.list_topic_count;
   var options = { skip: (page - 1) * limit, limit: limit, sort: '-top -last_reply_at'};
   var optionsStr = JSON.stringify(query) + JSON.stringify(options);
+
   if (mcache.get(optionsStr)) {
-    proxy.emit('topics', mcache.get(optionsStr));
+    proxy.emitLater('topics', mcache.get(optionsStr));
   } else {
     Topic.getTopicsByQuery(query, options, proxy.done('topics', function (topics) {
       return topics;
@@ -83,7 +72,7 @@ exports.index = function (req, res, next) {
 
   // 取排行榜上的用户
   if (mcache.get('tops')) {
-    proxy.emit('tops', mcache.get('tops'));
+    proxy.emitLater('tops', mcache.get('tops'));
   } else {
     User.getUsersByQuery(
       {'$or': [
@@ -99,7 +88,7 @@ exports.index = function (req, res, next) {
   }
   // 取0回复的主题
   if (mcache.get('no_reply_topics')) {
-    proxy.emit('no_reply_topics', mcache.get('no_reply_topics'));
+    proxy.emitLater('no_reply_topics', mcache.get('no_reply_topics'));
   } else {
     Topic.getTopicsByQuery(
       { reply_count: 0 },
@@ -111,7 +100,7 @@ exports.index = function (req, res, next) {
   }
   // 取分页数据
   if (mcache.get('pages')) {
-    proxy.emit('pages', mcache.get('pages'));
+    proxy.emitLater('pages', mcache.get('pages'));
   } else {
     Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
       var pages = Math.ceil(all_topics_count / limit);
@@ -119,6 +108,22 @@ exports.index = function (req, res, next) {
       proxy.emit('pages', pages);
     }));
   }
+
+  var tabName = renderHelpers.tabName(tab);
+  proxy.all('topics', 'tops', 'no_reply_topics', 'pages',
+    function (topics, tops, no_reply_topics, pages) {
+      res.render('index', {
+        topics: topics,
+        current_page: page,
+        list_topic_count: limit,
+        tops: tops,
+        no_reply_topics: no_reply_topics,
+        pages: pages,
+        tabs: config.tabs,
+        tab: tab,
+        pageTitle: tabName && (tabName + '版块'),
+      });
+    });
 };
 
 exports.sitemap = function (req, res, next) {
