@@ -6,6 +6,7 @@ var User = require('./user');
 var Reply = require('./reply');
 var tools = require('../common/tools');
 var at = require('../common/at');
+var _ = require('lodash');
 
 /**
  * 根据主题ID获取主题
@@ -78,10 +79,9 @@ exports.getTopicsByQuery = function (query, opt, callback) {
       return callback(null, []);
     }
 
-    var topics_id = [];
-    for (var i = 0; i < docs.length; i++) {
-      topics_id.push(docs[i]._id);
-    }
+    var topics_id = _.map(docs, function(topic){
+      return topic.id;
+    });
 
     var proxy = new EventProxy();
     proxy.after('topic_ready', topics_id.length, function (topics) {
