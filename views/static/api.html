@@ -1,0 +1,39 @@
+<div id='content'>
+  <div class='panel'>
+    <div class='header'>
+      <ul class='breadcrumb'>
+        <li><a href='/'>主页</a><span class='divider'>/</span></li>
+        <li class='active'>API</li>
+      </ul>
+    </div>
+    <div class='inner topic'>
+      <div class="topic_content">
+        <%- markdown(multiline(function () {
+/*
+### 主题
+
+#### /topics 主题首页
+
+接收 get 参数
+
+* page Number 页数
+* tab String 主题分类
+
+示例：[/api/v1/topics](/api/v1/topics)
+
+#### /topic/:id 主题详情
+
+示例：[/api/v1/topic/5433d5e4e737cbe96dcef312](/api/v1/topic/5433d5e4e737cbe96dcef312)
+
+### 用户
+
+#### /user/:loginname 用户详情
+
+示例：[/api/v1/user/alsotang](/api/v1/user/alsotang)
+
+*/
+        })) %>
+      </div>
+    </div>
+  </div>
+</div>
