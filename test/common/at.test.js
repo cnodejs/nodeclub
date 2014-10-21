@@ -63,7 +63,7 @@ describe('test/common/at.test.js', function () {
       Code @in_multi_line_pre
     ```
 
-    [@be_link](/user/be_link)
+    [@be_link](/user/be_link) [@be_link2](/user/be_link2)
   */});
 
   var matched_users = ['A-aZ-z0-9_', 'begin_with_spaces', 'multi_in_oneline', 'around_text', 'end_with_no_space', 'begin_with_no_spaces', 'end_with_no_space2', 'begin_with_no_spaces2', 'alsotang', 'alsotang2'];
@@ -106,7 +106,7 @@ code: `@in_code`
   Code @in_multi_line_pre
 ```
 
-[@be_link](/user/be_link)
+[@be_link](/user/be_link) [@be_link2](/user/be_link2)
   */});
 
   describe('#fetchUsers()', function () {
