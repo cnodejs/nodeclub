@@ -17,6 +17,7 @@ var UserSchema = new Schema({
   avatar: { type: String },
   githubId: { type: String},
   githubUsername: {type: String},
+  githubAccessToken: {type: String},
   is_block: {type: Boolean, default: false},
 
   score: { type: Number, default: 0 },

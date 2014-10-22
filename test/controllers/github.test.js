@@ -84,13 +84,13 @@ describe('test/controllers/github.test.js', function () {
 
   describe('post /auth/github/create', function () {
     before(function () {
-      var displayName = 'alsotang' + new Date();
-      var username = 'alsotang' + new Date();
-      var email = 'alsotang@gmail.com' + new Date();
+      var displayName = 'alsotang' + +new Date();
+      var username = 'alsotang' + +new Date();
+      var email = 'alsotang@gmail.com' + +new Date();
       app.post('/auth/github/test_create', function (req, res, next) {
         req.session.profile = {
           displayName: displayName,
-          username: username,
+          username: req.body.githubName || username,
           accessToken: 'a3l24j23lk5jtl35tkjglfdsf',
           emails: [
             {value: email}
@@ -138,7 +138,7 @@ describe('test/controllers/github.test.js', function () {
       var pass = 'hehe';
       support.createUserByNameAndPwd(username, pass, function (user) {
         request.post('/auth/github/test_create')
-          .send({name: username, pass: pass})
+          .send({name: username, pass: pass, githubName: username})
           .end(function (err, res) {
             res.status.should.equal(302);
             res.headers.location.should.equal('/');
