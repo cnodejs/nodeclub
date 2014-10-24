@@ -37,7 +37,7 @@ var index = function (req, res, next) {
           'good', 'top', 'author']);
       });
 
-      res.send(topics);
+      res.send({data: topics});
     });
   });
 };
@@ -61,7 +61,7 @@ var show = function (req, res, next) {
       reply =  _.pick(reply, ['id', 'author', 'content', 'ups', 'create_at']);
       return reply;
     });
-    res.send(topic);
+    res.send({data: topic});
   }));
 };
 

@@ -45,7 +45,7 @@ var show = function (req, res, next) {
           return topic;
         });
 
-        res.send(user);
+        res.send({data: user});
       });
   }));
 };
