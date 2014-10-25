@@ -135,7 +135,7 @@ describe('test/controllers/user.test.js', function () {
   });
 
   describe('#toggle_star', function () {
-    it.skip('should not set star user when no user_id', function (done) {
+    it('should not set star user when no user_id', function (done) {
       request.post('/user/set_star')
       .set('Cookie', support.adminUserCookie)
       .expect(500, function (err, res) {
@@ -144,7 +144,7 @@ describe('test/controllers/user.test.js', function () {
       });
     });
 
-    it.skip('should set star user', function (done) {
+    it('should set star user', function (done) {
       request.post('/user/set_star')
       .send({
         user_id: support.normalUser._id
@@ -160,7 +160,7 @@ describe('test/controllers/user.test.js', function () {
       });
     });
 
-    it.skip('should unset star user', function (done) {
+    it('should unset star user', function (done) {
       request.post('/user/set_star')
       .send({
         user_id: support.normalUser._id
@@ -217,7 +217,7 @@ describe('test/controllers/user.test.js', function () {
     });
   });
 
-  describe.skip('#block', function () {
+  describe('#block', function () {
     it('should block user', function (done) {
       support.createUser(function (err, newuser) {
         request.post('/user/' + newuser.loginname + '/block')

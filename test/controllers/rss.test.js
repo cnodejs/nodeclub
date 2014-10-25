@@ -11,6 +11,7 @@
 var request = require('supertest');
 var app = require('../../app');
 var config = require('../../config');
+var should = require('should');
 
 describe('test/controllers/rss.test.js', function () {
 
@@ -44,14 +45,14 @@ describe('test/controllers/rss.test.js', function () {
       });
     });
 
-    describe.skip('mock `topic.getTopicsByQuery()` error', function () {
+    describe('mock `topic.getTopicsByQuery()` error', function () {
       var topic = require('../../proxy').Topic;
       var getTopicsByQuery = topic.getTopicsByQuery;
       before(function () {
         topic.getTopicsByQuery = function () {
           var callback = arguments[arguments.length - 1];
           process.nextTick(function () {
-            callback(new Error('mock getTopicsByQuery() error'));
+            callback('mock getTopicsByQuery() error');
           });
         };
       });
