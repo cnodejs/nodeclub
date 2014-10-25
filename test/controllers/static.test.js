@@ -1,5 +1,6 @@
 var app = require('../../app');
 var request = require('supertest')(app);
+var should = require('should');
 
 describe('test/controllers/static.test.js', function () {
   it('should get /about', function (done) {
