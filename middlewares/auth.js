@@ -5,7 +5,6 @@ var Message = require('../proxy').Message;
 var config = require('../config');
 var eventproxy = require('eventproxy');
 var UserProxy = require('../proxy').User;
-var crypto = require('crypto');
 
 /**
  * 需要管理员权限

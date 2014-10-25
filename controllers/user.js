@@ -6,7 +6,6 @@ var TopicCollect = require('../proxy').TopicCollect;
 var utility = require('utility');
 var util = require('util');
 
-var message = require('../common/message');
 var tools = require('../common/tools');
 var config = require('../config');
 var EventProxy = require('eventproxy');
