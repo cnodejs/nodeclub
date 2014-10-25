@@ -1,28 +1,47 @@
+<%
+  var ads = [
+    {
+      href: 'http://oneapm.com/events/ironman.html?hmsr=cnodejs.org&hmmd=图片&hmpl=官网%20平凡之路&hmkw=&hmci=',
+      label: 'oneapm',
+      img_src: '/public/images/oneapm2.jpg',
+    },
+    {
+      href: 'http://www.pengpeng.la/web/join.html',
+      label: 'pengpeng',
+      img_src: '/public/images/pengpeng1.jpg',
+    },
+    {
+      href: 'http://www.jobtong.com?utm_source=cnodejs.org&utm_medium=paid_banner&utm_campaign=ad',
+      label: 'jobtong',
+      img_src: '/public/images/jobtong2.jpg',
+    },
+    {
+      href: 'https://worktile.com?hmsr=https%3A%2F%2Fcnodejs.org%2F&hmmd=%E5%9B%BE%E7%89%87%E5%B9%BF%E5%91%8A&hmpl=&hmkw=&hmci=',
+      label: 'worktile',
+      img_src: '/public/images/worktile.jpg',
+    },
+    {
+      href: 'https://coding.net/1111?hmsr=https%3A%2F%2Fcnodejs.org%2F&hmmd=%E5%9B%BE%E7%89%87%E5%B9%BF%E5%91%8A&hmpl=%E5%85%89%E6%A3%8D%E8%8A%82&hmkw=&hmci=',
+      label: 'coding-net',
+      img_src: '/public/images/coding-net-logo-5.jpg',
+    },
+    ];
+
+    var randomNum = (new Date()).getHours() % ads.length;
+
+    ads = ads.slice(randomNum).concat(ads.slice(0, randomNum));
+%>
 <div class='panel'>
   <div class='inner ads'>
-    <a href="http://oneapm.com/events/ironman.html?hmsr=cnodejs.org&hmmd=图片&hmpl=官网%20平凡之路&hmkw=&hmci=" target="_blank" class="banner sponsor_outlink"
-    data-label="oneapm">
-      <img src="<%- staticFile('/public/images/oneapm2.jpg') %>">
-    </a>
 
-    <div class="sep10"></div>
-
-    <a href="http://www.pengpeng.la/web/join.html" target="_blank" class="banner sponsor_outlink"
-    data-label="pengpeng">
-      <img src="<%- staticFile('/public/images/pengpeng1.jpg') %>">
-    </a>
-
-    <div class="sep10"></div>
-
-    <a href="http://www.jobtong.com/" target="_blank" class="banner sponsor_outlink"
-    data-label="jobtong">
-      <img src="<%- staticFile('/public/images/jobtong.jpg') %>">
-    </a>
-
-    <div class="sep10"></div>
-
-    <a href="https://portal.qiniu.com/contest/demo2014" target="_blank" class="banner sponsor_outlink" data-label="qiniu">
-      <img src="<%- staticFile('/public/images/qiniu_ad.png') %>">
-    </a>
+    <% ads.forEach(function (adObj, idx) { %>
+      <% if (idx !== 0) { %>
+        <div class="sep10"></div>
+      <% } %>
+      <a href="<%-adObj.href%>" target="_blank" class="banner sponsor_outlink"
+    data-label="<%=adObj.label%>">
+        <img src="<%- staticFile(adObj.img_src) %>">
+      </a>
+    <% }) %>
   </div>
 </div>

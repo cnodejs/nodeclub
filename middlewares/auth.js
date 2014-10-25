@@ -85,10 +85,6 @@ exports.authUser = function (req, res, next) {
       return next();
     }
 
-    if (!auth_token) {
-      res.cookie(config.auth_cookie_name, '', {signed: true});
-      return res.redirect('/');
-    }
     var auth = auth_token.split('$$$$');
     var user_id = auth[0];
     UserProxy.getUserById(user_id, ep.done('get_user'));

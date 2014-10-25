@@ -62,3 +62,5 @@ exports.tabName = function (tab) {
     return pair[1];
   }
 };
+
+exports._ = _;

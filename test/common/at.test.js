@@ -25,25 +25,96 @@ describe('test/common/at.test.js', function () {
     mm.restore();
   });
 
-  var text = '@testuser1 哈哈, hellowprd testuser1 testuser2 \
-    testuser3 @testuser2你好 \
-    @testuser1@testuser3\
-    @testuser2@testuser123 oh my god';
-  var linkedText = '[@testuser1](/user/testuser1) 哈哈, hellowprd testuser1 testuser2 \
-    testuser3 [@testuser2](/user/testuser2)你好 \
-    [@testuser1](/user/testuser1)[@testuser3](/user/testuser3)\
-    [@testuser2](/user/testuser2)[@testuser1](/user/testuser1)23 oh my god';
+  var text = multiline.stripIndent(function(){/*
+    @A-aZ-z0-9_
+    @中文
+      @begin_with_spaces @multi_in_oneline
+    Text More Text @around_text ![Pic](/public/images/cnode_icon_32.png)
+    @end_with_no_space中文
+    Text 中文@begin_with_no_spaces
+    @end_with_no_space2@begin_with_no_spaces2
+
+    jysperm@gmail.com @alsotang
+
+    @alsotang2
+
+
+    ```
+    呵呵 ```
+    @alsotang3
+    ```
+
+    ```@alsotang4```
+
+    @
+    @@
+
+    `@code_begin_with_no_space`
+    code: `@in_code`
+
+        @in_pre
+
+    ```
+    @in_oneline_pre
+    ```
+
+    ```
+      Some Code
+      Code @in_multi_line_pre
+    ```
+
+    [@be_link](/user/be_link) [@be_link2](/user/be_link2)
+  */});
+
+  var matched_users = ['A-aZ-z0-9_', 'begin_with_spaces', 'multi_in_oneline', 'around_text', 'end_with_no_space', 'begin_with_no_spaces', 'end_with_no_space2', 'begin_with_no_spaces2', 'alsotang', 'alsotang2'];
+
+  var linkedText = multiline.stripIndent(function(){/*
+[@A-aZ-z0-9_](/user/A-aZ-z0-9_)
+@中文
+  [@begin_with_spaces](/user/begin_with_spaces) [@multi_in_oneline](/user/multi_in_oneline)
+Text More Text [@around_text](/user/around_text) ![Pic](/public/images/cnode_icon_32.png)
+[@end_with_no_space](/user/end_with_no_space)中文
+Text 中文[@begin_with_no_spaces](/user/begin_with_no_spaces)
+[@end_with_no_space2](/user/end_with_no_space2)[@begin_with_no_spaces2](/user/begin_with_no_spaces2)
+
+jysperm@gmail.com [@alsotang](/user/alsotang)
+
+[@alsotang2](/user/alsotang2)
+
+
+```
+呵呵 ```
+@alsotang3
+```
+
+```@alsotang4```
+
+@
+@@
+
+`@code_begin_with_no_space`
+code: `@in_code`
+
+    @in_pre
+
+```
+@in_oneline_pre
+```
+
+```
+  Some Code
+  Code @in_multi_line_pre
+```
+
+[@be_link](/user/be_link) [@be_link2](/user/be_link2)
+  */});
 
   describe('#fetchUsers()', function () {
     var fetchUsers = at.fetchUsers;
     it('should found 6 users', function () {
       var users = fetchUsers(text);
       should.exist(users);
-      users.should.length(6);
-      for (var i = 0; i < users.length; i++) {
-        var user = users[i];
-        user.should.match(/^testuser\d+$/);
-      }
+      users.should.eql(matched_users);
     });
 
     it('should found 0 user in text', function () {

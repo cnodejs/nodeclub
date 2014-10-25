@@ -13,6 +13,8 @@ exports.callback = function (req, res, next) {
     // 当用户已经是 cnode 用户时，通过 github 登陆将会更新他的资料
     if (user) {
       user.githubUsername = profile.username;
+      user.githubId = profile.id;
+      user.githubAccessToken = profile.accessToken;
       user.loginname = profile.username;
       user.avatar = profile._json.avatar_url;
 
@@ -49,13 +51,13 @@ exports.create = function (req, res, next) {
   delete req.session.profile;
   if (isnew) { // 注册新账号
     var user = new User({
-      name: profile.username,
       loginname: profile.username,
       pass: profile.accessToken,
       email: profile.emails[0].value,
       avatar: profile._json.avatar_url,
       githubId: profile.id,
       githubUsername: profile.username,
+      githubAccessToken: profile.accessToken,
       active: true,
     });
     user.save(function (err) {
@@ -91,7 +93,12 @@ exports.create = function (req, res, next) {
           if (!bool) {
             return ep.emit('login_error');
           }
+          user.githubUsername = profile.username;
           user.githubId = profile.id;
+          user.loginname = profile.username;
+          user.avatar = profile._json.avatar_url;
+          user.githubAccessToken = profile.accessToken;
+
           user.save(function (err) {
             if (err) {
               return next(err);

@@ -58,7 +58,7 @@
           发布于 <%= topic.friendly_create_at %>
         </span>
         <span>
-          作者 <a href="/user/<%= topic.author.name %>"><%= topic.author.name %></a>
+          作者 <a href="/user/<%= topic.author.loginname %>"><%= topic.author.loginname %></a>
         </span>
         <span>
           <%= topic.visit_count %> 次浏览
@@ -215,46 +215,33 @@
       //绑定editor
       $(this).data('editor', editor);
 
-      var $input = $(editor.codemirror.display.input).keydown(function(event){
+      var $input = $(editor.codemirror.display.input);
+      $input.keydown(function(event){
         if (event.keyCode === 13 && (event.ctrlKey || event.metaKey)) {
           event.preventDefault();
           $el.closest('form').submit();
         }
       });
-      var isAtInserted = false;
+
+      // at.js 配置
+      var codeMirrorGoLineUp = CodeMirror.commands.goLineUp;
+      var codeMirrorGoLineDown = CodeMirror.commands.goLineDown;
+      var codeMirrorNewlineAndIndent = CodeMirror.commands.newlineAndIndent;
       $input.atwho({
         at: '@',
         data: allNames
-      }).on("inserted.atwho", function() {
-        isAtInserted = true;
+      })
+      .on('shown.atwho', function () {
+        CodeMirror.commands.goLineUp = _.noop;
+        CodeMirror.commands.goLineDown = _.noop;
+        CodeMirror.commands.newlineAndIndent = _.noop;
+      })
+      .on('hidden.atwho', function () {
+        CodeMirror.commands.goLineUp = codeMirrorGoLineUp;
+        CodeMirror.commands.goLineDown = codeMirrorGoLineDown;
+        CodeMirror.commands.newlineAndIndent = codeMirrorNewlineAndIndent;
       });
-      editor.codemirror.on('update', function(){
-        if(isAtInserted === false){
-          return false;
-        }
-        isAtInserted = false;
-        var line = editor.codemirror.lastLine();
-        var name = editor.codemirror.getLine(line);
-        editor.codemirror.removeLine(line);
-        line--;
-        var txt = editor.codemirror.getLine(line);
-        var lastLen = txt.length;
-        var pre = [];
-        for(var i=txt.length-1; i >= 0; i--){
-          if(txt[i] === '@'){
-            lastLen = i;
-            break;
-          }
-          else{
-            pre.push(txt[i]);
-          }
-        }
-        pre.reverse();
-        if(-1 !== name.indexOf(pre.join(''))){
-          txt = txt.substring(0, lastLen + 1);
-        }
-        editor.codemirror.setLine(line, txt + name);
-      });
+      // END at.js 配置
 
     });
     // END 编辑器相关
@@ -412,6 +399,9 @@
           var mainOffset = $('#main').offset();
           $repliesHistory.css('left', offset.left-mainOffset.left+width+10); // magic number
           $repliesHistory.css('top', offset.top-mainOffset.top-10); // magic number
+          $repliesHistory.css({
+            'z-index': 1,
+          });
           $repliesHistoryContent.empty();
           var chats = [];
           var replyToId = $this.closest('.reply_item').attr('reply_to_id');

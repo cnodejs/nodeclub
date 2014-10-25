@@ -7333,4 +7333,5 @@ Editor.prototype.toggleFullScreen = function() {
 };
 
 global.Editor = Editor;
+global.CodeMirror = CodeMirror;
 })(this);
