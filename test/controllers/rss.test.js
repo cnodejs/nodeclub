@@ -44,7 +44,7 @@ describe('test/controllers/rss.test.js', function () {
       });
     });
 
-    describe('mock `topic.getTopicsByQuery()` error', function () {
+    describe.skip('mock `topic.getTopicsByQuery()` error', function () {
       var topic = require('../../proxy').Topic;
       var getTopicsByQuery = topic.getTopicsByQuery;
       before(function () {

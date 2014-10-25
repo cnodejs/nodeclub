@@ -1,5 +1,6 @@
 var conf = require('../../middlewares/conf');
 var config = require('../../config');
+var should = require('should');
 
 describe('test/middlewares/conf.test.js', function () {
   it('should alert no github oauth', function (done) {
