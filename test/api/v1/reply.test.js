@@ -4,7 +4,7 @@ var pedding = require('pedding');
 var support =  require('../../support/support');
 var should  = require('should');
 
-describe.only('test/api/v1/reply.test.js', function () {
+describe('test/api/v1/reply.test.js', function () {
   var mockTopic;
   var mockReplyId;
   before(function (done) {

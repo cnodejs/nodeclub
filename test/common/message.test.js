@@ -8,6 +8,7 @@ var pedding = require('pedding');
 var multiline = require('multiline');
 var MessageService = require('../../common/message');
 var eventproxy = require('eventproxy');
+var ReplyProxy = require('../../proxy').Reply;
 
 describe('test/common/message.test.js', function () {
   var atUser;
@@ -29,8 +30,15 @@ describe('test/common/message.test.js', function () {
     });
   });
 
+  afterEach(function () {
+    mm.restore();
+  });
+
   describe('#sendReplyMessage', function () {
     it('should send reply message', function (done) {
+      mm(ReplyProxy, 'getReplyById', function (id, callback) {
+        callback(null, {author: {}});
+      });
       MessageService.sendReplyMessage(atUser._id, author._id, topic._id, reply._id,
         function (err, msg) {
           request.get('/my/messages')
@@ -52,6 +60,9 @@ describe('test/common/message.test.js', function () {
 
   describe('#sendAtMessage', function () {
     it('should send at message', function (done) {
+      mm(ReplyProxy, 'getReplyById', function (id, callback) {
+        callback(null, {author: {}});
+      });
       MessageService.sendAtMessage(atUser._id, author._id, topic._id, reply._id,
         function (err, msg) {
           request.get('/my/messages')

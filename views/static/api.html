@@ -89,10 +89,77 @@
 
 如果成功匹配上用户，返回成功信息。否则 403。
 
-返回值示例：
+返回值示例
 
 ```js
 {success: true, loginname: req.user.loginname}
+```
+
+### 消息通知
+
+#### get /message/count 获取未读消息数
+
+接收 get 参数
+
+* accesstoken `String`
+
+返回值示例
+
+```js
+{ data: 1 }
+```
+
+
+#### get /messages 获取已读和未读消息
+
+接收 get 参数
+
+* accesstoken `String`
+
+返回值示例
+
+```js
+{
+  data: {
+    has_read_messages: [],
+    hasnot_read_messages: [
+      {
+        id: "543fb7abae523bbc80412b26",
+        type: "at",
+        has_read: false,
+        author: {
+          loginname: "alsotang",
+          avatar_url: "https://avatars.githubusercontent.com/u/1147375?v=2"
+        },
+        topic: {
+          id: "542d6ecb9ecb3db94b2b3d0f",
+          title: "adfadfadfasdf",
+          last_reply_at: "2014-10-18T07:47:22.563Z"
+        },
+        reply: {
+          id: "543fb7abae523bbc80412b24",
+          content: "[@alsotang](/user/alsotang) 哈哈",
+          ups: [ ],
+          create_at: "2014-10-16T12:18:51.566Z"
+          }
+        },
+    ...
+    ]
+  }
+}
+```
+
+#### post /message/mark_all 标记全部已读
+
+接收 post 参数
+
+* accesstoken `String`
+
+返回值示例
+
+```js
+{ success: true,
+  marked_msgs: [ { id: '544ce385aeaeb5931556c6f9' } ] }
 ```
 
 ### 知识点

@@ -2,10 +2,6 @@ var Message = require('../proxy').Message;
 var eventproxy = require('eventproxy');
 
 exports.index = function (req, res, next) {
-  if (!req.session.user) {
-    res.redirect('/');
-    return;
-  }
   var user_id = req.session.user._id;
   var ep = new eventproxy();
   ep.fail(next);

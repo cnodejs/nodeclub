@@ -3,7 +3,7 @@ var UserModel = require('../../models').User;
 var eventproxy = require('eventproxy');
 
 var auth = function (req, res, next) {
-  var accessToken = req.body.accesstoken;
+  var accessToken = req.body.accesstoken || req.query.accesstoken;
   var ep = new eventproxy();
   ep.fail(next);
 
