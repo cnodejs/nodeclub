@@ -22,6 +22,8 @@ Nodeclub 是使用 **Node.js** 和 **MongoDB** 开发的社区系统，界面优
 
 ## 安装部署
 
+不保证 Windows 系统的兼容性
+
 ```
 1. install `node.js` `mongodb`
 2. run mongod

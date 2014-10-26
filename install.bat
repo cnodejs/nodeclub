@@ -1,1 +1,0 @@
-npm install --registry=http://registry.npm.taobao.org
