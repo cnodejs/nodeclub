@@ -3,6 +3,7 @@ var User = Models.User;
 var authMiddleWare = require('../middlewares/auth');
 var tools = require('../common/tools');
 var eventproxy = require('eventproxy');
+var uuid = require('node-uuid');
 
 exports.callback = function (req, res, next) {
   var profile = req.user;
@@ -59,6 +60,7 @@ exports.create = function (req, res, next) {
       githubUsername: profile.username,
       githubAccessToken: profile.accessToken,
       active: true,
+      accessToken: uuid.v4(),
     });
     user.save(function (err) {
       if (err) {
