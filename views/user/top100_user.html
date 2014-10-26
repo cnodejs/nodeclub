@@ -1,5 +1,4 @@
 <tr>
-  <% if (indexInCollection < 20) { %>
   <td><b><%= indexInCollection+1 %></b></td>
   <td>
     <a class='user_avatar' href="/user/<%= user.loginname %>">
@@ -7,11 +6,7 @@
     </a>
     <span class='sp10'></span>
     <a href='/user/<%= user.loginname %>'><%= user.loginname %></a></td>
-  <% } else { %>
-  <td><%= indexInCollection+1 %></td>
-  <td><a href="/user/<%= user.loginname %>"><%= user.loginname %></a></td>
-  <% } %>
-  <td><%= user.follower_count %></td>
-  <td><%= user.topic_count %></td>
   <td><%= user.score %></td>
+  <td><%= user.topic_count %></td>
+  <td><%= user.reply_count %></td>
 </tr>
