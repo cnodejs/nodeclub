@@ -31,11 +31,11 @@ describe('test/api/v1/topic.test.js', function () {
     it('should return topics', function (done) {
       request.get('/api/v1/topics')
         .query({
-          limit: 10
+          limit: 2
         })
         .end(function (err, res) {
           should.not.exists(err);
-          res.body.data.length.should.equal(10);
+          res.body.data.length.should.equal(2);
           done();
         })
     })
