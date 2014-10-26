@@ -173,7 +173,7 @@ exports.toggle_star = function (req, res, next) {
       return next(err);
     }
     if (!user) {
-      return next('user is not exists');
+      return next(new Error('user is not exists'));
     }
     user.is_star = !user.is_star;
     user.save(function (err) {
@@ -331,7 +331,7 @@ exports.block = function (req, res, next) {
 
   User.getUserByLoginName(loginname, ep.done(function (user) {
     if (!user) {
-      return next('user is not exists');
+      return next(new Error('user is not exists'));
     }
     if (action === 'set_block') {
       ep.all('block_user', 'del_topics', 'del_replys',

@@ -51,7 +51,7 @@ describe('test/controllers/rss.test.js', function () {
         topic.getTopicsByQuery = function () {
           var callback = arguments[arguments.length - 1];
           process.nextTick(function () {
-            callback('mock getTopicsByQuery() error');
+            callback(new Error('mock getTopicsByQuery() error'));
           });
         };
       });
