@@ -39,7 +39,7 @@ exports.getMessageById = function (id, callback) {
         message.author = author;
         message.topic = topic;
         message.reply = reply;
-        if (!author || !topic || !reply) {
+        if (!author || !topic) {
           message.is_invalid = true;
         }
         return callback(null, message);
