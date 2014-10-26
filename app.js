@@ -30,6 +30,7 @@ var compress = require('compression');
 var bodyParser = require('body-parser');
 var busboy = require('connect-busboy');
 var errorhandler = require('errorhandler');
+var cors = require('cors');
 
 // 静态文件目录
 var staticDir = path.join(__dirname, 'public');
@@ -122,7 +123,7 @@ app.use(busboy({
 
 // routes
 app.use('/', webRouter);
-app.use('/api/v1', apiRouterV1);
+app.use('/api/v1', cors(), apiRouterV1);
 
 // error handler
 if (config.debug) {
