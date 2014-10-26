@@ -1,3 +1,5 @@
+// 为所有老用户生成 accessToken
+
 var uuid = require('node-uuid');
 var mongoose = require('mongoose');
 var config = require('../config');
