@@ -31,6 +31,7 @@
     "mongoose": "3.8.16",
     "multiline": "1.0.1",
     "newrelic": "1.12.2",
+    "node-uuid": "^1.4.1",
     "nodemailer": "0.3.43",
     "passport": "0.1.18",
     "passport-github": "0.1.5",
