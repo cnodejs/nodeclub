@@ -11,7 +11,6 @@
 var request = require('supertest');
 var app = require('../../app');
 var config = require('../../config');
-var should = require('should');
 
 describe('test/controllers/rss.test.js', function () {
 

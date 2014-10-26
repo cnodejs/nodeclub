@@ -1,7 +1,6 @@
 var request = require('supertest');
 var app = require('../app');
 var config = require('../config');
-var should = require('should');
 
 describe('test/app.test.js', function () {
   it('should / status 200', function (done) {
