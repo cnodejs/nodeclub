@@ -5,6 +5,7 @@ Nodeclub
 [![Coverage Status](https://img.shields.io/coveralls/cnodejs/nodeclub.svg?style=flat-square)](https://coveralls.io/r/cnodejs/nodeclub?branch=master)
 [![David deps][david-image]][david-url]
 [![node version][node-image]][node-url]
+
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/cnodejs/nodeclub?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [travis-image]: https://img.shields.io/travis/cnodejs/nodeclub.svg?style=flat-square
