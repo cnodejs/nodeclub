@@ -13,7 +13,7 @@ var validator = require('validator');
 var index = function (req, res, next) {
   var page = parseInt(req.query.page, 10) || 1;
   page = page > 0 ? page : 1;
-  var tab = req.query.tab || req.session.tab || 'all';
+  var tab = req.query.tab || 'all';
   var limit = Number(req.query.limit) || config.list_topic_count;
   var mdrender = req.query.mdrender === 'false' ? false : true;
 
