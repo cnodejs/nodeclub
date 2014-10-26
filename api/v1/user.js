@@ -11,6 +11,9 @@ var show = function (req, res, next) {
   ep.fail(next);
 
   UserProxy.getUserByLoginName(loginname, ep.done(function (user) {
+    if (!user) {
+      return res.send({error_msg: 'user `' + loginname + '` is not exists'});
+    }
     var query = {author_id: user._id};
     var opt = {limit: 5, sort: '-create_at'};
     TopicProxy.getTopicsByQuery(query, opt, ep.done('recent_topics'));

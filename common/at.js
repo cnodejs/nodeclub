@@ -94,5 +94,8 @@ exports.linkUsers = function (text, callback) {
     var name = users[i];
     text = text.replace(new RegExp('@' + name + '\\b', 'g'), '[@' + name + '](/user/' + name + ')');
   }
+  if (!callback) {
+    return text;
+  }
   return callback(null, text);
 };
