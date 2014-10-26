@@ -65,7 +65,7 @@ exports.getMessageById = function (id, callback) {
 };
 
 /**
- * 根据用户ID，获取消息列表
+ * 根据用户ID，获取已读消息列表
  * Callback:
  * - err, 数据库异常
  * - messages, 消息列表

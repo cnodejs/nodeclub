@@ -1,7 +1,5 @@
-var sign = require('./sign');
 var Models = require('../models');
 var User = Models.User;
-var utility = require('utility');
 var authMiddleWare = require('../middlewares/auth');
 var tools = require('../common/tools');
 var eventproxy = require('eventproxy');

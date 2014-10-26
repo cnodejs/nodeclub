@@ -8,7 +8,6 @@ var util = require('util');
 var TopicModel = require('../models').Topic;
 var ReplyModel = require('../models').Reply;
 
-var message = require('../common/message');
 var tools = require('../common/tools');
 var config = require('../config');
 var EventProxy = require('eventproxy');
