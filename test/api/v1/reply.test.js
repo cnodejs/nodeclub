@@ -4,7 +4,7 @@ var pedding = require('pedding');
 var support =  require('../../support/support');
 var should  = require('should');
 
-describe('test/api/v1/reply.test.js', function () {
+describe.only('test/api/v1/reply.test.js', function () {
   var mockTopic;
   var mockReplyId;
   before(function (done) {
@@ -16,31 +16,61 @@ describe('test/api/v1/reply.test.js', function () {
     });
   });
 
-  it('should reply a topic', function (done) {
-    request.post('/api/v1/topic/' + mockTopic.id + '/replies')
-      .send({
-        content: 'reply a topic from api',
-        accesstoken: support.normalUser.accessToken,
-      })
-      .end(function (err, res) {
-        should.not.exists(err);
-        res.body.success.should.true;
-        mockReplyId = res.body.repli_id;
-        done();
-      });
+  describe('create reply', function () {
+
+    it('should reply a topic', function (done) {
+      request.post('/api/v1/topic/' + mockTopic.id + '/replies')
+        .send({
+          content: 'reply a topic from api',
+          accesstoken: support.normalUser.accessToken,
+        })
+        .end(function (err, res) {
+          should.not.exists(err);
+          res.body.success.should.true;
+          mockReplyId = res.body.reply_id;
+          done();
+        });
+    });
+
+    it('should reply a topic with repli_id', function (done) {
+      request.post('/api/v1/topic/' + mockTopic.id + '/replies')
+        .send({
+          content: 'reply a topic from api',
+          accesstoken: support.normalUser.accessToken,
+          repli_id: mockReplyId,
+        })
+        .end(function (err, res) {
+          should.not.exists(err);
+          res.body.success.should.true;
+          done();
+        });
+    });
   });
 
-  it('should reply a topic with repli_id', function (done) {
-    request.post('/api/v1/topic/' + mockTopic.id + '/replies')
-      .send({
-        content: 'reply a topic from api',
-        accesstoken: support.normalUser.accessToken,
-        repli_id: mockReplyId,
-      })
-      .end(function (err, res) {
-        should.not.exists(err);
-        res.body.success.should.true;
-        done();
-      });
-  });
+  describe('create ups', function () {
+    it('should up', function (done) {
+      request.post('/api/v1/reply/' + mockReplyId + '/ups')
+        .send({
+          accesstoken: support.normalUser.accessToken,
+        })
+        .end(function (err, res) {
+          should.not.exists(err);
+          res.body.should.eql({"success": true, "action": "up"});
+          done();
+        })
+    });
+
+    it('should down', function (done) {
+      request.post('/api/v1/reply/' + mockReplyId + '/ups')
+        .send({
+          accesstoken: support.normalUser.accessToken,
+        })
+        .end(function (err, res) {
+          should.not.exists(err);
+          res.body.should.eql({"success": true, "action": "down"});
+          done();
+        })
+    });
+  })
+
 });

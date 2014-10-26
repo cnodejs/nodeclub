@@ -6,6 +6,7 @@ var User = require('../../proxy').User;
 var Reply = require('../../proxy').Reply;
 var at = require('../../common/at');
 var message = require('../../common/message');
+var config = require('../../config');
 
 var create = function (req, res, next) {
   var topic_id = req.params.topic_id;
@@ -66,7 +67,45 @@ var create = function (req, res, next) {
       reply_id: reply._id,
     });
   });
-
 };
 
 exports.create = create;
+
+var ups = function (req, res, next) {
+  var replyId = req.params.reply_id;
+  var userId = req.user.id;
+  Reply.getReplyById(replyId, function (err, reply) {
+    if (err) {
+      return next(err);
+    }
+    if (!reply) {
+      res.status(404);
+      return res.send({error_msg: 'reply `' + replyId + '` not found'});
+    }
+    if (reply.author_id.equals(userId) && !config.debug) {
+      // 不能帮自己点赞
+      res.send({
+        error_msg: '呵呵，不能帮自己点赞。',
+      });
+    } else {
+      var action;
+      reply.ups = reply.ups || [];
+      var upIndex = reply.ups.indexOf(userId);
+      if (upIndex === -1) {
+        reply.ups.push(userId);
+        action = 'up';
+      } else {
+        reply.ups.splice(upIndex, 1);
+        action = 'down';
+      }
+      reply.save(function () {
+        res.send({
+          success: true,
+          action: action
+        });
+      });
+    }
+  });
+};
+
+exports.ups = ups;
