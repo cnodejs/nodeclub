@@ -37,7 +37,9 @@ var UserSchema = new Schema({
   from_wp: { type: Boolean },
 
   retrieve_time: {type: Number},
-  retrieve_key: {type: String}
+  retrieve_key: {type: String},
+
+  accessToken: {type: String},
 });
 
 UserSchema.virtual('avatar_url').get(function () {
