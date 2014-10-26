@@ -137,7 +137,7 @@ exports.getFullTopic = function (id, callback) {
       return callback(null, '此话题不存在或已被删除。');
     }
     at.linkUsers(topic.content, proxy.done('topic', function (str) {
-      topic.content = str;
+      topic.linkedContent = str;
       return topic;
     }));
 
