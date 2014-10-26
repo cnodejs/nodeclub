@@ -103,6 +103,8 @@ exports.setting = function (req, res, next) {
       location: data.location,
       signature: data.signature,
       weibo: data.weibo,
+      accessToken: data.accessToken,
+      accessTokenBase64: qrcode(data.accessToken),
     };
     if (isSuccess) {
       data2.success = msg;

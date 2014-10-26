@@ -64,6 +64,7 @@ describe('test/controllers/user.test.js', function () {
       .set('Cookie', support.normalUserCookie)
       .expect(200, function (err, res) {
         res.text.should.containEql('同时决定了 Gravatar 头像');
+        res.text.should.containEql('Access Token');
         done(err);
       });
     });

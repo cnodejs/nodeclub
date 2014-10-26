@@ -19,11 +19,15 @@
 * page Number 页数
 * tab String 主题分类
 * limit Number 每一页的主题数量
-* mdrender String 当为 `false` 时，不渲染
+* mdrender String 当为 `false` 时，不渲染。默认为 `true`
 
 示例：[/api/v1/topics](/api/v1/topics)
 
 #### /topic/:id 主题详情
+
+接收 get 参数
+
+* mdrender String 当为 `false` 时，不渲染。默认为 `true`
 
 示例：[/api/v1/topic/5433d5e4e737cbe96dcef312](/api/v1/topic/5433d5e4e737cbe96dcef312)
 
@@ -32,6 +36,14 @@
 #### /user/:loginname 用户详情
 
 示例：[/api/v1/user/alsotang](/api/v1/user/alsotang)
+
+#### /accesstoken 验证 accessToken 的正确性
+
+接收 post 参数
+
+* accessToken String 用户的 accessToken
+
+如果成功匹配上用户，会 302 跳转到该用户的 api 详情页。否则 403。
 
 */
         })) %>
