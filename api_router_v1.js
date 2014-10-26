@@ -10,6 +10,7 @@ var router = express.Router();
 
 router.get('/topics', topicController.index);
 router.get('/topic/:id', topicController.show);
+router.post('/topics', middleware.auth, topicController.create);
 
 router.get('/user/:loginname', userController.show);
 

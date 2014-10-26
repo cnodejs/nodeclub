@@ -12,48 +12,74 @@
 /*
 ### 主题
 
-#### /topics 主题首页
+#### get /topics 主题首页
 
 接收 get 参数
 
-* page Number 页数
-* tab String 主题分类
-* limit Number 每一页的主题数量
-* mdrender String 当为 `false` 时，不渲染。默认为 `true`
+* page `Number` 页数
+* tab `String` 主题分类
+* limit `Number` 每一页的主题数量
+* mdrender `String` 当为 `false` 时，不渲染。默认为 `true`
 
 示例：[/api/v1/topics](/api/v1/topics)
 
-#### /topic/:id 主题详情
+#### get /topic/:id 主题详情
 
 接收 get 参数
 
-* mdrender String 当为 `false` 时，不渲染。默认为 `true`
+* mdrender `String` 当为 `false` 时，不渲染。默认为 `true`
 
 示例：[/api/v1/topic/5433d5e4e737cbe96dcef312](/api/v1/topic/5433d5e4e737cbe96dcef312)
 
-### 评论
-
-#### /topic/:topic_id/replies
+#### post /topics 新建主题
 
 接收 post 参数
 
-* accesstoken String 用户的 accessToken
-* content String 评论的主体
-* reply_id String 如果这个评论是对另一个评论的回复，请务必带上此字段。这样前端就可以构建出评论线索图。
+* title `String` 标题
+* tab `String` 目前有 `ask` `share` `job`
+* content `String` 主体内容
+
+返回值示例
+
+```js
+{success: true, topic_id: '5433d5e4e737cbe96dcef312'}
+```
+
+### 评论
+
+#### post /topic/:topic_id/replies 评论回复
+
+接收 post 参数
+
+* accesstoken `String` 用户的 accessToken
+* content `String` 评论的主体
+* reply_id `String` 如果这个评论是对另一个评论的回复，请务必带上此字段。这样前端就可以构建出评论线索图。
+
+返回值示例
+
+```js
+{success: true, reply_id: '5433d5e4e737cbe96dcef312'}
+```
 
 ### 用户
 
-#### /user/:loginname 用户详情
+#### get /user/:loginname 用户详情
 
 示例：[/api/v1/user/alsotang](/api/v1/user/alsotang)
 
-#### /accesstoken 验证 accessToken 的正确性
+#### post /accesstoken 验证 accessToken 的正确性
 
 接收 post 参数
 
-* accesstoken String 用户的 accessToken
+* accesstoken `String` 用户的 accessToken
 
-如果成功匹配上用户，会 302 跳转到该用户的 api 详情页。否则 403。
+如果成功匹配上用户，返回成功信息。否则 403。
+
+返回值示例：
+
+```js
+{success: true, loginname: req.user.loginname}
+```
 
 ### 知识点
 

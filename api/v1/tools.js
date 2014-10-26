@@ -6,6 +6,6 @@ var accesstoken = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);
 
-  res.redirect('/api/v1/user/' + req.user.loginname);
+  res.send({success: true, loginname: req.user.loginname});
 };
 exports.accesstoken = accesstoken;

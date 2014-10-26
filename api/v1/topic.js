@@ -1,12 +1,14 @@
 var models = require('../../models');
 var TopicModel = models.Topic;
 var TopicProxy = require('../../proxy').Topic;
+var UserProxy = require('../../proxy').User;
 var UserModel = models.User;
 var config = require('../../config');
 var eventproxy = require('eventproxy');
 var _ = require('lodash');
 var at = require('../../common/at');
 var renderHelpers = require('../../common/render_helpers');
+var validator = require('validator');
 
 var index = function (req, res, next) {
   var page = parseInt(req.query.page, 10) || 1;
@@ -82,3 +84,64 @@ var show = function (req, res, next) {
 };
 
 exports.show = show;
+
+var create = function (req, res, next) {
+  var title = validator.trim(req.body.title);
+  title = validator.escape(title);
+  var tab = validator.trim(req.body.tab);
+  tab = validator.escape(tab);
+  var content = validator.trim(req.body.content);
+
+  // 得到所有的 tab, e.g. ['ask', 'share', ..]
+  var allTabs = config.tabs.map(function (tPair) {
+    return tPair[0];
+  });
+
+  // 验证
+  var editError;
+  if (title === '') {
+    editError = '标题不能是空的。';
+  } else if (title.length < 5 || title.length > 100) {
+    editError = '标题字数太多或太少。';
+  } else if (!tab || allTabs.indexOf(tab) === -1) {
+    editError = '必须选择一个版块。';
+  } else if (content === '') {
+    editError = '内容不可为空';
+  }
+  // END 验证
+
+  if (editError) {
+    res.status(422);
+    return res.send({
+      error_msg: editError,
+    });
+  }
+
+  TopicProxy.newAndSave(title, content, tab, req.user.id, function (err, topic) {
+    if (err) {
+      return next(err);
+    }
+
+    var proxy = new eventproxy();
+    proxy.fail(next);
+
+    proxy.all('score_saved', function () {
+      res.send({
+        success: true,
+        topic_id: topic.id,
+      });
+    });
+    UserProxy.getUserById(req.user.id, proxy.done(function (user) {
+      user.score += 5;
+      user.topic_count += 1;
+      user.save();
+      req.user = user;
+      proxy.emit('score_saved');
+    }));
+
+    //发送at消息
+    at.sendMessageToMentionUsers(content, topic.id, req.user.id);
+  });
+};
+
+exports.create = create;

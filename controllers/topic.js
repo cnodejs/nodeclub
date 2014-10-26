@@ -104,10 +104,6 @@ exports.create = function (req, res, next) {
   });
 };
 
-// 得到所有的 tab, e.g. ['ask', 'share', ..]
-var allTabs = config.tabs.map(function (tPair) {
-  return tPair[0];
-});
 
 exports.put = function (req, res, next) {
   var title = validator.trim(req.body.title);
@@ -115,6 +111,11 @@ exports.put = function (req, res, next) {
   var tab = validator.trim(req.body.tab);
   tab = validator.escape(tab);
   var content = validator.trim(req.body.t_content);
+
+  // 得到所有的 tab, e.g. ['ask', 'share', ..]
+  var allTabs = config.tabs.map(function (tPair) {
+    return tPair[0];
+  });
 
   // 验证
   var editError;
