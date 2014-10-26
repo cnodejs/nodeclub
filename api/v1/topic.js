@@ -13,7 +13,7 @@ var index = function (req, res, next) {
   page = page > 0 ? page : 1;
   var tab = req.query.tab || req.session.tab || 'all';
   var limit = Number(req.query.limit) || config.list_topic_count;
-  var mdrender = req.query.mdrender !== void 0 ? (!!req.query.mdrender) : true;
+  var mdrender = req.query.mdrender === 'false' ? false : true;
 
   var query = {};
   if (tab && tab !== 'all') {
@@ -52,7 +52,7 @@ exports.index = index;
 
 var show = function (req, res, next) {
   var topicId = req.params.id;
-  var mdrender = req.query.mdrender !== void 0 ? (!!req.query.mdrender) : true;
+  var mdrender = req.query.mdrender === 'false' ? false : true;
 
   var ep = new eventproxy();
   ep.fail(next);
