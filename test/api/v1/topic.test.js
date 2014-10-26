@@ -6,7 +6,7 @@ var should = require('should');
 var support = require('../../support/support');
 
 
-describe.only('test/api/v1/topic.test.js', function () {
+describe('test/api/v1/topic.test.js', function () {
   var mockUser, mockTopic;
   before(function (done) {
     support.createUser(function (err, user) {

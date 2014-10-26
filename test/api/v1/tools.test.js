@@ -21,8 +21,8 @@ describe('test/api/v1/tools.test.js', function () {
       })
       .end(function (err, res) {
         should.not.exists(err);
-        res.status.should.equal(302);
-        res.headers.location.should.equal('/api/v1/user/' + mockUser.loginname);
+        res.status.should.equal(200);
+        res.body.loginname.should.equal(mockUser.loginname);
         done();
       })
   })

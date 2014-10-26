@@ -16,6 +16,7 @@ var support = require('../support/support');
 var _ = require('lodash');
 var pedding = require('pedding');
 var UserProxy = require('../../proxy/user');
+var ReplyModel = require('../../models').Reply;
 
 describe('test/controllers/user.test.js', function () {
   var testUser;
@@ -257,6 +258,31 @@ describe('test/controllers/user.test.js', function () {
       .expect(500, function (err, res) {
         res.text.should.containEql('user is not exists')
         done(err);
+      })
+    })
+  })
+
+  describe('#delete_all', function () {
+    it('should delele all ups', function (done) {
+      support.createUser(function (err, user) {
+        var userId = user._id;
+        ReplyModel.findOne(function (err, reply) {
+          reply.ups.push(userId);
+          reply.save(function (err, reply) {
+            reply.ups.should.containEql(userId)
+
+            request.post('/user/' + user.loginname + '/delete_all')
+              .set('Cookie', support.adminUserCookie)
+              .expect(200, function (err, res) {
+                res.body.should.eql({ status: 'success' });
+
+                ReplyModel.findOne({_id: reply._id}, function (err, reply) {
+                  reply.ups.should.not.containEql(userId)
+                  done();
+                })
+              })
+          })
+        })
       })
     })
   })

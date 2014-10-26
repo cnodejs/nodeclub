@@ -338,19 +338,12 @@ exports.block = function (req, res, next) {
       return next(new Error('user is not exists'));
     }
     if (action === 'set_block') {
-      ep.all('block_user', 'del_topics', 'del_replys',
-        function (user, topics, replys) {
+      ep.all('block_user',
+        function (user) {
           res.json({status: 'success'});
         });
       user.is_block = true;
       user.save(ep.done('block_user'));
-
-      // 防止误操作，平时都注释
-      TopicModel.remove({author_id: user._id}, ep.done('del_topics'));
-      ReplyModel.remove({author_id: user._id}, ep.done('del_replys'));
-      // ep.emit('del_topics');
-      // ep.emit('del_replys');
-      // END 防止误操作，平时都注释
 
     } else if (action === 'cancel_block') {
       user.is_block = false;
@@ -359,5 +352,26 @@ exports.block = function (req, res, next) {
         res.json({status: 'success'});
       }));
     }
+  }));
+};
+
+exports.deleteAll = function (req, res, next) {
+  var loginname = req.params.name;
+
+  var ep = EventProxy.create();
+  ep.fail(next);
+
+  User.getUserByLoginName(loginname, ep.done(function (user) {
+    if (!user) {
+      return next(new Error('user is not exists'));
+    }
+    ep.all('del_topics', 'del_replys', 'del_ups',
+      function () {
+        res.json({status: 'success'});
+      });
+    TopicModel.remove({author_id: user._id}, ep.done('del_topics'));
+    ReplyModel.remove({author_id: user._id}, ep.done('del_replys'));
+    // 点赞数也全部干掉
+    ReplyModel.update({}, {$pull: {'ups': user._id}}, {multi: true}, ep.done('del_ups'));
   }));
 };

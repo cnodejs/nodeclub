@@ -62,10 +62,12 @@
       <% } %>
 
       <% if (!user.is_block) { %>
-      <span class='span-common' id='set_block_btn' action='set_block'>屏蔽用户并删其所有帖</span>
+      <span class='span-common' id='set_block_btn' action='set_block'>屏蔽用户</span>
       <% } else { %>
       <span class='span-common' id='set_block_btn' action='cancel_block'>取消屏蔽用户</span>
       <% } %>
+
+      <span class="span-common" id="delete_all">删除所有发言</span>
 
       <br/><br/>
       Email (Seen by Administrator): <a href="mailto:<%= user.email %>"><%= user.email %></a>
@@ -144,7 +146,7 @@
         _csrf: '<%- csrf %>',
         action: action
       };
-      if (action === 'set_block' && !confirm('确定要屏蔽该用户吗？此操作不可逆且会删除该用户的所有主题和回复！')) {
+      if (action === 'set_block' && !confirm('确定要屏蔽该用户吗？')) {
         return;
       }
       $.post('/user/<%- user.loginname %>/block', params, function (data) {
@@ -156,6 +158,21 @@
             $me.html('屏蔽用户并删其所有帖');
             $me.attr('action', 'set_block');
           }
+        }
+      }, 'json');
+    })
+
+    $('#delete_all').click(function () {
+      var $me = $(this);
+      var params = {
+        _csrf: '<%- csrf %>',
+      };
+      if (!confirm('确定要删除吗？此操作不可逆')) {
+        return;
+      }
+      $.post('/user/<%- user.loginname %>/delete_all', params, function (data) {
+        if (data.status === 'success') {
+          alert('操作成功');
         }
       }, 'json');
     })
