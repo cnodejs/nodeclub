@@ -13,7 +13,7 @@ var User = require('../proxy').User;
 var Topic = require('../proxy').Topic;
 var config = require('../config');
 var eventproxy = require('eventproxy');
-var mcache = require('memory-cache');
+var cache = require('../common/cache');
 var xmlbuilder = require('xmlbuilder');
 var renderHelpers = require('../common/render_helpers');
 
@@ -32,8 +32,7 @@ function indexCache() {
     }
     var optionsStr = JSON.stringify(query) + JSON.stringify(options);
     Topic.getTopicsByQuery(query, options, function (err, topics) {
-      mcache.put(optionsStr, topics);
-      return topics;
+      cache.set(optionsStr, topics);
     });
   });
 }
@@ -61,53 +60,62 @@ exports.index = function (req, res, next) {
   var options = { skip: (page - 1) * limit, limit: limit, sort: '-top -last_reply_at'};
   var optionsStr = JSON.stringify(query) + JSON.stringify(options);
 
-  if (mcache.get(optionsStr)) {
-    proxy.emitLater('topics', mcache.get(optionsStr));
-  } else {
+  cache.get(optionsStr, proxy.done(function (topics) {
+    if (topics) {
+      return proxy.emit('topics', topics);
+    }
     Topic.getTopicsByQuery(query, options, proxy.done('topics', function (topics) {
       return topics;
     }));
-  }
+  }));
   // END 取主题
 
   // 取排行榜上的用户
-  if (mcache.get('tops')) {
-    proxy.emitLater('tops', mcache.get('tops'));
-  } else {
-    User.getUsersByQuery(
-      {'$or': [
-        {is_block: {'$exists': false}},
-        {is_block: false}
-      ]},
-      { limit: 10, sort: '-score'},
-      proxy.done('tops', function (tops) {
-        mcache.put('tops', tops, 1000 * 60 * 1);
-        return tops;
-      })
-    );
-  }
+  cache.get('tops', proxy.done(function (tops) {
+    if (tops) {
+      proxy.emit('tops', tops);
+    } else {
+      User.getUsersByQuery(
+        {'$or': [
+          {is_block: {'$exists': false}},
+          {is_block: false}
+        ]},
+        { limit: 10, sort: '-score'},
+        proxy.done('tops', function (tops) {
+          cache.set('tops', tops, 1000 * 60 * 1);
+          return tops;
+        })
+      );
+    }
+  }));
+
   // 取0回复的主题
-  if (mcache.get('no_reply_topics')) {
-    proxy.emitLater('no_reply_topics', mcache.get('no_reply_topics'));
-  } else {
-    Topic.getTopicsByQuery(
-      { reply_count: 0 },
-      { limit: 5, sort: '-create_at'},
-      proxy.done('no_reply_topics', function (no_reply_topics) {
-        mcache.put('no_reply_topics', no_reply_topics, 1000 * 60 * 1);
-        return no_reply_topics;
-      }));
-  }
+  cache.get('no_reply_topics', proxy.done(function (no_reply_topics) {
+    if (no_reply_topics) {
+      proxy.emit('no_reply_topics', no_reply_topics);
+    } else {
+      Topic.getTopicsByQuery(
+        { reply_count: 0 },
+        { limit: 5, sort: '-create_at'},
+        proxy.done('no_reply_topics', function (no_reply_topics) {
+          cache.set('no_reply_topics', no_reply_topics, 1000 * 60 * 1);
+          return no_reply_topics;
+        }));
+    }
+  }));
+
   // 取分页数据
-  if (mcache.get('pages')) {
-    proxy.emitLater('pages', mcache.get('pages'));
-  } else {
-    Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
-      var pages = Math.ceil(all_topics_count / limit);
-      mcache.put(JSON.stringify(query) + 'pages', pages, 1000 * 60 * 1);
+  cache.get('pages', proxy.done(function (pages) {
+    if (pages) {
       proxy.emit('pages', pages);
-    }));
-  }
+    } else {
+      Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
+        var pages = Math.ceil(all_topics_count / limit);
+        cache.set(JSON.stringify(query) + 'pages', pages, 1000 * 60 * 1);
+        proxy.emit('pages', pages);
+      }));
+    }
+  }));
 
   var tabName = renderHelpers.tabName(tab);
   proxy.all('topics', 'tops', 'no_reply_topics', 'pages',
@@ -139,22 +147,23 @@ exports.sitemap = function (req, res, next) {
     res.send(sitemap);
   });
 
-  var sitemapData = mcache.get('sitemap');
-  if (sitemapData) {
-    ep.emit('sitemap', sitemapData);
-  } else {
-    Topic.getLimit5w(function (err, topics) {
-      if (err) {
-        return next(err);
-      }
-      topics.forEach(function (topic) {
-        urlset.ele('url').ele('loc', 'http://cnodejs.org/topic/' + topic._id);
-      });
-
-      var sitemapData = urlset.end();
-      // 缓存一天
-      mcache.put('sitemap', sitemapData, 1000 * 3600 * 24);
+  cache.get('sitemap', ep.done(function (sitemapData) {
+    if (sitemapData) {
       ep.emit('sitemap', sitemapData);
-    });
-  }
+    } else {
+      Topic.getLimit5w(function (err, topics) {
+        if (err) {
+          return next(err);
+        }
+        topics.forEach(function (topic) {
+          urlset.ele('url').ele('loc', 'http://cnodejs.org/topic/' + topic._id);
+        });
+
+        var sitemapData = urlset.end();
+        // 缓存一天
+        cache.set('sitemap', sitemapData, 1000 * 3600 * 24);
+        ep.emit('sitemap', sitemapData);
+      });
+    }
+  }));
 };
