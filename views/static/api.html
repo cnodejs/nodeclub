@@ -31,6 +31,16 @@
 
 示例：[/api/v1/topic/5433d5e4e737cbe96dcef312](/api/v1/topic/5433d5e4e737cbe96dcef312)
 
+### 评论
+
+#### /topic/:topic_id/replies
+
+接收 post 参数
+
+* accesstoken String 用户的 accessToken
+* content String 评论的主体
+* reply_id String 如果这个评论是对另一个评论的回复，请务必带上此字段。这样前端就可以构建出评论线索图。
+
 ### 用户
 
 #### /user/:loginname 用户详情
@@ -41,7 +51,7 @@
 
 接收 post 参数
 
-* accessToken String 用户的 accessToken
+* accesstoken String 用户的 accessToken
 
 如果成功匹配上用户，会 302 跳转到该用户的 api 详情页。否则 403。
 

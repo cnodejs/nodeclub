@@ -17,7 +17,7 @@ describe('test/api/v1/tools.test.js', function () {
   it('should response with loginname', function (done) {
     request.post('/api/v1/accesstoken')
       .send({
-        accessToken: mockUser.accessToken
+        accesstoken: mockUser.accessToken
       })
       .end(function (err, res) {
         should.not.exists(err);
