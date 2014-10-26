@@ -14,6 +14,7 @@ var EventProxy = require('eventproxy');
 var validator = require('validator');
 var utility = require('utility');
 var _ = require('lodash');
+var qrcode = require('yaqrcode');
 
 exports.index = function (req, res, next) {
   var user_name = req.params.name;
@@ -83,6 +84,7 @@ exports.showSetting = function (req, res, next) {
       user.success = '保存成功。';
     }
     user.error = null;
+    user.accessTokenBase64 = qrcode(user.accessToken);
     return res.render('user/setting', user);
   });
 };

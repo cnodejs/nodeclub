@@ -41,7 +41,8 @@
     "response-time": "2.2.0",
     "utility": "1.0.0",
     "validator": "3.22.0",
-    "xmlbuilder": "2.4.4"
+    "xmlbuilder": "2.4.4",
+    "yaqrcode": "0.0.2"
   },
   "devDependencies": {
     "coveralls": "2.11.2",
