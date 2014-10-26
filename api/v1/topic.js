@@ -10,12 +10,12 @@ var index = function (req, res, next) {
   var page = parseInt(req.query.page, 10) || 1;
   page = page > 0 ? page : 1;
   var tab = req.query.tab || req.session.tab || 'all';
+  var limit = Number(req.query.limit) || config.list_topic_count;
 
   var query = {};
   if (tab && tab !== 'all') {
     query.tab = tab;
   }
-  var limit = config.list_topic_count;
   var options = { skip: (page - 1) * limit, limit: limit, sort: '-top -last_reply_at'};
 
   var ep = new eventproxy();
