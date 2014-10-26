@@ -143,8 +143,8 @@ exports.update = function (req, res, next) {
 
     if (String(reply.author_id) === req.session.user._id.toString() || req.session.user.is_admin) {
 
-      reply.content = content.trim();
-      if (content.length > 0) {
+      if (content.trim().length > 0) {
+        reply.content = content;
         reply.save(function (err) {
           if (err) {
             return next(err);
