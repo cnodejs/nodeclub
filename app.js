@@ -86,8 +86,9 @@ app.use('/public', express.static(staticDir));
 if (!config.debug) {
   app.use(function (req, res, next) {
     if (req.path.indexOf('/api') === -1) {
-      next(csurf());
+      return next(csurf());
     }
+    next();
   });
   app.set('view cache', true);
 }
