@@ -86,7 +86,8 @@ app.use('/public', express.static(staticDir));
 if (!config.debug) {
   app.use(function (req, res, next) {
     if (req.path.indexOf('/api') === -1) {
-      return next(csurf());
+      csurf()(req, res, next);
+      return;
     }
     next();
   });
