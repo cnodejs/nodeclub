@@ -84,7 +84,11 @@ app.use(Loader.less(__dirname));
 app.use('/public', express.static(staticDir));
 
 if (!config.debug) {
-  app.use(csurf());
+  app.use(function (req, res, next) {
+    if (req.path.indexOf('/api') === -1) {
+      next(csurf());
+    }
+  });
   app.set('view cache', true);
 }
 
