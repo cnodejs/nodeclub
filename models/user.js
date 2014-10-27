@@ -59,5 +59,6 @@ UserSchema.index({loginname: 1}, {unique: true});
 UserSchema.index({email: 1}, {unique: true});
 UserSchema.index({score: -1});
 UserSchema.index({githubId: 1});
+UserSchema.index({accessToken: 1});
 
 mongoose.model('User', UserSchema);
