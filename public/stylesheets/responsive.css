@@ -53,9 +53,7 @@
   }
 
   #responsive-sidebar-trigger {
-      display: block !important;
-      position: absolute;
-      right: 0;
+      display: none;
   }
 
   #main {
@@ -123,7 +121,7 @@
   }
 
   #footer_main {
-      text-align: center;
+    display: none;
   }
 
   #backtotop {
