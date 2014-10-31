@@ -10,36 +10,36 @@
  * Module dependencies.
  */
 
-var marked = require('marked');
+var Remarkable = require('remarkable');
 var _ = require('lodash');
 var config = require('../config');
 var validator = require('validator');
 var multiline = require('multiline');
 
 // Set default options
-var renderer = new marked.Renderer();
+var md = new Remarkable();
 
-renderer.code = function (code, lang) {
-  var language = lang && ('language-' + lang) || '';
+md.renderer.rules.fence = function (tokens, idx) {
+  var token = tokens[idx];
+  var language = token.params && ('language-' + token.params) || '';
   language = validator.escape(language);
+ 
   return '<pre class="prettyprint ' + language + '">'
-    + '<code>' + validator.escape(code) + '</code>'
+    + '<code>' + validator.escape(token.content) + '</code>'
     + '</pre>';
 };
 
-marked.setOptions({
-  renderer: renderer,
-  gfm: true,
-  tables: true,
+md.set({
+  html: false,
+  xhtmlOut: false,
   breaks: true,
-  pedantic: false,
-  sanitize: true,
-  smartLists: true,
-  smartypants: false,
+  langPrefix: 'language-',
+  linkify: true,
+  typographer: false,
 });
 
 exports.markdown = function (text) {
-  return '<div class="markdown-text">' + marked(text || '') + '</div>';
+  return '<div class="markdown-text">' + md.render(text || '') + '</div>';
 };
 
 exports.multiline = multiline;

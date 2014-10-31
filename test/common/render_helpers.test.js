@@ -20,7 +20,7 @@ var a = 1;
       });
 
       var rendered = renderHelpers.markdown(text);
-      rendered.should.equal('<div class=\"markdown-text\"><pre class=\"prettyprint language-js\"><code>var a = 1;</code></pre></div>');
+      rendered.should.equal('<div class=\"markdown-text\"><pre class=\"prettyprint language-js\"><code>var a = 1;\n</code></pre></div>');
     });
   });
 
