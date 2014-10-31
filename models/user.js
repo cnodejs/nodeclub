@@ -47,6 +47,9 @@ UserSchema.virtual('avatar_url').get(function () {
   if (url.indexOf('http:') === 0) {
     url = url.slice(5);
   }
+  if (url.indexOf('githubusercontent') !== -1) {
+    url += '&s=40';
+  }
   return url;
 });
 
