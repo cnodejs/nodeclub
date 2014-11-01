@@ -50,7 +50,7 @@ UserSchema.virtual('avatar_url').get(function () {
   }
   // 如果是 github 的头像，则限制大小
   if (url.indexOf('githubusercontent') !== -1) {
-    url += '&s=40';
+    url += '&s=120';
   }
   return url;
 });
