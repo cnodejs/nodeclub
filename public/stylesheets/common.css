@@ -37,7 +37,6 @@ p code {
     color: hsl(0, 0%, 50%);
     margin: 0 1px;
     padding: 1px 4px;
-    box-shadow: 0px 0px 1px rgb(126, 126, 126);
     border-radius: 1px;
 }
 
@@ -45,10 +44,10 @@ div pre.prettyprint {
     font-size: 14px;
     border-radius: 0px;
     padding: 0 15px;
-    border: rgb(240, 240, 240) solid;
+    border: none;
     margin: 20px -10px;
     border-width: 1px 0px;
-    background: #fcfafa;
+    background: #f7f7f7;
 }
 
 form {
