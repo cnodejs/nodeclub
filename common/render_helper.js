@@ -22,9 +22,9 @@ var md = new Remarkable();
 md.set({
   html:         false,        // Enable HTML tags in source
   xhtmlOut:     false,        // Use '/' to close single tags (<br />)
-  breaks:       true,        // Convert '\n' in paragraphs into <br>
-  linkify:      false,        // Autoconvert URL-like text to links
-  typographer:  false,        // Enable smartypants and other sweet transforms
+  breaks:       false,        // Convert '\n' in paragraphs into <br>
+  linkify:      true,        // Autoconvert URL-like text to links
+  typographer:  true,        // Enable smartypants and other sweet transforms
 });
 
 md.renderer.rules.fence = function (tokens, idx) {
