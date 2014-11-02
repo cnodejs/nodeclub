@@ -36,6 +36,19 @@ md.renderer.rules.fence = function (tokens, idx) {
     + '</pre>';
 };
 
+md.renderer.rules.code = function (tokens, idx /*, options*/) {
+  var token = tokens[idx];
+  var language = token.params && ('language-' + token.params) || '';
+  language = validator.escape(language);
+  if (token.block) {
+    return '<pre class="prettyprint ' + language + '">'
+      + '<code>' + validator.escape(tokens[idx].content) + '</code>'
+      + '</pre>';
+  }
+
+  return '<code>' + validator.escape(tokens[idx].content) + '</code>';
+};
+
 
 // renderer.code = function (code, lang) {
 //   var language = lang && ('language-' + lang) || '';
