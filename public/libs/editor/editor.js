@@ -7129,9 +7129,9 @@ Editor.toolbar = toolbar;
  * Default markdown render.
  */
 Editor.markdown = function(text) {
-  if (window.marked) {
+  if (window.remarkable) {
     // use marked as markdown parser
-    return marked(text);
+    return remarkable.render(text);
   }
 };
 

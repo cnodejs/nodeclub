@@ -106,7 +106,7 @@ _.extend(app.locals, {
   assets: assets
 });
 
-_.extend(app.locals, require('./common/render_helpers'));
+_.extend(app.locals, require('./common/render_helper'));
 app.use(function (req, res, next) {
   res.locals.csrf = req.csrfToken ? req.csrfToken() : '';
   next();

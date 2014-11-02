@@ -2,7 +2,7 @@ var config = require('../config');
 var convert = require('data2xml')();
 var Topic = require('../proxy').Topic;
 var cache = require('../common/cache');
-var marked = require('marked');
+var renderHelper = require('../common/render_helper');
 var eventproxy = require('eventproxy');
 
 exports.index = function (req, res, next) {
@@ -40,7 +40,7 @@ exports.index = function (req, res, next) {
             title: topic.title,
             link: config.rss.link + '/topic/' + topic._id,
             guid: config.rss.link + '/topic/' + topic._id,
-            description: marked(topic.content),
+            description: renderHelper.markdown(topic.content),
             author: topic.author.loginname,
             pubDate: topic.create_at.toUTCString()
           });

@@ -6,9 +6,9 @@ var support = require('../support/support');
 var _ = require('lodash');
 var pedding = require('pedding');
 var multiline = require('multiline');
-var renderHelpers = require('../../common/render_helpers');
+var renderHelper = require('../../common/render_helper');
 
-describe('test/common/render_helpers.test.js', function () {
+describe('test/common/render_helper.test.js', function () {
   describe('#markdown', function () {
     it('should render code', function () {
       var text = multiline(function () {;
@@ -19,8 +19,8 @@ var a = 1;
     */
       });
 
-      var rendered = renderHelpers.markdown(text);
-      rendered.should.equal('<div class=\"markdown-text\"><pre class=\"prettyprint language-js\"><code>var a = 1;</code></pre></div>');
+      var rendered = renderHelper.markdown(text);
+      rendered.should.equal('<div class=\"markdown-text\"><pre class=\"prettyprint language-js\"><code>var a = 1;\n</code></pre></div>');
     });
   });
 
@@ -32,14 +32,14 @@ var a = 1;
 </script>
 */
       });
-      var escaped = renderHelpers.escapeSignature(signature);
+      var escaped = renderHelper.escapeSignature(signature);
       escaped.should.equal('我爱北京天安门&lt;script&gt;alert(1)<br>&lt;/script&gt;');
     })
   })
 
   describe('#tabName', function () {
     it('should translate', function () {
-      renderHelpers.tabName('share')
+      renderHelper.tabName('share')
         .should.equal('分享')
     })
   })

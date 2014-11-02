@@ -1,22 +1,17 @@
-(function(Editor, marked, WebUploader){
-    // configure marked
-    var renderer = new marked.Renderer();
-    renderer.code = function (code, lang) {
-        var ret = '<pre class="prettyprint language-' + lang + '">';
-        ret += '<code>' + code.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code>';
-        ret += '</pre>';
-        return ret;
-    };
-    marked.setOptions({
-        renderer: renderer,
-        gfm: true,
-        tables: true,
-        breaks: true,
-        pedantic: false,
-        sanitize: true,
-        smartLists: true,
-        smartypants: false,
+(function(Editor, Remarkable, WebUploader){
+    // Set default options
+    var md = new Remarkable();
+
+    md.set({
+      html:         false,        // Enable HTML tags in source
+      xhtmlOut:     false,        // Use '/' to close single tags (<br />)
+      breaks:       true,        // Convert '\n' in paragraphs into <br>
+      langPrefix:   'language-',  // CSS language prefix for fenced blocks
+      linkify:      false,        // Autoconvert URL-like text to links
+      typographer:  false,        // Enable smartypants and other sweet transforms
     });
+
+    window.remarkable = md;
 
     var toolbar = Editor.toolbar;
 
@@ -248,4 +243,4 @@
         var line = cm.lastLine();
         cm.setLine(line, cm.getLine(line) + txt);
     };
-})(window.Editor, window.marked, window.WebUploader);
+})(window.Editor, window.Remarkable, window.WebUploader);
