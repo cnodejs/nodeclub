@@ -12,6 +12,21 @@
     <%- partial('../_ads') %>
   <% } %>
 
+  <!--  Topic QR COde popup -->
+  <div class="modal fade" id="qrCodeModal" tabindex="-1" role="dialog" aria-labelledby="qrCodeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+          <h4 class="modal-title">扫一扫 二维码</h4>
+        </div>
+        <div class="modal-body">
+          <canvas id="topicQRCode"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>作者其它话题</span>
@@ -133,6 +148,7 @@
       </div>
 
       <div class="action">
+        <span class='span-common span-success' id='share_wechat_btn' onclick="shareTopicViaWechat()">分享到微信</span>
         <span class='span-success' id='share_weibo_btn'
               onclick="((function(s,d,e,r,l,p,t,z,c){var f='http://v.t.sina.com.cn/share/share.php?appkey=<%= config.weibo_key %>',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else a();})(screen,document,encodeURIComponent,'','','','@<%= config.weibo_id %> 分享来自<%= config.name %>的话题：<%= topic.title %>','',''));"
                 >分享到微博</span>
@@ -192,6 +208,7 @@
 .js('/public/libs/editor/editor.js')
 .js('/public/libs/webuploader/webuploader.withoutimage.js')
 .js('/public/libs/editor/ext.js')
+.js('/public/libs/qrcode.min.js')
 .done(assets, config.site_static_host, config.mini_assets)
 %>
 <script>
@@ -469,5 +486,17 @@
       }
     });
   });
-  // END 点赞
+  // END 点赞 
+  
+  // popup a dialog with QR Code encoded
+  function shareTopicViaWechat(){
+    var qrcodedraw = new QRCodeLib.QRCodeDraw();
+    qrcodedraw.draw(document.getElementById('topicQRCode'), window.location.href, function(error,canvas){
+      if(error){
+        return console.error('Error =( ',error);
+      }
+      console.log('success!');
+      $('#qrCodeModal').modal('show');
+    });
+  }
 </script>
