@@ -45,6 +45,20 @@ describe('test/api/v1/reply.test.js', function () {
           done();
         });
     });
+
+    it('should not create a reply when topic is not found', function (done) {
+      request.post('/api/v1/topic/' + mockTopic.id + 'not_found' + '/replies')
+        .send({
+          content: 'reply a topic from api',
+          accesstoken: support.normalUser.accessToken,
+        })
+        .end(function (err, res) {
+          should.not.exists(err);
+          res.status.should.equal(500);
+          done();
+        });
+
+    });
   });
 
   describe('create ups', function () {
@@ -68,6 +82,18 @@ describe('test/api/v1/reply.test.js', function () {
         .end(function (err, res) {
           should.not.exists(err);
           res.body.should.eql({"success": true, "action": "down"});
+          done();
+        })
+    });
+
+    it('do nothing when replyid is not found', function (done) {
+      request.post('/api/v1/reply/' + mockReplyId + 'not_found' + '/ups')
+        .send({
+          accesstoken: support.normalUser.accessToken,
+        })
+        .end(function (err, res) {
+          should.not.exists(err);
+          res.status.should.equal(500);
           done();
         })
     });

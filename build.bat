@@ -1,1 +1,0 @@
-start node node_modules\loader\bin\build views .

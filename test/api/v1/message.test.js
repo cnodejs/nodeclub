@@ -13,9 +13,9 @@ describe('test/api/v1/message.test.js', function () {
       support.createUser(function (err, user) {
         mockUser = user;
         done();
-      })
-    })
-  })
+      });
+    });
+  });
 
   afterEach(function () {
     mm.restore();
@@ -69,7 +69,7 @@ describe('test/api/v1/message.test.js', function () {
             // 第二次查询没了
             res.body.marked_msgs.length.should.equal(0);
             done();
-          })
-      })
-  })
+          });
+      });
+  });
 });

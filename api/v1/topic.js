@@ -7,13 +7,13 @@ var config = require('../../config');
 var eventproxy = require('eventproxy');
 var _ = require('lodash');
 var at = require('../../common/at');
-var renderHelpers = require('../../common/render_helpers');
+var renderHelper = require('../../common/render_helper');
 var validator = require('validator');
 
 var index = function (req, res, next) {
   var page = parseInt(req.query.page, 10) || 1;
   page = page > 0 ? page : 1;
-  var tab = req.query.tab || req.session.tab || 'all';
+  var tab = req.query.tab || 'all';
   var limit = Number(req.query.limit) || config.list_topic_count;
   var mdrender = req.query.mdrender === 'false' ? false : true;
 
@@ -32,7 +32,7 @@ var index = function (req, res, next) {
     topics.forEach(function (topic) {
       UserModel.findById(topic.author_id, ep.done(function (author) {
         if (mdrender) {
-          topic.content = renderHelpers.markdown(at.linkUsers(topic.content));
+          topic.content = renderHelper.markdown(at.linkUsers(topic.content));
         }
         topic.author = _.pick(author, ['loginname', 'avatar_url']);
         ep.emit('author');
@@ -67,13 +67,13 @@ var show = function (req, res, next) {
       'good', 'top', 'author']);
 
     if (mdrender) {
-      topic.content = renderHelpers.markdown(at.linkUsers(topic.content));
+      topic.content = renderHelper.markdown(at.linkUsers(topic.content));
     }
     topic.author = _.pick(author, ['loginname', 'avatar_url']);
 
     topic.replies = replies.map(function (reply) {
       if (mdrender) {
-        reply.content = renderHelpers.markdown(at.linkUsers(reply.content));
+        reply.content = renderHelper.markdown(at.linkUsers(reply.content));
       }
       reply.author = _.pick(reply.author, ['loginname', 'avatar_url']);
       reply =  _.pick(reply, ['id', 'author', 'content', 'ups', 'create_at']);

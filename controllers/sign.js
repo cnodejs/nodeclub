@@ -7,6 +7,7 @@ var mail = require('../common/mail');
 var tools = require('../common/tools');
 var utility = require('utility');
 var authMiddleWare = require('../middlewares/auth');
+var uuid = require('node-uuid');
 
 //sign up
 exports.showSignup = function (req, res) {
@@ -198,18 +199,6 @@ exports.showSearchPass = function (req, res) {
   res.render('sign/search_pass');
 };
 
-function randomString(size) {
-  size = size || 6;
-  var code_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var max_num = code_string.length + 1;
-  var new_pass = '';
-  while (size > 0) {
-    new_pass += code_string.charAt(Math.floor(Math.random() * max_num));
-    size--;
-  }
-  return new_pass;
-}
-
 exports.updateSearchPass = function (req, res, next) {
   var email = validator.trim(req.body.email).toLowerCase();
   if (!validator.isEmail(email)) {
@@ -217,7 +206,7 @@ exports.updateSearchPass = function (req, res, next) {
   }
 
   // 动态生成retrive_key和timestamp到users collection,之后重置密码进行验证
-  var retrieveKey = randomString(15);
+  var retrieveKey = uuid.v4();
   var retrieveTime = new Date().getTime();
   User.getUserByMail(email, function (err, user) {
     if (!user) {

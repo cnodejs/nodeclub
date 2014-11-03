@@ -1,5 +1,6 @@
 var User = require('../../proxy/user');
 var Topic = require('../../proxy/topic');
+var Reply = require('../../proxy/reply');
 var ready = require('ready');
 var eventproxy = require('eventproxy');
 var utility = require('utility');
@@ -25,6 +26,10 @@ exports.createUserByNameAndPwd = function (loginname, pwd, callback) {
 var createTopic = exports.createTopic = function (authorId, callback) {
   var key = new Date().getTime() + '_' + randomInt();
   Topic.newAndSave('topic title' + key, 'test topic content' + key, 'share', authorId, callback);
+};
+
+var createReply = exports.createReply = function (topicId, authorId, callback) {
+  Reply.newAndSave('I am content', topicId, authorId, callback);
 };
 
 function mockUser(user) {
@@ -57,6 +62,11 @@ createUser(ep.done('admin'));
 
 ep.all('topic', function (topic) {
   exports.testTopic = topic;
+  createReply(topic._id, exports.normalUser._id, ep.done('reply'));
+});
+
+ep.all('reply', function (reply) {
+  exports.testReply = reply;
   exports.ready(true);
 });
 

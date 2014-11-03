@@ -84,7 +84,13 @@ app.use(Loader.less(__dirname));
 app.use('/public', express.static(staticDir));
 
 if (!config.debug) {
-  app.use(csurf());
+  app.use(function (req, res, next) {
+    if (req.path.indexOf('/api') === -1) {
+      csurf()(req, res, next);
+      return;
+    }
+    next();
+  });
   app.set('view cache', true);
 }
 
@@ -100,7 +106,7 @@ _.extend(app.locals, {
   assets: assets
 });
 
-_.extend(app.locals, require('./common/render_helpers'));
+_.extend(app.locals, require('./common/render_helper'));
 app.use(function (req, res, next) {
   res.locals.csrf = req.csrfToken ? req.csrfToken() : '';
   next();

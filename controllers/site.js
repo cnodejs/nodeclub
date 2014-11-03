@@ -15,7 +15,7 @@ var config = require('../config');
 var eventproxy = require('eventproxy');
 var cache = require('../common/cache');
 var xmlbuilder = require('xmlbuilder');
-var renderHelpers = require('../common/render_helpers');
+var renderHelper = require('../common/render_helper');
 
 // 主页的缓存工作。主页是需要主动缓存的
 function indexCache() {
@@ -117,7 +117,7 @@ exports.index = function (req, res, next) {
     }
   }));
 
-  var tabName = renderHelpers.tabName(tab);
+  var tabName = renderHelper.tabName(tab);
   proxy.all('topics', 'tops', 'no_reply_topics', 'pages',
     function (topics, tops, no_reply_topics, pages) {
       res.render('index', {

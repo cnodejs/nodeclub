@@ -267,6 +267,7 @@ describe('test/controllers/user.test.js', function () {
       support.createUser(function (err, user) {
         var userId = user._id;
         ReplyModel.findOne(function (err, reply) {
+          should.not.exists(err);
           reply.ups.push(userId);
           reply.save(function (err, reply) {
             reply.ups.should.containEql(userId)
