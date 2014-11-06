@@ -49,26 +49,6 @@ md.renderer.rules.code = function (tokens, idx /*, options*/) {
   return '<code>' + validator.escape(tokens[idx].content) + '</code>';
 };
 
-
-// renderer.code = function (code, lang) {
-//   var language = lang && ('language-' + lang) || '';
-//   language = validator.escape(language);
-//   return '<pre class="prettyprint ' + language + '">'
-//     + '<code>' + validator.escape(code) + '</code>'
-//     + '</pre>';
-// };
-
-// marked.setOptions({
-//   renderer: renderer,
-//   gfm: true,
-//   tables: true,
-//   breaks: true,
-//   pedantic: false,
-//   sanitize: true,
-//   smartLists: true,
-//   smartypants: false,
-// });
-
 exports.markdown = function (text) {
   return '<div class="markdown-text">' + md.render(text || '') + '</div>';
 };
