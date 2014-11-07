@@ -35,6 +35,7 @@ exports.getMessageById = function (id, callback) {
     }
     if (message.type === 'reply' || message.type === 'reply2' || message.type === 'at') {
       var proxy = new EventProxy();
+      proxy.fail(callback);
       proxy.assign('author_found', 'topic_found', 'reply_found', function (author, topic, reply) {
         message.author = author;
         message.topic = topic;
@@ -43,7 +44,7 @@ exports.getMessageById = function (id, callback) {
           message.is_invalid = true;
         }
         return callback(null, message);
-      }).fail(callback); // 接收异常
+      }); // 接收异常
       User.getUserById(message.author_id, proxy.done('author_found'));
       Topic.getTopicById(message.topic_id, proxy.done('topic_found'));
       Reply.getReplyById(message.reply_id, proxy.done('reply_found'));
