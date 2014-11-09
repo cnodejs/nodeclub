@@ -131,8 +131,6 @@ exports.setting = function (req, res, next) {
       user.location = location;
       user.signature = signature;
       user.weibo = weibo;
-      // create gravatar
-      user.avatar = User.makeGravatar(user.email);
       user.save(function (err) {
         if (err) {
           return next(err);
