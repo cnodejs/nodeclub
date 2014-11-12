@@ -281,6 +281,7 @@ exports.delete = function (req, res, next) {
 exports.top = function (req, res, next) {
   var topic_id = req.params.tid;
   var is_top = req.params.is_top;
+  var referer = req.get('referer');
   if (topic_id.length !== 24) {
     res.render('notify/notify', {error: '此话题不存在或已被删除。'});
     return;
@@ -299,7 +300,7 @@ exports.top = function (req, res, next) {
         return next(err);
       }
       var msg = topic.top ? '此话题已经被置顶。' : '此话题已经被取消置顶。';
-      res.render('notify/notify', {success: msg});
+      res.render('notify/notify', {success: msg, referer: referer});
     });
   });
 };
@@ -308,6 +309,7 @@ exports.top = function (req, res, next) {
 exports.good = function (req, res, next) {
   var topicId = req.params.tid;
   var isGood = req.params.is_good;
+  var referer = req.get('referer');
   Topic.getTopic(topicId, function (err, topic) {
     if (err) {
       return next(err);
@@ -322,7 +324,7 @@ exports.good = function (req, res, next) {
         return next(err);
       }
       var msg = topic.good ? '此话题已加精。' : '此话题已经取消加精。';
-      res.render('notify/notify', {success: msg});
+      res.render('notify/notify', {success: msg, referer: referer});
     });
   });
 };

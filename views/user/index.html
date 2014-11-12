@@ -25,19 +25,19 @@
           <%}%>
           <% if (user.url) { %>
           <li>
-            <i class="fa fa-paper-plane"></i>
+            <i class="fa fa-lg fa-fw fa-paper-plane"></i>
             <a class='dark' href="<%= user.url %>" target='_blank'><%= user.url %></a>
           </li>
           <% } %>
           <% if (user.location) { %>
           <li>
-            <i class="fa fa-map-marker"></i>
+            <i class="fa fa-lg fa-fw fa-map-marker"></i>
             <span class='dark'><%= user.location %></span>
           </li>
           <% } %>
           <% if (user.githubUsername) { %>
           <li>
-            <i class="fa fa-github"></i>
+            <i class="fa fa-lg fa-fw fa-github"></i>
             <a class='dark' href="https://github.com/<%= user.githubUsername %>" target='_blank'>
               @<%= user.githubUsername %>
             </a>
@@ -45,7 +45,7 @@
           <% } %>
           <% if (user.weibo) { %>
           <li>
-            <i class="fa fa-twitter"></i>
+            <i class="fa fa-lg fa-fw fa-twitter"></i>
             <a class='dark' href="<%= user.weibo %>" target='_blank'><%= user.weibo %></a>
           </li>
           <% } %>

@@ -16,11 +16,9 @@
     </div>
     <div class='user_action'>
       <span>
-        <!--<img class='dark up_btn-->
-        <i class="fa fa-thumbs-up up_btn"
-          <%= (typeof current_user !== 'undefined' && isUped(current_user, reply)) ? 'uped' : '' %>
-          <%= (!reply.ups || !reply.ups.length) ? 'invisible' : '' %> height="16" width="16"
-          title="喜欢"></i>
+        <i class="fa up_btn
+          <%= (typeof current_user !== 'undefined' && isUped(current_user, reply)) ? 'fa-thumbs-up' : 'fa-thumbs-o-up' %>
+          <%= (!reply.ups || !reply.ups.length) ? 'invisible' : '' %>" title="喜欢"></i>
         <span class="up-count">
           <%= reply.ups && reply.ups.length ? reply.ups.length : '' %>
         </span>
