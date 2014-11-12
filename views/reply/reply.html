@@ -16,10 +16,11 @@
     </div>
     <div class='user_action'>
       <span>
-        <img class='dark up_btn
+        <!--<img class='dark up_btn-->
+        <i class="fa fa-thumbs-up up_btn"
           <%= (typeof current_user !== 'undefined' && isUped(current_user, reply)) ? 'uped' : '' %>
-          <%= (!reply.ups || !reply.ups.length) ? 'invisible' : '' %>' src="<%- staticFile('/public/images/up_icon&16.png') %>" height="16" width="16"
-          title="喜欢">
+          <%= (!reply.ups || !reply.ups.length) ? 'invisible' : '' %> height="16" width="16"
+          title="喜欢"></i>
         <span class="up-count">
           <%= reply.ups && reply.ups.length ? reply.ups.length : '' %>
         </span>
@@ -28,16 +29,15 @@
       (typeof(current_user) !== 'undefined' && current_user._id.toString() == reply.author._id.toString())
       ) { %>
       <a href='/reply/<%= reply._id %>/edit' class='edit_reply_btn'>
-        <img class='user_icon' src="<%- staticFile('/public/images/doc_edit_icon&16.png') %>" height="16" width="16"
-             title='编辑'/>
+        <i class="fa fa-pencil-square-o" title='编辑'></i>
       </a>
       <a href='javascript:void(0);' class='delete_reply_btn'>
-        <img class='user_icon' src="<%- staticFile('/public/images/trash_icon&16.png') %>" height="16" width="16" title='删除'/>
+        <i class="fa fa-trash" title='删除'></i>
       </a>
       <% } %>
       <span>
         <% if(typeof(current_user) !== 'undefined'){ %>
-          <img class='dark reply2_btn' src="<%- staticFile('/public/images/reply_icon_16.png') %>" height="16" width="16" title="回复">
+          <i class="fa fa-reply reply2_btn" title="回复"></i>
         <% } %>
       </span>
     </div>

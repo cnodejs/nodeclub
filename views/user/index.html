@@ -25,20 +25,19 @@
           <%}%>
           <% if (user.url) { %>
           <li>
-            <img class='user_icon'
-                 src="<%- staticFile('/public/images/paper_airplane_icon&16.png') %>"/>
+            <i class="fa fa-paper-plane"></i>
             <a class='dark' href="<%= user.url %>" target='_blank'><%= user.url %></a>
           </li>
           <% } %>
           <% if (user.location) { %>
           <li>
-            <img class='user_icon' src="<%- staticFile('/public/images/compass_icon&16.png') %>"/>
+            <i class="fa fa-map-marker"></i>
             <span class='dark'><%= user.location %></span>
           </li>
           <% } %>
           <% if (user.githubUsername) { %>
           <li>
-            <img class='user_icon' src="<%- staticFile('/public/images/github_icon&16.png') %>"/>
+            <i class="fa fa-github"></i>
             <a class='dark' href="https://github.com/<%= user.githubUsername %>" target='_blank'>
               @<%= user.githubUsername %>
             </a>
@@ -46,8 +45,7 @@
           <% } %>
           <% if (user.weibo) { %>
           <li>
-            <img class='user_icon'
-                 src="<%- staticFile('/public/images/twitter_2_icon&16.png') %>"/>
+            <i class="fa fa-twitter"></i>
             <a class='dark' href="<%= user.weibo %>" target='_blank'><%= user.weibo %></a>
           </li>
           <% } %>

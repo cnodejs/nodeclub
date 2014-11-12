@@ -13,23 +13,20 @@
   <div>
 		<span>
 			<a href='mailto:<%= user.email %>'>
-        <img class='user_icon' src="<%- staticFile('/public/images/mail_icon&16.png') %>"
-             title='电子邮箱'/>
+        <i class="fa fa-envelope-o" title='电子邮箱'></i>
       </a>
 		</span>
     <% if (user.url) { %>
 		<span>
 			<a href="<%= user.url %>" target='_blank'>
-        <img class='user_icon' src="<%- staticFile('/public/images/paper_airplane_icon&16.png')%>"
-             title='个人网站'/>
+        <i class="fa fa-paper-plane" title='个人网站'></i>
       </a>
 		</span>
     <% } %>
     <% if (user.weibo) { %>
 		<span>
 			<a href="<%= user.weibo %>" target='_blank'>
-        <img class='user_icon' src="<%- staticFile('/public/images/twitter_2_icon&16.png') %>"
-             title='微博'/>
+        <i class="fa fa-weibo" title='微博'></i>
       </a>
 		</span>
     <% } %>

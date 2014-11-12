@@ -78,15 +78,11 @@
 
         <% if (topic.top) { %>
         <a href='/topic/<%= topic._id %>/top/0' data-method="post">
-          <img class='user_icon'
-               src='<%- staticFile("/public/images/star_fav_icon&16.png") %>'
-               title='取消置顶'/>
+          <i class="fa fa-star" title='取消置顶'></i>
         </a>
         <% } else { %>
         <a href='/topic/<%= topic._id %>/top/1' data-method="post">
-          <img class='user_icon'
-               src='<%- staticFile("/public/images/star_fav_empty_icon&16.png") %>'
-               title='置顶'/>
+          <i class="fa fa-star-o" title='置顶'/></i>    
         </a>
         <% } %>
 
@@ -101,26 +97,19 @@
         <% } %>
 
         <a href='/topic/<%= topic._id %>/edit'>
-          <img
-                  class='user_icon'
-                  src='<%- staticFile("/public/images/doc_edit_icon&16.png") %>'
-                  title='编辑'/></a>
+          <i class="fa fa-pencil-square-o" title='编辑'></i></a>
         <a href='javascript:;'
            data-id="<%= topic._id %>"
-           class='delete_topic_btn'><img class='user_icon'
-                                         src='<%- staticFile("/public/images/trash_icon&16.png") %>'
-                                         title='删除'/></a>
+           class='delete_topic_btn'>
+           <i class="fa fa-trash delete_topic_btn" title='删除'></i></a>
         <% } else { %>
         <% if (current_user._id.equals(topic.author_id)) { %>
         <a href='/topic/<%= topic._id %>/edit'>
-          <img class='user_icon'
-               src='<%- staticFile("/public/images/doc_edit_icon&16.png") %>'
-               title='编辑'/></a>
+          <i class="fa fa-pencil-square-o" title='编辑'></i></a>
         <a href='javascript:;'
            data-id="<%= topic._id %>"
-           class='delete_topic_btn'><img class='user_icon'
-           src='<%- staticFile("/public/images/trash_icon&16.png") %>'
-           title='删除'/></a>
+           class='delete_topic_btn'>
+           <i class="fa fa-trash" title='删除'></i></a>
         <% } %>
         <% } %>
       </div>
