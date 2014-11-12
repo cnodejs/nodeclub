@@ -78,38 +78,38 @@
 
         <% if (topic.top) { %>
         <a href='/topic/<%= topic._id %>/top/0' data-method="post">
-          <i class="fa fa-star" title='取消置顶'></i>
+          <i class="fa fa-lg fa-star" title='取消置顶'></i>
         </a>
         <% } else { %>
         <a href='/topic/<%= topic._id %>/top/1' data-method="post">
-          <i class="fa fa-star-o" title='置顶'/></i>    
+          <i class="fa fa-lg fa-star-o" title='置顶'/></i>
         </a>
         <% } %>
 
         <% if (topic.good) { %>
         <a href='/topic/<%= topic._id %>/good/0' data-method="post">
-          取消精华
+          <i class="fa fa-lg fa-heart"></i>
         </a>
         <% } else { %>
         <a href='/topic/<%= topic._id %>/good/1' data-method="post">
-          设为精华
+          <i class="fa fa-lg fa-heart-o"></i>
         </a>
         <% } %>
 
         <a href='/topic/<%= topic._id %>/edit'>
-          <i class="fa fa-pencil-square-o" title='编辑'></i></a>
+          <i class="fa fa-lg fa-pencil-square-o" title='编辑'></i></a>
         <a href='javascript:;'
            data-id="<%= topic._id %>"
            class='delete_topic_btn'>
-           <i class="fa fa-trash delete_topic_btn" title='删除'></i></a>
+           <i class="fa fa-lg fa-trash delete_topic_btn" title='删除'></i></a>
         <% } else { %>
         <% if (current_user._id.equals(topic.author_id)) { %>
         <a href='/topic/<%= topic._id %>/edit'>
-          <i class="fa fa-pencil-square-o" title='编辑'></i></a>
+          <i class="fa fa-lg fa-pencil-square-o" title='编辑'></i></a>
         <a href='javascript:;'
            data-id="<%= topic._id %>"
            class='delete_topic_btn'>
-           <i class="fa fa-trash" title='删除'></i></a>
+           <i class="fa fa-lg fa-trash" title='删除'></i></a>
         <% } %>
         <% } %>
       </div>
