@@ -42,7 +42,7 @@ var index = function (req, res, next) {
     ep.after('author', topics.length, function () {
       topics = topics.map(function (topic) {
         return _.pick(topic, ['id', 'author_id', 'tab', 'content', 'title', 'last_reply_at',
-          'good', 'top', 'author']);
+          'good', 'top', 'reply_count', 'visit_count', 'create_at', 'author']);
       });
 
       res.send({data: topics});
@@ -64,7 +64,7 @@ var show = function (req, res, next) {
       return res.send({error_msg: 'topic_id `' + topicId + '` is not exists.'});
     }
     topic = _.pick(topic, ['id', 'author_id', 'tab', 'content', 'title', 'last_reply_at',
-      'good', 'top', 'author']);
+      'good', 'top', 'reply_count', 'visit_count', 'create_at', 'author']);
 
     if (mdrender) {
       topic.content = renderHelper.markdown(at.linkUsers(topic.content));
