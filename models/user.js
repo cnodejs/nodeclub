@@ -44,10 +44,15 @@ var UserSchema = new Schema({
 
 UserSchema.virtual('avatar_url').get(function () {
   var url = this.avatar || ('//gravatar.com/avatar/' + utility.md5(this.email.toLowerCase()) + '?size=48');
-  // 让协议自适应
+
+  // gravatar 现在使用裸域
+  url = url.replace('//www.gravatar.com', '//gravatar.com');
+
+  // 让协议自适应 protocol
   if (url.indexOf('http:') === 0) {
     url = url.slice(5);
   }
+
   // 如果是 github 的头像，则限制大小
   if (url.indexOf('githubusercontent') !== -1) {
     url += '&s=120';
