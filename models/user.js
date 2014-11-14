@@ -45,7 +45,7 @@ var UserSchema = new Schema({
 UserSchema.virtual('avatar_url').get(function () {
   var url = this.avatar || ('//gravatar.com/avatar/' + utility.md5(this.email.toLowerCase()) + '?size=48');
 
-  // gravatar 现在使用裸域
+  // www.gravatar.com 被墙
   url = url.replace('//www.gravatar.com', '//gravatar.com');
 
   // 让协议自适应 protocol
