@@ -43,7 +43,7 @@ var UserSchema = new Schema({
 });
 
 UserSchema.virtual('avatar_url').get(function () {
-  var url = this.avatar || ('//www.gravatar.com/avatar/' + utility.md5(this.email.toLowerCase()) + '?size=48');
+  var url = this.avatar || ('//gravatar.com/avatar/' + utility.md5(this.email.toLowerCase()) + '?size=48');
   // 让协议自适应
   if (url.indexOf('http:') === 0) {
     url = url.slice(5);
