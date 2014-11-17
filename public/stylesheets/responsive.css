@@ -156,6 +156,10 @@
       padding-top: 5px;
   }
 
+  #content .action {
+    display: none;
+  }
+
   .user_profile {
     margin-top: 0;
   }
