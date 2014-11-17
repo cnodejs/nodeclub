@@ -52,7 +52,15 @@
 
         <%= topic.title %>
       </span>
-
+      <div class="action">
+      <% if (typeof(current_user) !== 'undefined') { %>
+        <% if (!topic.in_collection) { %>
+        <span class='span-common span-success' id='collect_btn' action='collect'>加入收藏</span>
+        <% } else { %>
+        <span class='span-common' id='collect_btn' action='de_collect'>取消收藏</span>
+        <% } %>
+        <% } %>
+      </div>
       <div class="changes">
         <span>
           发布于 <%= topic.friendly_create_at %>
@@ -120,18 +128,18 @@
       <div class='topic_content'>
         <%- markdown(topic.linkedContent) %>
       </div>
-
-      <div class="action">
-        <span class='span-success' id='share_weibo_btn'
-              onclick="((function(s,d,e,r,l,p,t,z,c){var f='http://v.t.sina.com.cn/share/share.php?appkey=<%= config.weibo_key %>',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else a();})(screen,document,encodeURIComponent,'','','','@<%= config.weibo_id %> 分享来自<%= config.name %>的话题：<%= topic.title %>','',''));"
-                >分享到微博</span>
-        <% if (typeof(current_user) !== 'undefined') { %>
-        <% if (!topic.in_collection) { %>
-        <span class='span-common span-success' id='collect_btn' action='collect'>加入收藏</span>
-        <% } else { %>
-        <span class='span-common span-success' id='collect_btn' action='de_collect'>取消收藏</span>
-        <% } %>
-        <% } %>
+      <div class="share">
+        <!-- JiaThis Button BEGIN -->
+        <div class="jiathis_style_24x24">
+          <a class="jiathis_button_qzone"></a>
+          <a class="jiathis_button_tsina"></a>
+          <a class="jiathis_button_tqq"></a>
+          <a class="jiathis_button_weixin"></a>
+          <a class="jiathis_button_renren"></a>
+          <a class="jiathis_counter_style"></a>
+        </div>
+        <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+        <!-- JiaThis Button END -->
       </div>
     </div>
   </div>
