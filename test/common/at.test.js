@@ -44,6 +44,10 @@ describe('test/common/at.test.js', function () {
     @alsotang3
     ```
 
+    ```js
+       @flow
+    ```
+
     ```@alsotang4```
 
     @
@@ -85,6 +89,10 @@ jysperm@gmail.com [@alsotang](/user/alsotang)
 ```
 呵呵 ```
 @alsotang3
+```
+
+```js
+   @flow
 ```
 
 ```@alsotang4```

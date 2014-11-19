@@ -19,6 +19,9 @@ var renderHelper = require('../common/render_helper');
 
 // 主页的缓存工作。主页是需要主动缓存的
 function indexCache() {
+  if (config.debug) {
+    return;
+  }
   var limit = config.list_topic_count;
   // 为所有版块（tab）做缓存
   [['', '全部']].concat(config.tabs).forEach(function (pair) {

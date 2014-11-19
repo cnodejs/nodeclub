@@ -21,7 +21,7 @@ var _ = require('lodash');
  */
 var fetchUsers = function (text) {
   var ignore_regexs = [
-    /```.+?```/, // 去除单行的 ```
+    /```.+?```/g, // 去除单行的 ```
     /^```[\s\S]+?^```/gm, // ``` 里面的是 pre 标签内容
     /`[\s\S]+?`/g, // 同一行中，`some code` 中内容也不该被解析
     /^    .*/gm, // 4个空格也是 pre 标签，在这里 . 不会匹配换行
@@ -32,6 +32,7 @@ var fetchUsers = function (text) {
   ignore_regexs.forEach(function(ignore_regex) {
     text = text.replace(ignore_regex, '');
   });
+
 
   var results = text.match(/@[a-z0-9\-_]+\b/igm);
   var names = [];
