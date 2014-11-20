@@ -56,7 +56,11 @@ exports.index = function (req, res, next) {
   // 取主题
   var query = {};
   if (tab && tab !== 'all') {
-    query.tab = tab;
+    if (tab === 'good') {
+      query.good = true;
+    } else {
+      query.tab = tab;
+    }
   }
 
   var limit = config.list_topic_count;
