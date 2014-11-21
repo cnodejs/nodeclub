@@ -109,7 +109,7 @@
         <a href='javascript:;'
            data-id="<%= topic._id %>"
            class='delete_topic_btn'>
-           <i class="fa fa-lg fa-trash delete_topic_btn" title='删除'></i></a>
+           <i class="fa fa-lg fa-trash" title='删除'></i></a>
         <% } else { %>
         <% if (current_user._id.equals(topic.author_id)) { %>
         <a href='/topic/<%= topic._id %>/edit'>
