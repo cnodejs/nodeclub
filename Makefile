@@ -39,7 +39,7 @@ build:
 	@./node_modules/loader/bin/build views .
 
 start: install build
-	@nohup ./node_modules/.bin/pm2 start app.js -x -i max --name "cnode" >> cnode.log 2>&1 &
+	@nohup ./node_modules/.bin/pm2 start app.js -x -i max --name "cnode" --max-memory-restart 200 >> cnode.log 2>&1 &
 
 restart: install build
 	@nohup ./node_modules/.bin/pm2 restart "cnode" >> cnode.log 2>&1 &
