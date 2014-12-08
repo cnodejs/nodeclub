@@ -253,10 +253,10 @@ exports.reset_pass = function (req, res, next) {
 };
 
 exports.update_pass = function (req, res, next) {
-  var psw = req.body.psw || '';
-  var repsw = req.body.repsw || '';
-  var key = req.body.key || '';
-  var name = req.body.name || '';
+  var psw = validator.trim(req.body.psw) || '';
+  var repsw = validator.trim(req.body.repsw) || '';
+  var key = validator.trim(req.body.key) || '';
+  var name = validator.trim(req.body.name) || '';
   var ep = new eventproxy();
   ep.fail(next);
 

@@ -4,6 +4,7 @@ var authMiddleWare = require('../middlewares/auth');
 var tools = require('../common/tools');
 var eventproxy = require('eventproxy');
 var uuid = require('node-uuid');
+var validator = require('validator');
 
 exports.callback = function (req, res, next) {
   var profile = req.user;
@@ -41,8 +42,8 @@ exports.new = function (req, res, next) {
 exports.create = function (req, res, next) {
   var profile = req.session.profile;
   var isnew = req.body.isnew;
-  var loginname = String(req.body.name).toLowerCase();
-  var password = req.body.pass;
+  var loginname = validator.trim(req.body.name).toLowerCase();
+  var password = validator.trim(req.body.pass);
   var ep = new eventproxy();
   ep.fail(next);
 

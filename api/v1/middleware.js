@@ -1,11 +1,14 @@
 
 var UserModel = require('../../models').User;
 var eventproxy = require('eventproxy');
+var validator = require('validator');
 
 var auth = function (req, res, next) {
-  var accessToken = req.body.accesstoken || req.query.accesstoken;
   var ep = new eventproxy();
   ep.fail(next);
+
+  var accessToken = req.body.accesstoken || req.query.accesstoken;
+  accessToken = validator.trim(accessToken);
 
   UserModel.findOne({accessToken: accessToken}, ep.done(function (user) {
     if (!user) {
