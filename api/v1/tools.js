@@ -10,6 +10,7 @@ var accesstoken = function (req, res, next) {
     success: true,
     loginname: req.user.loginname,
     avatar_url: req.user.avatar_url,
+    id: req.user.id,
   });
 };
 exports.accesstoken = accesstoken;
