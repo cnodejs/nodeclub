@@ -30,7 +30,7 @@ exports.index = function (req, res, next) {
     var render = function (recent_topics, recent_replies) {
       user.friendly_create_at = tools.formatDate(user.create_at, true);
       user.url = (function () {
-        if (user.url.indexOf('http') !== 0) {
+        if (user.url && user.url.indexOf('http') !== 0) {
           return 'http://' + user.url;
         }
         return user.url;
