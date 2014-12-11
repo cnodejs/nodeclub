@@ -29,6 +29,12 @@ exports.index = function (req, res, next) {
 
     var render = function (recent_topics, recent_replies) {
       user.friendly_create_at = tools.formatDate(user.create_at, true);
+      user.url = (function () {
+        if (user.url.indexOf('http') !== 0) {
+          return 'http://' + user.url;
+        }
+        return user.url;
+      })();
       // 如果用户没有激活，那么管理员可以帮忙激活
       var token = '';
       if (!user.active && req.session.user && req.session.user.is_admin) {
