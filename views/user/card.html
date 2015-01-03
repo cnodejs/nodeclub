@@ -1,20 +1,15 @@
 <div class='user_card'>
   <div>
-    <% if (user.githubUsername) { %>
-        <iframe src="<%-staticFile('/public/github-card.html')%>?user=<%=user.githubUsername%>&amp;client_id=a11a1bda412d928fb39a&amp;client_secret=92b7cf30bc42c49d589a10372c3f9ff3bb310037&amp;target=blank" frameborder="0" scrolling="0" width="270" height="150" allowtransparency></iframe>
-        <a href="/user/<%= user.loginname %>" class="pull-right"><%=user.loginname%> 的 CNode 主页 >></a>
-    <% } else { %>
-      <a class='user_avatar' href="/user/<%= user.loginname %>">
-        <img src="<%= user.avatar_url %>" title="<%= user.loginname %>"/>
-      </a>
-      <span class='user_name'><a class='dark' href="/user/<%= user.loginname %>"><%= user.loginname %></a></span>
+    <a class='user_avatar' href="/user/<%= user.loginname %>">
+      <img src="<%= user.avatar_url %>" title="<%= user.loginname %>"/>
+    </a>
+    <span class='user_name'><a class='dark' href="/user/<%= user.loginname %>"><%= user.loginname %></a></span>
 
-      <div class='board clearfix'>
-        <div class='floor'>
-          <span class='big'><%= user.score %></span> 积分
-        </div>
+    <div class='board clearfix'>
+      <div class='floor'>
+        <span class='big'>积分: <%= user.score %> </span>
       </div>
-    <%}%>
+    </div>
     <div class="space clearfix"></div>
     <span class="signature">
         “
