@@ -406,7 +406,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   top: 0;
   left: 100%;
   background: #f9f9f5;
-  z-index: 9999;
+  z-index: 1000;
   overflow: auto;
   -webkit-transition: left 0.2s ease;
   -moz-transition: left 0.2s ease;
