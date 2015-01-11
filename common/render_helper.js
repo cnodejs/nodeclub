@@ -30,6 +30,17 @@ md.set({
 
 md.renderer.rules.fence = function (tokens, idx) {
   var token = tokens[idx];
+
+  var language = token.params && ('language-' + token.params) || '';
+  language = validator.escape(language);
+
+  return '<pre class="prettyprint ' + language + '">'
+    + '<code>' + validator.escape(token.content) + '</code>'
+    + '</pre>';
+};
+
+md.renderer.rules.code_block = function (tokens, idx /*, options*/) {
+  var token = tokens[idx];
   var language = token.params && ('language-' + token.params) || '';
   language = validator.escape(language);
   return '<pre class="prettyprint ' + language + '">'
@@ -37,16 +48,7 @@ md.renderer.rules.fence = function (tokens, idx) {
     + '</pre>';
 };
 
-md.renderer.rules.code = function (tokens, idx /*, options*/) {
-  var token = tokens[idx];
-  var language = token.params && ('language-' + token.params) || '';
-  language = validator.escape(language);
-  if (token.block) {
-    return '<pre class="prettyprint ' + language + '">'
-      + '<code>' + validator.escape(tokens[idx].content) + '</code>'
-      + '</pre>';
-  }
-
+md.renderer.rules.code_inline = function (tokens, idx /*, options*/) {
   return '<code>' + validator.escape(tokens[idx].content) + '</code>';
 };
 
