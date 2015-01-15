@@ -1,0 +1,37 @@
+<%
+  var ads = [
+    {
+      href: 'https://www.aliyun.com/product/nodejs?ref=cnode',
+      label: 'alinode',
+      img_src: '//static.cnodejs.org/Fn4D6BhOTz1IswvmzeZ1q7QW1ls_',
+    },
+    {
+      href: 'https://www.ucloud.cn/site/active/gift.html?utm_source=cnodejs&utm_medium=content_pic_pc_540_130&utm_campaign=huodong&utm_content=gift&ytag=cnodejs',
+      label: 'ucloud-banner',
+      img_src: '//static.cnodejs.org/FlajCCXkxZaOsuWp3k0iaiqfrJaS',
+    },
+    {
+      href: 'https://www.qiniu.com/events/2019618?promotion=cnode20190618',
+      label: 'qiniu-sidebar',
+      img_src: '//static.cnodejs.org/Ft9g7yTUHJg4EvceLovewLAQaP7H',
+    },
+  ];
+
+    var randomNum = (new Date()).getMinutes() % ads.length;
+
+    ads = ads.slice(randomNum).concat(ads.slice(0, randomNum));
+%>
+<div class='panel'>
+  <div class='inner ads'>
+
+    <% ads.forEach(function (adObj, idx) { %>
+      <% if (idx !== 0) { %>
+        <div class="sep10"></div>
+      <% } %>
+      <a href="<%-adObj.href%>" target="_blank" class="banner sponsor_outlink"
+    data-label="<%=adObj.label%>">
+        <img src="<%- staticFile(adObj.img_src) %>">
+      </a>
+    <% }) %>
+  </div>
+</div>

@@ -4,7 +4,7 @@ var should = require('should');
 var support = require('../../support/support');
 
 describe('test/api/v1/topic.test.js', function () {
-  
+
   var mockUser, mockTopic;
 
   var createdTopicId = null;
@@ -123,7 +123,7 @@ describe('test/api/v1/topic.test.js', function () {
 
   });
 
-  describe('post /api/v1/topics', function () {
+  describe.skip('post /api/v1/topics', function () {
 
     it('should create a topic', function (done) {
       request.post('/api/v1/topics')
@@ -207,7 +207,7 @@ describe('test/api/v1/topic.test.js', function () {
 
   });
 
-  describe('post /api/v1/topics/update', function () {
+  describe.skip('post /api/v1/topics/update', function () {
     it('should update a topic', function (done) {
       request.post('/api/v1/topics/update')
         .send({
@@ -225,5 +225,5 @@ describe('test/api/v1/topic.test.js', function () {
         });
     })
   })
-  
+
 });

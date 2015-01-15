@@ -156,6 +156,15 @@ app.use(busboy({
   }
 }));
 
+// 不允许直接访问此程序，需要藏在 nginx 之后
+app.use(function (req, res, next) {
+  if (req.connection.remoteAddress == '::ffff:127.0.0.1' || req.connection.remoteAddress == '::1') {
+    return next();
+  }
+
+  res.redirect(301, 'https://cnodejs.org' + req.originalUrl)
+})
+
 // routes
 app.use('/api/v1', cors(), apiRouterV1);
 app.use('/', webRouter);

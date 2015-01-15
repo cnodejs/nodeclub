@@ -15,8 +15,8 @@ var router            = express.Router();
 // 主题
 router.get('/topics', topicController.index);
 router.get('/topic/:id', middleware.tryAuth, topicController.show);
-router.post('/topics', middleware.auth, limit.peruserperday('create_topic', config.create_post_per_day, {showJson: true}), topicController.create);
-router.post('/topics/update', middleware.auth, topicController.update);
+// router.post('/topics', middleware.auth, limit.peruserperday('create_topic', config.create_post_per_day, {showJson: true}), topicController.create);
+// router.post('/topics/update', middleware.auth, topicController.update);
 
 
 // 主题收藏
@@ -33,8 +33,8 @@ router.get('/user/:loginname', userController.show);
 router.post('/accesstoken', middleware.auth, toolsController.accesstoken);
 
 // 评论
-router.post('/topic/:topic_id/replies', middleware.auth, limit.peruserperday('create_reply', config.create_reply_per_day, {showJson: true}), replyController.create);
-router.post('/reply/:reply_id/ups', middleware.auth, replyController.ups);
+// router.post('/topic/:topic_id/replies', middleware.auth, limit.peruserperday('create_reply', config.create_reply_per_day, {showJson: true}), replyController.create);
+// router.post('/reply/:reply_id/ups', middleware.auth, replyController.ups);
 
 // 通知
 router.get('/messages', middleware.auth, messageController.index);

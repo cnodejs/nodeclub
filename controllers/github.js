@@ -84,6 +84,10 @@ exports.create = function (req, res, next) {
       active: true,
       accessToken: uuid.v4(),
     });
+    // 被刷帖了,新注册用户都是来自这个 email 后缀
+    if (/chacuo\.net$/.test(user.email)) {
+      return res.status(500).send('大半夜的...大哥...别刷啦')
+    }
     user.save(function (err) {
       if (err) {
         // 根据 err.err 的错误信息决定如何回应用户，这个地方写得很难看

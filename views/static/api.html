@@ -13,6 +13,8 @@
 
 以下 api 路径均以 **https://cnodejs.org/api/v1** 为前缀
 
+update 2019-03-21: 涉及发帖和发评论的接口都已经下线了，太多人为了测试客户端乱发帖了。
+
 ### 主题
 
 #### get /topics 主题首页
@@ -34,38 +36,6 @@
 * accesstoken `String` 当需要知道一个主题是否被特定用户收藏以及对应评论是否被特定用户点赞时，才需要带此参数。会影响返回值中的 `is_collect` 以及 `replies` 列表中的 `is_uped` 值。
 
 示例：[/api/v1/topic/5433d5e4e737cbe96dcef312](/api/v1/topic/5433d5e4e737cbe96dcef312)
-
-#### post /topics 新建主题
-
-接收 post 参数
-
-* accesstoken `String` 用户的 accessToken
-* title `String` 标题
-* tab `String` 目前有 `ask` `share` `job` `dev`。开发新客户端的同学，请务必将你们的测试帖发在 `dev` 专区，以免污染日常的版面，否则会进行封号一周处理。
-* content `String` 主体内容
-
-返回值示例
-
-```js
-{success: true, topic_id: '5433d5e4e737cbe96dcef312'}
-```
-
-#### post /topics/update 编辑主题
-
-接收 post 参数
-
-* accesstoken `String` 用户的 accessToken
-* topic_id `String` 主题id
-* title `String` 标题
-* tab `String` 目前有 `ask` `share` `job`
-* content `String` 主体内容
-
-返回值示例
-
-```js
-{success: true, topic_id: '5433d5e4e737cbe96dcef312'}
-```
-
 
 ### 主题收藏
 
@@ -98,36 +68,6 @@
 
 示例：[/api/v1/topic_collect/alsotang](/api/v1/topic_collect/alsotang)
 
-
-### 评论
-
-#### post /topic/:topic_id/replies 新建评论
-
-接收 post 参数
-
-* accesstoken `String` 用户的 accessToken
-* content `String` 评论的主体
-* reply_id `String` 如果这个评论是对另一个评论的回复，请务必带上此字段。这样前端就可以构建出评论线索图。
-
-返回值示例
-
-```js
-{success: true, reply_id: '5433d5e4e737cbe96dcef312'}
-```
-
-#### post /reply/:reply_id/ups 为评论点赞
-
-接受 post 参数
-
-* accesstoken `String`
-
-接口会自动判断用户是否已点赞，如果否，则点赞；如果是，则取消点赞。点赞的动作反应在返回数据的 `action` 字段中，`up` or `down`。
-
-返回值示例
-
-```js
-{"success": true, "action": "down"}
-```
 
 ### 用户
 

@@ -5,9 +5,9 @@ var support =  require('../../support/support');
 var should  = require('should');
 
 describe('test/api/v1/reply.test.js', function () {
-  
+
   var mockTopic, mockReplyId;
-  
+
   before(function (done) {
     support.ready(function () {
       support.createTopic(support.normalUser.id, function (err, topic) {
@@ -17,7 +17,7 @@ describe('test/api/v1/reply.test.js', function () {
     });
   });
 
-  describe('create reply', function () {
+  describe.skip('create reply', function () {
 
     it('should success', function (done) {
       request.post('/api/v1/topic/' + mockTopic.id + '/replies')
@@ -130,8 +130,8 @@ describe('test/api/v1/reply.test.js', function () {
     });
 
   });
-  
-  describe('create ups', function () {
+
+  describe.skip('create ups', function () {
 
     it('should up', function (done) {
       request.post('/api/v1/reply/' + mockReplyId + '/ups')
@@ -201,5 +201,5 @@ describe('test/api/v1/reply.test.js', function () {
     });
 
   });
-  
+
 });
