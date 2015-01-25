@@ -108,7 +108,13 @@ var config = {
     ['share', '分享'],
     ['ask', '问答'],
     ['job', '招聘'],
-  ]
+  ],
+
+  // 极光推送
+  jpush: {
+    appKey: 'your access key',
+    secretKey: 'your secret key'
+  }
 };
 
 module.exports = config;
