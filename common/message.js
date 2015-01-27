@@ -17,7 +17,7 @@ exports.sendReplyMessage = function (master_id, author_id, topic_id, reply_id, c
   message.save(ep.done('message_saved'));
   ep.all('message_saved', function (msg) {
     push.send(message.type, author_id, master_id, topic_id);
-    callback && callback();
+    callback(null, msg);
   });
 };
 
@@ -33,6 +33,6 @@ exports.sendAtMessage = function (master_id, author_id, topic_id, reply_id, call
   message.save(ep.done('message_saved'));
   ep.all('message_saved', function (msg) {
     push.send(message.type, author_id, master_id, topic_id);
-    callback && callback();
+    callback(null, msg);
   });
 };
