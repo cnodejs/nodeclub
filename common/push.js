@@ -3,7 +3,10 @@ var Message = require('../proxy/message');
 var JPush = require("jpush-sdk");
 var eventproxy = require('eventproxy');
 var config = require('../config');
-var client = JPush.buildClient(config.jpush.appKey, config.jpush.secretKey);
+var client = null;
+if (config.jpush && config.jpush.secretKey !== 'your secret key') {
+  client = JPush.buildClient(config.jpush.appKey, config.jpush.secretKey);
+}
 
 /**
  * 通过极光推送发生消息通知
@@ -13,40 +16,42 @@ var client = JPush.buildClient(config.jpush.appKey, config.jpush.secretKey);
  * @param {String} topic_id 相关主题ID
  */
 exports.send = function (type, author_id, master_id, topic_id) {
-  var ep = new eventproxy();
-  User.getUserById(author_id, ep.done('author'));
-  Message.getMessagesCount(master_id, ep.done('count'));
-  ep.all('author', 'count', function(author, count) {
-    var msg = author.loginname + ' ';
-    var extras = {
-      topicId: topic_id
-    };
-    switch(type) {
-      case 'at':
-        msg += '@了你';
-        break;
-      case 'reply':
-        msg += '回复了你的主题';
-        break;
-      default:
-        break;
-    }
-    client.push()
-      .setPlatform(JPush.ALL)
-      .setAudience(JPush.alias(master_id.toString()))
-      .setNotification(msg,
-        JPush.ios(msg, null, count, null, extras),
-        JPush.android(msg, null, null, extras)
-      )
-      .send(function(err, res) {
-        if (config.debug) {
-          if (err) {
-            console.log(err.message);
-          } else {
-            console.log('Sendno: ' + res.sendno);
-            console.log('Msg_id: ' + res.msg_id);
+  if (client !== null) {
+    var ep = new eventproxy();
+    User.getUserById(author_id, ep.done('author'));
+    Message.getMessagesCount(master_id, ep.done('count'));
+    ep.all('author', 'count', function(author, count) {
+      var msg = author.loginname + ' ';
+      var extras = {
+        topicId: topic_id
+      };
+      switch(type) {
+        case 'at':
+          msg += '@了你';
+          break;
+        case 'reply':
+          msg += '回复了你的主题';
+          break;
+        default:
+          break;
+      }
+      client.push()
+        .setPlatform(JPush.ALL)
+        .setAudience(JPush.alias(master_id.toString()))
+        .setNotification(msg,
+          JPush.ios(msg, null, count, null, extras),
+          JPush.android(msg, null, null, extras)
+        )
+        .send(function(err, res) {
+          if (config.debug) {
+            if (err) {
+              console.log(err.message);
+            } else {
+              console.log('Sendno: ' + res.sendno);
+              console.log('Msg_id: ' + res.msg_id);
+            }
           }
-        }
-      });
-  })
+        });
+    })
+  }
 };
