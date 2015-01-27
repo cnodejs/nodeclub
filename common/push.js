@@ -42,6 +42,7 @@ exports.send = function (type, author_id, master_id, topic_id) {
           JPush.ios(msg, null, count, null, extras),
           JPush.android(msg, null, null, extras)
         )
+        .setOptions(null, null, null, !config.debug)
         .send(function(err, res) {
           if (config.debug) {
             if (err) {
