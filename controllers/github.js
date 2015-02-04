@@ -17,7 +17,7 @@ exports.callback = function (req, res, next) {
       user.githubUsername = profile.username;
       user.githubId = profile.id;
       user.githubAccessToken = profile.accessToken;
-      user.loginname = profile.username;
+      // user.loginname = profile.username;
       user.avatar = profile._json.avatar_url;
       if (profile.emails[0].value) {
         user.email = profile.emails[0].value;
@@ -101,7 +101,7 @@ exports.create = function (req, res, next) {
           }
           user.githubUsername = profile.username;
           user.githubId = profile.id;
-          user.loginname = profile.username;
+          // user.loginname = profile.username;
           user.avatar = profile._json.avatar_url;
           user.githubAccessToken = profile.accessToken;
 
