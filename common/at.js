@@ -20,7 +20,7 @@ var _ = require('lodash');
  * @return {Array} 用户名数组
  */
 var fetchUsers = function (text) {
-  var ignore_regexs = [
+  var ignoreRegexs = [
     /```.+?```/g, // 去除单行的 ```
     /^```[\s\S]+?^```/gm, // ``` 里面的是 pre 标签内容
     /`[\s\S]+?`/g, // 同一行中，`some code` 中内容也不该被解析
@@ -29,10 +29,9 @@ var fetchUsers = function (text) {
     /\[@.+?\]\(\/.+?\)/g, // 已经被 link 的 username
   ];
 
-  ignore_regexs.forEach(function(ignore_regex) {
+  ignoreRegexs.forEach(function (ignore_regex) {
     text = text.replace(ignore_regex, '');
   });
-
 
   var results = text.match(/@[a-z0-9\-_]+\b/igm);
   var names = [];
@@ -44,6 +43,7 @@ var fetchUsers = function (text) {
       names.push(s);
     }
   }
+  names = _.uniq(names);
   return names;
 };
 exports.fetchUsers = fetchUsers;

@@ -68,9 +68,17 @@ describe('test/common/at.test.js', function () {
     ```
 
     [@be_link](/user/be_link) [@be_link2](/user/be_link2)
+
+    @alsotang @alsotang
+    aldjf
+    @alsotang @tangzhanli
   */});
 
-  var matched_users = ['A-aZ-z0-9_', 'begin_with_spaces', 'multi_in_oneline', 'around_text', 'end_with_no_space', 'begin_with_no_spaces', 'end_with_no_space2', 'begin_with_no_spaces2', 'alsotang', 'alsotang2'];
+  var matched_users = ['A-aZ-z0-9_', 'begin_with_spaces',
+    'multi_in_oneline', 'around_text', 'end_with_no_space',
+    'begin_with_no_spaces', 'end_with_no_space2',
+    'begin_with_no_spaces2', 'alsotang', 'alsotang2',
+    'tangzhanli'];
 
   var linkedText = multiline.stripIndent(function(){/*
 [@A-aZ-z0-9_](/user/A-aZ-z0-9_)
@@ -115,6 +123,10 @@ code: `@in_code`
 ```
 
 [@be_link](/user/be_link) [@be_link2](/user/be_link2)
+
+[@alsotang](/user/alsotang) [@alsotang](/user/alsotang)
+aldjf
+[@alsotang](/user/alsotang) [@tangzhanli](/user/tangzhanli)
   */});
 
   describe('#fetchUsers()', function () {
