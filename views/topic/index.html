@@ -406,7 +406,10 @@
             var replyContent = $replyItem.find('.reply_content').text().trim();
             if (replyContent.length > 0) {
               chats.push([
-                $replyItem.find('.user_avatar').html(), // avatar
+                $($replyItem.find('.user_avatar').html()).attr({
+                  height: '30px',
+                  width: '30px',
+                }), // avatar
                 (replyContent.length>300?replyContent.substr(0,300)+'...':replyContent), // reply content
                 '<a href="#'+replyToId+'" class="scroll_to_original" title="查看原文">↑</a>'
               ]);
