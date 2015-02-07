@@ -20,20 +20,20 @@ exports.send = function (type, author_id, master_id, topic_id) {
     var ep = new eventproxy();
     User.getUserById(author_id, ep.done('author'));
     Message.getMessagesCount(master_id, ep.done('count'));
-    ep.all('author', 'count', function(author, count) {
+    ep.all('author', 'count', function (author, count) {
       var msg = author.loginname + ' ';
       var extras = {
         topicId: topic_id
       };
-      switch(type) {
-        case 'at':
-          msg += '@了你';
-          break;
-        case 'reply':
-          msg += '回复了你的主题';
-          break;
-        default:
-          break;
+      switch (type) {
+      case 'at':
+        msg += '@了你';
+        break;
+      case 'reply':
+        msg += '回复了你的主题';
+        break;
+      default:
+        break;
       }
       client.push()
         .setPlatform(JPush.ALL)
@@ -43,7 +43,7 @@ exports.send = function (type, author_id, master_id, topic_id) {
           JPush.android(msg, null, null, extras)
         )
         .setOptions(null, null, null, !config.debug)
-        .send(function(err, res) {
+        .send(function (err, res) {
           if (config.debug) {
             if (err) {
               console.log(err.message);
