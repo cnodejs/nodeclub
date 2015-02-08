@@ -31,7 +31,7 @@ var router = express.Router();
 router.get('/', site.index);
 // sitemap
 router.get('/sitemap.xml', site.sitemap);
-// app download
+// mobile app download
 router.get('/app/download', site.appDownload);
 
 // sign controller

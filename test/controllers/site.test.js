@@ -41,4 +41,11 @@ describe('test/controllers/site.test.js', function () {
       done(err);
     });
   });
+
+  it('should /app/download', function (done) {
+    request.get('/app/download')
+      .expect(302, function (err, res) {
+        done(err);
+      });
+  });
 });
