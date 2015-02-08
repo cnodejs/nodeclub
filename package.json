@@ -1,7 +1,10 @@
 {
   "name": "nodeclub",
   "version": "2.0.0",
+  "private": true,
   "main": "app.js",
+  "description": "A Node.js bbs using MongoDB",
+  "repository": "https://github.com/cnodejs/nodeclub",
   "customHost": [
     "cnodejs.org",
     "club.cnodejs.org"
