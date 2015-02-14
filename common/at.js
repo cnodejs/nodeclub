@@ -71,6 +71,11 @@ exports.sendMessageToMentionUsers = function (text, topicId, authorId, reply_id,
     }
     var ep = new EventProxy();
     ep.fail(callback);
+
+    users = users.filter(function (user) {
+      return !user._id.equals(authorId);
+    });
+
     ep.after('sent', users.length, function () {
       callback();
     });

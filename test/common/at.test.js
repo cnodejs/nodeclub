@@ -11,12 +11,13 @@ var multiline = require('multiline');
 var pedding = require('pedding');
 
 describe('test/common/at.test.js', function () {
-  var testTopic, normalUser, normalUser2;
+  var testTopic, normalUser, normalUser2, adminUser;
   before(function (done) {
     support.ready(function () {
       testTopic = support.testTopic;
       normalUser = support.normalUser;
       normalUser2 = support.normalUser2;
+      adminUser = support.adminUser;
       done();
     });
   });
@@ -156,7 +157,7 @@ aldjf
   describe('sendMessageToMentionUsers()', function () {
     it('should send message to all mention users', function (done) {
       done = pedding(done, 2);
-      var atUserIds = [String(normalUser._id), String(normalUser2._id)];
+      var atUserIds = [String(adminUser._id), String(normalUser2._id)];
 
       var ep  = new eventproxy();
       ep.after('user_id', atUserIds.length, function (user_ids) {
@@ -170,7 +171,7 @@ aldjf
           callback();
         });
 
-      var text = '@' + normalUser.loginname + ' @' + normalUser2.loginname + ' @notexitstuser 你们好';
+      var text = '@' + adminUser.loginname + ' @' + normalUser2.loginname + ' @notexitstuser 你们好';
       at.sendMessageToMentionUsers(text,
         testTopic._id,
         normalUser._id,
@@ -185,6 +186,19 @@ aldjf
         throw new Error('should not call me');
       });
       at.sendMessageToMentionUsers('abc no mentions', testTopic._id, normalUser._id,
+        function (err) {
+          should.not.exist(err);
+          done();
+        });
+    });
+
+    it('should not send at msg to author', function (done) {
+      mm(message, 'sendAtMessage', function () {
+        throw new Error('should not call me');
+      });
+
+      at.sendMessageToMentionUsers('@' + normalUser.loginname + ' hello',
+        testTopic._id, normalUser._id,
         function (err) {
           should.not.exist(err);
           done();
