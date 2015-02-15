@@ -70,11 +70,9 @@ exports.authUser = function (req, res, next) {
     }
     user = res.locals.current_user = req.session.user = new UserModel(user);
 
-    console.info(config.admins);
-
-    //if (config.admins.hasOwnProperty(user.loginname)) {
+    if (config.admins.hasOwnProperty(user.loginname)) {
       user.is_admin = true;
-    //}
+    }
     Message.getMessagesCount(user._id, ep.done(function (count) {
       user.messages_count = count;
       next();
