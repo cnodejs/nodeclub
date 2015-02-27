@@ -7,6 +7,14 @@ exports.about = function (req, res, next) {
   });
 };
 
+
+// timeline
+exports.timeline = function (req, res, next) {
+  res.render('static/timeline', {
+    pageTitle: '时间线'
+  });
+};
+
 // FAQ
 exports.faq = function (req, res, next) {
   res.render('static/faq');

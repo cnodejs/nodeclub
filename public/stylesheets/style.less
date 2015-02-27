@@ -1261,3 +1261,41 @@ textarea.editor {
 .cnode-app-download {
   text-align: center;
 }
+
+
+/*时间线部分*/
+.history-date ul, .history-date li { list-style:none; margin: 0; padding: 0; }
+/*.public*/
+.main { min-height:720px; }
+/*history*/
+.history { margin-top: 40px; background:url(../img/line04.gif) repeat-y 187px 0; overflow:hidden; position:relative;}
+.history-date { overflow:hidden;}
+.history-date h2 { margin: 0; padding: 0; background:url(../img/icon06.gif) #fff no-repeat 158px 0; height:59px; font-size:25px; font-family:΢���ź�; font-weight:normal; padding-left:45px; margin-bottom:74px;  }
+.history-date h2.first { position:absolute; left:0; top:0; width:935px; z-index:99;}
+.history-date h2 a { color:#00bbff; display:inline-block; *display:inline; zoom:1; background:url(../img/icon08.gif) no-repeat right 50%; padding-right:17px; margin:21px 97px 0 0;}
+.history-date h2 a:hover { text-decoration:none;}
+.history-date h2 img { vertical-align:-5px;}
+.history-date h2.date02 { background:none;}
+.history-date ul li { background:url(../img/icon07.gif) no-repeat 180px 0; padding-bottom:50px; zoom:1; }
+.history-date ul li.last { padding-bottom:0;}
+.history-date ul li:after{content:" "; display:block; height:0; clear:both; visibility:hidden;}
+.history-date ul li h3 { margin-top: 0; float:left; width:168px; text-align:right; padding-right:19px;color:#c3c3c3; font:normal 18px/16px Arial;}
+.history-date ul li h3 span { display:block; color:#d0d0d0; font-size:12px;}
+.history-date ul li dl { float:left; padding-left:41px; margin-top:-5px;}
+.history-date ul li dl dt { font-size:24px; color:#737373; }
+.history-date ul li dl dt span { display:block; color:#787878; font-size:14px; font-weight:normal;}
+.history-date ul li.green h3 { color:#1db702;}
+.history-date ul li.green h3 span { color:#a8dda3; }
+.history-date ul li.green dl { margin-top:-8px;}
+.history-date ul li.green dl dt { font-size:30px; line-height:28px;}
+.history-date ul li.green dl dt a { /*background:url(../img/icon09.gif) no-repeat 0 0; width:19px; height:16px;*/ display:inline-block; *display:inline; zoom:1; overflow:hidden; vertical-align: middle; margin-left:12px;}
+.history-date ul li.green dl dd { padding-top:20px; display:none;}
+.history-date ul li.green dl dd img { float:left;}
+.history-date ul li.green dl dd p { overflow:hidden; zoom:1; line-height:21px; color:#787878;}
+
+.history-date h2.first .more-history {font-size: 16px; background: transparent; margin-left: 30px;}
+.history-date h2.first .more-history:hover {text-decoration: underline;}
+
+*body .history-date ul li dl dt {_font-size:12px !important; _font-weight:bold;}
+*body .history-date ul li dl dt span {_font-weight:normal !important;}
+*body .history-date ul li.green dl dt a {_background:transparent !important; *background:transparent !important;*font-size:12px !important; _font-weight:normal !important;}
