@@ -154,10 +154,10 @@ exports.collect = function (req, res, next) {
       return next(err);
     }
     if (!topic) {
-      res.json({error_msg: '主题不存在'});
+      return res.json({error_msg: '主题不存在'});
     }
 
-    TopicCollect.getTopicCollect(req.session.user._id, topic._id, function (err, doc) {
+    TopicCollect.getTopicCollect(req.user.id, topic._id, function (err, doc) {
       if (err) {
         return next(err);
       }
@@ -166,13 +166,13 @@ exports.collect = function (req, res, next) {
         return;
       }
 
-      TopicCollect.newAndSave(req.session.user._id, topic._id, function (err) {
+      TopicCollect.newAndSave(req.user.id, topic._id, function (err) {
         if (err) {
           return next(err);
         }
         res.json({success: true});
       });
-      UserProxy.getUserById(req.session.user._id, function (err, user) {
+      UserProxy.getUserById(req.user.id, function (err, user) {
         if (err) {
           return next(err);
         }
@@ -180,7 +180,7 @@ exports.collect = function (req, res, next) {
         user.save();
       });
 
-      req.session.user.collect_topic_count += 1;
+      req.user.collect_topic_count += 1;
       topic.collect_count += 1;
       topic.save();
     });
@@ -194,16 +194,16 @@ exports.de_collect = function (req, res, next) {
       return next(err);
     }
     if (!topic) {
-      res.json({error_msg: '主题不存在'});
+      return res.json({error_msg: '主题不存在'});
     }
-    TopicCollect.remove(req.session.user._id, topic._id, function (err) {
+    TopicCollect.remove(req.user.id, topic._id, function (err) {
       if (err) {
         return next(err);
       }
       res.json({success: true});
     });
 
-    UserProxy.getUserById(req.session.user._id, function (err, user) {
+    UserProxy.getUserById(req.user.id, function (err, user) {
       if (err) {
         return next(err);
       }
@@ -214,6 +214,6 @@ exports.de_collect = function (req, res, next) {
     topic.collect_count -= 1;
     topic.save();
 
-    req.session.user.collect_topic_count -= 1;
+    req.user.collect_topic_count -= 1;
   });
 };
