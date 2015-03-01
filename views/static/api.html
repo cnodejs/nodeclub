@@ -45,6 +45,32 @@
 {success: true, topic_id: '5433d5e4e737cbe96dcef312'}
 ```
 
+#### post /topic/collect 收藏主题
+
+接收 post 参数
+
+* accesstoken `String` 用户的 accessToken
+* topic_id `String` 被收藏的主题id
+
+返回值示例
+
+```js
+{success: true}
+```
+
+#### post /topic/de_collect 取消收藏
+
+接收 post 参数
+
+* accesstoken `String` 用户的 accessToken
+* topic_id `String` 被取消收藏的主题id
+
+返回值示例
+
+```js
+{success: true}
+```
+
 ### 评论
 
 #### post /topic/:topic_id/replies 新建评论
