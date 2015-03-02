@@ -48,7 +48,7 @@
     "validator": "3.22.1",
     "xmlbuilder": "2.5.0",
     "xss": "0.1.15",
-    "jpush-sdk": "3.1.0"
+    "jpush-sdk": "3.2.0"
   },
   "devDependencies": {
     "coveralls": "2.11.2",
