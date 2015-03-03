@@ -33,9 +33,10 @@ exports.robots = function (req, res, next) {
 # To ban all spiders from the entire site uncomment the next two lines:
 # User-Agent: *
 # Disallow: /
-*/
 User-agent: *
+Disallow: /404.htm
 Sitemap: http://ionichina.com/sitemap.xml
+*/
   }));
 };
 
