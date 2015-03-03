@@ -34,6 +34,8 @@ exports.robots = function (req, res, next) {
 # User-Agent: *
 # Disallow: /
 */
+User-agent: *
+Sitemap: http://ionichina.com/sitemap.xml
   }));
 };
 
