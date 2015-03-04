@@ -76,7 +76,7 @@ exports.create = function (req, res, next) {
           }
           if (err.err.indexOf('users.$loginname') !== -1) {
             return res.status(500)
-              .send('您 GitHub 账号的用户名与之前在 CNodejs 注册的用户名重复了');
+              .send('您 GitHub 账号的用户名与之前在 Ionichina 注册的用户名重复了');
           }
         }
         return next(err);
