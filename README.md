@@ -2,14 +2,14 @@ Nodeclub
 =
 
 [![build status][travis-image]][travis-url]
-[![Coverage Status](https://img.shields.io/coveralls/cnodejs/nodeclub.svg?style=flat-square)](https://coveralls.io/r/cnodejs/nodeclub?branch=master)
+[![Coverage Status][coverage-image]][coverage-url]
 [![David deps][david-image]][david-url]
 [![node version][node-image]][node-url]
 
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/cnodejs/nodeclub?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 [travis-image]: https://img.shields.io/travis/cnodejs/nodeclub.svg?style=flat-square
 [travis-url]: https://travis-ci.org/cnodejs/nodeclub
+[coverage-image]: https://img.shields.io/coveralls/cnodejs/nodeclub.svg?style=flat-square
+[coverage-url]: https://coveralls.io/r/cnodejs/nodeclub?branch=master
 [david-image]: https://img.shields.io/david/cnodejs/nodeclub.svg?style=flat-square
 [david-url]: https://david-dm.org/cnodejs/nodeclub
 [node-image]: https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square
@@ -23,6 +23,8 @@ Nodeclub 是使用 **Node.js** 和 **MongoDB** 开发的社区系统，界面优
 ## 安装部署
 
 *不保证 Windows 系统的兼容性*
+
+CNode 线上的 Node.js 是 v1.4，MongoDB 是 2.6。
 
 ```
 1. install `node.js` `mongodb`
