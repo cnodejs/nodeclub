@@ -24,7 +24,7 @@ Nodeclub 是使用 **Node.js** 和 **MongoDB** 开发的社区系统，界面优
 
 *不保证 Windows 系统的兼容性*
 
-CNode 线上的 Node.js 是 v1.4.x，MongoDB 是 v2.6。
+线上跑的是 Node.js v0.12，MongoDB 是 v2.6。
 
 ```
 1. install `node.js` `mongodb`
