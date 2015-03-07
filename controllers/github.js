@@ -12,7 +12,7 @@ exports.callback = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    // 当用户已经是 cnode 用户时，通过 github 登陆将会更新他的资料
+    // 当用户已经是 ionichina 用户时，通过 github 登陆将会更新他的资料
     if (user) {
       user.githubUsername = profile.username;
       user.githubId = profile.id;
