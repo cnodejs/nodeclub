@@ -33,7 +33,7 @@ exports.getReplyById = function (id, callback) {
     }
 
     var author_id = reply.author_id;
-    User.getUserById(author_id, function (err, author) {
+    User.getUserById(author_id, true, function (err, author) {
       if (err) {
         return callback(err);
       }
@@ -78,7 +78,7 @@ exports.getRepliesByTopicId = function (id, cb) {
     for (var j = 0; j < replies.length; j++) {
       (function (i) {
         var author_id = replies[i].author_id;
-        User.getUserById(author_id, function (err, author) {
+        User.getUserById(author_id, true, function (err, author) {
           if (err) {
             return cb(err);
           }

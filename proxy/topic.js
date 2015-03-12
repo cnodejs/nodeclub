@@ -37,7 +37,7 @@ exports.getTopicById = function (id, callback) {
     }
     proxy.emit('topic', topic);
 
-    User.getUserById(topic.author_id, proxy.done('author'));
+    User.getUserById(topic.author_id, true, proxy.done('author'));
 
     if (topic.last_reply) {
       Reply.getReplyById(topic.last_reply, proxy.done(function (last_reply) {
@@ -141,7 +141,7 @@ exports.getFullTopic = function (id, callback) {
       return topic;
     }));
 
-    User.getUserById(topic.author_id, proxy.done(function (author) {
+    User.getUserById(topic.author_id, true, proxy.done(function (author) {
       if (!author) {
         proxy.unbind();
         return callback(null, '话题的作者丢了。');
