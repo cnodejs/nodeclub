@@ -2,8 +2,6 @@ var models = require('../models');
 var User = models.User;
 var utility = require('utility');
 var uuid = require('node-uuid');
-var cache = require('../common/cache');
-var eventproxy = require('eventproxy');
 
 /**
  * 根据用户名列表查找用户列表
@@ -40,36 +38,8 @@ exports.getUserByLoginName = function (loginName, callback) {
  * @param {String} id 用户ID
  * @param {Function} callback 回调函数
  */
-exports.getUserById = function (id, isCache, callback) {
-  if (typeof isCache === 'function') {
-    callback = isCache;
-    isCache = false;
-  }
-  var ep = new eventproxy();
-  ep.fail(callback);
-
-  if (isCache) {
-    cache.get(String(id), ep.done(function (user) {
-      if (!user) {
-        ep.emit('find_user');
-      } else {
-        ep.emit('user', user);
-      }
-    }));
-  } else {
-    ep.emitLater('find_user');
-  }
-
-  ep.on('find_user', function () {
-    User.findOne({_id: id}, ep.done('user'));
-  });
-
-  ep.on('user', function (user) {
-    if (user) {
-      cache.set(String(user._id), user);
-    }
-    callback(null, user);
-  });
+exports.getUserById = function (id, callback) {
+  User.findOne({_id: id}, callback);
 };
 
 /**
