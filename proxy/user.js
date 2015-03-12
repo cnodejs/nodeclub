@@ -66,8 +66,7 @@ exports.getUserById = function (id, isCache, callback) {
 
   ep.on('user', function (user) {
     if (user) {
-      // 缓存用户信息五分钟
-      cache.set(String(user._id), 5 * 60 * 1000, user);
+      cache.set(String(user._id), user);
     }
     callback(null, user);
   });
