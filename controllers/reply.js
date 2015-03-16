@@ -88,7 +88,7 @@ exports.delete = function (req, res, next) {
       res.json({status: 'no reply ' + reply_id + ' exists'});
       return;
     }
-    if (reply.author_id.toString() === req.session.user._id.toString()) {
+    if (reply.author_id.toString() === req.session.user._id.toString() || req.session.user.is_admin) {
       reply.remove();
       res.json({status: 'success'});
 
