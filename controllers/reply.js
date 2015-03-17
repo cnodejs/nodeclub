@@ -35,6 +35,9 @@ exports.add = function (req, res, next) {
       // just 404 page
       return next();
     }
+    if (topic.lock) {
+      return res.status(403).send('此主题已锁定。');
+    }
     ep.emit('topic', topic);
   }));
 
