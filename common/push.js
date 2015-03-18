@@ -5,7 +5,7 @@ var eventproxy = require('eventproxy');
 var config = require('../config');
 var client = null;
 if (config.jpush && config.jpush.secretKey !== 'your secret key') {
-  client = JPush.buildClient(config.jpush);
+  client = JPush.buildClient(config.jpush.appKey, config.jpush.secretKey);
 }
 
 /**
