@@ -3,7 +3,8 @@
 </div>
 <div class='pagination' current_page='<%= current_page %>'>
   <ul>
-    <% var base_url = base + (base.indexOf('?') < 0 ? '?' : '&') + 'page='; %>
+    <% var base_url = base + (base.indexOf('?') < 0 ? '?' : '&')
+      + 'tab=' + (typeof tab !== 'undefined' ? tab : '') + '&page='; %>
     <% if (current_page == 1) { %>
     <li class='disabled'><a>«</a></li>
     <% } else { %>

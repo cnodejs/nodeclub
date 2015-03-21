@@ -1,15 +1,20 @@
 {
   "name": "nodeclub",
-  "version": "1.0.0",
-  "main": "app.js",
+  "version": "2.0.0",
   "private": true,
+  "main": "app.js",
+  "description": "A Node.js bbs using MongoDB",
+  "repository": "https://github.com/cnodejs/nodeclub",
   "customHost": [
     "cnodejs.org",
     "club.cnodejs.org"
   ],
+  "engines": {
+    "node": "0.12.x"
+  },
   "dependencies": {
     "async": "0.9.0",
-    "bcrypt": "0.8.0",
+    "bcrypt": "0.8.1",
     "body-parser": "1.9.2",
     "compression": "1.2.0",
     "connect-busboy": "0.0.1",
@@ -27,23 +32,23 @@
     "markdown-it": "3.0.3",
     "memory-cache": "0.0.5",
     "method-override": "1.0.2",
-    "moment": "2.8.3",
-    "mongoose": "3.8.16",
+    "moment": "2.9.0",
+    "mongoose": "3.8.23",
     "multiline": "1.0.1",
-    "newrelic": "1.12.2",
+    "newrelic": "1.16.1",
     "node-uuid": "1.4.1",
     "nodemailer": "0.3.43",
     "passport": "0.1.18",
     "passport-github": "0.1.5",
-    "pm2": "0.11.1",
+    "pm2": "0.12.7",
     "qn": "1.0.1",
     "ready": "0.1.1",
     "response-time": "2.2.0",
     "utility": "1.0.0",
     "validator": "3.22.1",
-    "xmlbuilder": "2.4.4",
+    "xmlbuilder": "2.5.0",
     "xss": "0.1.15",
-    "yaqrcode": "0.0.2"
+    "jpush-sdk": "3.2.0"
   },
   "devDependencies": {
     "coveralls": "2.11.2",

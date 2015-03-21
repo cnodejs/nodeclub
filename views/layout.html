@@ -6,6 +6,9 @@
   <meta name='description' content='<%= config.description %>'>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="keywords" content="<%= config.keywords %>"/>
+  <meta name="apple-itunes-app" content="app-id=954734793">
+  <!-- see http://smerity.com/articles/2013/where_did_all_the_http_referrers_go.html -->
+  <meta name="referrer" content="always">
 
   <%
   var headers = config.site_headers || [];
@@ -44,6 +47,7 @@
   .js('/public/libs/jquery.atwho.js')
   .js('/public/libs/markdownit.js')
   .js('/public/libs/code-prettify/prettify.js')
+  .js('/public/libs/qrcode.js')
   .js('/public/javascripts/main.js')
   .js('/public/javascripts/responsive.js')
   .done(assets, config.site_static_host, config.mini_assets)
@@ -132,6 +136,7 @@
 </div>
 <div id="sidebar-mask"></div>
 
+<% if (config.google_tracker_id) { %>
 <script>
   // google analytics
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -142,6 +147,13 @@
   ga('create', '<%-config.google_tracker_id%>', 'auto');
   ga('send', 'pageview');
 </script>
+<% } %>
+
+<% if (config.cnzz_tracker_id) { %>
+<div style="display:none;">
+  <script src="//s95.cnzz.com/z_stat.php?id=<%- config.cnzz_tracker_id %>&web_id=<%- config.cnzz_tracker_id %>" language="JavaScript"></script>
+</div>
+<% } %>
 
 </body>
 </html>

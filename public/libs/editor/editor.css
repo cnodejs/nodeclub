@@ -188,6 +188,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
 }
 .CodeMirror-sizer {
   position: relative;
+  min-width: 100px !important;/* set min width */
 }
 
 /* The fake, visible scrollbars. Used to force redraw during scrolling

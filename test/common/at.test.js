@@ -11,12 +11,13 @@ var multiline = require('multiline');
 var pedding = require('pedding');
 
 describe('test/common/at.test.js', function () {
-  var testTopic, normalUser, normalUser2;
+  var testTopic, normalUser, normalUser2, adminUser;
   before(function (done) {
     support.ready(function () {
       testTopic = support.testTopic;
       normalUser = support.normalUser;
       normalUser2 = support.normalUser2;
+      adminUser = support.adminUser;
       done();
     });
   });
@@ -68,9 +69,17 @@ describe('test/common/at.test.js', function () {
     ```
 
     [@be_link](/user/be_link) [@be_link2](/user/be_link2)
+
+    @alsotang @alsotang
+    aldjf
+    @alsotang @tangzhanli
   */});
 
-  var matched_users = ['A-aZ-z0-9_', 'begin_with_spaces', 'multi_in_oneline', 'around_text', 'end_with_no_space', 'begin_with_no_spaces', 'end_with_no_space2', 'begin_with_no_spaces2', 'alsotang', 'alsotang2'];
+  var matched_users = ['A-aZ-z0-9_', 'begin_with_spaces',
+    'multi_in_oneline', 'around_text', 'end_with_no_space',
+    'begin_with_no_spaces', 'end_with_no_space2',
+    'begin_with_no_spaces2', 'alsotang', 'alsotang2',
+    'tangzhanli'];
 
   var linkedText = multiline.stripIndent(function(){/*
 [@A-aZ-z0-9_](/user/A-aZ-z0-9_)
@@ -115,6 +124,10 @@ code: `@in_code`
 ```
 
 [@be_link](/user/be_link) [@be_link2](/user/be_link2)
+
+[@alsotang](/user/alsotang) [@alsotang](/user/alsotang)
+aldjf
+[@alsotang](/user/alsotang) [@tangzhanli](/user/tangzhanli)
   */});
 
   describe('#fetchUsers()', function () {
@@ -144,7 +157,7 @@ code: `@in_code`
   describe('sendMessageToMentionUsers()', function () {
     it('should send message to all mention users', function (done) {
       done = pedding(done, 2);
-      var atUserIds = [String(normalUser._id), String(normalUser2._id)];
+      var atUserIds = [String(adminUser._id), String(normalUser2._id)];
 
       var ep  = new eventproxy();
       ep.after('user_id', atUserIds.length, function (user_ids) {
@@ -158,7 +171,7 @@ code: `@in_code`
           callback();
         });
 
-      var text = '@' + normalUser.loginname + ' @' + normalUser2.loginname + ' @notexitstuser 你们好';
+      var text = '@' + adminUser.loginname + ' @' + normalUser2.loginname + ' @notexitstuser 你们好';
       at.sendMessageToMentionUsers(text,
         testTopic._id,
         normalUser._id,
@@ -173,6 +186,19 @@ code: `@in_code`
         throw new Error('should not call me');
       });
       at.sendMessageToMentionUsers('abc no mentions', testTopic._id, normalUser._id,
+        function (err) {
+          should.not.exist(err);
+          done();
+        });
+    });
+
+    it('should not send at msg to author', function (done) {
+      mm(message, 'sendAtMessage', function () {
+        throw new Error('should not call me');
+      });
+
+      at.sendMessageToMentionUsers('@' + normalUser.loginname + ' hello',
+        testTopic._id, normalUser._id,
         function (err) {
           should.not.exist(err);
           done();

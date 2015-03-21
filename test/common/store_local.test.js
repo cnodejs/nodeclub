@@ -15,7 +15,7 @@ describe('test/common/store_local.test.js', function () {
           .should.ok;
         fs.unlinkSync(newFilePath);
         done(err);
-      }, 200);
+      }, 1 * 1000);
     });
   });
 });

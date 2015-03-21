@@ -130,8 +130,19 @@
       </div>
       <div>
         <span>二维码：</span>
-        <img class="access_token" src="<%- accessTokenBase64 %>">
+        <span id="access-token-qrcode"></span>
       </div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  // qrcode generate
+  var accessToken = "<%- accessToken %>";
+  new QRCode(document.getElementById("access-token-qrcode"), {
+    text: accessToken,
+    width: 200,
+    height: 200,
+  });
+  // END qrcode generate
+</script>

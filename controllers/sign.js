@@ -178,6 +178,9 @@ exports.active_account = function (req, res, next) {
     if (err) {
       return next(err);
     }
+    if (!user) {
+      return next(new Error('[ACTIVE_ACCOUNT] no such user: ' + name));
+    }
     var passhash = user.pass;
     if (!user || utility.md5(user.email + passhash + config.session_secret) !== key) {
       return res.render('notify/notify', {error: '信息有误，帐号无法被激活。'});
