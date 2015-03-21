@@ -86,18 +86,18 @@
 
         <a href='/topic/<%= topic._id %>/top' data-method="post">
           <% if (topic.top) { %>
-            <i class="fa fa-lg fa-star" title='取消置顶'></i>
+            <i class="fa fa-lg fa-star-o" title='取消置顶'></i>
           <% } else { %>
-            <i class="fa fa-lg fa-star-o" title='置顶'/></i>
+            <i class="fa fa-lg fa-star" title='置顶'/></i>
           <% } %>
         </a>
 
 
         <a href='/topic/<%= topic._id %>/good' data-method="post">
           <% if (topic.good) { %>
-            <i class="fa fa-lg fa-heart" title="取消精华"></i>
+            <i class="fa fa-lg fa-heart-o" title="取消精华"></i>
           <% } else { %>
-            <i class="fa fa-lg fa-heart-o" title="加精华"></i>
+            <i class="fa fa-lg fa-heart" title="加精华"></i>
           <% } %>
         </a>
 
