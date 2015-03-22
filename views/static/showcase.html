@@ -1,0 +1,179 @@
+<%- partial( '../sidebar') %>
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    .row {
+      margin-left: -15px;
+      margin-right: -15px;
+    }
+
+    .showcase-icon-row .col {
+      margin-bottom: 40px;
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .col-sm-3 {
+      width: 25%;
+    }
+
+    .col-sm-1,
+    .col-sm-2,
+    .col-sm-3,
+    .col-sm-4,
+    .col-sm-5,
+    .col-sm-6,
+    .col-sm-7,
+    .col-sm-8,
+    .col-sm-9,
+    .col-sm-10,
+    .col-sm-11 {
+      float: left;
+    }
+
+    .col-xs-1,
+    .col-xs-2,
+    .col-xs-3,
+    .col-xs-4,
+    .col-xs-5,
+    .col-xs-6,
+    .col-xs-7,
+    .col-xs-8,
+    .col-xs-9,
+    .col-xs-10,
+    .col-xs-11,
+    .col-xs-12,
+    .col-sm-1,
+    .col-sm-2,
+    .col-sm-3,
+    .col-sm-4,
+    .col-sm-5,
+    .col-sm-6,
+    .col-sm-7,
+    .col-sm-8,
+    .col-sm-9,
+    .col-sm-10,
+    .col-sm-11,
+    .col-sm-12,
+    .col-md-1,
+    .col-md-2,
+    .col-md-3,
+    .col-md-4,
+    .col-md-5,
+    .col-md-6,
+    .col-md-7,
+    .col-md-8,
+    .col-md-9,
+    .col-md-10,
+    .col-md-11,
+    .col-md-12,
+    .col-lg-1,
+    .col-lg-2,
+    .col-lg-3,
+    .col-lg-4,
+    .col-lg-5,
+    .col-lg-6,
+    .col-lg-7,
+    .col-lg-8,
+    .col-lg-9,
+    .col-lg-10,
+    .col-lg-11,
+    .col-lg-12 {
+      min-height: 1px;
+      padding-left: 15px;
+      padding-right: 15px;
+      position: relative;
+    }
+
+    .showcase-icon-row .col {
+      text-align: center;
+    }
+
+    .showcase-icon-row h3 {
+      color: #666;
+      margin-bottom: 4px;
+      font-size: 20px;
+    }
+
+    .showcase-icon-row p {
+      color: #666;
+      font-size: 12px;
+    }
+
+    .app .icon {
+      height: 115px;
+      margin: auto;
+      position: relative;
+      width: 115px;
+    }
+
+    .app img {
+      border-radius: 30px;
+      height: 115px;
+      width: 115px;
+    }
+
+    img {
+      vertical-align: middle;
+      border: 0 none;
+    }
+
+
+
+    .app .mask {
+      background: url("<%- staticFile('/public/images/showcase/app_mask@2x.png') %>") no-repeat scroll 0 0 / 115px 115px rgba(0, 0, 0, 0);
+    }
+
+    .app .mask {
+      background: url("<%- staticFile('/public/images/showcase/app_mask.png') %>") no-repeat scroll 0 0 / 115px 115px rgba(0, 0, 0, 0);
+      display: block;
+      height: 115px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 115px;
+      z-index: 1;
+    }
+  </style>
+
+  <div id='content'>
+    <div class='panel'>
+      <div class='header'>
+        <ul class='breadcrumb'>
+          <li><a href='/'>主页</a>
+            <span class='divider'>/</span>
+          </li>
+          <li class='active'>showcase</li>
+        </ul>
+      </div>
+      <div class='inner showcase'>
+        <div class="showcase-container">
+          <div class="showcase">
+            <div class="showcase-icon-row row">
+
+              <div data-appid="dd05f7144c75c2394f95" class="app col col-sm-3 ng-isolate-scope" app="">
+                <div class="icon">
+                  <a href="https://cnodejs.org/topic/545aee5a3e1f39344c5b3b3e" target="_blank">
+                  <img src="<%- staticFile('/public/images/showcase/cnodejs.png') %>">
+                  <div class="mask"></div>
+                  </a>
+                </div>
+                <h3>CNode社区</h3>
+                <p>By <a href="http://ionichina.com/user/lanceli">lanceli</a></p>
+              </div>
+
+
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

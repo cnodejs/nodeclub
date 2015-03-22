@@ -96,6 +96,7 @@ router.post('/reply/:reply_id/up', auth.userRequired, reply.up); // 为评论点
 router.post('/upload', auth.userRequired, topic.upload); //上传图片
 
 // static
+router.get('/showcase', staticController.showcase);
 router.get('/about', staticController.about);
 router.get('/timeline', staticController.timeline);
 router.get('/faq', staticController.faq);

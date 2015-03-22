@@ -1,5 +1,13 @@
 var multiline = require('multiline');
 // static page
+
+// showcase
+exports.showcase = function (req, res, next) {
+  res.render('static/showcase', {
+    pageTitle: 'Ionic app showcase'
+  });
+};
+
 // About
 exports.about = function (req, res, next) {
   res.render('static/about', {
