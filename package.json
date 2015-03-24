@@ -40,7 +40,7 @@
     "nodemailer": "0.3.43",
     "passport": "0.1.18",
     "passport-github": "0.1.5",
-    "pm2": "0.12.5",
+    "pm2": "0.12.7",
     "qn": "1.0.1",
     "ready": "0.1.1",
     "response-time": "2.2.0",

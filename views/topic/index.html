@@ -84,25 +84,31 @@
       <div id="manage_topic">
         <% if (current_user.is_admin) { %>
 
-        <% if (topic.top) { %>
-        <a href='/topic/<%= topic._id %>/top/0' data-method="post">
-          <i class="fa fa-lg fa-star" title='取消置顶'></i>
+        <a href='/topic/<%= topic._id %>/top' data-method="post">
+          <% if (topic.top) { %>
+            <i class="fa fa-lg fa-star-o" title='取消置顶'></i>
+          <% } else { %>
+            <i class="fa fa-lg fa-star" title='置顶'/></i>
+          <% } %>
         </a>
-        <% } else { %>
-        <a href='/topic/<%= topic._id %>/top/1' data-method="post">
-          <i class="fa fa-lg fa-star-o" title='置顶'/></i>
-        </a>
-        <% } %>
 
-        <% if (topic.good) { %>
-        <a href='/topic/<%= topic._id %>/good/0' data-method="post">
-          <i class="fa fa-lg fa-heart"></i>
+
+        <a href='/topic/<%= topic._id %>/good' data-method="post">
+          <% if (topic.good) { %>
+            <i class="fa fa-lg fa-heart-o" title="取消精华"></i>
+          <% } else { %>
+            <i class="fa fa-lg fa-heart" title="加精华"></i>
+          <% } %>
         </a>
-        <% } else { %>
-        <a href='/topic/<%= topic._id %>/good/1' data-method="post">
-          <i class="fa fa-lg fa-heart-o"></i>
+
+        <a href='/topic/<%= topic._id %>/lock' data-method="post">
+          <% if (topic.lock) { %>
+            <i class="fa fa-lg fa-unlock" title='取消锁定'></i>
+          <% } else { %>
+            <i class="fa fa-lg fa-lock" title='锁定（不可再回复）'/></i>
+          <% } %>
         </a>
-        <% } %>
+
 
         <a href='/topic/<%= topic._id %>/edit'>
           <i class="fa fa-lg fa-pencil-square-o" title='编辑'></i></a>
@@ -164,7 +170,7 @@
             <textarea class='editor' name='r_content' rows='8'></textarea>
 
             <div class='editor_buttons'>
-              <input class='span-primary submit_btn' type="submit" data-loading-text="回复中.." value="回复">
+              <input class='span-primary submit_btn' type="submit" data-loading-text="回复中.." value="回复<%= topic.lock ? '(此主题已锁定)' : ''%>" <%= topic.lock ? 'disabled="disabled"' : ''%>>
             </div>
           </div>
 

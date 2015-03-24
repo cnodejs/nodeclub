@@ -128,8 +128,8 @@ app.use(busboy({
 }));
 
 // routes
-app.use('/', webRouter);
 app.use('/api/v1', cors(), apiRouterV1);
+app.use('/', webRouter);
 
 // error handler
 if (config.debug) {
