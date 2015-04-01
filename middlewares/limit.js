@@ -1,4 +1,4 @@
-var config = require('../config').config;
+var config = require('../config');
 
 // 发帖时间间隔，为毫秒
 var POST_INTERVAL = config.post_interval;
@@ -15,12 +15,8 @@ exports.postInterval = function (req, res, next) {
     return next();
   }
   if (Date.now() - req.session.lastPostTimestamp < POST_INTERVAL) {
-    var ERROR_MSG = '请刷新页面检查是否已提交成功！';
-    if (req.accepts('json')) {
-      res.json({error: ERROR_MSG});
-    } else {
-      res.render('notify/notify', {error: ERROR_MSG});
-    }
+    var ERROR_MSG = '您的回复速度太快。';
+    res.render('notify/notify', {error: ERROR_MSG});
     return;
   }
 

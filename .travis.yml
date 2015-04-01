@@ -1,6 +1,10 @@
 language: node_js
 node_js:
-  - '0.8'
   - '0.10'
+  - '0.12'
+  - 'iojs'
 services:
   - mongodb
+
+script: make test-cov
+after_success: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js

@@ -35,6 +35,7 @@ exports.getMessageById = function (id, callback) {
     }
     if (message.type === 'reply' || message.type === 'reply2' || message.type === 'at') {
       var proxy = new EventProxy();
+      proxy.fail(callback);
       proxy.assign('author_found', 'topic_found', 'reply_found', function (author, topic, reply) {
         message.author = author;
         message.topic = topic;
@@ -43,7 +44,7 @@ exports.getMessageById = function (id, callback) {
           message.is_invalid = true;
         }
         return callback(null, message);
-      }).fail(callback); // 接收异常
+      }); // 接收异常
       User.getUserById(message.author_id, proxy.done('author_found'));
       Topic.getTopicById(message.topic_id, proxy.done('topic_found'));
       Reply.getReplyById(message.reply_id, proxy.done('reply_found'));
@@ -65,15 +66,16 @@ exports.getMessageById = function (id, callback) {
 };
 
 /**
- * 根据用户ID，获取消息列表
+ * 根据用户ID，获取已读消息列表
  * Callback:
  * - err, 数据库异常
  * - messages, 消息列表
  * @param {String} userId 用户ID
  * @param {Function} callback 回调函数
  */
-exports.getMessagesByUserId = function (userId, callback) {
-  Message.find({master_id: userId}, [], {sort: [['create_at', 'desc']], limit: 20}, callback);
+exports.getReadMessagesByUserId = function (userId, callback) {
+  Message.find({master_id: userId, has_read: true}, null,
+    {sort: '-create_at', limit: 20}, callback);
 };
 
 /**
@@ -85,5 +87,6 @@ exports.getMessagesByUserId = function (userId, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getUnreadMessageByUserId = function (userId, callback) {
-  Message.find({master_id: userId, has_read: false}, callback);
+  Message.find({master_id: userId, has_read: false}, null,
+    {sort: '-create_at'}, callback);
 };

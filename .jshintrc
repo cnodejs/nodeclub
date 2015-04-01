@@ -11,12 +11,13 @@
     "before",
     "beforeEach",
     "after",
+    "afterEach",
     "ace",
     "$"
   ],
 
   "browser": true,
-  "node" : true,
+  "node": true,
   "es5": true,
   "bitwise": true,
   "curly": true,

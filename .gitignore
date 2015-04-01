@@ -1,8 +1,8 @@
 config.js
 .cov
+coverage
 node_modules
 .naeindex
-public/user_data
 coverage.html
 .monitor
 
@@ -15,3 +15,12 @@ assets.json
 
 # Ignore Windows desktop setting file
 desktop.ini
+
+*.log
+
+.idea
+public/upload/*
+
+*.sublime-project
+*.sublime-workspace
+*.swp
