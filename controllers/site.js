@@ -46,9 +46,7 @@ indexCache();
 exports.index = function (req, res, next) {
   var page = parseInt(req.query.page, 10) || 1;
   page = page > 0 ? page : 1;
-  var tab = req.query.tab || req.session.tab || 'all';
-
-  req.session.tab = tab;
+  var tab = req.query.tab || 'all';
 
   var proxy = new eventproxy();
   proxy.fail(next);

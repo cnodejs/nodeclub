@@ -1,6 +1,7 @@
 var models = require('../../models');
 var TopicModel = models.Topic;
 var TopicProxy = require('../../proxy').Topic;
+var TopicCollect = require('../../proxy').TopicCollect;
 var UserProxy = require('../../proxy').User;
 var UserModel = models.User;
 var config = require('../../config');
@@ -145,3 +146,74 @@ var create = function (req, res, next) {
 };
 
 exports.create = create;
+
+exports.collect = function (req, res, next) {
+  var topic_id = req.body.topic_id;
+  TopicProxy.getTopic(topic_id, function (err, topic) {
+    if (err) {
+      return next(err);
+    }
+    if (!topic) {
+      return res.json({error_msg: '主题不存在'});
+    }
+
+    TopicCollect.getTopicCollect(req.user.id, topic._id, function (err, doc) {
+      if (err) {
+        return next(err);
+      }
+      if (doc) {
+        res.json({success: true});
+        return;
+      }
+
+      TopicCollect.newAndSave(req.user.id, topic._id, function (err) {
+        if (err) {
+          return next(err);
+        }
+        res.json({success: true});
+      });
+      UserProxy.getUserById(req.user.id, function (err, user) {
+        if (err) {
+          return next(err);
+        }
+        user.collect_topic_count += 1;
+        user.save();
+      });
+
+      req.user.collect_topic_count += 1;
+      topic.collect_count += 1;
+      topic.save();
+    });
+  });
+};
+
+exports.de_collect = function (req, res, next) {
+  var topic_id = req.body.topic_id;
+  TopicProxy.getTopic(topic_id, function (err, topic) {
+    if (err) {
+      return next(err);
+    }
+    if (!topic) {
+      return res.json({error_msg: '主题不存在'});
+    }
+    TopicCollect.remove(req.user.id, topic._id, function (err) {
+      if (err) {
+        return next(err);
+      }
+      res.json({success: true});
+    });
+
+    UserProxy.getUserById(req.user.id, function (err, user) {
+      if (err) {
+        return next(err);
+      }
+      user.collect_topic_count -= 1;
+      user.save();
+    });
+
+    topic.collect_count -= 1;
+    topic.save();
+
+    req.user.collect_topic_count -= 1;
+  });
+};
