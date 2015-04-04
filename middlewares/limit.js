@@ -17,7 +17,8 @@ var makePerDayLimiter = function (identityName, identityFn) {
         }
         count = count || 0;
         if (count < limitCount) {
-          cache.set(key, count + 1, 60 * 60 * 24);
+          count += 1;
+          cache.set(key, count, 60 * 60 * 24);
           res.set('X-RateLimit-Limit', limitCount);
           res.set('X-RateLimit-Remaining', limitCount - count);
           next();
