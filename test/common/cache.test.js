@@ -1,7 +1,7 @@
 var cache = require('../../common/cache');
 var should = require('should');
 
-describe.only('test/common/cache.test.js', function () {
+describe('test/common/cache.test.js', function () {
   it('should set && get', function (done) {
     cache.set('alsotang', {age: 23}, function () {
       cache.get('alsotang', function (err, data) {

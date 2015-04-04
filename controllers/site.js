@@ -16,32 +16,7 @@ var eventproxy = require('eventproxy');
 var cache = require('../common/cache');
 var xmlbuilder = require('xmlbuilder');
 var renderHelper = require('../common/render_helper');
-
-// 主页的缓存工作。主页是需要主动缓存的
-function indexCache() {
-  if (config.debug) {
-    return;
-  }
-  var limit = config.list_topic_count;
-  // 为所有版块（tab）做缓存
-  [['', '全部']].concat(config.tabs).forEach(function (pair) {
-    // 只缓存第一页, page = 1。options 之所以每次都生成是因为 mongoose 查询时，
-    // 会改动它
-    var options = { skip: (1 - 1) * limit, limit: limit, sort: '-top -last_reply_at'};
-    var tabValue = pair[0];
-    var query = {};
-    if (tabValue) {
-      query.tab = tabValue;
-    }
-    var optionsStr = JSON.stringify(query) + JSON.stringify(options);
-    Topic.getTopicsByQuery(query, options, function (err, topics) {
-      cache.set(optionsStr, topics);
-    });
-  });
-}
-setInterval(indexCache, 1000 * 5); // 五秒更新一次
-indexCache();
-// END 主页的缓存工作
+var _ = require('lodash');
 
 exports.index = function (req, res, next) {
   var page = parseInt(req.query.page, 10) || 1;
@@ -63,17 +38,10 @@ exports.index = function (req, res, next) {
 
   var limit = config.list_topic_count;
   var options = { skip: (page - 1) * limit, limit: limit, sort: '-top -last_reply_at'};
-  var optionsStr = JSON.stringify(query) + JSON.stringify(options);
 
-  cache.get(optionsStr, proxy.done(function (topics) {
-    if (topics) {
-      return proxy.emit('topics', topics);
-    }
-    Topic.getTopicsByQuery(query, options, proxy.done('topics', function (topics) {
-      return topics;
-    }));
+  Topic.getTopicsByQuery(query, options, proxy.done('topics', function (topics) {
+    return topics;
   }));
-  // END 取主题
 
   // 取排行榜上的用户
   cache.get('tops', proxy.done(function (tops) {
@@ -93,6 +61,7 @@ exports.index = function (req, res, next) {
       );
     }
   }));
+  // END 取排行榜上的用户
 
   // 取0回复的主题
   cache.get('no_reply_topics', proxy.done(function (no_reply_topics) {
@@ -108,6 +77,7 @@ exports.index = function (req, res, next) {
         }));
     }
   }));
+  // END 取0回复的主题
 
   // 取分页数据
   cache.get('pages', proxy.done(function (pages) {
@@ -121,6 +91,7 @@ exports.index = function (req, res, next) {
       }));
     }
   }));
+  // END 取分页数据
 
   var tabName = renderHelper.tabName(tab);
   proxy.all('topics', 'tops', 'no_reply_topics', 'pages',
