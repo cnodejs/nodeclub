@@ -38,6 +38,9 @@ var config = {
   db: 'mongodb://127.0.0.1/node_club_dev',
   db_name: 'node_club_dev',
 
+  // redis 配置，默认是本地
+  redis_host: '127.0.0.1',
+  redis_port: 6379,
 
   session_secret: 'node_club_secret', // 务必修改
   auth_cookie_name: 'node_club',
@@ -47,9 +50,6 @@ var config = {
 
   // 话题列表显示的话题数量
   list_topic_count: 20,
-
-  // 限制发帖时间间隔，单位：毫秒
-  post_interval: 2000,
 
   // RSS配置
   rss: {
@@ -117,7 +117,11 @@ var config = {
     appKey: 'YourAccessKeyyyyyyyyyyyy',
     masterSecret: 'YourSecretKeyyyyyyyyyyyyy',
     isDebug: false,
-  }
+  },
+
+  create_post_per_day: 1000, // 每个用户一天可以发的主题数
+  create_reply_per_day: 1000, // 每个用户一天可以发的评论数
+  visit_per_day: 1000, // 每个 ip 每天能访问的次数
 };
 
 module.exports = config;

@@ -87,7 +87,7 @@ exports.index = function (req, res, next) {
         ]},
         { limit: 10, sort: '-score'},
         proxy.done('tops', function (tops) {
-          cache.set('tops', tops, 1000 * 60 * 1);
+          cache.set('tops', tops, 60 * 1);
           return tops;
         })
       );
@@ -103,7 +103,7 @@ exports.index = function (req, res, next) {
         { reply_count: 0 },
         { limit: 5, sort: '-create_at'},
         proxy.done('no_reply_topics', function (no_reply_topics) {
-          cache.set('no_reply_topics', no_reply_topics, 1000 * 60 * 1);
+          cache.set('no_reply_topics', no_reply_topics, 60 * 1);
           return no_reply_topics;
         }));
     }
@@ -116,7 +116,7 @@ exports.index = function (req, res, next) {
     } else {
       Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
         var pages = Math.ceil(all_topics_count / limit);
-        cache.set(JSON.stringify(query) + 'pages', pages, 1000 * 60 * 1);
+        cache.set(JSON.stringify(query) + 'pages', pages, 60 * 1);
         proxy.emit('pages', pages);
       }));
     }
@@ -166,7 +166,7 @@ exports.sitemap = function (req, res, next) {
 
         var sitemapData = urlset.end();
         // 缓存一天
-        cache.set('sitemap', sitemapData, 1000 * 3600 * 24);
+        cache.set('sitemap', sitemapData, 3600 * 24);
         ep.emit('sitemap', sitemapData);
       });
     }

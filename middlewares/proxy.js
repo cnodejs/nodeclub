@@ -17,5 +17,8 @@ exports.proxy = function (req, res, next) {
     .on('response', function (response) {
       res.set(response.headers);
     })
+    .on('error', function (err) {
+      console.error(err);
+    })
     .pipe(res);
 };
