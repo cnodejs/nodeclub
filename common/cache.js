@@ -1,4 +1,5 @@
 var redis = require('./redis');
+var _ = require('lodash');
 
 var get = function (key, callback) {
   redis.get(key, function (err, data) {
@@ -21,6 +22,7 @@ var set = function (key, value, time, callback) {
     callback = time;
     time = null;
   }
+  callback = callback || _.noop;
   value = JSON.stringify(value);
   if (!time) {
     redis.set(key, value, callback);
