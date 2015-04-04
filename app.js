@@ -67,7 +67,7 @@ app.use('/public', express.static(staticDir));
 app.use('/agent', proxyMiddleware.proxy);
 
 // 每日访问限制
-app.use(limitMiddleware.peripperday('all', config.visit_per_day));
+// app.use(limitMiddleware.peripperday('all', config.visit_per_day));
 
 app.use(require('response-time')());
 app.use(bodyParser.json());
