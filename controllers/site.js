@@ -27,7 +27,7 @@ exports.index = function (req, res, next) {
   proxy.fail(next);
 
   // 取主题
-  var query = {};
+  var query = {deleted: false};
   if (tab && tab !== 'all') {
     if (tab === 'good') {
       query.good = true;

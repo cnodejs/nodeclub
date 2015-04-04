@@ -370,8 +370,8 @@ exports.deleteAll = function (req, res, next) {
       function () {
         res.json({status: 'success'});
       });
-    TopicModel.remove({author_id: user._id}, ep.done('del_topics'));
-    ReplyModel.remove({author_id: user._id}, ep.done('del_replys'));
+    TopicModel.update({author_id: user._id}, {$set: {deleted: true}}, {multi: true}, ep.done('del_topics'));
+    ReplyModel.update({author_id: user._id}, {$set: {deleted: true}}, {multi: true}, ep.done('del_replys'));
     // 点赞数也全部干掉
     ReplyModel.update({}, {$pull: {'ups': user._id}}, {multi: true}, ep.done('del_ups'));
   }));

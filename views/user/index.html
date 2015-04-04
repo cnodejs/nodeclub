@@ -165,7 +165,7 @@
       var params = {
         _csrf: '<%- csrf %>',
       };
-      if (!confirm('确定要删除吗？此操作不可逆')) {
+      if (!confirm('确定要删除吗？（不会永久删除，只做标记位）')) {
         return;
       }
       $.post('/user/<%- user.loginname %>/delete_all', params, function (data) {
