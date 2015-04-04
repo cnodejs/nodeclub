@@ -23,6 +23,7 @@ var githubStrategyMiddleware = require('./middlewares/github_strategy');
 var webRouter = require('./web_router');
 var apiRouterV1 = require('./api_router_v1');
 var auth = require('./middlewares/auth');
+var proxyMiddleware = require('./middlewares/proxy');
 var MongoStore = require('connect-mongo')(session);
 var _ = require('lodash');
 var csurf = require('csurf');
@@ -57,6 +58,11 @@ app.set('view engine', 'html');
 app.engine('html', require('ejs-mate'));
 app.locals._layoutFile = 'layout.html';
 
+
+app.use(Loader.less(__dirname));
+app.use('/public', express.static(staticDir));
+app.use('/agent', proxyMiddleware.proxy);
+
 app.use(require('response-time')());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -80,8 +86,6 @@ app.use(passport.initialize());
 app.use(auth.authUser);
 app.use(auth.blockUser());
 
-app.use(Loader.less(__dirname));
-app.use('/public', express.static(staticDir));
 
 if (!config.debug) {
   app.use(function (req, res, next) {
@@ -141,7 +145,7 @@ if (config.debug) {
 }
 
 app.listen(config.port, function () {
-  console.log("NodeClub listening on port %d in %s mode", config.port, app.settings.env);
+  console.log("NodeClub listening on port %d", config.port);
   console.log("God bless love....");
   console.log("You can debug your app with http://" + config.hostname + ':' + config.port);
 });
