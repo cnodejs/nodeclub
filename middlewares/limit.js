@@ -9,7 +9,7 @@ var makePerDayLimiter = function (identityName, identityFn) {
     return function (req, res, next) {
       var identity = identityFn(req);
       var YYYYMMDD = moment().format('YYYYMMDD');
-      var key = identityName + SEPARATOR + YYYYMMDD + SEPARATOR + name + SEPARATOR + identity;
+      var key = YYYYMMDD + SEPARATOR + identityName + SEPARATOR + name + SEPARATOR + identity;
 
       cache.get(key, function (err, count) {
         if (err) {
