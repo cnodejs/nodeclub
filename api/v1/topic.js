@@ -20,8 +20,13 @@ var index = function (req, res, next) {
 
   var query = {};
   if (tab && tab !== 'all') {
-    query.tab = tab;
+    if (tab === 'good') {
+      query.good = true;
+    } else {
+      query.tab = tab;
+    }
   }
+  query.deleted = false;
   var options = { skip: (page - 1) * limit, limit: limit, sort: '-top -last_reply_at'};
 
   var ep = new eventproxy();
