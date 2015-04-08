@@ -146,6 +146,7 @@ app.use('/', webRouter);
 if (config.debug) {
   app.use(errorhandler());
 } else {
+  console.error('server 500 error:', err);
   app.use(function (err, req, res, next) {
     return res.status(500).send('500 status');
   });
