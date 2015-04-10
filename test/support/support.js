@@ -52,6 +52,7 @@ ep.all('user', 'user2', 'admin', function (user, user2, admin) {
 
   var adminObj = JSON.parse(JSON.stringify(admin));
   adminObj.is_admin = true;
+  exports.adminUser = admin;
   exports.adminUserCookie = mockUser(adminObj);
 
   createTopic(user._id, ep.done('topic'));

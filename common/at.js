@@ -25,7 +25,7 @@ var fetchUsers = function (text) {
     /^```[\s\S]+?^```/gm, // ``` 里面的是 pre 标签内容
     /`[\s\S]+?`/g, // 同一行中，`some code` 中内容也不该被解析
     /^    .*/gm, // 4个空格也是 pre 标签，在这里 . 不会匹配换行
-    /\b.*?@[^\s]*?\..+?\b/g, // somebody@gmail.com 会被去除
+    /\b\S*?@[^\s]*?\..+?\b/g, // somebody@gmail.com 会被去除
     /\[@.+?\]\(\/.+?\)/g, // 已经被 link 的 username
   ];
 
@@ -71,6 +71,11 @@ exports.sendMessageToMentionUsers = function (text, topicId, authorId, reply_id,
     }
     var ep = new EventProxy();
     ep.fail(callback);
+
+    users = users.filter(function (user) {
+      return !user._id.equals(authorId);
+    });
+
     ep.after('sent', users.length, function () {
       callback();
     });
