@@ -23,7 +23,7 @@ var makePerDayLimiter = function (identityName, identityFn) {
           res.set('X-RateLimit-Remaining', limitCount - count);
           next();
         } else {
-          res.send('ratelimit forbidden');
+          res.send('ratelimit forbidden. limit is ' + limitCount + ' per day.');
         }
       });
     };

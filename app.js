@@ -147,6 +147,7 @@ if (config.debug) {
   app.use(errorhandler());
 } else {
   app.use(function (err, req, res, next) {
+    console.error('server 500 error:', err);
     return res.status(500).send('500 status');
   });
 }
