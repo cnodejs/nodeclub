@@ -11,13 +11,12 @@ var multiline = require('multiline');
 var pedding = require('pedding');
 
 describe('test/common/at.test.js', function () {
-  var testTopic, normalUser, normalUser2, adminUser;
+  var testTopic, normalUser, normalUser2;
   before(function (done) {
     support.ready(function () {
       testTopic = support.testTopic;
       normalUser = support.normalUser;
       normalUser2 = support.normalUser2;
-      adminUser = support.adminUser;
       done();
     });
   });
@@ -73,15 +72,13 @@ describe('test/common/at.test.js', function () {
     @alsotang @alsotang
     aldjf
     @alsotang @tangzhanli
-
-    @liveinjs 没事儿，能力和热情更重要，北京雍和宫，想的就邮件给我i5ting@126.com
   */});
 
   var matched_users = ['A-aZ-z0-9_', 'begin_with_spaces',
     'multi_in_oneline', 'around_text', 'end_with_no_space',
     'begin_with_no_spaces', 'end_with_no_space2',
     'begin_with_no_spaces2', 'alsotang', 'alsotang2',
-    'tangzhanli', 'liveinjs'];
+    'tangzhanli'];
 
   var linkedText = multiline.stripIndent(function(){/*
 [@A-aZ-z0-9_](/user/A-aZ-z0-9_)
@@ -130,8 +127,6 @@ code: `@in_code`
 [@alsotang](/user/alsotang) [@alsotang](/user/alsotang)
 aldjf
 [@alsotang](/user/alsotang) [@tangzhanli](/user/tangzhanli)
-
-[@liveinjs](/user/liveinjs) 没事儿，能力和热情更重要，北京雍和宫，想的就邮件给我i5ting@126.com
   */});
 
   describe('#fetchUsers()', function () {
@@ -161,7 +156,7 @@ aldjf
   describe('sendMessageToMentionUsers()', function () {
     it('should send message to all mention users', function (done) {
       done = pedding(done, 2);
-      var atUserIds = [String(adminUser._id), String(normalUser2._id)];
+      var atUserIds = [String(normalUser._id), String(normalUser2._id)];
 
       var ep  = new eventproxy();
       ep.after('user_id', atUserIds.length, function (user_ids) {
@@ -175,7 +170,7 @@ aldjf
           callback();
         });
 
-      var text = '@' + adminUser.loginname + ' @' + normalUser2.loginname + ' @notexitstuser 你们好';
+      var text = '@' + normalUser.loginname + ' @' + normalUser2.loginname + ' @notexitstuser 你们好';
       at.sendMessageToMentionUsers(text,
         testTopic._id,
         normalUser._id,
@@ -190,19 +185,6 @@ aldjf
         throw new Error('should not call me');
       });
       at.sendMessageToMentionUsers('abc no mentions', testTopic._id, normalUser._id,
-        function (err) {
-          should.not.exist(err);
-          done();
-        });
-    });
-
-    it('should not send at msg to author', function (done) {
-      mm(message, 'sendAtMessage', function () {
-        throw new Error('should not call me');
-      });
-
-      at.sendMessageToMentionUsers('@' + normalUser.loginname + ' hello',
-        testTopic._id, normalUser._id,
         function (err) {
           should.not.exist(err);
           done();

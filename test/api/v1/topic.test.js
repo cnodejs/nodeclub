@@ -25,7 +25,7 @@ describe('test/api/v1/topic.test.js', function () {
           should.not.exists(err);
           res.body.data.length.should.above(0);
           done();
-        });
+        })
     });
 
     it('should return topics', function (done) {
@@ -37,9 +37,9 @@ describe('test/api/v1/topic.test.js', function () {
           should.not.exists(err);
           res.body.data.length.should.equal(2);
           done();
-        });
-    });
-  });
+        })
+    })
+  })
 
   describe('get /api/v1/topic/:topicid', function () {
     it('should return topic info', function (done) {
@@ -69,61 +69,5 @@ describe('test/api/v1/topic.test.js', function () {
           done();
         })
     })
-  })
-
-  describe('post /api/v1/topic/collect', function () {
-    it('should collect topic', function (done) {
-      request.post('/api/v1/topic/collect')
-        .send({
-          accesstoken: mockUser.accessToken,
-          topic_id: mockTopic.id
-        })
-        .end(function (err, res) {
-          should.not.exists(err);
-          res.body.should.eql({"success": true});
-          done();
-        })
-    });
-
-    it('do nothing when topic is not found', function (done) {
-      request.post('/api/v1/topic/collect')
-        .send({
-          accesstoken: support.normalUser.accessToken,
-          topic_id: mockTopic.id + 'not_found'
-        })
-        .end(function (err, res) {
-          should.not.exists(err);
-          res.status.should.equal(500);
-          done();
-        })
-    });
-  })
-
-  describe('post /api/v1/topic/de_collect', function () {
-    it('should de_collect topic', function (done) {
-      request.post('/api/v1/topic/de_collect')
-        .send({
-          accesstoken: mockUser.accessToken,
-          topic_id: mockTopic.id
-        })
-        .end(function (err, res) {
-          should.not.exists(err);
-          res.body.should.eql({"success": true});
-          done();
-        })
-    });
-
-    it('do nothing when topic is not found', function (done) {
-      request.post('/api/v1/topic/de_collect')
-        .send({
-          accesstoken: support.normalUser.accessToken,
-          topic_id: mockTopic.id + 'not_found'
-        })
-        .end(function (err, res) {
-          should.not.exists(err);
-          res.status.should.equal(500);
-          done();
-        })
-    });
   })
 })

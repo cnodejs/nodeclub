@@ -74,22 +74,21 @@ router.get('/my/messages', auth.userRequired, message.index); // 用户个人的
 router.get('/topic/create', auth.userRequired, topic.create);
 
 router.get('/topic/:tid', topic.index);  // 显示某个话题
-router.post('/topic/:tid/top', auth.adminRequired, topic.top);  // 将某话题置顶
-router.post('/topic/:tid/good', auth.adminRequired, topic.good); // 将某话题加精
+router.post('/topic/:tid/top/:is_top?', auth.adminRequired, topic.top);  // 将某话题置顶
+router.post('/topic/:tid/good/:is_good?', auth.adminRequired, topic.good); // 将某话题加精
 router.get('/topic/:tid/edit', auth.userRequired, topic.showEdit);  // 编辑某话题
-router.post('/topic/:tid/lock', auth.adminRequired, topic.lock); // 锁定主题，不能再回复
 
 router.post('/topic/:tid/delete', auth.userRequired, topic.delete);
 
 // 保存新建的文章
-router.post('/topic/create', auth.userRequired, limit.peruserperday('create_topic', config.create_post_per_day), topic.put);
+router.post('/topic/create', auth.userRequired, limit.postInterval, topic.put);
 
 router.post('/topic/:tid/edit', auth.userRequired, topic.update);
 router.post('/topic/collect', auth.userRequired, topic.collect); // 关注某话题
 router.post('/topic/de_collect', auth.userRequired, topic.de_collect); // 取消关注某话题
 
 // reply controller
-router.post('/:topic_id/reply', auth.userRequired, limit.peruserperday('create_reply', config.create_reply_per_day), reply.add); // 提交一级回复
+router.post('/:topic_id/reply', auth.userRequired, limit.postInterval, reply.add); // 提交一级回复
 router.get('/reply/:reply_id/edit', auth.userRequired, reply.showEdit); // 修改自己的评论页
 router.post('/reply/:reply_id/edit', auth.userRequired, reply.update); // 修改某评论
 router.post('/reply/:reply_id/delete', auth.userRequired, reply.delete); // 删除某评论

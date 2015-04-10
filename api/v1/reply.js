@@ -29,10 +29,6 @@ var create = function (req, res, next) {
       res.send({error_msg: 'topic `' + topic_id + '` not found'});
       return;
     }
-    if (topic.lock) {
-      res.status(403);
-      return res.send({error_msg: 'topic is locked'});
-    }
     ep.emit('topic', topic);
   }));
 

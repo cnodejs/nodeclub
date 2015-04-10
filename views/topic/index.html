@@ -84,31 +84,25 @@
       <div id="manage_topic">
         <% if (current_user.is_admin) { %>
 
-        <a href='/topic/<%= topic._id %>/top' data-method="post">
-          <% if (topic.top) { %>
-            <i class="fa fa-lg fa-star-o" title='取消置顶'></i>
-          <% } else { %>
-            <i class="fa fa-lg fa-star" title='置顶'/></i>
-          <% } %>
+        <% if (topic.top) { %>
+        <a href='/topic/<%= topic._id %>/top/0' data-method="post">
+          <i class="fa fa-lg fa-star" title='取消置顶'></i>
         </a>
-
-
-        <a href='/topic/<%= topic._id %>/good' data-method="post">
-          <% if (topic.good) { %>
-            <i class="fa fa-lg fa-heart-o" title="取消精华"></i>
-          <% } else { %>
-            <i class="fa fa-lg fa-heart" title="加精华"></i>
-          <% } %>
+        <% } else { %>
+        <a href='/topic/<%= topic._id %>/top/1' data-method="post">
+          <i class="fa fa-lg fa-star-o" title='置顶'/></i>
         </a>
+        <% } %>
 
-        <a href='/topic/<%= topic._id %>/lock' data-method="post">
-          <% if (topic.lock) { %>
-            <i class="fa fa-lg fa-unlock" title='取消锁定'></i>
-          <% } else { %>
-            <i class="fa fa-lg fa-lock" title='锁定（不可再回复）'/></i>
-          <% } %>
+        <% if (topic.good) { %>
+        <a href='/topic/<%= topic._id %>/good/0' data-method="post">
+          <i class="fa fa-lg fa-heart"></i>
         </a>
-
+        <% } else { %>
+        <a href='/topic/<%= topic._id %>/good/1' data-method="post">
+          <i class="fa fa-lg fa-heart-o"></i>
+        </a>
+        <% } %>
 
         <a href='/topic/<%= topic._id %>/edit'>
           <i class="fa fa-lg fa-pencil-square-o" title='编辑'></i></a>
@@ -134,6 +128,19 @@
       <div class='topic_content'>
         <%- markdown(topic.linkedContent) %>
       </div>
+      <div class="share">
+        <!-- JiaThis Button BEGIN -->
+        <div class="jiathis_style_24x24">
+          <a class="jiathis_button_qzone"></a>
+          <a class="jiathis_button_tsina"></a>
+          <a class="jiathis_button_tqq"></a>
+          <a class="jiathis_button_weixin"></a>
+          <a class="jiathis_button_renren"></a>
+          <a class="jiathis_counter_style"></a>
+        </div>
+        <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+        <!-- JiaThis Button END -->
+      </div>
     </div>
   </div>
   <% if (topic.replies && topic.replies.length > 0) { %>
@@ -157,7 +164,7 @@
             <textarea class='editor' name='r_content' rows='8'></textarea>
 
             <div class='editor_buttons'>
-              <input class='span-primary submit_btn' type="submit" data-loading-text="回复中.." value="回复<%= topic.lock ? '(此主题已锁定)' : ''%>" <%= topic.lock ? 'disabled="disabled"' : ''%>>
+              <input class='span-primary submit_btn' type="submit" data-loading-text="回复中.." value="回复">
             </div>
           </div>
 

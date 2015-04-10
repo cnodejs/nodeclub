@@ -260,7 +260,7 @@ exports.delete = function (req, res, next) {
     if (err) {
       return res.send({ success: false, message: err.message });
     }
-    if (!req.session.user.is_admin && !(topic.author_id.equals(req.session.user._id))) {
+    if (!req.session.user.is_admin && !(topic.author_id.equals(req.session.user._id))){
       res.status(403);
       return res.send({success: false, message: '无权限'});
     }
@@ -268,8 +268,7 @@ exports.delete = function (req, res, next) {
       res.status(422);
       return res.send({ success: false, message: '此话题不存在或已被删除。' });
     }
-    topic.deleted = true;
-    topic.save(function (err) {
+    topic.remove(function (err) {
       if (err) {
         return res.send({ success: false, message: err.message });
       }
@@ -281,6 +280,7 @@ exports.delete = function (req, res, next) {
 // 设为置顶
 exports.top = function (req, res, next) {
   var topic_id = req.params.tid;
+  var is_top = req.params.is_top;
   var referer = req.get('referer');
   if (topic_id.length !== 24) {
     res.render('notify/notify', {error: '此话题不存在或已被删除。'});
@@ -294,12 +294,12 @@ exports.top = function (req, res, next) {
       res.render('notify/notify', {error: '此话题不存在或已被删除。'});
       return;
     }
-    topic.top = !topic.top;
+    topic.top = is_top;
     topic.save(function (err) {
       if (err) {
         return next(err);
       }
-      var msg = topic.top ? '此话题已置顶。' : '此话题已取消置顶。';
+      var msg = topic.top ? '此话题已经被置顶。' : '此话题已经被取消置顶。';
       res.render('notify/notify', {success: msg, referer: referer});
     });
   });
@@ -308,6 +308,7 @@ exports.top = function (req, res, next) {
 // 设为精华
 exports.good = function (req, res, next) {
   var topicId = req.params.tid;
+  var isGood = req.params.is_good;
   var referer = req.get('referer');
   Topic.getTopic(topicId, function (err, topic) {
     if (err) {
@@ -317,41 +318,17 @@ exports.good = function (req, res, next) {
       res.render('notify/notify', {error: '此话题不存在或已被删除。'});
       return;
     }
-    topic.good = !topic.good;
+    topic.good = isGood;
     topic.save(function (err) {
       if (err) {
         return next(err);
       }
-      var msg = topic.good ? '此话题已加精。' : '此话题已取消加精。';
+      var msg = topic.good ? '此话题已加精。' : '此话题已经取消加精。';
       res.render('notify/notify', {success: msg, referer: referer});
     });
   });
 };
 
-// 锁定主题，不可再回复
-exports.lock = function (req, res, next) {
-  var topicId = req.params.tid;
-  var referer = req.get('referer');
-  Topic.getTopic(topicId, function (err, topic) {
-    if (err) {
-      return next(err);
-    }
-    if (!topic) {
-      res.render('notify/notify', {error: '此话题不存在或已被删除。'});
-      return;
-    }
-    topic.lock = !topic.lock;
-    topic.save(function (err) {
-      if (err) {
-        return next(err);
-      }
-      var msg = topic.lock ? '此话题已锁定。' : '此话题已取消锁定。';
-      res.render('notify/notify', {success: msg, referer: referer});
-    });
-  });
-};
-
-// 收藏主题
 exports.collect = function (req, res, next) {
   var topic_id = req.body.topic_id;
   Topic.getTopic(topic_id, function (err, topic) {

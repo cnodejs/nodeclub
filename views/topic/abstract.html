@@ -16,7 +16,7 @@
     </span>
   </span>
 
-  <% if (topic.reply && topic.reply.author) {%>
+  <% if (topic.reply) {%>
   <a class='last_time pull-right' href="/topic/<%= topic._id %><%- '#' + topic.reply._id %>">
     <img class="user_small_avatar" src="<%= topic.reply.author.avatar_url %>">
     <span class="last_active_time"><%= topic.reply.friendly_create_at %></span>

@@ -18,7 +18,7 @@ describe('test/api/v1/reply.test.js', function () {
 
   describe('create reply', function () {
 
-    it('should success', function (done) {
+    it('should reply a topic', function (done) {
       request.post('/api/v1/topic/' + mockTopic.id + '/replies')
         .send({
           content: 'reply a topic from api',
@@ -32,7 +32,7 @@ describe('test/api/v1/reply.test.js', function () {
         });
     });
 
-    it('should success with repli_id', function (done) {
+    it('should reply a topic with repli_id', function (done) {
       request.post('/api/v1/topic/' + mockTopic.id + '/replies')
         .send({
           content: 'reply a topic from api',
@@ -46,7 +46,7 @@ describe('test/api/v1/reply.test.js', function () {
         });
     });
 
-    it('should fail when topic is not found', function (done) {
+    it('should not create a reply when topic is not found', function (done) {
       request.post('/api/v1/topic/' + mockTopic.id + 'not_found' + '/replies')
         .send({
           content: 'reply a topic from api',
@@ -58,28 +58,6 @@ describe('test/api/v1/reply.test.js', function () {
           done();
         });
 
-    });
-
-    it('should fail when topic is locked', function (done) {
-      // 锁住 topic
-      mockTopic.lock = !mockTopic.lock;
-      mockTopic.save(function () {
-        request.post('/api/v1/topic/' + mockTopic.id + '/replies')
-          .send({
-            content: 'reply a topic from api',
-            accesstoken: support.normalUser.accessToken,
-          })
-          .expect(403)
-          .end(function (err, res) {
-            should.not.exists(err);
-
-            // 解锁 topic
-            mockTopic.lock = !mockTopic.lock;
-            mockTopic.save(function () {
-              done();
-            });
-          });
-      });
     });
   });
 

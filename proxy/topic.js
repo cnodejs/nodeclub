@@ -71,7 +71,6 @@ exports.getCountByQuery = function (query, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getTopicsByQuery = function (query, opt, callback) {
-  query.deleted = false;
   Topic.find(query, '_id', opt, function (err, docs) {
     if (err) {
       return callback(err);
@@ -109,7 +108,7 @@ exports.getTopicsByQuery = function (query, opt, callback) {
 
 // for sitemap
 exports.getLimit5w = function (callback) {
-  Topic.find({deleted: false}, '_id', {limit: 50000, sort: '-create_at'}, callback);
+  Topic.find({}, '_id', {limit: 50000, sort: '-create_at'}, callback);
 };
 
 /**

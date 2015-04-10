@@ -89,8 +89,4 @@ exports.tabName = function (tab) {
   }
 };
 
-exports.proxy = function (url) {
-  return '"/agent?&url=' + encodeURIComponent(url) + '"';
-};
-
 exports._ = _;

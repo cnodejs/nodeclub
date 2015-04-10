@@ -35,9 +35,6 @@ exports.add = function (req, res, next) {
       // just 404 page
       return next();
     }
-    if (topic.lock) {
-      return res.status(403).send('此主题已锁定。');
-    }
     ep.emit('topic', topic);
   }));
 
@@ -91,9 +88,8 @@ exports.delete = function (req, res, next) {
       res.json({status: 'no reply ' + reply_id + ' exists'});
       return;
     }
-    if (reply.author_id.toString() === req.session.user._id.toString() || req.session.user.is_admin) {
-      reply.deleted = true;
-      reply.save();
+    if (reply.author_id.toString() === req.session.user._id.toString()) {
+      reply.remove();
       res.json({status: 'success'});
 
       if (!reply.reply_id) {
