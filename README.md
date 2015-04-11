@@ -28,7 +28,7 @@ Nodeclub 是使用 **Node.js** 和 **MongoDB** 开发的社区系统，界面优
 
 ```
 1. 安装 `node.js[必须]` `mongodb[必须]` `redis[必须]`
-2. 启动 mongod 和 redis
+2. 启动 mongodb 和 redis
 3. `$ make install` 安装 Nodeclub 的依赖包
 4. `cp config.default.js config.js` 请根据需要修改配置文件
 5. `$ make test` 确保各项服务都正常
