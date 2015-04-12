@@ -22,7 +22,6 @@ test: install pretest
 	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
 		--reporter $(MOCHA_REPORTER) \
 		-r should \
-		-r test/env \
 		--timeout $(TEST_TIMEOUT) \
 		$(TESTS)
 
@@ -32,7 +31,6 @@ test-cov cov: install pretest
 		./node_modules/.bin/_mocha \
 		-- \
 		-r should \
-		-r test/env \
 		--reporter $(MOCHA_REPORTER) \
 		--timeout $(TEST_TIMEOUT) \
 		$(TESTS)

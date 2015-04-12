@@ -260,7 +260,7 @@ exports.delete = function (req, res, next) {
     if (err) {
       return res.send({ success: false, message: err.message });
     }
-    if (!req.session.user.is_admin && !(topic.author_id.equals(req.session.user._id))) {
+    if (!req.session.user.is_admin && !(topic.author_id.equals(req.session.user._id))){
       res.status(403);
       return res.send({success: false, message: '无权限'});
     }
@@ -268,8 +268,7 @@ exports.delete = function (req, res, next) {
       res.status(422);
       return res.send({ success: false, message: '此话题不存在或已被删除。' });
     }
-    topic.deleted = true;
-    topic.save(function (err) {
+    topic.remove(function (err) {
       if (err) {
         return res.send({ success: false, message: err.message });
       }

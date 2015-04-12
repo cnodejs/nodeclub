@@ -48,7 +48,7 @@ exports.index = function (req, res, next) {
 
         var rssContent = convert('rss', rss_obj);
 
-        cache.set('rss', rssContent, 60 * 5); // 五分钟
+        cache.set('rss', rssContent, 1000 * 60 * 5); // 五分钟
         res.send(rssContent);
       });
     }
