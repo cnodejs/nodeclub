@@ -5,6 +5,7 @@ node_js:
   - 'iojs'
 services:
   - mongodb
+  - redis
 
 script: make test-cov
 after_success: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js

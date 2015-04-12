@@ -1,3 +1,4 @@
+// 一次性脚本
 // 为所有老用户生成 accessToken
 
 var uuid = require('node-uuid');

@@ -63,7 +63,7 @@ exports.getReplyById = function (id, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getRepliesByTopicId = function (id, cb) {
-  Reply.find({topic_id: id}, '', {sort: 'create_at'}, function (err, replies) {
+  Reply.find({topic_id: id, deleted: false}, '', {sort: 'create_at'}, function (err, replies) {
     if (err) {
       return cb(err);
     }

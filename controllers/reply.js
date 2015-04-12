@@ -92,7 +92,8 @@ exports.delete = function (req, res, next) {
       return;
     }
     if (reply.author_id.toString() === req.session.user._id.toString() || req.session.user.is_admin) {
-      reply.remove();
+      reply.deleted = true;
+      reply.save();
       res.json({status: 'success'});
 
       if (!reply.reply_id) {
