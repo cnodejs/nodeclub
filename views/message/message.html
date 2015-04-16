@@ -36,15 +36,4 @@
 		</span>
     <% } %>
 
-    <% if (message.has_read) { %>
-        <span class="marked_icon"><img src='<%- staticFile("/public/images/checkmark_icon&16.png") %>'
-                                       title='消息已读'/></span>
-    <% } else { %>
-	<span class="marked_icon mark_read_btn">
-		<img class='unread'
-         src='<%- staticFile("/public/images/checkmark_icon&16.png") %>'
-         title='消息已读'
-            />
-	</span>
-    <% } %>
   </div>

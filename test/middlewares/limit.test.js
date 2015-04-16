@@ -31,7 +31,7 @@ describe('test/middlewares/limit.test.js', function () {
     it('should not visit', function (done) {
       supertest.get('/test_peripperday')
         .end(function (err, res) {
-          res.text.should.eql('ratelimit forbidden');
+          res.text.should.eql('ratelimit forbidden. limit is 3 per day.');
           done(err);
         });
     });
