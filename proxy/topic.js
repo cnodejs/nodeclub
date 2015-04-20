@@ -197,12 +197,16 @@ exports.reduceCount = function (id, callback) {
     }
     topic.reply_count -= 1;
 
-    Reply.getLastReplyByTopId(id, function (err,reply) {
-      if(err){
+    Reply.getLastReplyByTopId(id, function (err, reply) {
+      if (err) {
         return callback(err);
       }
 
-      reply.length !== 0  ? topic.last_reply = reply[0]._id : topic.last_reply = null;
+      if (reply.length !== 0) {
+        topic.last_reply = reply[0]._id;
+      } else {
+        topic.last_reply = null;
+      }
 
       topic.save(callback);
     });

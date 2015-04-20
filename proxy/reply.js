@@ -130,8 +130,8 @@ exports.newAndSave = function (content, topicId, authorId, replyId, callback) {
  * @param topicId 主题ID
  * @param callback 回调函数
  */
-exports.getLastReplyByTopId = function (topicId , callback) {
-  Reply.find({topic_id: topicId,deleted: false},'_id',{sort : {create_at : -1} , limit : 1}, callback);
+exports.getLastReplyByTopId = function (topicId, callback) {
+  Reply.find({topic_id: topicId, deleted: false}, '_id', {sort: {create_at : -1}, limit : 1}, callback);
 };
 
 exports.getRepliesByAuthorId = function (authorId, opt, callback) {
