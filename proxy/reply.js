@@ -125,6 +125,15 @@ exports.newAndSave = function (content, topicId, authorId, replyId, callback) {
   });
 };
 
+/**
+ * 根据topicId查询到最新的一条未删除回复
+ * @param topicId 主题ID
+ * @param callback 回调函数
+ */
+exports.getLastReplyByTopId = function (topicId , callback) {
+  Reply.find({topic_id: topicId,deleted: false},'_id',{sort : {create_at : -1} , limit : 1}, callback);
+};
+
 exports.getRepliesByAuthorId = function (authorId, opt, callback) {
   if (!callback) {
     callback = opt;
