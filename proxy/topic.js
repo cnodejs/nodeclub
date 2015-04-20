@@ -182,7 +182,7 @@ exports.getTopic = function (id, callback) {
 };
 
 /**
- * 将当前主题的回复计数减1，删除回复时用到
+ * 将当前主题的回复计数减1，并且更新最后回复的用户，删除回复时用到
  * @param {String} id 主题ID
  * @param {Function} callback 回调函数
  */
@@ -195,9 +195,18 @@ exports.reduceCount = function (id, callback) {
     if (!topic) {
       return callback(new Error('该主题不存在'));
     }
-
     topic.reply_count -= 1;
-    topic.save(callback);
+
+    Reply.getLastReplyByTopId(id, function (err,reply) {
+      if(err){
+        return callback(err);
+      }
+
+      reply.length !== 0  ? topic.last_reply = reply[0]._id : topic.last_reply = null;
+
+      topic.save(callback);
+    });
+
   });
 };
 
