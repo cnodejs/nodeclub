@@ -5,8 +5,8 @@
 var path = require('path');
 
 var config = {
-  // debug 为 true 时，用于本地调试
-  debug: true,
+  // debug 为 true 时，用于本地调试 在调试状态无法发送激活邮件
+  debug: false,
 
   get mini_assets() { return !this.debug; }, // 是否启用静态文件的合并压缩，详见视图中的Loader
 
@@ -28,7 +28,7 @@ var config = {
   // cdn host，如 http://cnodejs.qiniudn.com
   site_static_host: '', // 静态文件存储域名
   // 社区的域名
-  host: 'localhost',
+  host: '121.42.51.73',
   // 默认的Google tracker ID，自有站点请修改，申请地址：http://www.google.com/analytics/
   google_tracker_id: '',
   // 默认的cnzz tracker ID，自有站点请修改
@@ -66,7 +66,7 @@ var config = {
     host: 'smtp.126.com',
     port: 25,
     auth: {
-      user: 'club@126.com',
+      user: 'nopains@126.com',
       pass: 'club'
     }
   },
@@ -76,11 +76,11 @@ var config = {
   weibo_id: 'your_weibo_id',
 
   // admin 可删除话题，编辑标签，设某人为达人
-  admins: { user_login_name: true },
+  admins: { 'stackoverflow.cc': true },
 
   // github 登陆的配置
   GITHUB_OAUTH: {
-    clientID: 'your GITHUB_CLIENT_ID',
+    clientID: 'huaian',
     clientSecret: 'your GITHUB_CLIENT_SECRET',
     callbackURL: 'http://cnodejs.org/auth/github/callback'
   },
