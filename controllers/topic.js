@@ -17,6 +17,7 @@ var tools = require('../common/tools');
 var store = require('../common/store');
 var config = require('../config');
 var _ = require('lodash');
+var cache = require('../common/cache');
 
 /**
  * Topic page
@@ -93,8 +94,19 @@ exports.index = function (req, res, next) {
     Topic.getTopicsByQuery(query, options, ep.done('other_topics'));
 
     // get no_reply_topics
-    var options2 = { limit: 5, sort: '-create_at'};
-    Topic.getTopicsByQuery({reply_count: 0}, options2, ep.done('no_reply_topics'));
+    cache.get('no_reply_topics', ep.done(function (no_reply_topics) {
+      if (no_reply_topics) {
+        ep.emit('no_reply_topics', no_reply_topics);
+      } else {
+        Topic.getTopicsByQuery(
+          { reply_count: 0, tab: {$ne: 'job'}},
+          { limit: 5, sort: '-create_at'},
+          ep.done('no_reply_topics', function (no_reply_topics) {
+            cache.set('no_reply_topics', no_reply_topics, 60 * 1);
+            return no_reply_topics;
+          }));
+      }
+    }));
   }));
 };
 
