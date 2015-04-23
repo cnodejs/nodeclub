@@ -69,7 +69,7 @@ exports.index = function (req, res, next) {
       proxy.emit('no_reply_topics', no_reply_topics);
     } else {
       Topic.getTopicsByQuery(
-        { reply_count: 0 },
+        { reply_count: 0, tab: {$ne: 'job'}},
         { limit: 5, sort: '-create_at'},
         proxy.done('no_reply_topics', function (no_reply_topics) {
           cache.set('no_reply_topics', no_reply_topics, 60 * 1);
