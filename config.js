@@ -42,7 +42,7 @@ var config = {
   redis_host: '127.0.0.1',
   redis_port: 6379,
 
-  session_secret: 'node_club_secret', // 务必修改
+  session_secret: 'stackoverflow_cc', // 务必修改
   auth_cookie_name: 'node_club',
 
   // 程序运行的端口
@@ -76,13 +76,13 @@ var config = {
   weibo_id: 'your_weibo_id',
 
   // admin 可删除话题，编辑标签，设某人为达人
-  admins: { 'stackoverflow.cc': true },
+  admins: { 'cloud': true },
 
   // github 登陆的配置
   GITHUB_OAUTH: {
-    clientID: 'huaian',
-    clientSecret: 'your GITHUB_CLIENT_SECRET',
-    callbackURL: 'http://cnodejs.org/auth/github/callback'
+    clientID: '',
+    clientSecret: '',
+    callbackURL: 'http://121.42.51.73/auth/github/callback'
   },
   // 是否允许直接注册（否则只能走 github 的方式）
   allow_sign_up: true,
