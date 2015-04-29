@@ -37,7 +37,7 @@ Nodeclub 是使用 **Node.js** 和 **MongoDB** 开发的社区系统，界面优
 8. done!
 ```
 
-## 其他
+## 测试
 
 跑测试
 
@@ -50,6 +50,10 @@ $ make test
 ```bash
 $ make test-cov
 ```
+
+## 贡献
+
+有任何意见或建议都欢迎提 issue，或者直接联系 [@alsotang(https://github.com/alsotang)](https://github.com/alsotang)
 
 ## License
 
