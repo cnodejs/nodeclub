@@ -53,7 +53,7 @@ $ make test-cov
 
 ## 贡献
 
-有任何意见或建议都欢迎提 issue，或者直接联系 [@alsotang(https://github.com/alsotang)](https://github.com/alsotang)
+有任何意见或建议都欢迎提 issue，或者直接提给 [@alsotang](https://github.com/alsotang)
 
 ## License
 
