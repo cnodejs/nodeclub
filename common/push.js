@@ -39,7 +39,7 @@ exports.send = function (type, author_id, master_id, topic_id) {
         .setPlatform(JPush.ALL)
         .setAudience(JPush.alias(master_id.toString()))
         .setNotification(msg,
-          JPush.ios(msg, null, count, null, extras),
+          JPush.ios(msg, 'default', count, null, extras),
           JPush.android(msg, null, null, extras)
         )
         .setOptions(null, null, null, !config.jpush.isDebug)
