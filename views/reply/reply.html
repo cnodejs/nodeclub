@@ -16,14 +16,14 @@
     <div class='user_action'>
       <span>
         <i class="fa up_btn
-          <%= (typeof current_user !== 'undefined' && isUped(current_user, reply)) ? 'fa-thumbs-up uped' : 'fa-thumbs-o-up' %>
+          <%= (current_user && isUped(current_user, reply)) ? 'fa-thumbs-up uped' : 'fa-thumbs-o-up' %>
           <%= (!reply.ups || !reply.ups.length) ? 'invisible' : '' %>" title="喜欢"></i>
         <span class="up-count">
           <%= reply.ups && reply.ups.length ? reply.ups.length : '' %>
         </span>
       </span>
-      <% if ( typeof(current_user) !== 'undefined' && current_user.is_admin ||
-      (typeof(current_user) !== 'undefined' && current_user._id.toString() == reply.author._id.toString())
+      <% if (current_user && current_user.is_admin ||
+      (current_user && current_user._id.toString() == reply.author._id.toString())
       ) { %>
       <a href='/reply/<%= reply._id %>/edit' class='edit_reply_btn'>
         <i class="fa fa-pencil-square-o" title='编辑'></i>
@@ -33,7 +33,7 @@
       </a>
       <% } %>
       <span>
-        <% if(typeof(current_user) !== 'undefined'){ %>
+        <% if (current_user){ %>
           <i class="fa fa-reply reply2_btn" title="回复"></i>
         <% } %>
       </span>
@@ -44,7 +44,7 @@
   </div>
   <div class='clearfix'>
     <div class='reply2_area'>
-      <% if (typeof(current_user) !== 'undefined') { %>
+      <% if (current_user) { %>
       <form class='reply2_form' action='/<%= topic._id %>/reply' method='post'>
         <input type='hidden' name='_csrf' value='<%= csrf %>'/>
         <input type='hidden' name='reply_id' value='<%= reply._id %>'/>

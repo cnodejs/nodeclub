@@ -23,7 +23,7 @@
   </div>
 </div>
 
-<% if (typeof(current_user) !== 'undefined') { %>
+<% if (current_user) { %>
 <script>
   $(document).ready(function () {
     $('.follow_btn').click(function () {

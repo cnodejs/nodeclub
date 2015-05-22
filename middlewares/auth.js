@@ -63,9 +63,12 @@ exports.authUser = function (req, res, next) {
     }
     return next();
   }
+  
+  // Ensure current_user always has defined.
+  res.locals.current_user = null;
 
   ep.all('get_user', function (user) {
-    if (!user) {
+    if (!user) {  
       return next();
     }
     user = res.locals.current_user = req.session.user = new UserModel(user);

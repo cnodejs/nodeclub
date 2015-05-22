@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <% if (typeof(current_user) === 'undefined' || !current_user.isAdvanced) { %>
+  <% if (!current_user || !current_user.isAdvanced) { %>
     <%- partial('../_ads') %>
   <% } %>
 
@@ -53,7 +53,7 @@
         <%= topic.title %>
       </span>
       <div class="action">
-      <% if (typeof(current_user) !== 'undefined') { %>
+      <% if (current_user) { %>
         <% if (!topic.in_collection) { %>
         <span class='span-common span-success' id='collect_btn' action='collect'>加入收藏</span>
         <% } else { %>
@@ -80,7 +80,7 @@
           <span> 来自 <%= topic.tabName %></span>
         <%}%>
       </div>
-      <% if (typeof(current_user) !== 'undefined') { %>
+      <% if (current_user != null) { %>
       <div id="manage_topic">
         <% if (current_user.is_admin) { %>
 
@@ -144,7 +144,7 @@
     <%- partial('../reply/reply', topic.replies) %>
   </div>
   <% } %>
-  <% if (typeof(current_user) !== 'undefined' && typeof(topic) !== 'undefined') { %>
+  <% if (current_user && typeof(topic) !== 'undefined') { %>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>添加回复</span>
@@ -176,7 +176,7 @@
 </div>
 
 
-<% if (typeof(current_user) !== 'undefined' && typeof(topic) !== 'undefined') { %>
+<% if (current_user && typeof(topic) !== 'undefined') { %>
 <!-- markdown editor -->
 <%- Loader('/public/editor.min.js')
 .js('/public/libs/editor/editor.js')
