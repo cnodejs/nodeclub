@@ -63,6 +63,9 @@ exports.gen_session = gen_session;
 exports.authUser = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);
+  
+  // Ensure current_user always has defined.
+  res.locals.current_user = null;
 
   if (config.debug && req.cookies['mock_user']) {
     var mockUser = JSON.parse(req.cookies['mock_user']);
@@ -72,9 +75,6 @@ exports.authUser = function (req, res, next) {
     }
     return next();
   }
-
-  // Ensure current_user always has defined.
-  res.locals.current_user = null;
 
   ep.all('get_user', function (user) {
     if (!user) {
