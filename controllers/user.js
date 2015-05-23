@@ -22,7 +22,7 @@ exports.index = function (req, res, next) {
       return next(err);
     }
     if (!user) {
-      res.render('notify/notify', {error: '这个用户不存在。'});
+      res.render404('这个用户不存在。');
       return;
     }
 
@@ -254,7 +254,7 @@ exports.list_topics = function (req, res, next) {
 
   User.getUserByLoginName(user_name, function (err, user) {
     if (!user) {
-      res.render('notify/notify', {error: '这个用户不存在。'});
+      res.render404('这个用户不存在。');
       return;
     }
 
@@ -289,7 +289,7 @@ exports.list_replies = function (req, res, next) {
 
   User.getUserByLoginName(user_name, function (err, user) {
     if (!user) {
-      res.render('notify/notify', {error: '这个用户不存在。'});
+      res.render404('这个用户不存在。');
       return;
     }
 

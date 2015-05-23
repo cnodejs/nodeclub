@@ -23,6 +23,7 @@ var githubStrategyMiddleware = require('./middlewares/github_strategy');
 var webRouter = require('./web_router');
 var apiRouterV1 = require('./api_router_v1');
 var auth = require('./middlewares/auth');
+var errorPageMiddleware = require("./middlewares/error_page");
 var proxyMiddleware = require('./middlewares/proxy');
 var RedisStore = require('connect-redis')(session);
 var _ = require('lodash');
@@ -91,6 +92,7 @@ app.use(passport.initialize());
 
 // custom middleware
 app.use(auth.authUser);
+app.use(errorPageMiddleware.errorPage);
 app.use(auth.blockUser());
 
 
