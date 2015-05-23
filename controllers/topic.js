@@ -19,7 +19,6 @@ var config       = require('../config');
 var _            = require('lodash');
 var cache        = require('../common/cache');
 
-
 /**
  * Topic page
  *
@@ -60,7 +59,7 @@ exports.index = function (req, res, next) {
     topic.visit_count += 1;
     topic.save();
 
-    topic.author = author;
+    topic.author  = author;
     topic.replies = replies;
 
     // 点赞数排名第三的回答，它的点赞数就是阈值
@@ -112,10 +111,10 @@ exports.create = function (req, res, next) {
 
 
 exports.put = function (req, res, next) {
-  var title = validator.trim(req.body.title);
-  title = validator.escape(title);
-  var tab = validator.trim(req.body.tab);
-  tab = validator.escape(tab);
+  var title   = validator.trim(req.body.title);
+  title       = validator.escape(title);
+  var tab     = validator.trim(req.body.tab);
+  tab         = validator.escape(tab);
   var content = validator.trim(req.body.t_content);
 
   // 得到所有的 tab, e.g. ['ask', 'share', ..]
@@ -196,9 +195,9 @@ exports.showEdit = function (req, res, next) {
 
 exports.update = function (req, res, next) {
   var topic_id = req.params.tid;
-  var title = req.body.title;
-  var tab = req.body.tab;
-  var content = req.body.t_content;
+  var title    = req.body.title;
+  var tab      = req.body.tab;
+  var content  = req.body.t_content;
 
   Topic.getTopicById(topic_id, function (err, topic, tags) {
     if (!topic) {
@@ -207,10 +206,10 @@ exports.update = function (req, res, next) {
     }
 
     if (topic.author_id.equals(req.session.user._id) || req.session.user.is_admin) {
-      title = validator.trim(title);
-      title = validator.escape(title);
-      tab = validator.trim(tab);
-      tab = validator.escape(tab);
+      title   = validator.trim(title);
+      title   = validator.escape(title);
+      tab     = validator.trim(tab);
+      tab     = validator.escape(tab);
       content = validator.trim(content);
 
       // 验证
@@ -235,10 +234,11 @@ exports.update = function (req, res, next) {
       }
 
       //保存话题
-      topic.title = title;
-      topic.content = content;
-      topic.tab = tab;
+      topic.title     = title;
+      topic.content   = content;
+      topic.tab       = tab;
       topic.update_at = new Date();
+
       topic.save(function (err) {
         if (err) {
           return next(err);
@@ -287,7 +287,8 @@ exports.delete = function (req, res, next) {
 // 设为置顶
 exports.top = function (req, res, next) {
   var topic_id = req.params.tid;
-  var referer = req.get('referer');
+  var referer  = req.get('referer');
+
   if (topic_id.length !== 24) {
     res.render404('此话题不存在或已被删除。');
     return;
@@ -315,6 +316,7 @@ exports.top = function (req, res, next) {
 exports.good = function (req, res, next) {
   var topicId = req.params.tid;
   var referer = req.get('referer');
+
   Topic.getTopic(topicId, function (err, topic) {
     if (err) {
       return next(err);
