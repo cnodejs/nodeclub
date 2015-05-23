@@ -1,5 +1,5 @@
 var redis = require('./redis');
-var _ = require('lodash');
+var _     = require('lodash');
 
 var get = function (key, callback) {
   redis.get(key, function (err, data) {

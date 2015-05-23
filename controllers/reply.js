@@ -1,15 +1,12 @@
-var validator = require('validator');
-var _ = require('lodash');
-
-var at = require('../common/at');
-var message = require('../common/message');
-
+var validator  = require('validator');
+var _          = require('lodash');
+var at         = require('../common/at');
+var message    = require('../common/message');
 var EventProxy = require('eventproxy');
-
-var User = require('../proxy').User;
-var Topic = require('../proxy').Topic;
-var Reply = require('../proxy').Reply;
-var config = require('../config');
+var User       = require('../proxy').User;
+var Topic      = require('../proxy').Topic;
+var Reply      = require('../proxy').Reply;
+var config     = require('../config');
 
 /**
  * 添加回复

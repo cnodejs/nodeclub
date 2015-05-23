@@ -1,15 +1,15 @@
-var express = require('express');
-
-var topicController = require('./api/v1/topic');
-var userController = require('./api/v1/user');
-var toolsController = require('./api/v1/tools');
-var replyController = require('./api/v1/reply');
+var express           = require('express');
+var topicController   = require('./api/v1/topic');
+var userController    = require('./api/v1/user');
+var toolsController   = require('./api/v1/tools');
+var replyController   = require('./api/v1/reply');
 var messageController = require('./api/v1/message');
-var middleware = require('./api/v1/middleware');
-var limit = require('./middlewares/limit');
-var config = require('./config');
+var middleware        = require('./api/v1/middleware');
+var limit             = require('./middlewares/limit');
+var config            = require('./config');
 
-var router = express.Router();
+var router            = express.Router();
+
 
 // 主题
 router.get('/topics', topicController.index);

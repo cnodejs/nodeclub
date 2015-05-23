@@ -1,10 +1,9 @@
-var models = require('../models');
-var Reply = models.Reply;
+var models     = require('../models');
+var Reply      = models.Reply;
 var EventProxy = require('eventproxy');
-
-var tools = require('../common/tools');
-var User = require('./user');
-var at = require('../common/at');
+var tools      = require('../common/tools');
+var User       = require('./user');
+var at         = require('../common/at');
 
 /**
  * 获取一条回复信息
@@ -109,12 +108,13 @@ exports.getRepliesByTopicId = function (id, cb) {
 exports.newAndSave = function (content, topicId, authorId, replyId, callback) {
   if (typeof replyId === 'function') {
     callback = replyId;
-    replyId = null;
+    replyId  = null;
   }
-  var reply = new Reply();
-  reply.content = content;
-  reply.topic_id = topicId;
+  var reply       = new Reply();
+  reply.content   = content;
+  reply.topic_id  = topicId;
   reply.author_id = authorId;
+
   if (replyId) {
     reply.reply_id = replyId;
   }
@@ -135,7 +135,7 @@ exports.getLastReplyByTopId = function (topicId, callback) {
 exports.getRepliesByAuthorId = function (authorId, opt, callback) {
   if (!callback) {
     callback = opt;
-    opt = null;
+    opt      = null;
   }
   Reply.find({author_id: authorId}, {}, opt, callback);
 };

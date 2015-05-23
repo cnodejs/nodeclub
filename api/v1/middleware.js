@@ -1,7 +1,6 @@
-
-var UserModel = require('../../models').User;
+var UserModel  = require('../../models').User;
 var eventproxy = require('eventproxy');
-var validator = require('validator');
+var validator  = require('validator');
 
 var auth = function (req, res, next) {
   var ep = new eventproxy();

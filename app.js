@@ -12,34 +12,35 @@ if (!config.debug) {
   require('newrelic');
 }
 
-var path = require('path');
-var Loader = require('loader');
-var express = require('express');
-var session = require('express-session');
-var passport = require('passport');
+var path                     = require('path');
+var Loader                   = require('loader');
+var express                  = require('express');
+var session                  = require('express-session');
+var passport                 = require('passport');
 require('./models');
-var GitHubStrategy = require('passport-github').Strategy;
+var GitHubStrategy           = require('passport-github').Strategy;
 var githubStrategyMiddleware = require('./middlewares/github_strategy');
-var webRouter = require('./web_router');
-var apiRouterV1 = require('./api_router_v1');
-var auth = require('./middlewares/auth');
-var errorPageMiddleware = require("./middlewares/error_page");
-var proxyMiddleware = require('./middlewares/proxy');
-var RedisStore = require('connect-redis')(session);
-var _ = require('lodash');
-var csurf = require('csurf');
-var compress = require('compression');
-var bodyParser = require('body-parser');
-var busboy = require('connect-busboy');
-var errorhandler = require('errorhandler');
-var cors = require('cors');
-var limitMiddleware = require('./middlewares/limit');
+var webRouter                = require('./web_router');
+var apiRouterV1              = require('./api_router_v1');
+var auth                     = require('./middlewares/auth');
+var errorPageMiddleware      = require("./middlewares/error_page");
+var proxyMiddleware          = require('./middlewares/proxy');
+var RedisStore               = require('connect-redis')(session);
+var _                        = require('lodash');
+var csurf                    = require('csurf');
+var compress                 = require('compression');
+var bodyParser               = require('body-parser');
+var busboy                   = require('connect-busboy');
+var errorhandler             = require('errorhandler');
+var cors                     = require('cors');
+var limitMiddleware          = require('./middlewares/limit');
+
 
 // 静态文件目录
 var staticDir = path.join(__dirname, 'public');
-
 // assets
-var assets = {};
+var assets    = {};
+
 if (config.mini_assets) {
   try {
     assets = require('./assets.json');
@@ -49,7 +50,7 @@ if (config.mini_assets) {
   }
 }
 
-var urlinfo = require('url').parse(config.host);
+var urlinfo     = require('url').parse(config.host);
 config.hostname = urlinfo.hostname || config.host;
 
 var app = express();
@@ -61,7 +62,6 @@ app.engine('html', require('ejs-mate'));
 app.locals._layoutFile = 'layout.html';
 app.enable('trust proxy');
 
-
 // 静态资源
 app.use(Loader.less(__dirname));
 app.use('/public', express.static(staticDir));
@@ -72,9 +72,7 @@ app.use('/agent', proxyMiddleware.proxy);
 
 app.use(require('response-time')());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('method-override')());
 app.use(require('cookie-parser')(config.session_secret));
 app.use(compress());
@@ -94,7 +92,6 @@ app.use(passport.initialize());
 app.use(auth.authUser);
 app.use(errorPageMiddleware.errorPage);
 app.use(auth.blockUser());
-
 
 if (!config.debug) {
   app.use(function (req, res, next) {

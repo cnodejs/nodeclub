@@ -1,10 +1,9 @@
-
-var mongoose = require('mongoose');
-var UserModel = mongoose.model('User');
-var Message = require('../proxy').Message;
-var config = require('../config');
+var mongoose   = require('mongoose');
+var UserModel  = mongoose.model('User');
+var Message    = require('../proxy').Message;
+var config     = require('../config');
 var eventproxy = require('eventproxy');
-var UserProxy = require('../proxy').User;
+var UserProxy  = require('../proxy').User;
 
 /**
  * 需要管理员权限
@@ -63,7 +62,7 @@ exports.gen_session = gen_session;
 exports.authUser = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);
-  
+
   // Ensure current_user always has defined.
   res.locals.current_user = null;
 
@@ -85,7 +84,7 @@ exports.authUser = function (req, res, next) {
     if (config.admins.hasOwnProperty(user.loginname)) {
       user.is_admin = true;
     }
-    
+
     Message.getMessagesCount(user._id, ep.done(function (count) {
       user.messages_count = count;
       next();

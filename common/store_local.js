@@ -1,7 +1,7 @@
-var config = require('../config');
+var config  = require('../config');
 var utility = require('utility');
-var path = require('path');
-var fs = require('fs');
+var path    = require('path');
+var fs      = require('fs');
 
 exports.upload = function (file, options, callback) {
   var filename = options.filename;

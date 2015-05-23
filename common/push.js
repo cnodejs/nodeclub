@@ -1,9 +1,10 @@
-var User = require('../proxy/user');
-var Message = require('../proxy/message');
-var JPush = require("jpush-sdk");
+var User       = require('../proxy/user');
+var Message    = require('../proxy/message');
+var JPush      = require("jpush-sdk");
 var eventproxy = require('eventproxy');
-var config = require('../config');
-var client = null;
+var config     = require('../config');
+var client     = null;
+
 if (config.jpush && config.jpush.masterSecret !== 'YourSecretKeyyyyyyyyyyyyy') {
   client = JPush.buildClient(config.jpush);
 }
