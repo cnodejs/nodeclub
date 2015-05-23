@@ -46,7 +46,7 @@ exports.index = function (req, res, next) {
       topic: topic,
       author_other_topics: other_topics,
       no_reply_topics: no_reply_topics,
-      isUped: isUped
+      is_uped: isUped
     });
   });
 

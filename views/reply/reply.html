@@ -16,7 +16,7 @@
     <div class='user_action'>
       <span>
         <i class="fa up_btn
-          <%= (current_user && isUped(current_user, reply)) ? 'fa-thumbs-up uped' : 'fa-thumbs-o-up' %>
+          <%= (current_user && is_uped(current_user, reply)) ? 'fa-thumbs-up uped' : 'fa-thumbs-o-up' %>
           <%= (!reply.ups || !reply.ups.length) ? 'invisible' : '' %>" title="喜欢"></i>
         <span class="up-count">
           <%= reply.ups && reply.ups.length ? reply.ups.length : '' %>
