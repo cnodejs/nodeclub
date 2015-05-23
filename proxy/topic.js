@@ -99,7 +99,6 @@ exports.getTopicsByQuery = function (query, opt, callback) {
         if (topic) {
           topic.author = author;
           topic.reply = last_reply;
-          topic.friendly_create_at = tools.formatDate(topic.create_at, true);
         }
         return topic;
       }));

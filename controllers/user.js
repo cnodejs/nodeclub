@@ -27,7 +27,6 @@ exports.index = function (req, res, next) {
     }
 
     var render = function (recent_topics, recent_replies) {
-      user.friendly_create_at = tools.formatDate(user.create_at, true);
       user.url = (function () {
         if (user.url && user.url.indexOf('http') !== 0) {
           return 'http://' + user.url;
@@ -260,7 +259,6 @@ exports.list_topics = function (req, res, next) {
     }
 
     var render = function (topics, pages) {
-      user.friendly_create_at = tools.formatDate(user.create_at, true);
       res.render('user/topics', {
         user: user,
         topics: topics,
@@ -296,7 +294,6 @@ exports.list_replies = function (req, res, next) {
     }
 
     var render = function (topics, pages) {
-      user.friendly_create_at = tools.formatDate(user.create_at, true);
       res.render('user/replies', {
         user: user,
         topics: topics,

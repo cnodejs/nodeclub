@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var BaseModel = require("./base_model");
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
@@ -19,7 +20,7 @@ var MessageSchema = new Schema({
   has_read: { type: Boolean, default: false },
   create_at: { type: Date, default: Date.now }
 });
-
+MessageSchema.plugin(BaseModel);
 MessageSchema.index({master_id: 1, has_read: -1, create_at: -1});
 
 mongoose.model('Message', MessageSchema);

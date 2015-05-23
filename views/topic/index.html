@@ -63,7 +63,7 @@
       </div>
       <div class="changes">
         <span>
-          发布于 <%= topic.friendly_create_at %>
+          发布于 <%= topic.create_at_ago() %>
         </span>
         <span>
           作者 <a href="/user/<%= topic.author.loginname %>"><%= topic.author.loginname %></a>
@@ -71,9 +71,9 @@
         <span>
           <%= topic.visit_count %> 次浏览
         </span>
-        <% if (topic.friendly_create_at != topic.friendly_update_at) { %>
+        <% if (topic.create_at_ago() != topic.updated_at_ago()) { %>
           <span>
-            最后一次编辑是 <%= topic.friendly_update_at %>
+            最后一次编辑是 <%= topic.updated_at_ago() %>
           </span>
         <% } %>
         <% if (topic.tab) { %>

@@ -10,7 +10,7 @@
     <div class='user_info'>
       <a class='dark reply_author' href="/user/<%= reply.author.loginname %>"><%= reply.author.loginname %>
       </a>
-      <a class="reply_time" href="#<%= reply._id %>"><%= indexInCollection + 1 %>楼•<%= reply.friendly_create_at
+      <a class="reply_time" href="#<%= reply._id %>"><%= indexInCollection + 1 %>楼•<%= reply.create_at_ago()
         %></a>
     </div>
     <div class='user_action'>
