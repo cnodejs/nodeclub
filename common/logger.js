@@ -27,7 +27,7 @@ var writeLog = function(prefix, logType, args) {
 
   switch (logType) {
   case "debug":
-      logStr = logStr.magenta;
+      logStr = logStr.gray;
       break;    
   case 'warn':
     logStr = logStr.yellow;
@@ -40,6 +40,10 @@ var writeLog = function(prefix, logType, args) {
   var line = prefix + logStr;
   var env = process.env.NODE_ENV || "development";
   
-  fs.appendFile('./log/'+ env +'.log', line + "\n");
+  if (logStr !== 'debug') {
+    fs.appendFile('./log/'+ env +'.log', line + "\n");
+  }
   console.log(line);
 }
+
+
