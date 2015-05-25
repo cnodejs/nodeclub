@@ -13,7 +13,7 @@ module.exports = function(req, res, next) {
   res.on('finish', function(){
     var duration = ((new Date()) - t);
   
-    logger.log('Completed', res.statusCode, '(' + duration + 'ms)');
+    logger.log('Completed', res.statusCode, ('(' + duration + 'ms)').green);
   });
   
   next();
