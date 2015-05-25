@@ -44,7 +44,7 @@ run:
 	@node app.js
 
 start: install build
-	@nohup ./node_modules/.bin/pm2 start app.js -i max --name "cnode" --max-memory-restart 400M >> cnode.log 2>&1 &
+	@nohup ./node_modules/.bin/pm2 start app.js -i 0 --name "cnode" --max-memory-restart 400M >> cnode.log 2>&1 &
 
 restart: install build
 	@nohup ./node_modules/.bin/pm2 restart "cnode" >> cnode.log 2>&1 &
