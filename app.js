@@ -17,6 +17,7 @@ var Loader                   = require('loader');
 var express                  = require('express');
 var session                  = require('express-session');
 var passport                 = require('passport');
+var mongooseLog              = require('./middlewares/mongoose_log');
 require('./models');
 var GitHubStrategy           = require('passport-github').Strategy;
 var githubStrategyMiddleware = require('./middlewares/github_strategy');
@@ -34,7 +35,6 @@ var errorhandler             = require('errorhandler');
 var cors                     = require('cors');
 var limitMiddleware          = require('./middlewares/limit');
 var requestLog               = require('./middlewares/request_log');
-var mongooseLog              = require('./middlewares/mongoose_log');
 var render                   = require('./middlewares/render');
 var logger                   = require("./common/logger");
 
