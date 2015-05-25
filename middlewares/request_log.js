@@ -1,5 +1,4 @@
 var logger = require('../common/logger');
-var onHeaders = require('on-headers')
 
 module.exports = function(req, res, next) {
   // Assets do not out log.
@@ -11,13 +10,13 @@ module.exports = function(req, res, next) {
   var t = new Date();
   logger.log('\n\nStarted', t.toISOString(), req.method, req.url, req.ip);
   
-  next();
-  
-  onHeaders(res, function onHeaders() {
+  res.on('finish', function(){
     var duration = ((new Date()) - t);
   
     logger.log('Completed', res.statusCode, '(' + duration + 'ms)');
   });
+  
+  next();
 }
 
 exports.ignore = /^\/(public|agent)/;
