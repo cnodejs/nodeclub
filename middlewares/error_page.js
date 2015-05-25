@@ -1,6 +1,4 @@
-/**
- * 需要登录
- */
+// ErrorPage middleware
 exports.errorPage = function (req, res, next) {
   res.render404 = function(error) {
     return res.status(404).render('notify/notify', { error: error });
