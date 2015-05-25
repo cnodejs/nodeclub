@@ -2,6 +2,10 @@ var colors = require("colors");
 var fs     = require('fs');
 var config = require('../config');
 
+if (!fs.existsSync("./log")) {
+  fs.mkdirSync("./log");
+}
+
 exports.log = function() {
   writeLog('', 'info', arguments);
 }
