@@ -5,7 +5,6 @@ var tools = require('../common/tools');
 var eventproxy = require('eventproxy');
 var uuid = require('node-uuid');
 var validator = require('validator');
-var util = require('util');
 
 exports.callback = function (req, res, next) {
   var profile = req.user;
