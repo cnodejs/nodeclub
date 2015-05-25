@@ -8,13 +8,13 @@ module.exports = function(req, res, next) {
   }
   
   var t = new Date();
-  logger.log('Started', t.toISOString(), req.method, req.url, req.ip);
+  logger.log('\n\nStarted', t.toISOString(), req.method, req.url, req.ip);
   
   next();
   
   onHeaders(res, function onHeaders() {
     var duartion = ((new Date()) - t);
   
-    logger.log('Completed', res.statusCode, '(' + duartion + 'ms)\n\n');
+    logger.log('Completed', res.statusCode, '(' + duartion + 'ms)');
   });
 }
