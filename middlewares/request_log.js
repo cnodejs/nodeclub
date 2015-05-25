@@ -13,8 +13,8 @@ module.exports = function(req, res, next) {
   next();
   
   onHeaders(res, function onHeaders() {
-    var duartion = ((new Date()) - t);
+    var duration = ((new Date()) - t);
   
-    logger.log('Completed', res.statusCode, '(' + duartion + 'ms)');
+    logger.log('Completed', res.statusCode, '(' + duration + 'ms)');
   });
 }
