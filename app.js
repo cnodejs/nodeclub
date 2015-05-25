@@ -12,27 +12,29 @@ if (!config.debug) {
   require('newrelic');
 }
 
-var path = require('path');
-var Loader = require('loader');
-var express = require('express');
-var session = require('express-session');
-var passport = require('passport');
+var path                     = require('path');
+var Loader                   = require('loader');
+var express                  = require('express');
+var session                  = require('express-session');
+var passport                 = require('passport');
 require('./models');
-var GitHubStrategy = require('passport-github').Strategy;
+var GitHubStrategy           = require('passport-github').Strategy;
 var githubStrategyMiddleware = require('./middlewares/github_strategy');
-var webRouter = require('./web_router');
-var apiRouterV1 = require('./api_router_v1');
-var auth = require('./middlewares/auth');
-var proxyMiddleware = require('./middlewares/proxy');
-var RedisStore = require('connect-redis')(session);
-var _ = require('lodash');
-var csurf = require('csurf');
-var compress = require('compression');
-var bodyParser = require('body-parser');
-var busboy = require('connect-busboy');
-var errorhandler = require('errorhandler');
-var cors = require('cors');
-var limitMiddleware = require('./middlewares/limit');
+var webRouter                = require('./web_router');
+var apiRouterV1              = require('./api_router_v1');
+var auth                     = require('./middlewares/auth');
+var proxyMiddleware          = require('./middlewares/proxy');
+var RedisStore               = require('connect-redis')(session);
+var _                        = require('lodash');
+var csurf                    = require('csurf');
+var compress                 = require('compression');
+var bodyParser               = require('body-parser');
+var busboy                   = require('connect-busboy');
+var errorhandler             = require('errorhandler');
+var cors                     = require('cors');
+var limitMiddleware          = require('./middlewares/limit');
+var requestLog               = require('./middlewares/request_log');
+var logger                   = require("./common/logger");
 
 // 静态文件目录
 var staticDir = path.join(__dirname, 'public');
@@ -60,6 +62,9 @@ app.engine('html', require('ejs-mate'));
 app.locals._layoutFile = 'layout.html';
 app.enable('trust proxy');
 
+
+// Request logger
+app.use(requestLog);
 
 // 静态资源
 app.use(Loader.less(__dirname));
@@ -153,9 +158,10 @@ if (config.debug) {
 }
 
 app.listen(config.port, function () {
-  console.log("NodeClub listening on port %d", config.port);
-  console.log("God bless love....");
-  console.log("You can debug your app with http://" + config.hostname + ':' + config.port);
+  logger.log("NodeClub listening on port %d", config.port);
+  logger.log("God bless love....");
+  logger.log("You can debug your app with http://" + config.hostname + ':' + config.port);
+  logger.log("");
 });
 
 
