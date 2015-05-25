@@ -15,9 +15,9 @@ exports.showSignup = function (req, res) {
 
 exports.signup = function (req, res, next) {
   var loginname = validator.trim(req.body.loginname).toLowerCase();
-  var email = validator.trim(req.body.email).toLowerCase();
-  var pass = validator.trim(req.body.pass);
-  var rePass = validator.trim(req.body.re_pass);
+  var email     = validator.trim(req.body.email).toLowerCase();
+  var pass      = validator.trim(req.body.pass);
+  var rePass    = validator.trim(req.body.re_pass);
 
   var ep = new eventproxy();
   ep.fail(next);
@@ -108,8 +108,9 @@ var notJump = [
  */
 exports.login = function (req, res, next) {
   var loginname = validator.trim(req.body.name).toLowerCase();
-  var pass = validator.trim(req.body.pass);
-  var ep = new eventproxy();
+  var pass      = validator.trim(req.body.pass);
+  var ep        = new eventproxy();
+
   ep.fail(next);
 
   if (!loginname || !pass) {
@@ -169,8 +170,8 @@ exports.signout = function (req, res, next) {
   res.redirect('/');
 };
 
-exports.active_account = function (req, res, next) {
-  var key = validator.trim(req.query.key);
+exports.activeAccount = function (req, res, next) {
+  var key  = validator.trim(req.query.key);
   var name = validator.trim(req.query.name);
 
   User.getUserByLoginName(name, function (err, user) {
@@ -208,8 +209,9 @@ exports.updateSearchPass = function (req, res, next) {
   }
 
   // 动态生成retrive_key和timestamp到users collection,之后重置密码进行验证
-  var retrieveKey = uuid.v4();
+  var retrieveKey  = uuid.v4();
   var retrieveTime = new Date().getTime();
+
   User.getUserByMail(email, function (err, user) {
     if (!user) {
       res.render('sign/search_pass', {error: '没有这个电子邮箱。', email: email});
@@ -236,9 +238,10 @@ exports.updateSearchPass = function (req, res, next) {
  * @param  {http.res}   res
  * @param  {Function} next
  */
-exports.reset_pass = function (req, res, next) {
-  var key = validator.trim(req.query.key);
+exports.resetPass = function (req, res, next) {
+  var key  = validator.trim(req.query.key);
   var name = validator.trim(req.query.name);
+
   User.getUserByNameAndKey(name, key, function (err, user) {
     if (!user) {
       res.status(403);
@@ -254,11 +257,12 @@ exports.reset_pass = function (req, res, next) {
   });
 };
 
-exports.update_pass = function (req, res, next) {
-  var psw = validator.trim(req.body.psw) || '';
+exports.updatePass = function (req, res, next) {
+  var psw   = validator.trim(req.body.psw) || '';
   var repsw = validator.trim(req.body.repsw) || '';
-  var key = validator.trim(req.body.key) || '';
-  var name = validator.trim(req.body.name) || '';
+  var key   = validator.trim(req.body.key) || '';
+  var name  = validator.trim(req.body.name) || '';
+
   var ep = new eventproxy();
   ep.fail(next);
 
@@ -270,10 +274,11 @@ exports.update_pass = function (req, res, next) {
       return res.render('notify/notify', {error: '错误的激活链接'});
     }
     tools.bhash(psw, ep.done(function (passhash) {
-      user.pass = passhash;
-      user.retrieve_key = null;
+      user.pass          = passhash;
+      user.retrieve_key  = null;
       user.retrieve_time = null;
-      user.active = true; // 用户激活
+      user.active        = true; // 用户激活
+
       user.save(function (err) {
         if (err) {
           return next(err);

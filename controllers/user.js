@@ -68,7 +68,7 @@ exports.index = function (req, res, next) {
   });
 };
 
-exports.show_stars = function (req, res, next) {
+exports.listStars = function (req, res, next) {
   User.getUsersByQuery({is_star: true}, {}, function (err, stars) {
     if (err) {
       return next(err);
@@ -168,7 +168,7 @@ exports.setting = function (req, res, next) {
   }
 };
 
-exports.toggle_star = function (req, res, next) {
+exports.toggleStar = function (req, res, next) {
   var user_id = req.body.user_id;
   User.getUserById(user_id, function (err, user) {
     if (err) {
@@ -187,7 +187,7 @@ exports.toggle_star = function (req, res, next) {
   });
 };
 
-exports.get_collect_topics = function (req, res, next) {
+exports.listCollectedTopics = function (req, res, next) {
   var name = req.params.name;
   User.getUserByLoginName(name, function (err, user) {
     if (err || !user) {
@@ -245,7 +245,7 @@ exports.top100 = function (req, res, next) {
   });
 };
 
-exports.list_topics = function (req, res, next) {
+exports.listTopics = function (req, res, next) {
   var user_name = req.params.name;
   var page = Number(req.query.page) || 1;
   var limit = config.list_topic_count;
@@ -280,7 +280,7 @@ exports.list_topics = function (req, res, next) {
   });
 };
 
-exports.list_replies = function (req, res, next) {
+exports.listReplies = function (req, res, next) {
   var user_name = req.params.name;
   var page = Number(req.query.page) || 1;
   var limit = 50;
