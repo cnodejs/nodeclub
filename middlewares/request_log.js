@@ -2,7 +2,8 @@ var logger = require('../common/logger');
 var onHeaders = require('on-headers')
 
 module.exports = function(req, res, next) {
-  if (/^\/public/.test(req.url)) {
+  // Assets do not out log.
+  if (exports.ignore.test(req.url)) {
     next();
     return;
   }
@@ -18,3 +19,5 @@ module.exports = function(req, res, next) {
     logger.log('Completed', res.statusCode, '(' + duration + 'ms)');
   });
 }
+
+exports.ignore = /^\/(public|agent)/;
