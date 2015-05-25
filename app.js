@@ -34,7 +34,9 @@ var errorhandler             = require('errorhandler');
 var cors                     = require('cors');
 var limitMiddleware          = require('./middlewares/limit');
 var requestLog               = require('./middlewares/request_log');
+var mongooseLog              = require('./middlewares/mongoose_log');
 var logger                   = require("./common/logger");
+
 
 // 静态文件目录
 var staticDir = path.join(__dirname, 'public');
