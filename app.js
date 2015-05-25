@@ -35,6 +35,7 @@ var cors                     = require('cors');
 var limitMiddleware          = require('./middlewares/limit');
 var requestLog               = require('./middlewares/request_log');
 var mongooseLog              = require('./middlewares/mongoose_log');
+var render                   = require('./middlewares/render');
 var logger                   = require("./common/logger");
 
 
@@ -67,6 +68,10 @@ app.enable('trust proxy');
 
 // Request logger
 app.use(requestLog);
+
+if (config.debug) {
+  app.use(render.render);
+}
 
 // 静态资源
 app.use(Loader.less(__dirname));
