@@ -1,5 +1,6 @@
 var colors = require("colors");
-var fs = require('fs');
+var fs     = require('fs');
+var config = require('../config');
 
 exports.log = function() {
   writeLog('', 'info', arguments);
@@ -43,7 +44,9 @@ var writeLog = function(prefix, logType, args) {
   if (logStr !== 'debug') {
     fs.appendFile('./log/'+ env +'.log', line + "\n");
   }
-  console.log(line);
+  if (env !== 'test' && config.debug) {
+    console.log(line);
+  }
 }
 
 
