@@ -4,7 +4,6 @@ var Schema    = mongoose.Schema;
 var ObjectId  = Schema.ObjectId;
 var config    = require('../config');
 var _         = require('lodash');
-var tools     = require('../common/tools');
 
 var TopicSchema = new Schema({
   title: { type: String },

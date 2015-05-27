@@ -80,7 +80,7 @@
           <span> 来自 <%= topic.tabName %></span>
         <%}%>
       </div>
-      <% if (current_user != null) { %>
+      <% if (current_user) { %>
       <div id="manage_topic">
         <% if (current_user.is_admin) { %>
 

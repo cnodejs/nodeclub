@@ -90,7 +90,6 @@ app.use(passport.initialize());
 
 // custom middleware
 app.use(auth.authUser);
-app.use(errorPageMiddleware.errorPage);
 app.use(auth.blockUser());
 
 if (!config.debug) {
@@ -116,6 +115,7 @@ _.extend(app.locals, {
   assets: assets
 });
 
+app.use(errorPageMiddleware.errorPage);
 _.extend(app.locals, require('./common/render_helper'));
 app.use(function (req, res, next) {
   res.locals.csrf = req.csrfToken ? req.csrfToken() : '';
