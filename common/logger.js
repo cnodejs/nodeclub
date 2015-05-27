@@ -1,4 +1,3 @@
-var colors = require("colors");
 var fs     = require('fs');
 var config = require('../config');
 
@@ -6,34 +5,42 @@ if (!fs.existsSync("./log")) {
   fs.mkdirSync("./log");
 }
 
-exports.log = function() {
+exports.log = function () {
   writeLog('', 'info', arguments);
-}
+};
 
-exports.info = function() {
+exports.info = function () {
   writeLog('  ', 'info', arguments);
-}
+};
 
-exports.debug = function() {
+exports.debug = function () {
   writeLog("  ", 'debug', arguments);
-}
+};
 
-exports.warn = function() {
+exports.warn = function () {
   writeLog("  ", 'warn', arguments);
-}
+};
 
-exports.error = function() {
+exports.error = function () {
   writeLog("  ", 'error', arguments);
-}
+};
 
-var writeLog = function(prefix, logType, args) {
+var env = process.env.NODE_ENV || "development";
+var consolePrint = config.debug && env !== 'test';
+var writeLog = function (prefix, logType, args) {
+  var filePrint = logType !== 'debug';
+
+  if (!filePrint && !consolePrint) {
+    return;
+  }
+
   var infos = Array.prototype.slice.call(args);
   var logStr = infos.join(" ");
 
   switch (logType) {
   case "debug":
-      logStr = logStr.gray;
-      break;    
+    logStr = logStr.gray;
+    break;
   case 'warn':
     logStr = logStr.yellow;
     break;
@@ -41,16 +48,15 @@ var writeLog = function(prefix, logType, args) {
     logStr = logStr.red;
     break;
   }
-  
+
   var line = prefix + logStr;
-  var env = process.env.NODE_ENV || "development";
-  
-  if (logStr !== 'debug') {
-    fs.appendFile('./log/'+ env +'.log', line + "\n");
+
+  if (filePrint) {
+    fs.appendFile('./log/' + env + '.log', line + "\n");
   }
-  if (env !== 'test' && config.debug) {
+  if (consolePrint) {
     console.log(line);
   }
-}
+};
 
 

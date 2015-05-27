@@ -37,7 +37,6 @@
     "method-override": "1.0.2",
     "moment": "2.9.0",
     "mongoose": "4.0.3",
-    "mquery" : "1.5.1",
     "multiline": "1.0.1",
     "newrelic": "1.16.1",
     "node-uuid": "1.4.1",
