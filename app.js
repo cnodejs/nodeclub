@@ -17,6 +17,7 @@ var Loader                   = require('loader');
 var express                  = require('express');
 var session                  = require('express-session');
 var passport                 = require('passport');
+var mongooseLog              = require('./middlewares/mongoose_log');
 require('./models');
 var GitHubStrategy           = require('passport-github').Strategy;
 var githubStrategyMiddleware = require('./middlewares/github_strategy');
@@ -34,6 +35,9 @@ var busboy                   = require('connect-busboy');
 var errorhandler             = require('errorhandler');
 var cors                     = require('cors');
 var limitMiddleware          = require('./middlewares/limit');
+var requestLog               = require('./middlewares/request_log');
+var render                   = require('./middlewares/render');
+var logger                   = require("./common/logger");
 
 
 // 静态文件目录
@@ -61,6 +65,13 @@ app.set('view engine', 'html');
 app.engine('html', require('ejs-mate'));
 app.locals._layoutFile = 'layout.html';
 app.enable('trust proxy');
+
+// Request logger
+app.use(requestLog);
+
+if (config.debug) {
+  app.use(render.render);
+}
 
 // 静态资源
 app.use(Loader.less(__dirname));
@@ -152,9 +163,10 @@ if (config.debug) {
 }
 
 app.listen(config.port, function () {
-  console.log("NodeClub listening on port %d", config.port);
-  console.log("God bless love....");
-  console.log("You can debug your app with http://" + config.hostname + ':' + config.port);
+  logger.log("NodeClub listening on port %d", config.port);
+  logger.log("God bless love....");
+  logger.log("You can debug your app with http://" + config.hostname + ':' + config.port);
+  logger.log("");
 });
 
 

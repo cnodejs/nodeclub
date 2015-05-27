@@ -69,12 +69,12 @@ exports.create = function (req, res, next) {
     user.save(function (err) {
       if (err) {
         // 根据 err.err 的错误信息决定如何回应用户，这个地方写得很难看
-        if (err.err.indexOf('duplicate key error') !== -1) {
-          if (err.err.indexOf('users.$email') !== -1) {
+        if (err.message.indexOf('duplicate key error') !== -1) {
+          if (err.message.indexOf('users.$email') !== -1) {
             return res.status(500)
               .render('sign/no_github_email');
           }
-          if (err.err.indexOf('users.$loginname') !== -1) {
+          if (err.message.indexOf('users.$loginname') !== -1) {
             return res.status(500)
               .send('您 GitHub 账号的用户名与之前在 CNodejs 注册的用户名重复了');
           }

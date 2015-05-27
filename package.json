@@ -36,7 +36,8 @@
     "memory-cache": "0.0.5",
     "method-override": "1.0.2",
     "moment": "2.9.0",
-    "mongoose": "3.8.23",
+    "mongoose": "4.0.3",
+    "mquery" : "1.5.1",
     "multiline": "1.0.1",
     "newrelic": "1.16.1",
     "node-uuid": "1.4.1",
@@ -52,7 +53,8 @@
     "utility": "1.0.0",
     "validator": "3.22.1",
     "xmlbuilder": "2.5.0",
-    "xss": "0.1.15"
+    "xss": "0.1.15",
+    "colors" : "1.1.0"
   },
   "devDependencies": {
     "coveralls": "2.11.2",
