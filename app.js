@@ -18,6 +18,7 @@ var Loader                   = require('loader');
 var express                  = require('express');
 var session                  = require('express-session');
 var passport                 = require('passport');
+require('./middlewares/mongoose_log'); // 打印 mongodb 查询日志
 require('./models');
 var GitHubStrategy           = require('passport-github').Strategy;
 var githubStrategyMiddleware = require('./middlewares/github_strategy');
