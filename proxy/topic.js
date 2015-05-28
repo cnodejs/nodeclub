@@ -5,6 +5,7 @@ var User       = require('./user');
 var Reply      = require('./reply');
 var tools      = require('../common/tools');
 var at         = require('../common/at');
+var logger     = require('../common/logger');
 var _          = require('lodash');
 
 
@@ -72,7 +73,7 @@ exports.getCountByQuery = function (query, callback) {
  */
 exports.getTopicsByQuery = function (query, opt, callback) {
   query.deleted = false;
-  Topic.find(query, '_id', opt, function (err, docs) {
+  Topic.find(query, {}, opt, function (err, docs) {
     if (err) {
       return callback(err);
     }
@@ -80,10 +81,8 @@ exports.getTopicsByQuery = function (query, opt, callback) {
       return callback(null, []);
     }
 
-    var topics_id = _.pluck(docs, 'id');
-
     var proxy = new EventProxy();
-    proxy.after('topic_ready', topics_id.length, function (topics) {
+    proxy.after('topic_ready', docs.length, function (topics) {
       // 过滤掉空值
       var filtered = topics.filter(function (item) {
         return !!item;
@@ -92,16 +91,23 @@ exports.getTopicsByQuery = function (query, opt, callback) {
     });
     proxy.fail(callback);
 
-    topics_id.forEach(function (id, i) {
-      exports.getTopicById(id, proxy.group('topic_ready', function (topic, author, last_reply) {
-        // 当id查询出来之后，进一步查询列表时，文章可能已经被删除了
-        // 所以这里有可能是null
+    docs.forEach(function (topic, i) {
+      proxy.assign('author', 'last_reply', function (author, last_reply) {
         if (topic) {
           topic.author = author;
-          topic.reply = last_reply;
+          topic.last_reply = last_reply;
         }
-        return topic;
-      }));
+        proxy.emit('topic_ready', topic);
+      });
+
+      User.getUserById(topic.author_id, proxy.done('author'));
+      if (topic.last_reply) {
+        Reply.getReplyById(topic.last_reply, function (reply) {
+          proxy.emit('last_reply', reply);
+        });
+      } else {
+        proxy.emit('last_reply', null);
+      }
     });
   });
 };
