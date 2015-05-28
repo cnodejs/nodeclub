@@ -5,7 +5,6 @@ var User       = require('./user');
 var Reply      = require('./reply');
 var tools      = require('../common/tools');
 var at         = require('../common/at');
-var logger     = require('../common/logger');
 var _          = require('lodash');
 
 
