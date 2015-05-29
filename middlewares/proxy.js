@@ -14,7 +14,12 @@ exports.proxy = function (req, res, next) {
     return res.send(hostname + ' is not allowed');
   }
 
-  request.get(url)
+  request.get({
+      url: url,
+      headers: {
+        'If-Modified-Since': req.header('If-Modified-Since') || ''
+      }
+    })
     .on('response', function (response) {
       res.set(response.headers);
     })
