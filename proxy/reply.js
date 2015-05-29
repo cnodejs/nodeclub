@@ -23,6 +23,9 @@ exports.getReply = function (id, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getReplyById = function (id, callback) {
+  if (!id) {
+    return callback(null, null);
+  }
   Reply.findOne({_id: id}, function (err, reply) {
     if (err) {
       return callback(err);

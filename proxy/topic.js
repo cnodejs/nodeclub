@@ -72,41 +72,30 @@ exports.getCountByQuery = function (query, callback) {
  */
 exports.getTopicsByQuery = function (query, opt, callback) {
   query.deleted = false;
-  Topic.find(query, {}, opt, function (err, docs) {
+  Topic.find(query, {}, opt, function (err, topics) {
     if (err) {
       return callback(err);
     }
-    if (docs.length === 0) {
+    if (topics.length === 0) {
       return callback(null, []);
     }
 
     var proxy = new EventProxy();
-    proxy.after('topic_ready', docs.length, function (topics) {
-      // 过滤掉空值
-      var filtered = topics.filter(function (item) {
-        return !!item;
-      });
-      return callback(null, filtered);
+    proxy.after('topic_ready', topics.length, function () {
+      return callback(null, topics);
     });
     proxy.fail(callback);
 
-    docs.forEach(function (topic, i) {
-      proxy.assign('author', 'last_reply', function (author, last_reply) {
-        if (topic) {
-          topic.author = author;
-          topic.last_reply = last_reply;
-        }
-        proxy.emit('topic_ready', topic);
+    topics.forEach(function (topic, i) {
+      var ep = new EventProxy();
+      ep.all('author', 'reply', function (author, reply) {
+        topic.author = author;
+        topic.reply = reply;
+        proxy.emit('topic_ready');
       });
 
-      User.getUserById(topic.author_id, proxy.done('author'));
-      if (topic.last_reply) {
-        Reply.getReplyById(topic.last_reply, function (reply) {
-          proxy.emit('last_reply', reply);
-        });
-      } else {
-        proxy.emit('last_reply', null);
-      }
+      User.getUserById(topic.author_id, ep.done('author'));
+      Reply.getReplyById(topic.last_reply, ep.done('reply'));
     });
   });
 };
