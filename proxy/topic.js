@@ -82,6 +82,7 @@ exports.getTopicsByQuery = function (query, opt, callback) {
 
     var proxy = new EventProxy();
     proxy.after('topic_ready', topics.length, function () {
+      topics = _.compact(topics); // 删除不合规的 topic
       return callback(null, topics);
     });
     proxy.fail(callback);
@@ -89,12 +90,19 @@ exports.getTopicsByQuery = function (query, opt, callback) {
     topics.forEach(function (topic, i) {
       var ep = new EventProxy();
       ep.all('author', 'reply', function (author, reply) {
-        topic.author = author;
-        topic.reply = reply;
+        // 保证顺序
+        // 作者可能已被删除
+        if (author) {
+          topic.author = author;
+          topic.reply = reply;
+        } else {
+          topics[i] = null;
+        }
         proxy.emit('topic_ready');
       });
 
       User.getUserById(topic.author_id, ep.done('author'));
+      // 获取主题的最后回复
       Reply.getReplyById(topic.last_reply, ep.done('reply'));
     });
   });

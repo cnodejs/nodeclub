@@ -1,4 +1,5 @@
 var EventProxy = require('eventproxy');
+var _ = require('lodash');
 
 var Message = require('../models').Message;
 
@@ -37,7 +38,7 @@ exports.getMessageById = function (id, callback) {
   });
 };
 
-exports.getMessageRelations = function(message, callback) {
+var getMessageRelations = exports.getMessageRelations = function (message, callback) {
   if (message.type === 'reply' || message.type === 'reply2' || message.type === 'at') {
     var proxy = new EventProxy();
     proxy.fail(callback);
@@ -54,21 +55,7 @@ exports.getMessageRelations = function(message, callback) {
     Topic.getTopicById(message.topic_id, proxy.done('topic'));
     Reply.getReplyById(message.reply_id, proxy.done('reply'));
   }
-
-  if (message.type === 'follow') {
-    User.getUserById(message.author_id, function (err, author) {
-      if (err) {
-        return callback(err);
-      }
-      message.author = author;
-      if (!author) {
-        message.is_invalid = true;
-      }
-      return callback(null, message);
-    });
-  }
-
-}
+};
 
 /**
  * 根据用户ID，获取已读消息列表
@@ -100,14 +87,16 @@ exports.getUnreadMessageByUserId = function (userId, callback) {
 /**
  * 将消息设置成已读
  */
-exports.updateMessagesToRead = function (userId, messages) {
+exports.updateMessagesToRead = function (userId, messages, callback) {
+  callback = callback || _.noop;
   if (messages.length === 0) {
-    return false;
+    return callback();
   }
-  var ids = [];
-  messages.forEach(function(m){
-    ids.push(m.id);
+
+  var ids = messages.map(function (m) {
+    return m.id;
   });
+
   var query = { master_id: userId, _id: { $in: ids } };
-  Message.update(query, { $set: { has_read: true } }, { multi: true }).exec();
-}
+  Message.update(query, { $set: { has_read: true } }, { multi: true }).exec(callback);
+};
