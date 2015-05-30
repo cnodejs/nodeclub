@@ -36,7 +36,6 @@ var config = {
 
   // mongodb 配置
   db: 'mongodb://127.0.0.1/node_club_dev',
-  db_name: 'node_club_dev',
 
   // redis 配置，默认是本地
   redis_host: '127.0.0.1',
@@ -126,5 +125,9 @@ var config = {
   create_reply_per_day: 1000, // 每个用户一天可以发的评论数
   visit_per_day: 1000, // 每个 ip 每天能访问的次数
 };
+
+if (process.env.NODE_ENV === 'test') {
+  config.db = 'mongodb://127.0.0.1/node_club_test';
+}
 
 module.exports = config;

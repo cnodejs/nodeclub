@@ -72,36 +72,30 @@ exports.getCountByQuery = function (query, callback) {
  */
 exports.getTopicsByQuery = function (query, opt, callback) {
   query.deleted = false;
-  Topic.find(query, '_id', opt, function (err, docs) {
+  Topic.find(query, {}, opt, function (err, topics) {
     if (err) {
       return callback(err);
     }
-    if (docs.length === 0) {
+    if (topics.length === 0) {
       return callback(null, []);
     }
 
-    var topics_id = _.pluck(docs, 'id');
-
     var proxy = new EventProxy();
-    proxy.after('topic_ready', topics_id.length, function (topics) {
-      // 过滤掉空值
-      var filtered = topics.filter(function (item) {
-        return !!item;
-      });
-      return callback(null, filtered);
+    proxy.after('topic_ready', topics.length, function () {
+      return callback(null, topics);
     });
     proxy.fail(callback);
 
-    topics_id.forEach(function (id, i) {
-      exports.getTopicById(id, proxy.group('topic_ready', function (topic, author, last_reply) {
-        // 当id查询出来之后，进一步查询列表时，文章可能已经被删除了
-        // 所以这里有可能是null
-        if (topic) {
-          topic.author = author;
-          topic.reply = last_reply;
-        }
-        return topic;
-      }));
+    topics.forEach(function (topic, i) {
+      var ep = new EventProxy();
+      ep.all('author', 'reply', function (author, reply) {
+        topic.author = author;
+        topic.reply = reply;
+        proxy.emit('topic_ready');
+      });
+
+      User.getUserById(topic.author_id, ep.done('author'));
+      Reply.getReplyById(topic.last_reply, ep.done('reply'));
     });
   });
 };

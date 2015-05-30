@@ -33,37 +33,42 @@ exports.getMessageById = function (id, callback) {
     if (err) {
       return callback(err);
     }
-    if (message.type === 'reply' || message.type === 'reply2' || message.type === 'at') {
-      var proxy = new EventProxy();
-      proxy.fail(callback);
-      proxy.assign('author_found', 'topic_found', 'reply_found', function (author, topic, reply) {
-        message.author = author;
-        message.topic = topic;
-        message.reply = reply;
-        if (!author || !topic) {
-          message.is_invalid = true;
-        }
-        return callback(null, message);
-      }); // 接收异常
-      User.getUserById(message.author_id, proxy.done('author_found'));
-      Topic.getTopicById(message.topic_id, proxy.done('topic_found'));
-      Reply.getReplyById(message.reply_id, proxy.done('reply_found'));
-    }
-
-    if (message.type === 'follow') {
-      User.getUserById(message.author_id, function (err, author) {
-        if (err) {
-          return callback(err);
-        }
-        message.author = author;
-        if (!author) {
-          message.is_invalid = true;
-        }
-        return callback(null, message);
-      });
-    }
+    getMessageRelations(message, callback);
   });
 };
+
+exports.getMessageRelations = function(message, callback) {
+  if (message.type === 'reply' || message.type === 'reply2' || message.type === 'at') {
+    var proxy = new EventProxy();
+    proxy.fail(callback);
+    proxy.assign('author', 'topic', 'reply', function (author, topic, reply) {
+      message.author = author;
+      message.topic = topic;
+      message.reply = reply;
+      if (!author || !topic) {
+        message.is_invalid = true;
+      }
+      return callback(null, message);
+    }); // 接收异常
+    User.getUserById(message.author_id, proxy.done('author'));
+    Topic.getTopicById(message.topic_id, proxy.done('topic'));
+    Reply.getReplyById(message.reply_id, proxy.done('reply'));
+  }
+
+  if (message.type === 'follow') {
+    User.getUserById(message.author_id, function (err, author) {
+      if (err) {
+        return callback(err);
+      }
+      message.author = author;
+      if (!author) {
+        message.is_invalid = true;
+      }
+      return callback(null, message);
+    });
+  }
+
+}
 
 /**
  * 根据用户ID，获取已读消息列表
@@ -90,3 +95,19 @@ exports.getUnreadMessageByUserId = function (userId, callback) {
   Message.find({master_id: userId, has_read: false}, null,
     {sort: '-create_at'}, callback);
 };
+
+
+/**
+ * 将消息设置成已读
+ */
+exports.updateMessagesToRead = function (userId, messages) {
+  if (messages.length === 0) {
+    return false;
+  }
+  var ids = [];
+  messages.forEach(function(m){
+    ids.push(m.id);
+  });
+  var query = { master_id: userId, _id: { $in: ids } };
+  Message.update(query, { $set: { has_read: true } }, { multi: true }).exec();
+}
