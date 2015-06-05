@@ -82,8 +82,8 @@ app.use('/agent', proxyMiddleware.proxy);
 // 每日访问限制
 
 app.use(require('response-time')());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '1mb'}));
+app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
 app.use(require('method-override')());
 app.use(require('cookie-parser')(config.session_secret));
 app.use(compress());
