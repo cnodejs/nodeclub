@@ -97,7 +97,7 @@ var config = {
     accessKey: 'your access key',
     secretKey: 'your secret key',
     bucket: 'your bucket name',
-    domain: 'http://your domain'
+    domain: 'http://your qiniu domain'
   },
 
   // 文件上传配置
