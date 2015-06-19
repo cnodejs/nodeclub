@@ -1,6 +1,6 @@
-
 var bcrypt = require('bcrypt');
 var moment = require('moment');
+
 moment.locale('zh-cn'); // 使用中文
 
 // 格式化时间

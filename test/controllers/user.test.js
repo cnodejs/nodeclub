@@ -49,7 +49,7 @@ describe('test/controllers/user.test.js', function () {
     });
   });
 
-  describe('#show_stars', function () {
+  describe('#listStars', function () {
     it('should show star uses', function (done) {
       request.get('/stars')
       .expect(200, function (err, res) {
@@ -136,7 +136,7 @@ describe('test/controllers/user.test.js', function () {
     });
   });
 
-  describe('#toggle_star', function () {
+  describe('#toggleStar', function () {
     it('should not set star user when no user_id', function (done) {
       request.post('/user/set_star')
       .set('Cookie', support.adminUserCookie)
@@ -179,7 +179,7 @@ describe('test/controllers/user.test.js', function () {
     });
   });
 
-  describe('#get_collect_topics', function () {
+  describe('#getCollectTopics', function () {
     it('should get /user/:name/collections ok', function (done) {
       request.get('/user/' + support.normalUser.loginname + '/collections')
       .expect(200, function (err, res) {
@@ -209,7 +209,7 @@ describe('test/controllers/user.test.js', function () {
     });
   });
 
-  describe('#list_replies', function () {
+  describe('#listReplies', function () {
     it('should get /user/:name/replies ok', function (done) {
       request.get('/user/' + support.normalUser.loginname + '/replies')
       .expect(200, function (err, res) {

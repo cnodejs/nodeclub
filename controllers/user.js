@@ -1,19 +1,17 @@
-
-var User = require('../proxy').User;
-var Topic = require('../proxy').Topic;
-var Reply = require('../proxy').Reply;
+var User         = require('../proxy').User;
+var Topic        = require('../proxy').Topic;
+var Reply        = require('../proxy').Reply;
 var TopicCollect = require('../proxy').TopicCollect;
-var utility = require('utility');
-var util = require('util');
-var TopicModel = require('../models').Topic;
-var ReplyModel = require('../models').Reply;
-
-var tools = require('../common/tools');
-var config = require('../config');
-var EventProxy = require('eventproxy');
-var validator = require('validator');
-var utility = require('utility');
-var _ = require('lodash');
+var utility      = require('utility');
+var util         = require('util');
+var TopicModel   = require('../models').Topic;
+var ReplyModel   = require('../models').Reply;
+var tools        = require('../common/tools');
+var config       = require('../config');
+var EventProxy   = require('eventproxy');
+var validator    = require('validator');
+var utility      = require('utility');
+var _            = require('lodash');
 
 exports.index = function (req, res, next) {
   var user_name = req.params.name;
@@ -22,12 +20,11 @@ exports.index = function (req, res, next) {
       return next(err);
     }
     if (!user) {
-      res.render('notify/notify', {error: '这个用户不存在。'});
+      res.render404('这个用户不存在。');
       return;
     }
 
     var render = function (recent_topics, recent_replies) {
-      user.friendly_create_at = tools.formatDate(user.create_at, true);
       user.url = (function () {
         if (user.url && user.url.indexOf('http') !== 0) {
           return 'http://' + user.url;
@@ -71,7 +68,7 @@ exports.index = function (req, res, next) {
   });
 };
 
-exports.show_stars = function (req, res, next) {
+exports.listStars = function (req, res, next) {
   User.getUsersByQuery({is_star: true}, {}, function (err, stars) {
     if (err) {
       return next(err);
@@ -171,7 +168,7 @@ exports.setting = function (req, res, next) {
   }
 };
 
-exports.toggle_star = function (req, res, next) {
+exports.toggleStar = function (req, res, next) {
   var user_id = req.body.user_id;
   User.getUserById(user_id, function (err, user) {
     if (err) {
@@ -190,7 +187,7 @@ exports.toggle_star = function (req, res, next) {
   });
 };
 
-exports.get_collect_topics = function (req, res, next) {
+exports.listCollectedTopics = function (req, res, next) {
   var name = req.params.name;
   User.getUserByLoginName(name, function (err, user) {
     if (err || !user) {
@@ -248,19 +245,18 @@ exports.top100 = function (req, res, next) {
   });
 };
 
-exports.list_topics = function (req, res, next) {
+exports.listTopics = function (req, res, next) {
   var user_name = req.params.name;
   var page = Number(req.query.page) || 1;
   var limit = config.list_topic_count;
 
   User.getUserByLoginName(user_name, function (err, user) {
     if (!user) {
-      res.render('notify/notify', {error: '这个用户不存在。'});
+      res.render404('这个用户不存在。');
       return;
     }
 
     var render = function (topics, pages) {
-      user.friendly_create_at = tools.formatDate(user.create_at, true);
       res.render('user/topics', {
         user: user,
         topics: topics,
@@ -284,19 +280,18 @@ exports.list_topics = function (req, res, next) {
   });
 };
 
-exports.list_replies = function (req, res, next) {
+exports.listReplies = function (req, res, next) {
   var user_name = req.params.name;
   var page = Number(req.query.page) || 1;
   var limit = 50;
 
   User.getUserByLoginName(user_name, function (err, user) {
     if (!user) {
-      res.render('notify/notify', {error: '这个用户不存在。'});
+      res.render404('这个用户不存在。');
       return;
     }
 
     var render = function (topics, pages) {
-      user.friendly_create_at = tools.formatDate(user.create_at, true);
       res.render('user/replies', {
         user: user,
         topics: topics,
@@ -370,8 +365,10 @@ exports.deleteAll = function (req, res, next) {
       function () {
         res.json({status: 'success'});
       });
-    TopicModel.remove({author_id: user._id}, ep.done('del_topics'));
-    ReplyModel.remove({author_id: user._id}, ep.done('del_replys'));
+    // 删除主题
+    TopicModel.update({author_id: user._id}, {$set: {deleted: true}}, {multi: true}, ep.done('del_topics'));
+    // 删除评论
+    ReplyModel.update({author_id: user._id}, {$set: {deleted: true}}, {multi: true}, ep.done('del_replys'));
     // 点赞数也全部干掉
     ReplyModel.update({}, {$pull: {'ups': user._id}}, {multi: true}, ep.done('del_ups'));
   }));

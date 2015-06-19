@@ -1,7 +1,7 @@
 <div id='sidebar'>
 
   <div class='panel'>
-    <% if (typeof(user) !== 'undefined' || typeof(current_user) !== 'undefined') { %>
+    <% if (typeof(user) !== 'undefined' || current_user) { %>
     <div class='header'>
       <span class='col_fade'>个人信息</span>
     </div>
@@ -28,7 +28,7 @@
     <% } %>
   </div>
 
-  <% if (typeof(current_user) !== 'undefined') { %>
+  <% if (current_user) { %>
   <div class="panel">
     <div class='inner'>
       <a href='/topic/create' id='create_topic_btn'>
@@ -38,7 +38,7 @@
   </div>
   <% } %>
 
-  <% if (typeof(current_user) === 'undefined' || !current_user.isAdvanced) { %>
+  <% if (!current_user || !current_user.isAdvanced) { %>
     <%- partial('./_ads') %>
   <% } %>
 
@@ -86,7 +86,7 @@
       <ol class="friendship-community">
         <li>
           <a href="https://ruby-china.org/" target="_blank">
-            <img src="<%- staticFile('/public/images/ruby-china-logo2.png') %>">
+            <img src="<%- staticFile('/public/images/ruby-china-20150529.png') %>">
           </a>
         </li>
         <div class="sep10"></div>

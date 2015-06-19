@@ -1,9 +1,9 @@
-var config = require('../config');
-var convert = require('data2xml')();
-var Topic = require('../proxy').Topic;
-var cache = require('../common/cache');
+var config       = require('../config');
+var convert      = require('data2xml')();
+var Topic        = require('../proxy').Topic;
+var cache        = require('../common/cache');
 var renderHelper = require('../common/render_helper');
-var eventproxy = require('eventproxy');
+var eventproxy   = require('eventproxy');
 
 exports.index = function (req, res, next) {
   if (!config.rss) {
@@ -48,7 +48,7 @@ exports.index = function (req, res, next) {
 
         var rssContent = convert('rss', rss_obj);
 
-        cache.set('rss', rssContent, 1000 * 60 * 5); // 五分钟
+        cache.set('rss', rssContent, 60 * 5); // 五分钟
         res.send(rssContent);
       });
     }

@@ -1,10 +1,9 @@
-var models = require('../models');
-var Reply = models.Reply;
+var models     = require('../models');
+var Reply      = models.Reply;
 var EventProxy = require('eventproxy');
-
-var tools = require('../common/tools');
-var User = require('./user');
-var at = require('../common/at');
+var tools      = require('../common/tools');
+var User       = require('./user');
+var at         = require('../common/at');
 
 /**
  * 获取一条回复信息
@@ -24,6 +23,9 @@ exports.getReply = function (id, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getReplyById = function (id, callback) {
+  if (!id) {
+    return callback(null, null);
+  }
   Reply.findOne({_id: id}, function (err, reply) {
     if (err) {
       return callback(err);
@@ -38,7 +40,6 @@ exports.getReplyById = function (id, callback) {
         return callback(err);
       }
       reply.author = author;
-      reply.friendly_create_at = tools.formatDate(reply.create_at, true);
       // TODO: 添加更新方法，有些旧帖子可以转换为markdown格式的内容
       if (reply.content_is_html) {
         return callback(null, reply);
@@ -63,7 +64,7 @@ exports.getReplyById = function (id, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getRepliesByTopicId = function (id, cb) {
-  Reply.find({topic_id: id}, '', {sort: 'create_at'}, function (err, replies) {
+  Reply.find({topic_id: id, deleted: false}, '', {sort: 'create_at'}, function (err, replies) {
     if (err) {
       return cb(err);
     }
@@ -83,7 +84,6 @@ exports.getRepliesByTopicId = function (id, cb) {
             return cb(err);
           }
           replies[i].author = author || { _id: '' };
-          replies[i].friendly_create_at = tools.formatDate(replies[i].create_at, true);
           if (replies[i].content_is_html) {
             return proxy.emit('reply_find');
           }
@@ -111,12 +111,13 @@ exports.getRepliesByTopicId = function (id, cb) {
 exports.newAndSave = function (content, topicId, authorId, replyId, callback) {
   if (typeof replyId === 'function') {
     callback = replyId;
-    replyId = null;
+    replyId  = null;
   }
-  var reply = new Reply();
-  reply.content = content;
-  reply.topic_id = topicId;
+  var reply       = new Reply();
+  reply.content   = content;
+  reply.topic_id  = topicId;
   reply.author_id = authorId;
+
   if (replyId) {
     reply.reply_id = replyId;
   }
@@ -125,10 +126,19 @@ exports.newAndSave = function (content, topicId, authorId, replyId, callback) {
   });
 };
 
+/**
+ * 根据topicId查询到最新的一条未删除回复
+ * @param topicId 主题ID
+ * @param callback 回调函数
+ */
+exports.getLastReplyByTopId = function (topicId, callback) {
+  Reply.find({topic_id: topicId, deleted: false}, '_id', {sort: {create_at : -1}, limit : 1}, callback);
+};
+
 exports.getRepliesByAuthorId = function (authorId, opt, callback) {
   if (!callback) {
     callback = opt;
-    opt = null;
+    opt      = null;
   }
   Reply.find({author_id: authorId}, {}, opt, callback);
 };

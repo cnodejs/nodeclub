@@ -11,11 +11,11 @@
  */
 
 var MarkdownIt = require('markdown-it');
-var _ = require('lodash');
-var config = require('../config');
-var validator = require('validator');
-var multiline = require('multiline');
-var jsxss = require('xss');
+var _          = require('lodash');
+var config     = require('../config');
+var validator  = require('validator');
+var multiline  = require('multiline');
+var jsxss      = require('xss');
 
 // Set default options
 var md = new MarkdownIt();
@@ -29,10 +29,9 @@ md.set({
 });
 
 md.renderer.rules.fence = function (tokens, idx) {
-  var token = tokens[idx];
-
+  var token    = tokens[idx];
   var language = token.params && ('language-' + token.params) || '';
-  language = validator.escape(language);
+  language     = validator.escape(language);
 
   return '<pre class="prettyprint ' + language + '">'
     + '<code>' + validator.escape(token.content) + '</code>'
@@ -40,9 +39,10 @@ md.renderer.rules.fence = function (tokens, idx) {
 };
 
 md.renderer.rules.code_block = function (tokens, idx /*, options*/) {
-  var token = tokens[idx];
+  var token    = tokens[idx];
   var language = token.params && ('language-' + token.params) || '';
-  language = validator.escape(language);
+  language     = validator.escape(language);
+
   return '<pre class="prettyprint ' + language + '">'
     + '<code>' + validator.escape(token.content) + '</code>'
     + '</pre>';
@@ -87,6 +87,10 @@ exports.tabName = function (tab) {
   if (pair) {
     return pair[1];
   }
+};
+
+exports.proxy = function (url) {
+  return '"/agent?&url=' + encodeURIComponent(url) + '"';
 };
 
 exports._ = _;

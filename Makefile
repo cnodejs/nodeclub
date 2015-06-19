@@ -22,6 +22,7 @@ test: install pretest
 	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
 		--reporter $(MOCHA_REPORTER) \
 		-r should \
+		-r test/env \
 		--timeout $(TEST_TIMEOUT) \
 		$(TESTS)
 
@@ -31,6 +32,7 @@ test-cov cov: install pretest
 		./node_modules/.bin/_mocha \
 		-- \
 		-r should \
+		-r test/env \
 		--reporter $(MOCHA_REPORTER) \
 		--timeout $(TEST_TIMEOUT) \
 		$(TESTS)
@@ -38,10 +40,13 @@ test-cov cov: install pretest
 build:
 	@./node_modules/loader/bin/build views .
 
+run:
+	@node app.js
+
 start: install build
-	@nohup ./node_modules/.bin/pm2 start app.js -i max --name "cnode" --max-memory-restart 400M >> cnode.log 2>&1 &
+	@NODE_ENV=production nohup ./node_modules/.bin/pm2 start app.js -i 0 --name "cnode" --max-memory-restart 400M >> cnode.log 2>&1 &
 
 restart: install build
-	@nohup ./node_modules/.bin/pm2 restart "cnode" >> cnode.log 2>&1 &
+	@NODE_ENV=production nohup ./node_modules/.bin/pm2 restart "cnode" >> cnode.log 2>&1 &
 
-.PHONY: install test cov test-cov build start restart
+.PHONY: install test cov test-cov build run start restart

@@ -1,4 +1,4 @@
-var qn = require('qn');
+var qn     = require('qn');
 var config = require('../config');
 
 //7牛 client

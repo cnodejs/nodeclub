@@ -9,10 +9,10 @@
  * Module dependencies.
  */
 
-var User = require('../proxy').User;
-var Message = require('./message');
+var User       = require('../proxy').User;
+var Message    = require('./message');
 var EventProxy = require('eventproxy');
-var _ = require('lodash');
+var _          = require('lodash');
 
 /**
  * 从文本中提取出@username 标记的用户名数组
@@ -25,7 +25,7 @@ var fetchUsers = function (text) {
     /^```[\s\S]+?^```/gm, // ``` 里面的是 pre 标签内容
     /`[\s\S]+?`/g, // 同一行中，`some code` 中内容也不该被解析
     /^    .*/gm, // 4个空格也是 pre 标签，在这里 . 不会匹配换行
-    /\b.*?@[^\s]*?\..+?\b/g, // somebody@gmail.com 会被去除
+    /\b\S*?@[^\s]*?\..+?\b/g, // somebody@gmail.com 会被去除
     /\[@.+?\]\(\/.+?\)/g, // 已经被 link 的 username
   ];
 

@@ -24,11 +24,11 @@ Nodeclub 是使用 **Node.js** 和 **MongoDB** 开发的社区系统，界面优
 
 *不保证 Windows 系统的兼容性*
 
-线上跑的是 Node.js v1.5，MongoDB 是 v2.6。
+线上跑的是 Node.js v1.5，MongoDB 是 v2.6，Redis 是 v2.8.9。
 
 ```
-1. install `node.js[必须]` `mongodb[必须]`
-2. run mongod
+1. 安装 `node.js[必须]` `mongodb[必须]` `redis[必须]`
+2. 启动 mongodb 和 redis
 3. `$ make install` 安装 Nodeclub 的依赖包
 4. `cp config.default.js config.js` 请根据需要修改配置文件
 5. `$ make test` 确保各项服务都正常
@@ -37,7 +37,7 @@ Nodeclub 是使用 **Node.js** 和 **MongoDB** 开发的社区系统，界面优
 8. done!
 ```
 
-## 其他
+## 测试
 
 跑测试
 
@@ -50,6 +50,10 @@ $ make test
 ```bash
 $ make test-cov
 ```
+
+## 贡献
+
+有任何意见或建议都欢迎提 issue，或者直接提给 [@alsotang](https://github.com/alsotang)
 
 ## License
 

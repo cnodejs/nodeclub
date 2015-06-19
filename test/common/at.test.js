@@ -73,13 +73,15 @@ describe('test/common/at.test.js', function () {
     @alsotang @alsotang
     aldjf
     @alsotang @tangzhanli
+
+    @liveinjs 没事儿，能力和热情更重要，北京雍和宫，想的就邮件给我i5ting@126.com
   */});
 
   var matched_users = ['A-aZ-z0-9_', 'begin_with_spaces',
     'multi_in_oneline', 'around_text', 'end_with_no_space',
     'begin_with_no_spaces', 'end_with_no_space2',
     'begin_with_no_spaces2', 'alsotang', 'alsotang2',
-    'tangzhanli'];
+    'tangzhanli', 'liveinjs'];
 
   var linkedText = multiline.stripIndent(function(){/*
 [@A-aZ-z0-9_](/user/A-aZ-z0-9_)
@@ -128,6 +130,8 @@ code: `@in_code`
 [@alsotang](/user/alsotang) [@alsotang](/user/alsotang)
 aldjf
 [@alsotang](/user/alsotang) [@tangzhanli](/user/tangzhanli)
+
+[@liveinjs](/user/liveinjs) 没事儿，能力和热情更重要，北京雍和宫，想的就邮件给我i5ting@126.com
   */});
 
   describe('#fetchUsers()', function () {

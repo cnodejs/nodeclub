@@ -1,7 +1,7 @@
-var models = require('../models');
-var User = models.User;
+var models  = require('../models');
+var User    = models.User;
 var utility = require('utility');
-var uuid = require('node-uuid');
+var uuid    = require('node-uuid');
 
 /**
  * 根据用户名列表查找用户列表
@@ -93,14 +93,15 @@ exports.getUserByNameAndKey = function (loginname, key, callback) {
 };
 
 exports.newAndSave = function (name, loginname, pass, email, avatar_url, active, callback) {
-  var user = new User();
-  user.name = loginname;
-  user.loginname = loginname;
-  user.pass = pass;
-  user.email = email;
-  user.avatar = avatar_url;
-  user.active = active || false;
+  var user         = new User();
+  user.name        = loginname;
+  user.loginname   = loginname;
+  user.pass        = pass;
+  user.email       = email;
+  user.avatar      = avatar_url;
+  user.active      = active || false;
   user.accessToken = uuid.v4();
+
   user.save(callback);
 };
 
