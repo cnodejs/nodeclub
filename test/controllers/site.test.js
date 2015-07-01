@@ -36,10 +36,10 @@ describe('test/controllers/site.test.js', function () {
 
   it('should /sitemap.xml 200', function (done) {
     request.get('/sitemap.xml')
-    .expect(200, function (err, res) {
-      res.text.should.containEql('<url>');
-      done(err);
-    });
+      .expect(200, function (err, res) {
+        res.text.should.containEql('<url>');
+        done(err);
+      });
   });
 
   it('should /app/download', function (done) {

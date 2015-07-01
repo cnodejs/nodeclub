@@ -1,9 +1,9 @@
-var models     = require('../models');
-var Reply      = models.Reply;
+var models = require('../models');
+var Reply = models.Reply;
 var EventProxy = require('eventproxy');
-var tools      = require('../common/tools');
-var User       = require('./user');
-var at         = require('../common/at');
+var tools = require('../common/tools');
+var User = require('./user');
+var at = require('../common/at');
 
 /**
  * 获取一条回复信息
@@ -83,7 +83,7 @@ exports.getRepliesByTopicId = function (id, cb) {
           if (err) {
             return cb(err);
           }
-          replies[i].author = author || { _id: '' };
+          replies[i].author = author || {_id: ''};
           if (replies[i].content_is_html) {
             return proxy.emit('reply_find');
           }
@@ -111,11 +111,11 @@ exports.getRepliesByTopicId = function (id, cb) {
 exports.newAndSave = function (content, topicId, authorId, replyId, callback) {
   if (typeof replyId === 'function') {
     callback = replyId;
-    replyId  = null;
+    replyId = null;
   }
-  var reply       = new Reply();
-  reply.content   = content;
-  reply.topic_id  = topicId;
+  var reply = new Reply();
+  reply.content = content;
+  reply.topic_id = topicId;
   reply.author_id = authorId;
 
   if (replyId) {
@@ -132,13 +132,13 @@ exports.newAndSave = function (content, topicId, authorId, replyId, callback) {
  * @param callback 回调函数
  */
 exports.getLastReplyByTopId = function (topicId, callback) {
-  Reply.find({topic_id: topicId, deleted: false}, '_id', {sort: {create_at : -1}, limit : 1}, callback);
+  Reply.find({topic_id: topicId, deleted: false}, '_id', {sort: {create_at: -1}, limit: 1}, callback);
 };
 
 exports.getRepliesByAuthorId = function (authorId, opt, callback) {
   if (!callback) {
     callback = opt;
-    opt      = null;
+    opt = null;
   }
   Reply.find({author_id: authorId}, {}, opt, callback);
 };

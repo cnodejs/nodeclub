@@ -25,20 +25,20 @@ describe('test/controllers/sign.test.js', function () {
 
     it('should visit sign up page', function (done) {
       request.get('/signup')
-      .expect(200, function (err, res) {
-        res.text.should.containEql('确认密码');
-        done(err);
-      });
+        .expect(200, function (err, res) {
+          res.text.should.containEql('确认密码');
+          done(err);
+        });
     });
 
     it('should redirect to github oauth page', function (done) {
       mm(config.GITHUB_OAUTH, 'clientID', 'clientID chenged');
       app.get('/signup_github', configMiddleware.github, passport.authenticate('github'));
       request.get('/signup_github')
-      .expect(302, function (err, res) {
-        res.headers.location.should.containEql('https://github.com/login/oauth/authorize?');
-        done(err);
-      });
+        .expect(302, function (err, res) {
+          res.headers.location.should.containEql('https://github.com/login/oauth/authorize?');
+          done(err);
+        });
     });
 
     it('should sign up a user', function (done) {
@@ -100,39 +100,39 @@ describe('test/controllers/sign.test.js', function () {
 
     it('should error when no loginname or no pass', function (done) {
       request.post('/signin')
-      .send({
-        name: loginname,
-        pass: '',
-      })
-      .end(function (err, res) {
-        res.status.should.equal(422);
-        res.text.should.containEql('信息不完整。');
-        done(err);
-      });
+        .send({
+          name: loginname,
+          pass: '',
+        })
+        .end(function (err, res) {
+          res.status.should.equal(422);
+          res.text.should.containEql('信息不完整。');
+          done(err);
+        });
     });
 
     it('should not login in when not actived', function (done) {
       request.post('/signin')
-      .send({
-        name: loginname,
-        pass: pass,
-      })
-      .end(function (err, res) {
-        res.status.should.equal(403);
-        res.text.should.containEql('此帐号还没有被激活，激活链接已发送到');
-        done(err);
-      });
+        .send({
+          name: loginname,
+          pass: pass,
+        })
+        .end(function (err, res) {
+          res.status.should.equal(403);
+          res.text.should.containEql('此帐号还没有被激活，激活链接已发送到');
+          done(err);
+        });
     });
   });
 
   describe('sign out', function () {
     it('should sign out', function (done) {
       request.post('/signout')
-      .set('Cookie', config.auth_cookie_name + ':something;')
-      .expect(302, function (err, res) {
-        res.headers['set-cookie'].should.eql([ 'node_club=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT' ]);
-        done(err);
-      });
+        .set('Cookie', config.auth_cookie_name + ':something;')
+        .expect(302, function (err, res) {
+          res.headers['set-cookie'].should.eql(['node_club=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT']);
+          done(err);
+        });
     });
   });
 
@@ -141,14 +141,14 @@ describe('test/controllers/sign.test.js', function () {
       UserProxy.getUserByLoginName(loginname, function (err, user) {
         var key = utility.md5(user.email + user.pass + config.session_secret);
         request.get('/active_account')
-        .query({
-          key: key,
-          name: loginname,
-        })
-        .expect(200, function (err, res) {
-          res.text.should.containEql('帐号已被激活，请登录');
-          done(err);
-        });
+          .query({
+            key: key,
+            name: loginname,
+          })
+          .expect(200, function (err, res) {
+            res.text.should.containEql('帐号已被激活，请登录');
+            done(err);
+          });
       });
     });
   });
@@ -156,15 +156,15 @@ describe('test/controllers/sign.test.js', function () {
   describe('when new user is actived', function () {
     it('should login in successful', function (done) {
       request.post('/signin')
-      .send({
-        name: loginname,
-        pass: pass,
-      })
-      .end(function (err, res) {
-        res.status.should.equal(302);
-        res.headers.location.should.equal('/');
-        done(err);
-      });
+        .send({
+          name: loginname,
+          pass: pass,
+        })
+        .end(function (err, res) {
+          res.status.should.equal(302);
+          res.headers.location.should.equal('/');
+          done(err);
+        });
     });
   });
 
@@ -173,10 +173,10 @@ describe('test/controllers/sign.test.js', function () {
 
     it('should 200 when get /search_pass', function (done) {
       request.get('/search_pass')
-      .expect(200, function (err, res) {
-        res.text.should.containEql('找回密码');
-        done(err);
-      });
+        .expect(200, function (err, res) {
+          res.text.should.containEql('找回密码');
+          done(err);
+        });
     });
 
     it('should update search pass', function (done) {
@@ -191,51 +191,51 @@ describe('test/controllers/sign.test.js', function () {
       });
 
       request.post('/search_pass')
-      .send({
-        email: email
-      })
-      .expect(200, function (err, res) {
-        res.text.should.containEql('我们已给您填写的电子邮箱发送了一封邮件，请在24小时内点击里面的链接来重置密码。');
-        done(err);
-      });
+        .send({
+          email: email
+        })
+        .expect(200, function (err, res) {
+          res.text.should.containEql('我们已给您填写的电子邮箱发送了一封邮件，请在24小时内点击里面的链接来重置密码。');
+          done(err);
+        });
     });
 
     it('should 200 when get /reset_pass', function (done) {
       request.get('/reset_pass')
-      .query({
-        key : resetKey,
-        name : loginname
-      })
-      .expect(200, function (err, res) {
-        res.text.should.containEql('重置密码');
-        done(err);
-      });
+        .query({
+          key: resetKey,
+          name: loginname
+        })
+        .expect(200, function (err, res) {
+          res.text.should.containEql('重置密码');
+          done(err);
+        });
     });
 
     it('should 403 get /reset_pass when with wrong resetKey', function (done) {
       request.get('/reset_pass')
-      .query({
-        key : 'wrong key',
-        name : loginname
-      })
-      .expect(403, function (err, res) {
-        res.text.should.containEql('信息有误，密码无法重置。');
-        done(err);
-      });
+        .query({
+          key: 'wrong key',
+          name: loginname
+        })
+        .expect(403, function (err, res) {
+          res.text.should.containEql('信息有误，密码无法重置。');
+          done(err);
+        });
     });
 
     it('should update passwork', function (done) {
       request.post('/reset_pass')
-      .send({
-        psw: 'jkljkljkl',
-        repsw: 'jkljkljkl',
-        key: resetKey,
-        name: loginname,
-      })
-      .expect(200, function (err, res) {
-        res.text.should.containEql('你的密码已重置。');
-        done(err);
-      })
+        .send({
+          psw: 'jkljkljkl',
+          repsw: 'jkljkljkl',
+          key: resetKey,
+          name: loginname,
+        })
+        .expect(200, function (err, res) {
+          res.text.should.containEql('你的密码已重置。');
+          done(err);
+        })
     })
   });
 });

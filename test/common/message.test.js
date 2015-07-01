@@ -42,18 +42,18 @@ describe('test/common/message.test.js', function () {
       MessageService.sendReplyMessage(atUser._id, author._id, topic._id, reply._id,
         function (err, msg) {
           request.get('/my/messages')
-          .set('Cookie', support.normalUserCookie)
-          .expect(200, function (err, res) {
-            var texts = [
-              author.loginname,
-              '回复了你的话题',
-              topic.title,
-            ];
-            texts.forEach(function (text) {
-              res.text.should.containEql(text)
-            })
-            done(err);
-          });
+            .set('Cookie', support.normalUserCookie)
+            .expect(200, function (err, res) {
+              var texts = [
+                author.loginname,
+                '回复了你的话题',
+                topic.title,
+              ];
+              texts.forEach(function (text) {
+                res.text.should.containEql(text)
+              })
+              done(err);
+            });
         });
     });
   });
@@ -66,19 +66,19 @@ describe('test/common/message.test.js', function () {
       MessageService.sendAtMessage(atUser._id, author._id, topic._id, reply._id,
         function (err, msg) {
           request.get('/my/messages')
-          .set('Cookie', support.normalUserCookie)
-          .expect(200, function (err, res) {
-            var texts = [
-              author.loginname,
-              '在话题',
-              topic.title,
-              '中@了你',
-            ];
-            texts.forEach(function (text) {
-              res.text.should.containEql(text)
-            })
-            done(err);
-          });
+            .set('Cookie', support.normalUserCookie)
+            .expect(200, function (err, res) {
+              var texts = [
+                author.loginname,
+                '在话题',
+                topic.title,
+                '中@了你',
+              ];
+              texts.forEach(function (text) {
+                res.text.should.containEql(text)
+              })
+              done(err);
+            });
         });
     });
   });

@@ -1,5 +1,3 @@
-
-
 var app = require('../../../app');
 var request = require('supertest')(app);
 var support = require('../../support/support');

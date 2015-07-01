@@ -3,11 +3,11 @@ $(document).ready(function () {
   var top = $(window).height() - $backtotop.height() - 200;
 
   function moveBacktotop() {
-    $backtotop.css({ top: top, right: 0});
+    $backtotop.css({top: top, right: 0});
   }
 
   $backtotop.click(function () {
-    $('html,body').animate({ scrollTop: 0 });
+    $('html,body').animate({scrollTop: 0});
     return false;
   });
   $(window).scroll(function () {

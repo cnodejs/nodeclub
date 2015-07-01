@@ -9,10 +9,10 @@
  * Module dependencies.
  */
 
-var User       = require('../proxy').User;
-var Message    = require('./message');
+var User = require('../proxy').User;
+var Message = require('./message');
 var EventProxy = require('eventproxy');
-var _          = require('lodash');
+var _ = require('lodash');
 
 /**
  * 从文本中提取出@username 标记的用户名数组

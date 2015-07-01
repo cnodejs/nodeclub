@@ -15,7 +15,6 @@
     "ace",
     "$"
   ],
-
   "browser": true,
   "node": true,
   "es5": true,

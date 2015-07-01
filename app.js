@@ -84,7 +84,7 @@ app.use('/agent', proxyMiddleware.proxy);
 app.use(require('response-time')());
 app.use(helmet.frameguard('sameorigin'));
 app.use(bodyParser.json({limit: '1mb'}));
-app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
+app.use(bodyParser.urlencoded({extended: true, limit: '1mb'}));
 app.use(require('method-override')());
 app.use(require('cookie-parser')(config.session_secret));
 app.use(compress());

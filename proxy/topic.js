@@ -1,11 +1,11 @@
 var EventProxy = require('eventproxy');
-var models     = require('../models');
-var Topic      = models.Topic;
-var User       = require('./user');
-var Reply      = require('./reply');
-var tools      = require('../common/tools');
-var at         = require('../common/at');
-var _          = require('lodash');
+var models = require('../models');
+var Topic = models.Topic;
+var User = require('./user');
+var Reply = require('./reply');
+var tools = require('../common/tools');
+var at = require('../common/at');
+var _ = require('lodash');
 
 
 /**
@@ -166,7 +166,7 @@ exports.updateLastReply = function (topicId, replyId, callback) {
     if (err || !topic) {
       return callback(err);
     }
-    topic.last_reply    = replyId;
+    topic.last_reply = replyId;
     topic.last_reply_at = new Date();
     topic.reply_count += 1;
     topic.save(callback);
@@ -216,10 +216,10 @@ exports.reduceCount = function (id, callback) {
 };
 
 exports.newAndSave = function (title, content, tab, authorId, callback) {
-  var topic       = new Topic();
-  topic.title     = title;
-  topic.content   = content;
-  topic.tab       = tab;
+  var topic = new Topic();
+  topic.title = title;
+  topic.content = content;
+  topic.tab = tab;
   topic.author_id = authorId;
 
   topic.save(callback);

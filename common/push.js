@@ -1,9 +1,9 @@
-var User       = require('../proxy/user');
-var Message    = require('../proxy/message');
-var JPush      = require("jpush-sdk");
+var User = require('../proxy/user');
+var Message = require('../proxy/message');
+var JPush = require("jpush-sdk");
 var eventproxy = require('eventproxy');
-var config     = require('../config');
-var client     = null;
+var config = require('../config');
+var client = null;
 
 if (config.jpush && config.jpush.masterSecret !== 'YourSecretKeyyyyyyyyyyyyy') {
   client = JPush.buildClient(config.jpush);
@@ -27,22 +27,22 @@ exports.send = function (type, author_id, master_id, topic_id) {
         topicId: topic_id
       };
       switch (type) {
-      case 'at':
-        msg += '@了你';
-        break;
-      case 'reply':
-        msg += '回复了你的主题';
-        break;
-      default:
-        break;
+        case 'at':
+          msg += '@了你';
+          break;
+        case 'reply':
+          msg += '回复了你的主题';
+          break;
+        default:
+          break;
       }
       client.push()
         .setPlatform(JPush.ALL)
         .setAudience(JPush.alias(master_id.toString()))
         .setNotification(msg,
-          JPush.ios(msg, null, count, null, extras),
-          JPush.android(msg, null, null, extras)
-        )
+        JPush.ios(msg, null, count, null, extras),
+        JPush.android(msg, null, null, extras)
+      )
         .setOptions(null, null, null, !config.debug)
         .send(function (err, res) {
           if (config.debug) {

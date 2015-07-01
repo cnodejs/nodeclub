@@ -1,14 +1,14 @@
-var _            = require('lodash');
-var eventproxy   = require('eventproxy');
-var UserProxy    = require('../../proxy').User;
-var TopicProxy   = require('../../proxy').Topic;
-var ReplyProxy   = require('../../proxy').Reply;
+var _ = require('lodash');
+var eventproxy = require('eventproxy');
+var UserProxy = require('../../proxy').User;
+var TopicProxy = require('../../proxy').Topic;
+var ReplyProxy = require('../../proxy').Reply;
 var TopicCollect = require('../../proxy').TopicCollect;
 
 var show = function (req, res, next) {
   var loginname = req.params.loginname;
-  var ep        = new eventproxy();
-  
+  var ep = new eventproxy();
+
   ep.fail(next);
 
   UserProxy.getUserByLoginName(loginname, ep.done(function (user) {
@@ -52,17 +52,17 @@ var show = function (req, res, next) {
 
         user.recent_topics = recent_topics.map(function (topic) {
           topic.author = _.pick(topic.author, ['loginname', 'avatar_url']);
-          topic        = _.pick(topic, ['id', 'author', 'title', 'last_reply_at']);
+          topic = _.pick(topic, ['id', 'author', 'title', 'last_reply_at']);
           return topic;
         });
         user.recent_replies = recent_replies.map(function (topic) {
           topic.author = _.pick(topic.author, ['loginname', 'avatar_url']);
-          topic        = _.pick(topic, ['id', 'author', 'title', 'last_reply_at']);
+          topic = _.pick(topic, ['id', 'author', 'title', 'last_reply_at']);
           return topic;
         });
         user.collect_topics = collect_topics.map(function (topic) {
           topic.author = _.pick(topic.author, ['loginname', 'avatar_url']);
-          topic        = _.pick(topic, ['id', 'author', 'title', 'last_reply_at']);
+          topic = _.pick(topic, ['id', 'author', 'title', 'last_reply_at']);
           return topic;
         });
 

@@ -1,4 +1,4 @@
-var fs     = require('fs');
+var fs = require('fs');
 var config = require('../config');
 
 if (!fs.existsSync("./log")) {
@@ -38,15 +38,15 @@ var writeLog = function (prefix, logType, args) {
   var logStr = infos.join(" ");
 
   switch (logType) {
-  case "debug":
-    logStr = logStr.gray;
-    break;
-  case 'warn':
-    logStr = logStr.yellow;
-    break;
-  case 'error':
-    logStr = logStr.red;
-    break;
+    case "debug":
+      logStr = logStr.gray;
+      break;
+    case 'warn':
+      logStr = logStr.yellow;
+      break;
+    case 'error':
+      logStr = logStr.red;
+      break;
   }
 
   var line = prefix + logStr;
