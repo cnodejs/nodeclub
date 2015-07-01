@@ -9,8 +9,8 @@ exports.getTopicCollectsByUserId = function (userId, callback) {
 };
 
 exports.newAndSave = function (userId, topicId, callback) {
-  var topic_collect = new TopicCollect();
-  topic_collect.user_id = userId;
+  var topic_collect      = new TopicCollect();
+  topic_collect.user_id  = userId;
   topic_collect.topic_id = topicId;
   topic_collect.save(callback);
 };

@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var config = require('../config');
+var config   = require('../config');
 
 mongoose.connect(config.db, function (err) {
   if (err) {
@@ -15,9 +15,9 @@ require('./reply');
 require('./topic_collect');
 require('./message');
 
-exports.User = mongoose.model('User');
-exports.Topic = mongoose.model('Topic');
-exports.Reply = mongoose.model('Reply');
+exports.User         = mongoose.model('User');
+exports.Topic        = mongoose.model('Topic');
+exports.Reply        = mongoose.model('Reply');
 exports.TopicCollect = mongoose.model('TopicCollect');
-exports.Message = mongoose.model('Message');
+exports.Message      = mongoose.model('Message');
 

@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
+var mongoose  = require('mongoose');
 var BaseModel = require("./base_model");
-var Schema = mongoose.Schema;
-var ObjectId = Schema.ObjectId;
+var Schema    = mongoose.Schema;
+var ObjectId  = Schema.ObjectId;
 
 /*
  * type:
@@ -12,13 +12,13 @@ var ObjectId = Schema.ObjectId;
  */
 
 var MessageSchema = new Schema({
-  type: {type: String},
-  master_id: {type: ObjectId},
-  author_id: {type: ObjectId},
-  topic_id: {type: ObjectId},
-  reply_id: {type: ObjectId},
-  has_read: {type: Boolean, default: false},
-  create_at: {type: Date, default: Date.now}
+  type: { type: String },
+  master_id: { type: ObjectId},
+  author_id: { type: ObjectId },
+  topic_id: { type: ObjectId },
+  reply_id: { type: ObjectId },
+  has_read: { type: Boolean, default: false },
+  create_at: { type: Date, default: Date.now }
 });
 MessageSchema.plugin(BaseModel);
 MessageSchema.index({master_id: 1, has_read: -1, create_at: -1});

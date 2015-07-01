@@ -1,10 +1,10 @@
-var Models = require('../models');
-var User = Models.User;
+var Models         = require('../models');
+var User           = Models.User;
 var authMiddleWare = require('../middlewares/auth');
-var tools = require('../common/tools');
-var eventproxy = require('eventproxy');
-var uuid = require('node-uuid');
-var validator = require('validator');
+var tools          = require('../common/tools');
+var eventproxy     = require('eventproxy');
+var uuid           = require('node-uuid');
+var validator      = require('validator');
 
 exports.callback = function (req, res, next) {
   var profile = req.user;
@@ -88,7 +88,7 @@ exports.create = function (req, res, next) {
   } else { // 关联老账号
     ep.on('login_error', function (login_error) {
       res.status(403);
-      res.render('sign/signin', {error: '账号名或密码错误。'});
+      res.render('sign/signin', { error: '账号名或密码错误。' });
     });
     User.findOne({loginname: loginname},
       ep.done(function (user) {

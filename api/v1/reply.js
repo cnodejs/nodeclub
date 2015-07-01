@@ -1,15 +1,15 @@
 var eventproxy = require('eventproxy');
-var validator = require('validator');
-var Topic = require('../../proxy').Topic;
-var User = require('../../proxy').User;
-var Reply = require('../../proxy').Reply;
-var at = require('../../common/at');
-var message = require('../../common/message');
-var config = require('../../config');
+var validator  = require('validator');
+var Topic      = require('../../proxy').Topic;
+var User       = require('../../proxy').User;
+var Reply      = require('../../proxy').Reply;
+var at         = require('../../common/at');
+var message    = require('../../common/message');
+var config     = require('../../config');
 
 var create = function (req, res, next) {
   var topic_id = req.params.topic_id;
-  var content = req.body.content;
+  var content  = req.body.content;
   var reply_id = req.body.reply_id;
 
   var ep = new eventproxy();
@@ -76,7 +76,7 @@ exports.create = create;
 
 var ups = function (req, res, next) {
   var replyId = req.params.reply_id;
-  var userId = req.user.id;
+  var userId  = req.user.id;
 
   Reply.getReplyById(replyId, function (err, reply) {
     if (err) {

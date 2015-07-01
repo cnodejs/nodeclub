@@ -12,11 +12,11 @@
       <% if(typeof(users) !== 'undefined' && users.length > 0){ %>
       <table class='table table-condensed table-striped'>
         <thead>
-        <th>#</th>
-        <th>用户名</th>
-        <th>积分</th>
-        <th>主题数</th>
-        <th>评论数</th>
+          <th>#</th>
+          <th>用户名</th>
+          <th>积分</th>
+          <th>主题数</th>
+          <th>评论数</th>
         </thead>
         <tbody>
         <%- partial('../user/top100_user',{collection:users,as:'user'}) %>

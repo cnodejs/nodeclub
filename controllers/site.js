@@ -9,14 +9,14 @@
  * Module dependencies.
  */
 
-var User = require('../proxy').User;
-var Topic = require('../proxy').Topic;
-var config = require('../config');
-var eventproxy = require('eventproxy');
-var cache = require('../common/cache');
-var xmlbuilder = require('xmlbuilder');
+var User         = require('../proxy').User;
+var Topic        = require('../proxy').Topic;
+var config       = require('../config');
+var eventproxy   = require('eventproxy');
+var cache        = require('../common/cache');
+var xmlbuilder   = require('xmlbuilder');
 var renderHelper = require('../common/render_helper');
-var _ = require('lodash');
+var _            = require('lodash');
 
 exports.index = function (req, res, next) {
   var page = parseInt(req.query.page, 10) || 1;
@@ -37,7 +37,7 @@ exports.index = function (req, res, next) {
   }
 
   var limit = config.list_topic_count;
-  var options = {skip: (page - 1) * limit, limit: limit, sort: '-top -last_reply_at'};
+  var options = { skip: (page - 1) * limit, limit: limit, sort: '-top -last_reply_at'};
 
   Topic.getTopicsByQuery(query, options, proxy.done('topics', function (topics) {
     return topics;
@@ -49,13 +49,11 @@ exports.index = function (req, res, next) {
       proxy.emit('tops', tops);
     } else {
       User.getUsersByQuery(
-        {
-          '$or': [
-            {is_block: {'$exists': false}},
-            {is_block: false}
-          ]
-        },
-        {limit: 10, sort: '-score'},
+        {'$or': [
+          {is_block: {'$exists': false}},
+          {is_block: false}
+        ]},
+        { limit: 10, sort: '-score'},
         proxy.done('tops', function (tops) {
           cache.set('tops', tops, 60 * 1);
           return tops;
@@ -71,8 +69,8 @@ exports.index = function (req, res, next) {
       proxy.emit('no_reply_topics', no_reply_topics);
     } else {
       Topic.getTopicsByQuery(
-        {reply_count: 0, tab: {$ne: 'job'}},
-        {limit: 5, sort: '-create_at'},
+        { reply_count: 0, tab: {$ne: 'job'}},
+        { limit: 5, sort: '-create_at'},
         proxy.done('no_reply_topics', function (no_reply_topics) {
           cache.set('no_reply_topics', no_reply_topics, 60 * 1);
           return no_reply_topics;

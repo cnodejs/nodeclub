@@ -1,17 +1,17 @@
-var User = require('../proxy').User;
-var Topic = require('../proxy').Topic;
-var Reply = require('../proxy').Reply;
+var User         = require('../proxy').User;
+var Topic        = require('../proxy').Topic;
+var Reply        = require('../proxy').Reply;
 var TopicCollect = require('../proxy').TopicCollect;
-var utility = require('utility');
-var util = require('util');
-var TopicModel = require('../models').Topic;
-var ReplyModel = require('../models').Reply;
-var tools = require('../common/tools');
-var config = require('../config');
-var EventProxy = require('eventproxy');
-var validator = require('validator');
-var utility = require('utility');
-var _ = require('lodash');
+var utility      = require('utility');
+var util         = require('util');
+var TopicModel   = require('../models').Topic;
+var ReplyModel   = require('../models').Reply;
+var tools        = require('../common/tools');
+var config       = require('../config');
+var EventProxy   = require('eventproxy');
+var validator    = require('validator');
+var utility      = require('utility');
+var _            = require('lodash');
 
 exports.index = function (req, res, next) {
   var user_name = req.params.name;
@@ -182,7 +182,7 @@ exports.toggleStar = function (req, res, next) {
       if (err) {
         return next(err);
       }
-      res.json({status: 'success'});
+      res.json({ status: 'success' });
     });
   });
 };
@@ -214,7 +214,7 @@ exports.listCollectedTopics = function (req, res, next) {
       for (var i = 0; i < docs.length; i++) {
         ids.push(docs[i].topic_id);
       }
-      var query = {_id: {'$in': ids}};
+      var query = { _id: { '$in': ids } };
       var opt = {
         skip: (page - 1) * limit,
         limit: limit,
@@ -231,12 +231,10 @@ exports.listCollectedTopics = function (req, res, next) {
 
 exports.top100 = function (req, res, next) {
   var opt = {limit: 100, sort: '-score'};
-  User.getUsersByQuery({
-    '$or': [
-      {is_block: {'$exists': false}},
-      {is_block: false},
-    ]
-  }, opt, function (err, tops) {
+  User.getUsersByQuery({'$or': [
+    {is_block: {'$exists': false}},
+    {is_block: false},
+  ]}, opt, function (err, tops) {
     if (err) {
       return next(err);
     }

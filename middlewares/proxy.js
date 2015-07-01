@@ -1,4 +1,4 @@
-var urllib = require('url');
+var urllib  = require('url');
 var request = require('request');
 
 
@@ -15,11 +15,11 @@ exports.proxy = function (req, res, next) {
   }
 
   request.get({
-    url: url,
-    headers: {
-      'If-Modified-Since': req.header('If-Modified-Since') || ''
-    }
-  })
+      url: url,
+      headers: {
+        'If-Modified-Since': req.header('If-Modified-Since') || ''
+      }
+    })
     .on('response', function (response) {
       res.set(response.headers);
     })

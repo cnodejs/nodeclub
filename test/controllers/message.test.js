@@ -19,12 +19,12 @@ describe('test/controllers/message.test.js', function () {
 
     it('should 200', function (done) {
       request(app).get('/my/messages')
-        .set('Cookie', support.normalUserCookie)
-        .expect(200)
-        .end(function (err, res) {
-          res.text.should.containEql('新消息');
-          done(err);
-        });
+      .set('Cookie', support.normalUserCookie)
+      .expect(200)
+      .end(function (err, res) {
+        res.text.should.containEql('新消息');
+        done(err);
+      });
     });
   });
 });

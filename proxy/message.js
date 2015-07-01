@@ -97,6 +97,6 @@ exports.updateMessagesToRead = function (userId, messages, callback) {
     return m.id;
   });
 
-  var query = {master_id: userId, _id: {$in: ids}};
-  Message.update(query, {$set: {has_read: true}}, {multi: true}).exec(callback);
+  var query = { master_id: userId, _id: { $in: ids } };
+  Message.update(query, { $set: { has_read: true } }, { multi: true }).exec(callback);
 };

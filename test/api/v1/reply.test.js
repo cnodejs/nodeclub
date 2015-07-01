@@ -1,8 +1,8 @@
 var app = require('../../../app');
 var request = require('supertest')(app);
 var pedding = require('pedding');
-var support = require('../../support/support');
-var should = require('should');
+var support =  require('../../support/support');
+var should  = require('should');
 
 describe('test/api/v1/reply.test.js', function () {
   var mockTopic;

@@ -1,6 +1,6 @@
 body, p, input, textarea {
-  font-size: 14px;
-  word-break: break-word;
+    font-size: 14px;
+    word-break: break-word;
 }
 
 textarea, input[type="text"],
@@ -18,46 +18,46 @@ input[type="search"],
 input[type="tel"],
 input[type="color"],
 .uneditable-input {
-  background: hsla(0, 0%, 0%, 0)
+    background: hsla(0, 0%, 0%, 0)
 }
 
 pre {
-  background: #fee9cc;
-  border: 1px dashed #ccc;
-  line-height: 22px;
+    background: #fee9cc;
+    border: 1px dashed #ccc;
+    line-height: 22px;
 }
 
 code {
-  padding: 0;
-  border: none;
+    padding: 0;
+    border: none;
 }
 
 p code {
-  background: none;
-  color: hsl(0, 0%, 50%);
-  margin: 0 1px;
-  padding: 1px 4px;
-  border-radius: 1px;
+    background: none;
+    color: hsl(0, 0%, 50%);
+    margin: 0 1px;
+    padding: 1px 4px;
+    border-radius: 1px;
 }
 
 div pre.prettyprint {
-  font-size: 14px;
-  border-radius: 0px;
-  padding: 0 15px;
-  border: none;
-  margin: 20px -10px;
-  border-width: 1px 0px;
-  background: #f7f7f7;
+    font-size: 14px;
+    border-radius: 0px;
+    padding: 0 15px;
+    border: none;
+    margin: 20px -10px;
+    border-width: 1px 0px;
+    background: #f7f7f7;
 }
 
 form {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 textarea {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 input, textarea {
-  background: hsla(0, 0%, 0%, 0);
+    background: hsla(0, 0%, 0%, 0);
 }

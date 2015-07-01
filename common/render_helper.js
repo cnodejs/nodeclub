@@ -11,27 +11,27 @@
  */
 
 var MarkdownIt = require('markdown-it');
-var _ = require('lodash');
-var config = require('../config');
-var validator = require('validator');
-var multiline = require('multiline');
-var jsxss = require('xss');
+var _          = require('lodash');
+var config     = require('../config');
+var validator  = require('validator');
+var multiline  = require('multiline');
+var jsxss      = require('xss');
 
 // Set default options
 var md = new MarkdownIt();
 
 md.set({
-  html: true,        // Enable HTML tags in source
-  xhtmlOut: false,        // Use '/' to close single tags (<br />)
-  breaks: false,        // Convert '\n' in paragraphs into <br>
-  linkify: true,        // Autoconvert URL-like text to links
-  typographer: true,        // Enable smartypants and other sweet transforms
+  html:         true,        // Enable HTML tags in source
+  xhtmlOut:     false,        // Use '/' to close single tags (<br />)
+  breaks:       false,        // Convert '\n' in paragraphs into <br>
+  linkify:      true,        // Autoconvert URL-like text to links
+  typographer:  true,        // Enable smartypants and other sweet transforms
 });
 
 md.renderer.rules.fence = function (tokens, idx) {
-  var token = tokens[idx];
+  var token    = tokens[idx];
   var language = token.params && ('language-' + token.params) || '';
-  language = validator.escape(language);
+  language     = validator.escape(language);
 
   return '<pre class="prettyprint ' + language + '">'
     + '<code>' + validator.escape(token.content) + '</code>'
@@ -39,9 +39,9 @@ md.renderer.rules.fence = function (tokens, idx) {
 };
 
 md.renderer.rules.code_block = function (tokens, idx /*, options*/) {
-  var token = tokens[idx];
+  var token    = tokens[idx];
   var language = token.params && ('language-' + token.params) || '';
-  language = validator.escape(language);
+  language     = validator.escape(language);
 
   return '<pre class="prettyprint ' + language + '">'
     + '<code>' + validator.escape(token.content) + '</code>'

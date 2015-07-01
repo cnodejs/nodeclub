@@ -43,8 +43,7 @@
           <label class='control-label' for='url'>个人网站</label>
 
           <div class='controls'>
-            <input class='input-xlarge' id='url' name='url' size='30' type='text'
-                   value="<%= typeof(url) !== 'undefined' ? url : '' %>"/>
+            <input class='input-xlarge' id='url' name='url' size='30' type='text' value="<%= typeof(url) !== 'undefined' ? url : '' %>"/>
           </div>
         </div>
         <div class='control-group'>
@@ -60,8 +59,7 @@
           <label class='control-label' for='weibo'>微博</label>
 
           <div class='controls'>
-            <input class='input-xlarge' id='weibo' name='weibo' size='30' type='text'
-                   value="<%= typeof(weibo) !== 'undefined' ? weibo : '' %>"
+            <input class='input-xlarge' id='weibo' name='weibo' size='30' type='text' value="<%= typeof(weibo) !== 'undefined' ? weibo : '' %>"
                    placeholder="e.g. http://weibo.com/cnodejs"/>
           </div>
         </div>
@@ -70,9 +68,7 @@
 
           <div class='controls'>
             <input class='input-xlarge' id='github' name='github' size='30' type='text'
-                   value="<%= typeof(githubUsername) !== 'undefined' ? '@' + githubUsername : '' %>"
-                   placeholder="@username" readonly="readonly"/>
-
+                   value="<%= typeof(githubUsername) !== 'undefined' ? '@' + githubUsername : '' %>" placeholder="@username" readonly="readonly" />
             <p>请通过 GitHub 登陆 CNode 来修改此处</p>
           </div>
         </div>

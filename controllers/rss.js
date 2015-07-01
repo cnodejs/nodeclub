@@ -1,9 +1,9 @@
-var config = require('../config');
-var convert = require('data2xml')();
-var Topic = require('../proxy').Topic;
-var cache = require('../common/cache');
+var config       = require('../config');
+var convert      = require('data2xml')();
+var Topic        = require('../proxy').Topic;
+var cache        = require('../common/cache');
 var renderHelper = require('../common/render_helper');
-var eventproxy = require('eventproxy');
+var eventproxy   = require('eventproxy');
 
 exports.index = function (req, res, next) {
   if (!config.rss) {
@@ -19,13 +19,13 @@ exports.index = function (req, res, next) {
     if (!config.debug && rss) {
       res.send(rss);
     } else {
-      var opt = {limit: config.rss.max_rss_items, sort: '-create_at'};
+      var opt = { limit: config.rss.max_rss_items, sort: '-create_at'};
       Topic.getTopicsByQuery({}, opt, function (err, topics) {
         if (err) {
           return next(err);
         }
         var rss_obj = {
-          _attr: {version: '2.0'},
+          _attr: { version: '2.0' },
           channel: {
             title: config.rss.title,
             link: config.rss.link,

@@ -4,10 +4,10 @@
   <div class="panel">
     <div class="header">
       <% [['all', '全部'], ['good', '精华']].concat(tabs).forEach(function (pair) {
-      var value = pair[0];
-      var text = pair[1]; %>
-      <a href="<%= value ? '/?tab=' + value : '/' %>"
-         class="topic-tab <%= value === tab ? 'current-tab' : '' %>"><%= text %></a>
+        var value = pair[0];
+        var text = pair[1]; %>
+        <a href="<%= value ? '/?tab=' + value : '/' %>"
+          class="topic-tab <%= value === tab ? 'current-tab' : '' %>"><%= text %></a>
       <% }) %>
     </div>
     <% if (typeof(topics) !== 'undefined' && topics.length > 0) { %>

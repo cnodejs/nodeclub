@@ -1,21 +1,21 @@
-var models = require('../../models');
-var TopicModel = models.Topic;
-var TopicProxy = require('../../proxy').Topic;
+var models       = require('../../models');
+var TopicModel   = models.Topic;
+var TopicProxy   = require('../../proxy').Topic;
 var TopicCollect = require('../../proxy').TopicCollect;
-var UserProxy = require('../../proxy').User;
-var UserModel = models.User;
-var config = require('../../config');
-var eventproxy = require('eventproxy');
-var _ = require('lodash');
-var at = require('../../common/at');
+var UserProxy    = require('../../proxy').User;
+var UserModel    = models.User;
+var config       = require('../../config');
+var eventproxy   = require('eventproxy');
+var _            = require('lodash');
+var at           = require('../../common/at');
 var renderHelper = require('../../common/render_helper');
-var validator = require('validator');
+var validator    = require('validator');
 
 var index = function (req, res, next) {
-  var page = parseInt(req.query.page, 10) || 1;
-  page = page > 0 ? page : 1;
-  var tab = req.query.tab || 'all';
-  var limit = Number(req.query.limit) || config.list_topic_count;
+  var page     = parseInt(req.query.page, 10) || 1;
+  page         = page > 0 ? page : 1;
+  var tab      = req.query.tab || 'all';
+  var limit    = Number(req.query.limit) || config.list_topic_count;
   var mdrender = req.query.mdrender === 'false' ? false : true;
 
   var query = {};
@@ -27,7 +27,7 @@ var index = function (req, res, next) {
     }
   }
   query.deleted = false;
-  var options = {skip: (page - 1) * limit, limit: limit, sort: '-top -last_reply_at'};
+  var options = { skip: (page - 1) * limit, limit: limit, sort: '-top -last_reply_at'};
 
   var ep = new eventproxy();
   ep.fail(next);
@@ -59,9 +59,9 @@ var index = function (req, res, next) {
 exports.index = index;
 
 var show = function (req, res, next) {
-  var topicId = req.params.id;
+  var topicId  = req.params.id;
   var mdrender = req.query.mdrender === 'false' ? false : true;
-  var ep = new eventproxy();
+  var ep       = new eventproxy();
 
   ep.fail(next);
 
@@ -82,7 +82,7 @@ var show = function (req, res, next) {
         reply.content = renderHelper.markdown(at.linkUsers(reply.content));
       }
       reply.author = _.pick(reply.author, ['loginname', 'avatar_url']);
-      reply = _.pick(reply, ['id', 'author', 'content', 'ups', 'create_at']);
+      reply =  _.pick(reply, ['id', 'author', 'content', 'ups', 'create_at']);
       return reply;
     });
     res.send({data: topic});
@@ -92,10 +92,10 @@ var show = function (req, res, next) {
 exports.show = show;
 
 var create = function (req, res, next) {
-  var title = validator.trim(req.body.title);
-  title = validator.escape(title);
-  var tab = validator.trim(req.body.tab);
-  tab = validator.escape(tab);
+  var title   = validator.trim(req.body.title);
+  title       = validator.escape(title);
+  var tab     = validator.trim(req.body.tab);
+  tab         = validator.escape(tab);
   var content = validator.trim(req.body.content);
 
   // 得到所有的 tab, e.g. ['ask', 'share', ..]

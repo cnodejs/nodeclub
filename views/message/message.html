@@ -8,7 +8,7 @@
 			<a href="/user/<%= message.author.loginname %>" target='_blank'><%= message.author.loginname %></a>
 			回复了你的话题
 			<a href="/topic/<%- message.topic._id + (message.reply ? '#' + message.reply._id : '') %>" target='_blank'><%=
-              message.topic.title %></a>
+        message.topic.title %></a>
 		</span>
     <% } %>
     <% if(message.type == 'reply2'){ %>
@@ -16,7 +16,7 @@
 			<a href="/user/<%= message.author.loginname %>" target='_blank'><%= message.author.loginname %></a>
 			在话题
 			<a href="/topic/<%= message.topic._id + (message.reply ? '#' + message.reply._id : '') %>" target='_blank'><%=
-              message.topic.title %></a>
+        message.topic.title %></a>
 			中回复了你的回复
 		</span>
     <% } %>
@@ -31,7 +31,7 @@
 			<a href="/user/<%= message.author.loginname %>" target='_blank'><%= message.author.loginname %></a>
 			在话题
 			<a href="/topic/<%= message.topic._id + (message.reply ? '#' + message.reply._id : '') %>" target='_blank'><%=
-              message.topic.title %></a>
+        message.topic.title %></a>
 			中@了你
 		</span>
     <% } %>

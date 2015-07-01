@@ -1,20 +1,20 @@
-var mongoose = require('mongoose');
-var UserModel = mongoose.model('User');
-var Message = require('../proxy').Message;
-var config = require('../config');
+var mongoose   = require('mongoose');
+var UserModel  = mongoose.model('User');
+var Message    = require('../proxy').Message;
+var config     = require('../config');
 var eventproxy = require('eventproxy');
-var UserProxy = require('../proxy').User;
+var UserProxy  = require('../proxy').User;
 
 /**
  * 需要管理员权限
  */
 exports.adminRequired = function (req, res, next) {
   if (!req.session.user) {
-    return res.render('notify/notify', {error: '你还没有登录。'});
+    return res.render('notify/notify', { error: '你还没有登录。' });
   }
 
   if (!req.session.user.is_admin) {
-    return res.render('notify/notify', {error: '需要管理员权限。'});
+    return res.render('notify/notify', { error: '需要管理员权限。' });
   }
 
   next();
