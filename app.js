@@ -36,8 +36,7 @@ var busboy                   = require('connect-busboy');
 var errorhandler             = require('errorhandler');
 var cors                     = require('cors');
 var requestLog               = require('./middlewares/request_log');
-var clickJacking             = require('./middlewares/click_jacking');
-var renderMiddleware         = require('./middlewares/render');
+var renderMiddleware                   = require('./middlewares/render');
 var logger                   = require("./common/logger");
 
 
@@ -148,9 +147,6 @@ app.use(busboy({
     fileSize: 10 * 1024 * 1024 // 10MB
   }
 }));
-
-// clickjacking
-app.use(clickJacking);
 
 // routes
 app.use('/api/v1', cors(), apiRouterV1);
