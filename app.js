@@ -13,37 +13,38 @@ if (!config.debug) {
 }
 
 require('colors');
-var path                     = require('path');
-var Loader                   = require('loader');
-var express                  = require('express');
-var session                  = require('express-session');
-var passport                 = require('passport');
+var path = require('path');
+var Loader = require('loader');
+var express = require('express');
+var session = require('express-session');
+var passport = require('passport');
 require('./middlewares/mongoose_log'); // 打印 mongodb 查询日志
 require('./models');
-var GitHubStrategy           = require('passport-github').Strategy;
+var GitHubStrategy = require('passport-github').Strategy;
 var githubStrategyMiddleware = require('./middlewares/github_strategy');
-var webRouter                = require('./web_router');
-var apiRouterV1              = require('./api_router_v1');
-var auth                     = require('./middlewares/auth');
-var errorPageMiddleware      = require("./middlewares/error_page");
-var proxyMiddleware          = require('./middlewares/proxy');
-var RedisStore               = require('connect-redis')(session);
-var _                        = require('lodash');
-var csurf                    = require('csurf');
-var compress                 = require('compression');
-var bodyParser               = require('body-parser');
-var busboy                   = require('connect-busboy');
-var errorhandler             = require('errorhandler');
-var cors                     = require('cors');
-var requestLog               = require('./middlewares/request_log');
-var renderMiddleware                   = require('./middlewares/render');
-var logger                   = require("./common/logger");
+var webRouter = require('./web_router');
+var apiRouterV1 = require('./api_router_v1');
+var auth = require('./middlewares/auth');
+var errorPageMiddleware = require("./middlewares/error_page");
+var proxyMiddleware = require('./middlewares/proxy');
+var RedisStore = require('connect-redis')(session);
+var _ = require('lodash');
+var csurf = require('csurf');
+var compress = require('compression');
+var bodyParser = require('body-parser');
+var busboy = require('connect-busboy');
+var errorhandler = require('errorhandler');
+var cors = require('cors');
+var requestLog = require('./middlewares/request_log');
+var renderMiddleware = require('./middlewares/render');
+var logger = require("./common/logger");
+var helmet = require('helmet');
 
 
 // 静态文件目录
 var staticDir = path.join(__dirname, 'public');
 // assets
-var assets    = {};
+var assets = {};
 
 if (config.mini_assets) {
   try {
@@ -54,7 +55,7 @@ if (config.mini_assets) {
   }
 }
 
-var urlinfo     = require('url').parse(config.host);
+var urlinfo = require('url').parse(config.host);
 config.hostname = urlinfo.hostname || config.host;
 
 var app = express();
@@ -79,9 +80,9 @@ app.use(Loader.less(__dirname));
 app.use('/public', express.static(staticDir));
 app.use('/agent', proxyMiddleware.proxy);
 
-// 每日访问限制
-
+// 通用的中间件
 app.use(require('response-time')());
+app.use(helmet.frameguard('sameorigin'));
 app.use(bodyParser.json({limit: '1mb'}));
 app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
 app.use(require('method-override')());
@@ -97,6 +98,7 @@ app.use(session({
   saveUninitialized: true,
 }));
 
+// oauth 中间件
 app.use(passport.initialize());
 
 // custom middleware
