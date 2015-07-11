@@ -54,6 +54,8 @@ var getMessageRelations = exports.getMessageRelations = function (message, callb
     User.getUserById(message.author_id, proxy.done('author'));
     Topic.getTopicById(message.topic_id, proxy.done('topic'));
     Reply.getReplyById(message.reply_id, proxy.done('reply'));
+  } else {
+    return callback(null, {is_invalid: true});
   }
 };
 
