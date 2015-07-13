@@ -25,7 +25,7 @@ var githubStrategyMiddleware = require('./middlewares/github_strategy');
 var webRouter = require('./web_router');
 var apiRouterV1 = require('./api_router_v1');
 var auth = require('./middlewares/auth');
-var errorPageMiddleware = require("./middlewares/error_page");
+var errorPageMiddleware = require('./middlewares/error_page');
 var proxyMiddleware = require('./middlewares/proxy');
 var RedisStore = require('connect-redis')(session);
 var _ = require('lodash');
@@ -37,7 +37,7 @@ var errorhandler = require('errorhandler');
 var cors = require('cors');
 var requestLog = require('./middlewares/request_log');
 var renderMiddleware = require('./middlewares/render');
-var logger = require("./common/logger");
+var logger = require('./common/logger');
 var helmet = require('helmet');
 
 
@@ -165,10 +165,10 @@ if (config.debug) {
 }
 
 app.listen(config.port, function () {
-  logger.log("NodeClub listening on port %d", config.port);
-  logger.log("God bless love....");
-  logger.log("You can debug your app with http://" + config.hostname + ':' + config.port);
-  logger.log("");
+  logger.log('NodeClub listening on port', config.port);
+  logger.log('God bless love....');
+  logger.log('You can debug your app with http://' + config.hostname + ':' + config.port);
+  logger.log('');
 });
 
 
