@@ -98,7 +98,7 @@ exports.linkUsers = function (text, callback) {
   var users = fetchUsers(text);
   for (var i = 0, l = users.length; i < l; i++) {
     var name = users[i];
-    text = text.replace(new RegExp('@' + name + '\\b', 'g'), '[@' + name + '](/user/' + name + ')');
+    text = text.replace(new RegExp('@' + name + '\\b(?!\\])', 'g'), '[@' + name + '](/user/' + name + ')');
   }
   if (!callback) {
     return text;

@@ -74,6 +74,8 @@ describe('test/common/at.test.js', function () {
     aldjf
     @alsotang @tangzhanli
 
+    [@alsotang](/user/alsotang)
+
     @liveinjs 没事儿，能力和热情更重要，北京雍和宫，想的就邮件给我i5ting@126.com
   */});
 
@@ -130,6 +132,8 @@ code: `@in_code`
 [@alsotang](/user/alsotang) [@alsotang](/user/alsotang)
 aldjf
 [@alsotang](/user/alsotang) [@tangzhanli](/user/tangzhanli)
+
+[@alsotang](/user/alsotang)
 
 [@liveinjs](/user/liveinjs) 没事儿，能力和热情更重要，北京雍和宫，想的就邮件给我i5ting@126.com
   */});
