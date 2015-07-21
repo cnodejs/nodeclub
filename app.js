@@ -107,7 +107,7 @@ app.use(auth.blockUser());
 
 if (!config.debug) {
   app.use(function (req, res, next) {
-    if (req.path.indexOf('/api') === -1) {
+    if (req.path === '/api' || req.path.indexOf('/api') === -1) {
       csurf()(req, res, next);
       return;
     }
