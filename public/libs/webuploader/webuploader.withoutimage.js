@@ -1630,7 +1630,7 @@
             container: null,
             label: null,
             innerHTML: null,
-            multiple: true,
+            multiple: false,
             accept: null,
             name: 'file'
         };

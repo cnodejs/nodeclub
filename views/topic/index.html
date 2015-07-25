@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <% if (typeof(current_user) === 'undefined' || !current_user.isAdvanced) { %>
+  <% if (!current_user || !current_user.isAdvanced) { %>
     <%- partial('../_ads') %>
   <% } %>
 
@@ -53,7 +53,7 @@
         <%= topic.title %>
       </span>
       <div class="action">
-      <% if (typeof(current_user) !== 'undefined') { %>
+      <% if (current_user) { %>
         <% if (!topic.in_collection) { %>
         <span class='span-common span-success' id='collect_btn' action='collect'>加入收藏</span>
         <% } else { %>
@@ -63,7 +63,7 @@
       </div>
       <div class="changes">
         <span>
-          发布于 <%= topic.friendly_create_at %>
+          发布于 <%= topic.create_at_ago() %>
         </span>
         <span>
           作者 <a href="/user/<%= topic.author.loginname %>"><%= topic.author.loginname %></a>
@@ -71,16 +71,16 @@
         <span>
           <%= topic.visit_count %> 次浏览
         </span>
-        <% if (topic.friendly_create_at != topic.friendly_update_at) { %>
+        <% if (topic.create_at_ago() != topic.updated_at_ago()) { %>
           <span>
-            最后一次编辑是 <%= topic.friendly_update_at %>
+            最后一次编辑是 <%= topic.updated_at_ago() %>
           </span>
         <% } %>
         <% if (topic.tab) { %>
           <span> 来自 <%= topic.tabName %></span>
         <%}%>
       </div>
-      <% if (typeof(current_user) !== 'undefined') { %>
+      <% if (current_user) { %>
       <div id="manage_topic">
         <% if (current_user.is_admin) { %>
 
@@ -144,7 +144,7 @@
     <%- partial('../reply/reply', topic.replies) %>
   </div>
   <% } %>
-  <% if (typeof(current_user) !== 'undefined' && typeof(topic) !== 'undefined') { %>
+  <% if (current_user && typeof(topic) !== 'undefined') { %>
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>添加回复</span>
@@ -176,7 +176,7 @@
 </div>
 
 
-<% if (typeof(current_user) !== 'undefined' && typeof(topic) !== 'undefined') { %>
+<% if (current_user && typeof(topic) !== 'undefined') { %>
 <!-- markdown editor -->
 <%- Loader('/public/editor.min.js')
 .js('/public/libs/editor/editor.js')

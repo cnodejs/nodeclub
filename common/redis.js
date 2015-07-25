@@ -1,6 +1,10 @@
 var config = require('../config');
-var redis = require('redis');
+var Redis = require('ioredis');
 
-var client = redis.createClient(config.redis_port, config.redis_host);
+var client = new Redis({
+  port: config.redis_port,
+  host: config.redis_host,
+  db: config.redis_db,
+});
 
 exports = module.exports = client;

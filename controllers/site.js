@@ -9,14 +9,14 @@
  * Module dependencies.
  */
 
-var User = require('../proxy').User;
-var Topic = require('../proxy').Topic;
-var config = require('../config');
-var eventproxy = require('eventproxy');
-var cache = require('../common/cache');
-var xmlbuilder = require('xmlbuilder');
+var User         = require('../proxy').User;
+var Topic        = require('../proxy').Topic;
+var config       = require('../config');
+var eventproxy   = require('eventproxy');
+var cache        = require('../common/cache');
+var xmlbuilder   = require('xmlbuilder');
 var renderHelper = require('../common/render_helper');
-var _ = require('lodash');
+var _            = require('lodash');
 
 exports.index = function (req, res, next) {
   var page = parseInt(req.query.page, 10) || 1;
@@ -69,7 +69,7 @@ exports.index = function (req, res, next) {
       proxy.emit('no_reply_topics', no_reply_topics);
     } else {
       Topic.getTopicsByQuery(
-        { reply_count: 0 },
+        { reply_count: 0, tab: {$ne: 'job'}},
         { limit: 5, sort: '-create_at'},
         proxy.done('no_reply_topics', function (no_reply_topics) {
           cache.set('no_reply_topics', no_reply_topics, 60 * 1);

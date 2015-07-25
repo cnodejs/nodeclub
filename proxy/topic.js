@@ -1,12 +1,12 @@
 var EventProxy = require('eventproxy');
+var models     = require('../models');
+var Topic      = models.Topic;
+var User       = require('./user');
+var Reply      = require('./reply');
+var tools      = require('../common/tools');
+var at         = require('../common/at');
+var _          = require('lodash');
 
-var models = require('../models');
-var Topic = models.Topic;
-var User = require('./user');
-var Reply = require('./reply');
-var tools = require('../common/tools');
-var at = require('../common/at');
-var _ = require('lodash');
 
 /**
  * 根据主题ID获取主题
@@ -72,37 +72,38 @@ exports.getCountByQuery = function (query, callback) {
  */
 exports.getTopicsByQuery = function (query, opt, callback) {
   query.deleted = false;
-  Topic.find(query, '_id', opt, function (err, docs) {
+  Topic.find(query, {}, opt, function (err, topics) {
     if (err) {
       return callback(err);
     }
-    if (docs.length === 0) {
+    if (topics.length === 0) {
       return callback(null, []);
     }
 
-    var topics_id = _.pluck(docs, 'id');
-
     var proxy = new EventProxy();
-    proxy.after('topic_ready', topics_id.length, function (topics) {
-      // 过滤掉空值
-      var filtered = topics.filter(function (item) {
-        return !!item;
-      });
-      return callback(null, filtered);
+    proxy.after('topic_ready', topics.length, function () {
+      topics = _.compact(topics); // 删除不合规的 topic
+      return callback(null, topics);
     });
     proxy.fail(callback);
 
-    topics_id.forEach(function (id, i) {
-      exports.getTopicById(id, proxy.group('topic_ready', function (topic, author, last_reply) {
-        // 当id查询出来之后，进一步查询列表时，文章可能已经被删除了
-        // 所以这里有可能是null
-        if (topic) {
+    topics.forEach(function (topic, i) {
+      var ep = new EventProxy();
+      ep.all('author', 'reply', function (author, reply) {
+        // 保证顺序
+        // 作者可能已被删除
+        if (author) {
           topic.author = author;
-          topic.reply = last_reply;
-          topic.friendly_create_at = tools.formatDate(topic.create_at, true);
+          topic.reply = reply;
+        } else {
+          topics[i] = null;
         }
-        return topic;
-      }));
+        proxy.emit('topic_ready');
+      });
+
+      User.getUserById(topic.author_id, ep.done('author'));
+      // 获取主题的最后回复
+      Reply.getReplyById(topic.last_reply, ep.done('reply'));
     });
   });
 };
@@ -165,7 +166,7 @@ exports.updateLastReply = function (topicId, replyId, callback) {
     if (err || !topic) {
       return callback(err);
     }
-    topic.last_reply = replyId;
+    topic.last_reply    = replyId;
     topic.last_reply_at = new Date();
     topic.reply_count += 1;
     topic.save(callback);
@@ -215,10 +216,11 @@ exports.reduceCount = function (id, callback) {
 };
 
 exports.newAndSave = function (title, content, tab, authorId, callback) {
-  var topic = new Topic();
-  topic.title = title;
-  topic.content = content;
-  topic.tab = tab;
+  var topic       = new Topic();
+  topic.title     = title;
+  topic.content   = content;
+  topic.tab       = tab;
   topic.author_id = authorId;
+
   topic.save(callback);
 };

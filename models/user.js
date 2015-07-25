@@ -1,6 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var utility = require('utility');
+var mongoose  = require('mongoose');
+var BaseModel = require("./base_model");
+var Schema    = mongoose.Schema;
+var utility   = require('utility');
 
 var UserSchema = new Schema({
   name: { type: String},
@@ -42,6 +43,7 @@ var UserSchema = new Schema({
   accessToken: {type: String},
 });
 
+UserSchema.plugin(BaseModel);
 UserSchema.virtual('avatar_url').get(function () {
   var url = this.avatar || ('https://gravatar.com/avatar/' + utility.md5(this.email.toLowerCase()) + '?size=48');
 

@@ -1,9 +1,9 @@
-var config = require('../config');
-var convert = require('data2xml')();
-var Topic = require('../proxy').Topic;
-var cache = require('../common/cache');
+var config       = require('../config');
+var convert      = require('data2xml')();
+var Topic        = require('../proxy').Topic;
+var cache        = require('../common/cache');
 var renderHelper = require('../common/render_helper');
-var eventproxy = require('eventproxy');
+var eventproxy   = require('eventproxy');
 
 exports.index = function (req, res, next) {
   if (!config.rss) {
