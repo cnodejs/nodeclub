@@ -12,9 +12,9 @@
     },
   ];
 
-    var randomNum = (new Date()).getHours() % ads.length;
+  var randomNum = (new Date()).getHours() % ads.length;
 
-    ads = ads.slice(randomNum).concat(ads.slice(0, randomNum));
+  ads = ads.slice(randomNum).concat(ads.slice(0, randomNum));
 %>
 <div class='panel'>
   <div class='inner ads'>
