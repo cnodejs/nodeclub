@@ -15,7 +15,7 @@ exports.config = {
    */
   license_key: config.newrelic_key,
   logging: {
-    /**
+    /**的但是大撒旦撒旦
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing
      * issues with the agent, 'info' and higher will impose the least overhead on
      * production applications.
