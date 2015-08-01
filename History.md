@@ -47,7 +47,7 @@
   * 文章页面的样式
   * Fix几个样式问题
   * fixed #175 stars max size
-  * fixed require package.json nae not support bug
+  * fixed require package.json nae not support bugddd
   * Merge pull request #174 from JacksonTian/style
   * 去除用标签来制造空格的行为
   * 更新样式
