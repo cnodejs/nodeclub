@@ -231,10 +231,7 @@ exports.listCollectedTopics = function (req, res, next) {
 
 exports.top100 = function (req, res, next) {
   var opt = {limit: 100, sort: '-score'};
-  User.getUsersByQuery({'$or': [
-    {is_block: {'$exists': false}},
-    {is_block: false},
-  ]}, opt, function (err, tops) {
+  User.getUsersByQuery({is_block: false}, opt, function (err, tops) {
     if (err) {
       return next(err);
     }

@@ -49,10 +49,7 @@ exports.index = function (req, res, next) {
       proxy.emit('tops', tops);
     } else {
       User.getUsersByQuery(
-        {'$or': [
-          {is_block: {'$exists': false}},
-          {is_block: false}
-        ]},
+        {is_block: false},
         { limit: 10, sort: '-score'},
         proxy.done('tops', function (tops) {
           cache.set('tops', tops, 60 * 1);
