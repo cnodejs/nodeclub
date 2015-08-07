@@ -77,13 +77,14 @@ exports.index = function (req, res, next) {
   // END 取0回复的主题
 
   // 取分页数据
-  cache.get('pages', proxy.done(function (pages) {
+  var pagesCacheKey = JSON.stringify(query) + 'pages';
+  cache.get(pagesCacheKey, proxy.done(function (pages) {
     if (pages) {
       proxy.emit('pages', pages);
     } else {
       Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
         var pages = Math.ceil(all_topics_count / limit);
-        cache.set(JSON.stringify(query) + 'pages', pages, 60 * 1);
+        cache.set(pagesCacheKey, pages, 60 * 1);
         proxy.emit('pages', pages);
       }));
     }
