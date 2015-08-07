@@ -72,14 +72,7 @@ exports.index = function (req, res, next) {
       return allUpCount[2] || 0;
     })();
 
-    if (!req.session.user) {
-      ep.emit('topic', topic);
-    } else {
-      TopicCollect.getTopicCollect(req.session.user._id, topic._id, ep.done(function (doc) {
-        topic.in_collection = doc;
-        ep.emit('topic', topic);
-      }));
-    }
+    ep.emit('topic', topic);
 
     // get other_topics
     var options = { limit: 5, sort: '-last_reply_at'};

@@ -52,15 +52,6 @@
 
         <%= topic.title %>
       </span>
-      <div class="action">
-      <% if (current_user) { %>
-        <% if (!topic.in_collection) { %>
-        <span class='span-common span-success' id='collect_btn' action='collect'>加入收藏</span>
-        <% } else { %>
-        <span class='span-common' id='collect_btn' action='de_collect'>取消收藏</span>
-        <% } %>
-        <% } %>
-      </div>
       <div class="changes">
         <span>
           发布于 <%= topic.create_at_ago() %>
