@@ -90,7 +90,8 @@ exports.tabName = function (tab) {
 };
 
 exports.proxy = function (url) {
-  return '"/agent?&url=' + encodeURIComponent(url) + '"';
+  // 当 google 和 github 封锁严重时，则需要通过服务器代理访问它们的静态资源
+  return '/agent?url=' + encodeURIComponent(url);
 };
 
 exports._ = _;
