@@ -38,7 +38,7 @@
     "memory-cache": "0.0.5",
     "method-override": "1.0.2",
     "moment": "2.9.0",
-    "mongoose": "4.0.3",
+    "mongoose": "4.1.2",
     "multiline": "1.0.1",
     "newrelic": "1.19.2",
     "node-uuid": "1.4.1",
