@@ -62,7 +62,6 @@ UserSchema.virtual('avatar_url').get(function () {
     url += '&s=120';
   }
 
-  url = renderHelper.proxy(url);
   return url;
 });
 

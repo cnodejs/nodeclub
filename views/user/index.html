@@ -9,7 +9,7 @@
     </div>
     <div class='inner userinfo'>
       <div class='user_big_avatar'>
-        <img src="<%= user.avatar_url %>" class="user_avatar" title="<%= user.loginname %>"/>
+        <img src="<%= proxy(user.avatar_url) %>" class="user_avatar" title="<%= user.loginname %>"/>
       </div>
       <a class='dark'><%= user.loginname %></a>
 
