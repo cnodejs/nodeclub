@@ -69,7 +69,11 @@ exports.index = function (req, res, next) {
       });
       allUpCount = _.sortBy(allUpCount, Number).reverse();
 
-      return allUpCount[2] || 0;
+      var threshold = allUpCount[2] || 0;
+      if (threshold < 3) {
+        threshold = 3;
+      }
+      return threshold;
     })();
 
     ep.emit('topic', topic);

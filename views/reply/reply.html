@@ -1,5 +1,5 @@
 <div class='cell reply_area reply_item
-  <%- reply.ups && reply.ups.length > 0 && reply.ups.length >= topic.reply_up_threshold ? 'reply_highlight' : '' %>'
+  <%- reply.ups && reply.ups.length >= topic.reply_up_threshold ? 'reply_highlight' : '' %>'
   id="reply<%= indexInCollection+1 %>" reply_id="<%= reply._id %>" reply_to_id="<%= reply.reply_id || '' %>">
   <a class="anchor" id="<%= reply._id %>"></a>
 
