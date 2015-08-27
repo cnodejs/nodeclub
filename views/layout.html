@@ -53,9 +53,9 @@
   .done(assets, config.site_static_host, config.mini_assets)
   %>
 
-  <% if (typeof(topic) !== 'undefined') { %>
+  <% if (locals.topic) { %>
   <title><%= topic.title %> - <%= config.name %></title>
-  <% } else if (typeof(pageTitle) !== 'undefined') { %>
+  <% } else if (locals.pageTitle) { %>
   <title><%= pageTitle %> - <%= config.name %></title>
   <% } else { %>
   <title><%= config.description %></title>
