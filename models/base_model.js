@@ -9,7 +9,7 @@ module.exports = function (schema) {
     return tools.formatDate(this.create_at, true);
   };
 
-  schema.methods.updated_at_ago = function () {
+  schema.methods.update_at_ago = function () {
     return tools.formatDate(this.update_at, true);
   };
 };
