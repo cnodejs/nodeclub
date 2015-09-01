@@ -10,6 +10,6 @@ module.exports = function (schema) {
   };
 
   schema.methods.updated_at_ago = function () {
-    return tools.formatDate(this.create_at, true);
+    return tools.formatDate(this.update_at, true);
   };
 };
