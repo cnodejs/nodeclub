@@ -109,9 +109,7 @@ exports.create = function (req, res, next) {
 
 exports.put = function (req, res, next) {
   var title   = validator.trim(req.body.title);
-  title       = validator.escape(title);
   var tab     = validator.trim(req.body.tab);
-  tab         = validator.escape(tab);
   var content = validator.trim(req.body.t_content);
 
   // 得到所有的 tab, e.g. ['ask', 'share', ..]
@@ -204,9 +202,7 @@ exports.update = function (req, res, next) {
 
     if (topic.author_id.equals(req.session.user._id) || req.session.user.is_admin) {
       title   = validator.trim(title);
-      title   = validator.escape(title);
       tab     = validator.trim(tab);
-      tab     = validator.escape(tab);
       content = validator.trim(content);
 
       // 验证
