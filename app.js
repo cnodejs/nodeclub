@@ -8,8 +8,8 @@
 
 var config = require('./config');
 
-if (!config.debug) {
-  require('newrelic');
+if (!config.debug && config.oneapm_key) {
+  require('oneapm');
 }
 
 require('colors');
