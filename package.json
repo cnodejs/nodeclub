@@ -38,7 +38,7 @@
     "multiline": "1.0.1",
     "node-uuid": "1.4.1",
     "nodemailer": "0.3.43",
-    "oneapm": "1.2.8",
+    "oneapm": "1.2.9",
     "passport": "0.1.18",
     "passport-github": "0.1.5",
     "pm2": "0.14.3",
