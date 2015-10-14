@@ -133,7 +133,7 @@ exports.getFullTopic = function (id, callback) {
     })
     .fail(callback);
 
-  Topic.findOne({_id: id}, proxy.done(function (topic) {
+  Topic.findOne({_id: id, deleted: false}, proxy.done(function (topic) {
     if (!topic) {
       proxy.unbind();
       return callback(null, '此话题不存在或已被删除。');
