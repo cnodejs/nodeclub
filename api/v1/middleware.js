@@ -14,6 +14,9 @@ var auth = function (req, res, next) {
       res.status(403);
       return res.send({error_msg: 'wrong accessToken'});
     }
+    if (user.is_block) {
+      return res.send({error_msg: 'your account is blocked'});
+    }
     req.user = user;
     next();
   }));
