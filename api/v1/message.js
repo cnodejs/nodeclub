@@ -1,9 +1,12 @@
 var eventproxy = require('eventproxy');
 var Message    = require('../../proxy').Message;
+var at           = require('../../common/at');
+var renderHelper = require('../../common/render_helper');
 var _          = require('lodash');
 
 var index = function (req, res, next) {
   var user_id = req.user._id;
+  var mdrender = req.query.mdrender === 'false' ? false : true;
   var ep = new eventproxy();
   ep.fail(next);
 
@@ -28,6 +31,9 @@ var index = function (req, res, next) {
           doc.author = _.pick(doc.author, ['loginname', 'avatar_url']);
           doc.topic  = _.pick(doc.topic, ['id', 'author', 'title', 'last_reply_at']);
           doc.reply  = _.pick(doc.reply, ['id', 'content', 'ups', 'create_at']);
+          if (mdrender) {
+            doc.reply.content = renderHelper.markdown(at.linkUsers(doc.reply.content));
+          }
           doc        = _.pick(doc, ['id', 'type', 'has_read', 'author', 'topic', 'reply']);
 
           return doc;
