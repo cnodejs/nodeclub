@@ -7,9 +7,9 @@ var client = new Redis({
   db: config.redis_db,
 });
 
-client.connect(function (err) {
+client.on('error', function (err) {
   if (err) {
-    console.error('connect to redis error, check your redis config');
+    console.error('connect to redis error, check your redis config', err);
     process.exit(1);
   }
 })
