@@ -7,4 +7,11 @@ var client = new Redis({
   db: config.redis_db,
 });
 
+client.connect(function (err) {
+  if (err) {
+    console.error('connect to redis error, check your redis config');
+    process.exit(1);
+  }
+})
+
 exports = module.exports = client;
