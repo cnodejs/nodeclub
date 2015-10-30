@@ -29,7 +29,7 @@
     "jpush-sdk": "3.2.0",
     "loader": "0.1.4",
     "lodash": "3.6.0",
-    "markdown-it": "3.0.3",
+    "markdown-it": "5.0.1",
     "memory-cache": "0.0.5",
     "method-override": "1.0.2",
     "moment": "2.9.0",
