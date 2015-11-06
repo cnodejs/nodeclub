@@ -53,7 +53,7 @@
     "xss": "0.1.15"
   },
   "devDependencies": {
-    "coveralls": "2.11.2",
+    "coveralls": "2.11.4",
     "errorhandler": "1.2.2",
     "istanbul": "0.3.2",
     "mm": "0.2.1",
