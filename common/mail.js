@@ -1,7 +1,8 @@
 var mailer        = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
 var config        = require('../config');
 var util          = require('util');
-var transport     = mailer.createTransport('SMTP', config.mail_opts);
+var transporter     = mailer.createTransport(smtpTransport(config.mail_opts));
 var SITE_ROOT_URL = 'http://' + config.host;
 
 /**
@@ -13,7 +14,7 @@ var sendMail = function (data) {
     return;
   }
   // 遍历邮件数组，发送每一封邮件，如果有发送失败的，就再压入数组，同时触发mailEvent事件
-  transport.sendMail(data, function (err) {
+  transporter.sendMail(data, function (err) {
     if (err) {
       // 写为日志
       console.log(err);

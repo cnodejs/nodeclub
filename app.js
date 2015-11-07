@@ -8,8 +8,8 @@
 
 var config = require('./config');
 
-if (!config.debug) {
-  require('newrelic');
+if (!config.debug && config.oneapm_key) {
+  require('oneapm');
 }
 
 require('colors');
@@ -101,6 +101,15 @@ app.use(session({
 // oauth 中间件
 app.use(passport.initialize());
 
+// github oauth
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
+passport.use(new GitHubStrategy(config.GITHUB_OAUTH, githubStrategyMiddleware));
+
 // custom middleware
 app.use(auth.authUser);
 app.use(auth.blockUser());
@@ -134,15 +143,6 @@ app.use(function (req, res, next) {
   res.locals.csrf = req.csrfToken ? req.csrfToken() : '';
   next();
 });
-
-// github oauth
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-passport.deserializeUser(function (user, done) {
-  done(null, user);
-});
-passport.use(new GitHubStrategy(config.GITHUB_OAUTH, githubStrategyMiddleware));
 
 app.use(busboy({
   limits: {

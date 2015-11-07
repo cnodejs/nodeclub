@@ -87,8 +87,8 @@ var config = {
   // 是否允许直接注册（否则只能走 github 的方式）
   allow_sign_up: true,
 
-  // newrelic 是个用来监控网站性能的服务
-  newrelic_key: 'yourkey',
+  // oneapm 是个用来监控网站性能的服务
+  oneapm_key: '',
 
   // 下面两个配置都是文件上传的配置
 

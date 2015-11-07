@@ -20,6 +20,10 @@ var _          = require('lodash');
  * @return {Array} 用户名数组
  */
 var fetchUsers = function (text) {
+  if (!text) {
+    return [];
+  }
+  
   var ignoreRegexs = [
     /```.+?```/g, // 去除单行的 ```
     /^```[\s\S]+?^```/gm, // ``` 里面的是 pre 标签内容

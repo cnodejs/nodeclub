@@ -93,9 +93,7 @@ exports.show = show;
 
 var create = function (req, res, next) {
   var title   = validator.trim(req.body.title);
-  title       = validator.escape(title);
   var tab     = validator.trim(req.body.tab);
-  tab         = validator.escape(tab);
   var content = validator.trim(req.body.content);
 
   // 得到所有的 tab, e.g. ['ask', 'share', ..]
