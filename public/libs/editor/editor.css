@@ -1,0 +1,422 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('/public/libs/editor/fonts/icomoon.eot');
+	src:url('/public/libs/editor/fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+		url('/public/libs/editor/fonts/icomoon.woff') format('woff'),
+		url('/public/libs/editor/fonts/icomoon.ttf') format('truetype'),
+		url('/public/libs/editor/fonts/icomoon.svg#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before {
+	font-family: 'icomoon';
+	content: attr(data-icon);
+	speak: none;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+/*
+Instead of a list of all class selectors,
+you can use the generic selector below, but it's slower:
+[class*="icon-"] {
+*/
+.eicon-bold, .eicon-italic, .eicon-quote, .eicon-unordered-list, .eicon-ordered-list, .eicon-link, .eicon-image, .eicon-play, .eicon-music, .eicon-contract, .eicon-fullscreen, .eicon-question, .eicon-info, .eicon-undo, .eicon-redo, .eicon-code, .eicon-preview {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+.eicon-bold:before {
+	content: "\e000";
+}
+.eicon-italic:before {
+	content: "\e001";
+}
+.eicon-quote:before {
+	content: "\e003";
+}
+.eicon-unordered-list:before {
+	content: "\e004";
+}
+.eicon-ordered-list:before {
+	content: "\e005";
+}
+.eicon-link:before {
+	content: "\e006";
+}
+.eicon-image:before {
+	content: "\e007";
+}
+.eicon-play:before {
+	content: "\e008";
+}
+.eicon-music:before {
+	content: "\e009";
+}
+.eicon-contract:before {
+	content: "\e00a";
+}
+.eicon-fullscreen:before {
+	content: "\e00b";
+}
+.eicon-question:before {
+	content: "\e00c";
+}
+.eicon-info:before {
+	content: "\e00d";
+}
+.eicon-undo:before {
+	content: "\e00e";
+}
+.eicon-redo:before {
+	content: "\e00f";
+}
+.eicon-code:before {
+	content: "\e011";
+}
+.eicon-preview:before {
+	content: "\e002";
+}
+/* BASICS */
+
+.CodeMirror {
+  height: 300px;
+}
+.CodeMirror-scroll {
+  /* Set scrolling behaviour here */
+  overflow: auto;
+}
+
+/* PADDING */
+
+.CodeMirror-lines {
+  padding: 4px 0; /* Vertical padding around content */
+}
+.CodeMirror pre {
+  padding: 0 4px; /* Horizontal padding of content */
+}
+
+.CodeMirror-scrollbar-filler {
+  background-color: white; /* The little square between H and V scrollbars */
+}
+
+/* CURSOR */
+.CodeMirror div.CodeMirror-cursor {
+  border-left: 1px solid black;
+  z-index: 3;
+}
+/* Shown when moving in bi-directional text */
+.CodeMirror div.CodeMirror-secondarycursor {
+  border-left: 1px solid silver;
+}
+.CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor {
+  width: auto;
+  border: 0;
+  background: #7e7;
+  z-index: 1;
+}
+/* Can style cursor different in overwrite (non-insert) mode */
+.CodeMirror div.CodeMirror-cursor.CodeMirror-overwrite {}
+
+/* DEFAULT THEME */
+
+.cm-s-paper .cm-keyword {color: #555;}
+.cm-s-paper .cm-atom {color: #7f8c8d;}
+.cm-s-paper .cm-number {color: #7f8c8d;}
+.cm-s-paper .cm-def {color: #00f;}
+.cm-s-paper .cm-variable {color: black;}
+.cm-s-paper .cm-variable-2 {color: #555;}
+.cm-s-paper .cm-variable-3 {color: #085;}
+.cm-s-paper .cm-property {color: black;}
+.cm-s-paper .cm-operator {color: black;}
+.cm-s-paper .cm-comment {color: #959595;}
+.cm-s-paper .cm-string {color: #7f8c8d;}
+.cm-s-paper .cm-string-2 {color: #f50;}
+.cm-s-paper .cm-meta {color: #555;}
+.cm-s-paper .cm-error {color: #f00;}
+.cm-s-paper .cm-qualifier {color: #555;}
+.cm-s-paper .cm-builtin {color: #555;}
+.cm-s-paper .cm-bracket {color: #997;}
+.cm-s-paper .cm-tag {color: #7f8c8d;}
+.cm-s-paper .cm-attribute {color: #7f8c8d;}
+.cm-s-paper .cm-header {color: #000;}
+.cm-s-paper .cm-quote {color: #888;}
+.cm-s-paper .cm-hr {color: #999;}
+.cm-s-paper .cm-link {color: #7f8c8d;}
+
+.cm-negative {color: #d44;}
+.cm-positive {color: #292;}
+.cm-header, .cm-strong {font-weight: bold;}
+.cm-em {font-style: italic;}
+.cm-link {text-decoration: underline;}
+
+.cm-invalidchar {color: #f00;}
+
+div.CodeMirror span.CodeMirror-matchingbracket {color: #0f0;}
+div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
+
+
+/* STOP */
+
+/* The rest of this file contains styles related to the mechanics of
+   the editor. You probably shouldn't touch them. */
+
+.CodeMirror {
+  position: relative;
+  overflow: hidden;
+}
+
+.CodeMirror-scroll {
+  /* 30px is the magic margin used to hide the element's real scrollbars */
+  /* See overflow: hidden in .CodeMirror, and the paddings in .CodeMirror-sizer */
+  margin-bottom: -30px; margin-right: -30px;
+  padding-bottom: 30px; padding-right: 30px;
+  height: 100%;
+  outline: none; /* Prevent dragging from highlighting the element */
+  position: relative;
+}
+.CodeMirror-sizer {
+  position: relative;
+  min-width: 100px !important;/* set min width */
+}
+
+/* The fake, visible scrollbars. Used to force redraw during scrolling
+   before actuall scrolling happens, thus preventing shaking and
+   flickering artifacts. */
+.CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler {
+  position: absolute;
+  z-index: 6;
+  display: none;
+}
+.CodeMirror-vscrollbar {
+  right: 0; top: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.CodeMirror-hscrollbar {
+  bottom: 0; left: 0;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+.CodeMirror-scrollbar-filler {
+  right: 0; bottom: 0;
+  z-index: 6;
+}
+
+.CodeMirror-lines {
+  cursor: text;
+}
+.CodeMirror pre {
+  /* Reset some styles that the rest of the page might have set */
+  -moz-border-radius: 0; -webkit-border-radius: 0; -o-border-radius: 0; border-radius: 0;
+  border-width: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: normal;
+  line-height: inherit;
+  color: inherit;
+  z-index: 2;
+  position: relative;
+  overflow: visible;
+}
+.CodeMirror-wrap pre {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: normal;
+}
+.CodeMirror-linebackground {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  z-index: 0;
+}
+
+.CodeMirror-linewidget {
+  position: relative;
+  z-index: 2;
+  overflow: auto;
+}
+
+.CodeMirror-widget {
+  display: inline-block;
+}
+
+.CodeMirror-wrap .CodeMirror-scroll {
+  overflow-x: hidden;
+}
+
+.CodeMirror-measure {
+  position: absolute;
+  width: 100%; height: 0px;
+  overflow: hidden;
+  visibility: hidden;
+}
+.CodeMirror-measure pre { position: static; }
+
+.CodeMirror div.CodeMirror-cursor {
+  position: absolute;
+  visibility: hidden;
+  border-right: none;
+  width: 0;
+}
+.CodeMirror-focused div.CodeMirror-cursor {
+  visibility: visible;
+}
+
+.CodeMirror-selected { background: #d9d9d9; }
+.CodeMirror-focused .CodeMirror-selected { background: #BDC3C7; }
+
+.cm-searching {
+  background: #ffa;
+  background: rgba(255, 255, 0, .4);
+}
+
+/* IE7 hack to prevent it from returning funny offsetTops on the spans */
+.CodeMirror span { *vertical-align: text-bottom; }
+
+@media print {
+  /* Hide the cursor when printing */
+  .CodeMirror div.CodeMirror-cursor {
+    visibility: hidden;
+  }
+}
+.CodeMirror {
+  height: 450px;
+}
+:-webkit-full-screen {
+  background: #f9f9f5;
+  padding: 0.5em 1em;
+  width: 100%;
+  height: 100%;
+}
+:-moz-full-screen {
+  padding: 0.5em 1em;
+  background: #f9f9f5;
+  width: 100%;
+  height: 100%;
+}
+.editor-wrapper {
+  font: 16px/1.62 "Helvetica Neue", "Xin Gothic", "Hiragino Sans GB", "WenQuanYi Micro Hei", "Microsoft YaHei", sans-serif;
+  color: #2c3e50;
+}
+/* this is the title */
+.editor-wrapper input.title {
+  font: 18px "Helvetica Neue", "Xin Gothic", "Hiragino Sans GB", "WenQuanYi Micro Hei", "Microsoft YaHei", sans-serif;
+  background: transparent;
+  padding: 4px;
+  width: 100%;
+  border: none;
+  outline: none;
+  opacity: 0.6;
+}
+.editor-toolbar {
+  position: relative;
+  opacity: 0.6;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.editor-toolbar:before, .editor-toolbar:after {
+  display: block;
+  content: ' ';
+  height: 1px;
+  background-color: #bdc3c7;
+  background: -moz-linear-gradient(45deg, #f9f9f9, #bdc3c7, #f9f9f9);
+  background: -webkit-linear-gradient(45deg, #f9f9f9, #bdc3c7, #f9f9f9);
+  background: -ms-linear-gradient(45deg, #f9f9f9, #bdc3c7, #f9f9f9);
+  background: linear-gradient(45deg, #f9f9f9, #bdc3c7, #f9f9f9);
+}
+.editor-toolbar:before {
+  margin-bottom: 8px;
+}
+.editor-toolbar:after {
+  margin-top: 8px;
+}
+.editor-wrapper input.title:hover, .editor-wrapper input.title:focus, .editor-toolbar:hover {
+  opacity: 0.8;
+}
+.editor-toolbar a {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none !important;
+  color: #2c3e50 !important;
+  width: 24px;
+  height: 24px;
+  margin: 2px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.editor-toolbar a:hover, .editor-toolbar a.active {
+  background: #fcfcfc;
+  border-color: #95a5a6;
+}
+.editor-toolbar a:before {
+  line-height: 24px;
+}
+.editor-toolbar i.separator {
+  display: inline-block;
+  width: 0;
+  border-left: 1px solid #d9d9d9;
+  border-right: 1px solid white;
+  color: transparent;
+  text-indent: -10px;
+  margin: 0 6px;
+}
+.editor-toolbar a.eicon-fullscreen {
+  position: absolute;
+  right: 0;
+}
+.editor-statusbar {
+  border-top: 1px solid #ece9e9;
+  padding: 8px 10px;
+  font-size: 12px;
+  color: #959694;
+  text-align: right;
+}
+.editor-statusbar span {
+  display: inline-block;
+  min-width: 4em;
+  margin-left: 1em;
+}
+.editor-statusbar .lines:before {
+  content: 'lines: ';
+}
+.editor-statusbar .words:before {
+  content: 'words: ';
+}
+.editor-preview {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 100%;
+  background: #f9f9f5;
+  z-index: 9999;
+  overflow: auto;
+  -webkit-transition: left 0.2s ease;
+  -moz-transition: left 0.2s ease;
+  -ms-transition: left 0.2s ease;
+  transition: left 0.2s ease;
+}
+.editor-preview-active {
+  left: 0;
+}
+.editor-preview > p {
+  margin-top: 0;
+}

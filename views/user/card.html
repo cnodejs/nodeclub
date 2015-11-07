@@ -1,0 +1,52 @@
+<div class='user_card'>
+  <div>
+    <a class='user_avatar' href="/user/<%= user.loginname %>">
+      <img src="<%= proxy(user.avatar_url) %>" title="<%= user.loginname %>"/>
+    </a>
+    <span class='user_name'><a class='dark' href="/user/<%= user.loginname %>"><%= user.loginname %></a></span>
+
+    <div class='board clearfix'>
+      <div class='floor'>
+        <span class='big'>积分: <%= user.score %> </span>
+      </div>
+    </div>
+    <div class="space clearfix"></div>
+    <span class="signature">
+        “
+        <% if (user.signature) {%>
+            <%-escapeSignature(user.signature)%>
+        <%} else {%>
+            这家伙很懒，什么个性签名都没有留下。
+        <%}%>
+        ”
+    </span>
+  </div>
+</div>
+
+<% if (current_user) { %>
+<script>
+  $(document).ready(function () {
+    $('.follow_btn').click(function () {
+      var $me = $(this);
+      var action = $me.attr('action');
+      var params = {
+        follow_id: '<%= user._id %>',
+        _csrf: '<%- csrf %>'
+      };
+      $.post('/user/' + action, params, function (data) {
+        if (data.status === 'success') {
+          var $btns = $('.follow_btn');
+          if (action === 'follow') {
+            $btns.html('取消关注');
+            $btns.attr('action', 'un_follow');
+          } else {
+            $btns.html('加入关注');
+            $btns.attr('action', 'follow');
+          }
+          $btns.toggleClass('btn-success');
+        }
+      }, 'json');
+    });
+  });
+</script>
+<% } %>

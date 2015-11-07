@@ -1,0 +1,31 @@
+sudo: false
+
+language: node_js
+
+env:
+  - CXX=g++-4.8
+
+node_js:
+  - '0.10'
+  - '0.12'
+  - 'iojs'
+  - '4'
+
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
+
+services:
+  - mongodb
+  - redis
+
+before_install:
+  - $CXX --version
+
+script: make test-cov
+
+after_success: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+

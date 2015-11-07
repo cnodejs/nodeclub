@@ -1,0 +1,26 @@
+config.js
+.cov
+coverage
+node_modules
+.naeindex
+coverage.html
+.monitor
+
+*.min.*.js
+*.min.*.css
+assets.json
+
+# Ignore Mac OS desktop services store
+.DS_Store
+
+# Ignore Windows desktop setting file
+desktop.ini
+
+*.log
+
+.idea
+public/upload/*
+
+*.sublime-project
+*.sublime-workspace
+*.swp

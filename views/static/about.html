@@ -1,0 +1,39 @@
+<%- partial('../sidebar') %>
+
+<div id='content'>
+  <div class='panel'>
+    <div class='header'>
+      <ul class='breadcrumb'>
+        <li><a href='/'>主页</a><span class='divider'>/</span></li>
+        <li class='active'>关于</li>
+      </ul>
+    </div>
+    <div class='inner topic'>
+      <div class="topic_content">
+        <%- markdown(multiline(function () {
+/*
+### 关于
+CNode 社区为国内最专业的 Node.js 开源技术社区，致力于 Node.js 的技术研究。
+
+CNode 社区由一批热爱 Node.js 技术的工程师发起，目前已经吸引了互联网各个公司的专业技术人员加入，我们非常欢迎更多对 Node.js 感兴趣的朋友。
+
+CNode 的 SLA 保证是，一个9，即 90.000000%。
+
+社区目前由 [@alsotang](http://cnodejs.org/user/alsotang) 在维护，有问题请联系：[https://github.com/alsotang](https://github.com/alsotang)
+
+请关注我们的官方微博：http://weibo.com/cnodejs
+
+### 移动客户端
+
+客户端由 [@ilanceli](http://cnodejs.org/user/ilanceli) 开发维护。
+
+源码地址：[https://github.com/lanceli/cnodejs-ionic](https://github.com/lanceli/cnodejs-ionic)。
+
+立即体验 CNode 客户端，直接扫描页面右侧二维码，或者应用市场搜索“CNode社区”下载。
+
+*/
+        })) %>
+      </div>
+    </div>
+  </div>
+</div>
