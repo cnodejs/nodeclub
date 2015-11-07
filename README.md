@@ -1,123 +1,60 @@
-# nodeclub
+Nodeclub
+=
 
-[![Build Status](https://secure.travis-ci.org/cnodejs/nodeclub.png?branch=master)](http://travis-ci.org/cnodejs/nodeclub)
+[![build status][travis-image]][travis-url]
+[![Coverage Status][coverage-image]][coverage-url]
+[![David deps][david-image]][david-url]
+[![node version][node-image]][node-url]
 
-基于nodejs的社区系统
+[travis-image]: https://img.shields.io/travis/cnodejs/nodeclub.svg?style=flat-square
+[travis-url]: https://travis-ci.org/cnodejs/nodeclub
+[coverage-image]: https://img.shields.io/coveralls/cnodejs/nodeclub.svg?style=flat-square
+[coverage-url]: https://coveralls.io/r/cnodejs/nodeclub?branch=master
+[david-image]: https://img.shields.io/david/cnodejs/nodeclub.svg?style=flat-square
+[david-url]: https://david-dm.org/cnodejs/nodeclub
+[node-image]: https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square
+[node-url]: http://nodejs.org/download/
 
 ## 介绍
 
-Node Club 是用 **Node.js** 和 **MongoDB** 开发的新型社区软件，界面优雅，功能丰富，小巧迅速，
-已在Node.js 中文技术社区 [CNode](http://cnodejs.org) 得到应用，但你完全可以用它搭建自己的社区。
+Nodeclub 是使用 **Node.js** 和 **MongoDB** 开发的社区系统，界面优雅，功能丰富，小巧迅速，
+已在Node.js 中文技术社区 [CNode(http://cnodejs.org)](http://cnodejs.org) 得到应用，但你完全可以用它搭建自己的社区。
 
 ## 安装部署
 
-```bash
-// install node npm mongodb
-// run mongod
-$ npm install
-$ cp config.default.js config.js
-// modify the config file as yours
-$ node app.js
+*不保证 Windows 系统的兼容性*
+
+线上跑的是 [io.js](https://iojs.org) v2.3.3，[MongoDB](https://www.mongodb.org) 是 v2.6，[Redis](http://redis.io) 是 v2.8.9。
+
+```
+1. 安装 `Node.js/io.js[必须]` `MongoDB[必须]` `Redis[必须]`
+2. 启动 MongoDB 和 Redis
+3. `$ make install` 安装 Nodeclub 的依赖包
+4. `cp config.default.js config.js` 请根据需要修改配置文件
+5. `$ make test` 确保各项服务都正常
+6. `$ node app.js`
+7. visit `http://localhost:3000`
+8. done!
 ```
 
-## TEST
+## 测试
+
+跑测试
 
 ```bash
 $ make test
 ```
 
-jscoverage
+跑覆盖率测试
 
 ```bash
 $ make test-cov
 ```
 
-* test results: [test_results.md](https://github.com/cnodejs/nodeclub/blob/master/test_results.md)
-* jscoverage: [**31%**](http://fengmk2.github.com/coverage/nodeclub.html)
-    
-## 其它
+## 贡献
 
-小量修改了两个依赖模块：node-markdown，express
- 
-* node-markdown/lib/markdown.js  
-
-allowedTags 添加：
-
-```
-embed  //支持 flash 视频
-table|thead|tbody|tr|td|th|caption  //支持表格
-```
-   
-allowedAttributes 添加：
-
-```
-embed:'src|quality|width|height|align|allowScriptAccess|allowFullScreen|mode|type'
-table: 'class'
-```
-
-* express/node_modules/connect/lib/middleware/csrf.js 添加：
-
-```javascript
-if (req.body && req.body.user_action === 'upload_image') return next();
-```
-
-## 关于pull request
-
-从现在开始，所有提交都要严格遵循[代码规范](https://github.com/windyrobin/iFrame/blob/master/style.md)。
-
-## Authors
-
-Below is the output from `git-summary`.
-
-```
- project: nodeclub
- commits: 201
- active : 81 days
- files  : 267
- authors: 
-    94  fengmk2                 46.8%
-    20  Jackson Tian            10.0%
-    15  dead-horse              7.5%
-    13  jiyinyiyong             6.5%
-    10  Kenny Zhao              5.0%
-     9  muyuan                  4.5%
-     7  young40                 3.5%
-     6  aisk                    3.0%
-     6  Lei Zongmin             3.0%
-     5  ericzhang               2.5%
-     4  spout                   2.0%
-     3  Json Shen               1.5%
-     2  chang                   1.0%
-     1  张洋                  0.5%
-     1  LeToNode                0.5%
-     1  leizongmin              0.5%
-     1  roymax                  0.5%
-     1  sunwenchao              0.5%
-     1  thebrecht               0.5%
-     1  Xiang Gao               0.5%
-```
+有任何意见或建议都欢迎提 issue，或者直接提给 [@alsotang](https://github.com/alsotang)
 
 ## License
 
-( The MIT License )
-
-Copyright (c) 2012 muyuan, fengmk2 and other nodeclub contributors
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+MIT

@@ -11,13 +11,13 @@
     "before",
     "beforeEach",
     "after",
-    "should",
-    "rewire",
+    "afterEach",
+    "ace",
     "$"
   ],
 
   "browser": true,
-  "node" : true,
+  "node": true,
   "es5": true,
   "bitwise": true,
   "curly": true,
@@ -39,5 +39,6 @@
   "indent": 2,
   "expr": true,
   "multistr": true,
-  "onevar": false
+  "onevar": false,
+  "unused": "vars"
 }

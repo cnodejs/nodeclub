@@ -1,58 +1,69 @@
-<div class='cell reply_area reply_item' id="reply<%= indexInCollection+1 %>" reply_id="<%= reply._id %>">
-	<div class='user_avatar'>
-		<a href="/user/<%= reply.author.name %>"><img src="<%= reply.author.avatar_url %>" title="<%= reply.author.name %>" /></a>
-	</div>
-	<span class='col_fade fr'>#<%= indexInCollection + 1 %></span>
-	
-		<span class='fr'>
-			<% if(locals.current_user){ %>
-			<a href='javascript:void(0);' class='dark reply2_btn'>回复</a>	
-			<% } %>
-			<% if(reply.replies.length>0){ %>
-			<span class='col_fade'>{<%= reply.replies.length %>}</span>
-			<% } %>
-		</span>
-	<span class='reply_author'><a class='dark' href="/user/<%= reply.author.name %>"><%= reply.author.name %></a></span>
-		<span class='col_fade'>
-			在 <%= reply.friendly_create_at %>回复
-			<% if(locals.current_user && current_user._id.toString() == reply.author._id.toString()) { %>
-			<span class='sp10'></span>
-			<a href='javascript:void(0);' class='delete_reply_btn'><img class='user_icon' src="<%- config.site_static_host %>/images/trash_icon&16.png" title='删除' /></a>
-			<% } %>
-		</span>
-	<!-- <div class='sep5'></div> -->
-	<div class='reply_content'>
-	<%- reply.content %>
-	</div>
-	<div class='cl'>
-		<!-- <div class='sep5'></div> -->
-		<div class='reply2_area'>
-			<% if (reply.replies.length >0) { %>
-			<div class='sep10'></div>
-			<%- partial('reply/reply2',{collection: reply.replies, as: 'reply'}) %>
-			<% } %>
-			<% if (locals.current_user) { %>
-			<div class='reply2_editor tabbable' id='reply2_editor-<%= indexInCollection+1 %>'>
-				<div class='sep10'></div>
-				<ul class='nav nav-pills'>
-					<li class='active'><a href='#markdown-<%= indexInCollection+1 %>' data-toggle='pill'>markdown</a></li>
-					<li><a href='#preview-<%= indexInCollection+1 %>' data-toggle='pill' class="preview-btn">预览</a></li>
-				</ul>
-				<div class='tab-content'>
-					<div class='active tab-pane' id='markdown-<%= indexInCollection+1 %>'>
-						<div id='wmd-button-bar-<%= indexInCollection+1 %>'></div>
-						<textarea class='span7' id='wmd-input-<%= indexInCollection+1 %>' name='r2_content' rows='4'></textarea>
-					</div>
-					<div id='preview-<%= indexInCollection+1 %>' class='tab-pane'>
-						<div id='wmd-preview-<%= indexInCollection+1 %>' class='wmd-preview reply2-wmd-preview'></div>
-					</div>
-				</div>
-				<div class='sep10'></div>
-				<button class='btn reply2_submit_btn' id='<%= reply._id %>'>回复</button>
-				<span class='sp10'></span>
-				<span class='col_fade'>Ctrl+Enter 快捷回复</span>
-			</div>
-			<% } %>
-		</div>
-	</div>
+<div class='cell reply_area reply_item
+  <%- reply.ups && reply.ups.length >= topic.reply_up_threshold ? 'reply_highlight' : '' %>'
+  id="reply<%= indexInCollection+1 %>" reply_id="<%= reply._id %>" reply_to_id="<%= reply.reply_id || '' %>">
+  <a class="anchor" id="<%= reply._id %>"></a>
+
+  <div class='author_content'>
+    <a href="/user/<%= reply.author.loginname %>" class="user_avatar">
+      <img src="<%= proxy(reply.author.avatar_url) %>" title="<%= reply.author.loginname %>"/></a>
+
+    <div class='user_info'>
+      <a class='dark reply_author' href="/user/<%= reply.author.loginname %>"><%= reply.author.loginname %>
+      </a>
+      <a class="reply_time" href="#<%= reply._id %>"><%= indexInCollection + 1 %>楼•<%= reply.create_at_ago()
+        %></a>
+    </div>
+    <div class='user_action'>
+      <span>
+        <i class="fa up_btn
+          <%= (current_user && is_uped(current_user, reply)) ? 'fa-thumbs-up uped' : 'fa-thumbs-o-up' %>
+          <%= (!reply.ups || !reply.ups.length) ? 'invisible' : '' %>" title="喜欢"></i>
+        <span class="up-count">
+          <%= reply.ups && reply.ups.length ? reply.ups.length : '' %>
+        </span>
+      </span>
+      <% if (current_user && current_user.is_admin ||
+      (current_user && current_user._id.toString() == reply.author._id.toString())
+      ) { %>
+      <a href='/reply/<%= reply._id %>/edit' class='edit_reply_btn'>
+        <i class="fa fa-pencil-square-o" title='编辑'></i>
+      </a>
+      <a href='javascript:void(0);' class='delete_reply_btn'>
+        <i class="fa fa-trash" title='删除'></i>
+      </a>
+      <% } %>
+      <span>
+        <% if (current_user){ %>
+          <i class="fa fa-reply reply2_btn" title="回复"></i>
+        <% } %>
+      </span>
+    </div>
+  </div>
+  <div class='reply_content from-<%= reply.author.loginname %>'>
+    <%- markdown(reply.content) %>
+  </div>
+  <div class='clearfix'>
+    <div class='reply2_area'>
+      <% if (current_user) { %>
+      <form class='reply2_form' action='/<%= topic._id %>/reply' method='post'>
+        <input type='hidden' name='_csrf' value='<%= csrf %>'/>
+        <input type='hidden' name='reply_id' value='<%= reply._id %>'/>
+
+        <div class='markdown_editor in_editor'>
+          <div class='markdown_in_editor'>
+            <textarea class='span8 editor reply_editor'
+                      id="reply2_editor_<%= reply._id %>" name='r_content' rows='4'></textarea>
+
+            <div class='editor_buttons'>
+              <input class='span-primary reply2_submit_btn submit_btn'
+                     type="submit" data-id='<%= reply._id %>' data-loading-text="回复中.." value="回复">
+            </div>
+          </div>
+
+        </div>
+
+      </form>
+      <% } %>
+    </div>
+  </div>
 </div>

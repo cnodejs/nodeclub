@@ -1,156 +1,95 @@
-var models = require('../models');
-var Reply = models.Reply;
-var Topic = models.Topic;
-var Message = models.Message;
+var validator  = require('validator');
+var _          = require('lodash');
+var at         = require('../common/at');
+var message    = require('../common/message');
+var EventProxy = require('eventproxy');
+var User       = require('../proxy').User;
+var Topic      = require('../proxy').Topic;
+var Reply      = require('../proxy').Reply;
+var config     = require('../config');
 
-var check = require('validator').check;
-var sanitize = require('validator').sanitize;
-
-var at_ctrl = require('./at');
-var user_ctrl = require('./user');
-var message_ctrl = require('./message');
-
-var Util = require('../libs/util');
-var Showdown = require('../public/libs/showdown');
-var EventProxy = require('eventproxy').EventProxy;
-
+/**
+ * 添加回复
+ */
 exports.add = function (req, res, next) {
-  if (!req.session || !req.session.user) {
-    res.send('forbidden!');
-    return;
-  }
-
   var content = req.body.r_content;
   var topic_id = req.params.topic_id;
-
-  var str = sanitize(content).trim();
-  if (str === '') {
-    res.render('notify/notify', {error: '回复内容不能为空！'});
-    return;
-  }
-  
-  var render = function () {
-    res.redirect('/topic/' + topic_id);
-  };
-  var proxy = new EventProxy();
-  proxy.assign('reply_saved', 'message_saved', 'score_saved', render);
-
-  var reply = new Reply();
-  reply.content = content;
-  reply.topic_id = topic_id; 
-  reply.author_id = req.session.user._id;
-  reply.save(function (err) {
-    if (err) {
-      return next(err);
-    }
-    Topic.findOne({_id: topic_id}, function (err, topic) {
-      if (err) {
-        return next(err);
-      }
-      topic.last_reply = reply._id;
-      topic.last_reply_at = new Date();
-      topic.reply_count += 1;
-      topic.save();
-      proxy.emit('reply_saved');
-      //发送at消息
-      at_ctrl.send_at_message(content, topic_id, req.session.user._id);
-    });
-  });
-
-  Topic.findOne({_id: topic_id}, function (err, topic) {
-    if (err) {
-      return next(err);
-    }
-    if (topic.author_id.toString() === req.session.user._id.toString()) {
-      proxy.emit('message_saved');
-    } else {
-      message_ctrl.send_reply_message(topic.author_id, req.session.user._id, topic._id);  
-      proxy.emit('message_saved');
-    }
-  });
-
-  user_ctrl.get_user_by_id(req.session.user._id, function (err, user) {
-    if (err) {
-      return next(err);
-    }
-    user.score += 5;
-    user.reply_count += 1;
-    user.save();
-    req.session.user.score += 5;  
-    proxy.emit('score_saved');
-  });
-};
-
-exports.add_reply2 = function (req, res, next) {
-  if (!req.session || !req.session.user) {
-    res.send('forbidden!');
-    return;
-  }
-
-  var topic_id = req.params.topic_id;
   var reply_id = req.body.reply_id;
-  var content = req.body.r2_content;
 
-  var str = sanitize(content).trim();
+  var str = validator.trim(content);
   if (str === '') {
-    res.send('');
-    return;
+    return res.renderError('回复内容不能为空!', 422);
   }
-  
-  var done = function () {
-    get_reply_by_id(reply._id, function (err, reply) {
-      res.partial('reply/reply2', {object: reply, as: 'reply'});
-    });
-  };
-  var proxy = new EventProxy();
-  proxy.assign('reply_saved', 'message_saved', done);
 
-  var reply = new Reply();
-  reply.content = content;
-  reply.topic_id = topic_id; 
-  //标识是二级回复
-  reply.reply_id = reply_id;
-  reply.author_id = req.session.user._id;
-  reply.save(function (err) {
-    if (err) {
-      return next(err);
+  var ep = EventProxy.create();
+  ep.fail(next);
+
+  Topic.getTopic(topic_id, ep.doneLater(function (topic) {
+    if (!topic) {
+      ep.unbind();
+      // just 404 page
+      return next();
     }
-    Topic.findOne({_id: topic_id}, function (err, topic) {
-      if (err) {
-        return next(err);
-      }
-      topic.last_reply = reply._id;
-      topic.last_reply_at = new Date();
-      topic.reply_count += 1;
-      topic.save();
-      proxy.emit('reply_saved');
-      //发送at消息
-      at_ctrl.send_at_message(content, topic_id, req.session.user._id);
-    });
+    
+    if (topic.lock) {
+      return res.status(403).send('此主题已锁定。');
+    }
+    ep.emit('topic', topic);
+  }));
+
+  ep.all('topic', function (topic) {
+    User.getUserById(topic.author_id, ep.done('topic_author'));
   });
 
-  Reply.findOne({_id: reply_id}, function (err, reply) {
-    if (err) {
-      return next(err);
+  ep.all('topic', 'topic_author', function (topic, topicAuthor) {
+    Reply.newAndSave(content, topic_id, req.session.user._id, reply_id, ep.done(function (reply) {
+      Topic.updateLastReply(topic_id, reply._id, ep.done(function () {
+        ep.emit('reply_saved', reply);
+        //发送at消息，并防止重复 at 作者
+        var newContent = content.replace('@' + topicAuthor.loginname + ' ', '');
+        at.sendMessageToMentionUsers(newContent, topic_id, req.session.user._id, reply._id);
+      }));
+    }));
+
+    User.getUserById(req.session.user._id, ep.done(function (user) {
+      user.score += 5;
+      user.reply_count += 1;
+      user.save();
+      req.session.user = user;
+      ep.emit('score_saved');
+    }));
+  });
+
+  ep.all('reply_saved', 'topic', function (reply, topic) {
+    if (topic.author_id.toString() !== req.session.user._id.toString()) {
+      message.sendReplyMessage(topic.author_id, req.session.user._id, topic._id, reply._id);
     }
-    if (reply.author_id.toString() === req.session.user._id.toString()) {
-      proxy.emit('message_saved');
-    } else {
-      message_ctrl.send_reply2_message(reply.author_id, req.session.user._id, topic_id);
-      proxy.emit('message_saved');
-    }
+    ep.emit('message_saved');
+  });
+
+  ep.all('reply_saved', 'message_saved', 'score_saved', function (reply) {
+    res.redirect('/topic/' + topic_id + '#' + reply._id);
   });
 };
 
+/**
+ * 删除回复信息
+ */
 exports.delete = function (req, res, next) {
   var reply_id = req.body.reply_id;
-  get_reply_by_id(reply_id, function (err, reply) {
+  Reply.getReplyById(reply_id, function (err, reply) {
+    if (err) {
+      return next(err);
+    }
+
     if (!reply) {
-      res.json({status: 'failed'});
+      res.status(422);
+      res.json({status: 'no reply ' + reply_id + ' exists'});
       return;
     }
-    if (reply.author_id.toString() === req.session.user._id.toString()) {
-      reply.remove();
+    if (reply.author_id.toString() === req.session.user._id.toString() || req.session.user.is_admin) {
+      reply.deleted = true;
+      reply.save();
       res.json({status: 'success'});
 
       if (!reply.reply_id) {
@@ -163,100 +102,90 @@ exports.delete = function (req, res, next) {
       return;
     }
 
-    Topic.findOne({_id: reply.topic_id}, function (err, topic) {
-      if (topic) {
-        topic.reply_count -= 1;
-        topic.save();
+    Topic.reduceCount(reply.topic_id, _.noop);
+  });
+};
+/*
+ 打开回复编辑器
+ */
+exports.showEdit = function (req, res, next) {
+  var reply_id = req.params.reply_id;
+
+  Reply.getReplyById(reply_id, function (err, reply) {
+    if (!reply) {
+      return res.render404('此回复不存在或已被删除。');
+    }
+    if (req.session.user._id.equals(reply.author_id) || req.session.user.is_admin) {
+      res.render('reply/edit', {
+        reply_id: reply._id,
+        content: reply.content
+      });
+    } else {
+      return res.renderError('对不起，你不能编辑此回复。', 403);
+    }
+  });
+};
+/*
+ 提交编辑回复
+ */
+exports.update = function (req, res, next) {
+  var reply_id = req.params.reply_id;
+  var content = req.body.t_content;
+
+  Reply.getReplyById(reply_id, function (err, reply) {
+    if (!reply) {
+      return res.render404('此回复不存在或已被删除。');
+    }
+
+    if (String(reply.author_id) === req.session.user._id.toString() || req.session.user.is_admin) {
+
+      if (content.trim().length > 0) {
+        reply.content = content;
+        reply.save(function (err) {
+          if (err) {
+            return next(err);
+          }
+          res.redirect('/topic/' + reply.topic_id + '#' + reply._id);
+        });
+      } else {
+        return res.renderError('回复的字数太少。', 400);
       }
-    });
+    } else {
+      return res.renderError('对不起，你不能编辑此回复。', 403);
+    }
   });
 };
 
-function get_reply_by_id(id, cb) {
-  Reply.findOne({_id: id}, function (err, reply) {
+exports.up = function (req, res, next) {
+  var replyId = req.params.reply_id;
+  var userId = req.session.user._id;
+  Reply.getReplyById(replyId, function (err, reply) {
     if (err) {
-      return cb(err);
+      return next(err);
     }
-    if (!reply) {
-      return cb(err, null);
-    }
-
-    var author_id = reply.author_id;
-    user_ctrl.get_user_by_id(author_id, function (err, author) {
-      if (err) {
-        return cb(err);
-      }
-      reply.author = author;
-      reply.friendly_create_at = Util.format_date(reply.create_at, true);
-      if (reply.content_is_html) {
-        return cb(null, reply);
-      }
-      at_ctrl.link_at_who(reply.content, function (err, str) {
-        if (err) {
-          return cb(err);
-        }
-        reply.content = Util.xss(Showdown.parse(str));
-        return cb(err, reply);
+    if (reply.author_id.equals(userId) && !config.debug) {
+      // 不能帮自己点赞
+      res.send({
+        success: false,
+        message: '呵呵，不能帮自己点赞。',
       });
-    });
-  });
-}
-
-function get_replies_by_topic_id(id, cb) {
-  Reply.find({topic_id: id}, [], {sort: [['create_at', 'asc']]}, function (err, replies) {
-    if (err) {
-      return cb(err);
-    }
-    if (replies.length === 0) {
-      return cb(err, []);
-    }
-
-    var proxy = new EventProxy();
-    var done = function () {
-      var replies2 = [];
-      for (var i = replies.length - 1; i >= 0; i--) {
-        if (replies[i].reply_id) {
-          replies2.push(replies[i]);  
-          replies.splice(i, 1);
-        }
+    } else {
+      var action;
+      reply.ups = reply.ups || [];
+      var upIndex = reply.ups.indexOf(userId);
+      if (upIndex === -1) {
+        reply.ups.push(userId);
+        action = 'up';
+      } else {
+        reply.ups.splice(upIndex, 1);
+        action = 'down';
       }
-      for (var j = 0; j < replies.length; j++) {
-        replies[j].replies = [];
-        for (var k = 0; k < replies2.length; k++) {
-          var id1 = replies[j]._id;
-          var id2 = replies2[k].reply_id;
-          if (id1.toString() === id2.toString()) {
-            replies[j].replies.push(replies2[k]); 
-          } 
-        }
-        replies[j].replies.reverse();
-      }
-      return cb(err, replies);
-    };
-    proxy.after('reply_find', replies.length, done);
-    for (var j = 0; j < replies.length; j++) {
-      (function (i) {
-        var author_id = replies[i].author_id;
-        user_ctrl.get_user_by_id(author_id, function (err, author) {
-          if (err) {
-            return cb(err);
-          }
-          replies[i].author = author;
-          replies[i].friendly_create_at = Util.format_date(replies[i].create_at, true);
-          if (replies[i].content_is_html) {
-            return proxy.emit('reply_find');
-          }
-          at_ctrl.link_at_who(replies[i].content, function (err, str) {
-            if (err) {
-              return cb(err);
-            }
-            replies[i].content = Util.xss(Showdown.parse(str));
-            proxy.emit('reply_find');
-          });
+      reply.save(function () {
+        res.send({
+          success: true,
+          action: action
         });
-      })(j);
+      });
     }
-  }); 
-}
-exports.get_reply_by_id = get_reply_by_id;
-exports.get_replies_by_topic_id = get_replies_by_topic_id;  
+  });
+};

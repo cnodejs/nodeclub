@@ -1,0 +1,202 @@
+<div id='content'>
+  <div class='panel'>
+    <div class='header'>
+      <ul class='breadcrumb'>
+        <li><a href='/'>主页</a><span class='divider'>/</span></li>
+        <li class='active'>API</li>
+      </ul>
+    </div>
+    <div class='inner topic'>
+      <div class="topic_content">
+        <%- markdown(multiline(function () {
+/*
+### 主题
+
+#### get /topics 主题首页
+
+接收 get 参数
+
+* page `Number` 页数
+* tab `String` 主题分类
+* limit `Number` 每一页的主题数量
+* mdrender `String` 当为 `false` 时，不渲染。默认为 `true`
+
+示例：[/api/v1/topics](/api/v1/topics)
+
+#### get /topic/:id 主题详情
+
+接收 get 参数
+
+* mdrender `String` 当为 `false` 时，不渲染。默认为 `true`
+
+示例：[/api/v1/topic/5433d5e4e737cbe96dcef312](/api/v1/topic/5433d5e4e737cbe96dcef312)
+
+#### post /topics 新建主题
+
+接收 post 参数
+
+* title `String` 标题
+* tab `String` 目前有 `ask` `share` `job`
+* content `String` 主体内容
+
+返回值示例
+
+```js
+{success: true, topic_id: '5433d5e4e737cbe96dcef312'}
+```
+
+#### post /topic/collect 收藏主题
+
+接收 post 参数
+
+* accesstoken `String` 用户的 accessToken
+* topic_id `String` 被收藏的主题id
+
+返回值示例
+
+```js
+{success: true}
+```
+
+#### post /topic/de_collect 取消收藏
+
+接收 post 参数
+
+* accesstoken `String` 用户的 accessToken
+* topic_id `String` 被取消收藏的主题id
+
+返回值示例
+
+```js
+{success: true}
+```
+
+### 评论
+
+#### post /topic/:topic_id/replies 新建评论
+
+接收 post 参数
+
+* accesstoken `String` 用户的 accessToken
+* content `String` 评论的主体
+* reply_id `String` 如果这个评论是对另一个评论的回复，请务必带上此字段。这样前端就可以构建出评论线索图。
+
+返回值示例
+
+```js
+{success: true, reply_id: '5433d5e4e737cbe96dcef312'}
+```
+
+#### post /reply/:reply_id/ups 为评论点赞
+
+接受 post 参数
+
+* accesstoken `String`
+
+接口会自动判断用户是否已点赞，如果否，则点赞；如果是，则取消点赞。点赞的动作反应在返回数据的 `action` 字段中，`up` or `down`。
+
+返回值示例
+
+```js
+{"success": true, "action": "down"}
+```
+
+### 用户
+
+#### get /user/:loginname 用户详情
+
+示例：[/api/v1/user/alsotang](/api/v1/user/alsotang)
+
+#### post /accesstoken 验证 accessToken 的正确性
+
+接收 post 参数
+
+* accesstoken `String` 用户的 accessToken
+
+如果成功匹配上用户，返回成功信息。否则 403。
+
+返回值示例
+
+```js
+{success: true, loginname: req.user.loginname}
+```
+
+### 消息通知
+
+#### get /message/count 获取未读消息数
+
+接收 get 参数
+
+* accesstoken `String`
+
+返回值示例
+
+```js
+{ data: 3 }
+```
+
+
+#### get /messages 获取已读和未读消息
+
+接收 get 参数
+
+* accesstoken `String`
+
+返回值示例
+
+```js
+{
+  data: {
+    has_read_messages: [],
+    hasnot_read_messages: [
+      {
+        id: "543fb7abae523bbc80412b26",
+        type: "at",
+        has_read: false,
+        author: {
+          loginname: "alsotang",
+          avatar_url: "https://avatars.githubusercontent.com/u/1147375?v=2"
+        },
+        topic: {
+          id: "542d6ecb9ecb3db94b2b3d0f",
+          title: "adfadfadfasdf",
+          last_reply_at: "2014-10-18T07:47:22.563Z"
+        },
+        reply: {
+          id: "543fb7abae523bbc80412b24",
+          content: "[@alsotang](/user/alsotang) 哈哈",
+          ups: [ ],
+          create_at: "2014-10-16T12:18:51.566Z"
+          }
+        },
+    ...
+    ]
+  }
+}
+```
+
+#### post /message/mark_all 标记全部已读
+
+接收 post 参数
+
+* accesstoken `String`
+
+返回值示例
+
+```js
+{ success: true,
+  marked_msgs: [ { id: '544ce385aeaeb5931556c6f9' } ] }
+```
+
+### 知识点
+
+1. 如何获取 accessToken？
+    用户登录后，在设置页面可以看到自己的 accessToken。
+    建议各移动端应用使用手机扫码的形式登录，验证使用 `/accesstoken` 接口，登录后长期保存 accessToken。
+
+*/
+        })) %>
+      </div>
+    </div>
+  </div>
+</div>
