@@ -18,7 +18,7 @@ pretest:
 		mkdir public/upload; \
 	fi
 
-test: pretest
+test: install pretest
 	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
 		--reporter $(MOCHA_REPORTER) \
 		-r should \

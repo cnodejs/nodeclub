@@ -24,7 +24,7 @@
     "eventproxy": "0.3.1",
     "express": "4.9.5",
     "express-session": "1.12.1",
-    "helmet": "~0.14.0",
+    "helmet": "~0.9.1",
     "ioredis": "1.3.6",
     "jpush-sdk": "3.2.0",
     "loader": "0.1.4",
@@ -53,10 +53,8 @@
     "xss": "0.1.15"
   },
   "devDependencies": {
-    "coveralls": "2.11.2",
+    "coveralls": "2.11.4",
     "errorhandler": "1.2.2",
-    "gulp": "^3.9.0",
-    "gulp-mocha": "^2.1.3",
     "istanbul": "0.3.2",
     "mm": "0.2.1",
     "mocha": "2.0.1",

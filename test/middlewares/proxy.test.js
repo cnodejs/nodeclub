@@ -53,9 +53,9 @@ describe('test/middlewares/proxy.test.js', function () {
         url: url,
       })
       .end(function (err, res) {
-        //console.log(res.text);
         res.text.should.eql('gravatar');
         done(err);
       });
   });
+
 });

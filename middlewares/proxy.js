@@ -4,7 +4,7 @@ var request = require('request');
 
 var ALLOW_HOSTNAME = [
   'avatars.githubusercontent.com', 'www.gravatar.com',
-  'gravatar.com', 'www.google-analytics.com'
+  'gravatar.com', 'www.google-analytics.com',
 ];
 exports.proxy = function (req, res, next) {
   var url = decodeURIComponent(req.query.url);

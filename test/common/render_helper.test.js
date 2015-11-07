@@ -28,7 +28,8 @@ var a = 1;
     it('should escape content', function () {
       var signature = multiline(function () {;
 /*
-我爱北京天安门<script>alert(1)</script>
+我爱北京天安门<script>alert(1)
+</script>
 */
       });
       var escaped = renderHelper.escapeSignature(signature);
