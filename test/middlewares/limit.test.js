@@ -3,6 +3,7 @@ var app = require('../../app');
 var supertest;
 var support = require('../support/support');
 var pedding = require('pedding');
+var visitor = 'visit' + Date.now();
 
 describe('test/middlewares/limit.test.js', function () {
   before(function (done) {
@@ -11,7 +12,7 @@ describe('test/middlewares/limit.test.js', function () {
 
   before(function () {
     app.get('/test_peripperday',
-      limitMiddleware.peripperday('visit', 3), function (req, res) {
+      limitMiddleware.peripperday(visitor, 3), function (req, res) {
         res.send('hello');
       });
 
