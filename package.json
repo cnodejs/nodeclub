@@ -1,12 +1,12 @@
 {
   "name": "nodeclub",
-  "version": "2.1.0",
+  "version": "3.0.1",
   "private": true,
   "main": "app.js",
   "description": "A Node.js bbs using MongoDB",
-  "repository": "https://github.com/cnodejs/nodeclub",
+  "repository": "https://github.com/zysam/nodeclub",
   "engines": {
-    "node": "0.12.x"
+    "node": "v4.2.1"
   },
   "dependencies": {
     "async": "0.9.0",
@@ -55,6 +55,8 @@
   "devDependencies": {
     "coveralls": "2.11.4",
     "errorhandler": "1.2.2",
+    "gulp": "^3.9.0",
+    "gulp-mocha": "^2.1.3",
     "istanbul": "0.3.2",
     "mm": "0.2.1",
     "mocha": "2.0.1",
@@ -64,6 +66,7 @@
     "supertest": "0.14.0"
   },
   "scripts": {
-    "test": "make test"
+    "start": "node app.js",
+    "test": "gulp test"
   }
 }
