@@ -70,6 +70,8 @@
         <% if (topic.tab) { %>
           <span> 来自 <%= topic.tabName %></span>
         <%}%>
+        <!-- <span>微信分享</span> -->
+        <%- partial('../topic/_share') %>
       </div>
       <% if (current_user) { %>
       <div id="manage_topic">
