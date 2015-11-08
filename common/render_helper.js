@@ -68,7 +68,7 @@ exports.markdown = function (text) {
 exports.multiline = multiline;
 
 exports.escapeSignature = function (signature) {
-  return signature.split('\n').map(function (p) {
+  return signature.split(/\r\n|\n/).map(function (p) {
     return _.escape(p);
   }).join('<br>');
 };
