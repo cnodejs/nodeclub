@@ -1,7 +1,3 @@
-/**
- * gulp test
- */
-
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 
