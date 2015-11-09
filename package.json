@@ -39,7 +39,7 @@
     "nodemailer": "1.8.0",
     "nodemailer-smtp-transport": "1.0.4",
     "oneapm": "1.2.12",
-    "passport": "0.1.18",
+    "passport": "0.3.1",
     "passport-github": "0.1.5",
     "pm2": "0.15.10",
     "qn": "1.0.1",
