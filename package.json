@@ -36,7 +36,7 @@
     "mongoose": "4.2.4",
     "multiline": "1.0.1",
     "node-uuid": "1.4.1",
-    "nodemailer": "1.8.0",
+    "nodemailer": "1.9.0",
     "nodemailer-smtp-transport": "1.0.4",
     "oneapm": "1.2.12",
     "passport": "0.3.2",
