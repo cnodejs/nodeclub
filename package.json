@@ -30,7 +30,7 @@
     "loader": "0.1.4",
     "lodash": "3.6.0",
     "markdown-it": "3.0.3",
-    "memory-cache": "0.0.5",
+    "memory-cache": "0.1.4",
     "method-override": "1.0.2",
     "moment": "2.9.0",
     "mongoose": "4.2.5",
