@@ -35,7 +35,7 @@
     "moment": "2.9.0",
     "mongoose": "4.2.5",
     "multiline": "1.0.1",
-    "node-uuid": "1.4.6",
+    "node-uuid": "1.4.7",
     "nodemailer": "1.10.0",
     "nodemailer-smtp-transport": "1.0.4",
     "oneapm": "1.2.14",
