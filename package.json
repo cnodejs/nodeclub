@@ -44,7 +44,7 @@
     "pm2": "0.15.10",
     "qn": "1.0.1",
     "ready": "0.1.1",
-    "request": "2.54.0",
+    "request": "2.66.0",
     "response-time": "2.2.0",
     "superagent": "1.1.0",
     "utility": "1.0.0",
