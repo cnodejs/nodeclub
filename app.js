@@ -164,12 +164,13 @@ if (config.debug) {
   });
 }
 
-app.listen(config.port, function () {
-  logger.log('NodeClub listening on port', config.port);
-  logger.log('God bless love....');
-  logger.log('You can debug your app with http://' + config.hostname + ':' + config.port);
-  logger.log('');
-});
-
+if (!module.parent) {
+  app.listen(config.port, function () {
+    logger.log('NodeClub listening on port', config.port);
+    logger.log('God bless love....');
+    logger.log('You can debug your app with http://' + config.hostname + ':' + config.port);
+    logger.log('');
+  });
+}
 
 module.exports = app;

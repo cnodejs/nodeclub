@@ -10,7 +10,18 @@ var renderHelper = require('../../common/render_helper');
 
 describe('test/common/render_helper.test.js', function () {
   describe('#markdown', function () {
-    it('should render code', function () {
+    it('should render code inline', function () {
+      var text = multiline(function () {;
+    /*
+`var a = 1;`
+    */
+      });
+
+      var rendered = renderHelper.markdown(text);
+      rendered.should.equal('<div class="markdown-text"><p><code>var a = 1;</code></p>\n</div>');
+    });
+
+    it('should render fence', function () {
       var text = multiline(function () {;
     /*
 ```js
@@ -21,6 +32,17 @@ var a = 1;
 
       var rendered = renderHelper.markdown(text);
       rendered.should.equal('<div class=\"markdown-text\"><pre class=\"prettyprint language-js\"><code>var a = 1;\n</code></pre></div>');
+    });
+
+    it('should render code block', function () {
+      var text = multiline(function () {;
+/*
+    var a = 1;
+*/
+      });
+
+      var rendered = renderHelper.markdown(text);
+      rendered.should.equal('<div class="markdown-text"><pre class="prettyprint"><code>var a = 1;</code></pre></div>');
     });
   });
 
