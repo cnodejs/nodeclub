@@ -26,7 +26,7 @@ describe('test/api/v1/reply.test.js', function () {
         })
         .end(function (err, res) {
           should.not.exists(err);
-          res.body.success.should.true;
+          res.body.success.should.true();
           mockReplyId = res.body.reply_id;
           done();
         });
@@ -41,7 +41,7 @@ describe('test/api/v1/reply.test.js', function () {
         })
         .end(function (err, res) {
           should.not.exists(err);
-          res.body.success.should.true;
+          res.body.success.should.true();
           done();
         });
     });

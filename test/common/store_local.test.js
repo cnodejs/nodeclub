@@ -12,7 +12,7 @@ describe('test/common/store_local.test.js', function () {
       var newFilePath = path.join(config.upload.path, newFilename);
       setTimeout(function () {
         fs.existsSync(newFilePath)
-          .should.ok;
+          .should.ok();
         fs.unlinkSync(newFilePath);
         done(err);
       }, 1 * 1000);

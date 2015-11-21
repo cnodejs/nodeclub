@@ -60,7 +60,7 @@ describe('test/controllers/sign.test.js', function () {
           res.text.should.containEql('欢迎加入');
           UserProxy.getUserByLoginName(loginname, function (err, user) {
             should.not.exists(err);
-            user.should.ok;
+            user.should.ok();
             done();
           });
         });

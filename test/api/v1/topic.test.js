@@ -64,8 +64,8 @@ describe('test/api/v1/topic.test.js', function () {
         })
         .end(function (err, res) {
           should.not.exists(err);
-          res.body.success.should.true;
-          res.body.topic_id.should.be.String;
+          res.body.success.should.true();
+          res.body.topic_id.should.be.String();
           done();
         })
     })

@@ -156,7 +156,7 @@ describe('test/controllers/user.test.js', function () {
         res.body.should.eql({status: 'success'});
 
         UserProxy.getUserById(support.normalUser._id, function (err, user) {
-          user.is_star.should.be.true;
+          user.is_star.should.be.true();
           done(err);
         });
       });
@@ -172,7 +172,7 @@ describe('test/controllers/user.test.js', function () {
         res.body.should.eql({status: 'success'});
 
         UserProxy.getUserById(support.normalUser._id, function (err, user) {
-          user.is_star.should.be.false;
+          user.is_star.should.be.false();
           done(err);
         });
       });
@@ -230,7 +230,7 @@ describe('test/controllers/user.test.js', function () {
         .expect(200, function (err, res) {
           res.body.should.eql({status: 'success'});
           UserProxy.getUserById(newuser._id, function (err, user) {
-            user.is_block.should.be.true;
+            user.is_block.should.be.true();
             done(err);
           });
         });
