@@ -31,7 +31,7 @@
     "lodash": "3.6.0",
     "markdown-it": "3.0.3",
     "memory-cache": "0.1.4",
-    "method-override": "1.0.2",
+    "method-override": "2.3.5",
     "moment": "2.9.0",
     "mongoose": "4.2.7",
     "multiline": "1.0.1",
