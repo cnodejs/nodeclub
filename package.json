@@ -43,7 +43,7 @@
     "passport": "0.3.2",
     "passport-github": "1.0.0",
     "pm2": "0.15.10",
-    "qn": "1.1.0",
+    "qn": "1.1.1",
     "ready": "0.1.1",
     "request": "2.67.0",
     "response-time": "2.3.1",
