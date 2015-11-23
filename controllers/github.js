@@ -8,6 +8,7 @@ var validator      = require('validator');
 
 exports.callback = function (req, res, next) {
   var profile = req.user;
+  var email = profile.emails && profile.emails[0] && profile.emails[0].value;
   User.findOne({githubId: profile.id}, function (err, user) {
     if (err) {
       return next(err);
@@ -19,9 +20,8 @@ exports.callback = function (req, res, next) {
       user.githubAccessToken = profile.accessToken;
       // user.loginname = profile.username;
       user.avatar = profile._json.avatar_url;
-      if (profile.emails && profile.emails[0] && profile.emails[0].value) {
-        user.email = profile.emails[0].value;
-      }
+      user.email = email;
+
 
       user.save(function (err) {
         if (err) {
@@ -44,6 +44,7 @@ exports.new = function (req, res, next) {
 
 exports.create = function (req, res, next) {
   var profile = req.session.profile;
+  var email = profile.emails && profile.emails[0] && profile.emails[0].value;
   var isnew = req.body.isnew;
   var loginname = validator.trim(req.body.name).toLowerCase();
   var password = validator.trim(req.body.pass);
@@ -58,7 +59,7 @@ exports.create = function (req, res, next) {
     var user = new User({
       loginname: profile.username,
       pass: profile.accessToken,
-      email: profile.emails[0].value,
+      email: email,
       avatar: profile._json.avatar_url,
       githubId: profile.id,
       githubUsername: profile.username,
