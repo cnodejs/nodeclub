@@ -20,7 +20,7 @@ exports.callback = function (req, res, next) {
       user.githubAccessToken = profile.accessToken;
       // user.loginname = profile.username;
       user.avatar = profile._json.avatar_url;
-      user.email = email;
+      user.email = email || user.email;
 
 
       user.save(function (err) {
