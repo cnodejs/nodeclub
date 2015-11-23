@@ -19,7 +19,7 @@ exports.callback = function (req, res, next) {
       user.githubAccessToken = profile.accessToken;
       // user.loginname = profile.username;
       user.avatar = profile._json.avatar_url;
-      if (profile.emails[0].value) {
+      if (profile.emails && profile.emails[0] && profile.emails[0].value) {
         user.email = profile.emails[0].value;
       }
 
