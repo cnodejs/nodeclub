@@ -55,7 +55,7 @@ exports.new = function (req, res, next) {
 
 exports.create = function (req, res, next) {
   var profile = req.session.profile;
-  var email = profile.emails && profile.emails[0] && profile.emails[0].value;
+
   var isnew = req.body.isnew;
   var loginname = validator.trim(req.body.name).toLowerCase();
   var password = validator.trim(req.body.pass);
@@ -66,6 +66,8 @@ exports.create = function (req, res, next) {
     return res.redirect('/signin');
   }
   delete req.session.profile;
+
+  var email = profile.emails && profile.emails[0] && profile.emails[0].value;
   if (isnew) { // 注册新账号
     var user = new User({
       loginname: profile.username,
