@@ -110,6 +110,8 @@ var config = {
     url: '/public/upload/'
   },
 
+  file_limit: '1MB',
+
   // 版块
   tabs: [
     ['share', '分享'],

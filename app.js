@@ -40,6 +40,7 @@ var requestLog = require('./middlewares/request_log');
 var renderMiddleware = require('./middlewares/render');
 var logger = require('./common/logger');
 var helmet = require('helmet');
+var bytes = require('bytes')
 
 
 // 静态文件目录
@@ -149,7 +150,7 @@ app.use(function (req, res, next) {
 
 app.use(busboy({
   limits: {
-    fileSize: 10 * 1024 * 1024 // 10MB
+    fileSize: bytes(config.file_limit)
   }
 }));
 
