@@ -149,7 +149,7 @@
         this.uploader.on('uploadSuccess', function(file, res){
             if(res.success){
                 self.$win.modal('hide');
-                self.editor.push(' !['+ file.name +']('+ res.url +')');
+                self.editor.push('!['+ file.name +']('+ res.url +')');
             }
             else{
                 self.removeFile();
