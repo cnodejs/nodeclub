@@ -24,7 +24,7 @@
     "eventproxy": "0.3.4",
     "express": "4.13.3",
     "express-session": "1.12.1",
-    "helmet": "0.14.0",
+    "helmet": "0.15.0",
     "ioredis": "1.11.1",
     "jpush-sdk": "3.2.1",
     "loader": "2.0.0",
