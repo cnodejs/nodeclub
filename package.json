@@ -35,7 +35,7 @@
     "memory-cache": "0.1.4",
     "method-override": "2.3.5",
     "moment": "2.10.6",
-    "mongoose": "4.2.8",
+    "mongoose": "4.2.9",
     "multiline": "1.0.2",
     "node-uuid": "1.4.7",
     "nodemailer": "1.10.0",
