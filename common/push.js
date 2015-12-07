@@ -46,13 +46,12 @@ exports.send = function (type, author_id, master_id, topic_id) {
         )
         .setOptions(null, null, null, !config.debug)
         .send(function (err, res) {
+          if (err) {
+            return logger.error(err.message);
+          }
           if (config.debug) {
-            if (err) {
-              logger.error(err.message);
-            } else {
-              logger.info('Sendno: ' + res.sendno);
-              logger.info('Msg_id: ' + res.msg_id);
-            }
+            logger.info('Sendno: ' + res.sendno);
+            logger.info('Msg_id: ' + res.msg_id);
           }
         });
     })

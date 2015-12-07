@@ -52,7 +52,7 @@ if (config.mini_assets) {
   try {
     assets = require('./assets.json');
   } catch (e) {
-    logger.info('You must execute `make build` before start app when mini_assets is true.');
+    logger.error('You must execute `make build` before start app when mini_assets is true.');
     throw e;
   }
 }
