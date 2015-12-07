@@ -47,7 +47,7 @@ exports.send = function (type, author_id, master_id, topic_id) {
         .setOptions(null, null, null, !config.debug)
         .send(function (err, res) {
           if (err) {
-            return logger.error(err.message);
+            return logger.error(err);
           }
           if (config.debug) {
             logger.info('Sendno: ' + res.sendno);
