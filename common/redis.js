@@ -1,5 +1,6 @@
 var config = require('../config');
 var Redis = require('ioredis');
+var logger = require('./logger')
 
 var client = new Redis({
   port: config.redis_port,
@@ -9,7 +10,7 @@ var client = new Redis({
 
 client.on('error', function (err) {
   if (err) {
-    console.error('connect to redis error, check your redis config', err);
+    logger.error('connect to redis error, check your redis config', err);
     process.exit(1);
   }
 })

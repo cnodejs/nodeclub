@@ -52,7 +52,7 @@ if (config.mini_assets) {
   try {
     assets = require('./assets.json');
   } catch (e) {
-    console.log('You must execute `make build` before start app when mini_assets is true.');
+    logger.info('You must execute `make build` before start app when mini_assets is true.');
     throw e;
   }
 }
@@ -163,17 +163,17 @@ if (config.debug) {
   app.use(errorhandler());
 } else {
   app.use(function (err, req, res, next) {
-    console.error('server 500 error:', err);
+    logger.error(err);
     return res.status(500).send('500 status');
   });
 }
 
 if (!module.parent) {
   app.listen(config.port, function () {
-    logger.log('NodeClub listening on port', config.port);
-    logger.log('God bless love....');
-    logger.log('You can debug your app with http://' + config.hostname + ':' + config.port);
-    logger.log('');
+    logger.info('NodeClub listening on port', config.port);
+    logger.info('God bless love....');
+    logger.info('You can debug your app with http://' + config.hostname + ':' + config.port);
+    logger.info('');
   });
 }
 

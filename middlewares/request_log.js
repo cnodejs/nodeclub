@@ -8,12 +8,12 @@ module.exports = function (req, res, next) {
   }
 
   var t = new Date();
-  logger.log('\n\nStarted', t.toISOString(), req.method, req.url, req.ip);
+  logger.info('\n\nStarted', t.toISOString(), req.method, req.url, req.ip);
 
   res.on('finish', function () {
     var duration = ((new Date()) - t);
 
-    logger.log('Completed', res.statusCode, ('(' + duration + 'ms)').green);
+    logger.info('Completed', res.statusCode, ('(' + duration + 'ms)').green);
   });
 
   next();

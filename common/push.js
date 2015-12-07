@@ -4,6 +4,7 @@ var JPush      = require("jpush-sdk");
 var eventproxy = require('eventproxy');
 var config     = require('../config');
 var client     = null;
+var logger = require('./logger')
 
 if (config.jpush && config.jpush.masterSecret !== 'YourSecretKeyyyyyyyyyyyyy') {
   client = JPush.buildClient(config.jpush);
@@ -47,10 +48,10 @@ exports.send = function (type, author_id, master_id, topic_id) {
         .send(function (err, res) {
           if (config.debug) {
             if (err) {
-              console.log(err.message);
+              logger.error(err.message);
             } else {
-              console.log('Sendno: ' + res.sendno);
-              console.log('Msg_id: ' + res.msg_id);
+              logger.info('Sendno: ' + res.sendno);
+              logger.info('Msg_id: ' + res.msg_id);
             }
           }
         });

@@ -1,5 +1,6 @@
 var urllib  = require('url');
 var request = require('request');
+var logger = require('../common/logger')
 
 
 var ALLOW_HOSTNAME = [
@@ -24,7 +25,7 @@ exports.proxy = function (req, res, next) {
       res.set(response.headers);
     })
     .on('error', function (err) {
-      console.error(err);
+      logger.error(err);
     })
     .pipe(res);
 };

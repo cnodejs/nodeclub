@@ -2,6 +2,7 @@ var mailer        = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var config        = require('../config');
 var util          = require('util');
+var logger = require('./logger');
 var transporter     = mailer.createTransport(smtpTransport(config.mail_opts));
 var SITE_ROOT_URL = 'http://' + config.host;
 
@@ -17,7 +18,7 @@ var sendMail = function (data) {
   transporter.sendMail(data, function (err) {
     if (err) {
       // 写为日志
-      console.log(err);
+      logger.error(err);
     }
   });
 };
