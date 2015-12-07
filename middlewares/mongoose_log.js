@@ -6,7 +6,7 @@ if (config.debug) {
   var traceMQuery = function (method, info, query) {
     return function (err, result, millis) {
       if (err) {
-        logger.debug('traceMQuery error:', err)
+        logger.error('traceMQuery error:', err)
       }
       var infos = [];
       infos.push(query._collection.collection.name + "." + method.blue);
