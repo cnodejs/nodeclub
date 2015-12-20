@@ -26,7 +26,7 @@
     "express": "4.13.3",
     "express-session": "1.12.1",
     "helmet": "1.0.0",
-    "ioredis": "1.13.0",
+    "ioredis": "1.13.1",
     "jpush-sdk": "3.2.1",
     "loader": "2.0.0",
     "loader-builder": "1.2.1",
