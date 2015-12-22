@@ -41,7 +41,7 @@
     "node-uuid": "1.4.7",
     "nodemailer": "1.10.0",
     "nodemailer-smtp-transport": "1.0.4",
-    "oneapm": "1.2.15",
+    "oneapm": "1.2.16",
     "passport": "0.3.2",
     "passport-github": "1.0.0",
     "pm2": "0.15.10",
