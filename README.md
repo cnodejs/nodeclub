@@ -6,7 +6,7 @@ Nodeclub
 [![David deps][david-image]][david-url]
 [![node version][node-image]][node-url]
 
-[travis-image]: https://img.shields.io/travis/cnodejs/nodeclub.svg?style=flat-square
+[travis-image]: https://img.shields.io/travis/cnodejs/nodeclub/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/cnodejs/nodeclub
 [coverage-image]: https://img.shields.io/coveralls/cnodejs/nodeclub.svg?style=flat-square
 [coverage-url]: https://coveralls.io/r/cnodejs/nodeclub?branch=master
