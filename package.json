@@ -9,7 +9,7 @@
     "node": "0.12.x"
   },
   "dependencies": {
-    "async": "1.5.1",
+    "async": "1.5.2",
     "bcryptjs": "2.3.0",
     "body-parser": "1.14.2",
     "bytes": "^2.2.0",
