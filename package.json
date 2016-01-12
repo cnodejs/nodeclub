@@ -17,7 +17,7 @@
     "compression": "1.6.0",
     "connect-busboy": "0.0.2",
     "connect-redis": "3.0.2",
-    "cookie-parser": "1.4.0",
+    "cookie-parser": "1.4.1",
     "cors": "2.7.1",
     "csurf": "1.8.3",
     "data2xml": "1.2.2",
