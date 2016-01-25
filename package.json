@@ -23,7 +23,7 @@
     "data2xml": "1.2.2",
     "ejs-mate": "2.3.0",
     "eventproxy": "0.3.4",
-    "express": "4.13.3",
+    "express": "4.13.4",
     "express-session": "1.12.1",
     "helmet": "1.1.0",
     "ioredis": "1.14.0",
