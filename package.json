@@ -43,7 +43,7 @@
     "nodemailer-smtp-transport": "2.0.1",
     "oneapm": "1.2.19",
     "passport": "0.3.2",
-    "passport-github": "1.0.0",
+    "passport-github": "1.1.0",
     "pm2": "1.0.0",
     "qn": "1.1.1",
     "ready": "0.1.1",
