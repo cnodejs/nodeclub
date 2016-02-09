@@ -64,7 +64,7 @@
     "mocha": "2.4.5",
     "nock": "7.0.1",
     "pedding": "1.0.0",
-    "should": "8.2.1",
+    "should": "8.2.2",
     "supertest": "1.1.0"
   },
   "scripts": {
