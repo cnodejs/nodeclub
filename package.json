@@ -11,7 +11,7 @@
   "dependencies": {
     "async": "1.5.2",
     "bcryptjs": "2.3.0",
-    "body-parser": "1.14.2",
+    "body-parser": "1.15.0",
     "bytes": "^2.2.0",
     "colors": "1.1.2",
     "compression": "1.6.1",
