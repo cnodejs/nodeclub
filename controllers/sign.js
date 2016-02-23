@@ -239,8 +239,8 @@ exports.updateSearchPass = function (req, res, next) {
  * @param  {Function} next
  */
 exports.resetPass = function (req, res, next) {
-  var key  = validator.trim(String(req.query.key));
-  var name = validator.trim(String(req.query.name));
+  var key  = validator.trim(req.query.key || '');
+  var name = validator.trim(req.query.name || '');
 
   User.getUserByNameAndKey(name, key, function (err, user) {
     if (!user) {
