@@ -9,7 +9,7 @@ var config     = require('../../config');
 
 var create = function (req, res, next) {
   var topic_id = req.params.topic_id;
-  var content  = req.body.content;
+  var content  = String(req.body.content);
   var reply_id = req.body.reply_id;
 
   var ep = new eventproxy();
