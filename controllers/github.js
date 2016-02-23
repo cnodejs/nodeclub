@@ -57,8 +57,8 @@ exports.create = function (req, res, next) {
   var profile = req.session.profile;
 
   var isnew = req.body.isnew;
-  var loginname = validator.trim(req.body.name).toLowerCase();
-  var password = validator.trim(req.body.pass);
+  var loginname = validator.trim(String(req.body.name)).toLowerCase();
+  var password = validator.trim(String(req.body.pass));
   var ep = new eventproxy();
   ep.fail(next);
 

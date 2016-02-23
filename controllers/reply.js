@@ -16,7 +16,7 @@ exports.add = function (req, res, next) {
   var topic_id = req.params.topic_id;
   var reply_id = req.body.reply_id;
 
-  var str = validator.trim(content);
+  var str = validator.trim(String(content));
   if (str === '') {
     return res.renderError('回复内容不能为空!', 422);
   }
@@ -30,7 +30,7 @@ exports.add = function (req, res, next) {
       // just 404 page
       return next();
     }
-    
+
     if (topic.lock) {
       return res.status(403).send('此主题已锁定。');
     }

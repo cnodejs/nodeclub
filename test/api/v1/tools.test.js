@@ -30,7 +30,7 @@ describe('test/api/v1/tools.test.js', function () {
   it('should 403 when accessToken is wrong', function (done) {
     request.post('/api/v1/accesstoken')
       .send({
-        accessToken: 'not_exists'
+        accesstoken: 'not_exists'
       })
       .end(function (err, res) {
         should.not.exists(err);
