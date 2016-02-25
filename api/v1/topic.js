@@ -59,9 +59,16 @@ var index = function (req, res, next) {
 exports.index = index;
 
 var show = function (req, res, next) {
-  var topicId  = req.params.id;
+  var topicId  = String(req.params.id);
   var mdrender = req.query.mdrender === 'false' ? false : true;
   var ep       = new eventproxy();
+
+  if (!validator.isMongoId(topicId)) {
+    res.status(422);
+    return res.send({
+      error_msg: 'not valid topic id',
+    });
+  }
 
   ep.fail(next);
 
