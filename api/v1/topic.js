@@ -90,6 +90,7 @@ var show = function (req, res, next) {
       }
       reply.author = _.pick(reply.author, ['loginname', 'avatar_url']);
       reply =  _.pick(reply, ['id', 'author', 'content', 'ups', 'create_at', 'reply_id']);
+      reply.reply_id = reply.reply_id || null;
       return reply;
     });
     res.send({data: topic});
