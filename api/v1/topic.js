@@ -89,7 +89,7 @@ var show = function (req, res, next) {
         reply.content = renderHelper.markdown(at.linkUsers(reply.content));
       }
       reply.author = _.pick(reply.author, ['loginname', 'avatar_url']);
-      reply =  _.pick(reply, ['id', 'author', 'content', 'ups', 'create_at']);
+      reply =  _.pick(reply, ['id', 'author', 'content', 'ups', 'create_at', 'reply_id']);
       return reply;
     });
     res.send({data: topic});
