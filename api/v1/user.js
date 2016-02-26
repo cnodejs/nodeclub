@@ -16,7 +16,7 @@ var show = function (req, res, next) {
       return res.send({error_msg: 'user `' + loginname + '` is not exists'});
     }
     var query = {author_id: user._id};
-    var opt = {limit: 10, sort: '-create_at'};
+    var opt = {limit: 15, sort: '-create_at'};
     TopicProxy.getTopicsByQuery(query, opt, ep.done('recent_topics'));
 
     ReplyProxy.getRepliesByAuthorId(user._id, {limit: 30, sort: '-create_at'},
@@ -28,7 +28,7 @@ var show = function (req, res, next) {
           }
         }
         var query = {_id: {'$in': topic_ids}};
-        var opt = {limit: 10, sort: '-create_at'};
+        var opt = {limit: 15, sort: '-create_at'};
         TopicProxy.getTopicsByQuery(query, opt, ep.done('recent_replies'));
       }));
 
