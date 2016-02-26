@@ -1,6 +1,7 @@
 var urllib  = require('url');
 var request = require('request');
 var logger = require('../common/logger')
+var _ = require('lodash')
 
 
 var ALLOW_HOSTNAME = [
@@ -17,9 +18,7 @@ exports.proxy = function (req, res, next) {
 
   request.get({
       url: url,
-      headers: {
-        'If-Modified-Since': req.header('If-Modified-Since') || ''
-      }
+      headers: _.omit(req.headers, ['cookie', 'refer']),
     })
     .on('response', function (response) {
       res.set(response.headers);
