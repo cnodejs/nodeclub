@@ -56,7 +56,7 @@
     "xss": "0.2.10"
   },
   "devDependencies": {
-    "coveralls": "2.11.6",
+    "coveralls": "2.11.8",
     "errorhandler": "1.4.3",
     "istanbul": "0.4.2",
     "loader-connect": "1.0.0",
