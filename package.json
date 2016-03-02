@@ -30,7 +30,7 @@
     "jpush-sdk": "3.2.1",
     "loader": "2.0.0",
     "loader-builder": "2.0.0",
-    "lodash": "4.6.0",
+    "lodash": "4.6.1",
     "log4js": "^0.6.29",
     "markdown-it": "6.0.0",
     "memory-cache": "0.1.4",
