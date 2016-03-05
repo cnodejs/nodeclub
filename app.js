@@ -9,7 +9,7 @@
 var config = require('./config');
 
 if (!config.debug) {
-  require('newrelic');
+  // require('newrelic');
 }
 
 var path = require('path');
