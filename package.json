@@ -52,7 +52,7 @@
     "superagent": "1.7.2",
     "utility": "1.6.0",
     "validator": "5.1.0",
-    "xmlbuilder": "4.2.1",
+    "xmlbuilder": "5.0.1",
     "xss": "0.2.10"
   },
   "devDependencies": {
