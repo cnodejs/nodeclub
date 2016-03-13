@@ -35,7 +35,7 @@
     "markdown-it": "6.0.0",
     "memory-cache": "0.1.4",
     "method-override": "2.3.5",
-    "moment": "2.11.0",
+    "moment": "2.12.0",
     "mongoose": "4.4.6",
     "multiline": "1.0.2",
     "node-uuid": "1.4.7",
@@ -52,11 +52,10 @@
     "superagent": "1.7.2",
     "utility": "1.6.0",
     "validator": "5.1.0",
-    "xmlbuilder": "4.2.1",
+    "xmlbuilder": "5.0.1",
     "xss": "0.2.10"
   },
   "devDependencies": {
-    "coveralls": "2.11.8",
     "errorhandler": "1.4.3",
     "istanbul": "0.4.2",
     "loader-connect": "1.0.0",

@@ -25,4 +25,4 @@ before_install:
 
 script: make test-cov
 
-after_success: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+after_success: npm i codecov && codecov
