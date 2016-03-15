@@ -60,6 +60,8 @@ exports.index = index;
 
 var show = function (req, res, next) {
   var topicId  = String(req.params.id);
+  var accesstoken = req.query.accesstoken
+
   var mdrender = req.query.mdrender === 'false' ? false : true;
   var ep       = new eventproxy();
 
@@ -93,8 +95,25 @@ var show = function (req, res, next) {
       reply.reply_id = reply.reply_id || null;
       return reply;
     });
-    res.send({data: topic});
+
+    ep.emit('full_topic', topic)
   }));
+
+  UserModel.findOne({
+    accessToken: accesstoken
+  }, ep.done(function (user) {
+    if (!user) {
+      return ep.emit('is_collect', null)
+    }
+    TopicCollect.getTopicCollect(user._id, topicId, ep.done('is_collect'))
+  }))
+
+
+  ep.all('full_topic', 'is_collect', function (full_topic, is_collect) {
+    full_topic.is_collect = !!is_collect;
+
+    res.send({data: full_topic});
+  })
 };
 
 exports.show = show;

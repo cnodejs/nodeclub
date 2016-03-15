@@ -103,7 +103,11 @@ exports.index = function (req, res, next) {
     }));
   }));
 
-  TopicCollect.getTopicCollect(currentUser._id, topic_id, ep.done('is_collect'))
+  if (!currentUser) {
+    ep.emit('is_collect', null);
+  } else {
+    TopicCollect.getTopicCollect(currentUser._id, topic_id, ep.done('is_collect'))
+  }
 };
 
 exports.create = function (req, res, next) {
