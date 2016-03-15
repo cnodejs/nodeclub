@@ -35,16 +35,20 @@ exports.index = function (req, res, next) {
   }
 
   var topic_id = req.params.tid;
+  var currentUser = req.session.user;
+
   if (topic_id.length !== 24) {
     return res.render404('此话题不存在或已被删除。');
   }
-  var events = ['topic', 'other_topics', 'no_reply_topics'];
-  var ep = EventProxy.create(events, function (topic, other_topics, no_reply_topics) {
+  var events = ['topic', 'other_topics', 'no_reply_topics', 'is_collect'];
+  var ep = EventProxy.create(events,
+    function (topic, other_topics, no_reply_topics, is_collect) {
     res.render('topic/index', {
       topic: topic,
       author_other_topics: other_topics,
       no_reply_topics: no_reply_topics,
-      is_uped: isUped
+      is_uped: isUped,
+      is_collect: is_collect,
     });
   });
 
@@ -98,6 +102,8 @@ exports.index = function (req, res, next) {
       }
     }));
   }));
+
+  TopicCollect.getTopicCollect(currentUser._id, topic_id, ep.done('is_collect'))
 };
 
 exports.create = function (req, res, next) {
@@ -355,6 +361,7 @@ exports.lock = function (req, res, next) {
 // 收藏主题
 exports.collect = function (req, res, next) {
   var topic_id = req.body.topic_id;
+
   Topic.getTopic(topic_id, function (err, topic) {
     if (err) {
       return next(err);

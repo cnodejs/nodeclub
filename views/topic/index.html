@@ -70,53 +70,57 @@
         <% if (topic.tab) { %>
           <span> 来自 <%= topic.tabName %></span>
         <%}%>
+
+        <input class="span-common <%= is_collect ? '' : 'span-success' %> pull-right collect_btn" type="submit" value="<%= is_collect ? '取消收藏' : '收藏' %>" action="<%= is_collect ? 'de_collect' : 'collect' %>">
+
       </div>
       <% if (current_user) { %>
       <div id="manage_topic">
         <% if (current_user.is_admin) { %>
+          <a href='/topic/<%= topic._id %>/top' data-method="post">
+            <% if (topic.top) { %>
+              <i class="fa fa-lg fa-star-o" title='取消置顶'></i>
+            <% } else { %>
+              <i class="fa fa-lg fa-star" title='置顶'/></i>
+            <% } %>
+          </a>
 
-        <a href='/topic/<%= topic._id %>/top' data-method="post">
-          <% if (topic.top) { %>
-            <i class="fa fa-lg fa-star-o" title='取消置顶'></i>
+
+          <a href='/topic/<%= topic._id %>/good' data-method="post">
+            <% if (topic.good) { %>
+              <i class="fa fa-lg fa-heart-o" title="取消精华"></i>
+            <% } else { %>
+              <i class="fa fa-lg fa-heart" title="加精华"></i>
+            <% } %>
+          </a>
+
+          <a href='/topic/<%= topic._id %>/lock' data-method="post">
+            <% if (topic.lock) { %>
+              <i class="fa fa-lg fa-unlock" title='取消锁定'></i>
+            <% } else { %>
+              <i class="fa fa-lg fa-lock" title='锁定（不可再回复）'/></i>
+            <% } %>
+          </a>
+
+
+          <a href='/topic/<%= topic._id %>/edit'>
+            <i class="fa fa-lg fa-pencil-square-o" title='编辑'></i></a>
+          <a href='javascript:;'
+             data-id="<%= topic._id %>"
+             class='delete_topic_btn'>
+             <i class="fa fa-lg fa-trash" title='删除'></i></a>
           <% } else { %>
-            <i class="fa fa-lg fa-star" title='置顶'/></i>
+          <% if (current_user._id.equals(topic.author_id)) { %>
+          <a href='/topic/<%= topic._id %>/edit'>
+            <i class="fa fa-lg fa-pencil-square-o" title='编辑'></i></a>
+          <a href='javascript:;'
+             data-id="<%= topic._id %>"
+             class='delete_topic_btn'>
+             <i class="fa fa-lg fa-trash" title='删除'></i></a>
           <% } %>
-        </a>
-
-
-        <a href='/topic/<%= topic._id %>/good' data-method="post">
-          <% if (topic.good) { %>
-            <i class="fa fa-lg fa-heart-o" title="取消精华"></i>
-          <% } else { %>
-            <i class="fa fa-lg fa-heart" title="加精华"></i>
-          <% } %>
-        </a>
-
-        <a href='/topic/<%= topic._id %>/lock' data-method="post">
-          <% if (topic.lock) { %>
-            <i class="fa fa-lg fa-unlock" title='取消锁定'></i>
-          <% } else { %>
-            <i class="fa fa-lg fa-lock" title='锁定（不可再回复）'/></i>
-          <% } %>
-        </a>
-
-
-        <a href='/topic/<%= topic._id %>/edit'>
-          <i class="fa fa-lg fa-pencil-square-o" title='编辑'></i></a>
-        <a href='javascript:;'
-           data-id="<%= topic._id %>"
-           class='delete_topic_btn'>
-           <i class="fa fa-lg fa-trash" title='删除'></i></a>
-        <% } else { %>
-        <% if (current_user._id.equals(topic.author_id)) { %>
-        <a href='/topic/<%= topic._id %>/edit'>
-          <i class="fa fa-lg fa-pencil-square-o" title='编辑'></i></a>
-        <a href='javascript:;'
-           data-id="<%= topic._id %>"
-           class='delete_topic_btn'>
-           <i class="fa fa-lg fa-trash" title='删除'></i></a>
         <% } %>
-        <% } %>
+
+
       </div>
       <% } %>
     </div>
@@ -258,7 +262,7 @@
     // END 评论回复
 
     // 加入收藏
-    $('#collect_btn').click(function () {
+    $('.collect_btn').click(function () {
       var $me = $(this);
       var action = $me.attr('action');
       var data = {
@@ -269,10 +273,10 @@
       $.post('/topic/' + action, data, function (data) {
         if (data.status === 'success') {
           if (action == 'collect') {
-            $me.text('取消收藏');
+            $me.val('取消收藏');
             $me.attr('action', 'de_collect');
           } else {
-            $me.text('加入收藏');
+            $me.val('收藏');
             $me.attr('action', 'collect');
           }
           $me.toggleClass('span-success');
