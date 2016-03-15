@@ -1,0 +1,37 @@
+
+<a href="javascript:void(0)" id="wexin"><i class="fa fa-share"></i>微信
+	<div id="qc-popup">
+		<div id="QRCode"></div>
+	</div>
+</a>
+<style type="text/css">
+	#wexin {
+		display: inline-block;
+	}
+	#qc-popup {
+		display: none;
+		background: #FFF;
+		position: absolute;
+		margin-top: -4.5em;
+		margin-left: 3.4em;
+		padding: 10px;
+		border: 1px solid #e5e5e5;
+	}
+</style>
+<script type="text/javascript">
+	//popup the QRCode
+	$("#wexin").hover(function () {
+		$("#qc-popup").show();
+	}, function (){
+		$("#qc-popup").hide();
+	});
+  // qrcode generate
+  var host = "https://cnodejs.org"
+  var url = host + "/topic/<%= topic._id %>";
+  new QRCode(document.getElementById("QRCode"), {
+    text: url,
+    width: 150,
+    height: 150,
+  });
+  // END qrcode generate
+</script>
