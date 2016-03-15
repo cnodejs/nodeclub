@@ -208,15 +208,19 @@ exports.listCollectedTopics = function (req, res, next) {
     TopicCollect.getTopicCollectsByUserId(user._id, proxy.done(function (docs) {
       var ids = [];
       for (var i = 0; i < docs.length; i++) {
-        ids.push(docs[i].topic_id);
+        ids.push(String(docs[i].topic_id));
       }
       var query = { _id: { '$in': ids } };
       var opt = {
         skip: (page - 1) * limit,
         limit: limit,
-        sort: '-create_at'
       };
-      Topic.getTopicsByQuery(query, opt, proxy.done('topics'));
+      Topic.getTopicsByQuery(query, opt, proxy.done('topics', function (topics) {
+        topics = _.sortBy(topics, function (topic) {
+          return ids.indexOf(String(topic._id))
+        })
+        return topics
+      }));
       Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
         var pages = Math.ceil(all_topics_count / limit);
         proxy.emit('pages', pages);
