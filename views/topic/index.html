@@ -71,7 +71,9 @@
           <span> 来自 <%= topic.tabName %></span>
         <%}%>
 
-        <input class="span-common <%= is_collect ? '' : 'span-success' %> pull-right collect_btn" type="submit" value="<%= is_collect ? '取消收藏' : '收藏' %>" action="<%= is_collect ? 'de_collect' : 'collect' %>">
+        <% if (current_user) { %>
+          <input class="span-common <%= is_collect ? '' : 'span-success' %> pull-right collect_btn" type="submit" value="<%= is_collect ? '取消收藏' : '收藏' %>" action="<%= is_collect ? 'de_collect' : 'collect' %>">
+        <%}%>
 
       </div>
       <% if (current_user) { %>

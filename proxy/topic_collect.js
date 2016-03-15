@@ -5,7 +5,7 @@ exports.getTopicCollect = function (userId, topicId, callback) {
 };
 
 exports.getTopicCollectsByUserId = function (userId, callback) {
-  TopicCollect.find({user_id: userId}, '', {sort: 'create_at'}, callback);
+  TopicCollect.find({user_id: userId}, '', {sort: '-create_at'}, callback);
 };
 
 exports.newAndSave = function (userId, topicId, callback) {
