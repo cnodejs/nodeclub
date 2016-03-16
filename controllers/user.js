@@ -206,10 +206,9 @@ exports.listCollectedTopics = function (req, res, next) {
     proxy.fail(next);
 
     TopicCollect.getTopicCollectsByUserId(user._id, proxy.done(function (docs) {
-      var ids = [];
-      for (var i = 0; i < docs.length; i++) {
-        ids.push(String(docs[i].topic_id));
-      }
+      var ids = docs.map(function (doc) {
+        return String(doc.topic_id)
+      })
       var query = { _id: { '$in': ids } };
       var opt = {
         skip: (page - 1) * limit,

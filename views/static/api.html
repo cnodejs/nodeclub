@@ -48,7 +48,10 @@ co
 {success: true, topic_id: '5433d5e4e737cbe96dcef312'}
 ```
 
-#### post /topic/collect 收藏主题
+
+### 主题收藏
+
+#### post /topic_collect/collect 收藏主题
 
 接收 post 参数
 
@@ -61,7 +64,7 @@ co
 {"success": true}
 ```
 
-#### post /topic/de_collect 取消主题
+#### post /topic_collect/de_collect 取消主题
 
 接收 post 参数
 
@@ -73,6 +76,10 @@ co
 ```js
 {success: true}
 ```
+#### get /topic_collect/:loginname 用户所收藏的主题
+
+示例：[/api/v1/topic_collect/alsotang](/api/v1/topic_collect/alsotang)
+
 
 ### 评论
 
