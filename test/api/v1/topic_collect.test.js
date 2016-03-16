@@ -56,6 +56,20 @@ describe('test/api/v1/topic_collect.test.js', function () {
     })
   })
 
+  describe('get /api/v1/topic/:topicid', function () {
+    it('should return topic info', function (done) {
+      request.get('/api/v1/topic/' + mockTopic.id)
+        .query({
+          accesstoken: mockUser.accessToken,
+        })
+        .end(function (err, res) {
+          should.not.exists(err);
+          res.body.data.is_collect.should.true();
+          done();
+        })
+    })
+  })
+
   describe('post /topic_collect/de_collect', function () {
     it('should de_collect topic', function (done) {
       request.post('/api/v1/topic_collect/de_collect')
