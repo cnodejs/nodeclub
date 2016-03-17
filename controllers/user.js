@@ -185,13 +185,13 @@ exports.toggleStar = function (req, res, next) {
 
 exports.listCollectedTopics = function (req, res, next) {
   var name = req.params.name;
+  var page = Number(req.query.page) || 1;
+  var limit = config.list_topic_count;
+
   User.getUserByLoginName(name, function (err, user) {
     if (err || !user) {
       return next(err);
     }
-
-    var page = Number(req.query.page) || 1;
-    var limit = config.list_topic_count;
 
     var render = function (topics, pages) {
       res.render('user/collect_topics', {
@@ -205,16 +205,18 @@ exports.listCollectedTopics = function (req, res, next) {
     var proxy = EventProxy.create('topics', 'pages', render);
     proxy.fail(next);
 
-    TopicCollect.getTopicCollectsByUserId(user._id, proxy.done(function (docs) {
+    var opt = {
+      skip: (page - 1) * limit,
+      limit: limit,
+    };
+
+    TopicCollect.getTopicCollectsByUserId(user._id, opt, proxy.done(function (docs) {
       var ids = docs.map(function (doc) {
         return String(doc.topic_id)
       })
       var query = { _id: { '$in': ids } };
-      var opt = {
-        skip: (page - 1) * limit,
-        limit: limit,
-      };
-      Topic.getTopicsByQuery(query, opt, proxy.done('topics', function (topics) {
+
+      Topic.getTopicsByQuery(query, {}, proxy.done('topics', function (topics) {
         topics = _.sortBy(topics, function (topic) {
           return ids.indexOf(String(topic._id))
         })

@@ -16,7 +16,8 @@ function list(req, res, next) {
       return res.send({error_msg: 'user `' + loginname + '` is not exists'});
     }
 
-    TopicCollectProxy.getTopicCollectsByUserId(user._id, ep.done('collected_topics'))
+    // api 返回 100 条就好了
+    TopicCollectProxy.getTopicCollectsByUserId(user._id, {limit: 100}, ep.done('collected_topics'))
 
     ep.all('collected_topics', function (collected_topics) {
 
