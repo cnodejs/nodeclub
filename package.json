@@ -29,7 +29,7 @@
     "ioredis": "1.15.1",
     "jpush-sdk": "3.2.1",
     "loader": "2.0.0",
-    "loader-builder": "2.0.0",
+    "loader-builder": "2.2.0",
     "lodash": "4.6.1",
     "log4js": "^0.6.29",
     "markdown-it": "6.0.0",
