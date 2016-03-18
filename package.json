@@ -20,7 +20,7 @@
     "cookie-parser": "1.4.1",
     "cors": "2.7.1",
     "csurf": "1.8.3",
-    "data2xml": "1.2.2",
+    "data2xml": "1.2.3",
     "ejs-mate": "2.3.0",
     "eventproxy": "0.3.4",
     "express": "4.13.4",
