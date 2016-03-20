@@ -19,16 +19,15 @@ var show = function (req, res, next) {
     var opt = {limit: 15, sort: '-create_at'};
     TopicProxy.getTopicsByQuery(query, opt, ep.done('recent_topics'));
 
-    ReplyProxy.getRepliesByAuthorId(user._id, {limit: 30, sort: '-create_at'},
+    ReplyProxy.getRepliesByAuthorId(user._id, {limit: 20, sort: '-create_at'},
       ep.done(function (replies) {
-        var topic_ids = [];
-        for (var i = 0; i < replies.length; i++) {
-          if (topic_ids.indexOf(replies[i].topic_id.toString()) < 0) {
-            topic_ids.push(replies[i].topic_id.toString());
-          }
-        }
+        var topic_ids = replies.map(function (reply) {
+          return reply.topic_id.toString()
+        })
+        topic_ids = _.uniq(topic_ids).slice(0, 5); //  只显示最近5条
+
         var query = {_id: {'$in': topic_ids}};
-        var opt = {limit: 15, sort: '-create_at'};
+        var opt = {};
         TopicProxy.getTopicsByQuery(query, opt, ep.done('recent_replies', function (recent_replies) {
           recent_replies = _.sortBy(recent_replies, function (topic) {
             return topic_ids.indexOf(topic._id.toString())

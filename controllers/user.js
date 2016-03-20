@@ -59,10 +59,10 @@ exports.index = function (req, res, next) {
         var topic_ids = replies.map(function (reply) {
           return reply.topic_id.toString()
         })
-        topic_ids = _.uniq(topic_ids);
+        topic_ids = _.uniq(topic_ids).slice(0, 5); //  只显示最近5条
 
         var query = {_id: {'$in': topic_ids}};
-        var opt = {limit: 5, sort: '-create_at'};
+        var opt = {};
         Topic.getTopicsByQuery(query, opt, proxy.done('recent_replies', function (recent_replies) {
           recent_replies = _.sortBy(recent_replies, function (topic) {
             return topic_ids.indexOf(topic._id.toString())
@@ -311,9 +311,10 @@ exports.listReplies = function (req, res, next) {
     Reply.getRepliesByAuthorId(user._id, opt, proxy.done(function (replies) {
       // 获取所有有评论的主题
       var topic_ids = replies.map(function (reply) {
-        return reply.topic_id;
+        return reply.topic_id.toString();
       });
       topic_ids = _.uniq(topic_ids);
+
       var query = {'_id': {'$in': topic_ids}};
       Topic.getTopicsByQuery(query, {}, proxy.done('topics', function (topics) {
         topics = _.sortBy(topics, function (topic) {
