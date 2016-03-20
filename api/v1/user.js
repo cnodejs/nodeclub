@@ -29,7 +29,12 @@ var show = function (req, res, next) {
         }
         var query = {_id: {'$in': topic_ids}};
         var opt = {limit: 15, sort: '-create_at'};
-        TopicProxy.getTopicsByQuery(query, opt, ep.done('recent_replies'));
+        TopicProxy.getTopicsByQuery(query, opt, ep.done('recent_replies', function (recent_replies) {
+          recent_replies = _.sortBy(recent_replies, function (topic) {
+            return topic_ids.indexOf(topic._id.toString())
+          })
+          return recent_replies;
+        }));
       }));
 
     ep.all('recent_topics', 'recent_replies',

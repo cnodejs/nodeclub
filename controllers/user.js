@@ -55,15 +55,20 @@ exports.index = function (req, res, next) {
 
     Reply.getRepliesByAuthorId(user._id, {limit: 20, sort: '-create_at'},
       proxy.done(function (replies) {
-        var topic_ids = [];
-        for (var i = 0; i < replies.length; i++) {
-          if (topic_ids.indexOf(replies[i].topic_id.toString()) < 0) {
-            topic_ids.push(replies[i].topic_id.toString());
-          }
-        }
+
+        var topic_ids = replies.map(function (reply) {
+          return reply.topic_id.toString()
+        })
+        topic_ids = _.uniq(topic_ids);
+
         var query = {_id: {'$in': topic_ids}};
         var opt = {limit: 5, sort: '-create_at'};
-        Topic.getTopicsByQuery(query, opt, proxy.done('recent_replies'));
+        Topic.getTopicsByQuery(query, opt, proxy.done('recent_replies', function (recent_replies) {
+          recent_replies = _.sortBy(recent_replies, function (topic) {
+            return topic_ids.indexOf(topic._id.toString())
+          })
+          return recent_replies;
+        }));
       }));
   });
 };
@@ -310,7 +315,12 @@ exports.listReplies = function (req, res, next) {
       });
       topic_ids = _.uniq(topic_ids);
       var query = {'_id': {'$in': topic_ids}};
-      Topic.getTopicsByQuery(query, {}, proxy.done('topics'));
+      Topic.getTopicsByQuery(query, {}, proxy.done('topics', function (topics) {
+        topics = _.sortBy(topics, function (topic) {
+          return topic_ids.indexOf(topic._id.toString())
+        })
+        return topics;
+      }));
     }));
 
     Reply.getCountByAuthorId(user._id, proxy.done('pages', function (count) {
