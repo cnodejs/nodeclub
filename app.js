@@ -29,7 +29,6 @@ var auth = require('./middlewares/auth');
 var errorPageMiddleware = require('./middlewares/error_page');
 var proxyMiddleware = require('./middlewares/proxy');
 var RedisStore = require('connect-redis')(session);
-var _ = require('lodash');
 var csurf = require('csurf');
 var compress = require('compression');
 var bodyParser = require('body-parser');
@@ -41,7 +40,6 @@ var renderMiddleware = require('./middlewares/render');
 var logger = require('./common/logger');
 var helmet = require('helmet');
 var bytes = require('bytes')
-
 
 // 静态文件目录
 var staticDir = path.join(__dirname, 'public');
@@ -135,14 +133,14 @@ if (!config.debug) {
 // });
 
 // set static, dynamic helpers
-_.extend(app.locals, {
+Object.assign(app.locals, {
   config: config,
   Loader: Loader,
   assets: assets
 });
 
 app.use(errorPageMiddleware.errorPage);
-_.extend(app.locals, require('./common/render_helper'));
+Object.assign(app.locals, require('./common/render_helper'));
 app.use(function (req, res, next) {
   res.locals.csrf = req.csrfToken ? req.csrfToken() : '';
   next();
@@ -163,7 +161,9 @@ if (config.debug) {
   app.use(errorhandler());
 } else {
   app.use(function (err, req, res, next) {
-    logger.error(err);
+    if (err.code !== 'EBADCSRFTOKEN') {
+      logger.error(err);
+    }
     return res.status(500).send('500 status');
   });
 }
