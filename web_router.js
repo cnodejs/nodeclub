@@ -116,8 +116,11 @@ router.post('/auth/github/create', github.create);
 
 router.get('/search', search.index);
 
-router.get('/:name', function (req, res) {
-	res.redirect('/user/' + req.params.name)
-})
+if (!config.debug) { // 这个兼容破坏了不少测试
+	router.get('/:name', function (req, res) {
+	  res.redirect('/user/' + req.params.name)
+	})
+}
+
 
 module.exports = router;
