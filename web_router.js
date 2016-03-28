@@ -116,4 +116,8 @@ router.post('/auth/github/create', github.create);
 
 router.get('/search', search.index);
 
+router.get('/:name', function (req, res) {
+	res.redirect('/user/' + req.params.name)
+})
+
 module.exports = router;
