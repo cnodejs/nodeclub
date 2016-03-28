@@ -18,6 +18,7 @@ var store        = require('../common/store');
 var config       = require('../config');
 var _            = require('lodash');
 var cache        = require('../common/cache');
+var logger = require('../common/logger')
 
 /**
  * Topic page
@@ -56,7 +57,7 @@ exports.index = function (req, res, next) {
 
   Topic.getFullTopic(topic_id, ep.done(function (message, topic, author, replies) {
     if (message) {
-      ep.unbind();
+      logger.error('getFullTopic error topic_id: ' + topic_id)
       return res.renderError(message);
     }
 
