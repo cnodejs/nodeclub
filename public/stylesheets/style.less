@@ -1248,10 +1248,12 @@ textarea.editor {
 
 // 图片预览
 #preview-modal {
+  // 左右两遍各预留 1%，因为一般屏幕比较宽，所以只留下了 1%
   width: 98%;
   margin-left: -49%;
   top: 2%;
-  bottom: 2%;
+  // 上面 2% 下面 2% 中间就剩下 96%
+  max-height: 96%;
   overflow-y: scroll;
   display: none;
 
