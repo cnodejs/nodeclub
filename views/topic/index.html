@@ -172,6 +172,13 @@
   <div class="anchor"></div>
 </div>
 
+<!-- 预览模态对话框 -->
+<div class="modal fade" id="preview-modal">
+  <div class="modal-body" style="max-height: initial;">
+    <img src="" alt="" id="preview-image">
+  </div>
+</div>
+
 
 <% if (current_user && typeof(topic) !== 'undefined') { %>
 <!-- markdown editor -->
@@ -456,4 +463,32 @@
     });
   });
   // END 点赞
+  // 图片预览
+  (function(){
+    var $previewModal = $('#preview-modal');
+    var $previewImage = $('#preview-image');
+    var $body = $('body'); // cache
+
+    $(document).on('click', '.markdown-text img', function(e) {
+      var $img = $(this);
+      showModal($img.attr('src'));
+    });
+
+    $previewModal.on('click', function(e) {
+      hideModal();
+    })
+
+    function showModal(src) {
+      $previewImage.attr('src', src);
+      $previewModal.modal('show');
+      // 自动锁定 body 不能滚动
+      $body.css('overflow-y', 'hidden');
+    }
+
+    function hideModal() {
+      $previewModal.modal('hide');
+      $body.css('overflow-y', 'scroll');
+    }
+  })()
+  // END 图片预览
 </script>
