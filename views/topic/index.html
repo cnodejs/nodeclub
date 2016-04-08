@@ -474,21 +474,11 @@
       showModal($img.attr('src'));
     });
 
-    $previewModal.on('click', function(e) {
-      hideModal();
-    })
-
     function showModal(src) {
       $previewImage.attr('src', src);
       $previewModal.modal('show');
-      // 自动锁定 body 不能滚动
-      $body.css('overflow-y', 'hidden');
     }
 
-    function hideModal() {
-      $previewModal.modal('hide');
-      $body.css('overflow-y', 'scroll');
-    }
   })()
   // END 图片预览
 </script>
