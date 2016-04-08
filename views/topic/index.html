@@ -175,7 +175,7 @@
 <!-- 预览模态对话框 -->
 <div class="modal fade" id="preview-modal">
   <div class="modal-body" style="max-height: initial;">
-    <img src="" alt="" id="preview-image">
+    <img src="" alt="点击内容或者外部自动关闭图片预览" id="preview-image">
   </div>
 </div>
 
@@ -474,9 +474,28 @@
       showModal($img.attr('src'));
     });
 
+    $previewModal.on('click', hideModal);
+
+    $previewModal.on('hidden.bs.modal', function() {
+      // 在预览框消失之后恢复 body 的滚动能力
+      $body.css('overflow-y', 'scroll');
+    })
+
+    $previewModal.on('shown.bs.modal', function() {
+      // 修复上次滚动留下的痕迹,可能会导致短暂的闪烁，不过可以接受
+      // TODO: to be promote
+      $previewModal.scrollTop(0);
+    })
+
     function showModal(src) {
       $previewImage.attr('src', src);
       $previewModal.modal('show');
+      // 禁止 body 滚动
+      $body.css('overflow-y', 'hidden');
+    }
+
+    function hideModal() {
+      $previewModal.modal('hide');
     }
 
   })()

@@ -1262,9 +1262,16 @@ textarea.editor {
   img {
     // just for 增强好看度
     box-shadow: 0 0 10px 5px grey;
+    cursor: pointer;
   }
 }
 
-.markdown-text img:hover {
+.markdown-text img {
   cursor: pointer;
+  transition: all 0.5s;
+  // just for 加特技啊加特技，告诉别人这个图片是可以交互的
+  &:hover {
+    transform: scale(0.98);
+    box-shadow: 0 0 5px 1px grey;
+  }
 }
