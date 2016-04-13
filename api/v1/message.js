@@ -73,7 +73,7 @@ var markAll = function (req, res, next) {
     });
     res.send({
       success: true,
-      marked_msgs: unread,
+      marked_msgs: unread
     });
   });
 };

@@ -18,19 +18,18 @@ var create = function (req, res, next) {
   var str = validator.trim(content);
   if (str === '') {
     res.status(422);
-    res.send({success: false, error_msg: '回复内容不能为空！'});
+    res.send({success: false, error_msg: '回复内容不能为空'});
     return;
   }
 
   Topic.getTopic(topic_id, ep.done(function (topic) {
     if (!topic) {
       res.status(404);
-      res.send({success: false, error_msg: 'topic `' + topic_id + '` not found'});
-      return;
+      return res.send({success: false, error_msg: '主题不存在'});
     }
     if (topic.lock) {
       res.status(403);
-      return res.send({success: false, error_msg: 'topic is locked'});
+      return res.send({success: false, error_msg: '该主题已被锁定'});
     }
     ep.emit('topic', topic);
   }));
@@ -67,7 +66,7 @@ var create = function (req, res, next) {
   ep.all('reply_saved', 'message_saved', 'score_saved', function (reply) {
     res.send({
       success: true,
-      reply_id: reply._id,
+      reply_id: reply._id
     });
   });
 };
@@ -84,14 +83,11 @@ var ups = function (req, res, next) {
     }
     if (!reply) {
       res.status(404);
-      return res.send({success: false, error_msg: 'reply `' + replyId + '` not found'});
+      return res.send({success: false, error_msg: '评论不存在'});
     }
     if (reply.author_id.equals(userId) && !config.debug) {
-      // 不能帮自己点赞
-      res.send({
-        success: false,
-        error_msg: '呵呵，不能帮自己点赞。',
-      });
+      res.status(403);
+      return res.send({success: false, error_msg: '不能帮自己点赞'});
     } else {
       var action;
       reply.ups = reply.ups || [];

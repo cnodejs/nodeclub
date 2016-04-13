@@ -1,9 +1,9 @@
-var eventproxy = require('eventproxy')
+var eventproxy = require('eventproxy');
 var TopicProxy   = require('../../proxy').Topic;
 var TopicCollectProxy = require('../../proxy').TopicCollect;
 var UserProxy = require('../../proxy').User;
 
-var _ = require('lodash')
+var _ = require('lodash');
 
 function list(req, res, next) {
   var loginname = req.params.loginname;
@@ -13,26 +13,27 @@ function list(req, res, next) {
 
   UserProxy.getUserByLoginName(loginname, ep.done(function (user) {
     if (!user) {
-      return res.send({success: false, error_msg: 'user `' + loginname + '` is not exists'});
+      res.status(404);
+      return res.send({success: false, error_msg: '用户不存在'});
     }
 
     // api 返回 100 条就好了
-    TopicCollectProxy.getTopicCollectsByUserId(user._id, {limit: 100}, ep.done('collected_topics'))
+    TopicCollectProxy.getTopicCollectsByUserId(user._id, {limit: 100}, ep.done('collected_topics'));
 
     ep.all('collected_topics', function (collected_topics) {
 
       var ids = collected_topics.map(function (doc) {
         return String(doc.topic_id)
-      })
+      });
       var query = { _id: { '$in': ids } };
       TopicProxy.getTopicsByQuery(query, {}, ep.done('topics', function (topics) {
         topics = _.sortBy(topics, function (topic) {
           return ids.indexOf(String(topic._id))
-        })
+        });
         return topics
       }));
 
-    })
+    });
 
     ep.all('topics', function (topics) {
       topics = topics.map(function (topic) {
@@ -48,13 +49,14 @@ function list(req, res, next) {
 
 exports.list = list;
 
-exports.collect = function (req, res, next) {
+function collect(req, res, next) {
   var topic_id = req.body.topic_id;
   TopicProxy.getTopic(topic_id, function (err, topic) {
     if (err) {
       return next(err);
     }
     if (!topic) {
+      res.status(404);
       return res.json({success: false, error_msg: '主题不存在'});
     }
 
@@ -87,13 +89,16 @@ exports.collect = function (req, res, next) {
   });
 };
 
-exports.de_collect = function (req, res, next) {
+exports.collect = collect;
+
+function de_collect(req, res, next) {
   var topic_id = req.body.topic_id;
   TopicProxy.getTopic(topic_id, function (err, topic) {
     if (err) {
       return next(err);
     }
     if (!topic) {
+      res.status(404);
       return res.json({success: false, error_msg: '主题不存在'});
     }
     TopicCollectProxy.remove(req.user.id, topic._id, function (err) {
@@ -116,4 +121,4 @@ exports.de_collect = function (req, res, next) {
   });
 };
 
-
+exports.de_collect = de_collect;
