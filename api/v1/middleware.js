@@ -13,10 +13,10 @@ var auth = function (req, res, next) {
   UserModel.findOne({accessToken: accessToken}, ep.done(function (user) {
     if (!user) {
       res.status(403);
-      return res.send({error_msg: 'wrong accessToken'});
+      return res.send({success: false, error_msg: 'wrong accessToken'});
     }
     if (user.is_block) {
-      return res.send({error_msg: 'your account is blocked'});
+      return res.send({success: false, error_msg: 'your account is blocked'});
     }
     req.user = user;
     next();
@@ -39,7 +39,7 @@ var tryAuth = function (req, res, next) {
       return next()
     }
     if (user.is_block) {
-      return res.send({error_msg: 'your account is blocked'});
+      return res.send({success: false, error_msg: 'your account is blocked'});
     }
     req.user = user;
     next();

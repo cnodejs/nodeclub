@@ -13,7 +13,7 @@ var show = function (req, res, next) {
 
   UserProxy.getUserByLoginName(loginname, ep.done(function (user) {
     if (!user) {
-      return res.send({error_msg: 'user `' + loginname + '` is not exists'});
+      return res.send({success: false, error_msg: 'user `' + loginname + '` is not exists'});
     }
     var query = {author_id: user._id};
     var opt = {limit: 15, sort: '-create_at'};
@@ -53,7 +53,7 @@ var show = function (req, res, next) {
           return topic;
         });
 
-        res.send({data: user});
+        res.send({success: true, data: user});
       });
   }));
 };

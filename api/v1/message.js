@@ -12,6 +12,7 @@ var index = function (req, res, next) {
 
   ep.all('has_read_messages', 'hasnot_read_messages', function (has_read_messages, hasnot_read_messages) {
     res.send({
+      success: true,
       data: {
         has_read_messages: has_read_messages,
         hasnot_read_messages: hasnot_read_messages
@@ -86,7 +87,7 @@ var count = function (req, res, next) {
   ep.fail(next);
 
   Message.getMessagesCount(userId, ep.done(function (count) {
-    res.send({data: count});
+    res.send({success: true, data: count});
   }));
 };
 

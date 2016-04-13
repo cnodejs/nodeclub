@@ -51,7 +51,7 @@ var index = function (req, res, next) {
           'good', 'top', 'reply_count', 'visit_count', 'create_at', 'author']);
       });
 
-      res.send({data: topics});
+      res.send({success: true, data: topics});
     });
   });
 };
@@ -67,6 +67,7 @@ var show = function (req, res, next) {
   if (!validator.isMongoId(topicId)) {
     res.status(422);
     return res.send({
+      success: false,
       error_msg: 'not valid topic id',
     });
   }
@@ -75,7 +76,7 @@ var show = function (req, res, next) {
 
   TopicProxy.getFullTopic(topicId, ep.done(function (msg, topic, author, replies) {
     if (!topic) {
-      return res.send({error_msg: 'topic_id `' + topicId + '` is not exists.'});
+      return res.send({success: false, error_msg: 'topic_id `' + topicId + '` is not exists.'});
     }
     topic = _.pick(topic, ['id', 'author_id', 'tab', 'content', 'title', 'last_reply_at',
       'good', 'top', 'reply_count', 'visit_count', 'create_at', 'author']);
@@ -108,7 +109,7 @@ var show = function (req, res, next) {
   ep.all('full_topic', 'is_collect', function (full_topic, is_collect) {
     full_topic.is_collect = !!is_collect;
 
-    res.send({data: full_topic});
+    res.send({success: true, data: full_topic});
   })
 
 
@@ -143,6 +144,7 @@ var create = function (req, res, next) {
   if (editError) {
     res.status(422);
     return res.send({
+      success: false,
       error_msg: editError,
     });
   }

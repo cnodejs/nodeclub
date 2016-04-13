@@ -13,7 +13,7 @@ function list(req, res, next) {
 
   UserProxy.getUserByLoginName(loginname, ep.done(function (user) {
     if (!user) {
-      return res.send({error_msg: 'user `' + loginname + '` is not exists'});
+      return res.send({success: false, error_msg: 'user `' + loginname + '` is not exists'});
     }
 
     // api 返回 100 条就好了
@@ -40,7 +40,7 @@ function list(req, res, next) {
         return _.pick(topic, ['id', 'author_id', 'tab', 'content', 'title', 'last_reply_at',
           'good', 'top', 'reply_count', 'visit_count', 'create_at', 'author']);
       });
-      res.send({data: topics})
+      res.send({success: true, data: topics})
 
     })
   }))
@@ -55,7 +55,7 @@ exports.collect = function (req, res, next) {
       return next(err);
     }
     if (!topic) {
-      return res.json({error_msg: '主题不存在'});
+      return res.json({success: false, error_msg: '主题不存在'});
     }
 
     TopicCollectProxy.getTopicCollect(req.user.id, topic._id, function (err, doc) {
@@ -94,7 +94,7 @@ exports.de_collect = function (req, res, next) {
       return next(err);
     }
     if (!topic) {
-      return res.json({error_msg: '主题不存在'});
+      return res.json({success: false, error_msg: '主题不存在'});
     }
     TopicCollectProxy.remove(req.user.id, topic._id, function (err) {
       if (err) {
