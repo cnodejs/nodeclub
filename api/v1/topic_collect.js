@@ -2,8 +2,8 @@ var eventproxy = require('eventproxy');
 var TopicProxy   = require('../../proxy').Topic;
 var TopicCollectProxy = require('../../proxy').TopicCollect;
 var UserProxy = require('../../proxy').User;
-
 var _ = require('lodash');
+var validator    = require('validator');
 
 function list(req, res, next) {
   var loginname = req.params.loginname;
@@ -51,6 +51,12 @@ exports.list = list;
 
 function collect(req, res, next) {
   var topic_id = req.body.topic_id;
+
+  if (!validator.isMongoId(topic_id)) {
+    res.status(422);
+    return res.send({success: false, error_msg: '不是有效的主题id'});
+  }
+
   TopicProxy.getTopic(topic_id, function (err, topic) {
     if (err) {
       return next(err);
@@ -87,12 +93,18 @@ function collect(req, res, next) {
       topic.save();
     });
   });
-};
+}
 
 exports.collect = collect;
 
 function de_collect(req, res, next) {
   var topic_id = req.body.topic_id;
+
+  if (!validator.isMongoId(topic_id)) {
+    res.status(422);
+    return res.send({success: false, error_msg: '不是有效的主题id'});
+  }
+
   TopicProxy.getTopic(topic_id, function (err, topic) {
     if (err) {
       return next(err);
@@ -119,6 +131,6 @@ function de_collect(req, res, next) {
     topic.collect_count -= 1;
     topic.save();
   });
-};
+}
 
 exports.de_collect = de_collect;

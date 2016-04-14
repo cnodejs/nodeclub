@@ -18,10 +18,14 @@ var create = function (req, res, next) {
   var str = validator.trim(content);
   if (str === '') {
     res.status(422);
-    res.send({success: false, error_msg: '回复内容不能为空'});
-    return;
+    return res.send({success: false, error_msg: '回复内容不能为空'});
   }
 
+  if (!validator.isMongoId(topic_id)) {
+    res.status(422);
+    return res.send({success: false, error_msg: '不是有效的主题id'});
+  }
+  
   Topic.getTopic(topic_id, ep.done(function (topic) {
     if (!topic) {
       res.status(404);
@@ -77,6 +81,11 @@ var ups = function (req, res, next) {
   var replyId = req.params.reply_id;
   var userId  = req.user.id;
 
+  if (!validator.isMongoId(replyId)) {
+    res.status(422);
+    return res.send({success: false, error_msg: '不是有效的评论id'});
+  }
+  
   Reply.getReplyById(replyId, function (err, reply) {
     if (err) {
       return next(err);

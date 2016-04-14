@@ -7,7 +7,9 @@ var mm = require('mm');
 var should = require('should');
 
 describe('test/api/v1/message.test.js', function () {
+
   var mockUser;
+
   before(function (done) {
     support.ready(function () {
       support.createUser(function (err, user) {
@@ -30,7 +32,7 @@ describe('test/api/v1/message.test.js', function () {
         should.not.exists(err);
         request.get('/api/v1/messages')
           .query({
-            accesstoken: mockUser.accessToken,
+            accesstoken: mockUser.accessToken
           })
           .end(function (err, res) {
             res.body.data.hasnot_read_messages.length.should.above(0);
@@ -45,7 +47,7 @@ describe('test/api/v1/message.test.js', function () {
     });
     request.get('/api/v1/message/count')
       .query({
-        accesstoken: mockUser.accessToken,
+        accesstoken: mockUser.accessToken
       })
       .end(function (err, res) {
         res.body.data.should.equal(1);
@@ -56,14 +58,14 @@ describe('test/api/v1/message.test.js', function () {
   it('should mark all messages read', function (done) {
     request.post('/api/v1/message/mark_all')
       .send({
-        accesstoken: mockUser.accessToken,
+        accesstoken: mockUser.accessToken
       })
       .end(function (err, res) {
         // 第一次查询有一个
         res.body.marked_msgs.length.should.equal(1);
         request.post('/api/v1/message/mark_all')
           .send({
-            accesstoken: mockUser.accessToken,
+            accesstoken: mockUser.accessToken
           })
           .end(function (err, res) {
             // 第二次查询没了
@@ -72,4 +74,5 @@ describe('test/api/v1/message.test.js', function () {
           });
       });
   });
+  
 });
