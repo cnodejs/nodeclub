@@ -138,7 +138,7 @@ describe('test/api/v1/topic.test.js', function () {
         .send({
           accesstoken: mockUser.accessToken,
           title: '我是API测试标题',
-          tab: 'tab_not_found',
+          tab: '',
           content: '我是API测试内容'
         })
         .end(function (err, res) {
