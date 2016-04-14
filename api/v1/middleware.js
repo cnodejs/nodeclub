@@ -12,11 +12,12 @@ var auth = function (req, res, next) {
 
   UserModel.findOne({accessToken: accessToken}, ep.done(function (user) {
     if (!user) {
-      res.status(403);
-      return res.send({success: false, error_msg: 'wrong accessToken'});
+      res.status(401);
+      return res.send({success: false, error_msg: '错误的accessToken'});
     }
     if (user.is_block) {
-      return res.send({success: false, error_msg: 'your account is blocked'});
+      res.status(403);
+      return res.send({success: false, error_msg: '您的账户被禁用'});
     }
     req.user = user;
     next();
@@ -39,7 +40,8 @@ var tryAuth = function (req, res, next) {
       return next()
     }
     if (user.is_block) {
-      return res.send({success: false, error_msg: 'your account is blocked'});
+      res.status(403);
+      return res.send({success: false, error_msg: '您的账户被禁用'});
     }
     req.user = user;
     next();

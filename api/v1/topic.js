@@ -66,17 +66,15 @@ var show = function (req, res, next) {
 
   if (!validator.isMongoId(topicId)) {
     res.status(422);
-    return res.send({
-      success: false,
-      error_msg: 'not valid topic id',
-    });
+    return res.send({success: false, error_msg: '不是有效的主题id'});
   }
 
   ep.fail(next);
 
   TopicProxy.getFullTopic(topicId, ep.done(function (msg, topic, author, replies) {
     if (!topic) {
-      return res.send({success: false, error_msg: 'topic_id `' + topicId + '` is not exists.'});
+      res.status(404);
+      return res.send({success: false, error_msg: '主题不存在'});
     }
     topic = _.pick(topic, ['id', 'author_id', 'tab', 'content', 'title', 'last_reply_at',
       'good', 'top', 'reply_count', 'visit_count', 'create_at', 'author']);
@@ -112,8 +110,6 @@ var show = function (req, res, next) {
     res.send({success: true, data: full_topic});
   })
 
-
-
 };
 
 exports.show = show;
@@ -131,11 +127,11 @@ var create = function (req, res, next) {
   // 验证
   var editError;
   if (title === '') {
-    editError = '标题不能是空的。';
+    editError = '标题不能为空';
   } else if (title.length < 5 || title.length > 100) {
-    editError = '标题字数太多或太少。';
+    editError = '标题字数太多或太少';
   } else if (!tab || allTabs.indexOf(tab) === -1) {
-    editError = '必须选择一个版块。';
+    editError = '必须选择一个版块';
   } else if (content === '') {
     editError = '内容不可为空';
   }
@@ -143,10 +139,7 @@ var create = function (req, res, next) {
 
   if (editError) {
     res.status(422);
-    return res.send({
-      success: false,
-      error_msg: editError,
-    });
+    return res.send({success: false, error_msg: editError});
   }
 
   TopicProxy.newAndSave(title, content, tab, req.user.id, function (err, topic) {
@@ -160,7 +153,7 @@ var create = function (req, res, next) {
     proxy.all('score_saved', function () {
       res.send({
         success: true,
-        topic_id: topic.id,
+        topic_id: topic.id
       });
     });
     UserProxy.getUserById(req.user.id, proxy.done(function (user) {

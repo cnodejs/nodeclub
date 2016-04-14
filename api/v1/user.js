@@ -13,7 +13,8 @@ var show = function (req, res, next) {
 
   UserProxy.getUserByLoginName(loginname, ep.done(function (user) {
     if (!user) {
-      return res.send({success: false, error_msg: 'user `' + loginname + '` is not exists'});
+      res.status(404);
+      return res.send({success: false, error_msg: '用户不存在'});
     }
     var query = {author_id: user._id};
     var opt = {limit: 15, sort: '-create_at'};
@@ -23,7 +24,7 @@ var show = function (req, res, next) {
       ep.done(function (replies) {
         var topic_ids = replies.map(function (reply) {
           return reply.topic_id.toString()
-        })
+        });
         topic_ids = _.uniq(topic_ids).slice(0, 5); //  只显示最近5条
 
         var query = {_id: {'$in': topic_ids}};
@@ -31,7 +32,7 @@ var show = function (req, res, next) {
         TopicProxy.getTopicsByQuery(query, opt, ep.done('recent_replies', function (recent_replies) {
           recent_replies = _.sortBy(recent_replies, function (topic) {
             return topic_ids.indexOf(topic._id.toString())
-          })
+          });
           return recent_replies;
         }));
       }));
