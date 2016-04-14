@@ -11,7 +11,7 @@ describe('test/api/v1/user.test.js', function () {
     support.createUser(function (err, user) {
       mockUser = user;
       done();
-    })
+    });
   });
   
   describe('get /api/v1/user/:loginname', function () {
@@ -20,7 +20,7 @@ describe('test/api/v1/user.test.js', function () {
       request.get('/api/v1/user/' + mockUser.loginname)
         .end(function (err, res) {
           should.not.exists(err);
-          res.body.success.should.equal(true);
+          res.body.success.should.true();
           res.body.data.loginname.should.equal(mockUser.loginname);
           done();
         });
@@ -31,7 +31,7 @@ describe('test/api/v1/user.test.js', function () {
         .end(function (err, res) {
           should.not.exists(err);
           res.status.should.equal(404);
-          res.body.success.should.equal(false);
+          res.body.success.should.false();
           done();
         });
     });
