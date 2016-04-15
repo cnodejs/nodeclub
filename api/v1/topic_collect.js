@@ -53,7 +53,7 @@ function collect(req, res, next) {
   var topic_id = req.body.topic_id;
 
   if (!validator.isMongoId(topic_id)) {
-    res.status(422);
+    res.status(400);
     return res.send({success: false, error_msg: '不是有效的主题id'});
   }
 
@@ -101,7 +101,7 @@ function de_collect(req, res, next) {
   var topic_id = req.body.topic_id;
 
   if (!validator.isMongoId(topic_id)) {
-    res.status(422);
+    res.status(400);
     return res.send({success: false, error_msg: '不是有效的主题id'});
   }
 

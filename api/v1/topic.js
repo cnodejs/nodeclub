@@ -65,7 +65,7 @@ var show = function (req, res, next) {
   var ep       = new eventproxy();
 
   if (!validator.isMongoId(topicId)) {
-    res.status(422);
+    res.status(400);
     return res.send({success: false, error_msg: '不是有效的主题id'});
   }
 
@@ -138,7 +138,7 @@ var create = function (req, res, next) {
   // END 验证
 
   if (editError) {
-    res.status(422);
+    res.status(400);
     return res.send({success: false, error_msg: editError});
   }
 
