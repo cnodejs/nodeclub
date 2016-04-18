@@ -17,12 +17,12 @@ var create = function (req, res, next) {
 
   var str = validator.trim(content);
   if (str === '') {
-    res.status(422);
+    res.status(400);
     return res.send({success: false, error_msg: '回复内容不能为空'});
   }
 
   if (!validator.isMongoId(topic_id)) {
-    res.status(422);
+    res.status(400);
     return res.send({success: false, error_msg: '不是有效的主题id'});
   }
   
@@ -82,7 +82,7 @@ var ups = function (req, res, next) {
   var userId  = req.user.id;
 
   if (!validator.isMongoId(replyId)) {
-    res.status(422);
+    res.status(400);
     return res.send({success: false, error_msg: '不是有效的评论id'});
   }
   

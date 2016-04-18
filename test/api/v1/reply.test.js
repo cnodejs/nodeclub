@@ -68,7 +68,7 @@ describe('test/api/v1/reply.test.js', function () {
         })
         .end(function (err, res) {
           should.not.exists(err);
-          res.status.should.equal(422);
+          res.status.should.equal(400);
           res.body.success.should.false();
           done();
         });
@@ -82,7 +82,7 @@ describe('test/api/v1/reply.test.js', function () {
         })
         .end(function (err, res) {
           should.not.exists(err);
-          res.status.should.equal(422);
+          res.status.should.equal(400);
           res.body.success.should.false();
           done();
         });
@@ -176,7 +176,7 @@ describe('test/api/v1/reply.test.js', function () {
         })
         .end(function (err, res) {
           should.not.exists(err);
-          res.status.should.equal(422);
+          res.status.should.equal(400);
           res.body.success.should.false();
           done();
         });
