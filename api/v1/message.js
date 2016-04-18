@@ -35,7 +35,7 @@ var index = function (req, res, next) {
           if (mdrender) {
             doc.reply.content = renderHelper.markdown(at.linkUsers(doc.reply.content));
           }
-          doc        = _.pick(doc, ['id', 'type', 'has_read', 'author', 'topic', 'reply']);
+          doc        = _.pick(doc, ['id', 'type', 'has_read', 'author', 'topic', 'reply', 'create_at']);
 
           return doc;
         });
