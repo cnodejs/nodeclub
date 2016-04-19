@@ -1,4 +1,5 @@
 // 一次性脚本
+// 修复之前重复编辑帖子会导致重复 @someone 的渲染问题
 var TopicModel = require('../models').Topic;
 
 TopicModel.find({content: /\[{2,}@/}).exec(function (err, topics) {
