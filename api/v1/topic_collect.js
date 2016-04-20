@@ -71,7 +71,7 @@ function collect(req, res, next) {
         return next(err);
       }
       if (doc) {
-        res.json({success: true});
+        res.json({success: false});
         return;
       }
 
@@ -113,23 +113,28 @@ function de_collect(req, res, next) {
       res.status(404);
       return res.json({success: false, error_msg: '主题不存在'});
     }
-    TopicCollectProxy.remove(req.user.id, topic._id, function (err) {
+    TopicCollectProxy.remove(req.user.id, topic._id, function (err, removeResult) {
       if (err) {
         return next(err);
       }
+      if (removeResult.result.n == 0) {
+        return res.json({success: false})
+      }
+
+      UserProxy.getUserById(req.user.id, function (err, user) {
+        if (err) {
+          return next(err);
+        }
+        user.collect_topic_count -= 1;
+        user.save();
+      });
+
+      topic.collect_count -= 1;
+      topic.save();
+
       res.json({success: true});
     });
 
-    UserProxy.getUserById(req.user.id, function (err, user) {
-      if (err) {
-        return next(err);
-      }
-      user.collect_topic_count -= 1;
-      user.save();
-    });
-
-    topic.collect_count -= 1;
-    topic.save();
   });
 }
 

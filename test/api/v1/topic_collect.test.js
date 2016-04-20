@@ -4,9 +4,9 @@ var should = require('should');
 var support = require('../../support/support');
 
 describe('test/api/v1/topic_collect.test.js', function () {
-  
+
   var mockUser, mockTopic;
-  
+
   before(function (done) {
     support.createUser(function (err, user) {
       mockUser = user;
@@ -82,6 +82,19 @@ describe('test/api/v1/topic_collect.test.js', function () {
         });
     });
 
+    it('should not collect topic twice', function (done) {
+      request.post('/api/v1/topic_collect/collect')
+        .send({
+          accesstoken: mockUser.accessToken,
+          topic_id: mockTopic.id
+        })
+        .end(function (err, res) {
+          should.not.exists(err);
+          res.body.success.should.false();
+          done();
+        });
+    });
+
     it('should fail when topic_id is not valid', function (done) {
       request.post('/api/v1/topic_collect/collect')
         .send({
@@ -114,9 +127,9 @@ describe('test/api/v1/topic_collect.test.js', function () {
           done();
         });
     });
-    
+
   });
-  
+
   // 主题被收藏之后
   describe('after collect topic', function () {
 
@@ -132,7 +145,7 @@ describe('test/api/v1/topic_collect.test.js', function () {
             done();
           });
       });
-      
+
       it('should fail when user not found', function (done) {
         request.get('/api/v1/topic_collect/' + mockUser.loginname + 'not_found')
           .end(function (err, res) {
@@ -142,7 +155,7 @@ describe('test/api/v1/topic_collect.test.js', function () {
             done();
           });
       });
-      
+
     });
 
     describe('get /api/v1/topic/:topicid', function () {
@@ -163,7 +176,7 @@ describe('test/api/v1/topic_collect.test.js', function () {
     });
 
   });
-  
+
   // 取消收藏主题
   describe('post /topic_collect/de_collect', function () {
 
@@ -179,7 +192,7 @@ describe('test/api/v1/topic_collect.test.js', function () {
           done();
         });
     });
-    
+
     it('should decollect topic with correct accessToken', function (done) {
       request.post('/api/v1/topic_collect/de_collect')
         .send({
@@ -192,7 +205,20 @@ describe('test/api/v1/topic_collect.test.js', function () {
           done();
         });
     });
-    
+
+    it('should not decollect topic twice', function (done) {
+      request.post('/api/v1/topic_collect/de_collect')
+        .send({
+          accesstoken: mockUser.accessToken,
+          topic_id: mockTopic.id
+        })
+        .end(function (err, res) {
+          should.not.exists(err);
+          res.body.success.should.false();
+          done();
+        });
+    });
+
     it('should fail when topic_id is not valid', function (done) {
       request.post('/api/v1/topic_collect/de_collect')
         .send({
@@ -225,9 +251,9 @@ describe('test/api/v1/topic_collect.test.js', function () {
           done();
         });
     });
-    
+
   });
-  
+
   // 主题被取消收藏之后
   describe('after decollect topic', function () {
 

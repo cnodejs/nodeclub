@@ -214,6 +214,18 @@ describe('test/controllers/topic.test.js', function () {
         done(err);
       })
     })
+
+    it('should not collect a topic twice', function (done) {
+      request.post('/topic/collect')
+      .send({
+        topic_id: support.testTopic._id,
+      })
+      .set('Cookie', support.normalUser2Cookie)
+      .expect(200, function (err, res) {
+        res.body.should.eql({status: 'failed'});
+        done(err);
+      })
+    })
   })
 
   describe('#de_collect', function () {
@@ -225,6 +237,18 @@ describe('test/controllers/topic.test.js', function () {
       .set('Cookie', support.normalUser2Cookie)
       .expect(200, function (err, res) {
         res.body.should.eql({status: 'success'});
+        done(err);
+      });
+    });
+
+    it('should not decollect a non-exist topic_collect', function (done) {
+      request.post('/topic/de_collect')
+      .send({
+        topic_id: support.testTopic._id,
+      })
+      .set('Cookie', support.normalUser2Cookie)
+      .expect(200, function (err, res) {
+        res.body.should.eql({status: 'failed'});
         done(err);
       });
     });
