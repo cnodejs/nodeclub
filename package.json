@@ -28,7 +28,7 @@
     "helmet": "1.3.0",
     "ioredis": "1.15.1",
     "jpush-sdk": "3.2.1",
-    "loader-builder": "2.1.0",
+    "loader-builder": "2.2.1",
     "loader": "2.1.0",
     "lodash": "4.6.1",
     "log4js": "^0.6.29",
