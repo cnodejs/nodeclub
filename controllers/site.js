@@ -143,9 +143,5 @@ exports.sitemap = function (req, res, next) {
 };
 
 exports.appDownload = function (req, res, next) {
-  if (/Android/i.test(req.headers['user-agent'])) {
-    res.redirect('http://fir.im/ks4u');
-  } else {
-    res.redirect('https://itunes.apple.com/cn/app/id954734793');
-  }
+  res.redirect('https://github.com/soliury/noder-react-native/blob/master/README.md')
 };
