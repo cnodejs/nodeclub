@@ -54,7 +54,7 @@ function collect(req, res, next) {
 
   if (!validator.isMongoId(topic_id)) {
     res.status(400);
-    return res.send({success: false, error_msg: '不是有效的主题id'});
+    return res.send({success: false, error_msg: '不是有效的话题id'});
   }
 
   TopicProxy.getTopic(topic_id, function (err, topic) {
@@ -63,7 +63,7 @@ function collect(req, res, next) {
     }
     if (!topic) {
       res.status(404);
-      return res.json({success: false, error_msg: '主题不存在'});
+      return res.json({success: false, error_msg: '话题不存在'});
     }
 
     TopicCollectProxy.getTopicCollect(req.user.id, topic._id, function (err, doc) {
@@ -102,7 +102,7 @@ function de_collect(req, res, next) {
 
   if (!validator.isMongoId(topic_id)) {
     res.status(400);
-    return res.send({success: false, error_msg: '不是有效的主题id'});
+    return res.send({success: false, error_msg: '不是有效的话题id'});
   }
 
   TopicProxy.getTopic(topic_id, function (err, topic) {
@@ -111,7 +111,7 @@ function de_collect(req, res, next) {
     }
     if (!topic) {
       res.status(404);
-      return res.json({success: false, error_msg: '主题不存在'});
+      return res.json({success: false, error_msg: '话题不存在'});
     }
     TopicCollectProxy.remove(req.user.id, topic._id, function (err, removeResult) {
       if (err) {

@@ -66,7 +66,7 @@ var show = function (req, res, next) {
 
   if (!validator.isMongoId(topicId)) {
     res.status(400);
-    return res.send({success: false, error_msg: '不是有效的主题id'});
+    return res.send({success: false, error_msg: '不是有效的话题id'});
   }
 
   ep.fail(next);
@@ -74,7 +74,7 @@ var show = function (req, res, next) {
   TopicProxy.getFullTopic(topicId, ep.done(function (msg, topic, author, replies) {
     if (!topic) {
       res.status(404);
-      return res.send({success: false, error_msg: '主题不存在'});
+      return res.send({success: false, error_msg: '话题不存在'});
     }
     topic = _.pick(topic, ['id', 'author_id', 'tab', 'content', 'title', 'last_reply_at',
       'good', 'top', 'reply_count', 'visit_count', 'create_at', 'author']);
@@ -115,9 +115,9 @@ var show = function (req, res, next) {
 exports.show = show;
 
 var create = function (req, res, next) {
-  var title   = validator.trim(req.body.title);
-  var tab     = validator.trim(req.body.tab);
-  var content = validator.trim(req.body.content);
+  var title   = validator.trim(req.body.title || '');
+  var tab     = validator.trim(req.body.tab || '');
+  var content = validator.trim(req.body.content || '');
 
   // 得到所有的 tab, e.g. ['ask', 'share', ..]
   var allTabs = config.tabs.map(function (tPair) {

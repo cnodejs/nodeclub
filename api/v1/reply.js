@@ -23,17 +23,17 @@ var create = function (req, res, next) {
 
   if (!validator.isMongoId(topic_id)) {
     res.status(400);
-    return res.send({success: false, error_msg: '不是有效的主题id'});
+    return res.send({success: false, error_msg: '不是有效的话题id'});
   }
   
   Topic.getTopic(topic_id, ep.done(function (topic) {
     if (!topic) {
       res.status(404);
-      return res.send({success: false, error_msg: '主题不存在'});
+      return res.send({success: false, error_msg: '话题不存在'});
     }
     if (topic.lock) {
       res.status(403);
-      return res.send({success: false, error_msg: '该主题已被锁定'});
+      return res.send({success: false, error_msg: '该话题已被锁定'});
     }
     ep.emit('topic', topic);
   }));
