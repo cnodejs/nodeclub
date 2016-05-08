@@ -115,9 +115,9 @@ var show = function (req, res, next) {
 exports.show = show;
 
 var create = function (req, res, next) {
-  var title   = validator.trim(req.body.title);
-  var tab     = validator.trim(req.body.tab);
-  var content = validator.trim(req.body.content);
+  var title   = validator.trim(req.body.title || '');
+  var tab     = validator.trim(req.body.tab || '');
+  var content = validator.trim(req.body.content || '');
 
   // 得到所有的 tab, e.g. ['ask', 'share', ..]
   var allTabs = config.tabs.map(function (tPair) {
