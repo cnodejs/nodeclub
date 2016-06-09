@@ -65,6 +65,7 @@ var config = {
   mail_opts: {
     host: 'smtp.126.com',
     port: 25,
+    ignoreTLS: true,
     auth: {
       user: 'club@126.com',
       pass: 'club'
