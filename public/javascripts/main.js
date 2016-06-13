@@ -1,9 +1,19 @@
 $(document).ready(function () {
+  var windowHeight = $(window).height();
   var $backtotop = $('#backtotop');
-  var top = $(window).height() - $backtotop.height() - 200;
+  var top = windowHeight - $backtotop.height() - 200;
+
 
   function moveBacktotop() {
     $backtotop.css({ top: top, right: 0});
+  }
+
+  function footerFixBottom() {
+      if($(document.body).height() < windowHeight){
+          $("#footer").addClass('fix-bottom');
+      }else{
+          $("#footer").removeClass('fix-bottom');
+      }
   }
 
   $backtotop.click(function () {
@@ -20,7 +30,9 @@ $(document).ready(function () {
   });
 
   moveBacktotop();
+  footerFixBottom();
   $(window).resize(moveBacktotop);
+  $(window).resize(footerFixBottom);
 
   $('.topic_content a,.reply_content a').attr('target', '_blank');
 
