@@ -6,6 +6,7 @@ var Reply      = require('./reply');
 var tools      = require('../common/tools');
 var at         = require('../common/at');
 var _          = require('lodash');
+var config     = require('../config.js');
 
 
 /**
@@ -124,7 +125,7 @@ exports.getLimit5w = function (callback) {
  * @param {String} id 主题ID
  * @param {Function} callback 回调函数
  */
-exports.getFullTopic = function (id, callback) {
+exports.getFullTopic = function (id, page, callback) {
   var proxy = new EventProxy();
   var events = ['topic', 'author', 'replies'];
   proxy
@@ -150,8 +151,11 @@ exports.getFullTopic = function (id, callback) {
       }
       proxy.emit('author', author);
     }));
-
-    Reply.getRepliesByTopicId(topic._id, proxy.done('replies'));
+    Reply.getCountByTopicId(id, function (err, count) {
+      var _page = page ? page : Math.ceil(count / config.list_reply_count);
+      _page = _page == 0 ? 1 : _page;
+      Reply.getRepliesByTopicId(id, _page, proxy.done('replies'));
+    });
   }));
 };
 

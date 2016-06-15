@@ -50,6 +50,8 @@ var config = {
 
   // 话题列表显示的话题数量
   list_topic_count: 20,
+  // 话题详情里的回复每页显示条数
+  list_reply_count: 20,
 
   // RSS配置
   rss: {

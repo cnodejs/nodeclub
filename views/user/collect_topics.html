@@ -10,8 +10,13 @@
     </div>
     <div class='inner no-padding'>
       <% if (topics.length > 0) { %>
-      <%- partial('../topic/list', { topics: topics, pages: pages, current_pages: current_page, base: '/user/' +
-      user.loginname + '/collections' }) %>
+        <%- partial('../topic/list', {
+          topics: topics,
+          pages: pages,
+          current_pages: current_page,
+          base: '/user/' + user.loginname + '/collections',
+          param: ''
+        }) %>
       <% } else { %>
       <p>找不到话题 (T_T)</p>
       <% } %>
