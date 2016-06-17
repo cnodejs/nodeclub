@@ -98,6 +98,8 @@ app.use(session({
     port: config.redis_port,
     host: config.redis_host,
   }),
+  resave: false,
+  saveUninitialized: false,
 }));
 
 // oauth 中间件
