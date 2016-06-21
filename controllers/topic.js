@@ -266,7 +266,7 @@ exports.delete = function (req, res, next) {
 
   var topic_id = req.params.tid;
 
-  Topic.getTopic(topic_id, function (err, topic) {
+  Topic.getFullTopic(topic_id, function (err, err_msg, topic, author, replies) {
     if (err) {
       return res.send({ success: false, message: err.message });
     }
@@ -278,6 +278,10 @@ exports.delete = function (req, res, next) {
       res.status(422);
       return res.send({ success: false, message: '此话题不存在或已被删除。' });
     }
+    author.score -= 5;
+    author.topic_count -= 1;
+    author.save();
+
     topic.deleted = true;
     topic.save(function (err) {
       if (err) {
