@@ -1,6 +1,8 @@
 FROM centos:centos7
 MAINTAINER jamiesun <jamiesun.net@gmail.com>
 
+VOLUME [ "/etc/nodeclub" ]
+
 RUN yum update -y
 RUN yum install -y epel-release
 RUN yum install -y gcc make git nodejs npm openssl openssl-devel zip unzip libjpeg-devel libpng-devel
