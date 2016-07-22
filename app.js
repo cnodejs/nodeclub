@@ -97,6 +97,8 @@ app.use(session({
   store: new RedisStore({
     port: config.redis_port,
     host: config.redis_host,
+    db: config.redis_db,
+    pass: config.redis_password,
   }),
   resave: false,
   saveUninitialized: false,

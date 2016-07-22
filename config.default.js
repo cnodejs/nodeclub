@@ -41,6 +41,7 @@ var config = {
   redis_host: '127.0.0.1',
   redis_port: 6379,
   redis_db: 0,
+  redis_password: '',
 
   session_secret: 'node_club_secret', // 务必修改
   auth_cookie_name: 'node_club',
