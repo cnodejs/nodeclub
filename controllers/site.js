@@ -28,7 +28,9 @@ exports.index = function (req, res, next) {
 
   // 取主题
   var query = {};
-  if (tab && tab !== 'all') {
+  if (!tab || tab === 'all') {
+    query.tab = {$ne: 'job'}
+  } else {
     if (tab === 'good') {
       query.good = true;
     } else {
