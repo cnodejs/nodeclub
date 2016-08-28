@@ -1,6 +1,6 @@
 var logger = require('../common/logger');
 
-module.exports = function (req, res, next) {
+exports = module.exports = function (req, res, next) {
   // Assets do not out log.
   if (exports.ignore.test(req.url)) {
     next();
