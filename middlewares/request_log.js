@@ -1,8 +1,10 @@
 var logger = require('../common/logger');
 
+var ignore = /^\/(public|agent)/;
+
 exports = module.exports = function (req, res, next) {
   // Assets do not out log.
-  if (exports.ignore.test(req.url)) {
+  if (ignore.test(req.url)) {
     next();
     return;
   }
@@ -18,5 +20,3 @@ exports = module.exports = function (req, res, next) {
 
   next();
 };
-
-exports.ignore = /^\/(public|agent)/;
