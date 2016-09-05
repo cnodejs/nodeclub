@@ -12,4 +12,10 @@ module.exports = function (schema) {
   schema.methods.update_at_ago = function () {
     return tools.formatDate(this.update_at, true);
   };
+
+  schema.pre('save', function(next){
+    var now = new Date();
+    this.update_at = now;
+    next();
+  });
 };

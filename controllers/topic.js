@@ -241,7 +241,6 @@ exports.update = function (req, res, next) {
       topic.title     = title;
       topic.content   = content;
       topic.tab       = tab;
-      topic.update_at = new Date();
 
       topic.save(function (err) {
         if (err) {
