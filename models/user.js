@@ -76,4 +76,10 @@ UserSchema.index({score: -1});
 UserSchema.index({githubId: 1});
 UserSchema.index({accessToken: 1});
 
+UserSchema.pre('save', function(next){
+  var now = new Date();
+  this.update_at = now;
+  next();
+});
+
 mongoose.model('User', UserSchema);

@@ -139,6 +139,7 @@ exports.update = function (req, res, next) {
 
       if (content.trim().length > 0) {
         reply.content = content;
+        reply.update_at = new Date();
         reply.save(function (err) {
           if (err) {
             return next(err);
