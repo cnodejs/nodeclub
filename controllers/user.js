@@ -10,7 +10,6 @@ var tools        = require('../common/tools');
 var config       = require('../config');
 var EventProxy   = require('eventproxy');
 var validator    = require('validator');
-var utility      = require('utility');
 var _            = require('lodash');
 
 exports.index = function (req, res, next) {
