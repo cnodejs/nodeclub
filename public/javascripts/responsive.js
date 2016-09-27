@@ -21,6 +21,7 @@ $(document).ready(function () {
         $main.height(sidebarHeight);
       }
       $sidebarMask[isShow ? 'fadeOut' : 'fadeIn']().height($('body').height());
+      $sidebar[isShow ? 'hide' : 'show']()
     },
     touchstart = function (e) {
       var touchs = e.targetTouches;

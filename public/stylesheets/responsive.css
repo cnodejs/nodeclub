@@ -80,6 +80,7 @@
       -ms-transition: .3s right;
       -o-transition: .3s right;
       transition: .3s right;
+      display: none;
   }
 
   #content .topic_title {
