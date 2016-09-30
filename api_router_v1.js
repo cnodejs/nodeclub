@@ -16,6 +16,7 @@ var router            = express.Router();
 router.get('/topics', topicController.index);
 router.get('/topic/:id', middleware.tryAuth, topicController.show);
 router.post('/topics', middleware.auth, limit.peruserperday('create_topic', config.create_post_per_day, true), topicController.create);
+router.post('/topics/update', middleware.auth, topicController.update);
 
 
 // 主题收藏

@@ -6,7 +6,9 @@ var support = require('../../support/support');
 describe('test/api/v1/topic.test.js', function () {
   
   var mockUser, mockTopic;
-  
+
+  var createdTopicId = null;
+
   before(function (done) {
     support.createUser(function (err, user) {
       mockUser = user;
@@ -98,6 +100,7 @@ describe('test/api/v1/topic.test.js', function () {
           should.not.exists(err);
           res.body.success.should.true();
           res.body.topic_id.should.be.String();
+          createdTopicId = res.body.topic_id
           done();
         });
     });
@@ -166,5 +169,24 @@ describe('test/api/v1/topic.test.js', function () {
     });
 
   });
+
+  describe('post /api/v1/topics/update', function () {
+    it('should update a topic', function (done) {
+      request.post('/api/v1/topics/update')
+        .send({
+          accesstoken: mockUser.accessToken,
+          topic_id: createdTopicId,
+          title: '我是API测试标题',
+          tab: 'share',
+          content: '我是API测试内容 /api/v1/topics/update'
+        })
+        .end(function (err, res) {
+          should.not.exists(err);
+          res.body.success.should.true();
+          res.body.topic_id.should.eql(createdTopicId);
+          done();
+        });
+    })
+  })
   
 });

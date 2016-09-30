@@ -26,6 +26,14 @@ test: install pretest
 		--timeout $(TEST_TIMEOUT) \
 		$(TESTS)
 
+testfile:
+	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
+		--reporter $(MOCHA_REPORTER) \
+		-r should \
+		-r test/env \
+		--timeout $(TEST_TIMEOUT) \
+		$(FILE)
+
 test-cov cov: install pretest
 	@NODE_ENV=test node \
 		node_modules/.bin/istanbul cover --preserve-comments \
@@ -36,6 +44,7 @@ test-cov cov: install pretest
 		--reporter $(MOCHA_REPORTER) \
 		--timeout $(TEST_TIMEOUT) \
 		$(TESTS)
+
 
 build:
 	@./node_modules/loader-builder/bin/builder views .
@@ -49,4 +58,4 @@ start: install build
 restart: install build
 	@NODE_ENV=production ./node_modules/.bin/pm2 restart "cnode"
 
-.PHONY: install test cov test-cov build run start restart
+.PHONY: install test testfile cov test-cov build run start restart
