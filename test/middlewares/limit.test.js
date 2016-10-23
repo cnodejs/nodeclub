@@ -12,7 +12,7 @@ describe('test/middlewares/limit.test.js', function () {
 
   before(function () {
     app.get('/test_peripperday',
-      limitMiddleware.peripperday(visitor, 3, true), function (req, res) {
+      limitMiddleware.peripperday(visitor, 3, {showJson: true}), function (req, res) {
         res.send('hello');
       });
 

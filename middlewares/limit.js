@@ -5,7 +5,10 @@ var moment = require('moment');
 var SEPARATOR = '^_^@T_T';
 
 var makePerDayLimiter = function (identityName, identityFn) {
-  return function (name, limitCount, showJson) { // showJson = true 表示调用来自API并返回结构化数据；否则表示调用来自前段并渲染错误页面
+  return function (name, limitCount, options) {
+    /*
+    options.showJson = true 表示调用来自API并返回结构化数据；否则表示调用来自前段并渲染错误页面
+    */
     return function (req, res, next) {
       var identity = identityFn(req);
       var YYYYMMDD = moment().format('YYYYMMDD');
@@ -24,7 +27,7 @@ var makePerDayLimiter = function (identityName, identityFn) {
           next();
         } else {
           res.status(403);
-          if (showJson) {
+          if (options.showJson) {
             res.send({success: false, error_msg: '频率限制：当前操作每天可以进行 ' + limitCount + ' 次'});
           } else {
             res.render('notify/notify', { error: '频率限制：当前操作每天可以进行 ' + limitCount + ' 次'});
