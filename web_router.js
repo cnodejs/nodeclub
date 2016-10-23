@@ -114,7 +114,7 @@ router.get('/auth/github', configMiddleware.github, passport.authenticate('githu
 router.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/signin' }),
   github.callback);
-router.get('/auth/github/new', limit.peripperday('new_user_per_ip', config.create_user_per_ip, false), github.new);
+router.get('/auth/github/new', github.new);
 router.post('/auth/github/create', limit.peripperday('create_user_per_ip', config.create_user_per_ip, false), github.create);
 
 router.get('/search', search.index);
