@@ -65,11 +65,12 @@ var config = {
   // 邮箱配置
   mail_opts: {
     host: 'smtp.126.com',
-    port: 465,
+    port: 25,
     auth: {
       user: 'club@126.com',
       pass: 'club'
-    }
+    },
+    ignoreTLS: true,
   },
 
   //weibo app key

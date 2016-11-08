@@ -5,6 +5,7 @@ var util          = require('util');
 var logger = require('./logger');
 var transporter     = mailer.createTransport(smtpTransport(config.mail_opts));
 var SITE_ROOT_URL = 'http://' + config.host;
+var async = require('async')
 
 /**
  * Send an email
@@ -14,13 +15,23 @@ var sendMail = function (data) {
   if (config.debug) {
     return;
   }
-  // 遍历邮件数组，发送每一封邮件，如果有发送失败的，就再压入数组，同时触发mailEvent事件
-  transporter.sendMail(data, function (err) {
+
+  // 重试5次
+  async.retry({times: 5}, function (done) {
+    transporter.sendMail(data, function (err) {
+      if (err) {
+        // 写为日志
+        logger.error('send mail error', err, data);
+        return done(err);
+      }
+      return done()
+    });
+  }, function (err) {
     if (err) {
-      // 写为日志
-      logger.error(err);
+      return logger.error('send mail finally error', err, data);
     }
-  });
+    logger.info('send mail success', data)
+  })
 };
 exports.sendMail = sendMail;
 
