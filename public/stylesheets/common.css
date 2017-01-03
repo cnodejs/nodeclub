@@ -48,6 +48,9 @@ div pre.prettyprint {
     margin: 20px -10px;
     border-width: 1px 0px;
     background: #f7f7f7;
+    -o-tab-size: 4;
+    -moz-tab-size: 4;
+    tab-size: 4;
 }
 
 form {
