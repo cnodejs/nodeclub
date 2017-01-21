@@ -13,6 +13,7 @@ var User       = require('../proxy').User;
 var Message    = require('./message');
 var EventProxy = require('eventproxy');
 var _          = require('lodash');
+var Mail       = require('./mail');
 
 /**
  * 从文本中提取出@username 标记的用户名数组
@@ -86,6 +87,9 @@ exports.sendMessageToMentionUsers = function (text, topicId, authorId, reply_id,
 
     users.forEach(function (user) {
       Message.sendAtMessage(user._id, authorId, topicId, reply_id, ep.done('sent'));
+      if(user.receive_at_mail && user.email) {
+      	Mail.sendReplyMail(user.email, user.loginname, topicId, reply_id);
+      }
     });
   });
 };

@@ -35,8 +35,8 @@ var UserSchema = new Schema({
   level: { type: String },
   active: { type: Boolean, default: false },
 
-  receive_reply_mail: {type: Boolean, default: false },
-  receive_at_mail: { type: Boolean, default: false },
+  receive_reply_mail: {type: Boolean, default: true },
+  receive_at_mail: { type: Boolean, default: true },
   from_wp: { type: Boolean },
 
   retrieve_time: {type: Number},
