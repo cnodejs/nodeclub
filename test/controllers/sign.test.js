@@ -130,7 +130,7 @@ describe('test/controllers/sign.test.js', function () {
       request.post('/signout')
       .set('Cookie', config.auth_cookie_name + ':something;')
       .expect(302, function (err, res) {
-        res.headers['set-cookie'].should.eql([ 'node_club=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT' ]);
+        res.headers['set-cookie'].should.eql([ config.auth_cookie_name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT' ]);
         done(err);
       });
     });
