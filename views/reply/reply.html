@@ -9,6 +9,9 @@
       <a class='dark reply_author' href="/user/<%= reply.author.loginname %>"><%= reply.author.loginname %></a>
       <a class="reply_time" href="#<%= reply._id %>"><%= indexInCollection + 1 %>楼•<%= reply.create_at_ago()
         %></a>
+      <% if(reply.author.loginname == topic.author.loginname){ %>
+        <span style="color: red; font-weight: 600; font-size: 12px;">[作者]</span>
+      <% } %>
     </div>
     <div class='user_action'>
       <span>
