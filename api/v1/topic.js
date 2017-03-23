@@ -91,6 +91,13 @@ var show = function (req, res, next) {
       reply.author = _.pick(reply.author, ['loginname', 'avatar_url']);
       reply =  _.pick(reply, ['id', 'author', 'content', 'ups', 'create_at', 'reply_id']);
       reply.reply_id = reply.reply_id || null;
+
+      if (reply.ups && req.user && reply.ups.indexOf(req.user.id) != -1) {
+        reply.is_uped = true;
+      } else {
+        reply.is_uped = false;
+      }
+
       return reply;
     });
 
