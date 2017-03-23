@@ -32,6 +32,16 @@ var createReply = exports.createReply = function (topicId, authorId, callback) {
   Reply.newAndSave('I am content', topicId, authorId, callback);
 };
 
+var createSingleUp = exports.createSingleUp = function (replyId, userId, callback) {
+  Reply.getReply(replyId, function (err, reply) {
+    reply.ups = [];
+    reply.ups.push(userId);
+    reply.save(function (err, reply) {
+      callback(err, reply);
+    });
+  });
+};
+
 function mockUser(user) {
   return 'mock_user=' + JSON.stringify(user) + ';';
 }

@@ -14,7 +14,11 @@ describe('test/api/v1/topic.test.js', function () {
       mockUser = user;
       support.createTopic(user.id, function (err, topic) {
         mockTopic = topic;
-        done();
+        support.createReply(topic.id, user.id, function (err, reply) {
+          support.createSingleUp(reply.id, user.id, function (err, reply) {
+            done();
+          });
+        });
       });
     });
   });
@@ -80,6 +84,39 @@ describe('test/api/v1/topic.test.js', function () {
             res.status.should.equal(404);
             res.body.success.should.false();
           }
+          done();
+        });
+    });
+
+    it('should is_uped to be false without accesstoken', function (done) {
+      request.get('/api/v1/topic/' + mockTopic.id)
+        .end(function (err, res) {
+          should.not.exists(err);
+          res.body.data.replies[0].is_uped.should.false();
+          done();
+        });
+    });
+
+    it('should is_uped to be false with wrong accesstoken', function (done) {
+      request.get('/api/v1/topic/' + mockTopic.id)
+        .query({
+          accesstoken: support.normalUser2.accesstoken
+        })
+        .end(function (err, res) {
+          should.not.exists(err);
+          res.body.data.replies[0].is_uped.should.false();
+          done();
+        });
+    });
+
+    it('should is_uped to be true with right accesstoken', function (done) {
+      request.get('/api/v1/topic/' + mockTopic.id)
+        .query({
+          accesstoken: mockUser.accessToken
+        })
+        .end(function (err, res) {
+          should.not.exists(err);
+          res.body.data.replies[0].is_uped.should.true();
           done();
         });
     });
