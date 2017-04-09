@@ -53,6 +53,7 @@
     "xss": "0.2.10"
   },
   "devDependencies": {
+    "apidoc": "^0.17.5",
     "errorhandler": "1.4.3",
     "istanbul": "0.4.2",
     "loader-connect": "1.0.1",
@@ -64,6 +65,7 @@
     "supertest": "1.2.0"
   },
   "scripts": {
-    "test": "make test"
+    "test": "make test",
+    "apidoc": "./node_modules/.bin/apidoc -i api/ -o public/apidoc"
   }
 }
