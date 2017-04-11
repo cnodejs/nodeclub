@@ -107,7 +107,7 @@ exports.updateMessagesToRead = function (userId, messages, callback) {
 /**
  * 将单个消息设置成已读
  */
-exports.updateMessagesToRead = function (msg_id, callback) {
+exports.updateOneMessagesToRead = function (msg_id, callback) {
   callback = callback || _.noop;
   if (!msg_id) {
     return callback();
