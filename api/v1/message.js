@@ -80,6 +80,26 @@ var markAll = function (req, res, next) {
 
 exports.markAll = markAll;
 
+
+var markOne = function (req, res, next) {
+  var msg_id = req.params.msg_id;
+  var ep = new eventproxy();
+  ep.fail(next);
+  Message.updateMessagesToRead(msg_id, ep.done('marked_result', function (result) {
+    return result;
+  }));
+
+  ep.all('marked_result', function (result) {
+    res.send({
+      success: true,
+      marked_msg_id: msg_id
+    });
+  });
+};
+
+exports.markOne = markOne;
+
+
 var count = function (req, res, next) {
   var userId = req.user.id;
 

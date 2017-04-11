@@ -102,3 +102,16 @@ exports.updateMessagesToRead = function (userId, messages, callback) {
   var query = { master_id: userId, _id: { $in: ids } };
   Message.update(query, { $set: { has_read: true } }, { multi: true }).exec(callback);
 };
+
+
+/**
+ * 将单个消息设置成已读
+ */
+exports.updateMessagesToRead = function (msg_id, callback) {
+  callback = callback || _.noop;
+  if (!msg_id) {
+    return callback();
+  }
+  var query = { _id: msg_id };
+  Message.update(query, { $set: { has_read: true } }, { multi: true }).exec(callback);
+};
