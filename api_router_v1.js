@@ -40,5 +40,6 @@ router.post('/reply/:reply_id/ups', middleware.auth, replyController.ups);
 router.get('/messages', middleware.auth, messageController.index);
 router.get('/message/count', middleware.auth, messageController.count);
 router.post('/message/mark_all', middleware.auth, messageController.markAll);
+router.post('/message/mark_one/:msg_id', middleware.auth, messageController.markOne);
 
 module.exports = router;

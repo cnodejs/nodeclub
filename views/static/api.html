@@ -217,6 +217,26 @@
   marked_msgs: [ { id: '544ce385aeaeb5931556c6f9' } ] }
 ```
 
+
+#### post /message/mark_one/:msg_id 标记单个消息为已读
+
+请求示例：[/message/mark_one/58ec7d39da8344a81eee0c14](/message/mark_one/58ec7d39da8344a81eee0c14)
+
+接收 post 参数
+
+* accesstoken `String`
+
+返回值示例
+
+```js
+{
+  success: true,
+  marked_msg_id: "58ec7d39da8344a81eee0c14"
+}
+```
+
+
+
 ### 知识点
 
 1. 如何获取 accessToken？
