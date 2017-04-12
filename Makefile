@@ -37,7 +37,7 @@ testfile:
 		--timeout $(TEST_TIMEOUT) \
 		$(FILE)
 
-test-cov cov: install pretest
+test-cov cov: install pretest lint
 	@NODE_ENV=test node \
 		node_modules/.bin/istanbul cover --preserve-comments \
 		./node_modules/.bin/_mocha \
@@ -47,7 +47,6 @@ test-cov cov: install pretest
 		--reporter $(MOCHA_REPORTER) \
 		--timeout $(TEST_TIMEOUT) \
 		$(TESTS)
-
 
 build:
 	@./node_modules/loader-builder/bin/builder views .
