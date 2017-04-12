@@ -2,6 +2,8 @@
  * nodeclub - controllers/topic.js
  */
 
+'use strict';
+
 /**
  * Module dependencies.
  */

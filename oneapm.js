@@ -5,6 +5,8 @@
  * description of configuration variables and their potential values.
  */
 
+'use strict';
+
 var config = require('./config');
 
 exports.config = {

@@ -1,3 +1,5 @@
+'use strict';
+
 var qn    = require('./store_qn');
 var local = require('./store_local');
 

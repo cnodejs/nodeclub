@@ -1,3 +1,5 @@
+'use strict';
+
 var support = require('../../support/support');
 var message = require('../../../common/message');
 var MessageProxy = require('../../../proxy').Message;
@@ -74,5 +76,5 @@ describe('test/api/v1/message.test.js', function () {
           });
       });
   });
-  
+
 });

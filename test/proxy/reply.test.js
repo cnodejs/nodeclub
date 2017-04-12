@@ -1,3 +1,5 @@
+'use strict';
+
 var Reply = require('../../proxy/reply');
 var support = require('../support/support');
 var should = require('should');

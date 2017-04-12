@@ -1,3 +1,5 @@
+'use strict';
+
 var eventproxy = require('eventproxy');
 var TopicProxy   = require('../../proxy').Topic;
 var TopicCollectProxy = require('../../proxy').TopicCollect;

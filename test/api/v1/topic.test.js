@@ -1,10 +1,12 @@
+'use strict';
+
 var app = require('../../../app');
 var request = require('supertest')(app);
 var should = require('should');
 var support = require('../../support/support');
 
 describe('test/api/v1/topic.test.js', function () {
-  
+
   var mockUser, mockTopic;
 
   var createdTopicId = null;
@@ -225,5 +227,5 @@ describe('test/api/v1/topic.test.js', function () {
         });
     });
   });
-  
+
 });

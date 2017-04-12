@@ -1,3 +1,5 @@
+'use strict';
+
 var models       = require('../../models');
 var TopicModel   = models.Topic;
 var TopicProxy   = require('../../proxy').Topic;

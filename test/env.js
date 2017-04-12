@@ -1,3 +1,5 @@
+'use strict';
+
 var nock = require('nock');
 var redis = require('../common/redis');
 

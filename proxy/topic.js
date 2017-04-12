@@ -1,3 +1,5 @@
+'use strict';
+
 var EventProxy = require('eventproxy');
 var models     = require('../models');
 var Topic      = models.Topic;

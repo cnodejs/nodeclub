@@ -1,3 +1,5 @@
+'use strict';
+
 var models     = require('../models');
 var Reply      = models.Reply;
 var EventProxy = require('eventproxy');

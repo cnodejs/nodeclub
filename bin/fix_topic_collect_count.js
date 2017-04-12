@@ -1,3 +1,5 @@
+'use strict';
+
 var TopicCollect = require('../models').TopicCollect;
 var UserModel = require('../models').User;
 var TopicModel = require('../models').Topic;

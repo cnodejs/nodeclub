@@ -1,3 +1,5 @@
+'use strict';
+
 var express           = require('express');
 var topicController   = require('./api/v1/topic');
 var topicCollectController   = require('./api/v1/topic_collect');

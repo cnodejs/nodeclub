@@ -1,3 +1,5 @@
+'use strict';
+
 var config = require('../config');
 var Redis = require('ioredis');
 var logger = require('./logger');

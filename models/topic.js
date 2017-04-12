@@ -1,3 +1,5 @@
+'use strict';
+
 var mongoose  = require('mongoose');
 var BaseModel = require('./base_model');
 var Schema    = mongoose.Schema;
@@ -37,9 +39,9 @@ TopicSchema.virtual('tabName').get(function () {
 
   if (pair) {
     return pair[1];
-  } 
+  }
   return '';
-  
+
 });
 
 mongoose.model('Topic', TopicSchema);

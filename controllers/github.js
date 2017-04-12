@@ -1,3 +1,5 @@
+'use strict';
+
 var Models         = require('../models');
 var User           = Models.User;
 var authMiddleWare = require('../middlewares/auth');

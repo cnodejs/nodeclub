@@ -1,3 +1,5 @@
+'use strict';
+
 var app = require('../../../app');
 var request = require('supertest')(app);
 var pedding = require('pedding');
@@ -5,9 +7,9 @@ var support =  require('../../support/support');
 var should  = require('should');
 
 describe('test/api/v1/reply.test.js', function () {
-  
+
   var mockTopic, mockReplyId;
-  
+
   before(function (done) {
     support.ready(function () {
       support.createTopic(support.normalUser.id, function (err, topic) {
@@ -130,7 +132,7 @@ describe('test/api/v1/reply.test.js', function () {
     });
 
   });
-  
+
   describe('create ups', function () {
 
     it('should up', function (done) {
@@ -201,5 +203,5 @@ describe('test/api/v1/reply.test.js', function () {
     });
 
   });
-  
+
 });

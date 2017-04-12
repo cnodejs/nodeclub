@@ -1,3 +1,5 @@
+'use strict';
+
 var TopicCollect = require('../models').TopicCollect;
 var _ = require('lodash');
 

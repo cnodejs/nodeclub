@@ -1,3 +1,5 @@
+'use strict';
+
 var _            = require('lodash');
 var eventproxy   = require('eventproxy');
 var UserProxy    = require('../../proxy').User;

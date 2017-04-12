@@ -1,3 +1,5 @@
+'use strict';
+
 var redis  = require('./redis');
 var _      = require('lodash');
 var logger = require('./logger');

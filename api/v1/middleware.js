@@ -1,3 +1,5 @@
+'use strict';
+
 var UserModel  = require('../../models').User;
 var eventproxy = require('eventproxy');
 var validator  = require('validator');

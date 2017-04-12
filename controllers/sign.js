@@ -1,3 +1,5 @@
+'use strict';
+
 var validator      = require('validator');
 var eventproxy     = require('eventproxy');
 var config         = require('../config');

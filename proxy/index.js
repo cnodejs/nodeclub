@@ -1,3 +1,5 @@
+'use strict';
+
 exports.User         = require('./user');
 exports.Message      = require('./message');
 exports.Topic        = require('./topic');

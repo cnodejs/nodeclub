@@ -1,3 +1,5 @@
+'use strict';
+
 var Topic = require('../../proxy/topic');
 var support = require('../support/support');
 var should = require('should');

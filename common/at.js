@@ -5,6 +5,8 @@
  * MIT Licensed
  */
 
+'use strict';
+
 /**
  * Module dependencies.
  */
@@ -23,7 +25,7 @@ var fetchUsers = function (text) {
   if (!text) {
     return [];
   }
-  
+
   var ignoreRegexs = [
     /```.+?```/g, // 去除单行的 ```
     /^```[\s\S]+?^```/gm, // ``` 里面的是 pre 标签内容

@@ -1,3 +1,5 @@
+'use strict';
+
 var urllib  = require('url');
 var request = require('request');
 var logger = require('../common/logger');

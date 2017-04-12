@@ -1,3 +1,5 @@
+'use strict';
+
 var mailer        = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var config        = require('../config');

@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 给所有的 Model 扩展功能
  * http://mongoosejs.com/docs/plugins.html

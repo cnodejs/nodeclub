@@ -1,3 +1,5 @@
+'use strict';
+
 var app = require('../../../app');
 var request = require('supertest')(app);
 var support = require('../../support/support');
@@ -13,7 +15,7 @@ describe('test/api/v1/user.test.js', function () {
       done();
     });
   });
-  
+
   describe('get /api/v1/user/:loginname', function () {
 
     it('should return user info', function (done) {
@@ -37,5 +39,5 @@ describe('test/api/v1/user.test.js', function () {
     });
 
   });
-  
+
 });

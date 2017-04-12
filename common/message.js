@@ -1,3 +1,5 @@
+'use strict';
+
 var models       = require('../models');
 var eventproxy   = require('eventproxy');
 var Message      = models.Message;
