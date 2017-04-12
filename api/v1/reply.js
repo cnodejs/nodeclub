@@ -97,24 +97,24 @@ var ups = function (req, res, next) {
     if (reply.author_id.equals(userId) && !config.debug) {
       res.status(403);
       return res.send({success: false, error_msg: '不能帮自己点赞'});
+    } 
+    var action;
+    reply.ups = reply.ups || [];
+    var upIndex = reply.ups.indexOf(userId);
+    if (upIndex === -1) {
+      reply.ups.push(userId);
+      action = 'up';
     } else {
-      var action;
-      reply.ups = reply.ups || [];
-      var upIndex = reply.ups.indexOf(userId);
-      if (upIndex === -1) {
-        reply.ups.push(userId);
-        action = 'up';
-      } else {
-        reply.ups.splice(upIndex, 1);
-        action = 'down';
-      }
-      reply.save(function () {
-        res.send({
-          success: true,
-          action: action
-        });
-      });
+      reply.ups.splice(upIndex, 1);
+      action = 'down';
     }
+    reply.save(function () {
+      res.send({
+        success: true,
+        action: action
+      });
+    });
+    
   });
 };
 

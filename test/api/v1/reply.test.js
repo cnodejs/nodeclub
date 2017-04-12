@@ -89,7 +89,7 @@ describe('test/api/v1/reply.test.js', function () {
     });
 
     it('should fail when topic not found', function (done) {
-      var notFoundTopicId = mockTopic.id.split("").reverse().join("");
+      var notFoundTopicId = mockTopic.id.split('').reverse().join('');
       request.post('/api/v1/topic/' + notFoundTopicId + '/replies')
         .send({
           content: 'reply a topic from api',
@@ -141,7 +141,7 @@ describe('test/api/v1/reply.test.js', function () {
         .end(function (err, res) {
           should.not.exists(err);
           res.body.success.should.true();
-          res.body.action.should.equal("up");
+          res.body.action.should.equal('up');
           done();
         });
     });
@@ -154,7 +154,7 @@ describe('test/api/v1/reply.test.js', function () {
         .end(function (err, res) {
           should.not.exists(err);
           res.body.success.should.true();
-          res.body.action.should.equal("down");
+          res.body.action.should.equal('down');
           done();
         });
     });
@@ -183,7 +183,7 @@ describe('test/api/v1/reply.test.js', function () {
     });
 
     it('should fail when reply_id is not found', function (done) {
-      var notFoundReplyId = mockReplyId.split("").reverse().join("");
+      var notFoundReplyId = mockReplyId.split('').reverse().join('');
       request.post('/api/v1/reply/' + notFoundReplyId + '/ups')
         .send({
           accesstoken: support.normalUser.accessToken

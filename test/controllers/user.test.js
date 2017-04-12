@@ -246,8 +246,8 @@ describe('test/controllers/user.test.js', function () {
       .expect(200, function (err, res) {
         res.body.should.eql({status: 'success'});
         done(err);
-      })
-    })
+      });
+    });
 
     it('should wrong when user is not exists', function (done) {
       request.post('/user/not_exists_user/block')
@@ -256,11 +256,11 @@ describe('test/controllers/user.test.js', function () {
       })
       .set('Cookie', support.adminUserCookie)
       .expect(500, function (err, res) {
-        res.text.should.containEql('user is not exists')
+        res.text.should.containEql('user is not exists');
         done(err);
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('#delete_all', function () {
     it('should delele all ups', function (done) {
@@ -270,7 +270,7 @@ describe('test/controllers/user.test.js', function () {
           should.not.exists(err);
           reply.ups.push(userId);
           reply.save(function (err, reply) {
-            reply.ups.should.containEql(userId)
+            reply.ups.should.containEql(userId);
 
             request.post('/user/' + user.loginname + '/delete_all')
               .set('Cookie', support.adminUserCookie)
@@ -278,13 +278,13 @@ describe('test/controllers/user.test.js', function () {
                 res.body.should.eql({ status: 'success' });
 
                 ReplyModel.findOne({_id: reply._id}, function (err, reply) {
-                  reply.ups.should.not.containEql(userId)
+                  reply.ups.should.not.containEql(userId);
                   done();
-                })
-              })
-          })
-        })
-      })
-    })
-  })
+                });
+              });
+          });
+        });
+      });
+    });
+  });
 });

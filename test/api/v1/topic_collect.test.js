@@ -99,7 +99,7 @@ describe('test/api/v1/topic_collect.test.js', function () {
       request.post('/api/v1/topic_collect/collect')
         .send({
           accesstoken: mockUser.accessToken,
-          topic_id: mockTopic.id + "not_valid"
+          topic_id: mockTopic.id + 'not_valid'
         })
         .end(function (err, res) {
           should.not.exists(err);
@@ -110,7 +110,7 @@ describe('test/api/v1/topic_collect.test.js', function () {
     });
 
     it('should fail when topic not found', function (done) {
-      var notFoundTopicId = mockTopic.id.split("").reverse().join("");
+      var notFoundTopicId = mockTopic.id.split('').reverse().join('');
       request.post('/api/v1/topic_collect/collect')
         .send({
           accesstoken: mockUser.accessToken,
@@ -223,7 +223,7 @@ describe('test/api/v1/topic_collect.test.js', function () {
       request.post('/api/v1/topic_collect/de_collect')
         .send({
           accesstoken: mockUser.accessToken,
-          topic_id: mockTopic.id + "not_valid"
+          topic_id: mockTopic.id + 'not_valid'
         })
         .end(function (err, res) {
           should.not.exists(err);
@@ -234,7 +234,7 @@ describe('test/api/v1/topic_collect.test.js', function () {
     });
 
     it('should fail when topic not found', function (done) {
-      var notFoundTopicId = mockTopic.id.split("").reverse().join("");
+      var notFoundTopicId = mockTopic.id.split('').reverse().join('');
       request.post('/api/v1/topic_collect/de_collect')
         .send({
           accesstoken: mockUser.accessToken,

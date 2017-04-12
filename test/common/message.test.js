@@ -50,8 +50,8 @@ describe('test/common/message.test.js', function () {
               topic.title,
             ];
             texts.forEach(function (text) {
-              res.text.should.containEql(text)
-            })
+              res.text.should.containEql(text);
+            });
             done(err);
           });
         });
@@ -75,11 +75,11 @@ describe('test/common/message.test.js', function () {
               '中@了你',
             ];
             texts.forEach(function (text) {
-              res.text.should.containEql(text)
-            })
+              res.text.should.containEql(text);
+            });
             done(err);
           });
         });
     });
   });
-})
+});

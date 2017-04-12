@@ -4,8 +4,11 @@ MOCHA_REPORTER = spec
 # NPM_REGISTRY = "--registry=http://registry.npm.taobao.org"
 NPM_REGISTRY = ""
 
-
 all: test
+
+lint:
+	@./node_modules/.bin/eslint --fix *.js api/ bin/ common/ \
+		controllers/ middlewares/ models/ proxy/ test/
 
 install:
 	@npm install $(NPM_REGISTRY)

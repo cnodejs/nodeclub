@@ -1,5 +1,5 @@
 var mongoose  = require('mongoose');
-var BaseModel = require("./base_model");
+var BaseModel = require('./base_model');
 var renderHelper = require('../common/render_helper');
 var Schema    = mongoose.Schema;
 var utility   = require('utility');

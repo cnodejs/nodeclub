@@ -37,7 +37,7 @@ var tryAuth = function (req, res, next) {
 
   UserModel.findOne({accessToken: accessToken}, ep.done(function (user) {
     if (!user) {
-      return next()
+      return next();
     }
     if (user.is_block) {
       res.status(403);

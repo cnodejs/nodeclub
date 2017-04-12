@@ -25,6 +25,6 @@ exports.config = {
     level : 'info'
   },
   transaction_events: {
-        enabled: true
+    enabled: true
   }
 };

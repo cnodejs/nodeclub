@@ -11,7 +11,7 @@ var renderHelper = require('../../common/render_helper');
 describe('test/common/render_helper.test.js', function () {
   describe('#markdown', function () {
     it('should render code inline', function () {
-      var text = multiline(function () {;
+      var text = multiline(function () {
     /*
 `var a = 1;`
     */
@@ -22,7 +22,7 @@ describe('test/common/render_helper.test.js', function () {
     });
 
     it('should render fence', function () {
-      var text = multiline(function () {;
+      var text = multiline(function () {
     /*
 ```js
 var a = 1;
@@ -35,7 +35,7 @@ var a = 1;
     });
 
     it('should render code block', function () {
-      var text = multiline(function () {;
+      var text = multiline(function () {
 /*
     var a = 1;
 */
@@ -48,7 +48,7 @@ var a = 1;
 
   describe('#escapeSignature', function () {
     it('should escape content', function () {
-      var signature = multiline(function () {;
+      var signature = multiline(function () {
 /*
 我爱北京天安门<script>alert(1)
 </script>
@@ -56,15 +56,15 @@ var a = 1;
       });
       var escaped = renderHelper.escapeSignature(signature);
       escaped.should.equal('我爱北京天安门&lt;script&gt;alert(1)<br>&lt;/script&gt;');
-    })
-  })
+    });
+  });
 
   describe('#tabName', function () {
     it('should translate', function () {
       renderHelper.tabName('share')
-        .should.equal('分享')
-    })
-  })
+        .should.equal('分享');
+    });
+  });
 
 
 });

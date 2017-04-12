@@ -235,7 +235,7 @@ describe('test/controllers/sign.test.js', function () {
       .expect(200, function (err, res) {
         res.text.should.containEql('你的密码已重置。');
         done(err);
-      })
-    })
+      });
+    });
   });
 });

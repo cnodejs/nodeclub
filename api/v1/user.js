@@ -23,7 +23,7 @@ var show = function (req, res, next) {
     ReplyProxy.getRepliesByAuthorId(user._id, {limit: 20, sort: '-create_at'},
       ep.done(function (replies) {
         var topic_ids = replies.map(function (reply) {
-          return reply.topic_id.toString()
+          return reply.topic_id.toString();
         });
         topic_ids = _.uniq(topic_ids).slice(0, 5); //  只显示最近5条
 
@@ -31,7 +31,7 @@ var show = function (req, res, next) {
         var opt = {};
         TopicProxy.getTopicsByQuery(query, opt, ep.done('recent_replies', function (recent_replies) {
           recent_replies = _.sortBy(recent_replies, function (topic) {
-            return topic_ids.indexOf(topic._id.toString())
+            return topic_ids.indexOf(topic._id.toString());
           });
           return recent_replies;
         }));

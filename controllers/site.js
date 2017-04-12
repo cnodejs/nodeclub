@@ -29,7 +29,7 @@ exports.index = function (req, res, next) {
   // 取主题
   var query = {};
   if (!tab || tab === 'all') {
-    query.tab = {$ne: 'job'}
+    query.tab = {$ne: 'job'};
   } else {
     if (tab === 'good') {
       query.good = true;
@@ -145,5 +145,5 @@ exports.sitemap = function (req, res, next) {
 };
 
 exports.appDownload = function (req, res, next) {
-  res.redirect('https://github.com/soliury/noder-react-native/blob/master/README.md')
+  res.redirect('https://github.com/soliury/noder-react-native/blob/master/README.md');
 };

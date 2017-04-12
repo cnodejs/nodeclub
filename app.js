@@ -15,7 +15,7 @@ if (!config.debug && config.oneapm_key) {
 require('colors');
 var path = require('path');
 var Loader = require('loader');
-var LoaderConnect = require('loader-connect')
+var LoaderConnect = require('loader-connect');
 var express = require('express');
 var session = require('express-session');
 var passport = require('passport');
@@ -40,7 +40,7 @@ var requestLog = require('./middlewares/request_log');
 var renderMiddleware = require('./middlewares/render');
 var logger = require('./common/logger');
 var helmet = require('helmet');
-var bytes = require('bytes')
+var bytes = require('bytes');
 
 
 // 静态文件目录

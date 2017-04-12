@@ -23,14 +23,14 @@ function list(req, res, next) {
     ep.all('collected_topics', function (collected_topics) {
 
       var ids = collected_topics.map(function (doc) {
-        return String(doc.topic_id)
+        return String(doc.topic_id);
       });
       var query = { _id: { '$in': ids } };
       TopicProxy.getTopicsByQuery(query, {}, ep.done('topics', function (topics) {
         topics = _.sortBy(topics, function (topic) {
-          return ids.indexOf(String(topic._id))
+          return ids.indexOf(String(topic._id));
         });
-        return topics
+        return topics;
       }));
 
     });
@@ -41,10 +41,10 @@ function list(req, res, next) {
         return _.pick(topic, ['id', 'author_id', 'tab', 'content', 'title', 'last_reply_at',
           'good', 'top', 'reply_count', 'visit_count', 'create_at', 'author']);
       });
-      res.send({success: true, data: topics})
+      res.send({success: true, data: topics});
 
-    })
-  }))
+    });
+  }));
 }
 
 exports.list = list;
@@ -118,7 +118,7 @@ function de_collect(req, res, next) {
         return next(err);
       }
       if (removeResult.result.n == 0) {
-        return res.json({success: false})
+        return res.json({success: false});
       }
 
       UserProxy.getUserById(req.user.id, function (err, user) {

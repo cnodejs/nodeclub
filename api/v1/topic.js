@@ -101,21 +101,21 @@ var show = function (req, res, next) {
       return reply;
     });
 
-    ep.emit('full_topic', topic)
+    ep.emit('full_topic', topic);
   }));
 
 
   if (!req.user) {
-    ep.emitLater('is_collect', null)
+    ep.emitLater('is_collect', null);
   } else {
-    TopicCollect.getTopicCollect(req.user._id, topicId, ep.done('is_collect'))
+    TopicCollect.getTopicCollect(req.user._id, topicId, ep.done('is_collect'));
   }
 
   ep.all('full_topic', 'is_collect', function (full_topic, is_collect) {
     full_topic.is_collect = !!is_collect;
 
     res.send({success: true, data: full_topic});
-  })
+  });
 
 };
 
@@ -230,7 +230,7 @@ exports.update = function (req, res, next) {
         });
       });
     } else {
-      res.status(403)
+      res.status(403);
       return res.send({success: false, error_msg: '对不起，你不能编辑此话题。'});
     }
   });
