@@ -1,4 +1,5 @@
-var multiline = require('multiline');
+'use strict';
+
 // static page
 // About
 exports.about = function (req, res, next) {
@@ -21,15 +22,13 @@ exports.getstart = function (req, res) {
 
 exports.robots = function (req, res, next) {
   res.type('text/plain');
-  res.send(multiline(function () {
-/*
+  res.send(`
 # See http://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
 #
 # To ban all spiders from the entire site uncomment the next two lines:
 # User-Agent: *
 # Disallow: /
-*/
-  }));
+`);
 };
 
 exports.api = function (req, res, next) {

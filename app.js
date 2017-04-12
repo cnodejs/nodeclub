@@ -5,6 +5,7 @@
 /**
  * Module dependencies.
  */
+'use strict';
 
 var config = require('./config');
 
