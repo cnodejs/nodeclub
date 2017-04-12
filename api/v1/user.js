@@ -5,7 +5,6 @@ var eventproxy   = require('eventproxy');
 var UserProxy    = require('../../proxy').User;
 var TopicProxy   = require('../../proxy').Topic;
 var ReplyProxy   = require('../../proxy').Reply;
-var TopicCollect = require('../../proxy').TopicCollect;
 
 var show = function (req, res, next) {
   var loginname = req.params.loginname;

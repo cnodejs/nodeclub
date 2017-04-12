@@ -8,7 +8,7 @@ all: test
 
 lint:
 	@./node_modules/.bin/eslint --fix *.js api/ bin/ common/ \
-		controllers/ middlewares/ models/ proxy/ test/
+		controllers/ middlewares/ models/ proxy/
 
 install:
 	@npm install $(NPM_REGISTRY)
@@ -21,7 +21,7 @@ pretest:
 		mkdir public/upload; \
 	fi
 
-test: install pretest
+test: install pretest lint
 	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
 		--reporter $(MOCHA_REPORTER) \
 		-r should \

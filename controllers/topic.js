@@ -15,7 +15,6 @@ var User         = require('../proxy').User;
 var Topic        = require('../proxy').Topic;
 var TopicCollect = require('../proxy').TopicCollect;
 var EventProxy   = require('eventproxy');
-var tools        = require('../common/tools');
 var store        = require('../common/store');
 var config       = require('../config');
 var _            = require('lodash');
@@ -424,7 +423,7 @@ exports.de_collect = function (req, res, next) {
       if (err) {
         return next(err);
       }
-      if (removeResult.result.n == 0) {
+      if (removeResult.result.n === 0) {
         return res.json({status: 'failed'});
       }
 

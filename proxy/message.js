@@ -22,24 +22,6 @@ exports.getMessagesCount = function (id, callback) {
   Message.count({master_id: id, has_read: false}, callback);
 };
 
-
-/**
- * 根据消息Id获取消息
- * Callback:
- * - err, 数据库错误
- * - message, 消息对象
- * @param {String} id 消息ID
- * @param {Function} callback 回调函数
- */
-exports.getMessageById = function (id, callback) {
-  Message.findOne({_id: id}, function (err, message) {
-    if (err) {
-      return callback(err);
-    }
-    getMessageRelations(message, callback);
-  });
-};
-
 var getMessageRelations = exports.getMessageRelations = function (message, callback) {
   if (message.type === 'reply' || message.type === 'reply2' || message.type === 'at') {
     var proxy = new EventProxy();
@@ -59,6 +41,23 @@ var getMessageRelations = exports.getMessageRelations = function (message, callb
   } else {
     return callback(null, {is_invalid: true});
   }
+};
+
+/**
+ * 根据消息Id获取消息
+ * Callback:
+ * - err, 数据库错误
+ * - message, 消息对象
+ * @param {String} id 消息ID
+ * @param {Function} callback 回调函数
+ */
+exports.getMessageById = function (id, callback) {
+  Message.findOne({_id: id}, function (err, message) {
+    if (err) {
+      return callback(err);
+    }
+    getMessageRelations(message, callback);
+  });
 };
 
 /**

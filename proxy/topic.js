@@ -5,10 +5,8 @@ var models     = require('../models');
 var Topic      = models.Topic;
 var User       = require('./user');
 var Reply      = require('./reply');
-var tools      = require('../common/tools');
 var at         = require('../common/at');
 var _          = require('lodash');
-
 
 /**
  * 根据主题ID获取主题
