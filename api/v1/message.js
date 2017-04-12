@@ -85,7 +85,7 @@ var markOne = function (req, res, next) {
   var msg_id = req.params.msg_id;
   var ep = new eventproxy();
   ep.fail(next);
-  Message.updateOneMessagesToRead(msg_id, ep.done('marked_result', function (result) {
+  Message.updateOneMessageToRead(msg_id, ep.done('marked_result', function (result) {
     return result;
   }));
 
