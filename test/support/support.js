@@ -19,7 +19,7 @@ var createUser = exports.createUser = function (callback) {
 
 exports.createUserByNameAndPwd = function (loginname, pwd, callback) {
   tools.bhash(pwd, function (err, passhash) {
-    User.newAndSave(loginname, loginname, passhash, loginname + +new Date() + '@gmail.com', '', true, callback);
+    User.newAndSave(loginname, loginname, passhash, loginname + new Date() + '@gmail.com', '', true, callback);
   });
 };
 
