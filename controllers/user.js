@@ -196,8 +196,8 @@ exports.listCollectedTopics = function (req, res, next) {
     if (err || !user) {
       return next(err);
     }
-
-    var render = function (topics, pages) {
+    var pages = Math.ceil(user.collect_topic_count/limit);
+    var render = function (topics) {
       res.render('user/collect_topics', {
         topics: topics,
         current_page: page,
@@ -206,7 +206,7 @@ exports.listCollectedTopics = function (req, res, next) {
       });
     };
 
-    var proxy = EventProxy.create('topics', 'pages', render);
+    var proxy = EventProxy.create('topics', render);
     proxy.fail(next);
 
     var opt = {
@@ -225,10 +225,6 @@ exports.listCollectedTopics = function (req, res, next) {
           return ids.indexOf(String(topic._id))
         })
         return topics
-      }));
-      Topic.getCountByQuery(query, proxy.done(function (all_topics_count) {
-        var pages = Math.ceil(all_topics_count / limit);
-        proxy.emit('pages', pages);
       }));
     }));
   });
