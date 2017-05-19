@@ -1,8 +1,8 @@
+'use strict';
+
 var models       = require('../models');
 var eventproxy   = require('eventproxy');
 var Message      = models.Message;
-var User         = require('../proxy').User;
-var messageProxy = require('../proxy/message');
 var _            = require('lodash');
 
 exports.sendReplyMessage = function (master_id, author_id, topic_id, reply_id, callback) {

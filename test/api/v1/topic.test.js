@@ -1,10 +1,12 @@
+'use strict';
+
 var app = require('../../../app');
 var request = require('supertest')(app);
 var should = require('should');
 var support = require('../../support/support');
 
 describe('test/api/v1/topic.test.js', function () {
-  
+
   var mockUser, mockTopic;
 
   var createdTopicId = null;
@@ -73,7 +75,7 @@ describe('test/api/v1/topic.test.js', function () {
     });
 
     it('should fail when topic not found', function (done) {
-      var notFoundTopicId = mockTopic.id.split("").reverse().join("");
+      var notFoundTopicId = mockTopic.id.split('').reverse().join('');
       request.get('/api/v1/topic/' + notFoundTopicId)
         .end(function (err, res) {
           should.not.exists(err);
@@ -137,7 +139,7 @@ describe('test/api/v1/topic.test.js', function () {
           should.not.exists(err);
           res.body.success.should.true();
           res.body.topic_id.should.be.String();
-          createdTopicId = res.body.topic_id
+          createdTopicId = res.body.topic_id;
           done();
         });
     });
@@ -223,7 +225,7 @@ describe('test/api/v1/topic.test.js', function () {
           res.body.topic_id.should.eql(createdTopicId);
           done();
         });
-    })
-  })
-  
+    });
+  });
+
 });

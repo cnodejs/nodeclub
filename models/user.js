@@ -1,9 +1,9 @@
+'use strict';
+
 var mongoose  = require('mongoose');
-var BaseModel = require("./base_model");
-var renderHelper = require('../common/render_helper');
+var BaseModel = require('./base_model');
 var Schema    = mongoose.Schema;
 var utility   = require('utility');
-var _ = require('lodash');
 
 var UserSchema = new Schema({
   name: { type: String},

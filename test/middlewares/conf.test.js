@@ -1,3 +1,5 @@
+'use strict';
+
 var conf = require('../../middlewares/conf');
 var config = require('../../config');
 

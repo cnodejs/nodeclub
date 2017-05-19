@@ -4,6 +4,8 @@
  * MIT Licensed
  */
 
+'use strict';
+
 /**
  * Module dependencies.
  */
@@ -41,7 +43,7 @@ if (config.allow_sign_up) {
 } else {
   // 进行github验证
   router.get('/signup', function (req, res, next) {
-    return res.redirect('/auth/github')
+    return res.redirect('/auth/github');
   });
 }
 router.post('/signout', sign.signout);  // 登出
@@ -120,10 +122,9 @@ router.post('/auth/github/create', limit.peripperday('create_user_per_ip', confi
 router.get('/search', search.index);
 
 if (!config.debug) { // 这个兼容破坏了不少测试
-	router.get('/:name', function (req, res) {
-	  res.redirect('/user/' + req.params.name)
-	})
+  router.get('/:name', function (req, res) {
+    res.redirect('/user/' + req.params.name);
+  });
 }
-
 
 module.exports = router;

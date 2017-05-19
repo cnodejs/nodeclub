@@ -1,5 +1,7 @@
+'use strict';
+
 var TopicCollect = require('../models').TopicCollect;
-var _ = require('lodash')
+var _ = require('lodash');
 
 exports.getTopicCollect = function (userId, topicId, callback) {
   TopicCollect.findOne({user_id: userId, topic_id: topicId}, callback);
@@ -7,7 +9,7 @@ exports.getTopicCollect = function (userId, topicId, callback) {
 
 exports.getTopicCollectsByUserId = function (userId, opt, callback) {
   var defaultOpt = {sort: '-create_at'};
-  opt = _.assign(defaultOpt, opt)
+  opt = _.assign(defaultOpt, opt);
   TopicCollect.find({user_id: userId}, '', opt, callback);
 };
 

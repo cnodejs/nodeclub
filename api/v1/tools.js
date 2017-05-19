@@ -1,3 +1,5 @@
+'use strict';
+
 var eventproxy = require('eventproxy');
 
 var accesstoken = function (req, res, next) {

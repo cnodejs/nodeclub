@@ -5,6 +5,7 @@
 /**
  * Module dependencies.
  */
+'use strict';
 
 var config = require('./config');
 
@@ -15,7 +16,7 @@ if (!config.debug && config.oneapm_key) {
 require('colors');
 var path = require('path');
 var Loader = require('loader');
-var LoaderConnect = require('loader-connect')
+var LoaderConnect = require('loader-connect');
 var express = require('express');
 var session = require('express-session');
 var passport = require('passport');
@@ -29,7 +30,6 @@ var auth = require('./middlewares/auth');
 var errorPageMiddleware = require('./middlewares/error_page');
 var proxyMiddleware = require('./middlewares/proxy');
 var RedisStore = require('connect-redis')(session);
-var _ = require('lodash');
 var csurf = require('csurf');
 var compress = require('compression');
 var bodyParser = require('body-parser');
@@ -40,7 +40,7 @@ var requestLog = require('./middlewares/request_log');
 var renderMiddleware = require('./middlewares/render');
 var logger = require('./common/logger');
 var helmet = require('helmet');
-var bytes = require('bytes')
+var bytes = require('bytes');
 
 
 // 静态文件目录
@@ -137,14 +137,14 @@ if (!config.debug) {
 // });
 
 // set static, dynamic helpers
-_.extend(app.locals, {
+Object.assign(app.locals, {
   config: config,
   Loader: Loader,
   assets: assets
 });
 
 app.use(errorPageMiddleware.errorPage);
-_.extend(app.locals, require('./common/render_helper'));
+Object.assign(app.locals, require('./common/render_helper'));
 app.use(function (req, res, next) {
   res.locals.csrf = req.csrfToken ? req.csrfToken() : '';
   next();

@@ -1,3 +1,4 @@
+'use strict';
 
 var should = require('should');
 var app = require('../../app');
@@ -212,8 +213,8 @@ describe('test/controllers/topic.test.js', function () {
       .expect(200, function (err, res) {
         res.body.should.eql({status: 'success'});
         done(err);
-      })
-    })
+      });
+    });
 
     it('should not collect a topic twice', function (done) {
       request.post('/topic/collect')
@@ -224,9 +225,9 @@ describe('test/controllers/topic.test.js', function () {
       .expect(200, function (err, res) {
         res.body.should.eql({status: 'failed'});
         done(err);
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('#de_collect', function () {
     it('should decollect a topic', function (done) {
@@ -266,7 +267,7 @@ describe('test/controllers/topic.test.js', function () {
       .attach('selffile', __filename)
       .set('Cookie', support.normalUser2Cookie)
       .end(function (err, res) {
-        res.body.should.eql({"success": true, "url": "upload_success_url"});
+        res.body.should.eql({'success': true, 'url': 'upload_success_url'});
         done(err);
       });
     });

@@ -1,3 +1,5 @@
+'use strict';
+
 var eventproxy = require('eventproxy');
 var Message    = require('../../proxy').Message;
 var at           = require('../../common/at');

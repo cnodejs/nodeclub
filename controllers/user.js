@@ -1,3 +1,5 @@
+'use strict';
+
 var User         = require('../proxy').User;
 var Topic        = require('../proxy').Topic;
 var Reply        = require('../proxy').Reply;
@@ -56,16 +58,16 @@ exports.index = function (req, res, next) {
       proxy.done(function (replies) {
 
         var topic_ids = replies.map(function (reply) {
-          return reply.topic_id.toString()
-        })
+          return reply.topic_id.toString();
+        });
         topic_ids = _.uniq(topic_ids).slice(0, 5); //  只显示最近5条
 
         var query = {_id: {'$in': topic_ids}};
         var opt = {};
         Topic.getTopicsByQuery(query, opt, proxy.done('recent_replies', function (recent_replies) {
           recent_replies = _.sortBy(recent_replies, function (topic) {
-            return topic_ids.indexOf(topic._id.toString())
-          })
+            return topic_ids.indexOf(topic._id.toString());
+          });
           return recent_replies;
         }));
       }));
@@ -216,15 +218,15 @@ exports.listCollectedTopics = function (req, res, next) {
 
     TopicCollect.getTopicCollectsByUserId(user._id, opt, proxy.done(function (docs) {
       var ids = docs.map(function (doc) {
-        return String(doc.topic_id)
-      })
+        return String(doc.topic_id);
+      });
       var query = { _id: { '$in': ids } };
 
       Topic.getTopicsByQuery(query, {}, proxy.done('topics', function (topics) {
         topics = _.sortBy(topics, function (topic) {
-          return ids.indexOf(String(topic._id))
-        })
-        return topics
+          return ids.indexOf(String(topic._id));
+        });
+        return topics;
       }));
     }));
   });
@@ -313,8 +315,8 @@ exports.listReplies = function (req, res, next) {
       var query = {'_id': {'$in': topic_ids}};
       Topic.getTopicsByQuery(query, {}, proxy.done('topics', function (topics) {
         topics = _.sortBy(topics, function (topic) {
-          return topic_ids.indexOf(topic._id.toString())
-        })
+          return topic_ids.indexOf(topic._id.toString());
+        });
         return topics;
       }));
     }));

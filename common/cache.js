@@ -1,3 +1,5 @@
+'use strict';
+
 var redis  = require('./redis');
 var _      = require('lodash');
 var logger = require('./logger');
@@ -37,7 +39,7 @@ var set = function (key, value, time, callback) {
     redis.setex(key, time, value, callback);
   }
   var duration = (new Date() - t);
-  logger.debug("Cache", "set", key, (duration + 'ms').green);
+  logger.debug('Cache', 'set', key, (duration + 'ms').green);
 };
 
 exports.set = set;

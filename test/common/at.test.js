@@ -1,9 +1,9 @@
+'use strict';
 
 var should = require('should');
 var mm = require('mm');
 var support = require('../support/support');
 var eventproxy = require('eventproxy');
-var _ = require('lodash');
 
 var at = require('../../common/at');
 var message = require('../../common/message');

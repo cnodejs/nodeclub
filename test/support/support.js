@@ -1,3 +1,5 @@
+'use strict';
+
 var User = require('../../proxy/user');
 var Topic = require('../../proxy/topic');
 var Reply = require('../../proxy/reply');

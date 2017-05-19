@@ -1,3 +1,5 @@
+'use strict';
+
 var validator  = require('validator');
 var _          = require('lodash');
 var at         = require('../common/at');

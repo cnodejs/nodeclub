@@ -1,3 +1,5 @@
+'use strict';
+
 var models       = require('../../models');
 var TopicModel   = models.Topic;
 var TopicProxy   = require('../../proxy').Topic;
@@ -92,7 +94,7 @@ var show = function (req, res, next) {
       reply =  _.pick(reply, ['id', 'author', 'content', 'ups', 'create_at', 'reply_id']);
       reply.reply_id = reply.reply_id || null;
 
-      if (reply.ups && req.user && reply.ups.indexOf(req.user.id) != -1) {
+      if (reply.ups && req.user && reply.ups.indexOf(req.user.id) !== -1) {
         reply.is_uped = true;
       } else {
         reply.is_uped = false;
@@ -101,21 +103,21 @@ var show = function (req, res, next) {
       return reply;
     });
 
-    ep.emit('full_topic', topic)
+    ep.emit('full_topic', topic);
   }));
 
 
   if (!req.user) {
-    ep.emitLater('is_collect', null)
+    ep.emitLater('is_collect', null);
   } else {
-    TopicCollect.getTopicCollect(req.user._id, topicId, ep.done('is_collect'))
+    TopicCollect.getTopicCollect(req.user._id, topicId, ep.done('is_collect'));
   }
 
   ep.all('full_topic', 'is_collect', function (full_topic, is_collect) {
     full_topic.is_collect = !!is_collect;
 
     res.send({success: true, data: full_topic});
-  })
+  });
 
 };
 
@@ -230,7 +232,7 @@ exports.update = function (req, res, next) {
         });
       });
     } else {
-      res.status(403)
+      res.status(403);
       return res.send({success: false, error_msg: '对不起，你不能编辑此话题。'});
     }
   });

@@ -1,3 +1,5 @@
+'use strict';
+
 var config = require('../config');
 
 exports.github = function (req, res, next) {

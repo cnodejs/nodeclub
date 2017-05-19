@@ -1,3 +1,5 @@
+'use strict';
+
 var eventproxy = require('eventproxy');
 var validator  = require('validator');
 var Topic      = require('../../proxy').Topic;
@@ -25,7 +27,7 @@ var create = function (req, res, next) {
     res.status(400);
     return res.send({success: false, error_msg: '不是有效的话题id'});
   }
-  
+
   Topic.getTopic(topic_id, ep.done(function (topic) {
     if (!topic) {
       res.status(404);
@@ -85,7 +87,7 @@ var ups = function (req, res, next) {
     res.status(400);
     return res.send({success: false, error_msg: '不是有效的评论id'});
   }
-  
+
   Reply.getReplyById(replyId, function (err, reply) {
     if (err) {
       return next(err);
@@ -97,24 +99,24 @@ var ups = function (req, res, next) {
     if (reply.author_id.equals(userId) && !config.debug) {
       res.status(403);
       return res.send({success: false, error_msg: '不能帮自己点赞'});
-    } else {
-      var action;
-      reply.ups = reply.ups || [];
-      var upIndex = reply.ups.indexOf(userId);
-      if (upIndex === -1) {
-        reply.ups.push(userId);
-        action = 'up';
-      } else {
-        reply.ups.splice(upIndex, 1);
-        action = 'down';
-      }
-      reply.save(function () {
-        res.send({
-          success: true,
-          action: action
-        });
-      });
     }
+    var action;
+    reply.ups = reply.ups || [];
+    var upIndex = reply.ups.indexOf(userId);
+    if (upIndex === -1) {
+      reply.ups.push(userId);
+      action = 'up';
+    } else {
+      reply.ups.splice(upIndex, 1);
+      action = 'down';
+    }
+    reply.save(function () {
+      res.send({
+        success: true,
+        action: action
+      });
+    });
+
   });
 };
 

@@ -1,3 +1,5 @@
+'use strict';
+
 var limitMiddleware = require('../../middlewares/limit');
 var app = require('../../app');
 var supertest;

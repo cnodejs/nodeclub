@@ -2,6 +2,8 @@
  * nodeclub - controllers/topic.js
  */
 
+'use strict';
+
 /**
  * Module dependencies.
  */
@@ -13,12 +15,11 @@ var User         = require('../proxy').User;
 var Topic        = require('../proxy').Topic;
 var TopicCollect = require('../proxy').TopicCollect;
 var EventProxy   = require('eventproxy');
-var tools        = require('../common/tools');
 var store        = require('../common/store');
 var config       = require('../config');
 var _            = require('lodash');
 var cache        = require('../common/cache');
-var logger = require('../common/logger')
+var logger = require('../common/logger');
 
 /**
  * Topic page
@@ -44,20 +45,20 @@ exports.index = function (req, res, next) {
   var events = ['topic', 'other_topics', 'no_reply_topics', 'is_collect'];
   var ep = EventProxy.create(events,
     function (topic, other_topics, no_reply_topics, is_collect) {
-    res.render('topic/index', {
-      topic: topic,
-      author_other_topics: other_topics,
-      no_reply_topics: no_reply_topics,
-      is_uped: isUped,
-      is_collect: is_collect,
+      res.render('topic/index', {
+        topic: topic,
+        author_other_topics: other_topics,
+        no_reply_topics: no_reply_topics,
+        is_uped: isUped,
+        is_collect: is_collect,
+      });
     });
-  });
 
   ep.fail(next);
 
   Topic.getFullTopic(topic_id, ep.done(function (message, topic, author, replies) {
     if (message) {
-      logger.error('getFullTopic error topic_id: ' + topic_id)
+      logger.error('getFullTopic error topic_id: ' + topic_id);
       return res.renderError(message);
     }
 
@@ -107,7 +108,7 @@ exports.index = function (req, res, next) {
   if (!currentUser) {
     ep.emit('is_collect', null);
   } else {
-    TopicCollect.getTopicCollect(currentUser._id, topic_id, ep.done('is_collect'))
+    TopicCollect.getTopicCollect(currentUser._id, topic_id, ep.done('is_collect'));
   }
 };
 
@@ -422,8 +423,8 @@ exports.de_collect = function (req, res, next) {
       if (err) {
         return next(err);
       }
-      if (removeResult.result.n == 0) {
-        return res.json({status: 'failed'})
+      if (removeResult.result.n === 0) {
+        return res.json({status: 'failed'});
       }
 
       User.getUserById(req.session.user._id, function (err, user) {
@@ -446,29 +447,29 @@ exports.de_collect = function (req, res, next) {
 exports.upload = function (req, res, next) {
   var isFileLimit = false;
   req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
-      file.on('limit', function () {
-        isFileLimit = true;
+    file.on('limit', function () {
+      isFileLimit = true;
 
-        res.json({
-          success: false,
-          msg: 'File size too large. Max is ' + config.file_limit
-        })
+      res.json({
+        success: false,
+        msg: 'File size too large. Max is ' + config.file_limit
       });
-
-      store.upload(file, {filename: filename}, function (err, result) {
-        if (err) {
-          return next(err);
-        }
-        if (isFileLimit) {
-          return;
-        }
-        res.json({
-          success: true,
-          url: result.url,
-        });
-      });
-
     });
+
+    store.upload(file, {filename: filename}, function (err, result) {
+      if (err) {
+        return next(err);
+      }
+      if (isFileLimit) {
+        return;
+      }
+      res.json({
+        success: true,
+        url: result.url,
+      });
+    });
+
+  });
 
   req.pipe(req.busboy);
 };

@@ -4,8 +4,11 @@ MOCHA_REPORTER = spec
 # NPM_REGISTRY = "--registry=http://registry.npm.taobao.org"
 NPM_REGISTRY = ""
 
-
 all: test
+
+lint:
+	@./node_modules/.bin/eslint --fix *.js api/ bin/ common/ \
+		controllers/ middlewares/ models/ proxy/
 
 install:
 	@npm install $(NPM_REGISTRY)
@@ -18,7 +21,7 @@ pretest:
 		mkdir public/upload; \
 	fi
 
-test: install pretest
+test: install pretest lint
 	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
 		--reporter $(MOCHA_REPORTER) \
 		-r should \
@@ -34,7 +37,7 @@ testfile:
 		--timeout $(TEST_TIMEOUT) \
 		$(FILE)
 
-test-cov cov: install pretest
+test-cov cov: install pretest lint
 	@NODE_ENV=test node \
 		node_modules/.bin/istanbul cover --preserve-comments \
 		./node_modules/.bin/_mocha \
@@ -44,7 +47,6 @@ test-cov cov: install pretest
 		--reporter $(MOCHA_REPORTER) \
 		--timeout $(TEST_TIMEOUT) \
 		$(TESTS)
-
 
 build:
 	@./node_modules/loader-builder/bin/builder views .

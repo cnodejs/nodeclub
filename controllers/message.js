@@ -1,3 +1,5 @@
+'use strict';
+
 var Message    = require('../proxy').Message;
 var eventproxy = require('eventproxy');
 
@@ -24,7 +26,7 @@ exports.index = function (req, res, next) {
         Message.getMessageRelations(doc, epfill.group('message_ready'));
       });
     });
-    
+
     Message.updateMessagesToRead(user_id, unread);
   });
 

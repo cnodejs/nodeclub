@@ -1,4 +1,5 @@
-var config = require('../config');
+'use strict';
+
 var cache  = require('../common/cache');
 var moment = require('moment');
 
@@ -18,20 +19,22 @@ var makePerDayLimiter = function (identityName, identityFn) {
         if (err) {
           return next(err);
         }
+
         count = count || 0;
         if (count < limitCount) {
           count += 1;
           cache.set(key, count, 60 * 60 * 24);
           res.set('X-RateLimit-Limit', limitCount);
           res.set('X-RateLimit-Remaining', limitCount - count);
-          next();
+          return next();
+        }
+
+        res.status(403);
+
+        if (options.showJson) {
+          res.send({success: false, error_msg: '频率限制：当前操作每天可以进行 ' + limitCount + ' 次'});
         } else {
-          res.status(403);
-          if (options.showJson) {
-            res.send({success: false, error_msg: '频率限制：当前操作每天可以进行 ' + limitCount + ' 次'});
-          } else {
-            res.render('notify/notify', { error: '频率限制：当前操作每天可以进行 ' + limitCount + ' 次'});
-          }
+          res.render('notify/notify', { error: '频率限制：当前操作每天可以进行 ' + limitCount + ' 次'});
         }
       });
     };
@@ -45,7 +48,7 @@ exports.peruserperday = makePerDayLimiter('peruserperday', function (req) {
 exports.peripperday = makePerDayLimiter('peripperday', function (req) {
   var realIP = req.get('x-real-ip');
   if (!realIP) {
-    throw new Error('should provice `x-real-ip` header')
+    throw new Error('should provice `x-real-ip` header');
   }
   return realIP;
 });

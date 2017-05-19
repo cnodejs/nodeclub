@@ -1,3 +1,5 @@
+'use strict';
+
 var mailer        = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var config        = require('../config');
@@ -5,7 +7,7 @@ var util          = require('util');
 var logger = require('./logger');
 var transporter     = mailer.createTransport(smtpTransport(config.mail_opts));
 var SITE_ROOT_URL = 'http://' + config.host;
-var async = require('async')
+var async = require('async');
 
 /**
  * Send an email
@@ -24,14 +26,14 @@ var sendMail = function (data) {
         logger.error('send mail error', err, data);
         return done(err);
       }
-      return done()
+      return done();
     });
   }, function (err) {
     if (err) {
       return logger.error('send mail finally error', err, data);
     }
-    logger.info('send mail success', data)
-  })
+    logger.info('send mail success', data);
+  });
 };
 exports.sendMail = sendMail;
 

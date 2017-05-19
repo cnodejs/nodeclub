@@ -1,3 +1,5 @@
+'use strict';
+
 var path = require('path');
 var fs = require('fs');
 var storeLocal = require('../../common/store_local');

@@ -1,3 +1,5 @@
+'use strict';
+
 var mongoose   = require('mongoose');
 var UserModel  = mongoose.model('User');
 var Message    = require('../proxy').Message;

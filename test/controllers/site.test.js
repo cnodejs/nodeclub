@@ -4,6 +4,8 @@
  * MIT Licensed
  */
 
+'use strict';
+
 /**
  * Module dependencies.
  */

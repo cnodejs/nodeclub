@@ -1,3 +1,5 @@
+'use strict';
+
 var UserModel  = require('../../models').User;
 var eventproxy = require('eventproxy');
 var validator  = require('validator');
@@ -37,7 +39,7 @@ var tryAuth = function (req, res, next) {
 
   UserModel.findOne({accessToken: accessToken}, ep.done(function (user) {
     if (!user) {
-      return next()
+      return next();
     }
     if (user.is_block) {
       res.status(403);

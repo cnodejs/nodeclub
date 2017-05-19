@@ -1,3 +1,5 @@
+'use strict';
+
 var UserModel = require('../../models').User;
 
 describe('test/models/user.test.js', function () {

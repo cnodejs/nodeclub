@@ -5,6 +5,8 @@
  * description of configuration variables and their potential values.
  */
 
+'use strict';
+
 var config = require('./config');
 
 exports.config = {
@@ -25,6 +27,6 @@ exports.config = {
     level : 'info'
   },
   transaction_events: {
-        enabled: true
+    enabled: true
   }
 };

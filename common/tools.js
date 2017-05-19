@@ -1,3 +1,5 @@
+'use strict';
+
 var bcrypt = require('bcryptjs');
 var moment = require('moment');
 
@@ -9,9 +11,9 @@ exports.formatDate = function (date, friendly) {
 
   if (friendly) {
     return date.fromNow();
-  } else {
-    return date.format('YYYY-MM-DD HH:mm');
   }
+  return date.format('YYYY-MM-DD HH:mm');
+
 
 };
 

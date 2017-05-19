@@ -1,3 +1,5 @@
+'use strict';
+
 var proxyMiddleware = require('../../middlewares/proxy');
 var app = require('../../app');
 var support = require('../support/support');

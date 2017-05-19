@@ -1,3 +1,5 @@
+'use strict';
+
 var Message = require('../../proxy/message');
 var should = require('should');
 

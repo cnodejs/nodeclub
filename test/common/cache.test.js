@@ -1,3 +1,5 @@
+'use strict';
+
 var cache = require('../../common/cache');
 var should = require('should');
 

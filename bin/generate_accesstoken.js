@@ -1,3 +1,5 @@
+'use strict';
+
 // 一次性脚本
 // 为所有老用户生成 accessToken
 
