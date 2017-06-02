@@ -19,7 +19,9 @@ var index = function (req, res, next) {
   var mdrender = req.query.mdrender === 'false' ? false : true;
 
   var query = {};
-  if (tab && tab !== 'all') {
+  if (!tab || tab === 'all') {
+    query.tab = {$nin: ['job', 'dev']}
+  } else {
     if (tab === 'good') {
       query.good = true;
     } else {
