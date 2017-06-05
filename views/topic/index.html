@@ -136,7 +136,7 @@
   <% if (topic.replies && topic.replies.length > 0) { %>
   <div class='panel'>
     <div class='header'>
-      <span class='col_fade'><%= topic.replies.length %> 回复</span>
+      <span class='col_fade'><%= topic.replies.length %> 回复</span><button onclick="var comments=$('#content .panel:nth-child(2)');comments.append(comments.find('.reply_item').get().reverse());">倒序查看</button>
     </div>
     <%- partial('../reply/reply', topic.replies) %>
   </div>
