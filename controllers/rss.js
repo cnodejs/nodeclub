@@ -19,8 +19,11 @@ exports.index = function (req, res, next) {
     if (!config.debug && rss) {
       res.send(rss);
     } else {
-      var opt = { limit: config.rss.max_rss_items, sort: '-create_at'};
-      Topic.getTopicsByQuery({}, opt, function (err, topics) {
+      var opt = {
+        limit: config.rss.max_rss_items,
+        sort: '-create_at',
+      };
+      Topic.getTopicsByQuery({tab: {$nin: ['dev']}}, opt, function (err, topics) {
         if (err) {
           return next(err);
         }
