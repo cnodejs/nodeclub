@@ -17,6 +17,7 @@ var cache        = require('../common/cache');
 var xmlbuilder   = require('xmlbuilder');
 var renderHelper = require('../common/render_helper');
 var _            = require('lodash');
+var moment = require('moment');
 
 exports.index = function (req, res, next) {
   var page = parseInt(req.query.page, 10) || 1;
@@ -27,7 +28,9 @@ exports.index = function (req, res, next) {
   proxy.fail(next);
 
   // 取主题
-  var query = {};
+  var query = {
+    create_at: {$gte: moment().subtract(1, 'years').toDate()}
+  };
   if (!tab || tab === 'all') {
     query.tab = {$nin: ['job', 'dev']}
   } else {
