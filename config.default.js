@@ -62,6 +62,8 @@ var config = {
     max_rss_items: 50
   },
 
+  log_dir: path.join(__dirname, 'logs'),
+
   // 邮箱配置
   mail_opts: {
     host: 'smtp.126.com',
