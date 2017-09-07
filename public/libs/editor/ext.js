@@ -1,4 +1,57 @@
 (function(Editor, markdownit, WebUploader){
+
+    function _replaceSelection(cm, active, start, end) {
+        var text;
+        var startPoint = cm.getCursor('start');
+        var endPoint = cm.getCursor('end');
+        var end = end || '';
+        if (active) {
+            text = cm.getLine(startPoint.line);
+            start = text.slice(0, startPoint.ch);
+            end = text.slice(startPoint.ch);
+            cm.setLine(startPoint.line, start + end);
+        } else {
+            text = cm.getSelection();
+            cm.replaceSelection(start + text + end);
+
+            startPoint.ch += start.length;
+            endPoint.ch += start.length;
+        }
+        cm.setSelection(startPoint, endPoint);
+        cm.focus();
+    }
+
+    /**
+     * The state of CodeMirror at the given position.
+     */
+    function getState(cm, pos) {
+        pos = pos || cm.getCursor('start');
+        var stat = cm.getTokenAt(pos);
+        if (!stat.type) return {};
+
+        var types = stat.type.split(' ');
+
+        var ret = {}, data, text;
+        for (var i = 0; i < types.length; i++) {
+            data = types[i];
+            if (data === 'strong') {
+            ret.bold = true;
+            } else if (data === 'variable-2') {
+            text = cm.getLine(pos.line);
+            if (/^\s*\d+\.\s/.test(text)) {
+                ret['ordered-list'] = true;
+            } else {
+                ret['unordered-list'] = true;
+            }
+            } else if (data === 'atom') {
+            ret.quote = true;
+            } else if (data === 'em') {
+            ret.italic = true;
+            }
+        }
+        return ret;
+    }
+
     // Set default options
     var md = new markdownit();
 
@@ -66,7 +119,10 @@
             var link = $el.find('[name=link]').val();
 
             self.$win.modal('hide');
-            self.editor.push(' ['+ title +']('+ link +')');
+
+            var cm = self.editor.codemirror;
+            var stat = getState(cm);
+            _replaceSelection(cm, stat.link, '!['+ title +']('+ link +')');
 
             $el.find('[name=title]').val('');
             $el.find('[name=link]').val('http://');
@@ -149,7 +205,11 @@
         this.uploader.on('uploadSuccess', function(file, res){
             if(res.success){
                 self.$win.modal('hide');
-                self.editor.push('!['+ file.name +']('+ res.url +')');
+
+                var cm = self.editor.codemirror;
+                var stat = getState(cm);
+                _replaceSelection(cm, stat.image, '!['+ file.name +']('+ res.url +')');
+
             }
             else{
                 self.removeFile();
