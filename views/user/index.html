@@ -18,7 +18,7 @@
           <span class='big'><%= user.score %></span> 积分
           <% if (user.collect_topic_count) {%>
           <li>
-            <a class='dark' href="/user/<%= user.loginname %>/collections" target='_blank'>
+            <a class='dark' href="/user/<%= user._id %>/collections" target='_blank'>
               <span class='big collect-topic-count'><%= user.collect_topic_count %></span>个话题收藏
             </a>
           </li>
@@ -88,7 +88,7 @@
     <% if (typeof(recent_topics) !== 'undefined' && recent_topics.length > 0) { %>
     <%- partial('../topic/abstract', { collection: recent_topics, as: 'topic' }) %>
     <div class='cell more'>
-      <a class='dark' href="/user/<%= user.loginname %>/topics">查看更多»</a>
+      <a class='dark' href="/user/<%= user._id %>/topics">查看更多»</a>
     </div>
     <% } else { %>
     <div class='inner'>
@@ -104,7 +104,7 @@
     <% if (typeof(recent_replies) !== 'undefined' && recent_replies.length > 0) { %>
     <%- partial('../topic/abstract', { collection: recent_replies, as: 'topic' }) %>
     <div class='cell more'>
-      <a class='dark' href="/user/<%= user.loginname %>/replies">查看更多»</a>
+      <a class='dark' href="/user/<%= user._id %>/replies">查看更多»</a>
     </div>
     <% } else { %>
     <div class='inner'>

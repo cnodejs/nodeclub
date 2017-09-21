@@ -1,9 +1,9 @@
 <div class='user'>
   <div>
-    <a href="/user/<%= user.loginname %>">
+    <a href="/user/<%= user._id %>">
       <img class='user_avatar' src="<%= proxy(user.avatar_url) %>" title="<%= user.loginname %>"/>
     </a>
-    <span class='user_name'><a class='dark' href="/user/<%= user.loginname %>"><%= user.loginname %></a></span>
+    <span class='user_name'><a class='dark' href="/user/<%= user._id %>"><%= user.loginname %></a></span>
 
     <div class='space'></div>
     <span class='col_fade'><%= user.follower_count %> 粉丝 </span>

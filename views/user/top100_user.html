@@ -1,11 +1,11 @@
 <tr>
   <td><b><%= indexInCollection+1 %></b></td>
   <td>
-    <a class='user_avatar' href="/user/<%= user.loginname %>">
+    <a class='user_avatar' href="/user/<%= user._id %>">
       <img src="<%= proxy(user.avatar_url) %>" title="<%= user.loginname %>"/>
     </a>
     <span class='sp10'></span>
-    <a href='/user/<%= user.loginname %>'><%= user.loginname %></a></td>
+    <a href='/user/<%= user._id %>'><%= user.loginname %></a></td>
   <td><%= user.score %></td>
   <td><%= user.topic_count %></td>
   <td><%= user.reply_count %></td>

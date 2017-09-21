@@ -5,7 +5,7 @@
     <% } %>
     <% if(message.type == 'reply'){ %>
 		<span>
-			<a href="/user/<%= message.author.loginname %>" target='_blank'><%= message.author.loginname %></a>
+			<a href="/user/<%= message.author._id %>" target='_blank'><%= message.author.loginname %></a>
 			回复了你的话题
 			<a href="/topic/<%- message.topic._id + (message.reply ? '#' + message.reply._id : '') %>" target='_blank'><%=
         message.topic.title %></a>
@@ -13,7 +13,7 @@
     <% } %>
     <% if(message.type == 'reply2'){ %>
 		<span>
-			<a href="/user/<%= message.author.loginname %>" target='_blank'><%= message.author.loginname %></a>
+			<a href="/user/<%= message.author._id %>" target='_blank'><%= message.author.loginname %></a>
 			在话题
 			<a href="/topic/<%= message.topic._id + (message.reply ? '#' + message.reply._id : '') %>" target='_blank'><%=
         message.topic.title %></a>
@@ -22,13 +22,13 @@
     <% } %>
     <% if(message.type == 'follow'){ %>
 	<span>
-		<a href="/user/<%= message.author.loginname %>" target='_blank'><%= message.author.loginname %></a>
+		<a href="/user/<%= message.author._id %>" target='_blank'><%= message.author.loginname %></a>
 		关注了你
 	</span>
     <% } %>
     <% if (message.type == 'at'){ %>
 		<span>
-			<a href="/user/<%= message.author.loginname %>" target='_blank'><%= message.author.loginname %></a>
+			<a href="/user/<%= message.author._id %>" target='_blank'><%= message.author.loginname %></a>
 			在话题
 			<a href="/topic/<%= message.topic._id + (message.reply ? '#' + message.reply._id : '') %>" target='_blank'><%=
         message.topic.title %></a>

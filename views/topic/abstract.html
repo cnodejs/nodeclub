@@ -1,6 +1,6 @@
 <div class='cell'>
 
-  <a class="user_avatar pull-left" href="/user/<%= topic.author.loginname %>">
+  <a class="user_avatar pull-left" href="/user/<%= topic.author._id %>">
     <img src="<%= proxy(topic.author.avatar_url) %>"
          title="<%= topic.author.loginname %>"
             />
