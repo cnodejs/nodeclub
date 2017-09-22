@@ -55,7 +55,7 @@ router.get('/reset_pass', sign.resetPass);  // 进入重置密码页面
 router.post('/reset_pass', sign.updatePass);  // 更新密码
 
 // user controller
-router.get('/user/:name', user.index); // 用户个人主页
+router.get('/user/:user_id', user.index); // 用户个人主页
 router.get('/setting', auth.userRequired, user.showSetting); // 用户个人设置页
 router.post('/setting', auth.userRequired, user.setting); // 提交个人信息设置
 router.get('/stars', user.listStars); // 显示所有达人列表页

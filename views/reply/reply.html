@@ -2,11 +2,11 @@
   <%- reply.ups && reply.ups.length >= topic.reply_up_threshold ? 'reply_highlight' : '' %>'
     reply_id="<%= reply._id %>" reply_to_id="<%= reply.reply_id || '' %>" id="<%= reply._id %>">
   <div class='author_content'>
-    <a href="/user/<%= reply.author.loginname %>" class="user_avatar">
+    <a href="/user/<%= reply.author._id %>" class="user_avatar">
       <img src="<%= proxy(reply.author.avatar_url) %>" title="<%= reply.author.loginname %>"/></a>
 
     <div class='user_info'>
-      <a class='dark reply_author' href="/user/<%= reply.author.loginname %>"><%= reply.author.loginname %></a>
+      <a class='dark reply_author' href="/user/<%= reply.author._id %>"><%= reply.author.loginname %></a>
       <a class="reply_time" href="#<%= reply._id %>"><%= indexInCollection + 1 %>楼•<%= reply.create_at_ago()
         %></a>
       <% if(reply.author.loginname == topic.author.loginname){ %>

@@ -57,7 +57,7 @@
           发布于 <%= topic.create_at_ago() %>
         </span>
         <span>
-          作者 <a href="/user/<%= topic.author.loginname %>"><%= topic.author.loginname %></a>
+          作者 <a href="/user/<%= topic.author._id %>"><%= topic.author.loginname %></a>
         </span>
         <span>
           <%= topic.visit_count %> 次浏览

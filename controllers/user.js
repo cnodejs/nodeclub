@@ -13,8 +13,8 @@ var validator    = require('validator');
 var _            = require('lodash');
 
 exports.index = function (req, res, next) {
-  var user_name = req.params.name;
-  User.getUserByLoginName(user_name, function (err, user) {
+  var user_id = req.params.user_id;
+  User.getUserById(user_id, function (err, user) {
     if (err) {
       return next(err);
     }

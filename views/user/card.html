@@ -1,9 +1,9 @@
 <div class='user_card'>
   <div>
-    <a class='user_avatar' href="/user/<%= user.loginname %>">
+    <a class='user_avatar' href="/user/<%= user._id %>">
       <img src="<%= proxy(user.avatar_url) %>" title="<%= user.loginname %>"/>
     </a>
-    <span class='user_name'><a class='dark' href="/user/<%= user.loginname %>"><%= user.loginname %></a></span>
+    <span class='user_name'><a class='dark' href="/user/<%= user._id %>"><%= user.loginname %></a></span>
 
     <div class='board clearfix'>
       <div class='floor'>

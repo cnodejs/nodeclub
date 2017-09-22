@@ -31,7 +31,7 @@ describe('test/controllers/user.test.js', function () {
 
   describe('#index', function () {
     it('should show user index', function (done) {
-      request.get('/user/' + testUser.loginname)
+      request.get('/user/' + testUser._id)
       .expect(200, function (err, res) {
         var texts = [
           '注册时间',
