@@ -46,7 +46,7 @@
     "ready": "0.1.1",
     "request": "2.74.0",
     "response-time": "2.3.1",
-    "superagent": "1.8.2",
+    "superagent": "3.7.0",
     "utility": "1.6.0",
     "validator": "5.1.0",
     "xmlbuilder": "7.0.0",
