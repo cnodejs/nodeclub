@@ -80,14 +80,14 @@
 
     var $body = $('body');
 
-    //添加连接工具
+    //添加链接工具
     var ToolLink = function(){
         var self = this;
         this.$win = $([
             '<div class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editorToolImageTitle" aria-hidden="true">',
                 '<div class="modal-header">',
                     '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>',
-                    '<h3 id="editorToolImageTitle">添加连接</h3>',
+                    '<h3 id="editorToolImageTitle">添加链接</h3>',
                 '</div>',
                 '<div class="modal-body">',
                     '<form class="form-horizontal">',
@@ -98,7 +98,7 @@
                             '</div>',
                         '</div>',
                         '<div class="control-group">',
-                            '<label class="control-label">连接</label>',
+                            '<label class="control-label">链接</label>',
                             '<div class="controls">',
                                 '<input type="text" name="link" value="http://" placeholder="Link">',
                             '</div>',
@@ -122,7 +122,7 @@
 
             var cm = self.editor.codemirror;
             var stat = getState(cm);
-            _replaceSelection(cm, stat.link, '!['+ title +']('+ link +')');
+            _replaceSelection(cm, stat.link, '['+ title +']('+ link +')');
 
             $el.find('[name=title]').val('');
             $el.find('[name=link]').val('http://');
