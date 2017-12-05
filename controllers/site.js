@@ -28,9 +28,7 @@ exports.index = function (req, res, next) {
   proxy.fail(next);
 
   // 取主题
-  var query = {
-    create_at: {$gte: moment().subtract(1, 'years').toDate()}
-  };
+  var query = {};
   if (!tab || tab === 'all') {
     query.tab = {$nin: ['job', 'dev']}
   } else {
@@ -39,6 +37,9 @@ exports.index = function (req, res, next) {
     } else {
       query.tab = tab;
     }
+  }
+  if (!query.good) {
+    query.create_at = {$gte: moment().subtract(1, 'years').toDate()}
   }
 
   var limit = config.list_topic_count;
