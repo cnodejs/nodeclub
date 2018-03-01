@@ -13,8 +13,6 @@ exports.formatDate = function (date, friendly) {
     return date.fromNow();
   }
   return date.format('YYYY-MM-DD HH:mm');
-
-
 };
 
 exports.validateId = function (str) {
