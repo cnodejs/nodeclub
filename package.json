@@ -41,7 +41,7 @@
     "oneapm": "1.2.20",
     "passport": "0.3.2",
     "passport-github": "1.1.0",
-    "pm2": "1.1.1",
+    "pm2": "*",
     "qn": "1.1.1",
     "ready": "0.1.1",
     "request": "2.81.0",
