@@ -11,6 +11,49 @@ var at           = require('../../common/at');
 var renderHelper = require('../../common/render_helper');
 var validator    = require('validator');
 
+
+/**
+ * @api {get} /v1/topics 主题列表
+ * @apiDescription
+ * 获取本站主题列表
+ * @apiName getTopics
+ * @apiGroup topic
+ *
+ * @apiParam {Number} page 页数
+ * @apiParam {String} tab 主题分类。目前有 ask share job good
+ * @apiParam {Number} limit 每一页的主题数量
+ * @apiParam {String} mdrender 当为 false 时，不渲染。默认为 true，渲染出现的所有 markdown 格式文本
+ *
+ * @apiPermission none
+ * @apiSampleRequest /v1/topics
+ *
+ * @apiVersion 1.0.0
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+          "success": true,
+          "data": [
+              {
+                  "id": "",
+                  "author_id": "",
+                  "tab": "ask",
+                  "content": "",
+                  "title": "",
+                  "last_reply_at": "",
+                  "good": false,
+                  "top": false,
+                  "reply_count": 2,
+                  "visit_count": 8,
+                  "create_at": "",
+                  "author": {
+                      "loginname": "admin",
+                      "avatar_url": "//gravatar.com/avatar/80579ac37c768d5dffa97b46bb4754f2?size=48"
+                  }
+              }
+          ]
+      }
+ */
 var index = function (req, res, next) {
   var page     = parseInt(req.query.page, 10) || 1;
   page         = page > 0 ? page : 1;

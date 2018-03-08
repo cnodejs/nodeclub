@@ -20,6 +20,7 @@ desktop.ini
 
 .idea
 public/upload/*
+public/apidoc/*
 
 *.sublime-project
 *.sublime-workspace

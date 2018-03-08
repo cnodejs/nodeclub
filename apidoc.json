@@ -1,0 +1,10 @@
+{
+  "name": "API说明",
+  "version": "1.0.0",
+  "description": "API接口文档",
+  "apidoc": {
+    "title": "API接口文档",
+    "url" : "/api"
+  },
+  "sampleUrl": "http://localhost:3000/api"
+}
