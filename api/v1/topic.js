@@ -180,7 +180,7 @@ var create = function (req, res, next) {
 
 exports.create = create;
 
-exports.update = function (req, res, next) {
+var update = function (req, res, next) {
   var topic_id = _.trim(req.body.topic_id);
   var title    = _.trim(req.body.title);
   var tab      = _.trim(req.body.tab);
@@ -238,3 +238,4 @@ exports.update = function (req, res, next) {
   });
 };
 
+exports.update = update;
