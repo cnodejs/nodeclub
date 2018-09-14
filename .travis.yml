@@ -6,8 +6,6 @@ env:
   - CXX=g++-4.8
 
 node_js:
-  - 4
-  - 5
   - stable
 
 addons:
