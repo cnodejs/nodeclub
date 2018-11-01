@@ -145,5 +145,5 @@ exports.getRepliesByAuthorId = function (authorId, opt, callback) {
 
 // 通过 author_id 获取回复总数
 exports.getCountByAuthorId = function (authorId, callback) {
-  Reply.count({author_id: authorId}, callback);
+  Reply.countDocuments({author_id: authorId}, callback);
 };

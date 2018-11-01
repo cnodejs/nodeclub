@@ -58,7 +58,7 @@ exports.getTopicById = function (id, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getCountByQuery = function (query, callback) {
-  Topic.count(query, callback);
+  Topic.countDocuments(query, callback);
 };
 
 /**

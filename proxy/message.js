@@ -17,7 +17,7 @@ var Reply = require('./reply');
  * @param {Function} callback 获取消息数量
  */
 exports.getMessagesCount = function (id, callback) {
-  Message.count({master_id: id, has_read: false}, callback);
+  Message.countDocuments({master_id: id, has_read: false}, callback);
 };
 
 
@@ -100,7 +100,7 @@ exports.updateMessagesToRead = function (userId, messages, callback) {
   });
 
   var query = { master_id: userId, _id: { $in: ids } };
-  Message.update(query, { $set: { has_read: true } }, { multi: true }).exec(callback);
+  Message.updateMany(query, { $set: { has_read: true } }).exec(callback);
 };
 
 
@@ -113,5 +113,5 @@ exports.updateOneMessageToRead = function (msg_id, callback) {
     return callback();
   }
   var query = { _id: msg_id };
-  Message.update(query, { $set: { has_read: true } }, { multi: true }).exec(callback);
+  Message.updateMany(query, { $set: { has_read: true } }).exec(callback);
 };

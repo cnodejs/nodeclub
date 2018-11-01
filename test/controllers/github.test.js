@@ -109,7 +109,7 @@ describe('test/controllers/github.test.js', function () {
     });
     it('should create a new user', function (done) {
       var userCount;
-      User.count(function (err, count) {
+      User.countDocuments(function (err, count) {
         userCount = count;
         request.post('/auth/github/test_create')
           .send({isnew: '1'})
@@ -119,7 +119,7 @@ describe('test/controllers/github.test.js', function () {
             }
             res.headers.should.have.property('location')
               .with.endWith('/');
-            User.count(function (err, count) {
+            User.countDocuments(function (err, count) {
               count.should.equal(userCount + 1);
               done();
             });

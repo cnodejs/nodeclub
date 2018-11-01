@@ -422,7 +422,7 @@ exports.de_collect = function (req, res, next) {
       if (err) {
         return next(err);
       }
-      if (removeResult.result.n == 0) {
+      if (removeResult.n == 0) {
         return res.json({status: 'failed'})
       }
 

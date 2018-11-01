@@ -3,7 +3,9 @@ var config   = require('../config');
 var logger = require('../common/logger')
 
 mongoose.connect(config.db, {
-  server: {poolSize: 20}
+  poolSize: 20,
+  useCreateIndex: true,
+  useNewUrlParser: true
 }, function (err) {
   if (err) {
     logger.error('connect to %s error: ', config.db, err.message);

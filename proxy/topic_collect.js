@@ -19,6 +19,6 @@ exports.newAndSave = function (userId, topicId, callback) {
 };
 
 exports.remove = function (userId, topicId, callback) {
-  TopicCollect.remove({user_id: userId, topic_id: topicId}, callback);
+  TopicCollect.deleteOne({user_id: userId, topic_id: topicId}, callback);
 };
 
