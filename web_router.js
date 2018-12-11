@@ -60,6 +60,7 @@ router.get('/setting', auth.userRequired, user.showSetting); // 用户个人设�
 router.post('/setting', auth.userRequired, user.setting); // 提交个人信息设置
 router.get('/stars', user.listStars); // 显示所有达人列表页
 router.get('/users/top100', user.top100);  // 显示积分前一百用户页
+router.get('/users/:name/refresh_token', auth.userRequired, user.refreshToken);  // 刷新用户token
 router.get('/user/:name/collections', user.listCollectedTopics);  // 用户收藏的所有话题页
 router.get('/user/:name/topics', user.listTopics);  // 用户发布的所有话题页
 router.get('/user/:name/replies', user.listReplies);  // 用户参与的所有回复页

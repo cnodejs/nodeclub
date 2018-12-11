@@ -11,6 +11,7 @@ var config       = require('../config');
 var EventProxy   = require('eventproxy');
 var validator    = require('validator');
 var _            = require('lodash');
+var uuid         = require('uuid');
 
 exports.index = function (req, res, next) {
   var user_name = req.params.name;
@@ -324,6 +325,23 @@ exports.listReplies = function (req, res, next) {
       return pages;
     }));
   });
+};
+
+exports.refreshToken = function (req, res, next) {
+  var loginname = req.params.name;
+
+  var ep = EventProxy.create();
+  ep.fail(next);
+
+  User.getUserByLoginName(loginname, ep.done(function (user) {
+    if (!user) {
+      return next(new Error('user is not exists'));
+    }
+    user.accessToken = uuid.v4();
+    user.save(ep.done(function () {
+      res.json({status: 'success', accessToken: user.accessToken});
+    }));
+  }));
 };
 
 exports.block = function (req, res, next) {

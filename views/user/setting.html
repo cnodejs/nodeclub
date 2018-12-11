@@ -122,11 +122,12 @@
   <div class='panel'>
     <div class='header'>
       <span class='col_fade'>Access Token</span>
+      <a href="javascript:;" id="refreshToken" class="pull-right">刷新Token</a>
     </div>
     <div class='inner'>
       <div>
         <span>字符串：</span>
-        <%- accessToken %>
+        <span id="accessToken"><%- accessToken %></span>
       </div>
       <div>
         <span>二维码：</span>
@@ -145,4 +146,23 @@
     height: 200,
   });
   // END qrcode generate
+
+  $(function() {
+    // refreshToken
+    $("#refreshToken").on("click", function() {
+      $.get("/users/<%= loginname %>/refresh_token", function(result) {
+        if (result.status === 'success') {
+          $("#accessToken").text(result.accessToken);
+          $("#access-token-qrcode").html("");
+          new QRCode(document.getElementById("access-token-qrcode"), {
+            text: result.accessToken,
+            width: 200,
+            height: 200,
+          });
+        } else {
+          alert(result.message);
+        }
+      })
+    })
+  });
 </script>
