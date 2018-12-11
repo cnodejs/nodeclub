@@ -12,7 +12,8 @@ var ReplySchema = new Schema({
   update_at: { type: Date, default: Date.now },
   content_is_html: { type: Boolean },
   ups: [Schema.Types.ObjectId],
-  deleted: {type: Boolean, default: false},
+  deleted: { type: Boolean, default: false },
+  layer: { type: Number, default: 0 },
 });
 
 ReplySchema.plugin(BaseModel);

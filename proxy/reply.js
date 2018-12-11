@@ -4,6 +4,7 @@ var EventProxy = require('eventproxy');
 var tools      = require('../common/tools');
 var User       = require('./user');
 var at         = require('../common/at');
+var _          = require('lodash');
 
 /**
  * 获取一条回复信息
@@ -147,3 +148,31 @@ exports.getRepliesByAuthorId = function (authorId, opt, callback) {
 exports.getCountByAuthorId = function (authorId, callback) {
   Reply.countDocuments({author_id: authorId}, callback);
 };
+
+// 对帖子进行排序，按照盖楼的形式展示
+exports.sortByReplyId = function (replies, callback) {
+  var newReplies = [];
+  replies.forEach(reply => {
+    if (!reply.reply_id) {
+      reply.layer = 0;
+      newReplies.push(reply);
+    } else {
+      var upIndex = _.findLastIndex(newReplies, { reply_id: reply.reply_id });
+      if (upIndex === -1) {
+        var index = _.findLastIndex(newReplies, { _id: reply.reply_id });
+        if (index === -1) {
+          newReplies.push(reply);
+        } else {
+          var layer = newReplies[index].layer + 1;
+          reply.layer = layer;
+          newReplies.splice(index + 1, 0, reply);
+        }
+      } else {
+        var layer = newReplies[upIndex].layer;
+        reply.layer = layer;
+        newReplies.splice(upIndex + 1, 0, reply);
+      }
+    }
+  });
+  callback(newReplies);
+}

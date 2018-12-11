@@ -1,6 +1,7 @@
 <div class='cell reply_area reply_item
   <%- reply.ups && reply.ups.length >= topic.reply_up_threshold ? 'reply_highlight' : '' %>'
-    reply_id="<%= reply._id %>" reply_to_id="<%= reply.reply_id || '' %>" id="<%= reply._id %>">
+    reply_id="<%= reply._id %>" reply_to_id="<%= reply.reply_id || '' %>" id="<%= reply._id %>"
+    style="padding-left: <%=reply.layer * 30 + 15%>px;">
   <div class='author_content'>
     <a href="/user/<%= reply.author.loginname %>" class="user_avatar">
       <img src="<%= proxy(reply.author.avatar_url) %>" title="<%= reply.author.loginname %>"/></a>

@@ -11,6 +11,7 @@ var validator = require('validator');
 var at           = require('../common/at');
 var User         = require('../proxy').User;
 var Topic        = require('../proxy').Topic;
+var Reply        = require('../proxy').Reply;
 var TopicCollect = require('../proxy').TopicCollect;
 var EventProxy   = require('eventproxy');
 var tools        = require('../common/tools');
@@ -80,6 +81,11 @@ exports.index = function (req, res, next) {
       }
       return threshold;
     })();
+
+    // 盖楼排序帖子评论
+    Reply.sortByReplyId(topic.replies, function (newReplies) {
+      topic.replies = newReplies;
+    });
 
     ep.emit('topic', topic);
 
