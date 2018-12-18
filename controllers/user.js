@@ -11,6 +11,7 @@ var config       = require('../config');
 var EventProxy   = require('eventproxy');
 var validator    = require('validator');
 var _            = require('lodash');
+var uuid = require('node-uuid')
 
 exports.index = function (req, res, next) {
   var user_name = req.params.name;
@@ -375,5 +376,19 @@ exports.deleteAll = function (req, res, next) {
     ReplyModel.updateMany({author_id: user._id}, {$set: {deleted: true}}, ep.done('del_replys'));
     // 点赞数也全部干掉
     ReplyModel.updateMany({}, {$pull: {'ups': user._id}}, ep.done('del_ups'));
+  }));
+};
+
+exports.refreshToken = function (req, res, next) {
+  var user_id = req.session.user._id;
+
+  var ep = EventProxy.create();
+  ep.fail(next);
+
+   User.getUserById(user_id, ep.done(function (user) {
+    user.accessToken = uuid.v4();
+    user.save(ep.done(function () {
+      res.json({status: 'success', accessToken: user.accessToken});
+    }));
   }));
 };

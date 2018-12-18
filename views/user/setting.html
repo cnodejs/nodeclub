@@ -125,8 +125,11 @@
     </div>
     <div class='inner'>
       <div>
+        <input type='button' class='span-primary refreshToken' value='刷新Token'/>
+      </div>
+      <div>
         <span>字符串：</span>
-        <%- accessToken %>
+        <span id="accessToken"><%- accessToken %></span>
       </div>
       <div>
         <span>二维码：</span>
@@ -137,12 +140,26 @@
 </div>
 
 <script type="text/javascript">
-  // qrcode generate
-  var accessToken = "<%- accessToken %>";
-  new QRCode(document.getElementById("access-token-qrcode"), {
-    text: accessToken,
-    width: 200,
-    height: 200,
-  });
-  // END qrcode generate
+  $(function() {
+    // qrcode generate
+    var accessToken = "<%- accessToken %>";
+    var qrcode = new QRCode(document.getElementById("access-token-qrcode"), {
+      text: accessToken,
+      width: 200,
+      height: 200,
+    });
+    // END qrcode generate
+
+    // refreshToken
+    $(".refreshToken").on("click", function() {
+      $.post("/user/refresh_token", function(result) {
+        if (result.status === 'success') {
+          $("#accessToken").text(result.accessToken);
+          qrcode.makeCode(result.accessToken)
+        } else {
+          alert(result.message);
+        }
+      })
+    })
+   });
 </script>

@@ -67,6 +67,7 @@ router.post('/user/set_star', auth.adminRequired, user.toggleStar); // 把某用
 router.post('/user/cancel_star', auth.adminRequired, user.toggleStar);  // 取消某用户的达人身份
 router.post('/user/:name/block', auth.adminRequired, user.block);  // 禁言某用户
 router.post('/user/:name/delete_all', auth.adminRequired, user.deleteAll);  // 删除某用户所有发言
+router.post('/user/refresh_token', auth.userRequired, user.refreshToken);  // 刷新用户token
 
 // message controler
 router.get('/my/messages', auth.userRequired, message.index); // 用户个人的所有消息页
