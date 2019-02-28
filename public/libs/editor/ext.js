@@ -227,7 +227,7 @@
             switch(type){
                 case 'Q_EXCEED_SIZE_LIMIT':
                 case 'F_EXCEED_SIZE':
-                    self.showError('文件太大了, 不能超过2M');
+                    self.showError('文件太大了, 不能超过1MB');
                     break;
                 case 'Q_TYPE_DENIED':
                     self.showError('只能上传图片');
