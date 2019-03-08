@@ -132,7 +132,7 @@ var config = {
 
   create_post_per_day: 1000, // 每个用户一天可以发的主题数
   create_reply_per_day: 1000, // 每个用户一天可以发的评论数
-  create_user_per_ip: 1000,
+  create_user_per_ip: 1000, // 每个 ip 每天可以注册账号的次数
   visit_per_day: 1000, // 每个 ip 每天能访问的次数
 };
 
