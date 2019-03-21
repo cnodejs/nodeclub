@@ -24,3 +24,5 @@ public/upload/*
 *.sublime-project
 *.sublime-workspace
 *.swp
+
+package-lock.json
