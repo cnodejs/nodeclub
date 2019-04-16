@@ -78,6 +78,10 @@ var show = function (req, res, next) {
       res.status(404);
       return res.send({success: false, error_msg: '话题不存在'});
     }
+    
+    topic.visit_count += 1;
+    topic.save();
+
     topic = _.pick(topic, ['id', 'author_id', 'tab', 'content', 'title', 'last_reply_at',
       'good', 'top', 'reply_count', 'visit_count', 'create_at', 'author']);
 
