@@ -9,6 +9,10 @@ var validator      = require('validator');
 exports.callback = function (req, res, next) {
   var profile = req.user;
   var email = profile.emails && profile.emails[0] && profile.emails[0].value;
+  if (!email) {
+    return res.status(500)
+      .render('sign/no_github_email');
+  }
   User.findOne({githubId: profile.id}, function (err, user) {
     if (err) {
       return next(err);
@@ -27,10 +31,6 @@ exports.callback = function (req, res, next) {
         if (err) {
           // 根据 err.err 的错误信息决定如何回应用户，这个地方写得很难看
           if (err.message.indexOf('duplicate key error') !== -1) {
-            if (err.message.indexOf('email') !== -1) {
-              return res.status(500)
-                .render('sign/no_github_email');
-            }
             if (err.message.indexOf('loginname') !== -1) {
               return res.status(500)
                 .send('您 GitHub 账号的用户名与之前在 CNodejs 注册的用户名重复了');
@@ -68,6 +68,10 @@ exports.create = function (req, res, next) {
   delete req.session.profile;
 
   var email = profile.emails && profile.emails[0] && profile.emails[0].value;
+  if (!email) {
+    return res.status(500)
+      .render('sign/no_github_email');
+  }
   if (isnew) { // 注册新账号
     var user = new User({
       loginname: profile.username,
@@ -84,10 +88,6 @@ exports.create = function (req, res, next) {
       if (err) {
         // 根据 err.err 的错误信息决定如何回应用户，这个地方写得很难看
         if (err.message.indexOf('duplicate key error') !== -1) {
-          if (err.message.indexOf('email') !== -1) {
-            return res.status(500)
-              .render('sign/no_github_email');
-          }
           if (err.message.indexOf('loginname') !== -1) {
             return res.status(500)
               .send('您 GitHub 账号的用户名与之前在 CNodejs 注册的用户名重复了');
