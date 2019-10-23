@@ -16,6 +16,9 @@ assets.json
 # Ignore Windows desktop setting file
 desktop.ini
 
+# Ignore Redis snapshot
+dump.rdb
+
 *.log
 
 .idea
