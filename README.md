@@ -22,6 +22,8 @@ Nodeclub 是使用 **Node.js** 和 **MongoDB** 开发的社区系统，界面优
 
 ## 安装部署
 
+### 正常方式
+
 *不保证 Windows 系统的兼容性*
 
 线上跑的是 [Node.js](https://nodejs.org) v8.12.0，[MongoDB](https://www.mongodb.org) 是 v4.0.3，[Redis](http://redis.io) 是 v4.0.9。
@@ -35,6 +37,14 @@ Nodeclub 是使用 **Node.js** 和 **MongoDB** 开发的社区系统，界面优
 6. `$ node app.js`
 7. visit `http://localhost:3000`
 8. done!
+```
+
+### Docker方式
+
+```
+1.安装docker,docker-compose
+2. `cp config.default.js config.js` 请根据需要修改配置文件
+3. done! (你可以按需更改docker-compose.yml配置，如加上nginx容器做反向代理,或是mount mongodb的数据到到宿主目录)
 ```
 
 ## 测试

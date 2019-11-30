@@ -1,0 +1,27 @@
+version: '3'
+services:
+  app:
+    build: .
+    container_name: nodeclub
+    restart: always
+    ports:
+      - '3000:3000'
+    links:
+      - redis
+      - mongo
+    volumes:
+      - ./config.js:/app/config.js
+      - ./logs:/app/logs
+  mongo:
+    image: 'mongo:4'
+    container_name: nodeclub-mongo
+  # 管理mongo数据库的容器,不需要可以整个注释掉
+  mongo-express:
+    image: mongo-express
+    container_name: nodeclub-mongo-admin
+    restart: always
+    ports:
+      - 8081:8081
+  redis:
+    image: redis:5-alpine
+    container_name: nodeclub-redis
