@@ -10,4 +10,12 @@ describe('test/controllers/search.test.js', function () {
         done(err);
       });
   });
+  it('should redirect to bing search when google is not reacheable', function (done) {
+    request.get('/search').query({q: 'node 中文',notGG:'1'})
+      .expect(302)
+      .end(function (err, res) {
+        res.headers['location'].should.equal('https://cn.bing.com/search?q=site:cnodejs.org+node%20%E4%B8%AD%E6%96%87');
+        done(err);
+      });
+  });
 });
