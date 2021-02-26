@@ -27,7 +27,7 @@
     "jpush-sdk": "3.3.2",
     "loader-builder": "2.4.1",
     "loader": "2.1.1",
-    "lodash": "4.17.17",
+    "lodash": "4.17.21",
     "log4js": "^0.6.29",
     "markdown-it": "6.0.0",
     "memory-cache": "0.1.4",
