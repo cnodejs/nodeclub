@@ -12,15 +12,16 @@
 
 var MarkdownIt = require('markdown-it');
 var _          = require('lodash');
-var config     = require('../config');
 var validator  = require('validator');
 var jsxss      = require('xss');
-var multiline = require('multiline')
+var multiline  = require('multiline');
+var config     = require('../config');
+var textmath   = require('./textmath');
 
 // Set default options
 var md = new MarkdownIt();
 
-md.set({
+md.use(textmath).set({
   html:         false,        // Enable HTML tags in source
   xhtmlOut:     false,        // Use '/' to close single tags (<br />)
   breaks:       false,        // Convert '\n' in paragraphs into <br>
