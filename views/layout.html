@@ -61,6 +61,13 @@
   <% } %>
   <meta content="_csrf" name="csrf-param">
   <meta content="<%= csrf %>" name="csrf-token">
+
+  <% if (typeof(topic) !== 'undefined') { %>
+  <%- Loader('/public/katex.min.css')
+  .css('/public/libs/katex/katex.css')
+  .done(assets, config.site_static_host, config.mini_assets)
+  %>
+  <% } %>
 </head>
 <body>
 <!-- navbar -->
@@ -134,6 +141,25 @@
   </div>
 </div>
 <div id="sidebar-mask"></div>
+
+<% if (typeof(topic) !== 'undefined') { %>
+<%- Loader('/public/katex.min.js')
+.js('/public/libs/katex/katex.js')
+.js('/public/libs/katex/auto-render.js')
+.done(assets, config.site_static_host, config.mini_assets)
+%>
+<script>
+  $(document).ready(function () {
+    renderMathInElement(document.body, {
+      delimiters: [{
+        left: "<eqn>", right: "</eqn>", display: true
+      }, {
+        left: "<eq>", right: "</eq>", display: false
+      }]
+    });
+  });
+</script>
+<% } %>
 
 <% if (config.google_tracker_id) { %>
 <script>
