@@ -13,7 +13,7 @@
     "colors": "1.1.2",
     "compression": "1.7.0",
     "connect-busboy": "0.0.2",
-    "connect-redis": "3.0.2",
+    "connect-redis": "4.0.0",
     "cookie-parser": "1.4.1",
     "cors": "2.7.1",
     "csurf": "1.8.3",
@@ -48,7 +48,7 @@
     "response-time": "2.3.1",
     "superagent": "2.0.0",
     "utility": "1.6.0",
-    "validator": "5.1.0",
+    "validator": "13.6.0",
     "xmlbuilder": "7.0.0",
     "xss": "0.2.10",
     "snyk": "^1.88.0"
