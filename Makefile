@@ -1,7 +1,7 @@
 TESTS = $(shell find test -type f -name "*.test.js")
 TEST_TIMEOUT = 10000
 MOCHA_REPORTER = spec
-# NPM_REGISTRY = "--registry=http://registry.npm.taobao.org"
+# NPM_REGISTRY = "--registry=https://registry.npmmirror.com"
 NPM_REGISTRY = ""
 
 
