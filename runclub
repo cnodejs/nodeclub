@@ -1,0 +1,9 @@
+#!/bin/sh
+
+cd /opt/nodeclub
+
+git pull origin master
+
+test -f /opt/nodeclub/config.js || cp /etc/nodeclub/config.js /opt/nodeclub/config.js
+
+node app.js
