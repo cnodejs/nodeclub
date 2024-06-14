@@ -83,6 +83,19 @@ exports.getUsersByQuery = function (query, opt, callback) {
 };
 
 /**
+ * 根据关键字，获取一个用户
+ * Callback:
+ * - err, 数据库异常
+ * - user, 用户信息
+ * @param {String} query 关键字
+ * @param {Function} callback 回调函数
+ */
+exports.getUserByQuery = function (query, callback) {
+  User.findOne(query, callback);
+};
+
+
+/**
  * 根据查询条件，获取一个用户
  * Callback:
  * - err, 数据库异常

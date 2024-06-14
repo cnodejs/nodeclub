@@ -82,3 +82,29 @@ exports.sendResetPassMail = function (who, token, name) {
     html: html
   });
 };
+
+/**
+ * 发送消息通知邮件
+ * @param {String} who 接收人的邮件地址
+ * @param {String} name 接收人的用户名
+ * @param {String} topic_id 帖子ID
+ * @param {String} reply_id 回复ID
+ */
+exports.sendReplyMail = function (who, name, topic_id, reply_id) {
+  var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
+  var to = who;
+  var subject = config.name + '社区消息提醒';
+  var html = '<p>您好：' + name + '</p>' +
+    '<p>您在' + config.name + '社区有一条未读消息，请单击下面的链接查看：</p>' +
+    '<a href="' + SITE_ROOT_URL + '/topic/' + topic_id + '#' + reply_id + '">消息提醒链接</a>' +
+    '<p>惹您不希望收到消息提醒邮件，您可以在<a href="' + SITE_ROOT_URL + '/setting/' + '">个人设置中心</a>关闭邮件提醒</p>' +
+    '<p>若您没有在' + config.name + '社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p>' +
+    '<p>' + config.name + '社区 谨上。</p>';
+
+  exports.sendMail({
+    from: from,
+    to: to,
+    subject: subject,
+    html: html
+  });
+};

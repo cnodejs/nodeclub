@@ -79,6 +79,25 @@
             <textarea class='input-xlarge' id='signature' name='signature' size='30'><%= typeof(signature) !== 'undefined' ? signature : "" %></textarea>
           </div>
         </div>
+	 <div class='control-group'>
+          <label class='control-label' for='notice'>回复邮件提醒</label>
+          <div class='controls'>
+		<select name='receive_reply_mail'>
+			<option value=1 <% if (typeof(receive_reply_mail) !== 'undefined' && receive_reply_mail == true) { %> selected <% } %>>开启</option>
+			<option value=0 <% if (typeof(receive_reply_mail) !== 'undefined' && receive_reply_mail == false) { %> selected <% } %>>关闭</option>
+		</select>
+          </div>
+        </div>
+	 <div class='control-group'>
+          <label class='control-label' for='notice'>@邮件提醒</label>
+          <div class='controls'>
+		<select name='receive_at_mail'>
+			<option value=1 <% if (typeof(receive_at_mail) !== 'undefined' && receive_at_mail == true) { %> selected <% } %>>开启</option>
+			<option value=0 <% if (typeof(receive_at_mail) !== 'undefined' && receive_at_mail == false) { %> selected <% } %>>关闭</option>
+		</select>
+          </div>
+        </div>
+
         <input type='hidden' id='action' name='action' value='change_setting'/>
         <input type='hidden' name='_csrf' value='<%= csrf %>'/>
 

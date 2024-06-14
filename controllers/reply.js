@@ -7,6 +7,7 @@ var User       = require('../proxy').User;
 var Topic      = require('../proxy').Topic;
 var Reply      = require('../proxy').Reply;
 var config     = require('../config');
+var Mail       = require('../common/mail');
 
 /**
  * 添加回复
@@ -63,6 +64,11 @@ exports.add = function (req, res, next) {
   ep.all('reply_saved', 'topic', function (reply, topic) {
     if (topic.author_id.toString() !== req.session.user._id.toString()) {
       message.sendReplyMessage(topic.author_id, req.session.user._id, topic._id, reply._id);
+      User.getUserByQuery({'_id': topic.author_id, 'receive_reply_mail': true}, ep.done(function (user) {
+	if(user && user.email) {
+	   Mail.sendReplyMail(user.email, user.loginname, topic._id, reply._id );	
+	}
+      }));
     }
     ep.emit('message_saved');
   });
