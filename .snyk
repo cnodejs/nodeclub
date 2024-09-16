@@ -1,8 +1,25 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.12.0
+version: v1.25.1
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:tunnel-agent:20170305':
     - jpush-sdk > request > tunnel-agent:
         patched: '2018-07-01T04:07:14.342Z'
+  'npm:hoek:20180212':
+    - jpush-sdk > request > hawk > hoek:
+        patched: '2024-09-16T01:01:03.090Z'
+        id: 'npm:hoek:20180212'
+        path: jpush-sdk > request > hawk > hoek
+    - jpush-sdk > request > hawk > boom > hoek:
+        patched: '2024-09-16T01:01:03.090Z'
+        id: 'npm:hoek:20180212'
+        path: jpush-sdk > request > hawk > boom > hoek
+    - jpush-sdk > request > hawk > sntp > hoek:
+        patched: '2024-09-16T01:01:03.090Z'
+        id: 'npm:hoek:20180212'
+        path: jpush-sdk > request > hawk > sntp > hoek
+    - jpush-sdk > request > hawk > cryptiles > boom > hoek:
+        patched: '2024-09-16T01:01:03.090Z'
+        id: 'npm:hoek:20180212'
+        path: jpush-sdk > request > hawk > cryptiles > boom > hoek
